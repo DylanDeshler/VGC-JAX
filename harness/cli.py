@@ -89,7 +89,13 @@ def summarize(results):
     cov = collections.Counter()
     for r in results:
         cov.update(r.get("kinds", {}))
-    return dict(battles=n, clean=clean, coverage=dict(sorted(cov.items())), CBR=clean / max(n, 1), TMR=num / max(den, 1),
+    ext = collections.Counter()
+    for r in results:
+        e = r.get("ext")
+        if e:
+            ext[str(e["detail"][0][0]).split("[")[-1]] += 1
+    return dict(battles=n, clean=clean, coverage=dict(sorted(cov.items())),
+                ext_mismatch_battles=sum(1 for r in results if r.get("ext")), ext_buckets=dict(ext.most_common(15)), CBR=clean / max(n, 1), TMR=num / max(den, 1),
                 MPR=mask_ok / max(mask_n, 1) if mask_n else None,
                 error_rate=sum(1 for r in results if r["category"] == "ERROR") / max(n, 1),
                 draw_failures=sum(1 for r in results if r["category"] in ("DRAW_ARGS", "DRAW_MISMATCH")),

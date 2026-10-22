@@ -58,6 +58,20 @@ function projectPokemon(p) {
 		lastMove: p.lastMove ? p.lastMove.id : null,
 		trapped: !!p.trapped,
 		weightkg: p.weighthg / 10,
+		// extended, non-gating fields (ADR-103 proposal): engine state not in the protected projection
+		ext: {
+			activeTurns: p.activeTurns, activeMoveActions: p.activeMoveActions, speed: p.speed,
+			moveThisTurn: p.moveThisTurn || '', lastMoveUsed: p.lastMoveUsed ? p.lastMoveUsed.id : null,
+			lastMoveTargetLoc: p.lastMoveTargetLoc ?? 0,
+			moveThisTurnResult: p.moveThisTurnResult === undefined ? 'undefined' : p.moveThisTurnResult,
+			moveLastTurnResult: p.moveLastTurnResult === undefined ? 'undefined' : p.moveLastTurnResult,
+			hurtThisTurn: p.hurtThisTurn ?? null, timesAttacked: p.timesAttacked,
+			switchFlag: p.switchFlag, forceSwitchFlag: !!p.forceSwitchFlag, isStarted: !!p.isStarted,
+			newlySwitched: !!p.newlySwitched, previouslySwitchedIn: p.previouslySwitchedIn,
+			statsRaisedThisTurn: !!p.statsRaisedThisTurn, statsLoweredThisTurn: !!p.statsLoweredThisTurn,
+			usedItemThisTurn: !!p.usedItemThisTurn, abilityOrder: p.abilityState ? (p.abilityState.effectOrder || 0) : 0,
+			itemOrder: p.itemState ? (p.itemState.effectOrder || 0) : 0,
+		},
 	};
 }
 
@@ -66,6 +80,7 @@ function projectBattle(battle) {
 	return {
 		turn: battle.turn,
 		ended: battle.ended, winner: battle.winner || null,
+		ext: { effectOrder: battle.effectOrder, midTurn: !!battle.midTurn, lastSuccessfulMove: battle.lastSuccessfulMoveThisTurn || null },
 		field: {
 			weather: f.weather || '', weatherState: f.weather ? effState(f.weatherState) : null,
 			terrain: f.terrain || '', terrainState: f.terrain ? effState(f.terrainState) : null,
@@ -74,6 +89,7 @@ function projectBattle(battle) {
 		sides: battle.sides.map(side => ({
 			id: side.id,
 			pokemonLeft: side.pokemonLeft,
+			ext: { totalFainted: side.totalFainted, faintedThisTurn: !!side.faintedThisTurn, faintedLastTurn: !!side.faintedLastTurn },
 			sideConditions: effMap(side.sideConditions),
 			slotConditions: side.slotConditions.map(effMap),
 			active: side.active.map(p => (p ? monLabel(p) + '=' + p.baseSpecies.id : null)),

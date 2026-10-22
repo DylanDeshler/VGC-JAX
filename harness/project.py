@@ -63,6 +63,36 @@ def _pokemon(st, side: int, b: int) -> dict:
         "lastMove": ids.MOVES[last_move] if last_move else None,
         "trapped": bool(int(g(m.trapped))),
         "weightkg": int(g(m.weight_hg)) / 10,
+        "ext": _mon_ext(m, side, b),
+    }
+
+
+MR_JSON = {S.MR_UNDEF: "undefined", S.MR_NULL: None, S.MR_FALSE: False, S.MR_TRUE: True}
+
+
+def _mid(x):
+    x = int(x)
+    return ids.MOVES[x] if x else None
+
+
+def _mon_ext(m, side, b):
+    """Extended non-gating fields (ADR-103 proposal), mirroring oracle/lib/project.js `ext`."""
+    g = lambda arr: arr[side, b]  # noqa: E731
+    sf = int(g(m.switch_flag))
+    h = int(g(m.hurt_this_turn))
+    return {
+        "activeTurns": int(g(m.active_turns)), "activeMoveActions": int(g(m.active_move_actions)),
+        "speed": int(g(m.speed)), "moveThisTurn": _mid(g(m.move_this_turn)) or "",
+        "lastMoveUsed": _mid(g(m.last_move_used)), "lastMoveTargetLoc": int(g(m.last_move_target_loc)),
+        "moveThisTurnResult": MR_JSON[int(g(m.move_this_turn_result))],
+        "moveLastTurnResult": MR_JSON[int(g(m.move_last_turn_result))],
+        "hurtThisTurn": None if h < 0 else h, "timesAttacked": int(g(m.times_attacked)),
+        "switchFlag": False if sf == 0 else True if sf == 1 else ids.MOVES[sf - 2],
+        "forceSwitchFlag": bool(g(m.force_switch_flag)), "isStarted": bool(g(m.is_started)),
+        "newlySwitched": bool(g(m.newly_switched)), "previouslySwitchedIn": int(g(m.previously_switched_in)),
+        "statsRaisedThisTurn": bool(g(m.stats_raised_this_turn)), "statsLoweredThisTurn": bool(g(m.stats_lowered_this_turn)),
+        "usedItemThisTurn": bool(g(m.used_item_this_turn)), "abilityOrder": int(g(m.ability_seq)),
+        "itemOrder": int(g(m.item_seq)),
     }
 
 
@@ -72,6 +102,8 @@ def engine_to_json(st: S.State) -> dict:
     winner = int(meta.winner)
     out = {
         "turn": int(meta.turn),
+        "ext": {"effectOrder": int(meta.effect_seq), "midTurn": bool(meta.mid_turn),
+                "lastSuccessfulMove": _mid(meta.last_successful_move)},
         "ended": bool(int(meta.phase) == S.DONE),
         "winner": None if winner < 0 else ("" if winner == 2 else f"p{winner + 1}"),
         "field": {"weather": "", "weatherState": None, "terrain": "", "terrainState": None, "pseudoWeather": {}},
@@ -92,6 +124,9 @@ def engine_to_json(st: S.State) -> dict:
         out["sides"].append({
             "id": f"p{side + 1}",
             "pokemonLeft": int(st.sides.pokemon_left[side]),
+            "ext": {"totalFainted": int(st.sides.total_fainted[side]),
+                    "faintedThisTurn": bool(st.sides.fainted_this_turn[side]),
+                    "faintedLastTurn": bool(st.sides.fainted_last_turn[side])},
             "sideConditions": {},
             "slotConditions": [{}, {}],
             "active": active,
@@ -120,6 +155,30 @@ def restrict(proj: dict) -> dict:
 
 def compare(engine: dict, ps: dict):
     return diff(restrict(engine), restrict(ps))
+
+
+def extract_ext(proj: dict) -> dict:
+    return {"battle": proj.get("ext"), "sides": [{"ext": s.get("ext"), "mons": [p.get("ext") for p in s.get("pokemon", [])]}
+                                                 for s in proj.get("sides", [])]}
+
+
+RANDOM_LOC_TARGETS = {"randomNormal", "allAdjacentFoes", "allAdjacent", "foeSide", "allies", "scripted"}
+
+
+def compare_ext(engine: dict, ps: dict):
+    """Non-gating comparison of the extended fields (ADR-103 proposal). lastMoveTargetLoc is skipped when the last
+    move's target was resolved by a don't-care random foe pick (PS resolveAction for spread / randomNormal moves)."""
+    from vgcjax.core.dex import load_tables_np
+    t = load_tables_np()["move_target"]
+    e, p = extract_ext(engine), extract_ext(ps)
+    for se, sp, side in zip(e["sides"], p["sides"], ps.get("sides", [])):
+        for me, mp, mon in zip(se["mons"], sp["mons"], side.get("pokemon", [])):
+            lm = (mp or {}).get("lastMoveUsed") or mon.get("lastMove")
+            # lastMoveTargetLoc survives clearVolatile while lastMove is cleared: its origin is then unknown
+            if not lm or (lm in ids.MOVES and ids.TARGETS[int(t[ids.MOVES.index(lm)])] in RANDOM_LOC_TARGETS):
+                if me is not None and mp is not None:
+                    me["lastMoveTargetLoc"] = mp["lastMoveTargetLoc"] = "random"
+    return diff(e, p)
 
 
 def normalise_ps(proj: dict) -> dict:

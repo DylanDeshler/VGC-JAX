@@ -84,6 +84,23 @@ def decode_move_slot(st, dex, side, slot, a):
     return (a < 24), (a >= 24) & (a < 28), move_slot, move_id, loc, mega & ~struggle, a - 24
 
 
+def resolve_loc(st, dex, u, move_id, loc):
+    """PS resolveAction (sim/battle-queue.ts:268-272): an action without a target location gets
+    getLocOf(getRandomTarget()). Self-type targets -> own location; adjacentAlly -> the ally if alive; everything else
+    -> a random living foe (a don't-care draw, contract §6): the engine takes the first living foe."""
+    tt = dex.move_target[move_id]
+    pos = MP.position(st, u)
+    self_loc = -(pos + 1)
+    selfish = ((tt == ids.TARGET_SELF) | (tt == ids.TARGET_ALL) | (tt == ids.TARGET_ALLYSIDE) |
+               (tt == ids.TARGET_ALLYTEAM) | (tt == ids.TARGET_ADJACENTALLYORSELF))
+    ally = MP.living_ally(st, u)
+    foes, fok = MP.living_foes(st, u)
+    foe_loc = jnp.where(fok[0], 1, jnp.where(fok[1], 2, 1))
+    new = jnp.where(selfish, self_loc, jnp.where(tt == ids.TARGET_ADJACENTALLY,
+                                                 jnp.where(ally >= 0, -(2 - pos), 0), foe_loc))
+    return jnp.where(loc == 0, new, loc)
+
+
 def commit_move(st, dex, rng, actions, on):
     """PS: commitChoices for a MOVE request (04 §5.2): updateSpeed, resolve each slot action, then (fresh turn)
     beforeTurn + residual. Returns (st, rng)."""
@@ -100,6 +117,7 @@ def commit_move(st, dex, rng, actions, on):
             spd = C.action_speed(st, dex, u)
             # megaEvo satellite (order 104), then the move (order 200)
             st = Q.add_entry(st, occ & is_move & mega, kind=S.Q_MEGA, side=side, b=b, speed=spd)
+            loc = resolve_loc(st, dex, u, mid, loc)
             frac, rng = Q.frac_priority(st, dex, rng, u, mid, occ & is_move)
             prio = 10 * Q.move_priority(st, dex, u, mid) + frac
             orig = MP.at_loc(st, u, loc)

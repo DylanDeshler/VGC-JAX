@@ -64,7 +64,7 @@ local conformance runs (not formal gate runs), PS d601443, contract_version 1:
 none yet (no engine)
 
 ## Watch items
-- SPEED_TIE_SELECT ties whose members include inactive/fainted actors are not recorded (contract §4 filter); seen in
+- [CONFIRMED, ADR-103] SPEED_TIE_SELECT ties whose members include inactive/fainted actors are not recorded (contract §4 filter); seen in
   ~0.8–2% of battles (`final.diag.unrecordedSelectTies`). If these move state (e.g. instaswitch order replacing two
   fainted mons), it will surface as STATE buckets and needs a contract ADR.
 - G-core coverage requires ≥ 50 SPEED_TIE_FIELD_EVENT hits, but the core stage has no residual/SwitchIn handlers, so
@@ -84,6 +84,7 @@ none
 - ADR-101 (canonical QUEUE_INSERT_TIE in the oracle) — review
 - ADR-102 (G-core coverage: RANDOM_TARGET via crafted scenarios, FIELD_EVENT waiver) — approve/reject; edit
   docs/coverage/waivers.json if approved
+- ADR-103 (extend projection with hidden engine state; record SELECT ties of replacement switches) — approve/reject
 - docs/decisions/contract-hashes.md must be created by the human (hashes listed in the gate report)
 - Gate checkpoint: G-core report awaiting acknowledgement; M3 content waits (infrastructure continues)
 

@@ -632,7 +632,7 @@ def run_move(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig, o
     m = st.mons
     mr = jnp.where(set_null, S.MR_NULL, jnp.where(result, S.MR_TRUE, S.MR_FALSE))
     st = st.replace(mons=m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, mr, go)),
-                    meta=st.meta.replace(last_successful_move=jnp.where(go & result, move, st.meta.last_successful_move).astype(I16)))
+                    meta=st.meta.replace(last_successful_move=jnp.where(go, jnp.where(result, move, 0), st.meta.last_successful_move).astype(I16)))
     # HOOK AfterMove; then resolveFaints() + checkWin()
     from vgcjax.battle.switching import clear_volatile
     st = F.resolve_faints(st, dex, on, clear_volatile_fn=clear_volatile)

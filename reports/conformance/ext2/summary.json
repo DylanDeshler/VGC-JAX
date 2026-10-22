@@ -1,0 +1,26 @@
+{
+ "battles": 3000,
+ "clean": 3000,
+ "coverage": {
+  "ACCURACY": 35011,
+  "CRIT": 86710,
+  "DAMAGE_ROLL": 86710,
+  "FORCED_SWITCH_PICK": 919,
+  "MULTIHIT_COUNT": 1519,
+  "SECONDARY": 37143,
+  "SPEED_TIE_SELECT": 1175,
+  "SPEED_TIE_SWITCHIN": 1850
+ },
+ "ext_mismatch_battles": 4,
+ "ext_buckets": {
+  "0].abilityOrder": 4
+ },
+ "CBR": 1.0,
+ "TMR": 1.0,
+ "MPR": 1.0,
+ "error_rate": 0.0,
+ "draw_failures": 0,
+ "buckets": {},
+ "seconds": 123.4,
+ "trace_dir": "traces/ext2"
+}

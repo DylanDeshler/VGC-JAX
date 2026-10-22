@@ -78,6 +78,7 @@ def replay_battle(battle_records, cfg: EngineConfig, check_masks=False, start=No
         st, k0 = start
         st = jax.tree_util.tree_map(jnp.asarray, st)
     key = jax.random.PRNGKey(0)
+    ext = None
     for k, dec in enumerate(decisions):
         if k < k0:
             continue
@@ -85,7 +86,11 @@ def replay_battle(battle_records, cfg: EngineConfig, check_masks=False, start=No
             got = P.engine_to_json(st)
             d = P.compare(got, dec["projection"])
             if d:
-                return dict(clean=False, k=k, category="STATE", detail=d[:10])
+                return dict(clean=False, k=k, category="STATE", detail=d[:10], ext=ext)
+            if ext is None and "ext" in dec["projection"]:
+                de = P.compare_ext(got, dec["projection"])
+                if de:
+                    ext = dict(k=k, detail=de[:5])
         if check_masks and dec.get("legal") and k >= 1:
             jl = np.asarray(mask_fn(st))
             for s in range(2):
@@ -126,7 +131,7 @@ def replay_battle(battle_records, cfg: EngineConfig, check_masks=False, start=No
         d = P.compare(P.engine_to_json(st), final["projection"])
         if d:
             return dict(clean=False, k=len(decisions), category="STATE", detail=d[:10])
-    return dict(clean=True, k=None, category=None, detail=None)
+    return dict(clean=True, k=None, category=None, detail=None, ext=ext)
 
 
 def main():
