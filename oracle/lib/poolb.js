@@ -122,4 +122,50 @@ function poolBTeam(stage, rng, { chaos = process.env.CHAOS_STATS ||
 	throw new Error(`poolBTeam(${stage}): no valid team after ${maxAttempts} attempts`);
 }
 
-module.exports = { poolBTeam, info };
+/**
+ * Pool D (07 §9.2, `--require`): a pool-B team that contains every required entity ("move:id", "ability:id",
+ * "item:id", "species:id"). Rejection sampling first; then one member is edited to carry the entity (a species that can
+ * legally use it), and the team is re-validated.
+ */
+function satisfies(team, req) {
+	const [kind, id] = req.split(':');
+	return team.some(s => (kind === 'move' && s.moves.some(m => toID(m) === id)) || (kind === 'ability' && toID(s.ability) === id) ||
+		(kind === 'item' && toID(s.item) === id) || (kind === 'species' && toID(s.species) === id));
+}
+function forceInto(I, team, req, rng) {
+	const [kind, id] = req.split(':');
+	const { validator, legal } = I;
+	const order = rng.shuffle([...team.keys()]);
+	for (const i of order) {
+		const s = { ...team[i], moves: [...team[i].moves] };
+		const sp = dex.species.get(s.species);
+		if (kind === 'move') {
+			if (validator.checkCanLearn(dex.moves.get(id), sp, validator.allSources(sp), { name: s.species, level: 50 })) continue;
+			if (s.moves.length < 4) s.moves.push(dex.moves.get(id).name); else s.moves[rng.int(4)] = dex.moves.get(id).name;
+		} else if (kind === 'ability') {
+			const abs = (legal.species[sp.id] || { abilities: [] }).abilities.map(a => a.id);
+			if (!abs.includes(id) || dex.items.get(s.item).megaStone) continue;
+			s.ability = dex.abilities.get(id).name;
+		} else if (kind === 'item') {
+			if (team.some((o, j) => j !== i && toID(o.item) === id) || dex.items.get(s.item).megaStone) continue;
+			s.item = dex.items.get(id).name;
+		} else {
+			return null;
+		}
+		const t2 = team.map((o, j) => (j === i ? s : o));
+		if (!validator.validateTeam(t2.map(x => ({ ...x, evs: { ...x.evs }, ivs: { ...x.ivs }, moves: [...x.moves] })))) return t2;
+	}
+	return null;
+}
+function poolDTeam(stage, rng, requires, opts = {}) {
+	const I = info(stage, opts.chaos || process.env.CHAOS_STATS ||
+		path.join(ROOT, 'data/raw/smogon-chaos/2026-09/gen9championsvgc2026regmcbo3-1760.json'));
+	for (let i = 0; i < 60; i++) {
+		let t = poolBTeam(stage, rng, opts);
+		for (const r of requires) if (t && !satisfies(t, r)) t = forceInto(I, t, r, rng);
+		if (t && requires.every(r => satisfies(t, r))) return t;
+	}
+	throw new Error(`poolDTeam(${stage}, ${requires}): cannot place the required entities`);
+}
+
+module.exports = { poolBTeam, poolDTeam, info, satisfies };

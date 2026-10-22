@@ -50,6 +50,13 @@ function makeTeams(source, sd) {
 		for (const t of [a, b]) for (const s of t) if (!s.gender) s.gender = 'M'; // never let PS draw gender
 		return { teams: [a, b], source: ['randdoubles', 'randdoubles'] };
 	}
+	if (source.startsWith('poold:')) {    // poold:<stage>:<kind:id>[+<kind:id>...]
+		const { poolDTeam } = require('./poolb');
+		const rest = source.slice(6);
+		const stage = rest.slice(0, rest.indexOf(':'));
+		const req = rest.slice(rest.indexOf(':') + 1).split('+');
+		return { teams: [poolDTeam(stage, rng, req), poolDTeam(stage, rng, req)], source: [source, source] };
+	}
 	if (source.startsWith('poolb:')) {
 		const { poolBTeam } = require('./poolb');
 		const stage = source.slice(6);

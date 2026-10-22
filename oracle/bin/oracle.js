@@ -57,8 +57,10 @@ async function gen(args) {
 	const W = Math.max(1, Number(args.workers || 1));
 	const shardSize = Number(args['shard-size'] || 10000);
 	const outDir = args.out; if (!outDir) throw new Error('--out DIR required');
+	// --require kind:id[,kind:id] with --stage S  ->  pool D teams (07 §9.2)
+	const teamsArg = args.require ? `poold:${args.stage || 'v0'}:${String(args.require).split(',').join('+')}` : (args.teams || 'chaos');
 	const opts = {
-		teams: args.teams || 'chaos', policy: args.policy || 'random', stage: args.stage || null,
+		teams: teamsArg, policy: args.policy || 'random', stage: args.stage || null,
 		classifier: args.classifier || 'markers', legal: args.legal || 'off',
 	};
 	fs.mkdirSync(outDir, { recursive: true });
