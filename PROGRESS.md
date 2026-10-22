@@ -32,8 +32,24 @@ M1 — Core math and data (E) — done
   forced/draw-log/degenerate semantics, tie records (perm rank/unrank, SELECT winner)
 - T0 25 s, T1 46 s (local); pre-commit hook installed
 
+M2 — Harness core + core state machine (O, E) — in progress, core engine conformant
+- done: M2.1 state/init/preview, M2.2 queue (re-key, SPEED_TIE_SELECT), M2.3 blocks A/B/C + tail + faint/win + end_turn,
+  M2.4 switching (batched runSwitch, SPEED_TIE_SWITCHIN, dragIn), M2.5 core move pipeline (targeting incl. Dragon Darts,
+  accuracy/OHKO/multiaccuracy, crit/roll, multihit, spread, drain/recoil/heal, boosts, secondaries, pivots, drags,
+  Memento, Struggle), M2.6 masks, M2.9 core teams (oracle/lib/stageteams.js), M2.10 canary (tests/harness/test_canary.py)
+- partial: M2.0/M2.8 harness — host-side single-battle replay (harness/replay_one.py) + parallel CLI
+  (`python -m harness.cli replay <dir>`); still todo: on-device batched diff, triage/report/gates.py, protected
+  harness/contract/* files and harness/gates.yaml (human must create docs/decisions/contract-hashes.md)
+- todo: M2.7 from_ps_snapshot
+- compile time of `step` (core, CPU): ~10 s after converting heavy unrolled loops to fori
+
 ## Last T2/T3 run
-none yet
+local conformance runs (not formal gate runs), PS d601443, contract_version 1:
+| corpus | battles | CBR | TMR | MPR | DPR | errors |
+|---|---|---|---|---|---|---|
+| core seed 1 (random) | 500 | 100% | 100% | 100% (no legal recorded) | 100% | 0 |
+| core seed 101 (random, --legal on) | 2000 | 100% | 100% | 100% | 100% | 0 |
+| core seed 102 (random-weighted, --legal on) | 2000 | 100% | 100% | 100% | 100% | 0 |
 
 ## Top 5 buckets
 none yet (no engine)
@@ -42,6 +58,12 @@ none yet (no engine)
 - SPEED_TIE_SELECT ties whose members include inactive/fainted actors are not recorded (contract §4 filter); seen in
   ~0.8–2% of battles (`final.diag.unrecordedSelectTies`). If these move state (e.g. instaswitch order replacing two
   fainted mons), it will surface as STATE buckets and needs a contract ADR.
+- G-core coverage requires ≥ 50 SPEED_TIE_FIELD_EVENT hits, but the core stage has no residual/SwitchIn handlers, so
+  that tie kind cannot occur (0 in 4.5k core battles). Needs a waiver in docs/coverage/waivers.json (protected → human).
+- PS draws Population Bomb's per-hit accuracy with a float numerator under accuracy/evasion stages; the engine logs
+  ceil(); DRAW_ARGS would differ if it ever occurs (not seen yet). May need a normalisation ADR.
+- SPEED_TIE_HANDLER_MUL ordinal (`mulhook_ord`) counts every MUL-hook runEvent call; the engine will have to count
+  identically once hooks exist (M3.1). Brittle; watch.
 - Trace size ≈ 95 KB/battle uncompressed, ~7 KB zstd (requests dominate); design estimate was 35 KB.
 
 - ADR-101 (oracle answers the don't-care QUEUE_INSERT_TIE canonically) — needs human review; see docs/decisions.
@@ -56,6 +78,7 @@ none
 not yet created (harness/contract/* is written in M2.8)
 
 ## Next 3 tasks
-1. M2.0 harness core: project.py (both directions), scenario runner (oracle_client with cache exists)
-2. M2.1 battle/state.py + init/init_from_order/preview
-3. M2.2 queue (selection == sort_actions RPC), then M2.3 blocks A/B/C
+1. M2.7 from_ps_snapshot; M2.8 contract files + gates.py + report; then the G-core run (50k fresh-seed core battles,
+   --legal on 100%) and the gate checkpoint report to the human
+2. M3.1 hook framework (effects/hooks.py), M3.8 coverage counters, M3.9 shrinker/fixtures
+3. M5 can start after G-core (env API)

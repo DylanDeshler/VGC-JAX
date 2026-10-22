@@ -1,0 +1,12 @@
+{
+ "battles": 2000,
+ "clean": 2000,
+ "CBR": 1.0,
+ "TMR": 1.0,
+ "MPR": 1.0,
+ "error_rate": 0.0,
+ "draw_failures": 0,
+ "buckets": {},
+ "seconds": 218.6,
+ "trace_dir": "traces/core-a"
+}
