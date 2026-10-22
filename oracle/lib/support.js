@@ -85,6 +85,42 @@ function typechart({ cases }) {
 	}));
 }
 
+// ------------------------------------------------------------------ resolve_priority
+/**
+ * sets: [[{kind: move|ability|item|condition, id, callback: 'onX', holder: pokemon|slot|side|field, speed, effectOrder}]]
+ * -> per set {keys: [{order, priority, subOrder, speed, effectOrder}], order: [indices sorted by comparePriority with
+ * identity tie order], groups: [[indices]]}. PS: sim/battle.ts:957-1023 resolvePriority, :409-416 comparePriority.
+ */
+function resolvePriority({ sets }) {
+	const { Side } = require(require('path').join(require('./ps').PS_ROOT, 'dist', 'sim', 'side'));
+	const b = dummyBattle();
+	const team = [{ name: 'x', species: 'Smeargle', moves: ['tackle'], ability: 'owntempo', level: 50, gender: 'M',
+		evs: { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 } }];
+	b.setPlayer('p1', { name: 'a', team }); b.setPlayer('p2', { name: 'b', team });
+	const mon = b.sides[0].pokemon[0];
+	const dexOf = { move: b.dex.moves, ability: b.dex.abilities, item: b.dex.items, condition: b.dex.conditions };
+	return sets.map(set => {
+		const hs = set.map((h, i) => {
+			const effect = dexOf[h.kind].get(h.id);
+			let holder = null; const state = { effectOrder: h.effectOrder || 0 };
+			if (h.holder === 'pokemon') holder = Object.assign(Object.create(Object.getPrototypeOf(mon)), mon, { speed: h.speed });
+			else if (h.holder === 'slot') { holder = Object.assign(Object.create(Object.getPrototypeOf(mon)), mon, { speed: h.speed }); state.target = b.sides[0]; state.isSlotCondition = true; }
+			else if (h.holder === 'side') { holder = b.sides[0]; state.target = b.sides[0]; }
+			else { holder = b.field; state.target = b.field; }
+			const handler = { effect, callback: () => {}, state, end: null, effectHolder: holder, idx: i };
+			b.resolvePriority(handler, h.callback);
+			return handler;
+		});
+		const keys = hs.map(h => ({ order: h.order === false ? null : h.order, priority: h.priority, subOrder: h.subOrder,
+			speed: h.speed ?? 0, effectOrder: h.effectOrder ?? 0 }));
+		const groups = [];
+		b.prng = { shuffle(items, start = 0, end = items.length) { groups.push(items.slice(start, end).map(x => x.idx)); } };
+		const list = hs.slice();
+		b.speedSort(list);
+		return { keys, order: list.map(h => h.idx), groups, storedSpe: mon.storedStats.spe };
+	});
+}
+
 // ------------------------------------------------------------------ sort_actions
 /**
  * entries: [{id, order, priority, speed, subOrder, effectOrder}], perms: list of permutations to apply to tie groups
@@ -373,5 +409,5 @@ function traceEvents(params) {
 }
 
 module.exports = {
-	traceEvents, installEventTracer, typechart, fixedpoint, stats, sortActions, legal, legalForBattle, slotActionString, replay, makeForcing, craft,
+	traceEvents, installEventTracer, typechart, resolvePriority, fixedpoint, stats, sortActions, legal, legalForBattle, slotActionString, replay, makeForcing, craft,
 	damage, keyStr, tieKeyStr };

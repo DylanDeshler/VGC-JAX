@@ -61,6 +61,7 @@ const METHODS = {
 	stats: p => support.stats(p),
 	typechart: p => support.typechart(p),
 	sort_actions: p => support.sortActions(p),
+	resolve_priority: p => support.resolvePriority(p),
 	legal: p => support.legal(p),
 	replay: p => support.replay(p),
 	craft: p => support.craft(p),

@@ -55,6 +55,15 @@ DRAW_KINDS = ["ACCURACY", "CRIT", "DAMAGE_ROLL", "CONFUSION_SELFHIT_DAMAGE_ROLL"
               "SPEED_TIE_SELECT", "SPEED_TIE_SWITCHIN", "SPEED_TIE_FIELD_EVENT", "SPEED_TIE_WEATHER_EACH",
               "SPEED_TIE_HANDLER_MUL", "SPEED_TIE_ABILITY"]
 STEP_TAGS = ["COMMIT", "A_SWITCH", "A_MEGA", "A_OTHER", "B_MOVE", "RESIDUAL", "SWITCHIN"]
+# handler prefixes (PS on<Prefix><Event>); bit k of handler_mask
+PREFIXES = ["", "Ally", "Foe", "Source", "Any", "Side", "Field"]
+# events the engine calls even if no pool entity handles them yet
+ENGINE_EVENTS = ["BasePower", "ModifyAtk", "ModifyDef", "ModifySpA", "ModifySpD", "ModifySpe", "ModifyDamage",
+                 "ModifyAccuracy", "ModifyCritRatio", "ModifySTAB", "ModifyPriority", "FractionalPriority",
+                 "Residual", "SwitchIn", "Update", "BeforeTurn", "Weather", "DisableMove", "TrapPokemon",
+                 "MaybeTrapPokemon", "CriticalHit", "Invulnerability", "TryHit", "DamagingHit", "EntryHazard",
+                 "RedirectTarget", "WeatherModifyDamage", "LockMove", "Damage", "Effectiveness", "BeforeMove"]
+ORDER_LAST = 32767
 SPECIES_FLAGS = ["isMega", "battleOnly", "cosmetic", "requiredItem", "nfe"]
 ITEM_FLAGS = ["isBerry", "megaStone", "ignoreKlutz", "isGem", "isChoice", "hasFling"]
 
@@ -421,6 +430,47 @@ class Builder:
                     pass
                 self.arr(f"supported_{st}_{name}", sup)
 
+    def build_hooks(self) -> None:
+        """HookIds (one per PS event), handler prefix masks and resolved (order, priority, subOrder) per
+        (effect, hook, prefix) from data/export/handler_order.json (PS resolvePriority)."""
+        import re
+        ho = load(self.export / "handler_order.json")
+        rx = re.compile(r"^on(" + "|".join(p for p in PREFIXES if p) + r")?([A-Z]\w*)$")
+        events = set(ENGINE_EVENTS)
+        entries = []  # (effect id, event, prefix index, order, priority, subOrder)
+        spaces = [("move", self.move_ids, self.move_base), ("ability", self.ability_ids, self.ability_base),
+                  ("item", self.item_ids, self.item_base), ("condition", self.cond_ids, self.cond_base)]
+        holder_kind = {"STATUS": "pokemon", "VOL": "pokemon", "SLOT": "slot", "SIDE": "side", "PW": "field",
+                       "WEATHER": "field", "TERRAIN": "field"}
+        for kind, idl, base in spaces:
+            table = ho.get(kind, {})
+            for i, eid in enumerate(idl[1:], 1):
+                cbs = table.get(eid, {})
+                for cb, meta in cbs.items():
+                    m = rx.match(cb)
+                    if not m:
+                        continue
+                    pfx = PREFIXES.index(m.group(1) or "")
+                    ev = m.group(2)
+                    events.add(ev)
+                    sub = meta["subOrder"]
+                    if isinstance(sub, dict):
+                        sub = sub[holder_kind.get(self.cond_kind.get(eid, "VOL"), "pokemon")]
+                    order = ORDER_LAST if meta["order"] is None else meta["order"]
+                    entries.append((base + i - 1, ev, pfx, order, meta["priority"], sub))
+        self.events = sorted(events)
+        nh = len(self.events) + 1
+        hid = {e: i + 1 for i, e in enumerate(self.events)}
+        mask = np.zeros((self.neffect, nh), np.uint8)
+        order = np.full((self.neffect, nh, len(PREFIXES), 3), 0, np.int16)
+        order[..., 0] = ORDER_LAST
+        for eff, ev, pfx, o, pr, sub in entries:
+            h = hid[ev]
+            mask[eff, h] |= np.uint8(1 << pfx)
+            order[eff, h, pfx] = [o, pr, sub]
+        self.arr("handler_mask", mask)
+        self.arr("handler_order", order)
+
     def build_preview(self) -> None:
         orders = np.array(list(itertools.permutations(range(6), 4)), np.int8)
         assert orders.shape == (360, 4)
@@ -512,6 +562,16 @@ class Builder:
         L.append(f"STATS6 = {tuple(STATS6)!r}")
         L.append(f"BOOSTS7 = {tuple(BOOSTS7)!r}")
         L.append("")
+        L.append("# HookIds: one per PS event name (0 = none); prefixes index handler_mask bits")
+        for i, e in enumerate(self.events):
+            L.append(f"HOOK_{e.upper()} = {i + 1}")
+        L.append(f"HOOK_NAMES = {tuple(['none'] + self.events)!r}")
+        L.append(f"NH = {len(self.events) + 1}")
+        L.append(f"PREFIXES = {tuple(PREFIXES)!r}")
+        for j, pfx in enumerate(PREFIXES):
+            L.append(f"PFX_{(pfx or 'ON').upper()} = {j}")
+        L.append(f"ORDER_LAST = {ORDER_LAST}")
+        L.append("")
         L.append("# DrawKind (contract/drawkey.md §5 forced kinds, then §4 tie kinds) and step tags (§3.1)")
         enum("DK_", DRAW_KINDS)
         L.append(f"DRAW_KINDS = {tuple(DRAW_KINDS)!r}")
@@ -533,6 +593,7 @@ def main() -> None:
     b.build_types_natures()
     b.build_conditions()
     b.build_supported()
+    b.build_hooks()
     b.build_preview()
     b.write(pathlib.Path(a.out))
     print(f"codegen: {len(b.arrays)} tables, NS={len(b.species_ids)} NM={len(b.move_ids)} NA={len(b.ability_ids)} "
