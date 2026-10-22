@@ -1,0 +1,4045 @@
+{
+ "options": [
+  {
+   "name": "mass95_bo3_1760",
+   "note": "top entities to reach this share of slot mass per category",
+   "sizes": {
+    "species_set_level": 50,
+    "species_incl_battle_formes": 70,
+    "mega_formes": 20,
+    "moves": 100,
+    "abilities": 40,
+    "items": 36,
+    "megastones": 17
+   },
+   "cost": {
+    "n_conditions": 42,
+    "n_handler_fns": 285,
+    "n_distinct_templates": 212,
+    "loc": 1699,
+    "classes": {
+     "move": {
+      "DATA_PLUS_COMMON": 11,
+      "DATA_ONLY": 64,
+      "CUSTOM": 25
+     },
+     "ability": {
+      "CUSTOM": 34,
+      "DATA_PLUS_COMMON": 5,
+      "DATA_ONLY": 1
+     },
+     "item": {
+      "CUSTOM": 8,
+      "DATA_PLUS_COMMON": 27,
+      "DATA_ONLY": 1
+     },
+     "condition": {
+      "CUSTOM": 39,
+      "DATA_PLUS_COMMON": 3
+     }
+    },
+    "n_custom_entities": 106,
+    "n_hook_names": 71,
+    "max_branches_per_hook": 31,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      31,
+      39
+     ],
+     [
+      "onTryHit",
+      13,
+      13
+     ],
+     [
+      "onBasePower",
+      11,
+      14
+     ],
+     [
+      "onResidual",
+      11,
+      12
+     ],
+     [
+      "onEnd",
+      9,
+      13
+     ],
+     [
+      "onBeforeMove",
+      9,
+      9
+     ],
+     [
+      "onModifyMove",
+      7,
+      7
+     ],
+     [
+      "onTry",
+      6,
+      8
+     ],
+     [
+      "onHit",
+      6,
+      8
+     ],
+     [
+      "onModifySpe",
+      6,
+      7
+     ],
+     [
+      "onDisableMove",
+      5,
+      5
+     ],
+     [
+      "onDamagingHit",
+      5,
+      5
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.8262,
+     "team_cov_indep": 0.318,
+     "mon_cov_unionbound": 0.8186,
+     "team_cov_indep_unionbound": 0.301,
+     "team_cov_mc": 0.3486
+    },
+    "bo1_1760": {
+     "mon_cov": 0.6649,
+     "team_cov_indep": 0.0864,
+     "mon_cov_unionbound": 0.6439,
+     "team_cov_indep_unionbound": 0.0713,
+     "team_cov_mc": 0.13
+    },
+    "bo3_0": {
+     "mon_cov": 0.701,
+     "team_cov_indep": 0.1186,
+     "mon_cov_unionbound": 0.6849,
+     "team_cov_indep_unionbound": 0.1032,
+     "team_cov_mc": 0.1836
+    },
+    "bo1_0": {
+     "mon_cov": 0.5278,
+     "team_cov_indep": 0.0216,
+     "mon_cov_unionbound": 0.498,
+     "team_cov_indep_unionbound": 0.0153,
+     "team_cov_mc": 0.0518
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.0034,
+    "lenient_mega_base_ability": 0.2753,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "ability:blaze",
+     898
+    ],
+    [
+     "ability:lightningrod",
+     853
+    ],
+    [
+     "ability:flowerveil",
+     469
+    ],
+    [
+     "ability:emergencyexit",
+     389
+    ],
+    [
+     "ability:electricsurge",
+     307
+    ],
+    [
+     "move:voltswitch",
+     304
+    ],
+    [
+     "species:raichumegax",
+     296
+    ],
+    [
+     "item:raichunitex",
+     296
+    ],
+    [
+     "move:volttackle",
+     288
+    ],
+    [
+     "ability:cursedbody",
+     284
+    ],
+    [
+     "move:feint",
+     218
+    ],
+    [
+     "item:electricseed",
+     198
+    ],
+    [
+     "move:roost",
+     192
+    ],
+    [
+     "species:basculegionf",
+     191
+    ],
+    [
+     "ability:innerfocus",
+     188
+    ]
+   ]
+  },
+  {
+   "name": "mass99_bo3_1760",
+   "note": "top entities to reach this share of slot mass per category",
+   "sizes": {
+    "species_set_level": 83,
+    "species_incl_battle_formes": 117,
+    "mega_formes": 34,
+    "moves": 157,
+    "abilities": 65,
+    "items": 60,
+    "megastones": 31
+   },
+   "cost": {
+    "n_conditions": 51,
+    "n_handler_fns": 402,
+    "n_distinct_templates": 292,
+    "loc": 2421,
+    "classes": {
+     "move": {
+      "DATA_PLUS_COMMON": 19,
+      "DATA_ONLY": 99,
+      "CUSTOM": 39
+     },
+     "ability": {
+      "CUSTOM": 57,
+      "DATA_PLUS_COMMON": 7,
+      "DATA_ONLY": 1
+     },
+     "item": {
+      "CUSTOM": 11,
+      "DATA_PLUS_COMMON": 48,
+      "DATA_ONLY": 1
+     },
+     "condition": {
+      "CUSTOM": 47,
+      "DATA_PLUS_COMMON": 3,
+      "DATA_ONLY": 1
+     }
+    },
+    "n_custom_entities": 154,
+    "n_hook_names": 88,
+    "max_branches_per_hook": 37,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      37,
+      48
+     ],
+     [
+      "onTryHit",
+      19,
+      19
+     ],
+     [
+      "onBasePower",
+      16,
+      25
+     ],
+     [
+      "onModifyMove",
+      12,
+      12
+     ],
+     [
+      "onHit",
+      11,
+      14
+     ],
+     [
+      "onEnd",
+      11,
+      16
+     ],
+     [
+      "onResidual",
+      11,
+      12
+     ],
+     [
+      "onBeforeMove",
+      11,
+      11
+     ],
+     [
+      "onDamagingHit",
+      9,
+      9
+     ],
+     [
+      "onTry",
+      7,
+      9
+     ],
+     [
+      "basePowerCallback",
+      6,
+      7
+     ],
+     [
+      "onDisableMove",
+      6,
+      6
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.9544,
+     "team_cov_indep": 0.7558,
+     "mon_cov_unionbound": 0.9533,
+     "team_cov_indep_unionbound": 0.7506,
+     "team_cov_mc": 0.7065
+    },
+    "bo1_1760": {
+     "mon_cov": 0.8435,
+     "team_cov_indep": 0.3601,
+     "mon_cov_unionbound": 0.8376,
+     "team_cov_indep_unionbound": 0.3452,
+     "team_cov_mc": 0.3947
+    },
+    "bo3_0": {
+     "mon_cov": 0.8656,
+     "team_cov_indep": 0.4205,
+     "mon_cov_unionbound": 0.8601,
+     "team_cov_indep_unionbound": 0.4049,
+     "team_cov_mc": 0.4644
+    },
+    "bo1_0": {
+     "mon_cov": 0.7199,
+     "team_cov_indep": 0.1392,
+     "mon_cov_unionbound": 0.7083,
+     "team_cov_indep_unionbound": 0.1262,
+     "team_cov_mc": 0.2128
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.1249,
+    "lenient_mega_base_ability": 0.5578,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "ability:blaze",
+     898
+    ],
+    [
+     "ability:flowerveil",
+     469
+    ],
+    [
+     "ability:emergencyexit",
+     389
+    ],
+    [
+     "move:volttackle",
+     288
+    ],
+    [
+     "ability:cursedbody",
+     284
+    ],
+    [
+     "item:electricseed",
+     198
+    ],
+    [
+     "species:basculegionf",
+     191
+    ],
+    [
+     "item:damprock",
+     172
+    ],
+    [
+     "ability:solidrock",
+     123
+    ],
+    [
+     "ability:sandveil",
+     94
+    ],
+    [
+     "ability:torrent",
+     88
+    ],
+    [
+     "ability:solarpower",
+     67
+    ],
+    [
+     "move:soak",
+     65
+    ],
+    [
+     "ability:synchronize",
+     63
+    ],
+    [
+     "move:charm",
+     62
+    ]
+   ]
+  },
+  {
+   "name": "usage_bo3_1760>=0.001",
+   "note": "every entity on >= tau of teams (P(team contains)) in the listed formats",
+   "sizes": {
+    "species_set_level": 97,
+    "species_incl_battle_formes": 136,
+    "mega_formes": 39,
+    "moves": 231,
+    "abilities": 107,
+    "items": 84,
+    "megastones": 39
+   },
+   "cost": {
+    "n_conditions": 59,
+    "n_handler_fns": 572,
+    "n_distinct_templates": 403,
+    "loc": 3517,
+    "classes": {
+     "move": {
+      "CUSTOM": 69,
+      "DATA_PLUS_COMMON": 25,
+      "DATA_ONLY": 137
+     },
+     "ability": {
+      "CUSTOM": 91,
+      "DATA_PLUS_COMMON": 15,
+      "DATA_ONLY": 1
+     },
+     "item": {
+      "CUSTOM": 16,
+      "DATA_PLUS_COMMON": 66,
+      "DATA_ONLY": 2
+     },
+     "condition": {
+      "CUSTOM": 54,
+      "DATA_PLUS_COMMON": 4,
+      "DATA_ONLY": 1
+     }
+    },
+    "n_custom_entities": 230,
+    "n_hook_names": 104,
+    "max_branches_per_hook": 43,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      43,
+      59
+     ],
+     [
+      "onTryHit",
+      31,
+      33
+     ],
+     [
+      "onHit",
+      24,
+      28
+     ],
+     [
+      "onModifyMove",
+      17,
+      18
+     ],
+     [
+      "onBasePower",
+      17,
+      29
+     ],
+     [
+      "basePowerCallback",
+      14,
+      16
+     ],
+     [
+      "onEnd",
+      13,
+      19
+     ],
+     [
+      "onResidual",
+      13,
+      15
+     ],
+     [
+      "onBeforeMove",
+      13,
+      13
+     ],
+     [
+      "onDamagingHit",
+      12,
+      14
+     ],
+     [
+      "onTry",
+      9,
+      12
+     ],
+     [
+      "onUpdate",
+      8,
+      10
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.9905,
+     "team_cov_indep": 0.9441,
+     "mon_cov_unionbound": 0.9904,
+     "team_cov_indep_unionbound": 0.9439,
+     "team_cov_mc": 0.8926
+    },
+    "bo1_1760": {
+     "mon_cov": 0.9336,
+     "team_cov_indep": 0.6622,
+     "mon_cov_unionbound": 0.9328,
+     "team_cov_indep_unionbound": 0.6586,
+     "team_cov_mc": 0.6551
+    },
+    "bo3_0": {
+     "mon_cov": 0.9426,
+     "team_cov_indep": 0.7012,
+     "mon_cov_unionbound": 0.9418,
+     "team_cov_indep_unionbound": 0.6978,
+     "team_cov_mc": 0.7002
+    },
+    "bo1_0": {
+     "mon_cov": 0.8499,
+     "team_cov_indep": 0.377,
+     "mon_cov_unionbound": 0.8468,
+     "team_cov_indep_unionbound": 0.3688,
+     "team_cov_mc": 0.4574
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.763,
+    "lenient_mega_base_ability": 0.7649,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "species:basculegionf",
+     191
+    ],
+    [
+     "ability:protean",
+     35
+    ],
+    [
+     "species:sinistchamasterpiece",
+     25
+    ],
+    [
+     "move:bulldoze",
+     20
+    ],
+    [
+     "species:gliscor",
+     19
+    ],
+    [
+     "item:altarianite",
+     19
+    ],
+    [
+     "species:altariamega",
+     19
+    ],
+    [
+     "species:meowscarada",
+     19
+    ],
+    [
+     "move:flowertrick",
+     19
+    ],
+    [
+     "move:leafblade",
+     18
+    ],
+    [
+     "move:transform",
+     18
+    ],
+    [
+     "species:ditto",
+     18
+    ],
+    [
+     "species:mimikyu",
+     18
+    ],
+    [
+     "ability:disguise",
+     18
+    ],
+    [
+     "move:highjumpkick",
+     18
+    ]
+   ]
+  },
+  {
+   "name": "usage_bo3_1760>=0.0001",
+   "note": "every entity on >= tau of teams (P(team contains)) in the listed formats",
+   "sizes": {
+    "species_set_level": 165,
+    "species_incl_battle_formes": 226,
+    "mega_formes": 61,
+    "moves": 314,
+    "abilities": 138,
+    "items": 120,
+    "megastones": 61
+   },
+   "cost": {
+    "n_conditions": 67,
+    "n_handler_fns": 733,
+    "n_distinct_templates": 509,
+    "loc": 4575,
+    "classes": {
+     "move": {
+      "CUSTOM": 99,
+      "DATA_PLUS_COMMON": 38,
+      "DATA_ONLY": 177
+     },
+     "ability": {
+      "CUSTOM": 118,
+      "DATA_PLUS_COMMON": 18,
+      "DATA_ONLY": 2
+     },
+     "item": {
+      "CUSTOM": 22,
+      "DATA_PLUS_COMMON": 93,
+      "DATA_ONLY": 5
+     },
+     "condition": {
+      "CUSTOM": 61,
+      "DATA_PLUS_COMMON": 5,
+      "DATA_ONLY": 1
+     }
+    },
+    "n_custom_entities": 300,
+    "n_hook_names": 115,
+    "max_branches_per_hook": 48,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      48,
+      67
+     ],
+     [
+      "onHit",
+      36,
+      41
+     ],
+     [
+      "onTryHit",
+      33,
+      38
+     ],
+     [
+      "onBasePower",
+      22,
+      39
+     ],
+     [
+      "onModifyMove",
+      19,
+      20
+     ],
+     [
+      "basePowerCallback",
+      18,
+      22
+     ],
+     [
+      "onResidual",
+      17,
+      19
+     ],
+     [
+      "onEnd",
+      15,
+      21
+     ],
+     [
+      "onBeforeMove",
+      15,
+      15
+     ],
+     [
+      "onDamagingHit",
+      14,
+      16
+     ],
+     [
+      "onTry",
+      13,
+      16
+     ],
+     [
+      "onUpdate",
+      10,
+      13
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.9993,
+     "team_cov_indep": 0.9958,
+     "mon_cov_unionbound": 0.9993,
+     "team_cov_indep_unionbound": 0.9957,
+     "team_cov_mc": 0.992
+    },
+    "bo1_1760": {
+     "mon_cov": 0.9773,
+     "team_cov_indep": 0.8714,
+     "mon_cov_unionbound": 0.9768,
+     "team_cov_indep_unionbound": 0.8687,
+     "team_cov_mc": 0.8452
+    },
+    "bo3_0": {
+     "mon_cov": 0.978,
+     "team_cov_indep": 0.8751,
+     "mon_cov_unionbound": 0.9775,
+     "team_cov_indep_unionbound": 0.8723,
+     "team_cov_mc": 0.8387
+    },
+    "bo1_0": {
+     "mon_cov": 0.9364,
+     "team_cov_indep": 0.6741,
+     "mon_cov_unionbound": 0.9346,
+     "team_cov_indep_unionbound": 0.6665,
+     "team_cov_mc": 0.6905
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.9,
+    "lenient_mega_base_ability": 0.9,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "species:sinistchamasterpiece",
+     25
+    ],
+    [
+     "move:bulldoze",
+     20
+    ],
+    [
+     "item:muscleband",
+     18
+    ],
+    [
+     "move:dragonrush",
+     14
+    ],
+    [
+     "ability:electromorphosis",
+     12
+    ],
+    [
+     "species:bellibolt",
+     12
+    ],
+    [
+     "move:paraboliccharge",
+     12
+    ],
+    [
+     "species:leafeon",
+     11
+    ],
+    [
+     "move:ceaselessedge",
+     11
+    ],
+    [
+     "move:solarblade",
+     11
+    ],
+    [
+     "move:blazekick",
+     10
+    ],
+    [
+     "ability:berserk",
+     10
+    ],
+    [
+     "ability:supremeoverlord",
+     9
+    ],
+    [
+     "item:wiseglasses",
+     9
+    ],
+    [
+     "move:worryseed",
+     9
+    ]
+   ]
+  },
+  {
+   "name": "usage_bo3_1760>=0.0001+bo1_0>=0.0005",
+   "note": "every entity on >= tau of teams (P(team contains)) in the listed formats",
+   "sizes": {
+    "species_set_level": 236,
+    "species_incl_battle_formes": 317,
+    "mega_formes": 81,
+    "moves": 426,
+    "abilities": 177,
+    "items": 157,
+    "megastones": 80
+   },
+   "cost": {
+    "n_conditions": 85,
+    "n_handler_fns": 940,
+    "n_distinct_templates": 633,
+    "loc": 5967,
+    "classes": {
+     "move": {
+      "CUSTOM": 138,
+      "DATA_PLUS_COMMON": 56,
+      "DATA_ONLY": 232
+     },
+     "ability": {
+      "CUSTOM": 151,
+      "DATA_ONLY": 3,
+      "DATA_PLUS_COMMON": 23
+     },
+     "item": {
+      "CUSTOM": 30,
+      "DATA_PLUS_COMMON": 120,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 77,
+      "DATA_PLUS_COMMON": 7,
+      "DATA_ONLY": 1
+     }
+    },
+    "n_custom_entities": 396,
+    "n_hook_names": 122,
+    "max_branches_per_hook": 58,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      58,
+      84
+     ],
+     [
+      "onHit",
+      54,
+      63
+     ],
+     [
+      "onTryHit",
+      37,
+      44
+     ],
+     [
+      "onBasePower",
+      28,
+      54
+     ],
+     [
+      "onModifyMove",
+      23,
+      24
+     ],
+     [
+      "basePowerCallback",
+      21,
+      26
+     ],
+     [
+      "onResidual",
+      20,
+      23
+     ],
+     [
+      "onDamagingHit",
+      20,
+      24
+     ],
+     [
+      "onTry",
+      19,
+      23
+     ],
+     [
+      "onEnd",
+      17,
+      25
+     ],
+     [
+      "onBeforeMove",
+      16,
+      16
+     ],
+     [
+      "onUpdate",
+      12,
+      17
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.9999,
+     "team_cov_indep": 0.9996,
+     "mon_cov_unionbound": 0.9999,
+     "team_cov_indep_unionbound": 0.9996,
+     "team_cov_mc": 0.9992
+    },
+    "bo1_1760": {
+     "mon_cov": 0.9995,
+     "team_cov_indep": 0.9968,
+     "mon_cov_unionbound": 0.9995,
+     "team_cov_indep_unionbound": 0.9968,
+     "team_cov_mc": 0.9942
+    },
+    "bo3_0": {
+     "mon_cov": 0.9984,
+     "team_cov_indep": 0.9902,
+     "mon_cov_unionbound": 0.9984,
+     "team_cov_indep_unionbound": 0.9902,
+     "team_cov_mc": 0.978
+    },
+    "bo1_0": {
+     "mon_cov": 0.9953,
+     "team_cov_indep": 0.9723,
+     "mon_cov_unionbound": 0.9953,
+     "team_cov_indep_unionbound": 0.9722,
+     "team_cov_mc": 0.9494
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.9804,
+    "lenient_mega_base_ability": 0.9804,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "species:sinistchamasterpiece",
+     25
+    ],
+    [
+     "species:vivillonpokeball",
+     6
+    ],
+    [
+     "species:vivillonmonsoon",
+     5
+    ],
+    [
+     "species:vivillonpolar",
+     3
+    ],
+    [
+     "species:mausholdfour",
+     3
+    ],
+    [
+     "move:electrify",
+     3
+    ],
+    [
+     "species:vivillonfancy",
+     2
+    ],
+    [
+     "species:rotom",
+     2
+    ],
+    [
+     "species:rotomfan",
+     2
+    ],
+    [
+     "move:guillotine",
+     2
+    ],
+    [
+     "move:shadowpunch",
+     2
+    ],
+    [
+     "ability:shedskin",
+     2
+    ],
+    [
+     "species:absolmega",
+     2
+    ],
+    [
+     "item:absolite",
+     2
+    ],
+    [
+     "move:fly",
+     1
+    ]
+   ]
+  },
+  {
+   "name": "cost_aware_tau=0.01",
+   "note": "all legal species; zero-cost entities + paid entities with P(team)>=tau in bo3_1760 or bo1_0 + free riders",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 377,
+    "abilities": 110,
+    "items": 142,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 57,
+    "n_handler_fns": 622,
+    "n_distinct_templates": 369,
+    "loc": 3754,
+    "classes": {
+     "move": {
+      "CUSTOM": 70,
+      "DATA_PLUS_COMMON": 47,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 83,
+      "DATA_PLUS_COMMON": 21,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 15,
+      "DATA_PLUS_COMMON": 120,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 52,
+      "DATA_PLUS_COMMON": 4,
+      "DATA_ONLY": 1
+     }
+    },
+    "n_custom_entities": 220,
+    "n_hook_names": 101,
+    "max_branches_per_hook": 41,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      41,
+      60
+     ],
+     [
+      "onTryHit",
+      25,
+      30
+     ],
+     [
+      "onHit",
+      22,
+      28
+     ],
+     [
+      "onBasePower",
+      16,
+      40
+     ],
+     [
+      "onModifyMove",
+      15,
+      16
+     ],
+     [
+      "onResidual",
+      13,
+      15
+     ],
+     [
+      "basePowerCallback",
+      12,
+      17
+     ],
+     [
+      "onDamagingHit",
+      12,
+      15
+     ],
+     [
+      "onEnd",
+      12,
+      18
+     ],
+     [
+      "onBeforeMove",
+      12,
+      12
+     ],
+     [
+      "onTry",
+      9,
+      12
+     ],
+     [
+      "onDisableMove",
+      6,
+      8
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.9881,
+     "team_cov_indep": 0.9309,
+     "mon_cov_unionbound": 0.9881,
+     "team_cov_indep_unionbound": 0.9307,
+     "team_cov_mc": 0.8989
+    },
+    "bo1_1760": {
+     "mon_cov": 0.9629,
+     "team_cov_indep": 0.797,
+     "mon_cov_unionbound": 0.9623,
+     "team_cov_indep_unionbound": 0.7941,
+     "team_cov_mc": 0.7784
+    },
+    "bo3_0": {
+     "mon_cov": 0.9672,
+     "team_cov_indep": 0.8184,
+     "mon_cov_unionbound": 0.9665,
+     "team_cov_indep_unionbound": 0.8149,
+     "team_cov_mc": 0.7872
+    },
+    "bo1_0": {
+     "mon_cov": 0.9195,
+     "team_cov_indep": 0.6044,
+     "mon_cov_unionbound": 0.9173,
+     "team_cov_indep_unionbound": 0.5956,
+     "team_cov_mc": 0.62
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.82,
+    "lenient_mega_base_ability": 0.8589,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "item:lumberry",
+     31
+    ],
+    [
+     "ability:overcoat",
+     28
+    ],
+    [
+     "ability:snowcloak",
+     27
+    ],
+    [
+     "ability:bulletproof",
+     27
+    ],
+    [
+     "ability:cloudnine",
+     27
+    ],
+    [
+     "ability:damp",
+     25
+    ],
+    [
+     "ability:firemane",
+     19
+    ],
+    [
+     "ability:sturdy",
+     19
+    ],
+    [
+     "ability:steadfast",
+     18
+    ],
+    [
+     "move:transform",
+     18
+    ],
+    [
+     "ability:disguise",
+     18
+    ],
+    [
+     "move:highjumpkick",
+     18
+    ],
+    [
+     "item:muscleband",
+     18
+    ],
+    [
+     "ability:reckless",
+     17
+    ],
+    [
+     "ability:libero",
+     17
+    ]
+   ]
+  },
+  {
+   "name": "cost_aware_tau=0.003",
+   "note": "all legal species; zero-cost entities + paid entities with P(team)>=tau in bo3_1760 or bo1_0 + free riders",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 423,
+    "abilities": 145,
+    "items": 151,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 75,
+    "n_handler_fns": 806,
+    "n_distinct_templates": 519,
+    "loc": 4977,
+    "classes": {
+     "move": {
+      "CUSTOM": 102,
+      "DATA_PLUS_COMMON": 61,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 118,
+      "DATA_PLUS_COMMON": 21,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 24,
+      "DATA_PLUS_COMMON": 120,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 67,
+      "DATA_PLUS_COMMON": 7,
+      "DATA_ONLY": 1
+     }
+    },
+    "n_custom_entities": 311,
+    "n_hook_names": 116,
+    "max_branches_per_hook": 50,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      50,
+      72
+     ],
+     [
+      "onHit",
+      40,
+      49
+     ],
+     [
+      "onTryHit",
+      35,
+      41
+     ],
+     [
+      "onBasePower",
+      24,
+      49
+     ],
+     [
+      "onModifyMove",
+      19,
+      20
+     ],
+     [
+      "onEnd",
+      17,
+      24
+     ],
+     [
+      "onDamagingHit",
+      16,
+      20
+     ],
+     [
+      "onResidual",
+      16,
+      19
+     ],
+     [
+      "onBeforeMove",
+      16,
+      16
+     ],
+     [
+      "basePowerCallback",
+      14,
+      19
+     ],
+     [
+      "onTry",
+      13,
+      17
+     ],
+     [
+      "onUpdate",
+      10,
+      13
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.998,
+     "team_cov_indep": 0.9878,
+     "mon_cov_unionbound": 0.998,
+     "team_cov_indep_unionbound": 0.9878,
+     "team_cov_mc": 0.9783
+    },
+    "bo1_1760": {
+     "mon_cov": 0.9936,
+     "team_cov_indep": 0.962,
+     "mon_cov_unionbound": 0.9935,
+     "team_cov_indep_unionbound": 0.9619,
+     "team_cov_mc": 0.9456
+    },
+    "bo3_0": {
+     "mon_cov": 0.9915,
+     "team_cov_indep": 0.95,
+     "mon_cov_unionbound": 0.9914,
+     "team_cov_indep_unionbound": 0.9497,
+     "team_cov_mc": 0.9241
+    },
+    "bo1_0": {
+     "mon_cov": 0.9791,
+     "team_cov_indep": 0.8812,
+     "mon_cov_unionbound": 0.979,
+     "team_cov_indep_unionbound": 0.8804,
+     "team_cov_mc": 0.8663
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.9573,
+    "lenient_mega_base_ability": 0.9598,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "ability:overcoat",
+     28
+    ],
+    [
+     "move:ragingbull",
+     11
+    ],
+    [
+     "item:chestoberry",
+     8
+    ],
+    [
+     "move:mortalspin",
+     8
+    ],
+    [
+     "move:noretreat",
+     6
+    ],
+    [
+     "ability:cudchew",
+     5
+    ],
+    [
+     "move:watershuriken",
+     5
+    ],
+    [
+     "ability:sweetveil",
+     4
+    ],
+    [
+     "move:avalanche",
+     4
+    ],
+    [
+     "ability:leafguard",
+     4
+    ],
+    [
+     "move:lastresort",
+     4
+    ],
+    [
+     "ability:heatproof",
+     4
+    ],
+    [
+     "item:zoomlens",
+     4
+    ],
+    [
+     "move:payback",
+     4
+    ],
+    [
+     "move:reversal",
+     3
+    ]
+   ]
+  },
+  {
+   "name": "cost_aware_tau=0.001",
+   "note": "all legal species; zero-cost entities + paid entities with P(team)>=tau in bo3_1760 or bo1_0 + free riders",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 454,
+    "abilities": 172,
+    "items": 160,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 83,
+    "n_handler_fns": 919,
+    "n_distinct_templates": 603,
+    "loc": 5765,
+    "classes": {
+     "move": {
+      "CUSTOM": 129,
+      "DATA_PLUS_COMMON": 65,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 143,
+      "DATA_PLUS_COMMON": 23,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 29,
+      "DATA_PLUS_COMMON": 124,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 75,
+      "DATA_PLUS_COMMON": 7,
+      "DATA_ONLY": 1
+     }
+    },
+    "n_custom_entities": 376,
+    "n_hook_names": 118,
+    "max_branches_per_hook": 56,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      56,
+      81
+     ],
+     [
+      "onHit",
+      50,
+      60
+     ],
+     [
+      "onTryHit",
+      36,
+      43
+     ],
+     [
+      "onBasePower",
+      26,
+      52
+     ],
+     [
+      "onModifyMove",
+      22,
+      24
+     ],
+     [
+      "basePowerCallback",
+      20,
+      25
+     ],
+     [
+      "onResidual",
+      20,
+      23
+     ],
+     [
+      "onDamagingHit",
+      20,
+      24
+     ],
+     [
+      "onTry",
+      18,
+      23
+     ],
+     [
+      "onEnd",
+      17,
+      25
+     ],
+     [
+      "onBeforeMove",
+      16,
+      16
+     ],
+     [
+      "onUpdate",
+      12,
+      20
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.9998,
+     "team_cov_indep": 0.9989,
+     "mon_cov_unionbound": 0.9998,
+     "team_cov_indep_unionbound": 0.9989,
+     "team_cov_mc": 0.9969
+    },
+    "bo1_1760": {
+     "mon_cov": 0.9992,
+     "team_cov_indep": 0.9953,
+     "mon_cov_unionbound": 0.9992,
+     "team_cov_indep_unionbound": 0.9952,
+     "team_cov_mc": 0.9909
+    },
+    "bo3_0": {
+     "mon_cov": 0.998,
+     "team_cov_indep": 0.9882,
+     "mon_cov_unionbound": 0.998,
+     "team_cov_indep_unionbound": 0.9882,
+     "team_cov_mc": 0.9748
+    },
+    "bo1_0": {
+     "mon_cov": 0.9949,
+     "team_cov_indep": 0.97,
+     "mon_cov_unionbound": 0.9949,
+     "team_cov_indep_unionbound": 0.9699,
+     "team_cov_mc": 0.9573
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.9941,
+    "lenient_mega_base_ability": 0.995,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "move:reversal",
+     3
+    ],
+    [
+     "ability:rivalry",
+     3
+    ],
+    [
+     "move:electrify",
+     3
+    ],
+    [
+     "ability:gluttony",
+     2
+    ],
+    [
+     "ability:shedskin",
+     2
+    ],
+    [
+     "ability:guts",
+     2
+    ],
+    [
+     "move:fly",
+     1
+    ],
+    [
+     "move:fairylock",
+     1
+    ],
+    [
+     "move:meteorbeam",
+     1
+    ],
+    [
+     "move:attract",
+     1
+    ]
+   ]
+  },
+  {
+   "name": "cost_aware_tau=0.0005",
+   "note": "all legal species; zero-cost entities + paid entities with P(team)>=tau in bo3_1760 or bo1_0 + free riders",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 469,
+    "abilities": 183,
+    "items": 161,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 86,
+    "n_handler_fns": 963,
+    "n_distinct_templates": 632,
+    "loc": 6110,
+    "classes": {
+     "move": {
+      "CUSTOM": 142,
+      "DATA_PLUS_COMMON": 67,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 153,
+      "DATA_PLUS_COMMON": 24,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 30,
+      "DATA_PLUS_COMMON": 124,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 77,
+      "DATA_PLUS_COMMON": 8,
+      "DATA_ONLY": 1
+     }
+    },
+    "n_custom_entities": 402,
+    "n_hook_names": 121,
+    "max_branches_per_hook": 58,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      58,
+      85
+     ],
+     [
+      "onHit",
+      54,
+      64
+     ],
+     [
+      "onTryHit",
+      37,
+      44
+     ],
+     [
+      "onBasePower",
+      28,
+      54
+     ],
+     [
+      "onModifyMove",
+      23,
+      25
+     ],
+     [
+      "basePowerCallback",
+      21,
+      27
+     ],
+     [
+      "onResidual",
+      20,
+      24
+     ],
+     [
+      "onDamagingHit",
+      20,
+      24
+     ],
+     [
+      "onTry",
+      19,
+      25
+     ],
+     [
+      "onEnd",
+      17,
+      25
+     ],
+     [
+      "onBeforeMove",
+      16,
+      16
+     ],
+     [
+      "onUpdate",
+      12,
+      20
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.9999,
+     "team_cov_indep": 0.9996,
+     "mon_cov_unionbound": 0.9999,
+     "team_cov_indep_unionbound": 0.9996,
+     "team_cov_mc": 0.9991
+    },
+    "bo1_1760": {
+     "mon_cov": 0.9996,
+     "team_cov_indep": 0.9978,
+     "mon_cov_unionbound": 0.9996,
+     "team_cov_indep_unionbound": 0.9978,
+     "team_cov_mc": 0.9954
+    },
+    "bo3_0": {
+     "mon_cov": 0.9989,
+     "team_cov_indep": 0.9936,
+     "mon_cov_unionbound": 0.9989,
+     "team_cov_indep_unionbound": 0.9936,
+     "team_cov_mc": 0.9844
+    },
+    "bo1_0": {
+     "mon_cov": 0.9973,
+     "team_cov_indep": 0.984,
+     "mon_cov_unionbound": 0.9973,
+     "team_cov_indep_unionbound": 0.9839,
+     "team_cov_mc": 0.9723
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.9972,
+    "lenient_mega_base_ability": 0.9972,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "move:electrify",
+     3
+    ],
+    [
+     "ability:shedskin",
+     2
+    ],
+    [
+     "move:fly",
+     1
+    ],
+    [
+     "move:fairylock",
+     1
+    ],
+    [
+     "move:meteorbeam",
+     1
+    ],
+    [
+     "move:attract",
+     1
+    ]
+   ]
+  },
+  {
+   "name": "cost_aware_tau=0.0003",
+   "note": "all legal species; zero-cost entities + paid entities with P(team)>=tau in bo3_1760 or bo1_0 + free riders",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 481,
+    "abilities": 192,
+    "items": 161,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 90,
+    "n_handler_fns": 996,
+    "n_distinct_templates": 659,
+    "loc": 6363,
+    "classes": {
+     "move": {
+      "CUSTOM": 152,
+      "DATA_PLUS_COMMON": 69,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 162,
+      "DATA_PLUS_COMMON": 24,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 30,
+      "DATA_PLUS_COMMON": 124,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 79,
+      "DATA_PLUS_COMMON": 9,
+      "DATA_ONLY": 2
+     }
+    },
+    "n_custom_entities": 423,
+    "n_hook_names": 125,
+    "max_branches_per_hook": 59,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      59,
+      88
+     ],
+     [
+      "onHit",
+      58,
+      68
+     ],
+     [
+      "onTryHit",
+      39,
+      46
+     ],
+     [
+      "onBasePower",
+      28,
+      54
+     ],
+     [
+      "onModifyMove",
+      24,
+      26
+     ],
+     [
+      "basePowerCallback",
+      22,
+      28
+     ],
+     [
+      "onDamagingHit",
+      21,
+      25
+     ],
+     [
+      "onResidual",
+      20,
+      24
+     ],
+     [
+      "onTry",
+      19,
+      25
+     ],
+     [
+      "onEnd",
+      17,
+      25
+     ],
+     [
+      "onBeforeMove",
+      16,
+      16
+     ],
+     [
+      "onUpdate",
+      12,
+      20
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 0.9999,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 0.9999,
+     "team_cov_mc": 0.9998
+    },
+    "bo1_1760": {
+     "mon_cov": 0.9999,
+     "team_cov_indep": 0.9991,
+     "mon_cov_unionbound": 0.9999,
+     "team_cov_indep_unionbound": 0.9991,
+     "team_cov_mc": 0.9981
+    },
+    "bo3_0": {
+     "mon_cov": 0.9995,
+     "team_cov_indep": 0.997,
+     "mon_cov_unionbound": 0.9995,
+     "team_cov_indep_unionbound": 0.997,
+     "team_cov_mc": 0.9918
+    },
+    "bo1_0": {
+     "mon_cov": 0.9986,
+     "team_cov_indep": 0.9919,
+     "mon_cov_unionbound": 0.9986,
+     "team_cov_indep_unionbound": 0.9919,
+     "team_cov_mc": 0.9852
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.9988,
+    "lenient_mega_base_ability": 0.9988,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "ability:shedskin",
+     2
+    ],
+    [
+     "move:fly",
+     1
+    ],
+    [
+     "move:fairylock",
+     1
+    ]
+   ]
+  },
+  {
+   "name": "cost_aware_tau=0.0002",
+   "note": "all legal species; zero-cost entities + paid entities with P(team)>=tau in bo3_1760 or bo1_0 + free riders",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 493,
+    "abilities": 200,
+    "items": 162,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 93,
+    "n_handler_fns": 1035,
+    "n_distinct_templates": 690,
+    "loc": 6608,
+    "classes": {
+     "move": {
+      "CUSTOM": 163,
+      "DATA_PLUS_COMMON": 70,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 170,
+      "DATA_PLUS_COMMON": 24,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 31,
+      "DATA_PLUS_COMMON": 124,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 81,
+      "DATA_PLUS_COMMON": 10,
+      "DATA_ONLY": 2
+     }
+    },
+    "n_custom_entities": 445,
+    "n_hook_names": 128,
+    "max_branches_per_hook": 64,
+    "top_hooks_by_branches": [
+     [
+      "onHit",
+      64,
+      75
+     ],
+     [
+      "onStart",
+      59,
+      89
+     ],
+     [
+      "onTryHit",
+      40,
+      47
+     ],
+     [
+      "onBasePower",
+      28,
+      54
+     ],
+     [
+      "onModifyMove",
+      25,
+      27
+     ],
+     [
+      "onResidual",
+      23,
+      27
+     ],
+     [
+      "basePowerCallback",
+      22,
+      28
+     ],
+     [
+      "onDamagingHit",
+      22,
+      26
+     ],
+     [
+      "onTry",
+      20,
+      26
+     ],
+     [
+      "onEnd",
+      18,
+      27
+     ],
+     [
+      "onBeforeMove",
+      16,
+      16
+     ],
+     [
+      "onUpdate",
+      14,
+      22
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 0.9999,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 0.9999,
+     "team_cov_mc": 0.9999
+    },
+    "bo1_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 0.9997,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 0.9997,
+     "team_cov_mc": 0.9994
+    },
+    "bo3_0": {
+     "mon_cov": 0.9998,
+     "team_cov_indep": 0.9986,
+     "mon_cov_unionbound": 0.9998,
+     "team_cov_indep_unionbound": 0.9986,
+     "team_cov_mc": 0.9958
+    },
+    "bo1_0": {
+     "mon_cov": 0.9994,
+     "team_cov_indep": 0.9966,
+     "mon_cov_unionbound": 0.9994,
+     "team_cov_indep_unionbound": 0.9966,
+     "team_cov_mc": 0.9922
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.9988,
+    "lenient_mega_base_ability": 0.9988,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "ability:shedskin",
+     2
+    ],
+    [
+     "move:fly",
+     1
+    ],
+    [
+     "move:fairylock",
+     1
+    ]
+   ]
+  },
+  {
+   "name": "cost_aware_tau=0.0001",
+   "note": "all legal species; zero-cost entities + paid entities with P(team)>=tau in bo3_1760 or bo1_0 + free riders",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 502,
+    "abilities": 206,
+    "items": 163,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 100,
+    "n_handler_fns": 1069,
+    "n_distinct_templates": 712,
+    "loc": 6806,
+    "classes": {
+     "move": {
+      "CUSTOM": 167,
+      "DATA_PLUS_COMMON": 75,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 176,
+      "DATA_PLUS_COMMON": 24,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 32,
+      "DATA_PLUS_COMMON": 124,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 87,
+      "DATA_PLUS_COMMON": 11,
+      "DATA_ONLY": 2
+     }
+    },
+    "n_custom_entities": 462,
+    "n_hook_names": 132,
+    "max_branches_per_hook": 65,
+    "top_hooks_by_branches": [
+     [
+      "onHit",
+      65,
+      76
+     ],
+     [
+      "onStart",
+      62,
+      94
+     ],
+     [
+      "onTryHit",
+      41,
+      48
+     ],
+     [
+      "onBasePower",
+      29,
+      55
+     ],
+     [
+      "onModifyMove",
+      25,
+      27
+     ],
+     [
+      "onResidual",
+      25,
+      29
+     ],
+     [
+      "onDamagingHit",
+      23,
+      27
+     ],
+     [
+      "basePowerCallback",
+      22,
+      28
+     ],
+     [
+      "onTry",
+      21,
+      27
+     ],
+     [
+      "onEnd",
+      18,
+      30
+     ],
+     [
+      "onBeforeMove",
+      16,
+      16
+     ],
+     [
+      "onUpdate",
+      15,
+      23
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    },
+    "bo1_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 0.9999,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 0.9999,
+     "team_cov_mc": 0.9997
+    },
+    "bo3_0": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 0.9997,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 0.9997,
+     "team_cov_mc": 0.9979
+    },
+    "bo1_0": {
+     "mon_cov": 0.9998,
+     "team_cov_indep": 0.9991,
+     "mon_cov_unionbound": 0.9998,
+     "team_cov_indep_unionbound": 0.9991,
+     "team_cov_mc": 0.9971
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.9994,
+    "lenient_mega_base_ability": 0.9994,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "ability:shedskin",
+     2
+    ]
+   ]
+  },
+  {
+   "name": "cost_aware_tau=5e-05",
+   "note": "all legal species; zero-cost entities + paid entities with P(team)>=tau in bo3_1760 or bo1_0 + free riders",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 505,
+    "abilities": 208,
+    "items": 165,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 100,
+    "n_handler_fns": 1085,
+    "n_distinct_templates": 726,
+    "loc": 6909,
+    "classes": {
+     "move": {
+      "CUSTOM": 170,
+      "DATA_PLUS_COMMON": 75,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 178,
+      "DATA_PLUS_COMMON": 24,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 34,
+      "DATA_PLUS_COMMON": 124,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 87,
+      "DATA_PLUS_COMMON": 11,
+      "DATA_ONLY": 2
+     }
+    },
+    "n_custom_entities": 469,
+    "n_hook_names": 132,
+    "max_branches_per_hook": 68,
+    "top_hooks_by_branches": [
+     [
+      "onHit",
+      68,
+      79
+     ],
+     [
+      "onStart",
+      62,
+      94
+     ],
+     [
+      "onTryHit",
+      41,
+      48
+     ],
+     [
+      "onBasePower",
+      29,
+      55
+     ],
+     [
+      "onResidual",
+      26,
+      30
+     ],
+     [
+      "onModifyMove",
+      25,
+      27
+     ],
+     [
+      "onTry",
+      23,
+      29
+     ],
+     [
+      "onDamagingHit",
+      23,
+      27
+     ],
+     [
+      "basePowerCallback",
+      22,
+      28
+     ],
+     [
+      "onEnd",
+      18,
+      30
+     ],
+     [
+      "onBeforeMove",
+      16,
+      16
+     ],
+     [
+      "onUpdate",
+      15,
+      24
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    },
+    "bo1_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 0.9999
+    },
+    "bo3_0": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 0.9999,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 0.9999,
+     "team_cov_mc": 0.9989
+    },
+    "bo1_0": {
+     "mon_cov": 0.9999,
+     "team_cov_indep": 0.9997,
+     "mon_cov_unionbound": 0.9999,
+     "team_cov_indep_unionbound": 0.9997,
+     "team_cov_mc": 0.9985
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 1.0,
+    "lenient_mega_base_ability": 1.0,
+    "n_teams": 3211
+   },
+   "top_replay_failures": []
+  },
+  {
+   "name": "cost_aware_tau=2e-05",
+   "note": "all legal species; zero-cost entities + paid entities with P(team)>=tau in bo3_1760 or bo1_0 + free riders",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 507,
+    "abilities": 214,
+    "items": 165,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 100,
+    "n_handler_fns": 1095,
+    "n_distinct_templates": 735,
+    "loc": 6988,
+    "classes": {
+     "move": {
+      "CUSTOM": 172,
+      "DATA_PLUS_COMMON": 75,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 184,
+      "DATA_PLUS_COMMON": 24,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 34,
+      "DATA_PLUS_COMMON": 124,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 87,
+      "DATA_PLUS_COMMON": 11,
+      "DATA_ONLY": 2
+     }
+    },
+    "n_custom_entities": 477,
+    "n_hook_names": 133,
+    "max_branches_per_hook": 69,
+    "top_hooks_by_branches": [
+     [
+      "onHit",
+      69,
+      80
+     ],
+     [
+      "onStart",
+      64,
+      96
+     ],
+     [
+      "onTryHit",
+      41,
+      48
+     ],
+     [
+      "onBasePower",
+      29,
+      55
+     ],
+     [
+      "onModifyMove",
+      26,
+      28
+     ],
+     [
+      "onResidual",
+      26,
+      30
+     ],
+     [
+      "onTry",
+      24,
+      30
+     ],
+     [
+      "onDamagingHit",
+      24,
+      28
+     ],
+     [
+      "basePowerCallback",
+      23,
+      29
+     ],
+     [
+      "onEnd",
+      18,
+      30
+     ],
+     [
+      "onBeforeMove",
+      16,
+      16
+     ],
+     [
+      "onUpdate",
+      15,
+      24
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    },
+    "bo1_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    },
+    "bo3_0": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    },
+    "bo1_0": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 1.0,
+    "lenient_mega_base_ability": 1.0,
+    "n_teams": 3211
+   },
+   "top_replay_failures": []
+  },
+  {
+   "name": "cost_aware_tau=0",
+   "note": "all legal species; zero-cost entities + paid entities with P(team)>=tau in bo3_1760 or bo1_0 + free riders",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 510,
+    "abilities": 215,
+    "items": 166,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 102,
+    "n_handler_fns": 1107,
+    "n_distinct_templates": 747,
+    "loc": 7062,
+    "classes": {
+     "move": {
+      "CUSTOM": 174,
+      "DATA_PLUS_COMMON": 76,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 185,
+      "DATA_PLUS_COMMON": 24,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 35,
+      "DATA_PLUS_COMMON": 124,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 89,
+      "DATA_PLUS_COMMON": 11,
+      "DATA_ONLY": 2
+     }
+    },
+    "n_custom_entities": 483,
+    "n_hook_names": 135,
+    "max_branches_per_hook": 70,
+    "top_hooks_by_branches": [
+     [
+      "onHit",
+      70,
+      81
+     ],
+     [
+      "onStart",
+      65,
+      97
+     ],
+     [
+      "onTryHit",
+      42,
+      49
+     ],
+     [
+      "onBasePower",
+      29,
+      55
+     ],
+     [
+      "onModifyMove",
+      26,
+      28
+     ],
+     [
+      "onResidual",
+      26,
+      30
+     ],
+     [
+      "onTry",
+      24,
+      30
+     ],
+     [
+      "onDamagingHit",
+      24,
+      28
+     ],
+     [
+      "basePowerCallback",
+      23,
+      29
+     ],
+     [
+      "onEnd",
+      19,
+      31
+     ],
+     [
+      "onUpdate",
+      16,
+      25
+     ],
+     [
+      "onBeforeMove",
+      16,
+      16
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    },
+    "bo1_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    },
+    "bo3_0": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    },
+    "bo1_0": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 1.0,
+    "lenient_mega_base_ability": 1.0,
+    "n_teams": 3211
+   },
+   "top_replay_failures": []
+  },
+  {
+   "name": "cost_aware_bo3_1760_only_tau=0.003",
+   "note": "as cost_aware but usage threshold only on bo3_1760",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 361,
+    "abilities": 114,
+    "items": 139,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 54,
+    "n_handler_fns": 592,
+    "n_distinct_templates": 351,
+    "loc": 3539,
+    "classes": {
+     "move": {
+      "DATA_PLUS_COMMON": 44,
+      "DATA_ONLY": 260,
+      "CUSTOM": 57
+     },
+     "ability": {
+      "CUSTOM": 90,
+      "DATA_PLUS_COMMON": 18,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 12,
+      "DATA_PLUS_COMMON": 120,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 49,
+      "DATA_PLUS_COMMON": 4,
+      "DATA_ONLY": 1
+     }
+    },
+    "n_custom_entities": 208,
+    "n_hook_names": 102,
+    "max_branches_per_hook": 40,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      40,
+      55
+     ],
+     [
+      "onTryHit",
+      26,
+      29
+     ],
+     [
+      "onBasePower",
+      17,
+      40
+     ],
+     [
+      "onHit",
+      13,
+      18
+     ],
+     [
+      "onEnd",
+      13,
+      18
+     ],
+     [
+      "onModifyMove",
+      12,
+      13
+     ],
+     [
+      "onResidual",
+      12,
+      14
+     ],
+     [
+      "onBeforeMove",
+      12,
+      12
+     ],
+     [
+      "onDamagingHit",
+      11,
+      14
+     ],
+     [
+      "basePowerCallback",
+      10,
+      15
+     ],
+     [
+      "onTry",
+      8,
+      11
+     ],
+     [
+      "onDisableMove",
+      6,
+      7
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.9869,
+     "team_cov_indep": 0.9238,
+     "mon_cov_unionbound": 0.9868,
+     "team_cov_indep_unionbound": 0.9232,
+     "team_cov_mc": 0.8865
+    },
+    "bo1_1760": {
+     "mon_cov": 0.9414,
+     "team_cov_indep": 0.6961,
+     "mon_cov_unionbound": 0.9398,
+     "team_cov_indep_unionbound": 0.6891,
+     "team_cov_mc": 0.6908
+    },
+    "bo3_0": {
+     "mon_cov": 0.9474,
+     "team_cov_indep": 0.7233,
+     "mon_cov_unionbound": 0.9461,
+     "team_cov_indep_unionbound": 0.717,
+     "team_cov_mc": 0.7211
+    },
+    "bo1_0": {
+     "mon_cov": 0.8688,
+     "team_cov_indep": 0.4302,
+     "mon_cov_unionbound": 0.8639,
+     "team_cov_indep_unionbound": 0.4157,
+     "team_cov_mc": 0.4824
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.8038,
+    "lenient_mega_base_ability": 0.806,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "move:soak",
+     65
+    ],
+    [
+     "move:strengthsap",
+     48
+    ],
+    [
+     "move:healpulse",
+     45
+    ],
+    [
+     "ability:overcoat",
+     28
+    ],
+    [
+     "move:skillswap",
+     25
+    ],
+    [
+     "item:mentalherb",
+     23
+    ],
+    [
+     "move:leechseed",
+     22
+    ],
+    [
+     "move:kingsshield",
+     20
+    ],
+    [
+     "move:risingvoltage",
+     19
+    ],
+    [
+     "move:transform",
+     18
+    ],
+    [
+     "ability:disguise",
+     18
+    ],
+    [
+     "ability:moldbreaker",
+     18
+    ],
+    [
+     "move:highjumpkick",
+     18
+    ],
+    [
+     "item:muscleband",
+     18
+    ],
+    [
+     "ability:libero",
+     17
+    ]
+   ]
+  },
+  {
+   "name": "cost_aware_bo3_1760_only_tau=0.001",
+   "note": "as cost_aware but usage threshold only on bo3_1760",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 384,
+    "abilities": 129,
+    "items": 143,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 60,
+    "n_handler_fns": 668,
+    "n_distinct_templates": 413,
+    "loc": 4038,
+    "classes": {
+     "move": {
+      "CUSTOM": 76,
+      "DATA_PLUS_COMMON": 48,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 102,
+      "DATA_PLUS_COMMON": 21,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 16,
+      "DATA_PLUS_COMMON": 120,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 54,
+      "DATA_PLUS_COMMON": 5,
+      "DATA_ONLY": 1
+     }
+    },
+    "n_custom_entities": 248,
+    "n_hook_names": 105,
+    "max_branches_per_hook": 44,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      44,
+      62
+     ],
+     [
+      "onTryHit",
+      31,
+      36
+     ],
+     [
+      "onHit",
+      24,
+      30
+     ],
+     [
+      "onModifyMove",
+      17,
+      18
+     ],
+     [
+      "onBasePower",
+      17,
+      40
+     ],
+     [
+      "basePowerCallback",
+      14,
+      19
+     ],
+     [
+      "onEnd",
+      13,
+      19
+     ],
+     [
+      "onResidual",
+      13,
+      16
+     ],
+     [
+      "onBeforeMove",
+      13,
+      13
+     ],
+     [
+      "onDamagingHit",
+      12,
+      15
+     ],
+     [
+      "onTry",
+      9,
+      12
+     ],
+     [
+      "onUpdate",
+      8,
+      10
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.9964,
+     "team_cov_indep": 0.9788,
+     "mon_cov_unionbound": 0.9964,
+     "team_cov_indep_unionbound": 0.9788,
+     "team_cov_mc": 0.956
+    },
+    "bo1_1760": {
+     "mon_cov": 0.9722,
+     "team_cov_indep": 0.8444,
+     "mon_cov_unionbound": 0.9717,
+     "team_cov_indep_unionbound": 0.8416,
+     "team_cov_mc": 0.8281
+    },
+    "bo3_0": {
+     "mon_cov": 0.9747,
+     "team_cov_indep": 0.8573,
+     "mon_cov_unionbound": 0.9742,
+     "team_cov_indep_unionbound": 0.8546,
+     "team_cov_mc": 0.8339
+    },
+    "bo1_0": {
+     "mon_cov": 0.9287,
+     "team_cov_indep": 0.6414,
+     "mon_cov_unionbound": 0.9267,
+     "team_cov_indep_unionbound": 0.6335,
+     "team_cov_mc": 0.6606
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.9022,
+    "lenient_mega_base_ability": 0.9031,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "move:transform",
+     18
+    ],
+    [
+     "ability:disguise",
+     18
+    ],
+    [
+     "move:highjumpkick",
+     18
+    ],
+    [
+     "item:muscleband",
+     18
+    ],
+    [
+     "ability:libero",
+     17
+    ],
+    [
+     "ability:imposter",
+     16
+    ],
+    [
+     "ability:waterbubble",
+     13
+    ],
+    [
+     "ability:electromorphosis",
+     12
+    ],
+    [
+     "move:ceaselessedge",
+     11
+    ],
+    [
+     "move:ragingbull",
+     11
+    ],
+    [
+     "move:allyswitch",
+     10
+    ],
+    [
+     "ability:healer",
+     10
+    ],
+    [
+     "ability:dryskin",
+     10
+    ],
+    [
+     "ability:supremeoverlord",
+     9
+    ],
+    [
+     "item:wiseglasses",
+     9
+    ]
+   ]
+  },
+  {
+   "name": "cost_aware_bo3_1760_only_tau=0.0003",
+   "note": "as cost_aware but usage threshold only on bo3_1760",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 400,
+    "abilities": 142,
+    "items": 146,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 65,
+    "n_handler_fns": 736,
+    "n_distinct_templates": 468,
+    "loc": 4492,
+    "classes": {
+     "move": {
+      "CUSTOM": 91,
+      "DATA_PLUS_COMMON": 49,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 115,
+      "DATA_PLUS_COMMON": 21,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 19,
+      "DATA_PLUS_COMMON": 120,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 57,
+      "DATA_PLUS_COMMON": 7,
+      "DATA_ONLY": 1
+     }
+    },
+    "n_custom_entities": 282,
+    "n_hook_names": 111,
+    "max_branches_per_hook": 46,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      46,
+      67
+     ],
+     [
+      "onTryHit",
+      32,
+      37
+     ],
+     [
+      "onHit",
+      28,
+      34
+     ],
+     [
+      "onBasePower",
+      20,
+      44
+     ],
+     [
+      "onModifyMove",
+      19,
+      21
+     ],
+     [
+      "basePowerCallback",
+      17,
+      22
+     ],
+     [
+      "onResidual",
+      14,
+      17
+     ],
+     [
+      "onDamagingHit",
+      14,
+      18
+     ],
+     [
+      "onEnd",
+      14,
+      20
+     ],
+     [
+      "onBeforeMove",
+      14,
+      14
+     ],
+     [
+      "onTry",
+      13,
+      17
+     ],
+     [
+      "onUpdate",
+      10,
+      13
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.9988,
+     "team_cov_indep": 0.9927,
+     "mon_cov_unionbound": 0.9988,
+     "team_cov_indep_unionbound": 0.9926,
+     "team_cov_mc": 0.9828
+    },
+    "bo1_1760": {
+     "mon_cov": 0.9826,
+     "team_cov_indep": 0.8998,
+     "mon_cov_unionbound": 0.9823,
+     "team_cov_indep_unionbound": 0.8983,
+     "team_cov_mc": 0.882
+    },
+    "bo3_0": {
+     "mon_cov": 0.984,
+     "team_cov_indep": 0.908,
+     "mon_cov_unionbound": 0.9837,
+     "team_cov_indep_unionbound": 0.9061,
+     "team_cov_mc": 0.8751
+    },
+    "bo1_0": {
+     "mon_cov": 0.9531,
+     "team_cov_indep": 0.7495,
+     "mon_cov_unionbound": 0.952,
+     "team_cov_indep_unionbound": 0.7443,
+     "team_cov_mc": 0.7509
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.9299,
+    "lenient_mega_base_ability": 0.9299,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "move:highjumpkick",
+     18
+    ],
+    [
+     "item:muscleband",
+     18
+    ],
+    [
+     "ability:libero",
+     17
+    ],
+    [
+     "ability:electromorphosis",
+     12
+    ],
+    [
+     "move:ceaselessedge",
+     11
+    ],
+    [
+     "move:ragingbull",
+     11
+    ],
+    [
+     "ability:healer",
+     10
+    ],
+    [
+     "ability:dryskin",
+     10
+    ],
+    [
+     "ability:supremeoverlord",
+     9
+    ],
+    [
+     "item:wiseglasses",
+     9
+    ],
+    [
+     "move:worryseed",
+     9
+    ],
+    [
+     "item:chestoberry",
+     8
+    ],
+    [
+     "move:mortalspin",
+     8
+    ],
+    [
+     "move:bugbite",
+     7
+    ],
+    [
+     "move:chillyreception",
+     7
+    ]
+   ]
+  },
+  {
+   "name": "cost_aware_bo3_1760_only_tau=0.0001",
+   "note": "as cost_aware but usage threshold only on bo3_1760",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 424,
+    "abilities": 150,
+    "items": 149,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 69,
+    "n_handler_fns": 800,
+    "n_distinct_templates": 514,
+    "loc": 5005,
+    "classes": {
+     "move": {
+      "CUSTOM": 106,
+      "DATA_PLUS_COMMON": 58,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 123,
+      "DATA_PLUS_COMMON": 21,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 22,
+      "DATA_PLUS_COMMON": 120,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 61,
+      "DATA_PLUS_COMMON": 7,
+      "DATA_ONLY": 1
+     }
+    },
+    "n_custom_entities": 312,
+    "n_hook_names": 115,
+    "max_branches_per_hook": 48,
+    "top_hooks_by_branches": [
+     [
+      "onStart",
+      48,
+      70
+     ],
+     [
+      "onHit",
+      36,
+      45
+     ],
+     [
+      "onTryHit",
+      33,
+      40
+     ],
+     [
+      "onBasePower",
+      22,
+      46
+     ],
+     [
+      "onModifyMove",
+      20,
+      22
+     ],
+     [
+      "basePowerCallback",
+      18,
+      23
+     ],
+     [
+      "onResidual",
+      17,
+      20
+     ],
+     [
+      "onEnd",
+      15,
+      21
+     ],
+     [
+      "onBeforeMove",
+      15,
+      15
+     ],
+     [
+      "onDamagingHit",
+      14,
+      18
+     ],
+     [
+      "onTry",
+      13,
+      17
+     ],
+     [
+      "onUpdate",
+      10,
+      13
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 0.9997,
+     "team_cov_indep": 0.9982,
+     "mon_cov_unionbound": 0.9997,
+     "team_cov_indep_unionbound": 0.9981,
+     "team_cov_mc": 0.9957
+    },
+    "bo1_1760": {
+     "mon_cov": 0.9899,
+     "team_cov_indep": 0.9409,
+     "mon_cov_unionbound": 0.9897,
+     "team_cov_indep_unionbound": 0.9398,
+     "team_cov_mc": 0.9252
+    },
+    "bo3_0": {
+     "mon_cov": 0.9909,
+     "team_cov_indep": 0.9468,
+     "mon_cov_unionbound": 0.9907,
+     "team_cov_indep_unionbound": 0.9457,
+     "team_cov_mc": 0.916
+    },
+    "bo1_0": {
+     "mon_cov": 0.972,
+     "team_cov_indep": 0.8433,
+     "mon_cov_unionbound": 0.9714,
+     "team_cov_indep_unionbound": 0.8403,
+     "team_cov_mc": 0.8342
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 0.9548,
+    "lenient_mega_base_ability": 0.9548,
+    "n_teams": 3211
+   },
+   "top_replay_failures": [
+    [
+     "item:muscleband",
+     18
+    ],
+    [
+     "ability:electromorphosis",
+     12
+    ],
+    [
+     "move:ceaselessedge",
+     11
+    ],
+    [
+     "ability:supremeoverlord",
+     9
+    ],
+    [
+     "item:wiseglasses",
+     9
+    ],
+    [
+     "move:worryseed",
+     9
+    ],
+    [
+     "item:chestoberry",
+     8
+    ],
+    [
+     "move:chillyreception",
+     7
+    ],
+    [
+     "item:normalgem",
+     7
+    ],
+    [
+     "move:noretreat",
+     6
+    ],
+    [
+     "move:simplebeam",
+     5
+    ],
+    [
+     "move:minimize",
+     4
+    ],
+    [
+     "ability:sweetveil",
+     4
+    ],
+    [
+     "move:avalanche",
+     4
+    ],
+    [
+     "move:entrainment",
+     4
+    ]
+   ]
+  },
+  {
+   "name": "full_legal_pool (v2)",
+   "note": "",
+   "sizes": {
+    "species_set_level": 293,
+    "species_incl_battle_formes": 382,
+    "mega_formes": 82,
+    "moves": 510,
+    "abilities": 215,
+    "items": 166,
+    "megastones": 81
+   },
+   "cost": {
+    "n_conditions": 102,
+    "n_handler_fns": 1107,
+    "n_distinct_templates": 747,
+    "loc": 7062,
+    "classes": {
+     "move": {
+      "CUSTOM": 174,
+      "DATA_PLUS_COMMON": 76,
+      "DATA_ONLY": 260
+     },
+     "ability": {
+      "CUSTOM": 185,
+      "DATA_PLUS_COMMON": 24,
+      "DATA_ONLY": 6
+     },
+     "item": {
+      "CUSTOM": 35,
+      "DATA_PLUS_COMMON": 124,
+      "DATA_ONLY": 7
+     },
+     "condition": {
+      "CUSTOM": 89,
+      "DATA_PLUS_COMMON": 11,
+      "DATA_ONLY": 2
+     }
+    },
+    "n_custom_entities": 483,
+    "n_hook_names": 135,
+    "max_branches_per_hook": 70,
+    "top_hooks_by_branches": [
+     [
+      "onHit",
+      70,
+      81
+     ],
+     [
+      "onStart",
+      65,
+      97
+     ],
+     [
+      "onTryHit",
+      42,
+      49
+     ],
+     [
+      "onBasePower",
+      29,
+      55
+     ],
+     [
+      "onModifyMove",
+      26,
+      28
+     ],
+     [
+      "onResidual",
+      26,
+      30
+     ],
+     [
+      "onTry",
+      24,
+      30
+     ],
+     [
+      "onDamagingHit",
+      24,
+      28
+     ],
+     [
+      "basePowerCallback",
+      23,
+      29
+     ],
+     [
+      "onEnd",
+      19,
+      31
+     ],
+     [
+      "onUpdate",
+      16,
+      25
+     ],
+     [
+      "onBeforeMove",
+      16,
+      16
+     ]
+    ]
+   },
+   "coverage_chaos": {
+    "bo3_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    },
+    "bo1_1760": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    },
+    "bo3_0": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    },
+    "bo1_0": {
+     "mon_cov": 1.0,
+     "team_cov_indep": 1.0,
+     "mon_cov_unionbound": 1.0,
+     "team_cov_indep_unionbound": 1.0,
+     "team_cov_mc": 1.0
+    }
+   },
+   "coverage_replays_bo3": {
+    "strict": 1.0,
+    "lenient_mega_base_ability": 1.0,
+    "n_teams": 3211
+   },
+   "top_replay_failures": []
+  }
+ ],
+ "v1": {
+  "name": "v1",
+  "note": "",
+  "sizes": {
+   "species_set_level": 293,
+   "species_incl_battle_formes": 382,
+   "mega_formes": 82,
+   "moves": 454,
+   "abilities": 172,
+   "items": 160,
+   "megastones": 81
+  },
+  "cost": {
+   "n_conditions": 83,
+   "n_handler_fns": 919,
+   "n_distinct_templates": 603,
+   "loc": 5765,
+   "classes": {
+    "move": {
+     "CUSTOM": 129,
+     "DATA_PLUS_COMMON": 65,
+     "DATA_ONLY": 260
+    },
+    "ability": {
+     "CUSTOM": 143,
+     "DATA_PLUS_COMMON": 23,
+     "DATA_ONLY": 6
+    },
+    "item": {
+     "CUSTOM": 29,
+     "DATA_PLUS_COMMON": 124,
+     "DATA_ONLY": 7
+    },
+    "condition": {
+     "CUSTOM": 75,
+     "DATA_PLUS_COMMON": 7,
+     "DATA_ONLY": 1
+    }
+   },
+   "n_custom_entities": 376,
+   "n_hook_names": 118,
+   "max_branches_per_hook": 56,
+   "top_hooks_by_branches": [
+    [
+     "onStart",
+     56,
+     81
+    ],
+    [
+     "onHit",
+     50,
+     60
+    ],
+    [
+     "onTryHit",
+     36,
+     43
+    ],
+    [
+     "onBasePower",
+     26,
+     52
+    ],
+    [
+     "onModifyMove",
+     22,
+     24
+    ],
+    [
+     "basePowerCallback",
+     20,
+     25
+    ],
+    [
+     "onResidual",
+     20,
+     23
+    ],
+    [
+     "onDamagingHit",
+     20,
+     24
+    ],
+    [
+     "onTry",
+     18,
+     23
+    ],
+    [
+     "onEnd",
+     17,
+     25
+    ],
+    [
+     "onBeforeMove",
+     16,
+     16
+    ],
+    [
+     "onUpdate",
+     12,
+     20
+    ]
+   ]
+  },
+  "coverage_chaos": {
+   "bo3_1760": {
+    "mon_cov": 0.9998,
+    "team_cov_indep": 0.9989,
+    "mon_cov_unionbound": 0.9998,
+    "team_cov_indep_unionbound": 0.9989,
+    "team_cov_mc": 0.9969
+   },
+   "bo1_1760": {
+    "mon_cov": 0.9992,
+    "team_cov_indep": 0.9953,
+    "mon_cov_unionbound": 0.9992,
+    "team_cov_indep_unionbound": 0.9952,
+    "team_cov_mc": 0.9909
+   },
+   "bo3_0": {
+    "mon_cov": 0.998,
+    "team_cov_indep": 0.9882,
+    "mon_cov_unionbound": 0.998,
+    "team_cov_indep_unionbound": 0.9882,
+    "team_cov_mc": 0.9748
+   },
+   "bo1_0": {
+    "mon_cov": 0.9949,
+    "team_cov_indep": 0.97,
+    "mon_cov_unionbound": 0.9949,
+    "team_cov_indep_unionbound": 0.9699,
+    "team_cov_mc": 0.9573
+   }
+  },
+  "coverage_replays_bo3": {
+   "strict": 0.9941,
+   "lenient_mega_base_ability": 0.995,
+   "n_teams": 3211
+  },
+  "top_replay_failures": [
+   [
+    "move:reversal",
+    3
+   ],
+   [
+    "ability:rivalry",
+    3
+   ],
+   [
+    "move:electrify",
+    3
+   ],
+   [
+    "ability:gluttony",
+    2
+   ],
+   [
+    "ability:shedskin",
+    2
+   ],
+   [
+    "ability:guts",
+    2
+   ],
+   [
+    "move:fly",
+    1
+   ],
+   [
+    "move:fairylock",
+    1
+   ],
+   [
+    "move:meteorbeam",
+    1
+   ],
+   [
+    "move:attract",
+    1
+   ]
+  ]
+ },
+ "v1_tau": 0.001,
+ "replay_teams": 3211,
+ "replay_teams_with_2plus_megastones": 2521,
+ "mega_base_abilities": {
+  "gardevoirmega": {
+   "trace": 84,
+   "synchronize": 59,
+   "telepathy": 34
+  },
+  "charizardmegay": {
+   "blaze": 635,
+   "solarpower": 64
+  },
+  "garchompmegaz": {
+   "roughskin": 445,
+   "sandveil": 84
+  },
+  "raichumegay": {
+   "lightningrod": 558,
+   "static": 33
+  },
+  "tyranitarmega": {
+   "sandstream": 232
+  },
+  "staraptormega": {
+   "intimidate": 289,
+   "reckless": 11
+  },
+  "cameruptmega": {
+   "solidrock": 123,
+   "magmaarmor": 15
+  },
+  "golisopodmega": {
+   "emergencyexit": 387
+  },
+  "raichumegax": {
+   "lightningrod": 271,
+   "static": 25
+  },
+  "chandeluremega": {
+   "flashfire": 11,
+   "infiltrator": 1
+  },
+  "venusaurmega": {
+   "chlorophyll": 37,
+   "overgrow": 8
+  },
+  "floettemega": {
+   "flowerveil": 464
+  },
+  "salamencemega": {
+   "intimidate": 283,
+   "moxie": 2
+  },
+  "gengarmega": {
+   "cursedbody": 167
+  },
+  "meganiummega": {
+   "overgrow": 7,
+   "leafguard": 3
+  },
+  "lopunnymega": {
+   "limber": 7,
+   "cutecharm": 7
+  },
+  "excadrillmega": {
+   "sandrush": 6
+  },
+  "lucariomegaz": {
+   "innerfocus": 29,
+   "steadfast": 16
+  },
+  "blazikenmega": {
+   "speedboost": 40
+  },
+  "metagrossmega": {
+   "clearbody": 82
+  },
+  "garchompmega": {
+   "roughskin": 29,
+   "sandveil": 3
+  },
+  "absolmegaz": {
+   "justified": 10,
+   "superluck": 14,
+   "pressure": 5
+  },
+  "pyroarmega": {
+   "unnerve": 16,
+   "rivalry": 3
+  },
+  "dragonitemega": {
+   "innerfocus": 119,
+   "multiscale": 45
+  },
+  "manectricmega": {
+   "lightningrod": 6
+  },
+  "skarmorymega": {
+   "sturdy": 1
+  },
+  "froslassmega": {
+   "snowcloak": 27,
+   "cursedbody": 121
+  },
+  "delphoxmega": {
+   "blaze": 239,
+   "magician": 13
+  },
+  "scovillainmega": {
+   "moody": 31,
+   "chlorophyll": 3
+  },
+  "starmiemega": {
+   "naturalcure": 14
+  },
+  "aerodactylmega": {
+   "unnerve": 50,
+   "rockhead": 5
+  },
+  "blastoisemega": {
+   "raindish": 13,
+   "torrent": 24
+  },
+  "glimmoramega": {
+   "toxicdebris": 86
+  },
+  "baxcaliburmega": {
+   "thermalexchange": 36
+  },
+  "swampertmega": {
+   "damp": 23,
+   "torrent": 55
+  },
+  "scizormega": {
+   "technician": 1
+  },
+  "crabominablemega": {
+   "hypercutter": 6,
+   "ironfist": 2
+  },
+  "mawilemega": {
+   "hypercutter": 27,
+   "intimidate": 11
+  },
+  "aggronmega": {
+   "sturdy": 9
+  },
+  "altariamega": {
+   "cloudnine": 19
+  },
+  "slowbromega": {
+   "oblivious": 4,
+   "regenerator": 2
+  },
+  "charizardmegax": {
+   "blaze": 7
+  },
+  "sceptilemega": {
+   "overgrow": 16
+  },
+  "sableyemega": {
+   "prankster": 1
+  },
+  "scraftymega": {
+   "intimidate": 9
+  },
+  "barbaraclemega": {
+   "toughclaws": 5
+  },
+  "kangaskhanmega": {
+   "scrappy": 4
+  },
+  "eelektrossmega": {
+   "levitate": 3
+  },
+  "chimechomega": {
+   "levitate": 2
+  },
+  "chesnaughtmega": {
+   "bulletproof": 8
+  },
+  "steelixmega": {
+   "sturdy": 4
+  },
+  "banettemega": {
+   "cursedbody": 2,
+   "frisk": 3
+  },
+  "hawluchamega": {
+   "limber": 4
+  },
+  "abomasnowmega": {
+   "snowwarning": 5
+  },
+  "medichammega": {
+   "purepower": 2
+  },
+  "gyaradosmega": {
+   "intimidate": 9
+  },
+  "heracrossmega": {
+   "moxie": 1,
+   "swarm": 2
+  },
+  "beedrillmega": {
+   "swarm": 6,
+   "sniper": 4
+  },
+  "gallademega": {
+   "steadfast": 2,
+   "sharpness": 3
+  },
+  "greninjamega": {
+   "protean": 9
+  },
+  "golurkmega": {
+   "ironfist": 4
+  },
+  "pidgeotmega": {
+   "keeneye": 2
+  },
+  "alakazammega": {
+   "magicguard": 1
+  },
+  "drampamega": {
+   "berserk": 5,
+   "cloudnine": 3
+  },
+  "glaliemega": {
+   "moody": 5
+  },
+  "malamarmega": {
+   "contrary": 2
+  },
+  "falinksmega": {
+   "defiant": 6
+  },
+  "feraligatrmega": {
+   "sheerforce": 1
+  },
+  "absolmega": {
+   "pressure": 2
+  },
+  "houndoommega": {
+   "unnerve": 2
+  },
+  "sharpedomega": {
+   "speedboost": 1
+  }
+ }
+}

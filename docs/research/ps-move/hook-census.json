@@ -1,0 +1,1592 @@
+[
+ {
+  "ev": "Start",
+  "total": 130,
+  "byPrefix": {
+   "(self)": 100,
+   "Side": 11,
+   "Field": 19
+  },
+  "classes": {
+   "pure-other": 85,
+   "side-effecting": 40,
+   "gate": 5
+  },
+  "sample": [
+   "ability:anticipation",
+   "ability:cloudnine",
+   "ability:curiousmedicine",
+   "ability:drizzle",
+   "ability:drought",
+   "ability:electricsurge"
+  ]
+ },
+ {
+  "ev": "TakeItem",
+  "total": 83,
+  "byPrefix": {
+   "(self)": 83
+  },
+  "classes": {
+   "gate": 1,
+   "side-effecting": 1,
+   "pure-other": 81
+  },
+  "sample": [
+   "ability:stickyhold",
+   "ability:unburden",
+   "item:abomasite",
+   "item:absolite",
+   "item:absolitez",
+   "item:aerodactylite"
+  ]
+ },
+ {
+  "ev": "Hit",
+  "total": 72,
+  "byPrefix": {
+   "(self)": 72
+  },
+  "classes": {
+   "side-effecting": 55,
+   "gate": 5,
+   "pure-other": 12
+  },
+  "sample": [
+   "move:acupressure",
+   "move:afteryou",
+   "move:allyswitch",
+   "move:banefulbunker",
+   "move:batonpass",
+   "move:bellydrum"
+  ]
+ },
+ {
+  "ev": "BasePower",
+  "total": 60,
+  "byPrefix": {
+   "(self)": 56,
+   "Source": 2,
+   "Any": 1,
+   "Ally": 1
+  },
+  "classes": {
+   "multiplier": 53,
+   "side-effecting": 7
+  },
+  "sample": [
+   "move:barbbarrage",
+   "move:expandingforce",
+   "move:facade",
+   "move:ficklebeam",
+   "move:gravapple",
+   "move:knockoff"
+  ]
+ },
+ {
+  "ev": "End",
+  "total": 56,
+  "byPrefix": {
+   "(self)": 33,
+   "Side": 5,
+   "Field": 18
+  },
+  "classes": {
+   "pure-other": 47,
+   "side-effecting": 9
+  },
+  "sample": [
+   "ability:cloudnine",
+   "ability:flashfire",
+   "ability:illusion",
+   "ability:opportunist",
+   "ability:supremeoverlord",
+   "ability:unburden"
+  ]
+ },
+ {
+  "ev": "TryHit",
+  "total": 49,
+  "byPrefix": {
+   "(self)": 49
+  },
+  "classes": {
+   "side-effecting": 19,
+   "gate": 28,
+   "pure-other": 2
+  },
+  "sample": [
+   "move:brickbreak",
+   "move:clangoroussoul",
+   "move:curse",
+   "move:disable",
+   "move:electrify",
+   "move:entrainment"
+  ]
+ },
+ {
+  "ev": "Residual",
+  "total": 42,
+  "byPrefix": {
+   "(self)": 32,
+   "Field": 10
+  },
+  "classes": {
+   "side-effecting": 29,
+   "pure-other": 13
+  },
+  "sample": [
+   "ability:cudchew",
+   "ability:harvest",
+   "ability:healer",
+   "ability:hungerswitch",
+   "ability:hydration",
+   "ability:moody"
+  ]
+ },
+ {
+  "ev": "ModifyDamage",
+  "total": 39,
+  "byPrefix": {
+   "Source": 31,
+   "Any": 4,
+   "(self)": 4
+  },
+  "classes": {
+   "multiplier": 21,
+   "side-effecting": 18
+  },
+  "sample": [
+   "ability:auraguard",
+   "ability:filter",
+   "ability:fluffy",
+   "ability:multiscale",
+   "ability:punkrock",
+   "ability:ripen"
+  ]
+ },
+ {
+  "ev": "Try",
+  "total": 30,
+  "byPrefix": {
+   "(self)": 30
+  },
+  "classes": {
+   "gate": 13,
+   "side-effecting": 8,
+   "pure-other": 9
+  },
+  "sample": [
+   "move:aurawheel",
+   "move:auroraveil",
+   "move:belch",
+   "move:clangoroussoul",
+   "move:comeuppance",
+   "move:counter"
+  ]
+ },
+ {
+  "ev": "BasePowerCallback",
+  "total": 29,
+  "byPrefix": {
+   "(self)": 29
+  },
+  "classes": {
+   "constant": 29
+  },
+  "sample": [
+   "move:acrobatics",
+   "move:assurance",
+   "move:avalanche",
+   "move:beatup",
+   "move:electroball",
+   "move:eruption"
+  ]
+ },
+ {
+  "ev": "ModifyMove",
+  "total": 29,
+  "byPrefix": {
+   "(self)": 29
+  },
+  "classes": {
+   "pure-other": 21,
+   "side-effecting": 5,
+   "gate": 3
+  },
+  "sample": [
+   "move:beatup",
+   "move:blizzard",
+   "move:curse",
+   "move:expandingforce",
+   "move:growth",
+   "move:hurricane"
+  ]
+ },
+ {
+  "ev": "DamagingHit",
+  "total": 29,
+  "byPrefix": {
+   "(self)": 28,
+   "Source": 1
+  },
+  "classes": {
+   "side-effecting": 28,
+   "pure-other": 1
+  },
+  "sample": [
+   "ability:aftermath",
+   "ability:cursedbody",
+   "ability:cutecharm",
+   "ability:effectspore",
+   "ability:electromorphosis",
+   "ability:flamebody"
+  ]
+ },
+ {
+  "ev": "Eat",
+  "total": 28,
+  "byPrefix": {
+   "(self)": 28
+  },
+  "classes": {
+   "side-effecting": 9,
+   "pure-other": 19
+  },
+  "sample": [
+   "item:aspearberry",
+   "item:babiriberry",
+   "item:chartiberry",
+   "item:cheriberry",
+   "item:chestoberry",
+   "item:chilanberry"
+  ]
+ },
+ {
+  "ev": "Update",
+  "total": 25,
+  "byPrefix": {
+   "(self)": 25
+  },
+  "classes": {
+   "side-effecting": 25
+  },
+  "sample": [
+   "ability:disguise",
+   "ability:immunity",
+   "ability:insomnia",
+   "ability:limber",
+   "ability:magmaarmor",
+   "ability:oblivious"
+  ]
+ },
+ {
+  "ev": "TryMove",
+  "total": 19,
+  "byPrefix": {
+   "(self)": 16,
+   "Foe": 2,
+   "Any": 1
+  },
+  "classes": {
+   "side-effecting": 11,
+   "gate": 8
+  },
+  "sample": [
+   "move:bounce",
+   "move:burnup",
+   "move:dig",
+   "move:dive",
+   "move:doubleshock",
+   "move:electroshot"
+  ]
+ },
+ {
+  "ev": "Restart",
+  "total": 18,
+  "byPrefix": {
+   "(self)": 13,
+   "Field": 3,
+   "Side": 2
+  },
+  "classes": {
+   "gate": 6,
+   "pure-other": 6,
+   "side-effecting": 6
+  },
+  "sample": [
+   "cond:allyswitch",
+   "cond:charge",
+   "cond:helpinghand",
+   "cond:minimize",
+   "cond:lockedmove",
+   "cond:powertrick"
+  ]
+ },
+ {
+  "ev": "BeforeMove",
+  "total": 17,
+  "byPrefix": {
+   "(self)": 16,
+   "Foe": 1
+  },
+  "classes": {
+   "side-effecting": 8,
+   "gate": 8,
+   "pure-other": 1
+  },
+  "sample": [
+   "cond:flinch",
+   "cond:attract",
+   "cond:confusion",
+   "cond:mustrecharge",
+   "cond:frz",
+   "cond:par"
+  ]
+ },
+ {
+  "ev": "ModifyAtk",
+  "total": 16,
+  "byPrefix": {
+   "(self)": 13,
+   "Source": 4
+  },
+  "classes": {
+   "multiplier": 17
+  },
+  "sample": [
+   "ability:blaze",
+   "ability:firemane",
+   "ability:guts",
+   "ability:hugepower",
+   "ability:hustle",
+   "ability:overgrow"
+  ]
+ },
+ {
+  "ev": "ModifySpA",
+  "total": 15,
+  "byPrefix": {
+   "(self)": 12,
+   "Source": 4
+  },
+  "classes": {
+   "multiplier": 16
+  },
+  "sample": [
+   "ability:blaze",
+   "ability:firemane",
+   "ability:minus",
+   "ability:overgrow",
+   "ability:plus",
+   "ability:solarpower"
+  ]
+ },
+ {
+  "ev": "TryAddVolatile",
+  "total": 14,
+  "byPrefix": {
+   "Ally": 3,
+   "(self)": 11
+  },
+  "classes": {
+   "gate": 14
+  },
+  "sample": [
+   "ability:aromaveil",
+   "ability:flowerveil",
+   "ability:sweetveil",
+   "ability:innerfocus",
+   "ability:insomnia",
+   "ability:leafguard"
+  ]
+ },
+ {
+  "ev": "SetStatus",
+  "total": 14,
+  "byPrefix": {
+   "Ally": 2,
+   "(self)": 11,
+   "Any": 1
+  },
+  "classes": {
+   "gate": 14
+  },
+  "sample": [
+   "ability:flowerveil",
+   "ability:sweetveil",
+   "ability:immunity",
+   "ability:insomnia",
+   "ability:leafguard",
+   "ability:limber"
+  ]
+ },
+ {
+  "ev": "PrepareHit",
+  "total": 13,
+  "byPrefix": {
+   "(self)": 13
+  },
+  "classes": {
+   "side-effecting": 11,
+   "pure-other": 2
+  },
+  "sample": [
+   "move:allyswitch",
+   "move:banefulbunker",
+   "move:destinybond",
+   "move:detect",
+   "move:endure",
+   "move:fling"
+  ]
+ },
+ {
+  "ev": "TryBoost",
+  "total": 13,
+  "byPrefix": {
+   "(self)": 12,
+   "Ally": 1
+  },
+  "classes": {
+   "pure-other": 11,
+   "side-effecting": 2
+  },
+  "sample": [
+   "ability:bigpecks",
+   "ability:clearbody",
+   "ability:guarddog",
+   "ability:hypercutter",
+   "ability:illuminate",
+   "ability:innerfocus"
+  ]
+ },
+ {
+  "ev": "Immunity",
+  "total": 13,
+  "byPrefix": {
+   "(self)": 13
+  },
+  "classes": {
+   "gate": 13
+  },
+  "sample": [
+   "ability:icebody",
+   "ability:magmaarmor",
+   "ability:oblivious",
+   "ability:overcoat",
+   "ability:sandforce",
+   "ability:sandrush"
+  ]
+ },
+ {
+  "ev": "Damage",
+  "total": 12,
+  "byPrefix": {
+   "(self)": 11,
+   "Any": 1
+  },
+  "classes": {
+   "pure-other": 6,
+   "gate": 4,
+   "side-effecting": 2
+  },
+  "sample": [
+   "ability:berserk",
+   "ability:disguise",
+   "ability:gluttony",
+   "ability:heatproof",
+   "ability:magicguard",
+   "ability:poisonheal"
+  ]
+ },
+ {
+  "ev": "SwitchIn",
+  "total": 12,
+  "byPrefix": {
+   "(self)": 10,
+   "Any": 2
+  },
+  "classes": {
+   "pure-other": 5,
+   "side-effecting": 7
+  },
+  "sample": [
+   "ability:cloudnine",
+   "ability:imposter",
+   "ability:zerotohero",
+   "cond:healingwish",
+   "cond:tox",
+   "cond:spikes"
+  ]
+ },
+ {
+  "ev": "DisableMove",
+  "total": 11,
+  "byPrefix": {
+   "(self)": 10,
+   "Foe": 1
+  },
+  "classes": {
+   "pure-other": 10,
+   "side-effecting": 1
+  },
+  "sample": [
+   "move:fakeout",
+   "move:firstimpression",
+   "cond:disable",
+   "cond:encore",
+   "cond:gravity",
+   "cond:healblock"
+  ]
+ },
+ {
+  "ev": "ModifySpe",
+  "total": 11,
+  "byPrefix": {
+   "(self)": 11
+  },
+  "classes": {
+   "multiplier": 7,
+   "side-effecting": 3,
+   "pure-other": 1
+  },
+  "sample": [
+   "ability:chlorophyll",
+   "ability:quickfeet",
+   "ability:sandrush",
+   "ability:slushrush",
+   "ability:surgesurfer",
+   "ability:swiftswim"
+  ]
+ },
+ {
+  "ev": "ModifyType",
+  "total": 10,
+  "byPrefix": {
+   "(self)": 10
+  },
+  "classes": {
+   "pure-other": 9,
+   "side-effecting": 1
+  },
+  "sample": [
+   "move:aurawheel",
+   "move:ragingbull",
+   "move:terrainpulse",
+   "move:weatherball",
+   "ability:aerilate",
+   "ability:dragonize"
+  ]
+ },
+ {
+  "ev": "TrapPokemon",
+  "total": 10,
+  "byPrefix": {
+   "(self)": 9,
+   "Foe": 1
+  },
+  "classes": {
+   "pure-other": 10
+  },
+  "sample": [
+   "ability:runaway",
+   "item:shedshell",
+   "cond:partiallytrapped",
+   "cond:fairylock",
+   "cond:ingrain",
+   "cond:octolock"
+  ]
+ },
+ {
+  "ev": "ModifyAccuracy",
+  "total": 9,
+  "byPrefix": {
+   "Source": 4,
+   "(self)": 5
+  },
+  "classes": {
+   "multiplier": 6,
+   "side-effecting": 3
+  },
+  "sample": [
+   "ability:compoundeyes",
+   "ability:hustle",
+   "item:widelens",
+   "item:zoomlens",
+   "ability:sandveil",
+   "ability:snowcloak"
+  ]
+ },
+ {
+  "ev": "AfterHit",
+  "total": 8,
+  "byPrefix": {
+   "(self)": 8
+  },
+  "classes": {
+   "side-effecting": 8
+  },
+  "sample": [
+   "move:ceaselessedge",
+   "move:covet",
+   "move:icespinner",
+   "move:knockoff",
+   "move:mortalspin",
+   "move:rapidspin"
+  ]
+ },
+ {
+  "ev": "AfterSubDamage",
+  "total": 8,
+  "byPrefix": {
+   "(self)": 8
+  },
+  "classes": {
+   "side-effecting": 7,
+   "pure-other": 1
+  },
+  "sample": [
+   "move:ceaselessedge",
+   "move:icespinner",
+   "move:mortalspin",
+   "move:rapidspin",
+   "move:shellsidearm",
+   "move:steelroller"
+  ]
+ },
+ {
+  "ev": "Invulnerability",
+  "total": 8,
+  "byPrefix": {
+   "Any": 1,
+   "(self)": 6,
+   "Source": 1
+  },
+  "classes": {
+   "gate": 6,
+   "constant": 2
+  },
+  "sample": [
+   "ability:noguard",
+   "cond:bounce",
+   "cond:dig",
+   "cond:dive",
+   "cond:fly",
+   "cond:phantomforce"
+  ]
+ },
+ {
+  "ev": "TryImmunity",
+  "total": 7,
+  "byPrefix": {
+   "(self)": 7
+  },
+  "classes": {
+   "pure-other": 6,
+   "gate": 1
+  },
+  "sample": [
+   "move:attract",
+   "move:endeavor",
+   "move:leechseed",
+   "move:octolock",
+   "move:switcheroo",
+   "move:trick"
+  ]
+ },
+ {
+  "ev": "AfterMove",
+  "total": 7,
+  "byPrefix": {
+   "(self)": 5,
+   "Any": 2
+  },
+  "classes": {
+   "side-effecting": 6,
+   "pure-other": 1
+  },
+  "sample": [
+   "move:beakblast",
+   "move:sparklingaria",
+   "move:spitup",
+   "cond:charge",
+   "cond:lockedmove",
+   "ability:opportunist"
+  ]
+ },
+ {
+  "ev": "DamageCallback",
+  "total": 7,
+  "byPrefix": {
+   "(self)": 7
+  },
+  "classes": {
+   "constant": 7
+  },
+  "sample": [
+   "move:comeuppance",
+   "move:counter",
+   "move:endeavor",
+   "move:finalgambit",
+   "move:metalburst",
+   "move:mirrorcoat"
+  ]
+ },
+ {
+  "ev": "Weather",
+  "total": 7,
+  "byPrefix": {
+   "(self)": 7
+  },
+  "classes": {
+   "side-effecting": 7
+  },
+  "sample": [
+   "ability:dryskin",
+   "ability:icebody",
+   "ability:raindish",
+   "ability:solarpower",
+   "cond:Sandstorm",
+   "cond:sandstorm"
+  ]
+ },
+ {
+  "ev": "DragOut",
+  "total": 6,
+  "byPrefix": {
+   "(self)": 6
+  },
+  "classes": {
+   "gate": 6
+  },
+  "sample": [
+   "ability:guarddog",
+   "ability:suctioncups",
+   "cond:ingrain",
+   "cond:dynamax",
+   "cond:commanded",
+   "cond:commanding"
+  ]
+ },
+ {
+  "ev": "WeatherModifyDamage",
+  "total": 6,
+  "byPrefix": {
+   "(self)": 6
+  },
+  "classes": {
+   "pure-other": 1,
+   "multiplier": 5
+  },
+  "sample": [
+   "ability:megasol",
+   "cond:RainDance",
+   "cond:sunnyday",
+   "cond:raindance",
+   "cond:primordialsea",
+   "cond:desolateland"
+  ]
+ },
+ {
+  "ev": "ModifyCritRatio",
+  "total": 6,
+  "byPrefix": {
+   "(self)": 6
+  },
+  "classes": {
+   "pure-other": 6
+  },
+  "sample": [
+   "ability:merciless",
+   "ability:superluck",
+   "item:leek",
+   "item:scopelens",
+   "cond:dragoncheer",
+   "cond:focusenergy"
+  ]
+ },
+ {
+  "ev": "Effectiveness",
+  "total": 5,
+  "byPrefix": {
+   "(self)": 5
+  },
+  "classes": {
+   "pure-other": 2,
+   "gate": 2,
+   "side-effecting": 1
+  },
+  "sample": [
+   "move:flyingpress",
+   "move:freezedry",
+   "ability:disguise",
+   "item:ironball",
+   "cond:deltastream"
+  ]
+ },
+ {
+  "ev": "TryEatItem",
+  "total": 5,
+  "byPrefix": {
+   "(self)": 4,
+   "Foe": 1
+  },
+  "classes": {
+   "gate": 1,
+   "pure-other": 2,
+   "side-effecting": 2
+  },
+  "sample": [
+   "ability:berserk",
+   "ability:ripen",
+   "item:oranberry",
+   "item:sitrusberry",
+   "ability:unnerve"
+  ]
+ },
+ {
+  "ev": "AfterMoveSecondary",
+  "total": 5,
+  "byPrefix": {
+   "(self)": 5
+  },
+  "classes": {
+   "side-effecting": 5
+  },
+  "sample": [
+   "ability:berserk",
+   "ability:pickpocket",
+   "item:ejectbutton",
+   "item:redcard",
+   "cond:frz"
+  ]
+ },
+ {
+  "ev": "RedirectTarget",
+  "total": 5,
+  "byPrefix": {
+   "Any": 1,
+   "(self)": 2,
+   "Foe": 2
+  },
+  "classes": {
+   "pure-other": 5
+  },
+  "sample": [
+   "ability:lightningrod",
+   "cond:counter",
+   "cond:mirrorcoat",
+   "cond:followme",
+   "cond:ragepowder"
+  ]
+ },
+ {
+  "ev": "TerrainChange",
+  "total": 5,
+  "byPrefix": {
+   "(self)": 5
+  },
+  "classes": {
+   "side-effecting": 5
+  },
+  "sample": [
+   "ability:mimicry",
+   "item:electricseed",
+   "item:grassyseed",
+   "item:mistyseed",
+   "item:psychicseed"
+  ]
+ },
+ {
+  "ev": "MoveFail",
+  "total": 4,
+  "byPrefix": {
+   "(self)": 4
+  },
+  "classes": {
+   "side-effecting": 4
+  },
+  "sample": [
+   "move:axekick",
+   "move:highjumpkick",
+   "move:steelbeam",
+   "move:supercellslam"
+  ]
+ },
+ {
+  "ev": "HitField",
+  "total": 4,
+  "byPrefix": {
+   "(self)": 4
+  },
+  "classes": {
+   "gate": 1,
+   "pure-other": 1,
+   "side-effecting": 2
+  },
+  "sample": [
+   "move:courtchange",
+   "move:haze",
+   "move:perishsong",
+   "move:teatime"
+  ]
+ },
+ {
+  "ev": "AfterMoveSecondarySelf",
+  "total": 4,
+  "byPrefix": {
+   "(self)": 4
+  },
+  "classes": {
+   "side-effecting": 4
+  },
+  "sample": [
+   "move:fellstinger",
+   "ability:magician",
+   "item:lifeorb",
+   "item:shellbell"
+  ]
+ },
+ {
+  "ev": "ModifyDef",
+  "total": 4,
+  "byPrefix": {
+   "(self)": 4
+  },
+  "classes": {
+   "multiplier": 3,
+   "side-effecting": 1
+  },
+  "sample": [
+   "ability:furcoat",
+   "ability:grasspelt",
+   "ability:marvelscale",
+   "cond:snowscape"
+  ]
+ },
+ {
+  "ev": "TryHeal",
+  "total": 4,
+  "byPrefix": {
+   "Source": 1,
+   "(self)": 3
+  },
+  "classes": {
+   "side-effecting": 1,
+   "multiplier": 2,
+   "gate": 1
+  },
+  "sample": [
+   "ability:liquidooze",
+   "ability:ripen",
+   "item:bigroot",
+   "cond:healblock"
+  ]
+ },
+ {
+  "ev": "Accuracy",
+  "total": 4,
+  "byPrefix": {
+   "Any": 1,
+   "(self)": 2,
+   "Source": 1
+  },
+  "classes": {
+   "gate": 4
+  },
+  "sample": [
+   "ability:noguard",
+   "cond:glaiverush",
+   "cond:minimize",
+   "cond:lockon"
+  ]
+ },
+ {
+  "ev": "LockMove",
+  "total": 4,
+  "byPrefix": {
+   "(self)": 4
+  },
+  "classes": {
+   "constant": 2,
+   "pure-other": 2
+  },
+  "sample": [
+   "cond:mustrecharge",
+   "cond:lockedmove",
+   "cond:uproar",
+   "cond:twoturnmove"
+  ]
+ },
+ {
+  "ev": "PriorityChargeCallback",
+  "total": 3,
+  "byPrefix": {
+   "(self)": 3
+  },
+  "classes": {
+   "constant": 3
+  },
+  "sample": [
+   "move:beakblast",
+   "move:chillyreception",
+   "move:focuspunch"
+  ]
+ },
+ {
+  "ev": "HitSide",
+  "total": 3,
+  "byPrefix": {
+   "(self)": 3
+  },
+  "classes": {
+   "side-effecting": 3
+  },
+  "sample": [
+   "move:magneticflux",
+   "move:quickguard",
+   "move:wideguard"
+  ]
+ },
+ {
+  "ev": "CriticalHit",
+  "total": 3,
+  "byPrefix": {
+   "(self)": 3
+  },
+  "classes": {
+   "constant": 2,
+   "gate": 1
+  },
+  "sample": [
+   "ability:battlearmor",
+   "ability:disguise",
+   "ability:shellarmor"
+  ]
+ },
+ {
+  "ev": "AfterFaint",
+  "total": 3,
+  "byPrefix": {
+   "Source": 3
+  },
+  "classes": {
+   "side-effecting": 3
+  },
+  "sample": [
+   "ability:battlebond",
+   "ability:eelevate",
+   "ability:moxie"
+  ]
+ },
+ {
+  "ev": "EatItem",
+  "total": 3,
+  "byPrefix": {
+   "(self)": 3
+  },
+  "classes": {
+   "side-effecting": 2,
+   "pure-other": 1
+  },
+  "sample": [
+   "ability:cheekpouch",
+   "ability:cudchew",
+   "ability:ripen"
+  ]
+ },
+ {
+  "ev": "Faint",
+  "total": 3,
+  "byPrefix": {
+   "(self)": 2,
+   "Ally": 1
+  },
+  "classes": {
+   "pure-other": 2,
+   "side-effecting": 1
+  },
+  "sample": [
+   "ability:illusion",
+   "cond:destinybond",
+   "ability:receiver"
+  ]
+ },
+ {
+  "ev": "TryHitSide",
+  "total": 3,
+  "byPrefix": {
+   "Ally": 3
+  },
+  "classes": {
+   "side-effecting": 2,
+   "pure-other": 1
+  },
+  "sample": [
+   "ability:magicbounce",
+   "ability:sapsipper",
+   "ability:soundproof"
+  ]
+ },
+ {
+  "ev": "SwitchOut",
+  "total": 3,
+  "byPrefix": {
+   "(self)": 3
+  },
+  "classes": {
+   "pure-other": 1,
+   "side-effecting": 2
+  },
+  "sample": [
+   "ability:naturalcure",
+   "ability:regenerator",
+   "ability:zerotohero"
+  ]
+ },
+ {
+  "ev": "MaybeTrapPokemon",
+  "total": 3,
+  "byPrefix": {
+   "(self)": 2,
+   "Foe": 1
+  },
+  "classes": {
+   "pure-other": 3
+  },
+  "sample": [
+   "ability:runaway",
+   "item:shedshell",
+   "ability:shadowtag"
+  ]
+ },
+ {
+  "ev": "MoveAborted",
+  "total": 3,
+  "byPrefix": {
+   "(self)": 3
+  },
+  "classes": {
+   "side-effecting": 3
+  },
+  "sample": [
+   "cond:charge",
+   "cond:destinybond",
+   "cond:twoturnmove"
+  ]
+ },
+ {
+  "ev": "Type",
+  "total": 3,
+  "byPrefix": {
+   "(self)": 3
+  },
+  "classes": {
+   "pure-other": 3
+  },
+  "sample": [
+   "cond:roost",
+   "cond:arceus",
+   "cond:silvally"
+  ]
+ },
+ {
+  "ev": "ModifyTarget",
+  "total": 2,
+  "byPrefix": {
+   "(self)": 2
+  },
+  "classes": {
+   "pure-other": 2
+  },
+  "sample": [
+   "move:comeuppance",
+   "move:metalburst"
+  ]
+ },
+ {
+  "ev": "BeforeTurnCallback",
+  "total": 2,
+  "byPrefix": {
+   "(self)": 2
+  },
+  "classes": {
+   "constant": 2
+  },
+  "sample": [
+   "move:counter",
+   "move:mirrorcoat"
+  ]
+ },
+ {
+  "ev": "AfterEachBoost",
+  "total": 2,
+  "byPrefix": {
+   "(self)": 2
+  },
+  "classes": {
+   "side-effecting": 2
+  },
+  "sample": [
+   "ability:competitive",
+   "ability:defiant"
+  ]
+ },
+ {
+  "ev": "ChangeBoost",
+  "total": 2,
+  "byPrefix": {
+   "(self)": 2
+  },
+  "classes": {
+   "pure-other": 2
+  },
+  "sample": [
+   "ability:contrary",
+   "ability:ripen"
+  ]
+ },
+ {
+  "ev": "ModifyWeight",
+  "total": 2,
+  "byPrefix": {
+   "(self)": 2
+  },
+  "classes": {
+   "pure-other": 2
+  },
+  "sample": [
+   "ability:heavymetal",
+   "ability:lightmetal"
+  ]
+ },
+ {
+  "ev": "AfterBoost",
+  "total": 2,
+  "byPrefix": {
+   "Foe": 1,
+   "(self)": 1
+  },
+  "classes": {
+   "pure-other": 1,
+   "side-effecting": 1
+  },
+  "sample": [
+   "ability:opportunist",
+   "ability:rattled"
+  ]
+ },
+ {
+  "ev": "AfterMega",
+  "total": 2,
+  "byPrefix": {
+   "Any": 2
+  },
+  "classes": {
+   "side-effecting": 1,
+   "pure-other": 1
+  },
+  "sample": [
+   "ability:opportunist",
+   "item:whiteherb"
+  ]
+ },
+ {
+  "ev": "ModifySecondaries",
+  "total": 2,
+  "byPrefix": {
+   "Source": 1,
+   "(self)": 1
+  },
+  "classes": {
+   "pure-other": 2
+  },
+  "sample": [
+   "ability:parentalbond",
+   "ability:shielddust"
+  ]
+ },
+ {
+  "ev": "HitProtect",
+  "total": 2,
+  "byPrefix": {
+   "(self)": 2
+  },
+  "classes": {
+   "gate": 2
+  },
+  "sample": [
+   "ability:piercingdrill",
+   "ability:unseenfist"
+  ]
+ },
+ {
+  "ev": "AfterUseItem",
+  "total": 2,
+  "byPrefix": {
+   "Ally": 1,
+   "(self)": 1
+  },
+  "classes": {
+   "side-effecting": 2
+  },
+  "sample": [
+   "ability:symbiosis",
+   "ability:unburden"
+  ]
+ },
+ {
+  "ev": "AfterSetStatus",
+  "total": 2,
+  "byPrefix": {
+   "(self)": 2
+  },
+  "classes": {
+   "side-effecting": 2
+  },
+  "sample": [
+   "ability:synchronize",
+   "item:lumberry"
+  ]
+ },
+ {
+  "ev": "TryPrimaryHit",
+  "total": 2,
+  "byPrefix": {
+   "Source": 1,
+   "(self)": 1
+  },
+  "classes": {
+   "side-effecting": 2
+  },
+  "sample": [
+   "item:normalgem",
+   "cond:substitute"
+  ]
+ },
+ {
+  "ev": "Copy",
+  "total": 2,
+  "byPrefix": {
+   "(self)": 2
+  },
+  "classes": {
+   "side-effecting": 1,
+   "pure-other": 1
+  },
+  "sample": [
+   "cond:gastroacid",
+   "cond:powertrick"
+  ]
+ },
+ {
+  "ev": "ModifySpD",
+  "total": 2,
+  "byPrefix": {
+   "(self)": 2
+  },
+  "classes": {
+   "multiplier": 2
+  },
+  "sample": [
+   "cond:Sandstorm",
+   "cond:sandstorm"
+  ]
+ },
+ {
+  "ev": "BattleStart",
+  "total": 2,
+  "byPrefix": {
+   "(self)": 2
+  },
+  "classes": {
+   "side-effecting": 2
+  },
+  "sample": [
+   "cond:zacian",
+   "cond:zamazenta"
+  ]
+ },
+ {
+  "ev": "BeforeMoveCallback",
+  "total": 1,
+  "byPrefix": {
+   "(self)": 1
+  },
+  "classes": {
+   "constant": 1
+  },
+  "sample": [
+   "move:focuspunch"
+  ]
+ },
+ {
+  "ev": "ModifySTAB",
+  "total": 1,
+  "byPrefix": {
+   "(self)": 1
+  },
+  "classes": {
+   "pure-other": 1
+  },
+  "sample": [
+   "ability:adaptability"
+  ]
+ },
+ {
+  "ev": "EmergencyExit",
+  "total": 1,
+  "byPrefix": {
+   "(self)": 1
+  },
+  "classes": {
+   "side-effecting": 1
+  },
+  "sample": [
+   "ability:emergencyexit"
+  ]
+ },
+ {
+  "ev": "WeatherChange",
+  "total": 1,
+  "byPrefix": {
+   "(self)": 1
+  },
+  "classes": {
+   "side-effecting": 1
+  },
+  "sample": [
+   "ability:forecast"
+  ]
+ },
+ {
+  "ev": "BeforeSwitchIn",
+  "total": 1,
+  "byPrefix": {
+   "(self)": 1
+  },
+  "classes": {
+   "pure-other": 1
+  },
+  "sample": [
+   "ability:illusion"
+  ]
+ },
+ {
+  "ev": "AfterTerastallization",
+  "total": 1,
+  "byPrefix": {
+   "Any": 1
+  },
+  "classes": {
+   "side-effecting": 1
+  },
+  "sample": [
+   "ability:opportunist"
+  ]
+ },
+ {
+  "ev": "DeductPP",
+  "total": 1,
+  "byPrefix": {
+   "(self)": 1
+  },
+  "classes": {
+   "pure-other": 1
+  },
+  "sample": [
+   "ability:pressure"
+  ]
+ },
+ {
+  "ev": "Flinch",
+  "total": 1,
+  "byPrefix": {
+   "(self)": 1
+  },
+  "classes": {
+   "side-effecting": 1
+  },
+  "sample": [
+   "ability:steadfast"
+  ]
+ },
+ {
+  "ev": "ModifyBoost",
+  "total": 1,
+  "byPrefix": {
+   "Any": 1
+  },
+  "classes": {
+   "pure-other": 1
+  },
+  "sample": [
+   "ability:unaware"
+  ]
+ },
+ {
+  "ev": "Use",
+  "total": 1,
+  "byPrefix": {
+   "(self)": 1
+  },
+  "classes": {
+   "pure-other": 1
+  },
+  "sample": [
+   "item:whiteherb"
+  ]
+ },
+ {
+  "ev": "Swap",
+  "total": 1,
+  "byPrefix": {
+   "(self)": 1
+  },
+  "classes": {
+   "side-effecting": 1
+  },
+  "sample": [
+   "cond:healingwish"
+  ]
+ },
+ {
+  "ev": "StallMove",
+  "total": 1,
+  "byPrefix": {
+   "(self)": 1
+  },
+  "classes": {
+   "pure-other": 1
+  },
+  "sample": [
+   "cond:stall"
+  ]
+ },
+ {
+  "ev": "BeforeSwitchOut",
+  "total": 1,
+  "byPrefix": {
+   "(self)": 1
+  },
+  "classes": {
+   "side-effecting": 1
+  },
+  "sample": [
+   "cond:dynamax"
+  ]
+ },
+ {
+  "ev": "BeforeTurn",
+  "total": 1,
+  "byPrefix": {
+   "(self)": 1
+  },
+  "classes": {
+   "side-effecting": 1
+  },
+  "sample": [
+   "cond:commanding"
+  ]
+ }
+]

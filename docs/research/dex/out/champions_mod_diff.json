@@ -1,0 +1,261 @@
+{
+ "moves": {
+  "anchorshot": [
+   "basePower"
+  ],
+  "appleacid": [
+   "basePower"
+  ],
+  "astralbarrage": [
+   "basePower"
+  ],
+  "banefulbunker": [
+   "pp"
+  ],
+  "beakblast": [
+   "basePower",
+   "pp"
+  ],
+  "belch": [
+   "onDisableMove"
+  ],
+  "bloodmoon": [
+   "basePower"
+  ],
+  "boltbeak": [
+   "basePower"
+  ],
+  "bonerush": [
+   "basePower"
+  ],
+  "clangoroussoul": [
+   "accuracy"
+  ],
+  "crabhammer": [
+   "accuracy"
+  ],
+  "crushclaw": [
+   "flags"
+  ],
+  "curse": [
+   "volatileStatus",
+   "onModifyMove",
+   "onTryHit",
+   "onHit"
+  ],
+  "direclaw": [
+   "flags",
+   "secondary"
+  ],
+  "disable": [
+   "condition"
+  ],
+  "doubleshock": [
+   "flags"
+  ],
+  "dragoncheer": [
+   "flags"
+  ],
+  "dragonclaw": [
+   "flags"
+  ],
+  "dragonhammer": [
+   "basePower"
+  ],
+  "encore": [
+   "condition"
+  ],
+  "fakeout": [
+   "onDisableMove"
+  ],
+  "firelash": [
+   "basePower"
+  ],
+  "firstimpression": [
+   "basePower",
+   "onDisableMove"
+  ],
+  "fishiousrend": [
+   "basePower"
+  ],
+  "freezedry": [
+   "secondary"
+  ],
+  "geargrind": [
+   "accuracy",
+   "basePower"
+  ],
+  "gravapple": [
+   "basePower"
+  ],
+  "growth": [
+   "type"
+  ],
+  "howl": [
+   "flags"
+  ],
+  "hyperdrill": [
+   "basePower"
+  ],
+  "infernalparade": [
+   "basePower"
+  ],
+  "ironhead": [
+   "secondary"
+  ],
+  "kingsshield": [
+   "pp"
+  ],
+  "makeitrain": [
+   "accuracy",
+   "self"
+  ],
+  "metalclaw": [
+   "flags"
+  ],
+  "meteorassault": [
+   "basePower"
+  ],
+  "milkdrink": [
+   "target"
+  ],
+  "moonblast": [
+   "secondary"
+  ],
+  "mountaingale": [
+   "basePower"
+  ],
+  "nightdaze": [
+   "basePower"
+  ],
+  "nightslash": [
+   "pp"
+  ],
+  "nihillight": [
+   "pp"
+  ],
+  "noretreat": [
+   "condition"
+  ],
+  "obstruct": [
+   "pp"
+  ],
+  "protect": [
+   "pp"
+  ],
+  "psyshieldbash": [
+   "basePower"
+  ],
+  "purify": [
+   "pp"
+  ],
+  "revelationdance": [
+   "basePower"
+  ],
+  "saltcure": [
+   "condition"
+  ],
+  "sandstorm": [
+   "pp"
+  ],
+  "shadowclaw": [
+   "flags"
+  ],
+  "shelltrap": [
+   "pp"
+  ],
+  "slash": [
+   "basePower"
+  ],
+  "snaptrap": [
+   "type"
+  ],
+  "snipeshot": [
+   "basePower"
+  ],
+  "snowscape": [
+   "pp"
+  ],
+  "spikyshield": [
+   "pp"
+  ],
+  "spinout": [
+   "pp"
+  ],
+  "spiritshackle": [
+   "basePower"
+  ],
+  "strengthsap": [
+   "pp"
+  ],
+  "stuffcheeks": [
+   "onDisableMove"
+  ],
+  "syrupbomb": [
+   "accuracy"
+  ],
+  "toxicthread": [
+   "boosts"
+  ],
+  "tripledive": [
+   "basePower"
+  ],
+  "tropkick": [
+   "basePower"
+  ],
+  "wish": [
+   "pp"
+  ]
+ },
+ "items": {
+  "ejectbutton": [
+   "onAfterMoveSecondary"
+  ]
+ },
+ "abilities": {
+  "angershell": [
+   "onDamage"
+  ],
+  "berserk": [
+   "onDamage"
+  ],
+  "emergencyexit": [
+   "onEmergencyExit"
+  ],
+  "healer": [
+   "onResidual"
+  ],
+  "naturalcure": [
+   "onCheckShow",
+   "onSwitchOut"
+  ],
+  "regenerator": [
+   "onSwitchOut"
+  ],
+  "runaway": [
+   "onTrapPokemonPriority",
+   "onTrapPokemon",
+   "onMaybeTrapPokemonPriority",
+   "onMaybeTrapPokemon"
+  ],
+  "unseenfist": [
+   "onModifyMove",
+   "onHitProtect"
+  ],
+  "wimpout": [
+   "onEmergencyExit"
+  ]
+ },
+ "conditions": {
+  "par": [
+   "onBeforeMove"
+  ],
+  "slp": [
+   "onStart"
+  ],
+  "frz": [
+   "onStart",
+   "onBeforeMove"
+  ]
+ }
+}

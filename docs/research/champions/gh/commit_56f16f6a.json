@@ -1,0 +1,113 @@
+{
+  "sha": "56f16f6aa9f07ebc807ad68f93ddf9f43bda77c2",
+  "node_id": "C_kwDOAC5c7toAKDU2ZjE2ZjZhYTlmMDdlYmM4MDdhZDY4ZjkzZGRmOWY0M2JkYTc3YzI",
+  "commit": {
+    "author": {
+      "name": "André Bastos Dias",
+      "email": "80102738+andrebastosdias@users.noreply.github.com",
+      "date": "2026-07-09T23:54:45Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-07-09T23:54:45Z"
+    },
+    "message": "Champions: Add default parameter to Pokemon.clearVolatile (#12166)\n\n* Champions: Add default parameter to Pokemon.clearVolatile\n\n* Add comment\n\n* Remove build command\n\n* Move script to tools/debug",
+    "tree": {
+      "sha": "bd3bb4f2ad8f61de29f75948ba238e0734c26acf",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/bd3bb4f2ad8f61de29f75948ba238e0734c26acf"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/56f16f6aa9f07ebc807ad68f93ddf9f43bda77c2",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqUDTFCRC1aQ7uu5UhlAAAME8QAI8RvuafOSbh5iJ353S1qH8I\nvRnCQK+RO6K/soS5qjPaUtdPXU6Wi5uCbtMzCq+915NRV9YYXlzoESzO9gt3Si0W\nU794Osc78/vBs0tcxpZTxxcotTYGc0DDl/A+scqZkliBM/+ZGsb1l5+ZSNs5oSss\nc1VG4uXUFKJYuu9vp1n0pt2YvGeZZiw1cQqDLHGFmLX7VFz9LZ/nXbSU+QUxZHQ3\n1wCE8Jkjw5jA67Z8GaWoNQwiecD1kem2fUqu88eq8WraZbMJLJl/AZFkeLvBIjsa\noQitGW3+RN2VtCEIlj22yrgkPaeuHIC27Sus8oFvRrK/yOzYA2+/XezaShjDNbjZ\nK4POV1lMnJDrRAYHiuBd8jk4UjpEBY9DLreVE31ZHNfHxm3eTMeRJm57KJDVMsyZ\n0STJxMB+LlUKgq9cH/TqMEPp22J/BGIIiPST650Sns4fZ64C3sv/yZJFCyWz/E0Z\n3hSjiRymAJ92KBDa4czP8JXiCpXUQrD3NQl/xFRrfaem/WHGvrtTUj/Qw8awYi1D\nGF1HNIETXfxV+YbapNh8dj3SxVQ5vbvpu4nVNJzq9skiqKjeU3790vrNv53eQdb0\nT/iKzSmQCk5czDlHakRQKJ6HKysmmFnu358p5C9fcifEIy8xreIrXGphIfapN6aV\nBZHah4wDJ+tVSIhrJMXt\n=L93G\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree bd3bb4f2ad8f61de29f75948ba238e0734c26acf\nparent 8282e63102fa824fd2f7472778ec09793ceb7cac\nauthor André Bastos Dias <80102738+andrebastosdias@users.noreply.github.com> 1783641285 +0100\ncommitter GitHub <noreply@github.com> 1783641285 -0600\n\nChampions: Add default parameter to Pokemon.clearVolatile (#12166)\n\n* Champions: Add default parameter to Pokemon.clearVolatile\n\n* Add comment\n\n* Remove build command\n\n* Move script to tools/debug",
+      "verified_at": "2026-07-09T23:54:46Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/56f16f6aa9f07ebc807ad68f93ddf9f43bda77c2",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/56f16f6aa9f07ebc807ad68f93ddf9f43bda77c2",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/56f16f6aa9f07ebc807ad68f93ddf9f43bda77c2/comments",
+  "author": {
+    "login": "andrebastosdias",
+    "id": 80102738,
+    "node_id": "MDQ6VXNlcjgwMTAyNzM4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/80102738?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/andrebastosdias",
+    "html_url": "https://github.com/andrebastosdias",
+    "followers_url": "https://api.github.com/users/andrebastosdias/followers",
+    "following_url": "https://api.github.com/users/andrebastosdias/following{/other_user}",
+    "gists_url": "https://api.github.com/users/andrebastosdias/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/andrebastosdias/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/andrebastosdias/subscriptions",
+    "organizations_url": "https://api.github.com/users/andrebastosdias/orgs",
+    "repos_url": "https://api.github.com/users/andrebastosdias/repos",
+    "events_url": "https://api.github.com/users/andrebastosdias/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/andrebastosdias/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "8282e63102fa824fd2f7472778ec09793ceb7cac",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/8282e63102fa824fd2f7472778ec09793ceb7cac",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/8282e63102fa824fd2f7472778ec09793ceb7cac"
+    }
+  ],
+  "stats": {
+    "total": 71,
+    "additions": 70,
+    "deletions": 1
+  },
+  "files": [
+    {
+      "sha": "a189690770bc9233e825c88b3410a05a934d26c5",
+      "filename": "data/mods/champions/scripts.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 1,
+      "changes": 3,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/56f16f6aa9f07ebc807ad68f93ddf9f43bda77c2/data%2Fmods%2Fchampions%2Fscripts.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/56f16f6aa9f07ebc807ad68f93ddf9f43bda77c2/data%2Fmods%2Fchampions%2Fscripts.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fscripts.ts?ref=56f16f6aa9f07ebc807ad68f93ddf9f43bda77c2",
+      "patch": "@@ -122,7 +122,8 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t}\n \t\t\treturn true;\n \t\t},\n-\t\tclearVolatile(includeSwitchFlags) {\n+\t\t// reset timesAttacked\n+\t\tclearVolatile(includeSwitchFlags = true) {\n \t\t\tthis.boosts = {\n \t\t\t\tatk: 0,\n \t\t\t\tdef: 0,"
+    },
+    {
+      "sha": "c5cedec63fe56cfef47d9f61606b4a9917d1e812",
+      "filename": "tools/debug/replay-inputlog.js",
+      "status": "added",
+      "additions": 68,
+      "deletions": 0,
+      "changes": 68,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/56f16f6aa9f07ebc807ad68f93ddf9f43bda77c2/tools%2Fdebug%2Freplay-inputlog.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/56f16f6aa9f07ebc807ad68f93ddf9f43bda77c2/tools%2Fdebug%2Freplay-inputlog.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/tools%2Fdebug%2Freplay-inputlog.js?ref=56f16f6aa9f07ebc807ad68f93ddf9f43bda77c2",
+      "patch": "@@ -0,0 +1,68 @@\n+#!/usr/bin/env node\n+'use strict';\n+\n+const fs = require('fs');\n+\n+global.Config = { allowrequestingties: false };\n+const { Battle, Dex } = require('../../dist/sim');\n+Dex.includeModData();\n+\n+const sides = new Set(['p1', 'p2', 'p3', 'p4']);\n+const text = fs.readFileSync(0, 'utf8').trim();\n+\n+let battle = null;\n+\n+for (const line of text.split('\\n')) {\n+\tif (!line || line[0] !== '>') continue;\n+\tconst space = line.indexOf(' ');\n+\tconst type = line.slice(1, space < 0 ? undefined : space);\n+\tconst data = space < 0 ? '' : line.slice(space + 1);\n+\n+\tif (sides.has(type)) {\n+\t\tconst choice = data.startsWith('/choose ') ? data.slice(8) : data;\n+\t\tbattle.choose(type, choice);\n+\t\tcontinue;\n+\t}\n+\n+\tswitch (type) {\n+\tcase 'version':\n+\tcase 'version-origin':\n+\t\tbreak;\n+\tcase 'start':\n+\t\tbattle = new Battle({ ...JSON.parse(data), debug: true, strictChoices: true });\n+\t\tbreak;\n+\tcase 'player':\n+\t\t{\n+\t\t\tconst playerSpace = data.indexOf(' ');\n+\t\t\tbattle.setPlayer(data.slice(0, playerSpace), JSON.parse(data.slice(playerSpace + 1)));\n+\t\t}\n+\t\tbreak;\n+\tcase 'chat':\n+\t\tbattle.inputLog.push(line);\n+\t\tbattle.add('chat', data);\n+\t\tbreak;\n+\tcase 'forcelose':\n+\t\tbattle.lose(data);\n+\t\tbattle.inputLog.push(line);\n+\t\tbreak;\n+\tcase 'forcewin':\n+\t\tbattle.forceWin(data);\n+\t\tbreak;\n+\tcase 'forcetie':\n+\t\tbattle.forceWin(null);\n+\t\tbreak;\n+\tcase 'tiebreak':\n+\t\tbattle.tiebreak();\n+\t\tbreak;\n+\tcase 'reseed':\n+\t\tbattle.resetRNG(data);\n+\t\tbattle.inputLog.push(`>reseed ${battle.prng.getSeed()}`);\n+\t\tbreak;\n+\tdefault:\n+\t\tthrow new Error(`Unsupported input log line: ${line}`);\n+\t}\n+}\n+\n+console.log(battle.log.join('\\n'));\n+\n+battle.destroy();"
+    }
+  ]
+}

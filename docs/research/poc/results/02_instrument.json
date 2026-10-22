@@ -1,0 +1,299 @@
+{
+ "N": 300,
+ "transparentRate": 1,
+ "drawsPerBattle": 100.47,
+ "decisionsPerBattle": 26.696666666666665,
+ "turnsPerBattle": 10.39,
+ "unmapped": 0,
+ "stackVsMarkerDisagreements": 0,
+ "degenerateDraws": 7374,
+ "kinds": {
+  "ACCURACY": {
+   "draws": 5949,
+   "perBattle": 19.83,
+   "battlesWithKind": 300
+  },
+  "CRIT": {
+   "draws": 5880,
+   "perBattle": 19.6,
+   "battlesWithKind": 300
+  },
+  "DAMAGE_ROLL": {
+   "draws": 5880,
+   "perBattle": 19.6,
+   "battlesWithKind": 300
+  },
+  "RANDOM_TARGET_NOMINAL": {
+   "draws": 3785,
+   "perBattle": 12.617,
+   "battlesWithKind": 242
+  },
+  "SECONDARY": {
+   "draws": 2468,
+   "perBattle": 8.227,
+   "battlesWithKind": 297
+  },
+  "RANDOM_TARGET": {
+   "draws": 2101,
+   "perBattle": 7.003,
+   "battlesWithKind": 249
+  },
+  "SPEED_TIE_EACH_EVENT": {
+   "draws": 1619,
+   "perBattle": 5.397,
+   "battlesWithKind": 63
+  },
+  "SPEED_TIE_FIELD_EVENT": {
+   "draws": 1019,
+   "perBattle": 3.397,
+   "battlesWithKind": 275
+  },
+  "SELF_EFFECT_ROLL": {
+   "draws": 419,
+   "perBattle": 1.397,
+   "battlesWithKind": 189
+  },
+  "SPEED_TIE_ACTION_ORDER": {
+   "draws": 246,
+   "perBattle": 0.82,
+   "battlesWithKind": 51
+  },
+  "ABILITY_ONHIT_PROC": {
+   "draws": 145,
+   "perBattle": 0.483,
+   "battlesWithKind": 64
+  },
+  "PROTECT_STALL": {
+   "draws": 145,
+   "perBattle": 0.483,
+   "battlesWithKind": 93
+  },
+  "PARALYSIS": {
+   "draws": 114,
+   "perBattle": 0.38,
+   "battlesWithKind": 32
+  },
+  "SPEED_TIE_SWITCHIN_ORDER": {
+   "draws": 105,
+   "perBattle": 0.35,
+   "battlesWithKind": 56
+  },
+  "SLEEP_DURATION": {
+   "draws": 76,
+   "perBattle": 0.253,
+   "battlesWithKind": 42
+  },
+  "SPEED_TIE_HANDLER_ORDER": {
+   "draws": 47,
+   "perBattle": 0.157,
+   "battlesWithKind": 5
+  },
+  "SECONDARY_STATUS_PICK": {
+   "draws": 27,
+   "perBattle": 0.09,
+   "battlesWithKind": 22
+  },
+  "QUEUE_INSERT_TIE": {
+   "draws": 24,
+   "perBattle": 0.08,
+   "battlesWithKind": 24
+  },
+  "FREEZE_THAW": {
+   "draws": 21,
+   "perBattle": 0.07,
+   "battlesWithKind": 11
+  },
+  "ABILITY_TRACE_TARGET": {
+   "draws": 18,
+   "perBattle": 0.06,
+   "battlesWithKind": 16
+  },
+  "CONFUSION_SELFHIT": {
+   "draws": 16,
+   "perBattle": 0.053,
+   "battlesWithKind": 10
+  },
+  "CONFUSION_DURATION": {
+   "draws": 12,
+   "perBattle": 0.04,
+   "battlesWithKind": 10
+  },
+  "MULTIHIT_COUNT": {
+   "draws": 9,
+   "perBattle": 0.03,
+   "battlesWithKind": 4
+  },
+  "PARTIAL_TRAP_DURATION": {
+   "draws": 8,
+   "perBattle": 0.027,
+   "battlesWithKind": 5
+  },
+  "CONFUSION_SELFHIT_DAMAGE_ROLL": {
+   "draws": 5,
+   "perBattle": 0.017,
+   "battlesWithKind": 5
+  },
+  "FORCED_SWITCH_PICK": {
+   "draws": 3,
+   "perBattle": 0.01,
+   "battlesWithKind": 2
+  }
+ },
+ "randomTargetCallers": {
+  "getTarget (sim/battle.ts:2503)": 2074,
+  "resolveAction (sim/battle-queue.ts:269)": 27
+ },
+ "unmappedSites": {},
+ "keyCollisions_drawsInNonUniqueKeys": {
+  "naive": {
+   "RANDOM_TARGET_NOMINAL": 3073,
+   "RANDOM_TARGET": 2048,
+   "SPEED_TIE_EACH_EVENT": 1394,
+   "SPEED_TIE_ACTION_ORDER": 204,
+   "SPEED_TIE_HANDLER_ORDER": 40,
+   "SECONDARY": 22,
+   "SPEED_TIE_SWITCHIN_ORDER": 14
+  },
+  "step": {
+   "SPEED_TIE_EACH_EVENT": 865,
+   "RANDOM_TARGET_NOMINAL": 58,
+   "SECONDARY": 22,
+   "SPEED_TIE_HANDLER_ORDER": 2,
+   "SPEED_TIE_SWITCHIN_ORDER": 4
+  }
+ },
+ "collisionExamples": {
+  "naive": {
+   "RANDOM_TARGET_NOMINAL": {
+    "battle": 0,
+    "key": "2|RANDOM_TARGET_NOMINAL|p1a|-|snarl|getTarget",
+    "count": 5
+   },
+   "RANDOM_TARGET": {
+    "battle": 0,
+    "key": "6|RANDOM_TARGET|p1a|-|electroshot|getTarget",
+    "count": 3
+   },
+   "SPEED_TIE_EACH_EVENT": {
+    "battle": 2,
+    "key": "1|SPEED_TIE_EACH_EVENT|-|-|Update|p1b,p2a",
+    "count": 13
+   },
+   "SPEED_TIE_ACTION_ORDER": {
+    "battle": 2,
+    "key": "2|SPEED_TIE_ACTION_ORDER|-|-||move:p1b:uturn,move:p2a:leechlife",
+    "count": 4
+   },
+   "SPEED_TIE_HANDLER_ORDER": {
+    "battle": 7,
+    "key": "6|SPEED_TIE_HANDLER_ORDER|-|-|ModifyDamage|lightscreen@p2,reflect@p2",
+    "count": 2
+   },
+   "SECONDARY": {
+    "battle": 30,
+    "key": "2|SECONDARY|p2a|p2b|icefang|1",
+    "count": 2
+   },
+   "SPEED_TIE_SWITCHIN_ORDER": {
+    "battle": 30,
+    "key": "6|SPEED_TIE_SWITCHIN_ORDER|-|-||p1a,p2a",
+    "count": 2
+   }
+  },
+  "step": {
+   "SPEED_TIE_EACH_EVENT": {
+    "battle": 2,
+    "key": "1|move:p1a:protect|SPEED_TIE_EACH_EVENT|-|-|Update|p1b,p2a",
+    "count": 3
+   },
+   "RANDOM_TARGET_NOMINAL": {
+    "battle": 12,
+    "key": "3|move:p2a:expandingforce|RANDOM_TARGET_NOMINAL|p2a|-|expandingforce|other",
+    "count": 2
+   },
+   "SECONDARY": {
+    "battle": 30,
+    "key": "2|move:p2a:icefang|SECONDARY|p2a|p2b|icefang|1",
+    "count": 2
+   },
+   "SPEED_TIE_HANDLER_ORDER": {
+    "battle": 171,
+    "key": "2|move:p1a:hypervoice|SPEED_TIE_HANDLER_ORDER|-|-|ModifyDamage|lightscreen@p2,reflect@p2",
+    "count": 2
+   },
+   "SPEED_TIE_SWITCHIN_ORDER": {
+    "battle": 251,
+    "key": "6|runSwitch:p2a|SPEED_TIE_SWITCHIN_ORDER|-|-||p1a,p2b",
+    "count": 2
+   }
+  }
+ },
+ "missCheck": {
+  "n": 184,
+  "ok": 184,
+  "bad": []
+ },
+ "critCheck": {
+  "n": 275,
+  "ok": 275,
+  "bad": []
+ },
+ "sitesHit": {
+  "sim/battle.ts:512": 1019,
+  "sim/side.ts:372": 5886,
+  "sim/battle-actions.ts:800": 5949,
+  "sim/battle-actions.ts:1695": 5880,
+  "sim/battle.ts:2409": 5885,
+  "sim/battle-actions.ts:1399": 2468,
+  "data/mods/champions/conditions.ts:23": 76,
+  "data/mods/champions/conditions.ts:5": 114,
+  "sim/battle-queue.ts:406": 24,
+  "sim/battle-actions.ts:235": 105,
+  "sim/battle.ts:473": 1619,
+  "sim/battle-queue.ts:426": 246,
+  "sim/battle-actions.ts:1381": 419,
+  "data/abilities.ts:1320": 63,
+  "data/abilities.ts:3376": 37,
+  "data/conditions.ts:456": 145,
+  "data/conditions.ts:174": 12,
+  "data/conditions.ts:187": 16,
+  "data/abilities.ts:788": 43,
+  "sim/battle.ts:801": 47,
+  "data/abilities.ts:5145": 18,
+  "data/mods/champions/conditions.ts:49": 21,
+  "data/abilities.ts:801": 2,
+  "data/conditions.ts:227": 8,
+  "data/mods/champions/moves.ts:223": 27,
+  "data/mods/champions/scripts.ts:439": 9,
+  "sim/battle.ts:1586": 3
+ },
+ "reachableSitesNotObserved": [
+  "sim/battle.ts:2523 RANDOM_TARGET (getRandomTarget)",
+  "sim/pokemon.ts:361 GENDER (constructor)",
+  "data/abilities.ts:1164 ABILITY_ONHIT_PROC (effectspore.onDamagingHit)",
+  "data/abilities.ts:1526 ABILITY_FOREWARN_PICK (forewarn.onStart)",
+  "data/abilities.ts:1805 ABILITY_RESIDUAL_PROC (harvest.onResidual)",
+  "data/abilities.ts:2483 SPEED_TIE_ABILITY (magician.onAfterMoveSecondarySelf)",
+  "data/abilities.ts:2715 ABILITY_MOODY_STAT (moody.onResidual)",
+  "data/abilities.ts:2726 ABILITY_MOODY_STAT (moody.onResidual)",
+  "data/abilities.ts:3272 ABILITY_PICKUP_TARGET (pickup.onResidual)",
+  "data/abilities.ts:3348 ABILITY_ONHIT_PROC (poisonpoint.onDamagingHit)",
+  "data/abilities.ts:3739 PRIORITY_PROC (quickdraw.onFractionalPriority)",
+  "data/abilities.ts:4192 ABILITY_RESIDUAL_PROC (shedskin.onResidual)",
+  "data/abilities.ts:4540 ABILITY_ONHIT_PROC (static.onDamagingHit)",
+  "data/items.ts:2273 ITEM_FOCUS_BAND (focusband.onDamage)",
+  "data/items.ts:5017 QUICK_CLAW (quickclaw.onFractionalPriority)",
+  "data/moves.ts:155 MOVE_ACUPRESSURE_STAT (acupressure.onHit)",
+  "data/moves.ts:343 ALLY_SWITCH_STALL (allyswitch.condition.onRestart)",
+  "data/moves.ts:745 INFATUATION (attract.condition.onBeforeMove)",
+  "data/moves.ts:5231 MOVE_FICKLE_BEAM (ficklebeam.onBasePower)",
+  "data/moves.ts:16232 MOVE_SHELLSIDEARM_TIE (shellsidearm.onModifyMove)",
+  "data/moves.ts:16887 MOVE_CALL_PICK (sleeptalk.onHit)",
+  "data/moves.ts:19853 SECONDARY_STATUS_PICK (triattack.secondary.onHit)",
+  "data/conditions.ts:265 LOCKEDMOVE_DURATION (lockedmove.onStart)",
+  "data/conditions.ts:305 RANDOM_TARGET (twoturnmove.onStart)",
+  "data/mods/champions/abilities.ts:43 ABILITY_RESIDUAL_PROC (healer.onResidual)",
+  "data/mods/champions/scripts.ts:507 ACCURACY (actions.hitStepMoveHitLoop)"
+ ],
+ "teamSource": "chaos"
+}

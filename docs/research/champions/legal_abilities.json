@@ -1,0 +1,1290 @@
+{
+ "format": "[Gen 9 Champions] VGC 2026 Reg M-C",
+ "count": 216,
+ "abilities": {
+  "Adaptability": [
+   "Dragalge",
+   "Basculegion",
+   "Basculegion-F",
+   "Beedrill-Mega (mega)",
+   "Glimmora-Mega (mega)",
+   "Lucario-Mega (mega)"
+  ],
+  "Aerilate": [
+   "Pinsir-Mega (mega)",
+   "Salamence-Mega (mega)"
+  ],
+  "Aftermath": [
+   "Garbodor",
+   "Garbodor-Gmax"
+  ],
+  "Analytic": [
+   "Starmie",
+   "Watchog"
+  ],
+  "Anger Point": [
+   "Tauros",
+   "Tauros-Paldea-Combat",
+   "Tauros-Paldea-Blaze",
+   "Tauros-Paldea-Aqua",
+   "Camerupt",
+   "Krookodile",
+   "Crabominable"
+  ],
+  "Anticipation": [
+   "Toxicroak",
+   "Hatterene",
+   "Hatterene-Gmax"
+  ],
+  "Armor Tail": [
+   "Farigiraf"
+  ],
+  "Aroma Veil": [
+   "Aromatisse",
+   "Alcremie",
+   "Alcremie-Ruby-Cream",
+   "Alcremie-Matcha-Cream",
+   "Alcremie-Mint-Cream",
+   "Alcremie-Lemon-Cream",
+   "Alcremie-Ruby-Swirl",
+   "Alcremie-Caramel-Swirl",
+   "Alcremie-Rainbow-Swirl",
+   "Alcremie-Gmax"
+  ],
+  "Aura Guard": [
+   "Lucario-Mega-Z (mega)"
+  ],
+  "Battle Armor": [
+   "Perrserker",
+   "Falinks"
+  ],
+  "Battle Bond": [
+   "Greninja"
+  ],
+  "Berserk": [
+   "Drampa",
+   "Drampa-Mega (mega)"
+  ],
+  "Big Pecks": [
+   "Pidgeot"
+  ],
+  "Blaze": [
+   "Charizard",
+   "Charizard-Gmax",
+   "Typhlosion",
+   "Typhlosion-Hisui",
+   "Blaziken",
+   "Infernape",
+   "Emboar",
+   "Simisear",
+   "Delphox",
+   "Incineroar",
+   "Cinderace",
+   "Cinderace-Gmax",
+   "Skeledirge"
+  ],
+  "Bulletproof": [
+   "Chesnaught",
+   "Kommo-o",
+   "Chesnaught-Mega (mega)"
+  ],
+  "Cheek Pouch": [
+   "Diggersby",
+   "Dedenne",
+   "Maushold",
+   "Maushold-Four"
+  ],
+  "Chlorophyll": [
+   "Venusaur",
+   "Venusaur-Gmax",
+   "Vileplume",
+   "Victreebel",
+   "Leafeon",
+   "Whimsicott",
+   "Scovillain"
+  ],
+  "Clear Body": [
+   "Metagross",
+   "Dragapult",
+   "Garganacl"
+  ],
+  "Cloud Nine": [
+   "Altaria",
+   "Drampa"
+  ],
+  "Competitive": [
+   "Wigglytuff",
+   "Milotic",
+   "Empoleon",
+   "Meowstic-F"
+  ],
+  "Compound Eyes": [
+   "Vivillon",
+   "Vivillon-Icy Snow",
+   "Vivillon-Polar",
+   "Vivillon-Tundra",
+   "Vivillon-Continental",
+   "Vivillon-Garden",
+   "Vivillon-Elegant",
+   "Vivillon-Modern",
+   "Vivillon-Marine",
+   "Vivillon-Archipelago",
+   "Vivillon-High Plains",
+   "Vivillon-Sandstorm",
+   "Vivillon-River",
+   "Vivillon-Monsoon",
+   "Vivillon-Savanna",
+   "Vivillon-Sun",
+   "Vivillon-Ocean",
+   "Vivillon-Jungle",
+   "Vivillon-Fancy",
+   "Vivillon-Pokeball"
+  ],
+  "Contrary": [
+   "Serperior",
+   "Malamar",
+   "Malamar-Mega (mega)",
+   "Staraptor-Mega (mega)"
+  ],
+  "Corrosion": [
+   "Salazzle",
+   "Glimmora"
+  ],
+  "Cud Chew": [
+   "Tauros-Paldea-Combat",
+   "Tauros-Paldea-Blaze",
+   "Tauros-Paldea-Aqua",
+   "Farigiraf"
+  ],
+  "Curious Medicine": [
+   "Slowking-Galar"
+  ],
+  "Cursed Body": [
+   "Gengar",
+   "Gengar-Gmax",
+   "Banette",
+   "Froslass",
+   "Polteageist",
+   "Polteageist-Antique",
+   "Dragapult"
+  ],
+  "Cute Charm": [
+   "Clefable",
+   "Wigglytuff",
+   "Milotic",
+   "Lopunny",
+   "Sylveon"
+  ],
+  "Damp": [
+   "Politoed",
+   "Swampert",
+   "Bellibolt"
+  ],
+  "Defiant": [
+   "Farfetch’d",
+   "Passimian",
+   "Falinks",
+   "Annihilape",
+   "Kingambit",
+   "Falinks-Mega (mega)"
+  ],
+  "Disguise": [
+   "Mimikyu"
+  ],
+  "Dragonize": [
+   "Feraligatr-Mega (mega)"
+  ],
+  "Drizzle": [
+   "Politoed",
+   "Pelipper"
+  ],
+  "Drought": [
+   "Ninetales",
+   "Torkoal",
+   "Charizard-Mega-Y (mega)"
+  ],
+  "Dry Skin": [
+   "Toxicroak",
+   "Heliolisk"
+  ],
+  "Early Bird": [
+   "Kangaskhan",
+   "Houndoom"
+  ],
+  "Earth Eater": [
+   "Orthworm"
+  ],
+  "Eelevate": [
+   "Eelektross-Mega (mega)"
+  ],
+  "Effect Spore": [
+   "Vileplume"
+  ],
+  "Electric Surge": [
+   "Pincurchin",
+   "Raichu-Mega-X (mega)"
+  ],
+  "Electromorphosis": [
+   "Bellibolt"
+  ],
+  "Emergency Exit": [
+   "Golisopod"
+  ],
+  "Fairy Aura": [
+   "Floette-Mega (mega)"
+  ],
+  "Filter": [
+   "Mr. Mime",
+   "Aggron-Mega (mega)"
+  ],
+  "Fire Mane": [
+   "Pyroar-Mega (mega)"
+  ],
+  "Flame Body": [
+   "Chandelure",
+   "Volcarona",
+   "Talonflame"
+  ],
+  "Flash Fire": [
+   "Ninetales",
+   "Arcanine",
+   "Arcanine-Hisui",
+   "Flareon",
+   "Typhlosion",
+   "Houndoom",
+   "Chandelure",
+   "Armarouge",
+   "Ceruledge"
+  ],
+  "Flower Veil": [
+   "Floette-Eternal",
+   "Florges"
+  ],
+  "Fluffy": [
+   "Houndstone"
+  ],
+  "Forecast": [
+   "Castform"
+  ],
+  "Forewarn": [
+   "Musharna"
+  ],
+  "Friend Guard": [
+   "Vivillon",
+   "Vivillon-Icy Snow",
+   "Vivillon-Polar",
+   "Vivillon-Tundra",
+   "Vivillon-Continental",
+   "Vivillon-Garden",
+   "Vivillon-Elegant",
+   "Vivillon-Modern",
+   "Vivillon-Marine",
+   "Vivillon-Archipelago",
+   "Vivillon-High Plains",
+   "Vivillon-Sandstorm",
+   "Vivillon-River",
+   "Vivillon-Monsoon",
+   "Vivillon-Savanna",
+   "Vivillon-Sun",
+   "Vivillon-Ocean",
+   "Vivillon-Jungle",
+   "Vivillon-Fancy",
+   "Vivillon-Pokeball",
+   "Maushold",
+   "Maushold-Four"
+  ],
+  "Frisk": [
+   "Wigglytuff",
+   "Typhlosion-Hisui",
+   "Banette",
+   "Trevenant",
+   "Gourgeist",
+   "Gourgeist-Small",
+   "Gourgeist-Large",
+   "Gourgeist-Super",
+   "Noivern",
+   "Grimmsnarl",
+   "Grimmsnarl-Gmax",
+   "Wyrdeer",
+   "Espathra"
+  ],
+  "Fur Coat": [
+   "Persian-Alola",
+   "Furfrou"
+  ],
+  "Gale Wings": [
+   "Talonflame"
+  ],
+  "Gluttony": [
+   "Victreebel",
+   "Snorlax",
+   "Snorlax-Gmax",
+   "Swalot",
+   "Simisage",
+   "Simisear",
+   "Simipour",
+   "Flapple",
+   "Flapple-Gmax",
+   "Appletun",
+   "Appletun-Gmax"
+  ],
+  "Good as Gold": [
+   "Gholdengo"
+  ],
+  "Gooey": [
+   "Goodra",
+   "Goodra-Hisui"
+  ],
+  "Grass Pelt": [
+   "Gogoat"
+  ],
+  "Grassy Surge": [
+   "Rillaboom",
+   "Rillaboom-Gmax"
+  ],
+  "Guard Dog": [
+   "Mabosstiff"
+  ],
+  "Guts": [
+   "Machamp",
+   "Machamp-Gmax",
+   "Flareon",
+   "Heracross",
+   "Luxray",
+   "Conkeldurr",
+   "Squawkabilly",
+   "Squawkabilly-Blue"
+  ],
+  "Harvest": [
+   "Trevenant",
+   "Arboliva"
+  ],
+  "Healer": [
+   "Audino",
+   "Aromatisse",
+   "Hatterene",
+   "Hatterene-Gmax",
+   "Audino-Mega (mega)"
+  ],
+  "Heatproof": [
+   "Sinistcha",
+   "Sinistcha-Masterpiece"
+  ],
+  "Heavy Metal": [
+   "Aggron"
+  ],
+  "Hospitality": [
+   "Sinistcha",
+   "Sinistcha-Masterpiece"
+  ],
+  "Huge Power": [
+   "Azumarill",
+   "Diggersby",
+   "Mawile-Mega (mega)",
+   "Starmie-Mega (mega)"
+  ],
+  "Hunger Switch": [
+   "Morpeko"
+  ],
+  "Hustle": [
+   "Flapple",
+   "Flapple-Gmax",
+   "Squawkabilly",
+   "Squawkabilly-Blue",
+   "Squawkabilly-Yellow",
+   "Squawkabilly-White"
+  ],
+  "Hydration": [
+   "Vaporeon",
+   "Goodra"
+  ],
+  "Hyper Cutter": [
+   "Pinsir",
+   "Mawile",
+   "Gliscor",
+   "Crabominable"
+  ],
+  "Ice Body": [
+   "Glalie",
+   "Glaceon",
+   "Vanilluxe",
+   "Avalugg",
+   "Avalugg-Hisui",
+   "Mr. Rime",
+   "Baxcalibur"
+  ],
+  "Illuminate": [
+   "Starmie",
+   "Watchog"
+  ],
+  "Illusion": [
+   "Zoroark",
+   "Zoroark-Hisui"
+  ],
+  "Immunity": [
+   "Snorlax",
+   "Snorlax-Gmax"
+  ],
+  "Imposter": [
+   "Ditto"
+  ],
+  "Infiltrator": [
+   "Spiritomb",
+   "Whimsicott",
+   "Chandelure",
+   "Meowstic",
+   "Meowstic-F",
+   "Malamar",
+   "Noivern",
+   "Dragapult",
+   "Chandelure-Mega (mega)"
+  ],
+  "Innards Out": [
+   "Victreebel-Mega (mega)"
+  ],
+  "Inner Focus": [
+   "Alakazam",
+   "Farfetch’d",
+   "Kangaskhan",
+   "Dragonite",
+   "Umbreon",
+   "Glalie",
+   "Lucario",
+   "Mudsdale",
+   "Oranguru",
+   "Indeedee",
+   "Annihilape",
+   "Gallade-Mega (mega)"
+  ],
+  "Insomnia": [
+   "Ariados",
+   "Banette",
+   "Gourgeist",
+   "Gourgeist-Small",
+   "Gourgeist-Large",
+   "Gourgeist-Super",
+   "Scovillain"
+  ],
+  "Intimidate": [
+   "Arbok",
+   "Arcanine",
+   "Arcanine-Hisui",
+   "Tauros",
+   "Tauros-Paldea-Combat",
+   "Tauros-Paldea-Blaze",
+   "Tauros-Paldea-Aqua",
+   "Gyarados",
+   "Qwilfish",
+   "Mawile",
+   "Salamence",
+   "Staraptor",
+   "Luxray",
+   "Krookodile",
+   "Scrafty",
+   "Incineroar",
+   "Wyrdeer",
+   "Overqwil",
+   "Squawkabilly",
+   "Squawkabilly-Blue",
+   "Squawkabilly-Yellow",
+   "Squawkabilly-White",
+   "Mabosstiff",
+   "Manectric-Mega (mega)",
+   "Scrafty-Mega (mega)"
+  ],
+  "Iron Fist": [
+   "Infernape",
+   "Conkeldurr",
+   "Golurk",
+   "Pangoro",
+   "Crabominable",
+   "Pawmot",
+   "Crabominable-Mega (mega)"
+  ],
+  "Justified": [
+   "Arcanine",
+   "Absol",
+   "Lucario",
+   "Gallade"
+  ],
+  "Keen Eye": [
+   "Pidgeot",
+   "Farfetch’d",
+   "Skarmory",
+   "Pelipper",
+   "Sableye",
+   "Watchog",
+   "Meowstic",
+   "Meowstic-F",
+   "Toucannon",
+   "Lycanroc",
+   "Lycanroc-Midnight"
+  ],
+  "Klutz": [
+   "Lopunny",
+   "Audino",
+   "Golurk"
+  ],
+  "Leaf Guard": [
+   "Meganium",
+   "Leafeon",
+   "Tsareena"
+  ],
+  "Levitate": [
+   "Chimecho",
+   "Rotom",
+   "Rotom-Heat",
+   "Rotom-Wash",
+   "Rotom-Frost",
+   "Rotom-Fan",
+   "Rotom-Mow",
+   "Eelektross",
+   "Hydreigon",
+   "Chimecho-Mega (mega)",
+   "Delphox-Mega (mega)",
+   "Garchomp-Mega-Z (mega)"
+  ],
+  "Libero": [
+   "Cinderace",
+   "Cinderace-Gmax"
+  ],
+  "Light Metal": [
+   "Scizor",
+   "Metagross"
+  ],
+  "Lightning Rod": [
+   "Pikachu",
+   "Pikachu-Gmax",
+   "Raichu",
+   "Manectric",
+   "Rhyperior",
+   "Pincurchin",
+   "Sceptile-Mega (mega)"
+  ],
+  "Limber": [
+   "Persian",
+   "Ditto",
+   "Lopunny",
+   "Liepard",
+   "Stunfisk",
+   "Hawlucha",
+   "Toxapex",
+   "Grapploct"
+  ],
+  "Liquid Ooze": [
+   "Swalot"
+  ],
+  "Liquid Voice": [
+   "Primarina"
+  ],
+  "Long Reach": [
+   "Decidueye"
+  ],
+  "Magic Bounce": [
+   "Espeon",
+   "Hatterene",
+   "Hatterene-Gmax",
+   "Absol-Mega (mega)",
+   "Clefable-Mega (mega)",
+   "Sableye-Mega (mega)"
+  ],
+  "Magic Guard": [
+   "Clefable",
+   "Alakazam",
+   "Reuniclus"
+  ],
+  "Magician": [
+   "Delphox",
+   "Klefki"
+  ],
+  "Magma Armor": [
+   "Camerupt"
+  ],
+  "Marvel Scale": [
+   "Milotic"
+  ],
+  "Mega Launcher": [
+   "Clawitzer",
+   "Blastoise-Mega (mega)"
+  ],
+  "Mega Sol": [
+   "Meganium-Mega (mega)"
+  ],
+  "Merciless": [
+   "Toxapex"
+  ],
+  "Mimicry": [
+   "Stunfisk-Galar"
+  ],
+  "Minus": [
+   "Manectric",
+   "Toxtricity-Low-Key"
+  ],
+  "Mirror Armor": [
+   "Corviknight",
+   "Corviknight-Gmax"
+  ],
+  "Mold Breaker": [
+   "Pinsir",
+   "Rampardos",
+   "Excadrill",
+   "Pangoro",
+   "Hawlucha",
+   "Basculegion",
+   "Basculegion-F",
+   "Tinkaton",
+   "Ampharos-Mega (mega)",
+   "Emboar-Mega (mega)",
+   "Gyarados-Mega (mega)"
+  ],
+  "Moody": [
+   "Glalie",
+   "Scovillain"
+  ],
+  "Motor Drive": [
+   "Emolga"
+  ],
+  "Moxie": [
+   "Pinsir",
+   "Gyarados",
+   "Heracross",
+   "Salamence",
+   "Krookodile",
+   "Scrafty",
+   "Pyroar",
+   "Quaquaval"
+  ],
+  "Multiscale": [
+   "Dragonite",
+   "Dragonite-Mega (mega)"
+  ],
+  "Mummy": [
+   "Cofagrigus"
+  ],
+  "Natural Cure": [
+   "Starmie",
+   "Altaria",
+   "Roserade",
+   "Trevenant",
+   "Pawmot"
+  ],
+  "No Guard": [
+   "Machamp",
+   "Machamp-Gmax",
+   "Golurk",
+   "Lycanroc-Midnight",
+   "Hawlucha-Mega (mega)",
+   "Pidgeot-Mega (mega)",
+   "Raichu-Mega-Y (mega)"
+  ],
+  "Oblivious": [
+   "Slowbro",
+   "Slowking",
+   "Mamoswine",
+   "Salazzle"
+  ],
+  "Opportunist": [
+   "Espathra"
+  ],
+  "Overcoat": [
+   "Forretress",
+   "Reuniclus",
+   "Kommo-o"
+  ],
+  "Overgrow": [
+   "Venusaur",
+   "Venusaur-Gmax",
+   "Meganium",
+   "Sceptile",
+   "Torterra",
+   "Serperior",
+   "Simisage",
+   "Chesnaught",
+   "Decidueye",
+   "Decidueye-Hisui",
+   "Rillaboom",
+   "Rillaboom-Gmax",
+   "Meowscarada"
+  ],
+  "Own Tempo": [
+   "Slowbro",
+   "Slowbro-Galar",
+   "Slowking",
+   "Slowking-Galar",
+   "Avalugg",
+   "Mudsdale",
+   "Indeedee-F",
+   "Tinkaton"
+  ],
+  "Parental Bond": [
+   "Kangaskhan-Mega (mega)"
+  ],
+  "Pickpocket": [
+   "Weavile",
+   "Barbaracle",
+   "Grimmsnarl",
+   "Grimmsnarl-Gmax",
+   "Tinkaton"
+  ],
+  "Pickup": [
+   "Diggersby",
+   "Dedenne",
+   "Gourgeist",
+   "Gourgeist-Small",
+   "Gourgeist-Large",
+   "Gourgeist-Super"
+  ],
+  "Piercing Drill": [
+   "Excadrill-Mega (mega)"
+  ],
+  "Pixilate": [
+   "Sylveon",
+   "Altaria-Mega (mega)",
+   "Gardevoir-Mega (mega)"
+  ],
+  "Plus": [
+   "Ampharos",
+   "Dedenne",
+   "Toxtricity",
+   "Toxtricity-Gmax"
+  ],
+  "Poison Heal": [
+   "Gliscor"
+  ],
+  "Poison Point": [
+   "Qwilfish",
+   "Roserade",
+   "Scolipede",
+   "Dragalge",
+   "Overqwil"
+  ],
+  "Poison Touch": [
+   "Toxicroak",
+   "Dragalge",
+   "Sneasler"
+  ],
+  "Prankster": [
+   "Sableye",
+   "Liepard",
+   "Whimsicott",
+   "Meowstic",
+   "Klefki",
+   "Grimmsnarl",
+   "Grimmsnarl-Gmax",
+   "Banette-Mega (mega)"
+  ],
+  "Pressure": [
+   "Aerodactyl",
+   "Absol",
+   "Spiritomb",
+   "Weavile",
+   "Corviknight",
+   "Corviknight-Gmax",
+   "Sneasler",
+   "Kingambit"
+  ],
+  "Protean": [
+   "Greninja",
+   "Meowscarada",
+   "Greninja-Mega (mega)"
+  ],
+  "Psychic Surge": [
+   "Indeedee",
+   "Indeedee-F"
+  ],
+  "Punk Rock": [
+   "Toxtricity",
+   "Toxtricity-Low-Key",
+   "Toxtricity-Gmax"
+  ],
+  "Pure Power": [
+   "Medicham",
+   "Medicham-Mega (mega)"
+  ],
+  "Purifying Salt": [
+   "Garganacl"
+  ],
+  "Queenly Majesty": [
+   "Tsareena"
+  ],
+  "Quick Draw": [
+   "Slowbro-Galar"
+  ],
+  "Quick Feet": [
+   "Jolteon"
+  ],
+  "Rain Dish": [
+   "Blastoise",
+   "Blastoise-Gmax",
+   "Pelipper"
+  ],
+  "Rattled": [
+   "Persian-Alola"
+  ],
+  "Receiver": [
+   "Passimian"
+  ],
+  "Reckless": [
+   "Staraptor",
+   "Rhyperior",
+   "Emboar"
+  ],
+  "Refrigerate": [
+   "Aurorus",
+   "Glalie-Mega (mega)"
+  ],
+  "Regenerator": [
+   "Slowbro",
+   "Slowbro-Galar",
+   "Slowking",
+   "Slowking-Galar",
+   "Audino",
+   "Reuniclus",
+   "Toxapex",
+   "Hydrapple",
+   "Dragalge-Mega (mega)"
+  ],
+  "Ripen": [
+   "Flapple",
+   "Flapple-Gmax",
+   "Appletun",
+   "Appletun-Gmax"
+  ],
+  "Rivalry": [
+   "Luxray",
+   "Pyroar"
+  ],
+  "Rock Head": [
+   "Arcanine-Hisui",
+   "Aerodactyl",
+   "Steelix",
+   "Aggron",
+   "Tyrantrum"
+  ],
+  "Rough Skin": [
+   "Sharpedo",
+   "Garchomp"
+  ],
+  "Run Away": [
+   "Thievul"
+  ],
+  "Sand Force": [
+   "Hippowdon",
+   "Excadrill",
+   "Garchomp-Mega (mega)",
+   "Steelix-Mega (mega)"
+  ],
+  "Sand Rush": [
+   "Excadrill",
+   "Lycanroc",
+   "Houndstone"
+  ],
+  "Sand Spit": [
+   "Sandaconda",
+   "Sandaconda-Gmax"
+  ],
+  "Sand Stream": [
+   "Tyranitar",
+   "Hippowdon",
+   "Tyranitar-Mega (mega)"
+  ],
+  "Sand Veil": [
+   "Garchomp",
+   "Gliscor",
+   "Stunfisk",
+   "Heliolisk",
+   "Sandaconda",
+   "Sandaconda-Gmax",
+   "Orthworm"
+  ],
+  "Sap Sipper": [
+   "Azumarill",
+   "Gogoat",
+   "Goodra",
+   "Goodra-Hisui",
+   "Drampa",
+   "Wyrdeer",
+   "Farigiraf"
+  ],
+  "Scrappy": [
+   "Kangaskhan",
+   "Pangoro",
+   "Decidueye-Hisui",
+   "Sirfetch’d",
+   "Lopunny-Mega (mega)"
+  ],
+  "Screen Cleaner": [
+   "Mr. Rime"
+  ],
+  "Seed Sower": [
+   "Arboliva"
+  ],
+  "Shadow Tag": [
+   "Gengar-Mega (mega)"
+  ],
+  "Sharpness": [
+   "Gallade",
+   "Samurott-Hisui",
+   "Kleavor",
+   "Absol-Mega-Z (mega)"
+  ],
+  "Shed Skin": [
+   "Arbok",
+   "Scrafty",
+   "Sandaconda",
+   "Sandaconda-Gmax"
+  ],
+  "Sheer Force": [
+   "Tauros",
+   "Feraligatr",
+   "Steelix",
+   "Mawile",
+   "Rampardos",
+   "Conkeldurr",
+   "Toucannon",
+   "Kleavor",
+   "Squawkabilly-Yellow",
+   "Squawkabilly-White",
+   "Camerupt-Mega (mega)"
+  ],
+  "Shell Armor": [
+   "Torkoal",
+   "Torterra",
+   "Samurott",
+   "Goodra-Hisui",
+   "Scolipede-Mega (mega)",
+   "Slowbro-Mega (mega)"
+  ],
+  "Shield Dust": [
+   "Vivillon",
+   "Vivillon-Icy Snow",
+   "Vivillon-Polar",
+   "Vivillon-Tundra",
+   "Vivillon-Continental",
+   "Vivillon-Garden",
+   "Vivillon-Elegant",
+   "Vivillon-Modern",
+   "Vivillon-Marine",
+   "Vivillon-Archipelago",
+   "Vivillon-High Plains",
+   "Vivillon-Sandstorm",
+   "Vivillon-River",
+   "Vivillon-Monsoon",
+   "Vivillon-Savanna",
+   "Vivillon-Sun",
+   "Vivillon-Ocean",
+   "Vivillon-Jungle",
+   "Vivillon-Fancy",
+   "Vivillon-Pokeball"
+  ],
+  "Skill Link": [
+   "Toucannon",
+   "Heracross-Mega (mega)"
+  ],
+  "Slush Rush": [
+   "Beartic"
+  ],
+  "Sniper": [
+   "Beedrill",
+   "Ariados",
+   "Barbaracle",
+   "Inteleon",
+   "Inteleon-Gmax"
+  ],
+  "Snow Cloak": [
+   "Ninetales-Alola",
+   "Glaceon",
+   "Mamoswine",
+   "Froslass",
+   "Beartic"
+  ],
+  "Snow Warning": [
+   "Ninetales-Alola",
+   "Abomasnow",
+   "Vanilluxe",
+   "Aurorus",
+   "Abomasnow-Mega (mega)",
+   "Froslass-Mega (mega)"
+  ],
+  "Solar Power": [
+   "Charizard",
+   "Charizard-Gmax",
+   "Heliolisk",
+   "Houndoom-Mega (mega)"
+  ],
+  "Solid Rock": [
+   "Camerupt",
+   "Rhyperior"
+  ],
+  "Soundproof": [
+   "Mr. Mime",
+   "Bastiodon",
+   "Abomasnow",
+   "Kommo-o"
+  ],
+  "Speed Boost": [
+   "Blaziken",
+   "Sharpedo",
+   "Scolipede",
+   "Espathra",
+   "Blaziken-Mega (mega)"
+  ],
+  "Spicy Spray": [
+   "Scovillain-Mega (mega)"
+  ],
+  "Stakeout": [
+   "Thievul",
+   "Mabosstiff"
+  ],
+  "Stall": [
+   "Sableye"
+  ],
+  "Stalwart": [
+   "Archaludon",
+   "Skarmory-Mega (mega)"
+  ],
+  "Stamina": [
+   "Mudsdale",
+   "Archaludon"
+  ],
+  "Stance Change": [
+   "Aegislash"
+  ],
+  "Static": [
+   "Pikachu",
+   "Pikachu-Gmax",
+   "Raichu",
+   "Ampharos",
+   "Manectric",
+   "Emolga",
+   "Stunfisk",
+   "Bellibolt"
+  ],
+  "Steadfast": [
+   "Machamp",
+   "Machamp-Gmax",
+   "Lucario",
+   "Gallade",
+   "Lycanroc",
+   "Sirfetch’d"
+  ],
+  "Steely Spirit": [
+   "Perrserker"
+  ],
+  "Stench": [
+   "Garbodor",
+   "Garbodor-Gmax"
+  ],
+  "Sticky Hold": [
+   "Swalot",
+   "Hydrapple"
+  ],
+  "Strong Jaw": [
+   "Tyrantrum",
+   "Avalugg-Hisui",
+   "Sharpedo-Mega (mega)"
+  ],
+  "Sturdy": [
+   "Forretress",
+   "Steelix",
+   "Skarmory",
+   "Aggron",
+   "Bastiodon",
+   "Avalugg",
+   "Avalugg-Hisui",
+   "Garganacl",
+   "Archaludon"
+  ],
+  "Suction Cups": [
+   "Malamar"
+  ],
+  "Super Luck": [
+   "Absol"
+  ],
+  "Supersweet Syrup": [
+   "Hydrapple"
+  ],
+  "Supreme Overlord": [
+   "Kingambit"
+  ],
+  "Surge Surfer": [
+   "Raichu-Alola"
+  ],
+  "Swarm": [
+   "Beedrill",
+   "Ariados",
+   "Scizor",
+   "Heracross",
+   "Scolipede",
+   "Volcarona",
+   "Kleavor"
+  ],
+  "Sweet Veil": [
+   "Slurpuff",
+   "Tsareena",
+   "Alcremie",
+   "Alcremie-Ruby-Cream",
+   "Alcremie-Matcha-Cream",
+   "Alcremie-Mint-Cream",
+   "Alcremie-Lemon-Cream",
+   "Alcremie-Ruby-Swirl",
+   "Alcremie-Caramel-Swirl",
+   "Alcremie-Rainbow-Swirl",
+   "Alcremie-Gmax"
+  ],
+  "Swift Swim": [
+   "Qwilfish",
+   "Beartic",
+   "Basculegion",
+   "Basculegion-F",
+   "Overqwil",
+   "Swampert-Mega (mega)"
+  ],
+  "Symbiosis": [
+   "Floette-Eternal",
+   "Florges",
+   "Oranguru"
+  ],
+  "Synchronize": [
+   "Alakazam",
+   "Espeon",
+   "Umbreon",
+   "Gardevoir",
+   "Musharna",
+   "Indeedee",
+   "Indeedee-F"
+  ],
+  "Tangled Feet": [
+   "Pidgeot",
+   "Mr. Rime"
+  ],
+  "Technician": [
+   "Persian",
+   "Persian-Alola",
+   "Mr. Mime",
+   "Scizor",
+   "Roserade",
+   "Toxtricity",
+   "Toxtricity-Low-Key",
+   "Toxtricity-Gmax",
+   "Grapploct",
+   "Maushold",
+   "Maushold-Four",
+   "Scizor-Mega (mega)"
+  ],
+  "Telepathy": [
+   "Gardevoir",
+   "Medicham",
+   "Musharna",
+   "Noivern",
+   "Oranguru"
+  ],
+  "Thermal Exchange": [
+   "Baxcalibur",
+   "Baxcalibur-Mega (mega)"
+  ],
+  "Thick Fat": [
+   "Snorlax",
+   "Snorlax-Gmax",
+   "Azumarill",
+   "Mamoswine",
+   "Appletun",
+   "Appletun-Gmax",
+   "Venusaur-Mega (mega)"
+  ],
+  "Torrent": [
+   "Blastoise",
+   "Blastoise-Gmax",
+   "Feraligatr",
+   "Swampert",
+   "Empoleon",
+   "Samurott",
+   "Samurott-Hisui",
+   "Simipour",
+   "Greninja",
+   "Primarina",
+   "Inteleon",
+   "Inteleon-Gmax",
+   "Quaquaval"
+  ],
+  "Tough Claws": [
+   "Barbaracle",
+   "Lycanroc-Dusk",
+   "Perrserker",
+   "Aerodactyl-Mega (mega)",
+   "Barbaracle-Mega (mega)",
+   "Charizard-Mega-X (mega)",
+   "Golisopod-Mega (mega)",
+   "Metagross-Mega (mega)"
+  ],
+  "Toxic Debris": [
+   "Glimmora"
+  ],
+  "Trace": [
+   "Gardevoir",
+   "Alakazam-Mega (mega)",
+   "Meowstic-M-Mega (mega)",
+   "Meowstic-F-Mega (mega)"
+  ],
+  "Unaware": [
+   "Clefable",
+   "Skeledirge"
+  ],
+  "Unburden": [
+   "Sceptile",
+   "Liepard",
+   "Slurpuff",
+   "Hawlucha",
+   "Thievul",
+   "Sneasler"
+  ],
+  "Unnerve": [
+   "Arbok",
+   "Persian",
+   "Aerodactyl",
+   "Houndoom",
+   "Tyranitar",
+   "Pyroar",
+   "Corviknight",
+   "Corviknight-Gmax"
+  ],
+  "Unseen Fist": [
+   "Golurk-Mega (mega)"
+  ],
+  "Vital Spirit": [
+   "Lycanroc-Midnight",
+   "Annihilape"
+  ],
+  "Volt Absorb": [
+   "Jolteon",
+   "Pawmot"
+  ],
+  "Wandering Spirit": [
+   "Runerigus"
+  ],
+  "Water Absorb": [
+   "Vaporeon",
+   "Politoed",
+   "Araquanid"
+  ],
+  "Water Bubble": [
+   "Araquanid"
+  ],
+  "Weak Armor": [
+   "Skarmory",
+   "Garbodor",
+   "Garbodor-Gmax",
+   "Vanilluxe",
+   "Polteageist",
+   "Polteageist-Antique",
+   "Armarouge",
+   "Ceruledge"
+  ],
+  "White Smoke": [
+   "Torkoal"
+  ],
+  "Zero to Hero": [
+   "Palafin"
+  ]
+ }
+}

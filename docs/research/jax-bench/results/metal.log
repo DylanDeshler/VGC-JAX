@@ -1,0 +1,16 @@
+== b1 1A switch on METAL (N=8,32,128) ==
+1A baseline 10.5 ns/elem
+1A N=   8 switch         lower=0.05s compile=0.05s 19.6 ns/elem temp=0.0MB
+1A N=   8 onehot         lower=0.04s compile=0.05s 19.4 ns/elem temp=0.0MB
+1A N=   8 take           lower=0.04s compile=0.06s 17.3 ns/elem temp=0.0MB
+1A N=   8 table+N/8 sw   lower=0.05s compile=0.05s 28.0 ns/elem temp=0.0MB
+1A N=  32 switch         lower=0.13s compile=0.19s 49.4 ns/elem temp=0.0MB
+1A N=  32 onehot         lower=0.09s compile=0.18s 49.0 ns/elem temp=0.0MB
+1A N=  32 take           lower=0.09s compile=0.19s 46.9 ns/elem temp=0.0MB
+1A N=  32 table+N/8 sw   lower=0.06s compile=0.08s 35.5 ns/elem temp=0.0MB
+1A N= 128 switch         lower=0.49s compile=0.77s 211.7 ns/elem temp=0.0MB
+1A N= 128 onehot         lower=0.32s compile=0.71s 173.9 ns/elem temp=0.0MB
+1A N= 128 take           lower=0.32s compile=0.71s 173.8 ns/elem temp=0.0MB
+1A N= 128 table+N/8 sw   lower=0.11s compile=0.14s 62.8 ns/elem temp=0.0MB
+== b5 rollout on METAL B=8192 T=32 ==
+== b5 rollout on METAL B=1024 T=8: lowered (donation not implemented for METAL), compile+run did not finish in 5 min; abandoned ==

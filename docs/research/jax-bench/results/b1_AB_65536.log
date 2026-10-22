@@ -1,0 +1,63 @@
+1A baseline 0.9 ns/elem
+1A N=   8 switch         lower=0.02s compile=0.05s 3.0 ns/elem temp=0.2MB
+1A N=   8 onehot         lower=0.02s compile=0.06s 3.3 ns/elem temp=0.5MB
+1A N=   8 take           lower=0.01s compile=0.05s 9.0 ns/elem temp=1.0MB
+1A N=   8 table+N/8 sw   lower=0.02s compile=0.08s 5.4 ns/elem temp=2.2MB
+1A N=  32 switch         lower=0.07s compile=0.14s 7.9 ns/elem temp=2.2MB
+1A N=  32 onehot         lower=0.03s compile=0.14s 34.2 ns/elem temp=74.5MB
+1A N=  32 take           lower=0.03s compile=0.12s 21.2 ns/elem temp=75.0MB
+1A N=  32 table+N/8 sw   lower=0.03s compile=0.08s 5.4 ns/elem temp=2.5MB
+1A N= 128 switch         lower=0.22s compile=0.55s 24.4 ns/elem temp=6.8MB
+1A N= 128 onehot         lower=0.11s compile=0.42s 694.4 ns/elem temp=384.0MB
+1A N= 128 take           lower=0.10s compile=0.43s 73.9 ns/elem temp=303.0MB
+1A N= 128 table+N/8 sw   lower=0.05s compile=0.15s 8.5 ns/elem temp=4.0MB
+1A N= 512 switch         lower=0.90s compile=2.70s 105.2 ns/elem temp=11.2MB
+1A N= 512 onehot         lower=0.47s compile=2.14s 5492.1 ns/elem temp=1536.0MB
+1A N= 512 take           lower=0.53s compile=2.54s 337.5 ns/elem temp=1216.5MB
+1A N= 512 table+N/8 sw   lower=0.17s compile=0.50s 28.8 ns/elem temp=7.2MB
+| N | variant | lower_s | compile_s | ns_per_elem | temp_MB |
+|---|---|---|---|---|---|
+| 0 | baseline (copy) | 0.00 | 0.00 | 0.9 |  |
+| 8 | switch | 0.02 | 0.05 | 3.0 | 0.2 |
+| 8 | onehot | 0.02 | 0.06 | 3.3 | 0.5 |
+| 8 | take | 0.01 | 0.05 | 9.0 | 1.0 |
+| 8 | table+N/8 sw | 0.02 | 0.08 | 5.4 | 2.2 |
+| 32 | switch | 0.07 | 0.14 | 7.9 | 2.2 |
+| 32 | onehot | 0.03 | 0.14 | 34.2 | 74.5 |
+| 32 | take | 0.03 | 0.12 | 21.2 | 75.0 |
+| 32 | table+N/8 sw | 0.03 | 0.08 | 5.4 | 2.5 |
+| 128 | switch | 0.22 | 0.55 | 24.4 | 6.8 |
+| 128 | onehot | 0.11 | 0.42 | 694.4 | 384.0 |
+| 128 | take | 0.10 | 0.43 | 73.9 | 303.0 |
+| 128 | table+N/8 sw | 0.05 | 0.15 | 8.5 | 4.0 |
+| 512 | switch | 0.90 | 2.70 | 105.2 | 11.2 |
+| 512 | onehot | 0.47 | 2.14 | 5492.1 | 1536.0 |
+| 512 | take | 0.53 | 2.54 | 337.5 | 1216.5 |
+| 512 | table+N/8 sw | 0.17 | 0.50 | 28.8 | 7.2 |
+1B N=   8 naive N-way x8         lower=0.07s compile=0.06s 4.6 ns/elem
+1B N=   8 grouped (N/8)-way x8   lower=0.03s compile=0.08s 6.3 ns/elem
+1B N=   8 table+specials x8      lower=0.19s compile=0.65s 38.5 ns/elem
+1B N=  32 naive N-way x8         lower=0.18s compile=0.39s 13.7 ns/elem
+1B N=  32 grouped (N/8)-way x8   lower=0.08s compile=0.33s 17.7 ns/elem
+1B N=  32 table+specials x8      lower=0.16s compile=0.71s 41.7 ns/elem
+1B N= 128 naive N-way x8         lower=0.65s compile=2.89s 115.9 ns/elem
+1B N= 128 grouped (N/8)-way x8   lower=0.27s compile=2.17s 101.2 ns/elem
+1B N= 128 table+specials x8      lower=0.18s compile=0.85s 53.0 ns/elem
+1B N= 512 naive N-way x8         lower=2.82s compile=26.43s 2376.9 ns/elem
+1B N= 512 grouped (N/8)-way x8   lower=1.22s compile=23.12s 800.9 ns/elem
+1B N= 512 table+specials x8      lower=0.24s compile=1.85s 103.8 ns/elem
+| N | variant | lower_s | compile_s | ns_per_elem |
+|---|---|---|---|---|
+| 8 | naive N-way x8 | 0.07 | 0.06 | 4.6 |
+| 8 | grouped (N/8)-way x8 | 0.03 | 0.08 | 6.3 |
+| 8 | table+specials x8 | 0.19 | 0.65 | 38.5 |
+| 32 | naive N-way x8 | 0.18 | 0.39 | 13.7 |
+| 32 | grouped (N/8)-way x8 | 0.08 | 0.33 | 17.7 |
+| 32 | table+specials x8 | 0.16 | 0.71 | 41.7 |
+| 128 | naive N-way x8 | 0.65 | 2.89 | 115.9 |
+| 128 | grouped (N/8)-way x8 | 0.27 | 2.17 | 101.2 |
+| 128 | table+specials x8 | 0.18 | 0.85 | 53.0 |
+| 512 | naive N-way x8 | 2.82 | 26.43 | 2376.9 |
+| 512 | grouped (N/8)-way x8 | 1.22 | 23.12 | 800.9 |
+| 512 | table+specials x8 | 0.24 | 1.85 | 103.8 |
+[saved /Users/dylan.d/Documents/research/pokemon/research/jax-bench/results/b1_dispatch_AB_B65536.json]

@@ -1,0 +1,101 @@
+{
+  "sha": "fbafa72517e9234e33acea7afb6c95c11e8af840",
+  "node_id": "C_kwDOAC5c7toAKGZiYWZhNzI1MTdlOTIzNGUzM2FjZWE3YWZiNmM5NWMxMWU4YWY4NDA",
+  "commit": {
+    "author": {
+      "name": "André Bastos Dias",
+      "email": "80102738+andrebastosdias@users.noreply.github.com",
+      "date": "2026-09-30T17:42:27Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-09-30T17:42:27Z"
+    },
+    "message": "Champions: Sheer Force doesn't suppress Berserk, Pickpocket, Eject Button, etc. (#12330)\n\n* Champions: Sheer Force doesn't suppress Berserk, Pickpocket, Eject Button, etc\n\n* Lint",
+    "tree": {
+      "sha": "abd991f9f28be89f7b7f2d1951882fa6aeb0364a",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/abd991f9f28be89f7b7f2d1951882fa6aeb0364a"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/fbafa72517e9234e33acea7afb6c95c11e8af840",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqvUoDCRC1aQ7uu5UhlAAA5WgQAKn808CQRTKG8+IsjcoGehWb\nnglBlUVGUa06sJGuSiH5Tj3/xaPiIgvq7f0LjivPQGxziZpe7/ZDygbsxoiWwTyq\ncgL3g0qB+dZph09sUSox86DBiFbK9YxZSmLcyHLqmhzWgG87jg9OWzOtFVNfRfXI\nqFhcM4b7wHyk9C+J6IyzqOwfVjCEEkbaPik/XmjX0tgzD5VLQ9ThBXABvYGNwXyV\nmocru6+xc8k0+BjHMGAOYvAP8XncOq+GawTNceFtbechlKYZCgkdPL7FgTWrhpqH\nw8Nl1ouLOcv9N6y1SG7PdzBmme/+NtKfIcA+ILRBhyxQMsqdTKcYwhV4HXG0YbuN\nrHw+cOgg1b4hT5/+QJSwZLqhLw+hEAzwjvf7hD1xyPvCW3AcsxrUFVUq+U+Sx2Nn\njTTTADdRuvWzPDME9e+vdpbxcyYxjsvS6WIuYtg1rVHPJYn4z/zev6IozJfj4X2F\n9KB1j6pdAP5TMczlT7D9qJlfdVANZQuUCJ4IWBLo+E9M4wqxMY2QkHaiRHMhvsSq\nuEQaBW/9SS/+U/vnjQL1kC998nnmGe73nD8H6DdPsFndMRUI2FmL549tniWxcRgr\nho8FvpOYve5ILmaKffZ5lBtUm3Wx/viBqFx+/yQ759+llAqRe+BsnRagAzSR0mHK\nnoR76sNpcypBrNDFrAXm\n=rKX5\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree abd991f9f28be89f7b7f2d1951882fa6aeb0364a\nparent 700b4f75b493be5c49173247be87f6749e5cba3e\nauthor André Bastos Dias <80102738+andrebastosdias@users.noreply.github.com> 1790790147 +0300\ncommitter GitHub <noreply@github.com> 1790790147 -0600\n\nChampions: Sheer Force doesn't suppress Berserk, Pickpocket, Eject Button, etc. (#12330)\n\n* Champions: Sheer Force doesn't suppress Berserk, Pickpocket, Eject Button, etc\n\n* Lint",
+      "verified_at": "2026-09-30T17:42:28Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/fbafa72517e9234e33acea7afb6c95c11e8af840",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/fbafa72517e9234e33acea7afb6c95c11e8af840",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/fbafa72517e9234e33acea7afb6c95c11e8af840/comments",
+  "author": {
+    "login": "andrebastosdias",
+    "id": 80102738,
+    "node_id": "MDQ6VXNlcjgwMTAyNzM4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/80102738?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/andrebastosdias",
+    "html_url": "https://github.com/andrebastosdias",
+    "followers_url": "https://api.github.com/users/andrebastosdias/followers",
+    "following_url": "https://api.github.com/users/andrebastosdias/following{/other_user}",
+    "gists_url": "https://api.github.com/users/andrebastosdias/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/andrebastosdias/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/andrebastosdias/subscriptions",
+    "organizations_url": "https://api.github.com/users/andrebastosdias/orgs",
+    "repos_url": "https://api.github.com/users/andrebastosdias/repos",
+    "events_url": "https://api.github.com/users/andrebastosdias/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/andrebastosdias/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "700b4f75b493be5c49173247be87f6749e5cba3e",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/700b4f75b493be5c49173247be87f6749e5cba3e",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/700b4f75b493be5c49173247be87f6749e5cba3e"
+    }
+  ],
+  "stats": {
+    "total": 11,
+    "additions": 8,
+    "deletions": 3
+  },
+  "files": [
+    {
+      "sha": "c735248d519e9de8abf2ebb80b14f62868131d9f",
+      "filename": "data/mods/champions/scripts.ts",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 3,
+      "changes": 11,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/fbafa72517e9234e33acea7afb6c95c11e8af840/data%2Fmods%2Fchampions%2Fscripts.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/fbafa72517e9234e33acea7afb6c95c11e8af840/data%2Fmods%2Fchampions%2Fscripts.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fscripts.ts?ref=fbafa72517e9234e33acea7afb6c95c11e8af840",
+      "patch": "@@ -53,7 +53,6 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\treturn speed;\n \t\t},\n \t\t// Don't revert Mega Evolutions after fainting\n-\t\t// TODO: confirm interaction with Revival Blessing\n \t\tformeChange(speciesId, source, isPermanent, abilitySlot = '0', message) {\n \t\t\tconst rawSpecies = this.battle.dex.species.get(speciesId);\n \n@@ -311,7 +310,7 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t// ...but 16-bit truncation happens even later, and can truncate to 0\n \t\t\treturn tr(baseDamage, 16);\n \t\t},\n-\t\t// Run `AfterHit` events even if the source fainted\n+\t\t// Run `AfterHit` events even if the source fainted: Rapid Spin, Ceaseless Edge, etc.\n \t\tspreadMoveHit(targets, pokemon, moveOrMoveName, hitEffect?, isSecondary?, isSelf?) {\n \t\t\t// Hardcoded for single-target purposes\n \t\t\t// (no spread moves have any kind of onTryHit handler)\n@@ -425,7 +424,7 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\treturn [damage, targets];\n \t\t},\n \t\t// Parental Bond shouldn't announce hit count if it only hits once\n-\t\thitStepMoveHitLoop(targets: Pokemon[], pokemon: Pokemon, move: ActiveMove) { // Temporary name\n+\t\thitStepMoveHitLoop(targets, pokemon, move) {\n \t\t\tlet damage: (number | boolean | undefined)[] = [];\n \t\t\tfor (const i of targets.keys()) {\n \t\t\t\tdamage[i] = 0;\n@@ -592,5 +591,11 @@ export const Scripts: ModdedBattleScriptsData = {\n \n \t\t\treturn damage;\n \t\t},\n+\t\t// Sheer Force doesn't suppress AfterMoveSecondary events: Berserk, Pickpocket, Eject Button, etc.\n+\t\tafterMoveSecondaryEvent(targets, pokemon, move) {\n+\t\t\tthis.battle.singleEvent('AfterMoveSecondary', move, null, targets[0], pokemon, move);\n+\t\t\tthis.battle.runEvent('AfterMoveSecondary', targets, pokemon, move);\n+\t\t\treturn undefined;\n+\t\t},\n \t},\n };"
+    }
+  ]
+}

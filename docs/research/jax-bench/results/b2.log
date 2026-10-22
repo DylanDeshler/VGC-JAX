@@ -1,0 +1,55 @@
+2A fori         fori    scatter  lower=0.07s compile=0.11s 618.9 ns/elem
+2A fori         unroll  scatter  lower=0.08s compile=0.15s 391.0 ns/elem
+2A fori         vector  scatter  lower=0.06s compile=0.09s 391.5 ns/elem
+2A scan         fori    scatter  lower=0.04s compile=0.10s 601.2 ns/elem
+2A scan         unroll  scatter  lower=0.07s compile=0.15s 385.5 ns/elem
+2A scan         vector  scatter  lower=0.04s compile=0.09s 406.5 ns/elem
+2A unroll       fori    scatter  lower=0.21s compile=0.37s 522.8 ns/elem
+2A unroll       unroll  scatter  lower=0.40s compile=0.66s 326.4 ns/elem
+2A unroll       vector  scatter  lower=0.20s compile=0.31s 291.0 ns/elem
+2A while        fori    scatter  lower=0.05s compile=0.14s 536.4 ns/elem
+2A while        unroll  scatter  lower=0.11s compile=0.19s 475.9 ns/elem
+2A while        vector  scatter  lower=0.08s compile=0.15s 459.0 ns/elem
+2A fori         scan    scatter  lower=0.04s compile=0.13s 676.7 ns/elem
+2A fori_nomask  vector  scatter  lower=0.05s compile=0.10s 412.0 ns/elem
+2A fori         vector  onehot   lower=0.05s compile=0.21s 1895.3 ns/elem
+2A unroll       vector  onehot   lower=0.22s compile=0.58s 470.3 ns/elem
+2A fori         unroll  onehot   lower=0.09s compile=0.56s 1703.5 ns/elem
+| outer | inner | index | lower_s | compile_s | ns_per_elem | temp_MB |
+|---|---|---|---|---|---|---|
+| fori | fori | scatter | 0.07 | 0.11 | 618.9 | 1.8 |
+| fori | unroll | scatter | 0.08 | 0.15 | 391.0 | 3.5 |
+| fori | vector | scatter | 0.06 | 0.09 | 391.5 | 3.8 |
+| scan | fori | scatter | 0.04 | 0.10 | 601.2 | 1.8 |
+| scan | unroll | scatter | 0.07 | 0.15 | 385.5 | 3.5 |
+| scan | vector | scatter | 0.04 | 0.09 | 406.5 | 3.8 |
+| unroll | fori | scatter | 0.21 | 0.37 | 522.8 | 5.3 |
+| unroll | unroll | scatter | 0.40 | 0.66 | 326.4 | 25.6 |
+| unroll | vector | scatter | 0.20 | 0.31 | 291.0 | 26.2 |
+| while | fori | scatter | 0.05 | 0.14 | 536.4 | 2.0 |
+| while | unroll | scatter | 0.11 | 0.19 | 475.9 | 4.5 |
+| while | vector | scatter | 0.08 | 0.15 | 459.0 | 4.6 |
+| fori | scan | scatter | 0.04 | 0.13 | 676.7 | 1.8 |
+| fori_nomask | vector | scatter | 0.05 | 0.10 | 412.0 | 3.5 |
+| fori | vector | onehot | 0.05 | 0.21 | 1895.3 | 4.3 |
+| unroll | vector | onehot | 0.22 | 0.58 | 470.3 | 33.9 |
+| fori | unroll | onehot | 0.09 | 0.56 | 1703.5 | 3.8 |
+2B fori   vector gather lower=0.43s compile=0.90s 2492.7 ns/elem
+2B fori   vector onehot lower=0.34s compile=0.73s 2561.4 ns/elem
+2B fori   unroll gather lower=0.36s compile=0.83s 2035.3 ns/elem
+2B fori   unroll onehot lower=0.38s compile=0.85s 1900.2 ns/elem
+2B unroll vector gather lower=0.88s compile=2.40s 2224.5 ns/elem
+2B unroll vector onehot lower=0.86s compile=2.49s 2737.2 ns/elem
+2B unroll unroll gather lower=1.07s compile=3.05s 2519.3 ns/elem
+2B unroll unroll onehot lower=0.99s compile=2.66s 2024.8 ns/elem
+| queue_loop | targets | index | lower_s | compile_s | ns_per_elem | temp_MB |
+|---|---|---|---|---|---|---|
+| fori | vector | gather | 0.43 | 0.90 | 2492.7 | 7.7 |
+| fori | vector | onehot | 0.34 | 0.73 | 2561.4 | 7.1 |
+| fori | unroll | gather | 0.36 | 0.83 | 2035.3 | 8.1 |
+| fori | unroll | onehot | 0.38 | 0.85 | 1900.2 | 7.3 |
+| unroll | vector | gather | 0.88 | 2.40 | 2224.5 | 9.1 |
+| unroll | vector | onehot | 0.86 | 2.49 | 2737.2 | 8.6 |
+| unroll | unroll | gather | 1.07 | 3.05 | 2519.3 | 13.1 |
+| unroll | unroll | onehot | 0.99 | 2.66 | 2024.8 | 12.7 |
+[saved /Users/dylan.d/Documents/research/pokemon/research/jax-bench/results/b2_control_AB.json]

@@ -1,0 +1,209 @@
+{
+  "sha": "2345119850b85079fa34a2cf1aafe193ba79d5db",
+  "node_id": "C_kwDOAC5c7toAKDIzNDUxMTk4NTBiODUwNzlmYTM0YTJjZjFhYWZlMTkzYmE3OWQ1ZGI",
+  "commit": {
+    "author": {
+      "name": "André Bastos Dias",
+      "email": "80102738+andrebastosdias@users.noreply.github.com",
+      "date": "2026-09-20T21:08:34Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-09-20T21:08:34Z"
+    },
+    "message": "Champions: Fix Curse + type-changing interactions (#12321)\n\n* Champions: Fix Curse + type changing interactions\n\n* Add tests with Encore",
+    "tree": {
+      "sha": "fe1a0a6dd51e61b387fa9539bcf00124f95cff48",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/fe1a0a6dd51e61b387fa9539bcf00124f95cff48"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/2345119850b85079fa34a2cf1aafe193ba79d5db",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqsEtSCRC1aQ7uu5UhlAAAMNMQADyg4CH7qa7nQEhupvDgSU7+\npD6sXrVWRqMuDcD24ffbsXtM/3y029PPiyM+IrSSc8GklZ1dRpiyPPkOsiyFsg11\nNLrQ0Iao4tnF8oShU2cJIzxaK7+dMoETIS/fkqPNurS4WMUmP+f9pHI4E78UHev4\navoGR3f/QxoNVCT1iPUVf+ErJ8nZo7+zXYHr9Sb6qRCikP+xQNs/nzObqkT18M9r\n267e4ZvMbiQddbJW2qBlU4RPKQMYdOFxqN7NiJAisyxjnRHsJfTvbbMRBPezGJER\njGXyHX4zQENzCMqSJS4wMZX8Vauc50HMbL0F1zUm0hDWml8Kzpcztq2xl9C8Dxz4\nMCji3/L+/VKcZOk1hmCMVzyILa2MnFqrQBI6QDB+jxZJJ2j2yukTGgjMlLxNqB+C\nI4ILcnaKSUo4am5K0HuIsqYJnJqfjdI/snAMNX18Xx/57a7FAvgaVKgEVj5XFNUZ\nrnAsBWerIePvVvhfLFhSKR1Sr1j7ZVtvr8kcH+EchsUXC2ejpR/WMO3O6NvOHb6x\nV6NMZLRDVsz8k9AxtEOauGDDPv1gtV+ZW604PQkjiTvjO8wmbeDabKnm4h8GA360\nxwK8T4XSBEOe3xwcaKIvjq0yO1TNGKfKOeiDxqq1Ol6/0RpI+C3gCfQF/8lStamL\n2ELbiY8trW8V1yBporJZ\n=o1iA\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree fe1a0a6dd51e61b387fa9539bcf00124f95cff48\nparent 954971defe76b062c057597c2ca182fbbf3a66ad\nauthor André Bastos Dias <80102738+andrebastosdias@users.noreply.github.com> 1789938514 +0100\ncommitter GitHub <noreply@github.com> 1789938514 -0600\n\nChampions: Fix Curse + type-changing interactions (#12321)\n\n* Champions: Fix Curse + type changing interactions\n\n* Add tests with Encore",
+      "verified_at": "2026-09-20T21:08:35Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/2345119850b85079fa34a2cf1aafe193ba79d5db",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/2345119850b85079fa34a2cf1aafe193ba79d5db",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/2345119850b85079fa34a2cf1aafe193ba79d5db/comments",
+  "author": {
+    "login": "andrebastosdias",
+    "id": 80102738,
+    "node_id": "MDQ6VXNlcjgwMTAyNzM4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/80102738?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/andrebastosdias",
+    "html_url": "https://github.com/andrebastosdias",
+    "followers_url": "https://api.github.com/users/andrebastosdias/followers",
+    "following_url": "https://api.github.com/users/andrebastosdias/following{/other_user}",
+    "gists_url": "https://api.github.com/users/andrebastosdias/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/andrebastosdias/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/andrebastosdias/subscriptions",
+    "organizations_url": "https://api.github.com/users/andrebastosdias/orgs",
+    "repos_url": "https://api.github.com/users/andrebastosdias/repos",
+    "events_url": "https://api.github.com/users/andrebastosdias/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/andrebastosdias/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "954971defe76b062c057597c2ca182fbbf3a66ad",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/954971defe76b062c057597c2ca182fbbf3a66ad",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/954971defe76b062c057597c2ca182fbbf3a66ad"
+    }
+  ],
+  "stats": {
+    "total": 344,
+    "additions": 334,
+    "deletions": 10
+  },
+  "files": [
+    {
+      "sha": "7fc1810a8d3b9941a7297162d093b83a147fc65b",
+      "filename": "data/mods/champions/moves.ts",
+      "status": "modified",
+      "additions": 30,
+      "deletions": 0,
+      "changes": 30,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/2345119850b85079fa34a2cf1aafe193ba79d5db/data%2Fmods%2Fchampions%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/2345119850b85079fa34a2cf1aafe193ba79d5db/data%2Fmods%2Fchampions%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fmoves.ts?ref=2345119850b85079fa34a2cf1aafe193ba79d5db",
+      "patch": "@@ -162,6 +162,36 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\",\n \t},\n+\tcurse: {\n+\t\tinherit: true,\n+\t\ttracksTarget: true,\n+\t\tvolatileStatus: undefined, // no inherit\n+\t\tonModifyMove(move, source, target) {\n+\t\t\tif (!source.hasType('Ghost')) {\n+\t\t\t\tmove.target = 'self';\n+\t\t\t} else if (source !== target && source.isAlly(target)) {\n+\t\t\t\tmove.target = 'randomNormal';\n+\t\t\t}\n+\t\t},\n+\t\tonTryHit(target, source, move) {\n+\t\t\tif (source.hasType('Ghost') && target.volatiles['curse']) {\n+\t\t\t\treturn false;\n+\t\t\t}\n+\t\t},\n+\t\tonHit(target, source) {\n+\t\t\tif (!source.hasType('Ghost')) {\n+\t\t\t\treturn !!this.boost({ spe: -1, atk: 1, def: 1 }, source, source);\n+\t\t\t}\n+\t\t\tthis.directDamage(source.maxhp / 2, source, source);\n+\t\t\tif (source.isAlly(target)) {\n+\t\t\t\tconst random = this.getRandomTarget(source, 'Curse');\n+\t\t\t\tif (!random) return false;\n+\t\t\t\ttarget = random;\n+\t\t\t}\n+\t\t\tdelete target.volatiles['curse'];\n+\t\t\ttarget.addVolatile('curse');\n+\t\t},\n+\t},\n \tcut: {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\","
+    },
+    {
+      "sha": "3e3905154a30beea6bc6bc958161bedc5a4b164f",
+      "filename": "data/mods/gen4/moves.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/2345119850b85079fa34a2cf1aafe193ba79d5db/data%2Fmods%2Fgen4%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/2345119850b85079fa34a2cf1aafe193ba79d5db/data%2Fmods%2Fgen4%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen4%2Fmoves.ts?ref=2345119850b85079fa34a2cf1aafe193ba79d5db",
+      "patch": "@@ -273,7 +273,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\t\t\tdelete move.volatileStatus;\n \t\t\t\tdelete move.onHit;\n \t\t\t\tmove.self = { boosts: { atk: 1, def: 1, spe: -1 } };\n-\t\t\t\tmove.target = move.nonGhostTarget!;\n+\t\t\t\tmove.target = 'self';\n \t\t\t} else if (target?.volatiles['substitute']) {\n \t\t\t\tdelete move.volatileStatus;\n \t\t\t\tdelete move.onHit;"
+    },
+    {
+      "sha": "64754875f8e49ca9cb9a84e96fe4f8464c2dae55",
+      "filename": "data/mods/gen8/moves.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/2345119850b85079fa34a2cf1aafe193ba79d5db/data%2Fmods%2Fgen8%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/2345119850b85079fa34a2cf1aafe193ba79d5db/data%2Fmods%2Fgen8%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen8%2Fmoves.ts?ref=2345119850b85079fa34a2cf1aafe193ba79d5db",
+      "patch": "@@ -99,7 +99,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\tinherit: true,\n \t\tonModifyMove(move, source, target) {\n \t\t\tif (!source.hasType('Ghost')) {\n-\t\t\t\tmove.target = move.nonGhostTarget!;\n+\t\t\t\tmove.target = 'self';\n \t\t\t}\n \t\t},\n \t\ttarget: \"randomNormal\","
+    },
+    {
+      "sha": "a6525b776db4eb48223a0ad135892a6999266d0d",
+      "filename": "data/mods/teraoverride/moves.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/2345119850b85079fa34a2cf1aafe193ba79d5db/data%2Fmods%2Fteraoverride%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/2345119850b85079fa34a2cf1aafe193ba79d5db/data%2Fmods%2Fteraoverride%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fteraoverride%2Fmoves.ts?ref=2345119850b85079fa34a2cf1aafe193ba79d5db",
+      "patch": "@@ -57,7 +57,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\tinherit: true,\n \t\tonModifyMove(move, source, target) {\n \t\t\tif (!source.hasType(source.teraType)) {\n-\t\t\t\tmove.target = move.nonGhostTarget!;\n+\t\t\t\tmove.target = 'self';\n \t\t\t} else if (source.isAlly(target)) {\n \t\t\t\tmove.target = 'randomNormal';\n \t\t\t}"
+    },
+    {
+      "sha": "8c885ac5600b6a01f24d86334bdfe1cdc6b512bc",
+      "filename": "data/moves.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 2,
+      "changes": 3,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/2345119850b85079fa34a2cf1aafe193ba79d5db/data%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/2345119850b85079fa34a2cf1aafe193ba79d5db/data%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmoves.ts?ref=2345119850b85079fa34a2cf1aafe193ba79d5db",
+      "patch": "@@ -3275,7 +3275,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {\n \t\tvolatileStatus: 'curse',\n \t\tonModifyMove(move, source, target) {\n \t\t\tif (!source.hasType('Ghost')) {\n-\t\t\t\tmove.target = move.nonGhostTarget!;\n+\t\t\t\tmove.target = 'self';\n \t\t\t} else if (source.isAlly(target)) {\n \t\t\t\tmove.target = 'randomNormal';\n \t\t\t}\n@@ -3302,7 +3302,6 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {\n \t\t\t},\n \t\t},\n \t\ttarget: \"normal\",\n-\t\tnonGhostTarget: \"self\",\n \t\ttype: \"Ghost\",\n \t\tzMove: { effect: 'curse' },\n \t\tcontestType: \"Tough\","
+    },
+    {
+      "sha": "08b77473cd0c1c121f086cbd9b1b393badb100fb",
+      "filename": "sim/battle-queue.ts",
+      "status": "modified",
+      "additions": 5,
+      "deletions": 0,
+      "changes": 5,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/2345119850b85079fa34a2cf1aafe193ba79d5db/sim%2Fbattle-queue.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/2345119850b85079fa34a2cf1aafe193ba79d5db/sim%2Fbattle-queue.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/sim%2Fbattle-queue.ts?ref=2345119850b85079fa34a2cf1aafe193ba79d5db",
+      "patch": "@@ -260,6 +260,11 @@ export class BattleQueue {\n \t\t\tlet target = null;\n \t\t\taction.move = this.battle.dex.getActiveMove(action.move);\n \n+\t\t\tif (this.battle.dex.currentMod.startsWith('champions') &&\n+\t\t\t\taction.move.id === 'curse' && !action.pokemon.hasType('Ghost')) {\n+\t\t\t\taction.targetLoc = action.pokemon.getLocOf(action.pokemon);\n+\t\t\t}\n+\n \t\t\tif (!action.targetLoc) {\n \t\t\t\ttarget = this.battle.getRandomTarget(action.pokemon, action.move);\n \t\t\t\t// TODO: what actually happens here?"
+    },
+    {
+      "sha": "ab53c92af775960b793a4ea09864276597033152",
+      "filename": "sim/dex-moves.ts",
+      "status": "modified",
+      "additions": 0,
+      "deletions": 4,
+      "changes": 4,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/2345119850b85079fa34a2cf1aafe193ba79d5db/sim%2Fdex-moves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/2345119850b85079fa34a2cf1aafe193ba79d5db/sim%2Fdex-moves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/sim%2Fdex-moves.ts?ref=2345119850b85079fa34a2cf1aafe193ba79d5db",
+      "patch": "@@ -251,7 +251,6 @@ export interface MoveData extends EffectData, MoveEventMethods, HitEffect {\n \tmultihit?: number | number[];\n \tmultihitType?: 'parentalbond';\n \tnoDamageVariance?: boolean;\n-\tnonGhostTarget?: MoveTarget;\n \tspreadModifier?: number;\n \tsleepUsable?: boolean;\n \t/**\n@@ -451,8 +450,6 @@ export class DataMove extends BasicEffect implements Readonly<BasicEffect & Move\n \treadonly flags: MoveFlags;\n \t/** Whether or not the user must switch after using this move. */\n \treadonly selfSwitch?: 'copyvolatile' | 'shedtail' | boolean;\n-\t/** Move target used if the user is not a Ghost type (for Curse). */\n-\treadonly nonGhostTarget: MoveTarget;\n \t/** Whether or not the move ignores abilities. */\n \treadonly ignoreAbility: boolean;\n \t/**\n@@ -505,7 +502,6 @@ export class DataMove extends BasicEffect implements Readonly<BasicEffect & Move\n \t\tthis.isMax = data.isMax || false;\n \t\tthis.flags = data.flags || {};\n \t\tthis.selfSwitch = (typeof data.selfSwitch === 'string' ? (data.selfSwitch as ID) : data.selfSwitch) || undefined;\n-\t\tthis.nonGhostTarget = data.nonGhostTarget || '';\n \t\tthis.ignoreAbility = data.ignoreAbility || false;\n \t\tthis.damage = data.damage!;\n \t\tthis.spreadHit = data.spreadHit || false;"
+    },
+    {
+      "sha": "a24bbc1606a66870cd6e65afa17cd167f6af6af1",
+      "filename": "sim/pokemon.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/2345119850b85079fa34a2cf1aafe193ba79d5db/sim%2Fpokemon.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/2345119850b85079fa34a2cf1aafe193ba79d5db/sim%2Fpokemon.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/sim%2Fpokemon.ts?ref=2345119850b85079fa34a2cf1aafe193ba79d5db",
+      "patch": "@@ -998,7 +998,7 @@ export class Pokemon {\n \t\t\tswitch (moveSlot.id) {\n \t\t\tcase 'curse':\n \t\t\t\tif (!this.hasType('Ghost')) {\n-\t\t\t\t\ttarget = this.battle.dex.moves.get('curse').nonGhostTarget;\n+\t\t\t\t\ttarget = 'self';\n \t\t\t\t}\n \t\t\t\tbreak;\n \t\t\tcase 'pollenpuff':"
+    },
+    {
+      "sha": "c05d9b96e01cac4721f61b734f5f38c66ff554d0",
+      "filename": "test/sim/champions.js",
+      "status": "added",
+      "additions": 286,
+      "deletions": 0,
+      "changes": 286,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/2345119850b85079fa34a2cf1aafe193ba79d5db/test%2Fsim%2Fchampions.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/2345119850b85079fa34a2cf1aafe193ba79d5db/test%2Fsim%2Fchampions.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/test%2Fsim%2Fchampions.js?ref=2345119850b85079fa34a2cf1aafe193ba79d5db",
+      "patch": "@@ -0,0 +1,286 @@\n+'use strict';\n+\n+const assert = require('./../assert');\n+const common = require('./../common');\n+\n+let battle;\n+\n+const createChampionsBattle = (options, teams) => {\n+\tif (Array.isArray(options)) {\n+\t\tteams = options;\n+\t\toptions = {};\n+\t}\n+\tif (!options) options = {};\n+\tconst formatid = options.gameType === 'doubles' ? 'gen9championsdoublescustomgame@@@!teampreview' : 'gen9championscustomgame@@@!teampreview';\n+\treturn common.createBattle({ formatid, ...options }, teams);\n+};\n+\n+describe('Curse', () => {\n+\tafterEach(() => {\n+\t\tbattle.destroy();\n+\t});\n+\n+\tit(`should redirect to a foe when targeting an ally`, () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t\t{ species: 'Magikarp', moves: ['splash'] },\n+\t\t], [\n+\t\t\t{ species: 'Caterpie', moves: ['sleeptalk'] },\n+\t\t\t{ species: 'Caterpie', moves: ['sleeptalk'] },\n+\t\t]]);\n+\t\tbattle.makeChoices('move curse -2, move splash', 'move sleeptalk, move sleeptalk');\n+\t\tassert.equal(battle.p1.active[0].hp, battle.p1.active[0].maxhp - Math.floor(battle.p1.active[0].maxhp / 2));\n+\t\tassert.equal(\n+\t\t\tbattle.p2.active[0].hp + battle.p2.active[1].hp,\n+\t\t\tbattle.p2.active[0].maxhp + battle.p2.active[1].maxhp - Math.floor(battle.p2.active[0].maxhp / 4)\n+\t\t);\n+\t});\n+\n+\tit(`should redirect to a foe when targeting an ally`, () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t\t{ species: 'Magikarp', moves: ['splash'] },\n+\t\t], [\n+\t\t\t{ species: 'Dragapult', moves: ['curse'] },\n+\t\t\t{ species: 'Dragapult', moves: ['curse'] },\n+\t\t]]);\n+\t\tbattle.makeChoices('move curse -2, move splash', 'move curse 2, move curse 2');\n+\t\tassert.equal(battle.p1.active[0].hp, battle.p1.active[0].maxhp - Math.floor(battle.p1.active[0].maxhp / 2));\n+\t\tassert.equal(\n+\t\t\tbattle.p2.active[0].hp + battle.p2.active[1].hp,\n+\t\t\tbattle.p2.active[0].maxhp + battle.p2.active[1].maxhp -\n+\t\t\tMath.floor(battle.p2.active[0].maxhp / 2) - Math.floor(battle.p2.active[0].maxhp / 4)\n+\t\t);\n+\t});\n+\n+\tit(`should curse a target if a non-Ghost user has Protean`, () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: 'Greninja', ability: 'protean', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Caterpie', moves: ['sleeptalk'] },\n+\t\t]]);\n+\t\tconst greninja = battle.p1.active[0];\n+\t\tconst caterpie = battle.p2.active[0];\n+\t\tconst curseResidual = Math.floor(caterpie.maxhp / 4);\n+\t\tbattle.makeChoices();\n+\t\tassert.equal(greninja.hp, greninja.maxhp - Math.floor(greninja.maxhp / 2));\n+\t\tassert.equal(caterpie.hp, caterpie.maxhp - curseResidual);\n+\n+\t\tbattle.makeChoices();\n+\t\tassert.equal(greninja.hp, greninja.maxhp - Math.floor(greninja.maxhp / 2));\n+\t\tassert.equal(caterpie.hp, caterpie.maxhp - curseResidual * 2);\n+\t});\n+\n+\tit(`should be affected by Pressure if targeting an ally`, () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t\t{ species: 'Magikarp', moves: ['splash'] },\n+\t\t], [\n+\t\t\t{ species: 'Caterpie', ability: 'pressure', moves: ['sleeptalk'] },\n+\t\t\t{ species: 'Caterpie', ability: 'pressure', moves: ['sleeptalk'] },\n+\t\t]]);\n+\t\tconst greninja = battle.p1.active[0];\n+\t\tconst caterpie = battle.p2.active[0];\n+\t\tconst curseResidual = Math.floor(caterpie.maxhp / 4);\n+\n+\t\tbattle.makeChoices('move curse -2, move splash', 'move sleeptalk, move sleeptalk');\n+\t\tassert.equal(greninja.hp, greninja.maxhp - Math.floor(greninja.maxhp / 2));\n+\t\tassert.equal(caterpie.hp, caterpie.maxhp - curseResidual);\n+\t\tassert.equal(greninja.moveSlots[0].pp, greninja.moveSlots[0].maxpp - 2);\n+\n+\t\tbattle.makeChoices();\n+\t\tassert.equal(greninja.moveSlots[0].pp, greninja.moveSlots[0].maxpp - 4);\n+\t});\n+\n+\tit(`should not be affected by Pressure if a non-Ghost user has Protean`, () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: 'Greninja', ability: 'protean', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Caterpie', ability: 'pressure', moves: ['sleeptalk'] },\n+\t\t]]);\n+\t\tconst greninja = battle.p1.active[0];\n+\t\tconst caterpie = battle.p2.active[0];\n+\t\tconst curseResidual = Math.floor(caterpie.maxhp / 4);\n+\n+\t\tbattle.makeChoices();\n+\t\tassert.equal(greninja.hp, greninja.maxhp - Math.floor(greninja.maxhp / 2));\n+\t\tassert.equal(caterpie.hp, caterpie.maxhp - curseResidual);\n+\t\tassert.equal(greninja.moveSlots[0].pp, greninja.moveSlots[0].maxpp - 1);\n+\n+\t\tbattle.makeChoices();\n+\t\tassert.equal(greninja.moveSlots[0].pp, greninja.moveSlots[0].maxpp - 3);\n+\t});\n+\n+\tit(`should not hit a target mid-fly`, () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', moves: ['fly'] },\n+\t\t]]);\n+\t\tbattle.makeChoices();\n+\t\tassert.fullHP(battle.p1.active[0]);\n+\t\tassert.fullHP(battle.p2.active[0]);\n+\t});\n+\n+\tit(`should be able to hit a target mid-fly if a non-Ghost user has Protean`, () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: 'Greninja', ability: 'protean', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', moves: ['fly'] },\n+\t\t]]);\n+\t\tconst greninja = battle.p1.active[0];\n+\t\tconst aerodactyl = battle.p2.active[0];\n+\t\tconst curseResidual = Math.floor(aerodactyl.maxhp / 4);\n+\t\tbattle.makeChoices();\n+\t\tassert.equal(greninja.hp, greninja.maxhp - Math.floor(greninja.maxhp / 2));\n+\t\tassert.equal(aerodactyl.hp, aerodactyl.maxhp - curseResidual);\n+\t});\n+\n+\tit(`should be able to hit a target mid-fly if the user became a Ghost due to Trick-or-Treat`, () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'Kecleon', ability: 'protean', moves: ['curse'] },\n+\t\t\t{ species: 'Magikarp', moves: ['splash'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', moves: ['fly'] },\n+\t\t\t{ species: 'Gourgeist', moves: ['trickortreat'] },\n+\t\t]]);\n+\t\tconst kecleon = battle.p1.active[0];\n+\t\tconst aerodactyl = battle.p2.active[0];\n+\t\tconst curseResidual = Math.floor(aerodactyl.maxhp / 4);\n+\t\tbattle.makeChoices();\n+\t\tassert.equal(kecleon.hp, kecleon.maxhp - Math.floor(kecleon.maxhp / 2));\n+\t\tassert.equal(aerodactyl.hp, aerodactyl.maxhp - curseResidual);\n+\t});\n+\n+\tit(`shouldn't fail if the target is already afflicted with Curse, but only became a Ghost-type mid-turn`, () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: 'Greninja', moves: ['curse', 'sleeptalk'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', moves: ['trickortreat', 'soak'] },\n+\t\t]]);\n+\t\tconst greninja = battle.p1.active[0];\n+\t\tconst aerodactyl = battle.p2.active[0];\n+\t\tconst curseResidual = Math.floor(aerodactyl.maxhp / 4);\n+\t\tbattle.makeChoices();\n+\t\tassert.equal(greninja.hp, greninja.maxhp - Math.floor(greninja.maxhp / 2));\n+\t\tassert.equal(aerodactyl.hp, aerodactyl.maxhp - curseResidual);\n+\n+\t\tbattle.makeChoices('move sleeptalk', 'move soak');\n+\t\tassert.equal(greninja.hp, greninja.maxhp - Math.floor(greninja.maxhp / 2));\n+\t\tassert.equal(aerodactyl.hp, aerodactyl.maxhp - curseResidual * 2);\n+\n+\t\tbattle.makeChoices();\n+\t\tassert.equal(greninja.hp, greninja.maxhp - Math.floor(greninja.maxhp / 2) * 2);\n+\t\tassert.equal(aerodactyl.hp, aerodactyl.maxhp - curseResidual * 3);\n+\t});\n+\n+\tit(`[forced by Encore] shouldn't fail if the target is already afflicted with Curse and the user has Protean`, () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'Gengar', moves: ['curse', 'shadowball'] },\n+\t\t\t{ species: 'Gengar', moves: ['curse', 'sleeptalk'] },\n+\t\t], [\n+\t\t\t{ species: 'Pelipper', moves: ['soak', 'tailwind', 'encore'] },\n+\t\t\t{ species: 'Pelipper', ability: 'protean', moves: ['soak', 'sleeptalk', 'skillswap'] },\n+\t\t]]);\n+\t\tbattle.makeChoices('move curse 1, move curse 2', 'move soak 1, move soak 2');\n+\t\tbattle.makeChoices('move curse, move curse', 'move tailwind, move sleeptalk');\n+\t\tbattle.makeChoices('move shadowball 1, move curse', 'move encore 1, move skillswap 1');\n+\t\tconsole.log(battle.getDebugLog());\n+\n+\t\tconst gengar1 = battle.p1.active[0];\n+\t\tassert.equal(gengar1.hp, gengar1.maxhp - Math.floor(gengar1.maxhp / 2) * 2);\n+\t\tassert.equal(gengar1.boosts.atk, 1);\n+\n+\t\tconst gengar2 = battle.p1.active[1];\n+\t\tassert.equal(gengar2.hp, gengar2.maxhp - Math.floor(gengar2.maxhp / 2));\n+\t\tassert.equal(gengar2.boosts.atk, 2);\n+\t});\n+\n+\tit(`[forced by Encore] should fail if the target is already afflicted with Curse even if becomes a Ghost-type with Trick-or-Treat`, () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'Gengar', moves: ['curse', 'shadowball'] },\n+\t\t\t{ species: 'Gengar', moves: ['curse', 'sleeptalk'] },\n+\t\t], [\n+\t\t\t{ species: 'Pelipper', moves: ['soak', 'tailwind', 'encore'] },\n+\t\t\t{ species: 'Pelipper', moves: ['soak', 'sleeptalk', 'trickortreat'] },\n+\t\t]]);\n+\t\tbattle.makeChoices('move curse 1, move curse 2', 'move soak 1, move soak 2');\n+\t\tbattle.makeChoices('move curse, move curse', 'move tailwind, move sleeptalk');\n+\t\tbattle.makeChoices('move shadowball 1, move curse', 'move encore 1, move trickortreat 1');\n+\t\tconsole.log(battle.getDebugLog());\n+\n+\t\tconst gengar1 = battle.p1.active[0];\n+\t\tassert.equal(gengar1.hp, gengar1.maxhp - Math.floor(gengar1.maxhp / 2));\n+\t\tassert.equal(gengar1.boosts.atk, 1);\n+\n+\t\tconst gengar2 = battle.p1.active[1];\n+\t\tassert.equal(gengar2.hp, gengar2.maxhp - Math.floor(gengar2.maxhp / 2));\n+\t\tassert.equal(gengar2.boosts.atk, 2);\n+\t});\n+\n+\tit(`should boost its stats if the user stops being a Ghost-type mid-turn`, () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', moves: ['soak'] },\n+\t\t]]);\n+\t\tconst gengar = battle.p1.active[0];\n+\t\tconst aerodactyl = battle.p2.active[0];\n+\t\tbattle.makeChoices();\n+\t\tassert.fullHP(gengar);\n+\t\tassert.equal(gengar.boosts.atk, 1);\n+\t\tassert.fullHP(aerodactyl);\n+\t});\n+\n+\tit(`should boost its stats if the target is already afflicted with Curse and the user stops being a Ghost-type mid-turn`, () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', moves: ['sleeptalk', 'soak'] },\n+\t\t]]);\n+\t\tconst gengar = battle.p1.active[0];\n+\t\tconst aerodactyl = battle.p2.active[0];\n+\t\tconst curseResidual = Math.floor(aerodactyl.maxhp / 4);\n+\t\tbattle.makeChoices();\n+\t\tassert.equal(gengar.hp, gengar.maxhp - Math.floor(gengar.maxhp / 2));\n+\t\tassert.equal(aerodactyl.hp, aerodactyl.maxhp - curseResidual);\n+\n+\t\tbattle.makeChoices('move curse', 'move soak');\n+\t\tassert.equal(gengar.hp, gengar.maxhp - Math.floor(gengar.maxhp / 2));\n+\t\tassert.equal(aerodactyl.hp, aerodactyl.maxhp - curseResidual * 2);\n+\t\tassert.equal(gengar.boosts.atk, 1);\n+\t});\n+\n+\tit(`should boost not be affected by Pressure if the user stops being a Ghost-type mid-turn`, () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', ability: 'pressure', moves: ['soak'] },\n+\t\t]]);\n+\t\tconst gengar = battle.p1.active[0];\n+\t\tconst aerodactyl = battle.p2.active[0];\n+\t\tbattle.makeChoices();\n+\t\tassert.fullHP(gengar);\n+\t\tassert.equal(gengar.boosts.atk, 1);\n+\t\tassert.fullHP(aerodactyl);\n+\t\tassert.equal(gengar.moveSlots[0].pp, gengar.moveSlots[0].maxpp - 1);\n+\t});\n+\n+\tit(`should curse a target if the user stops being a Ghost-type mid-turn, but has Protean`, () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: 'Gengar', ability: 'protean', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', moves: ['soak'] },\n+\t\t]]);\n+\t\tconst gengar = battle.p1.active[0];\n+\t\tconst aerodactyl = battle.p2.active[0];\n+\t\tconst curseResidual = Math.floor(aerodactyl.maxhp / 4);\n+\t\tbattle.makeChoices();\n+\t\tassert.equal(gengar.hp, gengar.maxhp - Math.floor(gengar.maxhp / 2));\n+\t\tassert.equal(aerodactyl.hp, aerodactyl.maxhp - curseResidual);\n+\n+\t\tbattle.makeChoices();\n+\t\tassert.equal(gengar.hp, gengar.maxhp - Math.floor(gengar.maxhp / 2));\n+\t\tassert.equal(aerodactyl.hp, aerodactyl.maxhp - curseResidual * 2);\n+\t});\n+});"
+    },
+    {
+      "sha": "ba8e2a69e32a45db81556540eac4f0da39e089c2",
+      "filename": "test/sim/moves/curse.js",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 0,
+      "changes": 8,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/2345119850b85079fa34a2cf1aafe193ba79d5db/test%2Fsim%2Fmoves%2Fcurse.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/2345119850b85079fa34a2cf1aafe193ba79d5db/test%2Fsim%2Fmoves%2Fcurse.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/test%2Fsim%2Fmoves%2Fcurse.js?ref=2345119850b85079fa34a2cf1aafe193ba79d5db",
+      "patch": "@@ -27,6 +27,10 @@ describe('Curse', () => {\n \t\t]]);\n \t\tassert.equal(battle.p1.active[0].getMoveRequestData().moves[0].target, 'self');\n \t\tbattle.makeChoices();\n+\t\tassert.equal(battle.p1.active[0].hp, battle.p1.active[0].maxhp);\n+\t\tassert.equal(battle.p2.active[0].hp, battle.p2.active[0].maxhp);\n+\t\tassert.equal(battle.p1.active[0].boosts.spe, -1);\n+\t\tassert.equal(!!battle.p2.active[0].volatiles['curse'], false);\n \t\tassert.equal(battle.p1.active[0].getMoveRequestData().moves[0].target, 'normal');\n \t});\n \n@@ -38,6 +42,10 @@ describe('Curse', () => {\n \t\t]]);\n \t\tassert.equal(battle.p1.active[0].getMoveRequestData().moves[0].target, 'normal');\n \t\tbattle.makeChoices();\n+\t\tassert.equal(battle.p1.active[0].hp, Math.ceil(battle.p1.active[0].maxhp / 2));\n+\t\tassert.equal(battle.p2.active[0].hp, battle.p2.active[0].maxhp - Math.floor(battle.p2.active[0].maxhp / 4));\n+\t\tassert.equal(battle.p1.active[0].boosts.spe, 0);\n+\t\tassert.equal(!!battle.p2.active[0].volatiles['curse'], true);\n \t\tassert.equal(battle.p1.active[0].getMoveRequestData().moves[0].target, 'self');\n \t});\n "
+    }
+  ]
+}

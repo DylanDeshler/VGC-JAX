@@ -1,0 +1,350 @@
+{
+ "env": {
+  "jax": "0.12.0.1",
+  "backend": "cpu",
+  "devices": [
+   "cpu:0"
+  ],
+  "python": "3.12.11",
+  "machine": "arm64",
+  "xla_flags": ""
+ },
+ "rows": [
+  {
+   "lower_s": 0.002431207999961771,
+   "compile_s": 0.017060584000319068,
+   "run_s": 0.0004670835000979423,
+   "ns_per_elem": 28.5085144102748,
+   "temp_bytes": 0,
+   "arg_bytes": 67125248,
+   "out_bytes": 33554432,
+   "test": "3A tree_where standalone",
+   "F": 1,
+   "GBps": 215.5145621262408
+  },
+  {
+   "lower_s": 0.0029514579996430257,
+   "compile_s": 0.0206062090001069,
+   "run_s": 0.0006990414999563654,
+   "ns_per_elem": 42.66610717507113,
+   "temp_bytes": 0,
+   "arg_bytes": 67125248,
+   "out_bytes": 33554464,
+   "test": "3A tree_where standalone",
+   "F": 4,
+   "GBps": 144.0018883088965
+  },
+  {
+   "lower_s": 0.003915208000307757,
+   "compile_s": 0.0408769589998883,
+   "run_s": 0.000679333500102075,
+   "ns_per_elem": 41.46322632458954,
+   "temp_bytes": 0,
+   "arg_bytes": 67125248,
+   "out_bytes": 33554560,
+   "test": "3A tree_where standalone",
+   "F": 16,
+   "GBps": 148.17949649895755
+  },
+  {
+   "lower_s": 0.00906699999995908,
+   "compile_s": 0.02705287499975384,
+   "run_s": 0.000717791499937448,
+   "ns_per_elem": 43.810516353604,
+   "temp_bytes": 0,
+   "arg_bytes": 67125248,
+   "out_bytes": 33554944,
+   "test": "3A tree_where standalone",
+   "F": 64,
+   "GBps": 140.24030099098738
+  },
+  {
+   "lower_s": 0.030512958000144863,
+   "compile_s": 0.05619824999985212,
+   "run_s": 0.00114474999986669,
+   "ns_per_elem": 69.8699951090509,
+   "temp_bytes": 0,
+   "arg_bytes": 67125248,
+   "out_bytes": 33556480,
+   "test": "3A tree_where standalone",
+   "F": 256,
+   "GBps": 87.93474209366462
+  },
+  {
+   "lower_s": 0.11568304200000057,
+   "compile_s": 0.19232241700001396,
+   "run_s": 0.003411229000221283,
+   "ns_per_elem": 208.2048950330373,
+   "temp_bytes": 0,
+   "arg_bytes": 67125248,
+   "out_bytes": 33562624,
+   "test": "3A tree_where standalone",
+   "F": 1024,
+   "GBps": 29.509392653929147
+  },
+  {
+   "lower_s": 0.026522374999785825,
+   "compile_s": 0.03932579199999964,
+   "run_s": 0.0006242915001166693,
+   "ns_per_elem": 38.103729255167806,
+   "temp_bytes": 0,
+   "arg_bytes": 33570816,
+   "out_bytes": 33556480,
+   "test": "3B step+tree_where (F=256)",
+   "F": 256,
+   "k_modified": 1
+  },
+  {
+   "lower_s": 0.026522374999785825,
+   "compile_s": 0.03993895800022074,
+   "run_s": 0.0006647920001796592,
+   "ns_per_elem": 40.57568360471553,
+   "temp_bytes": 0,
+   "arg_bytes": 33570816,
+   "out_bytes": 33556480,
+   "test": "3B step+tree_where (F=256)",
+   "F": 256,
+   "k_modified": 8
+  },
+  {
+   "lower_s": 0.0311396249999234,
+   "compile_s": 0.048628582999754144,
+   "run_s": 0.0008983545001228777,
+   "ns_per_elem": 54.83120728289048,
+   "temp_bytes": 0,
+   "arg_bytes": 33570816,
+   "out_bytes": 33556480,
+   "test": "3B step+tree_where (F=256)",
+   "F": 256,
+   "k_modified": 64
+  },
+  {
+   "lower_s": 0.04703729199991358,
+   "compile_s": 0.07754391700018459,
+   "run_s": 0.0016433334999419458,
+   "ns_per_elem": 100.30111693981603,
+   "temp_bytes": 0,
+   "arg_bytes": 33570816,
+   "out_bytes": 33556480,
+   "test": "3B step+tree_where (F=256)",
+   "F": 256,
+   "k_modified": 256
+  },
+  {
+   "test": "3C jit dispatch, B=1",
+   "F": 1,
+   "us_per_call": 6.1859375000494765
+  },
+  {
+   "test": "3C jit dispatch, B=1",
+   "F": 16,
+   "us_per_call": 23.42477100000906
+  },
+  {
+   "test": "3C jit dispatch, B=1",
+   "F": 64,
+   "us_per_call": 74.09206250008538
+  },
+  {
+   "test": "3C jit dispatch, B=1",
+   "F": 256,
+   "us_per_call": 268.3459375000439
+  },
+  {
+   "test": "3C jit dispatch, B=1",
+   "F": 1024,
+   "us_per_call": 1158.7437499989999
+  },
+  {
+   "lower_s": 0.0020101669997529825,
+   "compile_s": 0.02831175000028452,
+   "run_s": 0.00030075000017859566,
+   "ns_per_elem": 18.356323253088114,
+   "temp_bytes": 0,
+   "arg_bytes": 33570816,
+   "out_bytes": 16777216,
+   "test": "3D masked copy [B,1024]",
+   "dtype": "int8",
+   "compute": "native",
+   "GBps": 167.35377546171685
+  },
+  {
+   "lower_s": 0.0019539999998414714,
+   "compile_s": 0.017572499999914726,
+   "run_s": 0.0004820204999305133,
+   "ns_per_elem": 29.420196528961995,
+   "temp_bytes": 0,
+   "arg_bytes": 67125248,
+   "out_bytes": 33554432,
+   "test": "3D masked copy [B,1024]",
+   "dtype": "int16",
+   "compute": "native",
+   "GBps": 208.83613044364571
+  },
+  {
+   "lower_s": 0.0020193750001453736,
+   "compile_s": 0.016347082999800477,
+   "run_s": 0.0009508335001555679,
+   "ns_per_elem": 58.034271249729485,
+   "temp_bytes": 0,
+   "arg_bytes": 134234112,
+   "out_bytes": 67108864,
+   "test": "3D masked copy [B,1024]",
+   "dtype": "int32",
+   "compute": "native",
+   "GBps": 211.73695706667942
+  },
+  {
+   "lower_s": 0.002167916999951558,
+   "compile_s": 0.01611579200016422,
+   "run_s": 0.0008845415002269874,
+   "ns_per_elem": 53.98812867596359,
+   "temp_bytes": 0,
+   "arg_bytes": 134234112,
+   "out_bytes": 67108864,
+   "test": "3D masked copy [B,1024]",
+   "dtype": "float32",
+   "compute": "native",
+   "GBps": 227.60559221736506
+  },
+  {
+   "lower_s": 0.053230250000069645,
+   "compile_s": 0.12202754200006893,
+   "run_s": 0.002792916500084175,
+   "ns_per_elem": 2.6635327339975117,
+   "temp_bytes": 37748736,
+   "arg_bytes": 12582912,
+   "out_bytes": 1048576,
+   "test": "3D damage chain (~200 ops)",
+   "dtype": "int8",
+   "compute": "int32"
+  },
+  {
+   "lower_s": 0.026405624999824795,
+   "compile_s": 0.06937287500022649,
+   "run_s": 0.006097103999991305,
+   "ns_per_elem": 5.81465148924952,
+   "temp_bytes": 41943040,
+   "arg_bytes": 12582912,
+   "out_bytes": 1048576,
+   "test": "3D damage chain (~200 ops)",
+   "dtype": "int8",
+   "compute": "native"
+  },
+  {
+   "lower_s": 0.025641833999998198,
+   "compile_s": 0.11059383300016634,
+   "run_s": 0.00532658299994182,
+   "ns_per_elem": 5.079825401250668,
+   "temp_bytes": 37748736,
+   "arg_bytes": 20971520,
+   "out_bytes": 2097152,
+   "test": "3D damage chain (~200 ops)",
+   "dtype": "int16",
+   "compute": "int32"
+  },
+  {
+   "lower_s": 0.034891958000116574,
+   "compile_s": 0.08706716699998651,
+   "run_s": 0.005749416500066218,
+   "ns_per_elem": 5.483070850435465,
+   "temp_bytes": 46137344,
+   "arg_bytes": 20971520,
+   "out_bytes": 2097152,
+   "test": "3D damage chain (~200 ops)",
+   "dtype": "int16",
+   "compute": "native"
+  },
+  {
+   "lower_s": 0.018140958000003593,
+   "compile_s": 0.07452733299987813,
+   "run_s": 0.004682271000092442,
+   "ns_per_elem": 4.465361595241967,
+   "temp_bytes": 33554432,
+   "arg_bytes": 37748736,
+   "out_bytes": 4194304,
+   "test": "3D damage chain (~200 ops)",
+   "dtype": "int32",
+   "compute": "int32"
+  },
+  {
+   "lower_s": 0.02715233300023101,
+   "compile_s": 0.10337466700002551,
+   "run_s": 0.0059733544997016,
+   "ns_per_elem": 5.6966347691551205,
+   "temp_bytes": 37748736,
+   "arg_bytes": 37748736,
+   "out_bytes": 4194304,
+   "test": "3D damage chain (~200 ops)",
+   "dtype": "float32",
+   "compute": "int32"
+  },
+  {
+   "lower_s": 0.00808774999995876,
+   "compile_s": 0.024123832999976003,
+   "run_s": 0.008130875000006199,
+   "ns_per_elem": 41.35576883954976,
+   "temp_bytes": 196609,
+   "arg_bytes": 13369344,
+   "out_bytes": 13369360,
+   "test": "3E volatile flags per mon",
+   "repr": "bool[64]",
+   "bytes_per_mon": 64
+  },
+  {
+   "lower_s": 0.00651579200030028,
+   "compile_s": 0.02651279199972123,
+   "run_s": 0.0069635830000152055,
+   "ns_per_elem": 35.418614705480984,
+   "temp_bytes": 196609,
+   "arg_bytes": 13369344,
+   "out_bytes": 13369360,
+   "test": "3E volatile flags per mon",
+   "repr": "int8[64]",
+   "bytes_per_mon": 64
+  },
+  {
+   "lower_s": 0.009802833999856375,
+   "compile_s": 0.029284083000220562,
+   "run_s": 0.00041904099998646416,
+   "ns_per_elem": 2.131352742444174,
+   "temp_bytes": 786432,
+   "arg_bytes": 2359296,
+   "out_bytes": 2359312,
+   "test": "3E volatile flags per mon",
+   "repr": "uint32[2]",
+   "bytes_per_mon": 8
+  },
+  {
+   "test": "3F container type (64 leaves, B=1)",
+   "container": "dict",
+   "flatten_unflatten_us": 7.532916666605161,
+   "jit_call_us": 67.41329199985557
+  },
+  {
+   "test": "3F container type (64 leaves, B=1)",
+   "container": "NamedTuple",
+   "flatten_unflatten_us": 4.5454719999421895,
+   "jit_call_us": 64.97120799986078
+  },
+  {
+   "test": "3F container type (64 leaves, B=1)",
+   "container": "flax.struct.dataclass",
+   "flatten_unflatten_us": 14.204638999975336,
+   "jit_call_us": 75.22029199981262
+  },
+  {
+   "test": "3F container type (64 leaves, B=1)",
+   "container": "chex.dataclass",
+   "flatten_unflatten_us": 17.741513999984214,
+   "jit_call_us": 78.904416000114
+  },
+  {
+   "test": "3F container type (64 leaves, B=1)",
+   "container": "jax register_dataclass",
+   "flatten_unflatten_us": 14.142166666715639,
+   "jit_call_us": 74.99454200024047
+  }
+ ],
+ "B": 16384
+}

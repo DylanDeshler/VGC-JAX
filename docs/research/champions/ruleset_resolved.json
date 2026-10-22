@@ -1,0 +1,90 @@
+{
+ "format": "[Gen 9 Champions] VGC 2026 Reg M-C",
+ "id": "gen9championsvgc2026regmc",
+ "mod": "champions",
+ "gameType": "doubles",
+ "ruleTableKeys": [
+  "flatrules",
+  "obtainable",
+  "obtainablemoves",
+  "obtainableabilities",
+  "obtainableformes",
+  "evlimit",
+  "obtainablemisc",
+  "-unreleased",
+  "-tag:unobtainable",
+  "-nonexistent",
+  "teampreview",
+  "speciesclause",
+  "nicknameclause",
+  "itemclause",
+  "adjustlevel",
+  "pickedteamsize",
+  "minteamsize",
+  "cancelmod",
+  "-tag:mythical",
+  "-tag:restrictedlegendary",
+  "vgctimer",
+  "timerstarting",
+  "timergrace",
+  "timeraddperturn",
+  "timermaxperturn",
+  "timermaxfirstturn",
+  "timeoutautochoose",
+  "dctimerbank",
+  "openteamsheets"
+ ],
+ "valueRules": {
+  "evlimit": "Auto",
+  "itemclause": "1",
+  "adjustlevel": "50",
+  "pickedteamsize": "Auto",
+  "minteamsize": "6",
+  "timerstarting": "420",
+  "timergrace": "90",
+  "timeraddperturn": "0",
+  "timermaxperturn": "55",
+  "timermaxfirstturn": "90"
+ },
+ "pickedTeamSize": 4,
+ "minTeamSize": 6,
+ "maxTeamSize": 6,
+ "adjustLevel": 50,
+ "maxLevel": 100,
+ "defaultLevel": 100,
+ "evLimit": 66,
+ "maxMoveCount": 4,
+ "minSourceGen": 9,
+ "timer": [
+  {
+   "starting": 420,
+   "dcTimer": true,
+   "grace": 90,
+   "addPerTurn": 0,
+   "maxPerTurn": 55,
+   "maxFirstTurn": 90,
+   "timeoutAutoChoose": true
+  },
+  "[Gen 9 Champions] VGC 2026 Reg M-C"
+ ],
+ "tagRules": [
+  [
+   "-",
+   "restrictedlegendary"
+  ],
+  [
+   "-",
+   "mythical"
+  ],
+  [
+   "-",
+   "nonexistent"
+  ],
+  [
+   "-",
+   "unobtainable"
+  ]
+ ],
+ "complexBans": {},
+ "complexTeamBans": {}
+}

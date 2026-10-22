@@ -1,0 +1,3082 @@
+{
+ "format": "[Gen 9 Champions] VGC 2026 Reg M-C",
+ "countValid": 82,
+ "megas": [
+  {
+   "stone": "Abomasite",
+   "stoneId": "abomasite",
+   "base": "Abomasnow",
+   "mega": "Abomasnow-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Grass",
+    "Ice"
+   ],
+   "megaAbility": {
+    "0": "Snow Warning"
+   },
+   "megaBaseStats": {
+    "hp": 90,
+    "atk": 132,
+    "def": 105,
+    "spa": 132,
+    "spd": 105,
+    "spe": 30
+   },
+   "megaWeightkg": 185,
+   "baseTypes": [
+    "Grass",
+    "Ice"
+   ],
+   "baseBaseStats": {
+    "hp": 90,
+    "atk": 92,
+    "def": 75,
+    "spa": 92,
+    "spd": 85,
+    "spe": 60
+   }
+  },
+  {
+   "stone": "Absolite",
+   "stoneId": "absolite",
+   "base": "Absol",
+   "mega": "Absol-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Dark"
+   ],
+   "megaAbility": {
+    "0": "Magic Bounce"
+   },
+   "megaBaseStats": {
+    "hp": 65,
+    "atk": 150,
+    "def": 60,
+    "spa": 115,
+    "spd": 60,
+    "spe": 115
+   },
+   "megaWeightkg": 49,
+   "baseTypes": [
+    "Dark"
+   ],
+   "baseBaseStats": {
+    "hp": 65,
+    "atk": 130,
+    "def": 60,
+    "spa": 75,
+    "spd": 60,
+    "spe": 75
+   }
+  },
+  {
+   "stone": "Absolite Z",
+   "stoneId": "absolitez",
+   "base": "Absol",
+   "mega": "Absol-Mega-Z",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Dark",
+    "Ghost"
+   ],
+   "megaAbility": {
+    "0": "Sharpness"
+   },
+   "megaBaseStats": {
+    "hp": 65,
+    "atk": 154,
+    "def": 60,
+    "spa": 75,
+    "spd": 60,
+    "spe": 151
+   },
+   "megaWeightkg": 49,
+   "baseTypes": [
+    "Dark"
+   ],
+   "baseBaseStats": {
+    "hp": 65,
+    "atk": 130,
+    "def": 60,
+    "spa": 75,
+    "spd": 60,
+    "spe": 75
+   }
+  },
+  {
+   "stone": "Aerodactylite",
+   "stoneId": "aerodactylite",
+   "base": "Aerodactyl",
+   "mega": "Aerodactyl-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Rock",
+    "Flying"
+   ],
+   "megaAbility": {
+    "0": "Tough Claws"
+   },
+   "megaBaseStats": {
+    "hp": 80,
+    "atk": 135,
+    "def": 85,
+    "spa": 70,
+    "spd": 95,
+    "spe": 150
+   },
+   "megaWeightkg": 79,
+   "baseTypes": [
+    "Rock",
+    "Flying"
+   ],
+   "baseBaseStats": {
+    "hp": 80,
+    "atk": 105,
+    "def": 65,
+    "spa": 60,
+    "spd": 75,
+    "spe": 130
+   }
+  },
+  {
+   "stone": "Aggronite",
+   "stoneId": "aggronite",
+   "base": "Aggron",
+   "mega": "Aggron-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Steel"
+   ],
+   "megaAbility": {
+    "0": "Filter"
+   },
+   "megaBaseStats": {
+    "hp": 70,
+    "atk": 140,
+    "def": 230,
+    "spa": 60,
+    "spd": 80,
+    "spe": 50
+   },
+   "megaWeightkg": 395,
+   "baseTypes": [
+    "Steel",
+    "Rock"
+   ],
+   "baseBaseStats": {
+    "hp": 70,
+    "atk": 110,
+    "def": 180,
+    "spa": 60,
+    "spd": 60,
+    "spe": 50
+   }
+  },
+  {
+   "stone": "Alakazite",
+   "stoneId": "alakazite",
+   "base": "Alakazam",
+   "mega": "Alakazam-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Psychic"
+   ],
+   "megaAbility": {
+    "0": "Trace"
+   },
+   "megaBaseStats": {
+    "hp": 55,
+    "atk": 50,
+    "def": 65,
+    "spa": 175,
+    "spd": 105,
+    "spe": 150
+   },
+   "megaWeightkg": 48,
+   "baseTypes": [
+    "Psychic"
+   ],
+   "baseBaseStats": {
+    "hp": 55,
+    "atk": 50,
+    "def": 45,
+    "spa": 135,
+    "spd": 95,
+    "spe": 120
+   }
+  },
+  {
+   "stone": "Altarianite",
+   "stoneId": "altarianite",
+   "base": "Altaria",
+   "mega": "Altaria-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Dragon",
+    "Fairy"
+   ],
+   "megaAbility": {
+    "0": "Pixilate"
+   },
+   "megaBaseStats": {
+    "hp": 75,
+    "atk": 110,
+    "def": 110,
+    "spa": 110,
+    "spd": 105,
+    "spe": 80
+   },
+   "megaWeightkg": 20.6,
+   "baseTypes": [
+    "Dragon",
+    "Flying"
+   ],
+   "baseBaseStats": {
+    "hp": 75,
+    "atk": 70,
+    "def": 90,
+    "spa": 70,
+    "spd": 105,
+    "spe": 80
+   }
+  },
+  {
+   "stone": "Ampharosite",
+   "stoneId": "ampharosite",
+   "base": "Ampharos",
+   "mega": "Ampharos-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Electric",
+    "Dragon"
+   ],
+   "megaAbility": {
+    "0": "Mold Breaker"
+   },
+   "megaBaseStats": {
+    "hp": 90,
+    "atk": 95,
+    "def": 105,
+    "spa": 165,
+    "spd": 110,
+    "spe": 45
+   },
+   "megaWeightkg": 61.5,
+   "baseTypes": [
+    "Electric"
+   ],
+   "baseBaseStats": {
+    "hp": 90,
+    "atk": 75,
+    "def": 85,
+    "spa": 115,
+    "spd": 90,
+    "spe": 55
+   }
+  },
+  {
+   "stone": "Audinite",
+   "stoneId": "audinite",
+   "base": "Audino",
+   "mega": "Audino-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Normal",
+    "Fairy"
+   ],
+   "megaAbility": {
+    "0": "Healer"
+   },
+   "megaBaseStats": {
+    "hp": 103,
+    "atk": 60,
+    "def": 126,
+    "spa": 80,
+    "spd": 126,
+    "spe": 50
+   },
+   "megaWeightkg": 32,
+   "baseTypes": [
+    "Normal"
+   ],
+   "baseBaseStats": {
+    "hp": 103,
+    "atk": 60,
+    "def": 86,
+    "spa": 60,
+    "spd": 86,
+    "spe": 50
+   }
+  },
+  {
+   "stone": "Banettite",
+   "stoneId": "banettite",
+   "base": "Banette",
+   "mega": "Banette-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Ghost"
+   ],
+   "megaAbility": {
+    "0": "Prankster"
+   },
+   "megaBaseStats": {
+    "hp": 64,
+    "atk": 165,
+    "def": 75,
+    "spa": 93,
+    "spd": 83,
+    "spe": 75
+   },
+   "megaWeightkg": 13,
+   "baseTypes": [
+    "Ghost"
+   ],
+   "baseBaseStats": {
+    "hp": 64,
+    "atk": 115,
+    "def": 65,
+    "spa": 83,
+    "spd": 63,
+    "spe": 65
+   }
+  },
+  {
+   "stone": "Barbaracite",
+   "stoneId": "barbaracite",
+   "base": "Barbaracle",
+   "mega": "Barbaracle-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Rock",
+    "Fighting"
+   ],
+   "megaAbility": {
+    "0": "Tough Claws"
+   },
+   "megaBaseStats": {
+    "hp": 72,
+    "atk": 140,
+    "def": 130,
+    "spa": 64,
+    "spd": 106,
+    "spe": 88
+   },
+   "megaWeightkg": 100,
+   "baseTypes": [
+    "Rock",
+    "Water"
+   ],
+   "baseBaseStats": {
+    "hp": 72,
+    "atk": 105,
+    "def": 115,
+    "spa": 54,
+    "spd": 86,
+    "spe": 68
+   }
+  },
+  {
+   "stone": "Baxcalibrite",
+   "stoneId": "baxcalibrite",
+   "base": "Baxcalibur",
+   "mega": "Baxcalibur-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Dragon",
+    "Ice"
+   ],
+   "megaAbility": {
+    "0": "Thermal Exchange"
+   },
+   "megaBaseStats": {
+    "hp": 115,
+    "atk": 175,
+    "def": 117,
+    "spa": 105,
+    "spd": 101,
+    "spe": 87
+   },
+   "megaWeightkg": 315,
+   "baseTypes": [
+    "Dragon",
+    "Ice"
+   ],
+   "baseBaseStats": {
+    "hp": 115,
+    "atk": 145,
+    "def": 92,
+    "spa": 75,
+    "spd": 86,
+    "spe": 87
+   }
+  },
+  {
+   "stone": "Beedrillite",
+   "stoneId": "beedrillite",
+   "base": "Beedrill",
+   "mega": "Beedrill-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Bug",
+    "Poison"
+   ],
+   "megaAbility": {
+    "0": "Adaptability"
+   },
+   "megaBaseStats": {
+    "hp": 65,
+    "atk": 150,
+    "def": 40,
+    "spa": 15,
+    "spd": 80,
+    "spe": 145
+   },
+   "megaWeightkg": 40.5,
+   "baseTypes": [
+    "Bug",
+    "Poison"
+   ],
+   "baseBaseStats": {
+    "hp": 65,
+    "atk": 90,
+    "def": 40,
+    "spa": 45,
+    "spd": 80,
+    "spe": 75
+   }
+  },
+  {
+   "stone": "Blastoisinite",
+   "stoneId": "blastoisinite",
+   "base": "Blastoise",
+   "mega": "Blastoise-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Water"
+   ],
+   "megaAbility": {
+    "0": "Mega Launcher"
+   },
+   "megaBaseStats": {
+    "hp": 79,
+    "atk": 103,
+    "def": 120,
+    "spa": 135,
+    "spd": 115,
+    "spe": 78
+   },
+   "megaWeightkg": 101.1,
+   "baseTypes": [
+    "Water"
+   ],
+   "baseBaseStats": {
+    "hp": 79,
+    "atk": 83,
+    "def": 100,
+    "spa": 85,
+    "spd": 105,
+    "spe": 78
+   }
+  },
+  {
+   "stone": "Blazikenite",
+   "stoneId": "blazikenite",
+   "base": "Blaziken",
+   "mega": "Blaziken-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fire",
+    "Fighting"
+   ],
+   "megaAbility": {
+    "0": "Speed Boost"
+   },
+   "megaBaseStats": {
+    "hp": 80,
+    "atk": 160,
+    "def": 80,
+    "spa": 130,
+    "spd": 80,
+    "spe": 100
+   },
+   "megaWeightkg": 52,
+   "baseTypes": [
+    "Fire",
+    "Fighting"
+   ],
+   "baseBaseStats": {
+    "hp": 80,
+    "atk": 120,
+    "def": 70,
+    "spa": 110,
+    "spd": 70,
+    "spe": 80
+   }
+  },
+  {
+   "stone": "Cameruptite",
+   "stoneId": "cameruptite",
+   "base": "Camerupt",
+   "mega": "Camerupt-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fire",
+    "Ground"
+   ],
+   "megaAbility": {
+    "0": "Sheer Force"
+   },
+   "megaBaseStats": {
+    "hp": 70,
+    "atk": 120,
+    "def": 100,
+    "spa": 145,
+    "spd": 105,
+    "spe": 20
+   },
+   "megaWeightkg": 320.5,
+   "baseTypes": [
+    "Fire",
+    "Ground"
+   ],
+   "baseBaseStats": {
+    "hp": 70,
+    "atk": 100,
+    "def": 70,
+    "spa": 105,
+    "spd": 75,
+    "spe": 40
+   }
+  },
+  {
+   "stone": "Chandelurite",
+   "stoneId": "chandelurite",
+   "base": "Chandelure",
+   "mega": "Chandelure-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Ghost",
+    "Fire"
+   ],
+   "megaAbility": {
+    "0": "Infiltrator"
+   },
+   "megaBaseStats": {
+    "hp": 60,
+    "atk": 75,
+    "def": 110,
+    "spa": 175,
+    "spd": 110,
+    "spe": 90
+   },
+   "megaWeightkg": 69.6,
+   "baseTypes": [
+    "Ghost",
+    "Fire"
+   ],
+   "baseBaseStats": {
+    "hp": 60,
+    "atk": 55,
+    "def": 90,
+    "spa": 145,
+    "spd": 90,
+    "spe": 80
+   }
+  },
+  {
+   "stone": "Charizardite X",
+   "stoneId": "charizarditex",
+   "base": "Charizard",
+   "mega": "Charizard-Mega-X",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fire",
+    "Dragon"
+   ],
+   "megaAbility": {
+    "0": "Tough Claws"
+   },
+   "megaBaseStats": {
+    "hp": 78,
+    "atk": 130,
+    "def": 111,
+    "spa": 130,
+    "spd": 85,
+    "spe": 100
+   },
+   "megaWeightkg": 110.5,
+   "baseTypes": [
+    "Fire",
+    "Flying"
+   ],
+   "baseBaseStats": {
+    "hp": 78,
+    "atk": 84,
+    "def": 78,
+    "spa": 109,
+    "spd": 85,
+    "spe": 100
+   }
+  },
+  {
+   "stone": "Charizardite Y",
+   "stoneId": "charizarditey",
+   "base": "Charizard",
+   "mega": "Charizard-Mega-Y",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fire",
+    "Flying"
+   ],
+   "megaAbility": {
+    "0": "Drought"
+   },
+   "megaBaseStats": {
+    "hp": 78,
+    "atk": 104,
+    "def": 78,
+    "spa": 159,
+    "spd": 115,
+    "spe": 100
+   },
+   "megaWeightkg": 100.5,
+   "baseTypes": [
+    "Fire",
+    "Flying"
+   ],
+   "baseBaseStats": {
+    "hp": 78,
+    "atk": 84,
+    "def": 78,
+    "spa": 109,
+    "spd": 85,
+    "spe": 100
+   }
+  },
+  {
+   "stone": "Chesnaughtite",
+   "stoneId": "chesnaughtite",
+   "base": "Chesnaught",
+   "mega": "Chesnaught-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Grass",
+    "Fighting"
+   ],
+   "megaAbility": {
+    "0": "Bulletproof"
+   },
+   "megaBaseStats": {
+    "hp": 88,
+    "atk": 137,
+    "def": 172,
+    "spa": 74,
+    "spd": 115,
+    "spe": 44
+   },
+   "megaWeightkg": 90,
+   "baseTypes": [
+    "Grass",
+    "Fighting"
+   ],
+   "baseBaseStats": {
+    "hp": 88,
+    "atk": 107,
+    "def": 122,
+    "spa": 74,
+    "spd": 75,
+    "spe": 64
+   }
+  },
+  {
+   "stone": "Chimechite",
+   "stoneId": "chimechite",
+   "base": "Chimecho",
+   "mega": "Chimecho-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Psychic",
+    "Steel"
+   ],
+   "megaAbility": {
+    "0": "Levitate"
+   },
+   "megaBaseStats": {
+    "hp": 75,
+    "atk": 50,
+    "def": 110,
+    "spa": 135,
+    "spd": 120,
+    "spe": 65
+   },
+   "megaWeightkg": 8,
+   "baseTypes": [
+    "Psychic"
+   ],
+   "baseBaseStats": {
+    "hp": 75,
+    "atk": 50,
+    "def": 80,
+    "spa": 95,
+    "spd": 90,
+    "spe": 65
+   }
+  },
+  {
+   "stone": "Clefablite",
+   "stoneId": "clefablite",
+   "base": "Clefable",
+   "mega": "Clefable-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fairy",
+    "Flying"
+   ],
+   "megaAbility": {
+    "0": "Magic Bounce"
+   },
+   "megaBaseStats": {
+    "hp": 95,
+    "atk": 80,
+    "def": 93,
+    "spa": 135,
+    "spd": 110,
+    "spe": 70
+   },
+   "megaWeightkg": 42.3,
+   "baseTypes": [
+    "Fairy"
+   ],
+   "baseBaseStats": {
+    "hp": 95,
+    "atk": 70,
+    "def": 73,
+    "spa": 95,
+    "spd": 90,
+    "spe": 60
+   }
+  },
+  {
+   "stone": "Crabominite",
+   "stoneId": "crabominite",
+   "base": "Crabominable",
+   "mega": "Crabominable-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fighting",
+    "Ice"
+   ],
+   "megaAbility": {
+    "0": "Iron Fist"
+   },
+   "megaBaseStats": {
+    "hp": 97,
+    "atk": 157,
+    "def": 122,
+    "spa": 62,
+    "spd": 107,
+    "spe": 33
+   },
+   "megaWeightkg": 252.8,
+   "baseTypes": [
+    "Fighting",
+    "Ice"
+   ],
+   "baseBaseStats": {
+    "hp": 97,
+    "atk": 132,
+    "def": 77,
+    "spa": 62,
+    "spd": 67,
+    "spe": 43
+   }
+  },
+  {
+   "stone": "Delphoxite",
+   "stoneId": "delphoxite",
+   "base": "Delphox",
+   "mega": "Delphox-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fire",
+    "Psychic"
+   ],
+   "megaAbility": {
+    "0": "Levitate"
+   },
+   "megaBaseStats": {
+    "hp": 75,
+    "atk": 69,
+    "def": 72,
+    "spa": 159,
+    "spd": 125,
+    "spe": 134
+   },
+   "megaWeightkg": 39,
+   "baseTypes": [
+    "Fire",
+    "Psychic"
+   ],
+   "baseBaseStats": {
+    "hp": 75,
+    "atk": 69,
+    "def": 72,
+    "spa": 114,
+    "spd": 100,
+    "spe": 104
+   }
+  },
+  {
+   "stone": "Dragalgite",
+   "stoneId": "dragalgite",
+   "base": "Dragalge",
+   "mega": "Dragalge-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Poison",
+    "Dragon"
+   ],
+   "megaAbility": {
+    "0": "Regenerator"
+   },
+   "megaBaseStats": {
+    "hp": 65,
+    "atk": 85,
+    "def": 105,
+    "spa": 132,
+    "spd": 163,
+    "spe": 44
+   },
+   "megaWeightkg": 100.3,
+   "baseTypes": [
+    "Poison",
+    "Dragon"
+   ],
+   "baseBaseStats": {
+    "hp": 65,
+    "atk": 75,
+    "def": 90,
+    "spa": 97,
+    "spd": 123,
+    "spe": 44
+   }
+  },
+  {
+   "stone": "Dragoninite",
+   "stoneId": "dragoninite",
+   "base": "Dragonite",
+   "mega": "Dragonite-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Dragon",
+    "Flying"
+   ],
+   "megaAbility": {
+    "0": "Multiscale"
+   },
+   "megaBaseStats": {
+    "hp": 91,
+    "atk": 124,
+    "def": 115,
+    "spa": 145,
+    "spd": 125,
+    "spe": 100
+   },
+   "megaWeightkg": 290,
+   "baseTypes": [
+    "Dragon",
+    "Flying"
+   ],
+   "baseBaseStats": {
+    "hp": 91,
+    "atk": 134,
+    "def": 95,
+    "spa": 100,
+    "spd": 100,
+    "spe": 80
+   }
+  },
+  {
+   "stone": "Drampanite",
+   "stoneId": "drampanite",
+   "base": "Drampa",
+   "mega": "Drampa-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Normal",
+    "Dragon"
+   ],
+   "megaAbility": {
+    "0": "Berserk"
+   },
+   "megaBaseStats": {
+    "hp": 78,
+    "atk": 85,
+    "def": 110,
+    "spa": 160,
+    "spd": 116,
+    "spe": 36
+   },
+   "megaWeightkg": 240.5,
+   "baseTypes": [
+    "Normal",
+    "Dragon"
+   ],
+   "baseBaseStats": {
+    "hp": 78,
+    "atk": 60,
+    "def": 85,
+    "spa": 135,
+    "spd": 91,
+    "spe": 36
+   }
+  },
+  {
+   "stone": "Eelektrossite",
+   "stoneId": "eelektrossite",
+   "base": "Eelektross",
+   "mega": "Eelektross-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Electric"
+   ],
+   "megaAbility": {
+    "0": "Eelevate"
+   },
+   "megaBaseStats": {
+    "hp": 85,
+    "atk": 145,
+    "def": 80,
+    "spa": 135,
+    "spd": 90,
+    "spe": 80
+   },
+   "megaWeightkg": 180,
+   "baseTypes": [
+    "Electric"
+   ],
+   "baseBaseStats": {
+    "hp": 85,
+    "atk": 115,
+    "def": 80,
+    "spa": 105,
+    "spd": 80,
+    "spe": 50
+   }
+  },
+  {
+   "stone": "Emboarite",
+   "stoneId": "emboarite",
+   "base": "Emboar",
+   "mega": "Emboar-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fire",
+    "Fighting"
+   ],
+   "megaAbility": {
+    "0": "Mold Breaker"
+   },
+   "megaBaseStats": {
+    "hp": 110,
+    "atk": 148,
+    "def": 75,
+    "spa": 110,
+    "spd": 110,
+    "spe": 75
+   },
+   "megaWeightkg": 180.3,
+   "baseTypes": [
+    "Fire",
+    "Fighting"
+   ],
+   "baseBaseStats": {
+    "hp": 110,
+    "atk": 123,
+    "def": 65,
+    "spa": 100,
+    "spd": 65,
+    "spe": 65
+   }
+  },
+  {
+   "stone": "Excadrite",
+   "stoneId": "excadrite",
+   "base": "Excadrill",
+   "mega": "Excadrill-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Ground",
+    "Steel"
+   ],
+   "megaAbility": {
+    "0": "Piercing Drill"
+   },
+   "megaBaseStats": {
+    "hp": 110,
+    "atk": 165,
+    "def": 100,
+    "spa": 65,
+    "spd": 65,
+    "spe": 103
+   },
+   "megaWeightkg": 60,
+   "baseTypes": [
+    "Ground",
+    "Steel"
+   ],
+   "baseBaseStats": {
+    "hp": 110,
+    "atk": 135,
+    "def": 60,
+    "spa": 50,
+    "spd": 65,
+    "spe": 88
+   }
+  },
+  {
+   "stone": "Falinksite",
+   "stoneId": "falinksite",
+   "base": "Falinks",
+   "mega": "Falinks-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fighting"
+   ],
+   "megaAbility": {
+    "0": "Defiant"
+   },
+   "megaBaseStats": {
+    "hp": 65,
+    "atk": 135,
+    "def": 135,
+    "spa": 70,
+    "spd": 65,
+    "spe": 100
+   },
+   "megaWeightkg": 99,
+   "baseTypes": [
+    "Fighting"
+   ],
+   "baseBaseStats": {
+    "hp": 65,
+    "atk": 100,
+    "def": 100,
+    "spa": 70,
+    "spd": 60,
+    "spe": 75
+   }
+  },
+  {
+   "stone": "Feraligite",
+   "stoneId": "feraligite",
+   "base": "Feraligatr",
+   "mega": "Feraligatr-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Water",
+    "Dragon"
+   ],
+   "megaAbility": {
+    "0": "Dragonize"
+   },
+   "megaBaseStats": {
+    "hp": 85,
+    "atk": 160,
+    "def": 125,
+    "spa": 89,
+    "spd": 93,
+    "spe": 78
+   },
+   "megaWeightkg": 108.8,
+   "baseTypes": [
+    "Water"
+   ],
+   "baseBaseStats": {
+    "hp": 85,
+    "atk": 105,
+    "def": 100,
+    "spa": 79,
+    "spd": 83,
+    "spe": 78
+   }
+  },
+  {
+   "stone": "Floettite",
+   "stoneId": "floettite",
+   "base": "Floette-Eternal",
+   "mega": "Floette-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fairy"
+   ],
+   "megaAbility": {
+    "0": "Fairy Aura"
+   },
+   "megaBaseStats": {
+    "hp": 74,
+    "atk": 85,
+    "def": 87,
+    "spa": 155,
+    "spd": 148,
+    "spe": 102
+   },
+   "megaWeightkg": 100.8,
+   "baseTypes": [
+    "Fairy"
+   ],
+   "baseBaseStats": {
+    "hp": 74,
+    "atk": 65,
+    "def": 67,
+    "spa": 125,
+    "spd": 128,
+    "spe": 92
+   }
+  },
+  {
+   "stone": "Froslassite",
+   "stoneId": "froslassite",
+   "base": "Froslass",
+   "mega": "Froslass-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Ice",
+    "Ghost"
+   ],
+   "megaAbility": {
+    "0": "Snow Warning"
+   },
+   "megaBaseStats": {
+    "hp": 70,
+    "atk": 80,
+    "def": 70,
+    "spa": 140,
+    "spd": 100,
+    "spe": 120
+   },
+   "megaWeightkg": 29.6,
+   "baseTypes": [
+    "Ice",
+    "Ghost"
+   ],
+   "baseBaseStats": {
+    "hp": 70,
+    "atk": 80,
+    "def": 70,
+    "spa": 80,
+    "spd": 70,
+    "spe": 110
+   }
+  },
+  {
+   "stone": "Galladite",
+   "stoneId": "galladite",
+   "base": "Gallade",
+   "mega": "Gallade-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Psychic",
+    "Fighting"
+   ],
+   "megaAbility": {
+    "0": "Inner Focus"
+   },
+   "megaBaseStats": {
+    "hp": 68,
+    "atk": 165,
+    "def": 95,
+    "spa": 65,
+    "spd": 115,
+    "spe": 110
+   },
+   "megaWeightkg": 56.4,
+   "baseTypes": [
+    "Psychic",
+    "Fighting"
+   ],
+   "baseBaseStats": {
+    "hp": 68,
+    "atk": 125,
+    "def": 65,
+    "spa": 65,
+    "spd": 115,
+    "spe": 80
+   }
+  },
+  {
+   "stone": "Garchompite",
+   "stoneId": "garchompite",
+   "base": "Garchomp",
+   "mega": "Garchomp-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Dragon",
+    "Ground"
+   ],
+   "megaAbility": {
+    "0": "Sand Force"
+   },
+   "megaBaseStats": {
+    "hp": 108,
+    "atk": 170,
+    "def": 115,
+    "spa": 120,
+    "spd": 95,
+    "spe": 92
+   },
+   "megaWeightkg": 95,
+   "baseTypes": [
+    "Dragon",
+    "Ground"
+   ],
+   "baseBaseStats": {
+    "hp": 108,
+    "atk": 130,
+    "def": 95,
+    "spa": 80,
+    "spd": 85,
+    "spe": 102
+   }
+  },
+  {
+   "stone": "Garchompite Z",
+   "stoneId": "garchompitez",
+   "base": "Garchomp",
+   "mega": "Garchomp-Mega-Z",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Dragon"
+   ],
+   "megaAbility": {
+    "0": "Levitate"
+   },
+   "megaBaseStats": {
+    "hp": 108,
+    "atk": 130,
+    "def": 85,
+    "spa": 141,
+    "spd": 85,
+    "spe": 151
+   },
+   "megaWeightkg": 99,
+   "baseTypes": [
+    "Dragon",
+    "Ground"
+   ],
+   "baseBaseStats": {
+    "hp": 108,
+    "atk": 130,
+    "def": 95,
+    "spa": 80,
+    "spd": 85,
+    "spe": 102
+   }
+  },
+  {
+   "stone": "Gardevoirite",
+   "stoneId": "gardevoirite",
+   "base": "Gardevoir",
+   "mega": "Gardevoir-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Psychic",
+    "Fairy"
+   ],
+   "megaAbility": {
+    "0": "Pixilate"
+   },
+   "megaBaseStats": {
+    "hp": 68,
+    "atk": 85,
+    "def": 65,
+    "spa": 165,
+    "spd": 135,
+    "spe": 100
+   },
+   "megaWeightkg": 48.4,
+   "baseTypes": [
+    "Psychic",
+    "Fairy"
+   ],
+   "baseBaseStats": {
+    "hp": 68,
+    "atk": 65,
+    "def": 65,
+    "spa": 125,
+    "spd": 115,
+    "spe": 80
+   }
+  },
+  {
+   "stone": "Gengarite",
+   "stoneId": "gengarite",
+   "base": "Gengar",
+   "mega": "Gengar-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Ghost",
+    "Poison"
+   ],
+   "megaAbility": {
+    "0": "Shadow Tag"
+   },
+   "megaBaseStats": {
+    "hp": 60,
+    "atk": 65,
+    "def": 80,
+    "spa": 170,
+    "spd": 95,
+    "spe": 130
+   },
+   "megaWeightkg": 40.5,
+   "baseTypes": [
+    "Ghost",
+    "Poison"
+   ],
+   "baseBaseStats": {
+    "hp": 60,
+    "atk": 65,
+    "def": 60,
+    "spa": 130,
+    "spd": 75,
+    "spe": 110
+   }
+  },
+  {
+   "stone": "Glalitite",
+   "stoneId": "glalitite",
+   "base": "Glalie",
+   "mega": "Glalie-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Ice"
+   ],
+   "megaAbility": {
+    "0": "Refrigerate"
+   },
+   "megaBaseStats": {
+    "hp": 80,
+    "atk": 120,
+    "def": 80,
+    "spa": 120,
+    "spd": 80,
+    "spe": 100
+   },
+   "megaWeightkg": 350.2,
+   "baseTypes": [
+    "Ice"
+   ],
+   "baseBaseStats": {
+    "hp": 80,
+    "atk": 80,
+    "def": 80,
+    "spa": 80,
+    "spd": 80,
+    "spe": 80
+   }
+  },
+  {
+   "stone": "Glimmoranite",
+   "stoneId": "glimmoranite",
+   "base": "Glimmora",
+   "mega": "Glimmora-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Rock",
+    "Poison"
+   ],
+   "megaAbility": {
+    "0": "Adaptability"
+   },
+   "megaBaseStats": {
+    "hp": 83,
+    "atk": 90,
+    "def": 105,
+    "spa": 150,
+    "spd": 96,
+    "spe": 101
+   },
+   "megaWeightkg": 77,
+   "baseTypes": [
+    "Rock",
+    "Poison"
+   ],
+   "baseBaseStats": {
+    "hp": 83,
+    "atk": 55,
+    "def": 90,
+    "spa": 130,
+    "spd": 81,
+    "spe": 86
+   }
+  },
+  {
+   "stone": "Golisopite",
+   "stoneId": "golisopite",
+   "base": "Golisopod",
+   "mega": "Golisopod-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Bug",
+    "Steel"
+   ],
+   "megaAbility": {
+    "0": "Tough Claws"
+   },
+   "megaBaseStats": {
+    "hp": 75,
+    "atk": 150,
+    "def": 175,
+    "spa": 70,
+    "spd": 120,
+    "spe": 40
+   },
+   "megaWeightkg": 148,
+   "baseTypes": [
+    "Bug",
+    "Water"
+   ],
+   "baseBaseStats": {
+    "hp": 75,
+    "atk": 125,
+    "def": 140,
+    "spa": 60,
+    "spd": 90,
+    "spe": 40
+   }
+  },
+  {
+   "stone": "Golurkite",
+   "stoneId": "golurkite",
+   "base": "Golurk",
+   "mega": "Golurk-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Ground",
+    "Ghost"
+   ],
+   "megaAbility": {
+    "0": "Unseen Fist"
+   },
+   "megaBaseStats": {
+    "hp": 89,
+    "atk": 159,
+    "def": 105,
+    "spa": 70,
+    "spd": 105,
+    "spe": 55
+   },
+   "megaWeightkg": 330,
+   "baseTypes": [
+    "Ground",
+    "Ghost"
+   ],
+   "baseBaseStats": {
+    "hp": 89,
+    "atk": 124,
+    "def": 80,
+    "spa": 55,
+    "spd": 80,
+    "spe": 55
+   }
+  },
+  {
+   "stone": "Greninjite",
+   "stoneId": "greninjite",
+   "base": "Greninja",
+   "mega": "Greninja-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Water",
+    "Dark"
+   ],
+   "megaAbility": {
+    "0": "Protean"
+   },
+   "megaBaseStats": {
+    "hp": 72,
+    "atk": 125,
+    "def": 77,
+    "spa": 133,
+    "spd": 81,
+    "spe": 142
+   },
+   "megaWeightkg": 40,
+   "baseTypes": [
+    "Water",
+    "Dark"
+   ],
+   "baseBaseStats": {
+    "hp": 72,
+    "atk": 95,
+    "def": 67,
+    "spa": 103,
+    "spd": 71,
+    "spe": 122
+   }
+  },
+  {
+   "stone": "Gyaradosite",
+   "stoneId": "gyaradosite",
+   "base": "Gyarados",
+   "mega": "Gyarados-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Water",
+    "Dark"
+   ],
+   "megaAbility": {
+    "0": "Mold Breaker"
+   },
+   "megaBaseStats": {
+    "hp": 95,
+    "atk": 155,
+    "def": 109,
+    "spa": 70,
+    "spd": 130,
+    "spe": 81
+   },
+   "megaWeightkg": 305,
+   "baseTypes": [
+    "Water",
+    "Flying"
+   ],
+   "baseBaseStats": {
+    "hp": 95,
+    "atk": 125,
+    "def": 79,
+    "spa": 60,
+    "spd": 100,
+    "spe": 81
+   }
+  },
+  {
+   "stone": "Hawluchanite",
+   "stoneId": "hawluchanite",
+   "base": "Hawlucha",
+   "mega": "Hawlucha-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fighting",
+    "Flying"
+   ],
+   "megaAbility": {
+    "0": "No Guard"
+   },
+   "megaBaseStats": {
+    "hp": 78,
+    "atk": 137,
+    "def": 100,
+    "spa": 74,
+    "spd": 93,
+    "spe": 118
+   },
+   "megaWeightkg": 25,
+   "baseTypes": [
+    "Fighting",
+    "Flying"
+   ],
+   "baseBaseStats": {
+    "hp": 78,
+    "atk": 92,
+    "def": 75,
+    "spa": 74,
+    "spd": 63,
+    "spe": 118
+   }
+  },
+  {
+   "stone": "Heracronite",
+   "stoneId": "heracronite",
+   "base": "Heracross",
+   "mega": "Heracross-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Bug",
+    "Fighting"
+   ],
+   "megaAbility": {
+    "0": "Skill Link"
+   },
+   "megaBaseStats": {
+    "hp": 80,
+    "atk": 185,
+    "def": 115,
+    "spa": 40,
+    "spd": 105,
+    "spe": 75
+   },
+   "megaWeightkg": 62.5,
+   "baseTypes": [
+    "Bug",
+    "Fighting"
+   ],
+   "baseBaseStats": {
+    "hp": 80,
+    "atk": 125,
+    "def": 75,
+    "spa": 40,
+    "spd": 95,
+    "spe": 85
+   }
+  },
+  {
+   "stone": "Houndoominite",
+   "stoneId": "houndoominite",
+   "base": "Houndoom",
+   "mega": "Houndoom-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Dark",
+    "Fire"
+   ],
+   "megaAbility": {
+    "0": "Solar Power"
+   },
+   "megaBaseStats": {
+    "hp": 75,
+    "atk": 90,
+    "def": 90,
+    "spa": 140,
+    "spd": 90,
+    "spe": 115
+   },
+   "megaWeightkg": 49.5,
+   "baseTypes": [
+    "Dark",
+    "Fire"
+   ],
+   "baseBaseStats": {
+    "hp": 75,
+    "atk": 90,
+    "def": 50,
+    "spa": 110,
+    "spd": 80,
+    "spe": 95
+   }
+  },
+  {
+   "stone": "Kangaskhanite",
+   "stoneId": "kangaskhanite",
+   "base": "Kangaskhan",
+   "mega": "Kangaskhan-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Normal"
+   ],
+   "megaAbility": {
+    "0": "Parental Bond"
+   },
+   "megaBaseStats": {
+    "hp": 105,
+    "atk": 125,
+    "def": 100,
+    "spa": 60,
+    "spd": 100,
+    "spe": 100
+   },
+   "megaWeightkg": 100,
+   "baseTypes": [
+    "Normal"
+   ],
+   "baseBaseStats": {
+    "hp": 105,
+    "atk": 95,
+    "def": 80,
+    "spa": 40,
+    "spd": 80,
+    "spe": 90
+   }
+  },
+  {
+   "stone": "Lopunnite",
+   "stoneId": "lopunnite",
+   "base": "Lopunny",
+   "mega": "Lopunny-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Normal",
+    "Fighting"
+   ],
+   "megaAbility": {
+    "0": "Scrappy"
+   },
+   "megaBaseStats": {
+    "hp": 65,
+    "atk": 136,
+    "def": 94,
+    "spa": 54,
+    "spd": 96,
+    "spe": 135
+   },
+   "megaWeightkg": 28.3,
+   "baseTypes": [
+    "Normal"
+   ],
+   "baseBaseStats": {
+    "hp": 65,
+    "atk": 76,
+    "def": 84,
+    "spa": 54,
+    "spd": 96,
+    "spe": 105
+   }
+  },
+  {
+   "stone": "Lucarionite",
+   "stoneId": "lucarionite",
+   "base": "Lucario",
+   "mega": "Lucario-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fighting",
+    "Steel"
+   ],
+   "megaAbility": {
+    "0": "Adaptability"
+   },
+   "megaBaseStats": {
+    "hp": 70,
+    "atk": 145,
+    "def": 88,
+    "spa": 140,
+    "spd": 70,
+    "spe": 112
+   },
+   "megaWeightkg": 57.5,
+   "baseTypes": [
+    "Fighting",
+    "Steel"
+   ],
+   "baseBaseStats": {
+    "hp": 70,
+    "atk": 110,
+    "def": 70,
+    "spa": 115,
+    "spd": 70,
+    "spe": 90
+   }
+  },
+  {
+   "stone": "Lucarionite Z",
+   "stoneId": "lucarionitez",
+   "base": "Lucario",
+   "mega": "Lucario-Mega-Z",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fighting",
+    "Steel"
+   ],
+   "megaAbility": {
+    "0": "Aura Guard"
+   },
+   "megaBaseStats": {
+    "hp": 70,
+    "atk": 100,
+    "def": 70,
+    "spa": 164,
+    "spd": 70,
+    "spe": 151
+   },
+   "megaWeightkg": 49.4,
+   "baseTypes": [
+    "Fighting",
+    "Steel"
+   ],
+   "baseBaseStats": {
+    "hp": 70,
+    "atk": 110,
+    "def": 70,
+    "spa": 115,
+    "spd": 70,
+    "spe": 90
+   }
+  },
+  {
+   "stone": "Malamarite",
+   "stoneId": "malamarite",
+   "base": "Malamar",
+   "mega": "Malamar-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Dark",
+    "Psychic"
+   ],
+   "megaAbility": {
+    "0": "Contrary"
+   },
+   "megaBaseStats": {
+    "hp": 86,
+    "atk": 102,
+    "def": 88,
+    "spa": 98,
+    "spd": 120,
+    "spe": 88
+   },
+   "megaWeightkg": 69.8,
+   "baseTypes": [
+    "Dark",
+    "Psychic"
+   ],
+   "baseBaseStats": {
+    "hp": 86,
+    "atk": 92,
+    "def": 88,
+    "spa": 68,
+    "spd": 75,
+    "spe": 73
+   }
+  },
+  {
+   "stone": "Manectite",
+   "stoneId": "manectite",
+   "base": "Manectric",
+   "mega": "Manectric-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Electric"
+   ],
+   "megaAbility": {
+    "0": "Intimidate"
+   },
+   "megaBaseStats": {
+    "hp": 70,
+    "atk": 75,
+    "def": 80,
+    "spa": 135,
+    "spd": 80,
+    "spe": 135
+   },
+   "megaWeightkg": 44,
+   "baseTypes": [
+    "Electric"
+   ],
+   "baseBaseStats": {
+    "hp": 70,
+    "atk": 75,
+    "def": 60,
+    "spa": 105,
+    "spd": 60,
+    "spe": 105
+   }
+  },
+  {
+   "stone": "Mawilite",
+   "stoneId": "mawilite",
+   "base": "Mawile",
+   "mega": "Mawile-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Steel",
+    "Fairy"
+   ],
+   "megaAbility": {
+    "0": "Huge Power"
+   },
+   "megaBaseStats": {
+    "hp": 50,
+    "atk": 105,
+    "def": 125,
+    "spa": 55,
+    "spd": 95,
+    "spe": 50
+   },
+   "megaWeightkg": 23.5,
+   "baseTypes": [
+    "Steel",
+    "Fairy"
+   ],
+   "baseBaseStats": {
+    "hp": 50,
+    "atk": 85,
+    "def": 85,
+    "spa": 55,
+    "spd": 55,
+    "spe": 50
+   }
+  },
+  {
+   "stone": "Medichamite",
+   "stoneId": "medichamite",
+   "base": "Medicham",
+   "mega": "Medicham-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fighting",
+    "Psychic"
+   ],
+   "megaAbility": {
+    "0": "Pure Power"
+   },
+   "megaBaseStats": {
+    "hp": 60,
+    "atk": 100,
+    "def": 85,
+    "spa": 80,
+    "spd": 85,
+    "spe": 100
+   },
+   "megaWeightkg": 31.5,
+   "baseTypes": [
+    "Fighting",
+    "Psychic"
+   ],
+   "baseBaseStats": {
+    "hp": 60,
+    "atk": 60,
+    "def": 75,
+    "spa": 60,
+    "spd": 75,
+    "spe": 80
+   }
+  },
+  {
+   "stone": "Meganiumite",
+   "stoneId": "meganiumite",
+   "base": "Meganium",
+   "mega": "Meganium-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Grass",
+    "Fairy"
+   ],
+   "megaAbility": {
+    "0": "Mega Sol"
+   },
+   "megaBaseStats": {
+    "hp": 80,
+    "atk": 92,
+    "def": 115,
+    "spa": 143,
+    "spd": 115,
+    "spe": 80
+   },
+   "megaWeightkg": 201,
+   "baseTypes": [
+    "Grass"
+   ],
+   "baseBaseStats": {
+    "hp": 80,
+    "atk": 82,
+    "def": 100,
+    "spa": 83,
+    "spd": 100,
+    "spe": 80
+   }
+  },
+  {
+   "stone": "Meowsticite",
+   "stoneId": "meowsticite",
+   "base": "Meowstic",
+   "mega": "Meowstic-M-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Psychic"
+   ],
+   "megaAbility": {
+    "0": "Trace"
+   },
+   "megaBaseStats": {
+    "hp": 74,
+    "atk": 48,
+    "def": 76,
+    "spa": 143,
+    "spd": 101,
+    "spe": 124
+   },
+   "megaWeightkg": 10.1,
+   "baseTypes": [
+    "Psychic"
+   ],
+   "baseBaseStats": {
+    "hp": 74,
+    "atk": 48,
+    "def": 76,
+    "spa": 83,
+    "spd": 81,
+    "spe": 104
+   }
+  },
+  {
+   "stone": "Meowsticite",
+   "stoneId": "meowsticite",
+   "base": "Meowstic-F",
+   "mega": "Meowstic-F-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Psychic"
+   ],
+   "megaAbility": {
+    "0": "Trace"
+   },
+   "megaBaseStats": {
+    "hp": 74,
+    "atk": 48,
+    "def": 76,
+    "spa": 143,
+    "spd": 101,
+    "spe": 124
+   },
+   "megaWeightkg": 10.1,
+   "baseTypes": [
+    "Psychic"
+   ],
+   "baseBaseStats": {
+    "hp": 74,
+    "atk": 48,
+    "def": 76,
+    "spa": 83,
+    "spd": 81,
+    "spe": 104
+   }
+  },
+  {
+   "stone": "Metagrossite",
+   "stoneId": "metagrossite",
+   "base": "Metagross",
+   "mega": "Metagross-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Steel",
+    "Psychic"
+   ],
+   "megaAbility": {
+    "0": "Tough Claws"
+   },
+   "megaBaseStats": {
+    "hp": 80,
+    "atk": 145,
+    "def": 150,
+    "spa": 105,
+    "spd": 110,
+    "spe": 110
+   },
+   "megaWeightkg": 942.9,
+   "baseTypes": [
+    "Steel",
+    "Psychic"
+   ],
+   "baseBaseStats": {
+    "hp": 80,
+    "atk": 135,
+    "def": 130,
+    "spa": 95,
+    "spd": 90,
+    "spe": 70
+   }
+  },
+  {
+   "stone": "Pidgeotite",
+   "stoneId": "pidgeotite",
+   "base": "Pidgeot",
+   "mega": "Pidgeot-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Normal",
+    "Flying"
+   ],
+   "megaAbility": {
+    "0": "No Guard"
+   },
+   "megaBaseStats": {
+    "hp": 83,
+    "atk": 80,
+    "def": 80,
+    "spa": 135,
+    "spd": 80,
+    "spe": 121
+   },
+   "megaWeightkg": 50.5,
+   "baseTypes": [
+    "Normal",
+    "Flying"
+   ],
+   "baseBaseStats": {
+    "hp": 83,
+    "atk": 80,
+    "def": 75,
+    "spa": 70,
+    "spd": 70,
+    "spe": 101
+   }
+  },
+  {
+   "stone": "Pinsirite",
+   "stoneId": "pinsirite",
+   "base": "Pinsir",
+   "mega": "Pinsir-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Bug",
+    "Flying"
+   ],
+   "megaAbility": {
+    "0": "Aerilate"
+   },
+   "megaBaseStats": {
+    "hp": 65,
+    "atk": 155,
+    "def": 120,
+    "spa": 65,
+    "spd": 90,
+    "spe": 105
+   },
+   "megaWeightkg": 59,
+   "baseTypes": [
+    "Bug"
+   ],
+   "baseBaseStats": {
+    "hp": 65,
+    "atk": 125,
+    "def": 100,
+    "spa": 55,
+    "spd": 70,
+    "spe": 85
+   }
+  },
+  {
+   "stone": "Pyroarite",
+   "stoneId": "pyroarite",
+   "base": "Pyroar",
+   "mega": "Pyroar-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fire",
+    "Normal"
+   ],
+   "megaAbility": {
+    "0": "Fire Mane"
+   },
+   "megaBaseStats": {
+    "hp": 86,
+    "atk": 88,
+    "def": 92,
+    "spa": 129,
+    "spd": 86,
+    "spe": 126
+   },
+   "megaWeightkg": 93.3,
+   "baseTypes": [
+    "Fire",
+    "Normal"
+   ],
+   "baseBaseStats": {
+    "hp": 86,
+    "atk": 68,
+    "def": 72,
+    "spa": 109,
+    "spd": 66,
+    "spe": 106
+   }
+  },
+  {
+   "stone": "Raichunite X",
+   "stoneId": "raichunitex",
+   "base": "Raichu",
+   "mega": "Raichu-Mega-X",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Electric"
+   ],
+   "megaAbility": {
+    "0": "Electric Surge"
+   },
+   "megaBaseStats": {
+    "hp": 60,
+    "atk": 135,
+    "def": 95,
+    "spa": 90,
+    "spd": 95,
+    "spe": 110
+   },
+   "megaWeightkg": 38,
+   "baseTypes": [
+    "Electric"
+   ],
+   "baseBaseStats": {
+    "hp": 60,
+    "atk": 90,
+    "def": 55,
+    "spa": 90,
+    "spd": 80,
+    "spe": 110
+   }
+  },
+  {
+   "stone": "Raichunite Y",
+   "stoneId": "raichunitey",
+   "base": "Raichu",
+   "mega": "Raichu-Mega-Y",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Electric"
+   ],
+   "megaAbility": {
+    "0": "No Guard"
+   },
+   "megaBaseStats": {
+    "hp": 60,
+    "atk": 100,
+    "def": 55,
+    "spa": 160,
+    "spd": 80,
+    "spe": 130
+   },
+   "megaWeightkg": 26,
+   "baseTypes": [
+    "Electric"
+   ],
+   "baseBaseStats": {
+    "hp": 60,
+    "atk": 90,
+    "def": 55,
+    "spa": 90,
+    "spd": 80,
+    "spe": 110
+   }
+  },
+  {
+   "stone": "Sablenite",
+   "stoneId": "sablenite",
+   "base": "Sableye",
+   "mega": "Sableye-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Dark",
+    "Ghost"
+   ],
+   "megaAbility": {
+    "0": "Magic Bounce"
+   },
+   "megaBaseStats": {
+    "hp": 50,
+    "atk": 85,
+    "def": 125,
+    "spa": 85,
+    "spd": 115,
+    "spe": 20
+   },
+   "megaWeightkg": 161,
+   "baseTypes": [
+    "Dark",
+    "Ghost"
+   ],
+   "baseBaseStats": {
+    "hp": 50,
+    "atk": 75,
+    "def": 75,
+    "spa": 65,
+    "spd": 65,
+    "spe": 50
+   }
+  },
+  {
+   "stone": "Salamencite",
+   "stoneId": "salamencite",
+   "base": "Salamence",
+   "mega": "Salamence-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Dragon",
+    "Flying"
+   ],
+   "megaAbility": {
+    "0": "Aerilate"
+   },
+   "megaBaseStats": {
+    "hp": 95,
+    "atk": 145,
+    "def": 130,
+    "spa": 120,
+    "spd": 90,
+    "spe": 120
+   },
+   "megaWeightkg": 112.6,
+   "baseTypes": [
+    "Dragon",
+    "Flying"
+   ],
+   "baseBaseStats": {
+    "hp": 95,
+    "atk": 135,
+    "def": 80,
+    "spa": 110,
+    "spd": 80,
+    "spe": 100
+   }
+  },
+  {
+   "stone": "Sceptilite",
+   "stoneId": "sceptilite",
+   "base": "Sceptile",
+   "mega": "Sceptile-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Grass",
+    "Dragon"
+   ],
+   "megaAbility": {
+    "0": "Lightning Rod"
+   },
+   "megaBaseStats": {
+    "hp": 70,
+    "atk": 110,
+    "def": 75,
+    "spa": 145,
+    "spd": 85,
+    "spe": 145
+   },
+   "megaWeightkg": 55.2,
+   "baseTypes": [
+    "Grass"
+   ],
+   "baseBaseStats": {
+    "hp": 70,
+    "atk": 85,
+    "def": 65,
+    "spa": 105,
+    "spd": 85,
+    "spe": 120
+   }
+  },
+  {
+   "stone": "Scizorite",
+   "stoneId": "scizorite",
+   "base": "Scizor",
+   "mega": "Scizor-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Bug",
+    "Steel"
+   ],
+   "megaAbility": {
+    "0": "Technician"
+   },
+   "megaBaseStats": {
+    "hp": 70,
+    "atk": 150,
+    "def": 140,
+    "spa": 65,
+    "spd": 100,
+    "spe": 75
+   },
+   "megaWeightkg": 125,
+   "baseTypes": [
+    "Bug",
+    "Steel"
+   ],
+   "baseBaseStats": {
+    "hp": 70,
+    "atk": 130,
+    "def": 100,
+    "spa": 55,
+    "spd": 80,
+    "spe": 65
+   }
+  },
+  {
+   "stone": "Scolipite",
+   "stoneId": "scolipite",
+   "base": "Scolipede",
+   "mega": "Scolipede-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Bug",
+    "Poison"
+   ],
+   "megaAbility": {
+    "0": "Shell Armor"
+   },
+   "megaBaseStats": {
+    "hp": 60,
+    "atk": 140,
+    "def": 149,
+    "spa": 75,
+    "spd": 99,
+    "spe": 62
+   },
+   "megaWeightkg": 230.5,
+   "baseTypes": [
+    "Bug",
+    "Poison"
+   ],
+   "baseBaseStats": {
+    "hp": 60,
+    "atk": 100,
+    "def": 89,
+    "spa": 55,
+    "spd": 69,
+    "spe": 112
+   }
+  },
+  {
+   "stone": "Scovillainite",
+   "stoneId": "scovillainite",
+   "base": "Scovillain",
+   "mega": "Scovillain-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Grass",
+    "Fire"
+   ],
+   "megaAbility": {
+    "0": "Spicy Spray"
+   },
+   "megaBaseStats": {
+    "hp": 65,
+    "atk": 138,
+    "def": 85,
+    "spa": 138,
+    "spd": 85,
+    "spe": 75
+   },
+   "megaWeightkg": 22,
+   "baseTypes": [
+    "Grass",
+    "Fire"
+   ],
+   "baseBaseStats": {
+    "hp": 65,
+    "atk": 108,
+    "def": 65,
+    "spa": 108,
+    "spd": 65,
+    "spe": 75
+   }
+  },
+  {
+   "stone": "Scraftinite",
+   "stoneId": "scraftinite",
+   "base": "Scrafty",
+   "mega": "Scrafty-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Dark",
+    "Fighting"
+   ],
+   "megaAbility": {
+    "0": "Intimidate"
+   },
+   "megaBaseStats": {
+    "hp": 65,
+    "atk": 130,
+    "def": 135,
+    "spa": 55,
+    "spd": 135,
+    "spe": 68
+   },
+   "megaWeightkg": 31,
+   "baseTypes": [
+    "Dark",
+    "Fighting"
+   ],
+   "baseBaseStats": {
+    "hp": 65,
+    "atk": 90,
+    "def": 115,
+    "spa": 45,
+    "spd": 115,
+    "spe": 58
+   }
+  },
+  {
+   "stone": "Sharpedonite",
+   "stoneId": "sharpedonite",
+   "base": "Sharpedo",
+   "mega": "Sharpedo-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Water",
+    "Dark"
+   ],
+   "megaAbility": {
+    "0": "Strong Jaw"
+   },
+   "megaBaseStats": {
+    "hp": 70,
+    "atk": 140,
+    "def": 70,
+    "spa": 110,
+    "spd": 65,
+    "spe": 105
+   },
+   "megaWeightkg": 130.3,
+   "baseTypes": [
+    "Water",
+    "Dark"
+   ],
+   "baseBaseStats": {
+    "hp": 70,
+    "atk": 120,
+    "def": 40,
+    "spa": 95,
+    "spd": 40,
+    "spe": 95
+   }
+  },
+  {
+   "stone": "Skarmorite",
+   "stoneId": "skarmorite",
+   "base": "Skarmory",
+   "mega": "Skarmory-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Steel",
+    "Flying"
+   ],
+   "megaAbility": {
+    "0": "Stalwart"
+   },
+   "megaBaseStats": {
+    "hp": 65,
+    "atk": 140,
+    "def": 110,
+    "spa": 40,
+    "spd": 100,
+    "spe": 110
+   },
+   "megaWeightkg": 40.4,
+   "baseTypes": [
+    "Steel",
+    "Flying"
+   ],
+   "baseBaseStats": {
+    "hp": 65,
+    "atk": 80,
+    "def": 140,
+    "spa": 40,
+    "spd": 70,
+    "spe": 70
+   }
+  },
+  {
+   "stone": "Slowbronite",
+   "stoneId": "slowbronite",
+   "base": "Slowbro",
+   "mega": "Slowbro-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Water",
+    "Psychic"
+   ],
+   "megaAbility": {
+    "0": "Shell Armor"
+   },
+   "megaBaseStats": {
+    "hp": 95,
+    "atk": 75,
+    "def": 180,
+    "spa": 130,
+    "spd": 80,
+    "spe": 30
+   },
+   "megaWeightkg": 120,
+   "baseTypes": [
+    "Water",
+    "Psychic"
+   ],
+   "baseBaseStats": {
+    "hp": 95,
+    "atk": 75,
+    "def": 110,
+    "spa": 100,
+    "spd": 80,
+    "spe": 30
+   }
+  },
+  {
+   "stone": "Staraptite",
+   "stoneId": "staraptite",
+   "base": "Staraptor",
+   "mega": "Staraptor-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Fighting",
+    "Flying"
+   ],
+   "megaAbility": {
+    "0": "Contrary"
+   },
+   "megaBaseStats": {
+    "hp": 85,
+    "atk": 140,
+    "def": 100,
+    "spa": 60,
+    "spd": 90,
+    "spe": 110
+   },
+   "megaWeightkg": 50,
+   "baseTypes": [
+    "Normal",
+    "Flying"
+   ],
+   "baseBaseStats": {
+    "hp": 85,
+    "atk": 120,
+    "def": 70,
+    "spa": 50,
+    "spd": 60,
+    "spe": 100
+   }
+  },
+  {
+   "stone": "Starminite",
+   "stoneId": "starminite",
+   "base": "Starmie",
+   "mega": "Starmie-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Water",
+    "Psychic"
+   ],
+   "megaAbility": {
+    "0": "Huge Power"
+   },
+   "megaBaseStats": {
+    "hp": 60,
+    "atk": 100,
+    "def": 105,
+    "spa": 130,
+    "spd": 105,
+    "spe": 120
+   },
+   "megaWeightkg": 80,
+   "baseTypes": [
+    "Water",
+    "Psychic"
+   ],
+   "baseBaseStats": {
+    "hp": 60,
+    "atk": 75,
+    "def": 85,
+    "spa": 100,
+    "spd": 85,
+    "spe": 115
+   }
+  },
+  {
+   "stone": "Steelixite",
+   "stoneId": "steelixite",
+   "base": "Steelix",
+   "mega": "Steelix-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Steel",
+    "Ground"
+   ],
+   "megaAbility": {
+    "0": "Sand Force"
+   },
+   "megaBaseStats": {
+    "hp": 75,
+    "atk": 125,
+    "def": 230,
+    "spa": 55,
+    "spd": 95,
+    "spe": 30
+   },
+   "megaWeightkg": 740,
+   "baseTypes": [
+    "Steel",
+    "Ground"
+   ],
+   "baseBaseStats": {
+    "hp": 75,
+    "atk": 85,
+    "def": 200,
+    "spa": 55,
+    "spd": 65,
+    "spe": 30
+   }
+  },
+  {
+   "stone": "Swampertite",
+   "stoneId": "swampertite",
+   "base": "Swampert",
+   "mega": "Swampert-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Water",
+    "Ground"
+   ],
+   "megaAbility": {
+    "0": "Swift Swim"
+   },
+   "megaBaseStats": {
+    "hp": 100,
+    "atk": 150,
+    "def": 110,
+    "spa": 95,
+    "spd": 110,
+    "spe": 70
+   },
+   "megaWeightkg": 102,
+   "baseTypes": [
+    "Water",
+    "Ground"
+   ],
+   "baseBaseStats": {
+    "hp": 100,
+    "atk": 110,
+    "def": 90,
+    "spa": 85,
+    "spd": 90,
+    "spe": 60
+   }
+  },
+  {
+   "stone": "Tyranitarite",
+   "stoneId": "tyranitarite",
+   "base": "Tyranitar",
+   "mega": "Tyranitar-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Rock",
+    "Dark"
+   ],
+   "megaAbility": {
+    "0": "Sand Stream"
+   },
+   "megaBaseStats": {
+    "hp": 100,
+    "atk": 164,
+    "def": 150,
+    "spa": 95,
+    "spd": 120,
+    "spe": 71
+   },
+   "megaWeightkg": 255,
+   "baseTypes": [
+    "Rock",
+    "Dark"
+   ],
+   "baseBaseStats": {
+    "hp": 100,
+    "atk": 134,
+    "def": 110,
+    "spa": 95,
+    "spd": 100,
+    "spe": 61
+   }
+  },
+  {
+   "stone": "Venusaurite",
+   "stoneId": "venusaurite",
+   "base": "Venusaur",
+   "mega": "Venusaur-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Grass",
+    "Poison"
+   ],
+   "megaAbility": {
+    "0": "Thick Fat"
+   },
+   "megaBaseStats": {
+    "hp": 80,
+    "atk": 100,
+    "def": 123,
+    "spa": 122,
+    "spd": 120,
+    "spe": 80
+   },
+   "megaWeightkg": 155.5,
+   "baseTypes": [
+    "Grass",
+    "Poison"
+   ],
+   "baseBaseStats": {
+    "hp": 80,
+    "atk": 82,
+    "def": 83,
+    "spa": 100,
+    "spd": 100,
+    "spe": 80
+   }
+  },
+  {
+   "stone": "Victreebelite",
+   "stoneId": "victreebelite",
+   "base": "Victreebel",
+   "mega": "Victreebel-Mega",
+   "megaExists": true,
+   "baseLegal": true,
+   "validates": true,
+   "problems": null,
+   "megaTypes": [
+    "Grass",
+    "Poison"
+   ],
+   "megaAbility": {
+    "0": "Innards Out"
+   },
+   "megaBaseStats": {
+    "hp": 80,
+    "atk": 125,
+    "def": 85,
+    "spa": 135,
+    "spd": 95,
+    "spe": 70
+   },
+   "megaWeightkg": 125.5,
+   "baseTypes": [
+    "Grass",
+    "Poison"
+   ],
+   "baseBaseStats": {
+    "hp": 80,
+    "atk": 105,
+    "def": 65,
+    "spa": 100,
+    "spd": 70,
+    "spe": 70
+   }
+  }
+ ]
+}

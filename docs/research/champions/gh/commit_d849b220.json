@@ -1,0 +1,101 @@
+{
+  "sha": "d849b220082e113d8a17303509fb44d420c543d5",
+  "node_id": "C_kwDOAC5c7toAKGQ4NDliMjIwMDgyZTExM2Q4YTE3MzAzNTA5ZmI0NGQ0MjBjNTQzZDU",
+  "commit": {
+    "author": {
+      "name": "André Bastos Dias",
+      "email": "80102738+andrebastosdias@users.noreply.github.com",
+      "date": "2026-09-10T00:34:27Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-09-10T00:34:27Z"
+    },
+    "message": "Champions: Implement Run Away's immunity to trapping (#12303)",
+    "tree": {
+      "sha": "d1dcc1ed111ef936997459e6e4738d77e1c9d232",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/d1dcc1ed111ef936997459e6e4738d77e1c9d232"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/d849b220082e113d8a17303509fb44d420c543d5",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqofsTCRC1aQ7uu5UhlAAA3WwQACdiP67pAbQHezkvWiVHJ0Yw\nDFQSM6PLssEV+MaF/b96o+Zi92TDTjzzDdKRYbVJgJgyH7dph/bkuTI6QTsCdV+t\n3cZ5qF2/llTacMrJtTdQXPc05TPu1Xq692rUT19reRowByIGc8+FXB8AwuLTUYRJ\nZt6NxNEP6j4G6zL+VczBuTJ7FRcl7nIpgSz0dze21yfC74i/BDUG5b2txts8gTIO\n37xmfxNkZZSpcsiElt/DQ3/Pr0wnmIDXhUOIsqphtE7CR/+tm42ojY8yGGze/ktq\nvvIXu2Hb6+IXaqPpvq14BT2K1e18q5fWmL4MjL8viOTqbYvMQ2Q35BCuaSSdK98E\n3c29xksN6OreKylKnE/+JGcPLIOYTei2PVsno1mauVdQYFJEvr30nvxFz/Xu+Zqx\nPn8uwFtpwgc1DoKiqosVCbY0A+GJNHuN1X1wJNQIef80thHOOS19sE2fxhcCHZL+\nPxFYJItXVx2ZmJGf5nanwVNw6a4fSzpjeWs/8NGMPrpGy7mrPZb5SyWsZvggdqCW\n49RIMUn5SV4lDb+nkpKH6UvkR+Q0GgsTpuiEkGznjCbxgQ2Y9Lt0hpVHu96eubY5\nCwZc0cjKyxHyblz0kJDVBhKwpQwwY6XuJhs1MEE6OpOD1m0C3yUAnyds5MVZGIEe\n8SrMDTxOReKB/E6d9UHC\n=sm5B\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree d1dcc1ed111ef936997459e6e4738d77e1c9d232\nparent bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0\nauthor André Bastos Dias <80102738+andrebastosdias@users.noreply.github.com> 1789000467 +0100\ncommitter GitHub <noreply@github.com> 1789000467 -0600\n\nChampions: Implement Run Away's immunity to trapping (#12303)",
+      "verified_at": "2026-09-10T00:34:27Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/d849b220082e113d8a17303509fb44d420c543d5",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/d849b220082e113d8a17303509fb44d420c543d5",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/d849b220082e113d8a17303509fb44d420c543d5/comments",
+  "author": {
+    "login": "andrebastosdias",
+    "id": 80102738,
+    "node_id": "MDQ6VXNlcjgwMTAyNzM4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/80102738?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/andrebastosdias",
+    "html_url": "https://github.com/andrebastosdias",
+    "followers_url": "https://api.github.com/users/andrebastosdias/followers",
+    "following_url": "https://api.github.com/users/andrebastosdias/following{/other_user}",
+    "gists_url": "https://api.github.com/users/andrebastosdias/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/andrebastosdias/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/andrebastosdias/subscriptions",
+    "organizations_url": "https://api.github.com/users/andrebastosdias/orgs",
+    "repos_url": "https://api.github.com/users/andrebastosdias/repos",
+    "events_url": "https://api.github.com/users/andrebastosdias/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/andrebastosdias/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0"
+    }
+  ],
+  "stats": {
+    "total": 13,
+    "additions": 12,
+    "deletions": 1
+  },
+  "files": [
+    {
+      "sha": "5f6e7f985601f704109b6b6d31cedf7ae9f281c7",
+      "filename": "data/mods/champions/abilities.ts",
+      "status": "modified",
+      "additions": 12,
+      "deletions": 1,
+      "changes": 13,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/d849b220082e113d8a17303509fb44d420c543d5/data%2Fmods%2Fchampions%2Fabilities.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/d849b220082e113d8a17303509fb44d420c543d5/data%2Fmods%2Fchampions%2Fabilities.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fabilities.ts?ref=d849b220082e113d8a17303509fb44d420c543d5",
+      "patch": "@@ -60,18 +60,29 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa\n \t\t\t}\n \t\t},\n \t},\n+\trunaway: {\n+\t\tinherit: true,\n+\t\tonTrapPokemonPriority: -10,\n+\t\tonTrapPokemon(pokemon) {\n+\t\t\tpokemon.trapped = false;\n+\t\t},\n+\t\tonMaybeTrapPokemonPriority: -10,\n+\t\tonMaybeTrapPokemon(pokemon) {\n+\t\t\tpokemon.maybeTrapped = false;\n+\t\t},\n+\t},\n \tspicyspray: {\n \t\tinherit: true,\n \t\tisNonstandard: null,\n \t},\n \tunseenfist: {\n+\t\tinherit: true,\n \t\tonModifyMove: undefined, // no inherit\n \t\tonHitProtect(source, target, move) {\n \t\t\tif (move.flags['contact']) {\n \t\t\t\ttarget.getMoveHitData(move).bypassProtect = this.effect;\n \t\t\t\treturn false;\n \t\t\t}\n \t\t},\n-\t\tinherit: true,\n \t},\n };"
+    }
+  ]
+}

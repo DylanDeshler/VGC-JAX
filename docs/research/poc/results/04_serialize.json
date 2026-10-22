@@ -1,0 +1,36 @@
+{
+ "N": 100,
+ "roundTrips": 300,
+ "exactContinuation": 300,
+ "exactWithInstrumentedPrng": 300,
+ "projSameAfterRoundTrip": 300,
+ "failures": [],
+ "cost": {
+  "serializeMs": {
+   "mean": 0.254,
+   "p50": 0.241,
+   "p95": 0.365
+  },
+  "stringifyMs": {
+   "mean": 0.159,
+   "p50": 0.156,
+   "p95": 0.203
+  },
+  "deserializeMs": {
+   "mean": 0.554,
+   "p50": 0.53,
+   "p95": 0.735
+  },
+  "projectMs": {
+   "mean": 0.065,
+   "p50": 0.063,
+   "p95": 0.083
+  },
+  "bytes": {
+   "mean": 35454.593,
+   "p50": 36396,
+   "p95": 39193
+  }
+ },
+ "exactRate": 1
+}

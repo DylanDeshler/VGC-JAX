@@ -1,0 +1,113 @@
+{
+  "sha": "bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0",
+  "node_id": "C_kwDOAC5c7toAKGJjNGViMDdiNDI0MGE2MmJmYmI1ZmE2YmE4NDY4ZjY1NTdmZTM3ZDA",
+  "commit": {
+    "author": {
+      "name": "André Bastos Dias",
+      "email": "80102738+andrebastosdias@users.noreply.github.com",
+      "date": "2026-09-10T00:33:48Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-09-10T00:33:48Z"
+    },
+    "message": "Champions: Make Double Shock a punching move (#12304)\n\n* Champions: Make Double Shock a punching move\n\n* Reg M-B: Give Strength Sap and Wish 10 PP",
+    "tree": {
+      "sha": "775cde795a8b9506507a410acfcd96378583a2af",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/775cde795a8b9506507a410acfcd96378583a2af"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqofrsCRC1aQ7uu5UhlAAAURAQAGiKPv07Y6oT5M0VA64qukVF\nGC0+l4y2PJ8kXZeKrOK1Kb6NUOrD7GJuMt6kAy38rfjDrPpslrRRfiYfMjlcV4/G\nUBExwlOAWNOwivRA75blsy5gStOTnWWN+e16en/NLdrPdd6ywTEbJBnW0BMsEc6x\nFMAI/w1LASYGzFnF5OO1i7l90ZlQl39evoAOLXTBCBLuMVkvxq2c3OrpGXs45idS\nyOUWTERWpLG4/8oQN/On/TqSTeDYXQsJkuEic4LzWOakBw8DIatzRTTLAEdvB1SI\nVr25+CyrKv5Dr6d6v7aBVsY1e6wiP50bjiYtNuEWl3rFUIrSKMjG/LAB9OMmJ62e\nF9QUMs9rx4uCtCaz767Vx0egg5flVsSkj4JGCsghWb4FlwpoPzAD802uqqrHUAbU\nlXYmluZUMIOgkExLQ5qlwnv0MqzvkNju3qvddyYnX8/EsTOA3fGa6e/eZ6BqTTe3\n5PyWbid53cjyrDuW7ZkdYpMpQsRRJCEiAQ+KIyDfXIuTpyxeIEr/mWLCGyVflQxs\ns7Th3/MJdJeKIjVW733PwjdWUIeiWIca7B+xFN5/dUT5t4qhpGFYvlEPaaA81C7f\nZNt4Qj1VxfTVFZnWVWCcvuFJsV9se6h0lbsIItvM5NS9w6gcrIVdSF1Lh9U4XR0M\noWGC+N5e6HPU1hFxkljY\n=mts7\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 775cde795a8b9506507a410acfcd96378583a2af\nparent d04d59618a5d3a14a9a14763392204ecde680f37\nauthor André Bastos Dias <80102738+andrebastosdias@users.noreply.github.com> 1789000428 +0100\ncommitter GitHub <noreply@github.com> 1789000428 -0600\n\nChampions: Make Double Shock a punching move (#12304)\n\n* Champions: Make Double Shock a punching move\n\n* Reg M-B: Give Strength Sap and Wish 10 PP",
+      "verified_at": "2026-09-10T00:33:49Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0/comments",
+  "author": {
+    "login": "andrebastosdias",
+    "id": 80102738,
+    "node_id": "MDQ6VXNlcjgwMTAyNzM4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/80102738?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/andrebastosdias",
+    "html_url": "https://github.com/andrebastosdias",
+    "followers_url": "https://api.github.com/users/andrebastosdias/followers",
+    "following_url": "https://api.github.com/users/andrebastosdias/following{/other_user}",
+    "gists_url": "https://api.github.com/users/andrebastosdias/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/andrebastosdias/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/andrebastosdias/subscriptions",
+    "organizations_url": "https://api.github.com/users/andrebastosdias/orgs",
+    "repos_url": "https://api.github.com/users/andrebastosdias/repos",
+    "events_url": "https://api.github.com/users/andrebastosdias/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/andrebastosdias/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "d04d59618a5d3a14a9a14763392204ecde680f37",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/d04d59618a5d3a14a9a14763392204ecde680f37",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/d04d59618a5d3a14a9a14763392204ecde680f37"
+    }
+  ],
+  "stats": {
+    "total": 14,
+    "additions": 14,
+    "deletions": 0
+  },
+  "files": [
+    {
+      "sha": "926b1adc5b667c2c88df669a2028f4e5ce16d215",
+      "filename": "data/mods/champions/moves.ts",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 0,
+      "changes": 4,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0/data%2Fmods%2Fchampions%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0/data%2Fmods%2Fchampions%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fmoves.ts?ref=bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0",
+      "patch": "@@ -221,6 +221,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\",\n \t},\n+\tdoubleshock: {\n+\t\tinherit: true,\n+\t\tflags: { contact: 1, protect: 1, mirror: 1, punch: 1 },\n+\t},\n \tdragonascent: {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\","
+    },
+    {
+      "sha": "1261b57302da983d9e7179509c0de8cb109741c0",
+      "filename": "data/mods/championsregmb/moves.ts",
+      "status": "added",
+      "additions": 10,
+      "deletions": 0,
+      "changes": 10,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0/data%2Fmods%2Fchampionsregmb%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0/data%2Fmods%2Fchampionsregmb%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampionsregmb%2Fmoves.ts?ref=bc4eb07b4240a62bfbb5fa6ba8468f6557fe37d0",
+      "patch": "@@ -0,0 +1,10 @@\n+export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n+\tstrengthsap: {\n+\t\tinherit: true,\n+\t\tpp: 10,\n+\t},\n+\twish: {\n+\t\tinherit: true,\n+\t\tpp: 10,\n+\t},\n+};"
+    }
+  ]
+}

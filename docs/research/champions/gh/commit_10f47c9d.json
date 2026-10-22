@@ -1,0 +1,173 @@
+{
+  "sha": "10f47c9de12a9eb15cc3db0fab9105a1d1f7149b",
+  "node_id": "C_kwDOAC5c7toAKDEwZjQ3YzlkZTEyYTllYjE1Y2MzZGIwZmFiOTEwNWExZDFmNzE0OWI",
+  "commit": {
+    "author": {
+      "name": "André Bastos Dias",
+      "email": "80102738+andrebastosdias@users.noreply.github.com",
+      "date": "2026-09-09T04:04:09Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-09-09T04:04:09Z"
+    },
+    "message": "Champions: Fix multiple M-A bugs (#12297)\n\n* Champions: Fix multiple M-A bugs\n\n* Gigaton Hammer should bypass the Disable check\n\n---------\n\nCo-authored-by: André Bastos Dias <dias.andre@siemens.com>",
+    "tree": {
+      "sha": "7d05fe4abaa98d8df486ad5607ddf666221a91de",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/7d05fe4abaa98d8df486ad5607ddf666221a91de"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqoNq5CRC1aQ7uu5UhlAAACgsQAESmYJMLA90dHbGD/EIEw96r\nCxbm+KIPK+/f83nNXQ5VN7tlSo5Zc+UmBzFDhKZ9F8hOUd7KUxALnZcZZWaNwhni\naachUEcmUB1f9YMCfDYYrCkzsbRUkW8LhsWzjA9DjY+DWS3pizqfd9arvivsnixX\nCwKkWj4wMz5ohENrQXom9ZC+uZXR+n1kViUv/gtHgC2x4yf8N9NXiNmlFuOvhRx1\nQimH6pHxZKRrV4jJFqHMTvEmGMRvBczgyQh3/6bmuvN3aBHrBmMud4TACO6XzAz7\nYgmSw9ENZMfFLbttnxHtJil6LrJtdhnTGWAu09F50sveq+efWcZiIzoWh892M4Mq\nQ8lq5GyJISv/kCf4c5G1vR5A16vRIy7KTVVGLUdy6bPAgPrIriMKNY9yo6kyl441\nnfR8LUaNRzTedX1LQrIcPjFFWAln73WG7N69Kw63DPyKqaBCyz0Ah3n01HSUdhL5\ncva1rV7m9/EvQe82Tak5CIUYV5nEe5uC6vyYyd0bvm/lXbekHI8DLcq3r3EkMQbs\nA+uq/TGwEimZuZjG66A8r8MvlfSuSIxrleKEk/3juhVxEzmJtqPzGHAcZTLhT0B9\n4a4etBy41DwimDpQlMKdwHNfbo0JdpSFkVBAASSLmsmgHA7h2acyU3ZlI9K84Wun\nij6v+Pi6J8BSee/MCzQX\n=VxBY\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 7d05fe4abaa98d8df486ad5607ddf666221a91de\nparent 49e1c9d6934643633f0337e2463abe6dd4164e01\nauthor André Bastos Dias <80102738+andrebastosdias@users.noreply.github.com> 1788926649 +0100\ncommitter GitHub <noreply@github.com> 1788926649 -0600\n\nChampions: Fix multiple M-A bugs (#12297)\n\n* Champions: Fix multiple M-A bugs\n\n* Gigaton Hammer should bypass the Disable check\n\n---------\n\nCo-authored-by: André Bastos Dias <dias.andre@siemens.com>",
+      "verified_at": "2026-09-09T04:04:10Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/comments",
+  "author": {
+    "login": "andrebastosdias",
+    "id": 80102738,
+    "node_id": "MDQ6VXNlcjgwMTAyNzM4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/80102738?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/andrebastosdias",
+    "html_url": "https://github.com/andrebastosdias",
+    "followers_url": "https://api.github.com/users/andrebastosdias/followers",
+    "following_url": "https://api.github.com/users/andrebastosdias/following{/other_user}",
+    "gists_url": "https://api.github.com/users/andrebastosdias/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/andrebastosdias/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/andrebastosdias/subscriptions",
+    "organizations_url": "https://api.github.com/users/andrebastosdias/orgs",
+    "repos_url": "https://api.github.com/users/andrebastosdias/repos",
+    "events_url": "https://api.github.com/users/andrebastosdias/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/andrebastosdias/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "49e1c9d6934643633f0337e2463abe6dd4164e01",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/49e1c9d6934643633f0337e2463abe6dd4164e01",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/49e1c9d6934643633f0337e2463abe6dd4164e01"
+    }
+  ],
+  "stats": {
+    "total": 120,
+    "additions": 80,
+    "deletions": 40
+  },
+  "files": [
+    {
+      "sha": "f197071fb2505e7bb8361d454bc8dcf7f207de88",
+      "filename": "data/mods/champions/abilities.ts",
+      "status": "modified",
+      "additions": 0,
+      "deletions": 20,
+      "changes": 20,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmods%2Fchampions%2Fabilities.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmods%2Fchampions%2Fabilities.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fabilities.ts?ref=10f47c9de12a9eb15cc3db0fab9105a1d1f7149b",
+      "patch": "@@ -11,26 +11,6 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa\n \t\t\tthis.effectState.checkedBerserk = !(effect.effectType === \"Move\" && !effect.multihit);\n \t\t},\n \t},\n-\tdisguise: {\n-\t\tinherit: true,\n-\t\tonEffectiveness(typeMod, target, type, move) {\n-\t\t\tif (!target || move.category === 'Status') return;\n-\n-\t\t\tif (move.hit === 1) delete this.effectState.neutral;\n-\t\t\tif (this.effectState.neutral) return 0;\n-\n-\t\t\tif (!['mimikyu', 'mimikyutotem'].includes(target.species.id)) {\n-\t\t\t\treturn;\n-\t\t\t}\n-\n-\t\t\tconst hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);\n-\t\t\tif (hitSub) return;\n-\n-\t\t\tif (!target.runImmunity(move)) return;\n-\t\t\tthis.effectState.neutral = true;\n-\t\t\treturn 0;\n-\t\t},\n-\t},\n \tdragonize: {\n \t\tinherit: true,\n \t\tisNonstandard: null,"
+    },
+    {
+      "sha": "116e866c0bdf053138555fcd15c74c665defc309",
+      "filename": "data/mods/champions/items.ts",
+      "status": "modified",
+      "additions": 0,
+      "deletions": 15,
+      "changes": 15,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmods%2Fchampions%2Fitems.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmods%2Fchampions%2Fitems.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fitems.ts?ref=10f47c9de12a9eb15cc3db0fab9105a1d1f7149b",
+      "patch": "@@ -1019,21 +1019,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\",\n \t},\n-\twhiteherb: {\n-\t\tinherit: true,\n-\t\tonAnyAfterMove() {\n-\t\t\t// Desync: proceed from Parting Shot's point of view\n-\t\t\tthis.queue.insertChoice({\n-\t\t\t\tchoice: 'event',\n-\t\t\t\tevent: 'WhiteHerb',\n-\t\t\t\torder: 99, // before switches\n-\t\t\t\tpokemon: this.effectState.target,\n-\t\t\t});\n-\t\t},\n-\t\tonWhiteHerb(pokemon) {\n-\t\t\t((this.effect as any).onStart as (p: Pokemon) => void).call(this, this.effectState.target);\n-\t\t},\n-\t},\n \twikiberry: {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\","
+    },
+    {
+      "sha": "b2d1a0725cd8eb62d16e3187b4379e8df4177a3e",
+      "filename": "data/mods/champions/moves.ts",
+      "status": "modified",
+      "additions": 12,
+      "deletions": 0,
+      "changes": 12,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmods%2Fchampions%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmods%2Fchampions%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fmoves.ts?ref=10f47c9de12a9eb15cc3db0fab9105a1d1f7149b",
+      "patch": "@@ -197,6 +197,18 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\t\t},\n \t\t},\n \t},\n+\tdisable: {\n+\t\tinherit: true,\n+\t\tcondition: {\n+\t\t\tinherit: true,\n+\t\t\tonBeforeMove(attacker, defender, move) {\n+\t\t\t\tif (!(move.isZ && move.isZOrMaxPowered) && move.id === this.effectState.move && !move.flags['cantusetwice']) {\n+\t\t\t\t\tthis.add('cant', attacker, 'Disable', move);\n+\t\t\t\t\treturn false;\n+\t\t\t\t}\n+\t\t\t},\n+\t\t},\n+\t},\n \tdisarmingvoice: {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\","
+    },
+    {
+      "sha": "8f9cea8384d82970790e1ac221848644adc07b1d",
+      "filename": "data/mods/championsregma/abilities.ts",
+      "status": "modified",
+      "additions": 20,
+      "deletions": 0,
+      "changes": 20,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmods%2Fchampionsregma%2Fabilities.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmods%2Fchampionsregma%2Fabilities.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampionsregma%2Fabilities.ts?ref=10f47c9de12a9eb15cc3db0fab9105a1d1f7149b",
+      "patch": "@@ -1,4 +1,24 @@\n export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTable = {\n+\tdisguise: {\n+\t\tinherit: true,\n+\t\tonEffectiveness(typeMod, target, type, move) {\n+\t\t\tif (!target || move.category === 'Status') return;\n+\n+\t\t\tif (move.hit === 1) delete this.effectState.neutral;\n+\t\t\tif (this.effectState.neutral) return 0;\n+\n+\t\t\tif (!['mimikyu', 'mimikyutotem'].includes(target.species.id)) {\n+\t\t\t\treturn;\n+\t\t\t}\n+\n+\t\t\tconst hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);\n+\t\t\tif (hitSub) return;\n+\n+\t\t\tif (!target.runImmunity(move)) return;\n+\t\t\tthis.effectState.neutral = true;\n+\t\t\treturn 0;\n+\t\t},\n+\t},\n \tspicyspray: {\n \t\tinherit: true,\n \t\tonDamagingHit(damage, target, source, move) {"
+    },
+    {
+      "sha": "03330540025a1ab25867bd55900f39b04ee6dfdf",
+      "filename": "data/mods/championsregma/items.ts",
+      "status": "modified",
+      "additions": 15,
+      "deletions": 0,
+      "changes": 15,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmods%2Fchampionsregma%2Fitems.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmods%2Fchampionsregma%2Fitems.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampionsregma%2Fitems.ts?ref=10f47c9de12a9eb15cc3db0fab9105a1d1f7149b",
+      "patch": "@@ -111,6 +111,21 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\",\n \t},\n+\twhiteherb: {\n+\t\tinherit: true,\n+\t\tonAnyAfterMove() {\n+\t\t\t// Desync: proceed from Parting Shot's point of view\n+\t\t\tthis.queue.insertChoice({\n+\t\t\t\tchoice: 'event',\n+\t\t\t\tevent: 'WhiteHerb',\n+\t\t\t\torder: 99, // before switches\n+\t\t\t\tpokemon: this.effectState.target,\n+\t\t\t});\n+\t\t},\n+\t\tonWhiteHerb(pokemon) {\n+\t\t\t((this.effect as any).onStart as (p: Pokemon) => void).call(this, this.effectState.target);\n+\t\t},\n+\t},\n \twiseglasses: {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\","
+    },
+    {
+      "sha": "aa5d1df3559318e02c66a32e19db7a9a3336fbc9",
+      "filename": "data/mods/championsregma/moves.ts",
+      "status": "modified",
+      "additions": 30,
+      "deletions": 0,
+      "changes": 30,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmods%2Fchampionsregma%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmods%2Fchampionsregma%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampionsregma%2Fmoves.ts?ref=10f47c9de12a9eb15cc3db0fab9105a1d1f7149b",
+      "patch": "@@ -1,4 +1,14 @@\n export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n+\tceaselessedge: {\n+\t\tinherit: true,\n+\t\tonAfterHit(target, source, move) {\n+\t\t\tif (!move.hasSheerForce && source.hp) {\n+\t\t\t\tfor (const side of source.side.foeSidesWithConditions()) {\n+\t\t\t\t\tside.addSideCondition('spikes');\n+\t\t\t\t}\n+\t\t\t}\n+\t\t},\n+\t},\n \tdireclaw: {\n \t\tinherit: true,\n \t\tsecondary: {\n@@ -17,4 +27,24 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\t\t},\n \t\t},\n \t},\n+\tgrowth: {\n+\t\tinherit: true,\n+\t\tonModifyMove(move, pokemon) {\n+\t\t\tif (pokemon.hasAbility('megasol') && !this.field.isWeather('sunnyday')) {\n+\t\t\t\tdelete move.boosts;\n+\t\t\t} else if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {\n+\t\t\t\tmove.boosts = { atk: 2, spa: 2 };\n+\t\t\t}\n+\t\t},\n+\t},\n+\tstoneaxe: {\n+\t\tinherit: true,\n+\t\tonAfterHit(target, source, move) {\n+\t\t\tif (!move.hasSheerForce && source.hp) {\n+\t\t\t\tfor (const side of source.side.foeSidesWithConditions()) {\n+\t\t\t\t\tside.addSideCondition('stealthrock');\n+\t\t\t\t}\n+\t\t\t}\n+\t\t},\n+\t},\n };"
+    },
+    {
+      "sha": "cef991de31479632bddbbc8830d74e7e5d32c417",
+      "filename": "data/moves.ts",
+      "status": "modified",
+      "additions": 3,
+      "deletions": 5,
+      "changes": 8,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/10f47c9de12a9eb15cc3db0fab9105a1d1f7149b/data%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmoves.ts?ref=10f47c9de12a9eb15cc3db0fab9105a1d1f7149b",
+      "patch": "@@ -2227,7 +2227,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {\n \t\tpriority: 0,\n \t\tflags: { contact: 1, protect: 1, mirror: 1, metronome: 1, slicing: 1 },\n \t\tonAfterHit(target, source, move) {\n-\t\t\tif (!move.hasSheerForce && source.hp) {\n+\t\t\tif (!move.hasSheerForce) {\n \t\t\t\tfor (const side of source.side.foeSidesWithConditions()) {\n \t\t\t\t\tside.addSideCondition('spikes');\n \t\t\t\t}\n@@ -7868,9 +7868,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {\n \t\tpriority: 0,\n \t\tflags: { snatch: 1, metronome: 1 },\n \t\tonModifyMove(move, pokemon) {\n-\t\t\tif (pokemon.hasAbility('megasol') && !this.field.isWeather('sunnyday')) {\n-\t\t\t\tdelete move.boosts;\n-\t\t\t} else if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {\n+\t\t\tif (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {\n \t\t\t\tmove.boosts = { atk: 2, spa: 2 };\n \t\t\t}\n \t\t},\n@@ -18070,7 +18068,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {\n \t\tpriority: 0,\n \t\tflags: { contact: 1, protect: 1, mirror: 1, metronome: 1, slicing: 1 },\n \t\tonAfterHit(target, source, move) {\n-\t\t\tif (!move.hasSheerForce && source.hp) {\n+\t\t\tif (!move.hasSheerForce) {\n \t\t\t\tfor (const side of source.side.foeSidesWithConditions()) {\n \t\t\t\t\tside.addSideCondition('stealthrock');\n \t\t\t\t}"
+    }
+  ]
+}

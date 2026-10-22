@@ -1,0 +1,42 @@
+items: base-nonstandard -> champions-standard (82): Abomasite(Past), Absolite(Past), Absolite Z(Future), Aerodactylite(Past), Aggronite(Past), Alakazite(Past), Altarianite(Past), Ampharosite(Past), Audinite(Past), Banettite(Past), Barbaracite(Future), Baxcalibrite(Future), Beedrillite(Past), Blastoisinite(Past), Blazikenite(Past), Cameruptite(Past), Chandelurite(Future), Charizardite X(Past), Charizardite Y(Past), Chesnaughtite(Future), Chimechite(Future), Clefablite(Future), Crabominite(Future), Delphoxite(Future), Dragalgite(Future), Dragoninite(Future), Drampanite(Future), Eelektrossite(Future), Emboarite(Future), Excadrite(Future), Falinksite(Future), Feraligite(Future), Floettite(Future), Froslassite(Future), Galladite(Past), Garchompite(Past), Garchompite Z(Future), Gardevoirite(Past), Gengarite(Past), Glalitite(Past), Glimmoranite(Future), Golisopite(Future), Golurkite(Future), Greninjite(Future), Gyaradosite(Past), Hawluchanite(Future), Heracronite(Past), Houndoominite(Past), Kangaskhanite(Past), Leek(Past), Lopunnite(Past), Lucarionite(Past), Lucarionite Z(Future), Malamarite(Future), Manectite(Past), Mawilite(Past), Medichamite(Past), Meganiumite(Future), Meowsticite(Future), Metagrossite(Past), Pidgeotite(Past), Pinsirite(Past), Pyroarite(Future), Raichunite X(Future), Raichunite Y(Future), Sablenite(Past), Salamencite(Past), Sceptilite(Past), Scizorite(Past), Scolipite(Future), Scovillainite(Future), Scraftinite(Future), Sharpedonite(Past), Skarmorite(Future), Slowbronite(Past), Staraptite(Future), Starminite(Future), Steelixite(Past), Swampertite(Past), Tyranitarite(Past), Venusaurite(Past), Victreebelite(Future)
+items: base-standard -> champions-nonstandard (165)
+abilities: base-nonstandard -> champions-standard (7): Aura Guard(Future), Dragonize(Future), Eelevate(Future), Fire Mane(Future), Mega Sol(Future), Piercing Drill(Future), Spicy Spray(Future)
+abilities: base-standard -> champions-nonstandard (0)
+Double Shock     reachable by 1 species
+Revival Blessing reachable by 1 species
+Knock Off        reachable by 81 species
+Fake Out         reachable by 37 species
+Trick Room       reachable by 50 species
+Tailwind         reachable by 45 species
+Protect          reachable by 311 species
+Detect           reachable by 30 species
+Wide Guard       reachable by 21 species
+Quick Guard      reachable by 24 species
+Follow Me        reachable by 4 species
+Rage Powder      reachable by 25 species
+Helping Hand     reachable by 194 species
+Spore            NOT reachable
+Parting Shot     reachable by 11 species
+U-turn           reachable by 80 species
+Encore           reachable by 68 species
+Curse            reachable by 109 species
+Salt Cure        reachable by 1 species
+Make It Rain     reachable by 1 species
+Freeze-Dry       reachable by 8 species
+Rage Fist        reachable by 1 species
+Milk Drink       reachable by 1 species
+Electro Shot     reachable by 1 species
+Weather Ball     reachable by 71 species
+Last Respects    reachable by 3 species
+Shed Tail        reachable by 3 species
+Ally Switch      reachable by 27 species
+Perish Song      reachable by 8 species
+Sleep Powder     reachable by 25 species
+Yawn             reachable by 39 species
+Icy Wind         reachable by 82 species
+Electroweb       reachable by 28 species
+Snarl            reachable by 50 species
+Heat Wave        reachable by 42 species
+Dazzling Gleam   reachable by 56 species
+Rock Slide       reachable by 113 species
+Earthquake       reachable by 104 species

@@ -1,0 +1,101 @@
+{
+  "sha": "aa6d5f0856d24679be8f5df167d1b528c2dcbd71",
+  "node_id": "C_kwDOAC5c7toAKGFhNmQ1ZjA4NTZkMjQ2NzliZThmNWRmMTY3ZDFiNTI4YzJkY2JkNzE",
+  "commit": {
+    "author": {
+      "name": "André Bastos Dias",
+      "email": "80102738+andrebastosdias@users.noreply.github.com",
+      "date": "2026-09-13T20:13:27Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-09-13T20:13:27Z"
+    },
+    "message": "Champions: Allow self-switches even if Eject Button is triggered (#12309)\n\n* Champions: Allow self-switches even if Eject Button is triggered\n\n* Remove onAfterMoveSecondaryPriority",
+    "tree": {
+      "sha": "787ce153459c712ca270190e236cc42970b7633d",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/787ce153459c712ca270190e236cc42970b7633d"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/aa6d5f0856d24679be8f5df167d1b528c2dcbd71",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqpwPnCRC1aQ7uu5UhlAAA2q0QAKCGCnWVo9DN7o4uj2CNlc0l\nTSo4aMZhb/QYm/K8q3/BLfDIomLL+xjPhp2AFViQFxjCIQU/k8PTRdcq5w3L2pvG\nw+Qml3uM6iUGMUTaJE1frIxPCbMxwlZ9BRGvqHFC8cKzdSsAp9+1DrGrTnfUd2bI\nJ5IH55WdinpNkt5gJAJMemedCTuQrJoMdnA0SgL1FbM1sVjylYKTRPkOgZlVjHIF\nAktcK9fz7w+Kz8xBYTMRs/G4mod0qdtUx566+qX4cHKPu0p9f7axehrSxCUQN45D\nsI1w+ARR+4qK7MvCnIJZZKKNC166CHIrJLhRuqqDAyNiuYmzs4FWAjQCgKVbQXC7\ngUqJSrxG6M6Hq4psxh3ZLsvgwN5rSGoJR8tF47BUiHrnSdQGNizWd/dxqObtRlcR\nObfoEDGDkExIvyPkr0Q9UsPHnjvZgnZF6zOBOCXYgjskdewGLZxKevapfF9JswoH\niCldVPM1E2qTsFCR/i/LKns/NIDF/TQ56mGJfrgkv92ZWiddA2bFoRHtczcJDJkZ\n9ZZO46wS3FNY/pxZmUS6W3io2QWe0smAB+0rVu3WRZShZ13pyHdyt99TN7kpoezb\n71ZYAw4oOcJjFlDngcF17jzF4ybwH8RR8C8NeOhzCPHoIA6RpxB9nyv+ZzIxx9xa\ncwe0HVZ/7NcSggFBYdty\n=yiLC\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 787ce153459c712ca270190e236cc42970b7633d\nparent 0490edb43b60fdaf2fad7db6010f1379f225e8e7\nauthor André Bastos Dias <80102738+andrebastosdias@users.noreply.github.com> 1789330407 +0100\ncommitter GitHub <noreply@github.com> 1789330407 -0600\n\nChampions: Allow self-switches even if Eject Button is triggered (#12309)\n\n* Champions: Allow self-switches even if Eject Button is triggered\n\n* Remove onAfterMoveSecondaryPriority",
+      "verified_at": "2026-09-13T20:13:27Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/aa6d5f0856d24679be8f5df167d1b528c2dcbd71",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/aa6d5f0856d24679be8f5df167d1b528c2dcbd71",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/aa6d5f0856d24679be8f5df167d1b528c2dcbd71/comments",
+  "author": {
+    "login": "andrebastosdias",
+    "id": 80102738,
+    "node_id": "MDQ6VXNlcjgwMTAyNzM4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/80102738?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/andrebastosdias",
+    "html_url": "https://github.com/andrebastosdias",
+    "followers_url": "https://api.github.com/users/andrebastosdias/followers",
+    "following_url": "https://api.github.com/users/andrebastosdias/following{/other_user}",
+    "gists_url": "https://api.github.com/users/andrebastosdias/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/andrebastosdias/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/andrebastosdias/subscriptions",
+    "organizations_url": "https://api.github.com/users/andrebastosdias/orgs",
+    "repos_url": "https://api.github.com/users/andrebastosdias/repos",
+    "events_url": "https://api.github.com/users/andrebastosdias/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/andrebastosdias/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "0490edb43b60fdaf2fad7db6010f1379f225e8e7",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/0490edb43b60fdaf2fad7db6010f1379f225e8e7",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/0490edb43b60fdaf2fad7db6010f1379f225e8e7"
+    }
+  ],
+  "stats": {
+    "total": 16,
+    "additions": 16,
+    "deletions": 0
+  },
+  "files": [
+    {
+      "sha": "f86f1a250aa67f07b73f446f19c633dd4d1daf59",
+      "filename": "data/mods/champions/items.ts",
+      "status": "modified",
+      "additions": 16,
+      "deletions": 0,
+      "changes": 16,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/aa6d5f0856d24679be8f5df167d1b528c2dcbd71/data%2Fmods%2Fchampions%2Fitems.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/aa6d5f0856d24679be8f5df167d1b528c2dcbd71/data%2Fmods%2Fchampions%2Fitems.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fitems.ts?ref=aa6d5f0856d24679be8f5df167d1b528c2dcbd71",
+      "patch": "@@ -263,6 +263,22 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {\n \t\tinherit: true,\n \t\tisNonstandard: null,\n \t},\n+\tejectbutton: {\n+\t\tinherit: true,\n+\t\tonAfterMoveSecondary(target, source, move) {\n+\t\t\tif (source && source !== target && target.hp && move && move.category !== 'Status' && !move.flags['futuremove']) {\n+\t\t\t\tif (!this.canSwitch(target.side) || target.forceSwitchFlag || target.beingCalledBack || target.isSkyDropped()) return;\n+\t\t\t\tif (target.volatiles['commanding'] || target.volatiles['commanded']) return;\n+\t\t\t\tfor (const pokemon of this.getAllActive()) {\n+\t\t\t\t\tif (pokemon.switchFlag === true) return;\n+\t\t\t\t}\n+\t\t\t\ttarget.switchFlag = true;\n+\t\t\t\tif (!target.useItem()) {\n+\t\t\t\t\ttarget.switchFlag = false;\n+\t\t\t\t}\n+\t\t\t}\n+\t\t},\n+\t},\n \tejectpack: {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\","
+    }
+  ]
+}

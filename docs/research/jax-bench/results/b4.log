@@ -1,0 +1,45 @@
+4 threefry2x32 foldin x144    compile=3.01s 3068.7 ns/elem  21.31 ns/draw 
+4 threefry2x32 split 144      compile=0.08s 2545.2 ns/elem  17.67 ns/draw 
+4 threefry2x32 bulk (8,3,6)   compile=0.50s 1773.9 ns/elem  12.32 ns/draw 
+4 philox4x32   foldin x144    compile=nans nan ns/elem  nan ns/draw compile+run > 150 s (timeout)
+4 philox4x32   split 144      compile=0.09s 282.3 ns/elem  1.96 ns/draw 
+4 philox4x32   bulk (8,3,6)   compile=0.13s 206.9 ns/elem  1.44 ns/draw 
+4 philox2x32   foldin x144    compile=nans nan ns/elem  nan ns/draw compile+run > 150 s (timeout)
+4 philox2x32   split 144      compile=0.07s 225.4 ns/elem  1.57 ns/draw 
+4 philox2x32   bulk (8,3,6)   compile=0.06s 104.0 ns/elem  0.72 ns/draw 
+4 rbg          foldin x144    compile=2.46s 6500.1 ns/elem  45.14 ns/draw 
+4 rbg          split 144      compile=0.18s 2266.5 ns/elem  15.74 ns/draw 
+4 rbg          bulk (8,3,6)   compile=0.12s 479.6 ns/elem  3.33 ns/draw 
+4 unsafe_rbg   foldin x144    compile=0.89s 727.8 ns/elem  5.05 ns/draw 
+4 unsafe_rbg   split 144      compile=0.14s 10972.9 ns/elem  76.20 ns/draw 
+4 unsafe_rbg   bulk (8,3,6)   compile=0.12s 551.8 ns/elem  3.83 ns/draw 
+4 hash 30.5 ns/elem 0.21 ns/draw
+foldin draw reproducible standalone: True
+threefry2x32: vmap(uniform)(keys) == [uniform(k) for k in keys]: True
+philox4x32: vmap(uniform)(keys) == [uniform(k) for k in keys]: True
+rbg: vmap(uniform)(keys) == [uniform(k) for k in keys]: False
+unsafe_rbg: vmap(uniform)(keys) == [uniform(k) for k in keys]: False
+| impl | method | compile_s | ns_per_elem | ns_per_draw |
+|---|---|---|---|---|
+| - | baseline (no RNG) | 0.01 | 1.4 |  |
+| threefry2x32 | foldin x144 | 3.01 | 3068.7 | 21.31 |
+| threefry2x32 | split 144 | 0.08 | 2545.2 | 17.67 |
+| threefry2x32 | bulk (8,3,6) | 0.50 | 1773.9 | 12.32 |
+| philox4x32 | foldin x144 |  |  |  |
+| philox4x32 | split 144 | 0.09 | 282.3 | 1.96 |
+| philox4x32 | bulk (8,3,6) | 0.13 | 206.9 | 1.44 |
+| philox2x32 | foldin x144 |  |  |  |
+| philox2x32 | split 144 | 0.07 | 225.4 | 1.57 |
+| philox2x32 | bulk (8,3,6) | 0.06 | 104.0 | 0.72 |
+| rbg | foldin x144 | 2.46 | 6500.1 | 45.14 |
+| rbg | split 144 | 0.18 | 2266.5 | 15.74 |
+| rbg | bulk (8,3,6) | 0.12 | 479.6 | 3.33 |
+| unsafe_rbg | foldin x144 | 0.89 | 727.8 | 5.05 |
+| unsafe_rbg | split 144 | 0.14 | 10972.9 | 76.20 |
+| unsafe_rbg | bulk (8,3,6) | 0.12 | 551.8 | 3.83 |
+| custom u32 hash | hash(seed,turn,a,t,e) | 0.04 | 30.5 | 0.21 |
+| threefry2x32 | vmap-exact check |  |  |  |
+| philox4x32 | vmap-exact check |  |  |  |
+| rbg | vmap-exact check |  |  |  |
+| unsafe_rbg | vmap-exact check |  |  |  |
+[saved /Users/dylan.d/Documents/research/pokemon/research/jax-bench/results/b4_rng.json]

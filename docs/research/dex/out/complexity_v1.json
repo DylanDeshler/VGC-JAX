@@ -1,0 +1,5269 @@
+[
+ {
+  "kind": "condition",
+  "id": "sunnyday",
+  "score": 190,
+  "fns": 6,
+  "loc": 40,
+  "core_refs": 3,
+  "mentioned_by": 34,
+  "hooks": [
+   "durationCallback",
+   "onFieldEnd",
+   "onFieldResidual",
+   "onFieldStart",
+   "onImmunity",
+   "onWeatherModifyDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "substitute",
+  "score": 189,
+  "fns": 5,
+  "loc": 59,
+  "core_refs": 7,
+  "mentioned_by": 24,
+  "hooks": [
+   "onEnd",
+   "onHit",
+   "onStart",
+   "onTryHit",
+   "onTryPrimaryHit"
+  ],
+  "flag": "Substitute"
+ },
+ {
+  "kind": "condition",
+  "id": "sandstorm",
+  "score": 165,
+  "fns": 6,
+  "loc": 29,
+  "core_refs": 1,
+  "mentioned_by": 32,
+  "hooks": [
+   "durationCallback",
+   "onFieldEnd",
+   "onFieldResidual",
+   "onFieldStart",
+   "onModifySpD",
+   "onWeather"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "substitute",
+  "score": 164,
+  "fns": 3,
+  "loc": 46,
+  "core_refs": 7,
+  "mentioned_by": 24,
+  "hooks": [
+   "onEnd",
+   "onStart",
+   "onTryPrimaryHit"
+  ],
+  "flag": "Substitute"
+ },
+ {
+  "kind": "condition",
+  "id": "raindance",
+  "score": 156,
+  "fns": 5,
+  "loc": 32,
+  "core_refs": 1,
+  "mentioned_by": 30,
+  "hooks": [
+   "durationCallback",
+   "onFieldEnd",
+   "onFieldResidual",
+   "onFieldStart",
+   "onWeatherModifyDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "snowscape",
+  "score": 134,
+  "fns": 5,
+  "loc": 26,
+  "core_refs": 0,
+  "mentioned_by": 26,
+  "hooks": [
+   "durationCallback",
+   "onFieldEnd",
+   "onFieldResidual",
+   "onFieldStart",
+   "onModifyDef"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "gravity",
+  "score": 127,
+  "fns": 7,
+  "loc": 66,
+  "core_refs": 1,
+  "mentioned_by": 5,
+  "hooks": [
+   "durationCallback",
+   "onBeforeMove",
+   "onDisableMove",
+   "onFieldEnd",
+   "onFieldStart",
+   "onModifyAccuracy",
+   "onModifyMove"
+  ],
+  "flag": "field rule changes"
+ },
+ {
+  "kind": "condition",
+  "id": "slp",
+  "score": 126,
+  "fns": 2,
+  "loc": 29,
+  "core_refs": 7,
+  "mentioned_by": 19,
+  "hooks": [
+   "onBeforeMove",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "lockedmove",
+  "score": 119,
+  "fns": 6,
+  "loc": 28,
+  "core_refs": 4,
+  "mentioned_by": 13,
+  "hooks": [
+   "onAfterMove",
+   "onEnd",
+   "onLockMove",
+   "onResidual",
+   "onRestart",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "confusion",
+  "score": 117,
+  "fns": 3,
+  "loc": 31,
+  "core_refs": 2,
+  "mentioned_by": 20,
+  "hooks": [
+   "onBeforeMove",
+   "onEnd",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "healblock",
+  "score": 113,
+  "fns": 8,
+  "loc": 52,
+  "core_refs": 1,
+  "mentioned_by": 3,
+  "hooks": [
+   "durationCallback",
+   "onBeforeMove",
+   "onDisableMove",
+   "onEnd",
+   "onModifyMove",
+   "onRestart",
+   "onStart",
+   "onTryHeal"
+  ],
+  "flag": "move lock"
+ },
+ {
+  "kind": "condition",
+  "id": "partiallytrapped",
+  "score": 103,
+  "fns": 5,
+  "loc": 25,
+  "core_refs": 9,
+  "mentioned_by": 4,
+  "hooks": [
+   "durationCallback",
+   "onEnd",
+   "onResidual",
+   "onStart",
+   "onTrapPokemon"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "frz",
+  "score": 99,
+  "fns": 5,
+  "loc": 38,
+  "core_refs": 4,
+  "mentioned_by": 5,
+  "hooks": [
+   "onAfterMoveSecondary",
+   "onBeforeMove",
+   "onDamagingHit",
+   "onModifyMove",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "futuremove",
+  "score": 99,
+  "fns": 4,
+  "loc": 39,
+  "core_refs": 3,
+  "mentioned_by": 8,
+  "hooks": [
+   "onEnd",
+   "onResidual",
+   "onRestart",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "twoturnmove",
+  "score": 99,
+  "fns": 4,
+  "loc": 23,
+  "core_refs": 1,
+  "mentioned_by": 16,
+  "hooks": [
+   "onEnd",
+   "onLockMove",
+   "onMoveAborted",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "electricterrain",
+  "score": 91,
+  "fns": 6,
+  "loc": 37,
+  "core_refs": 0,
+  "mentioned_by": 6,
+  "hooks": [
+   "durationCallback",
+   "onBasePower",
+   "onFieldEnd",
+   "onFieldStart",
+   "onSetStatus",
+   "onTryAddVolatile"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "stall",
+  "score": 86,
+  "fns": 3,
+  "loc": 16,
+  "core_refs": 1,
+  "mentioned_by": 16,
+  "hooks": [
+   "onRestart",
+   "onStallMove",
+   "onStart"
+  ],
+  "flag": "turn order"
+ },
+ {
+  "kind": "condition",
+  "id": "grassyterrain",
+  "score": 85,
+  "fns": 5,
+  "loc": 34,
+  "core_refs": 0,
+  "mentioned_by": 7,
+  "hooks": [
+   "durationCallback",
+   "onBasePower",
+   "onFieldEnd",
+   "onFieldStart",
+   "onResidual"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "mistyterrain",
+  "score": 84,
+  "fns": 6,
+  "loc": 36,
+  "core_refs": 0,
+  "mentioned_by": 4,
+  "hooks": [
+   "durationCallback",
+   "onBasePower",
+   "onFieldEnd",
+   "onFieldStart",
+   "onSetStatus",
+   "onTryAddVolatile"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "disable",
+  "score": 83,
+  "fns": 5,
+  "loc": 44,
+  "core_refs": 0,
+  "mentioned_by": 3,
+  "hooks": [
+   "onBeforeMove",
+   "onDisableMove",
+   "onEnd",
+   "onStart",
+   "onTryHit"
+  ],
+  "flag": "move lock"
+ },
+ {
+  "kind": "condition",
+  "id": "psychicterrain",
+  "score": 82,
+  "fns": 5,
+  "loc": 37,
+  "core_refs": 0,
+  "mentioned_by": 5,
+  "hooks": [
+   "durationCallback",
+   "onBasePower",
+   "onFieldEnd",
+   "onFieldStart",
+   "onTryHit"
+  ],
+  "flag": "priority block"
+ },
+ {
+  "kind": "condition",
+  "id": "charge",
+  "score": 81,
+  "fns": 6,
+  "loc": 33,
+  "core_refs": 0,
+  "mentioned_by": 4,
+  "hooks": [
+   "onAfterMove",
+   "onBasePower",
+   "onEnd",
+   "onMoveAborted",
+   "onRestart",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "curse",
+  "score": 79,
+  "fns": 5,
+  "loc": 34,
+  "core_refs": 3,
+  "mentioned_by": 1,
+  "hooks": [
+   "onHit",
+   "onModifyMove",
+   "onResidual",
+   "onStart",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "metronome",
+  "score": 76,
+  "fns": 4,
+  "loc": 32,
+  "core_refs": 5,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyDamage",
+   "onStart",
+   "onTryMove"
+  ],
+  "flag": "Metronome"
+ },
+ {
+  "kind": "condition",
+  "id": "psn",
+  "score": 76,
+  "fns": 2,
+  "loc": 10,
+  "core_refs": 3,
+  "mentioned_by": 14,
+  "hooks": [
+   "onResidual",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "auroraveil",
+  "score": 75,
+  "fns": 5,
+  "loc": 27,
+  "core_refs": 0,
+  "mentioned_by": 6,
+  "hooks": [
+   "durationCallback",
+   "onAnyModifyDamage",
+   "onSideEnd",
+   "onSideStart",
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "tox",
+  "score": 73,
+  "fns": 3,
+  "loc": 19,
+  "core_refs": 3,
+  "mentioned_by": 8,
+  "hooks": [
+   "onResidual",
+   "onStart",
+   "onSwitchIn"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "disable",
+  "score": 72,
+  "fns": 4,
+  "loc": 39,
+  "core_refs": 0,
+  "mentioned_by": 3,
+  "hooks": [
+   "onBeforeMove",
+   "onDisableMove",
+   "onEnd",
+   "onStart"
+  ],
+  "flag": "move lock"
+ },
+ {
+  "kind": "move",
+  "id": "throatchop",
+  "score": 70,
+  "fns": 6,
+  "loc": 28,
+  "core_refs": 0,
+  "mentioned_by": 2,
+  "hooks": [
+   "onBeforeMove",
+   "onDisableMove",
+   "onEnd",
+   "onHit",
+   "onModifyMove",
+   "onStart"
+  ],
+  "flag": "move lock"
+ },
+ {
+  "kind": "ability",
+  "id": "waterbubble",
+  "score": 69,
+  "fns": 6,
+  "loc": 33,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyAtk",
+   "onModifySpA",
+   "onSetStatus",
+   "onSourceModifyAtk",
+   "onSourceModifySpA",
+   "onUpdate"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "attract",
+  "score": 69,
+  "fns": 4,
+  "loc": 33,
+  "core_refs": 0,
+  "mentioned_by": 4,
+  "hooks": [
+   "onBeforeMove",
+   "onEnd",
+   "onStart",
+   "onUpdate"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "brn",
+  "score": 69,
+  "fns": 2,
+  "loc": 12,
+  "core_refs": 3,
+  "mentioned_by": 11,
+  "hooks": [
+   "onResidual",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "encore",
+  "score": 69,
+  "fns": 4,
+  "loc": 39,
+  "core_refs": 0,
+  "mentioned_by": 2,
+  "hooks": [
+   "onDisableMove",
+   "onEnd",
+   "onResidual",
+   "onStart"
+  ],
+  "flag": "Encore"
+ },
+ {
+  "kind": "move",
+  "id": "shedtail",
+  "score": 68,
+  "fns": 3,
+  "loc": 20,
+  "core_refs": 6,
+  "mentioned_by": 2,
+  "hooks": [
+   "onHit",
+   "onTryHit"
+  ],
+  "flag": "Shed Tail"
+ },
+ {
+  "kind": "move",
+  "id": "weatherball",
+  "score": 67,
+  "fns": 2,
+  "loc": 39,
+  "core_refs": 1,
+  "mentioned_by": 4,
+  "hooks": [
+   "onModifyMove",
+   "onModifyType"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "metronome",
+  "score": 67,
+  "fns": 3,
+  "loc": 29,
+  "core_refs": 5,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyDamage",
+   "onStart",
+   "onTryMove"
+  ],
+  "flag": "Metronome"
+ },
+ {
+  "kind": "move",
+  "id": "yawn",
+  "score": 66,
+  "fns": 3,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 12,
+  "hooks": [
+   "onEnd",
+   "onStart",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "disguise",
+  "score": 66,
+  "fns": 4,
+  "loc": 34,
+  "core_refs": 2,
+  "mentioned_by": 0,
+  "hooks": [
+   "onCriticalHit",
+   "onDamage",
+   "onEffectiveness",
+   "onUpdate"
+  ],
+  "flag": "Disguise (form change)"
+ },
+ {
+  "kind": "ability",
+  "id": "flashfire",
+  "score": 66,
+  "fns": 6,
+  "loc": 30,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onEnd",
+   "onModifyAtk",
+   "onModifySpA",
+   "onStart",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "auroraveil",
+  "score": 66,
+  "fns": 4,
+  "loc": 24,
+  "core_refs": 0,
+  "mentioned_by": 6,
+  "hooks": [
+   "durationCallback",
+   "onAnyModifyDamage",
+   "onSideEnd",
+   "onSideStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "counter",
+  "score": 65,
+  "fns": 6,
+  "loc": 26,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "beforeTurnCallback",
+   "damageCallback",
+   "onDamagingHit",
+   "onRedirectTarget",
+   "onStart",
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "mirrorcoat",
+  "score": 65,
+  "fns": 6,
+  "loc": 26,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "beforeTurnCallback",
+   "damageCallback",
+   "onDamagingHit",
+   "onRedirectTarget",
+   "onStart",
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "stockpile",
+  "score": 65,
+  "fns": 4,
+  "loc": 35,
+  "core_refs": 0,
+  "mentioned_by": 2,
+  "hooks": [
+   "onEnd",
+   "onRestart",
+   "onStart",
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "whiteherb",
+  "score": 65,
+  "fns": 6,
+  "loc": 29,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAnyAfterMega",
+   "onAnyAfterMove",
+   "onAnySwitchIn",
+   "onResidual",
+   "onStart",
+   "onUse"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "revivalblessing",
+  "score": 63,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 13,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTryHit"
+  ],
+  "flag": "Revival Blessing"
+ },
+ {
+  "kind": "condition",
+  "id": "smackdown",
+  "score": 61,
+  "fns": 2,
+  "loc": 27,
+  "core_refs": 1,
+  "mentioned_by": 6,
+  "hooks": [
+   "onRestart",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "throatchop",
+  "score": 61,
+  "fns": 5,
+  "loc": 25,
+  "core_refs": 0,
+  "mentioned_by": 2,
+  "hooks": [
+   "onBeforeMove",
+   "onDisableMove",
+   "onEnd",
+   "onModifyMove",
+   "onStart"
+  ],
+  "flag": "move lock"
+ },
+ {
+  "kind": "condition",
+  "id": "par",
+  "score": 60,
+  "fns": 3,
+  "loc": 20,
+  "core_refs": 1,
+  "mentioned_by": 6,
+  "hooks": [
+   "onBeforeMove",
+   "onModifySpe",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "taunt",
+  "score": 60,
+  "fns": 4,
+  "loc": 23,
+  "core_refs": 1,
+  "mentioned_by": 3,
+  "hooks": [
+   "onBeforeMove",
+   "onDisableMove",
+   "onEnd",
+   "onStart"
+  ],
+  "flag": "move lock"
+ },
+ {
+  "kind": "condition",
+  "id": "toxicspikes",
+  "score": 60,
+  "fns": 3,
+  "loc": 21,
+  "core_refs": 0,
+  "mentioned_by": 7,
+  "hooks": [
+   "onSideRestart",
+   "onSideStart",
+   "onSwitchIn"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "trickroom",
+  "score": 60,
+  "fns": 4,
+  "loc": 20,
+  "core_refs": 4,
+  "mentioned_by": 0,
+  "hooks": [
+   "durationCallback",
+   "onFieldEnd",
+   "onFieldRestart",
+   "onFieldStart"
+  ],
+  "flag": "turn-order inversion"
+ },
+ {
+  "kind": "move",
+  "id": "allyswitch",
+  "score": 57,
+  "fns": 4,
+  "loc": 33,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onPrepareHit",
+   "onRestart",
+   "onStart"
+  ],
+  "flag": "Ally Switch"
+ },
+ {
+  "kind": "ability",
+  "id": "illusion",
+  "score": 56,
+  "fns": 4,
+  "loc": 32,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBeforeSwitchIn",
+   "onDamagingHit",
+   "onEnd",
+   "onFaint"
+  ],
+  "flag": "Illusion"
+ },
+ {
+  "kind": "condition",
+  "id": "stockpile",
+  "score": 56,
+  "fns": 3,
+  "loc": 32,
+  "core_refs": 0,
+  "mentioned_by": 2,
+  "hooks": [
+   "onEnd",
+   "onRestart",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "destinybond",
+  "score": 55,
+  "fns": 5,
+  "loc": 25,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBeforeMove",
+   "onFaint",
+   "onMoveAborted",
+   "onPrepareHit",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "leechseed",
+  "score": 55,
+  "fns": 3,
+  "loc": 17,
+  "core_refs": 2,
+  "mentioned_by": 4,
+  "hooks": [
+   "onResidual",
+   "onStart",
+   "onTryImmunity"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "kingsshield",
+  "score": 55,
+  "fns": 3,
+  "loc": 26,
+  "core_refs": 2,
+  "mentioned_by": 1,
+  "hooks": [
+   "onHit",
+   "onStart",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "yawn",
+  "score": 55,
+  "fns": 2,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 12,
+  "hooks": [
+   "onEnd",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "fling",
+  "score": 54,
+  "fns": 2,
+  "loc": 39,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onPrepareHit",
+   "onUpdate"
+  ],
+  "flag": "item consumption"
+ },
+ {
+  "kind": "move",
+  "id": "focuspunch",
+  "score": 53,
+  "fns": 5,
+  "loc": 20,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "beforeMoveCallback",
+   "onHit",
+   "onStart",
+   "onTryAddVolatile",
+   "priorityChargeCallback"
+  ],
+  "flag": "priority charge"
+ },
+ {
+  "kind": "condition",
+  "id": "choicelock",
+  "score": 53,
+  "fns": 3,
+  "loc": 32,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onBeforeMove",
+   "onDisableMove",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "wish",
+  "score": 53,
+  "fns": 4,
+  "loc": 25,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onEnd",
+   "onResidual",
+   "onRestart",
+   "onStart"
+  ],
+  "flag": "delayed slot effect"
+ },
+ {
+  "kind": "condition",
+  "id": "banefulbunker",
+  "score": 52,
+  "fns": 3,
+  "loc": 26,
+  "core_refs": 2,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onStart",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "spikyshield",
+  "score": 52,
+  "fns": 3,
+  "loc": 26,
+  "core_refs": 2,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onStart",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "octolock",
+  "score": 51,
+  "fns": 4,
+  "loc": 18,
+  "core_refs": 0,
+  "mentioned_by": 3,
+  "hooks": [
+   "onResidual",
+   "onStart",
+   "onTrapPokemon",
+   "onTryImmunity"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "perishsong",
+  "score": 51,
+  "fns": 3,
+  "loc": 27,
+  "core_refs": 0,
+  "mentioned_by": 2,
+  "hooks": [
+   "onEnd",
+   "onHitField",
+   "onResidual"
+  ],
+  "flag": "perish counter"
+ },
+ {
+  "kind": "move",
+  "id": "wideguard",
+  "score": 51,
+  "fns": 4,
+  "loc": 23,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHitSide",
+   "onSideStart",
+   "onTry",
+   "onTryHit"
+  ],
+  "flag": "spread block"
+ },
+ {
+  "kind": "ability",
+  "id": "flowerveil",
+  "score": 51,
+  "fns": 3,
+  "loc": 33,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAllySetStatus",
+   "onAllyTryAddVolatile",
+   "onAllyTryBoost"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "oblivious",
+  "score": 50,
+  "fns": 4,
+  "loc": 26,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onImmunity",
+   "onTryBoost",
+   "onTryHit",
+   "onUpdate"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "spikes",
+  "score": 50,
+  "fns": 3,
+  "loc": 14,
+  "core_refs": 0,
+  "mentioned_by": 6,
+  "hooks": [
+   "onSideRestart",
+   "onSideStart",
+   "onSwitchIn"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "quickguard",
+  "score": 49,
+  "fns": 4,
+  "loc": 21,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHitSide",
+   "onSideStart",
+   "onTry",
+   "onTryHit"
+  ],
+  "flag": "priority block"
+ },
+ {
+  "kind": "move",
+  "id": "shellsidearm",
+  "score": 48,
+  "fns": 4,
+  "loc": 24,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterSubDamage",
+   "onHit",
+   "onModifyMove",
+   "onPrepareHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "berserk",
+  "score": 48,
+  "fns": 3,
+  "loc": 30,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterMoveSecondary",
+   "onDamage",
+   "onTryEatItem"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "purifyingsalt",
+  "score": 48,
+  "fns": 4,
+  "loc": 24,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSetStatus",
+   "onSourceModifyAtk",
+   "onSourceModifySpA",
+   "onTryAddVolatile"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "terrainpulse",
+  "score": 47,
+  "fns": 2,
+  "loc": 23,
+  "core_refs": 0,
+  "mentioned_by": 4,
+  "hooks": [
+   "onModifyMove",
+   "onModifyType"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "tailwind",
+  "score": 47,
+  "fns": 4,
+  "loc": 20,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "durationCallback",
+   "onModifySpe",
+   "onSideEnd",
+   "onSideStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "switcheroo",
+  "score": 46,
+  "fns": 2,
+  "loc": 30,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onTryImmunity"
+  ],
+  "flag": "item swap"
+ },
+ {
+  "kind": "move",
+  "id": "trick",
+  "score": 46,
+  "fns": 2,
+  "loc": 30,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onTryImmunity"
+  ],
+  "flag": "item swap"
+ },
+ {
+  "kind": "condition",
+  "id": "destinybond",
+  "score": 46,
+  "fns": 4,
+  "loc": 22,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBeforeMove",
+   "onFaint",
+   "onMoveAborted",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "leechseed",
+  "score": 46,
+  "fns": 2,
+  "loc": 14,
+  "core_refs": 2,
+  "mentioned_by": 4,
+  "hooks": [
+   "onResidual",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "mortalspin",
+  "score": 44,
+  "fns": 2,
+  "loc": 32,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterHit",
+   "onAfterSubDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "rapidspin",
+  "score": 44,
+  "fns": 2,
+  "loc": 32,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterHit",
+   "onAfterSubDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "owntempo",
+  "score": 44,
+  "fns": 4,
+  "loc": 20,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onTryAddVolatile",
+   "onTryBoost",
+   "onUpdate"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "helpinghand",
+  "score": 43,
+  "fns": 4,
+  "loc": 15,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower",
+   "onRestart",
+   "onStart",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "pollenpuff",
+  "score": 42,
+  "fns": 3,
+  "loc": 20,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onTryHit",
+   "onTryMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "airballoon",
+  "score": 42,
+  "fns": 3,
+  "loc": 20,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterSubDamage",
+   "onDamagingHit",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "leppaberry",
+  "score": 42,
+  "fns": 2,
+  "loc": 13,
+  "core_refs": 2,
+  "mentioned_by": 3,
+  "hooks": [
+   "onEat",
+   "onUpdate"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "flashfire",
+  "score": 42,
+  "fns": 4,
+  "loc": 18,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onEnd",
+   "onModifyAtk",
+   "onModifySpA",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "focusenergy",
+  "score": 42,
+  "fns": 2,
+  "loc": 13,
+  "core_refs": 2,
+  "mentioned_by": 3,
+  "hooks": [
+   "onModifyCritRatio",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "octolock",
+  "score": 42,
+  "fns": 3,
+  "loc": 15,
+  "core_refs": 0,
+  "mentioned_by": 3,
+  "hooks": [
+   "onResidual",
+   "onStart",
+   "onTrapPokemon"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "protect",
+  "score": 42,
+  "fns": 2,
+  "loc": 18,
+  "core_refs": 3,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "dragoncheer",
+  "score": 41,
+  "fns": 2,
+  "loc": 12,
+  "core_refs": 2,
+  "mentioned_by": 3,
+  "hooks": [
+   "onModifyCritRatio",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "followme",
+  "score": 39,
+  "fns": 3,
+  "loc": 17,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onFoeRedirectTarget",
+   "onStart",
+   "onTry"
+  ],
+  "flag": "redirection"
+ },
+ {
+  "kind": "ability",
+  "id": "dryskin",
+  "score": 39,
+  "fns": 3,
+  "loc": 21,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSourceBasePower",
+   "onTryHit",
+   "onWeather"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "unburden",
+  "score": 39,
+  "fns": 4,
+  "loc": 15,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterUseItem",
+   "onEnd",
+   "onModifySpe",
+   "onTakeItem"
+  ],
+  "flag": "item-loss trigger"
+ },
+ {
+  "kind": "move",
+  "id": "grassknot",
+  "score": 38,
+  "fns": 2,
+  "loc": 26,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "lowkick",
+  "score": 38,
+  "fns": 2,
+  "loc": 26,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "rest",
+  "score": 38,
+  "fns": 2,
+  "loc": 22,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "parentalbond",
+  "score": 38,
+  "fns": 2,
+  "loc": 10,
+  "core_refs": 4,
+  "mentioned_by": 0,
+  "hooks": [
+   "onPrepareHit",
+   "onSourceModifySecondaries"
+  ],
+  "flag": "multi-hit ability"
+ },
+ {
+  "kind": "condition",
+  "id": "stealthrock",
+  "score": 38,
+  "fns": 2,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 6,
+  "hooks": [
+   "onSideStart",
+   "onSwitchIn"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "heatcrash",
+  "score": 37,
+  "fns": 2,
+  "loc": 25,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "heavyslam",
+  "score": 37,
+  "fns": 2,
+  "loc": 25,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "sleeptalk",
+  "score": 37,
+  "fns": 2,
+  "loc": 21,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "transform",
+  "score": 37,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 4,
+  "mentioned_by": 4,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": "Transform"
+ },
+ {
+  "kind": "ability",
+  "id": "supremeoverlord",
+  "score": 37,
+  "fns": 3,
+  "loc": 19,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower",
+   "onEnd",
+   "onStart"
+  ],
+  "flag": "faint counter"
+ },
+ {
+  "kind": "condition",
+  "id": "glaiverush",
+  "score": 37,
+  "fns": 4,
+  "loc": 13,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAccuracy",
+   "onBeforeMove",
+   "onSourceModifyDamage",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "roost",
+  "score": 37,
+  "fns": 2,
+  "loc": 13,
+  "core_refs": 3,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart",
+   "onType"
+  ],
+  "flag": "type change"
+ },
+ {
+  "kind": "move",
+  "id": "healingwish",
+  "score": 36,
+  "fns": 3,
+  "loc": 18,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSwap",
+   "onSwitchIn",
+   "onTryHit"
+  ],
+  "flag": "slot condition"
+ },
+ {
+  "kind": "ability",
+  "id": "cudchew",
+  "score": 36,
+  "fns": 2,
+  "loc": 21,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onEatItem",
+   "onResidual"
+  ],
+  "flag": "berry re-eat"
+ },
+ {
+  "kind": "ability",
+  "id": "thermalexchange",
+  "score": 36,
+  "fns": 3,
+  "loc": 18,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit",
+   "onSetStatus",
+   "onUpdate"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "sitrusberry",
+  "score": 36,
+  "fns": 3,
+  "loc": 11,
+  "core_refs": 1,
+  "mentioned_by": 1,
+  "hooks": [
+   "onEat",
+   "onTryEatItem",
+   "onUpdate"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "solarbeam",
+  "score": 35,
+  "fns": 2,
+  "loc": 23,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower",
+   "onTryMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "solarblade",
+  "score": 35,
+  "fns": 2,
+  "loc": 23,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower",
+   "onTryMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "heatproof",
+  "score": 35,
+  "fns": 3,
+  "loc": 17,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamage",
+   "onSourceModifyAtk",
+   "onSourceModifySpA"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "trace",
+  "score": 35,
+  "fns": 2,
+  "loc": 23,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart",
+   "onUpdate"
+  ],
+  "flag": "Trace"
+ },
+ {
+  "kind": "condition",
+  "id": "stickyweb",
+  "score": 35,
+  "fns": 2,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 5,
+  "hooks": [
+   "onSideStart",
+   "onSwitchIn"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "psychup",
+  "score": 34,
+  "fns": 1,
+  "loc": 16,
+  "core_refs": 0,
+  "mentioned_by": 4,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "helpinghand",
+  "score": 34,
+  "fns": 3,
+  "loc": 12,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower",
+   "onRestart",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "imprison",
+  "score": 34,
+  "fns": 3,
+  "loc": 16,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onFoeBeforeMove",
+   "onFoeDisableMove",
+   "onStart"
+  ],
+  "flag": "move lock"
+ },
+ {
+  "kind": "move",
+  "id": "ragepowder",
+  "score": 33,
+  "fns": 3,
+  "loc": 15,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onFoeRedirectTarget",
+   "onStart",
+   "onTry"
+  ],
+  "flag": "redirection"
+ },
+ {
+  "kind": "move",
+  "id": "worryseed",
+  "score": 33,
+  "fns": 3,
+  "loc": 15,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onTryHit",
+   "onTryImmunity"
+  ],
+  "flag": "ability change"
+ },
+ {
+  "kind": "ability",
+  "id": "magicbounce",
+  "score": 33,
+  "fns": 2,
+  "loc": 21,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAllyTryHitSide",
+   "onTryHit"
+  ],
+  "flag": "Magic Bounce"
+ },
+ {
+  "kind": "condition",
+  "id": "wideguard",
+  "score": 33,
+  "fns": 2,
+  "loc": 17,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSideStart",
+   "onTryHit"
+  ],
+  "flag": "spread block"
+ },
+ {
+  "kind": "condition",
+  "id": "focuspunch",
+  "score": 32,
+  "fns": 3,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onHit",
+   "onStart",
+   "onTryAddVolatile"
+  ],
+  "flag": "priority charge"
+ },
+ {
+  "kind": "ability",
+  "id": "lightningrod",
+  "score": 31,
+  "fns": 2,
+  "loc": 19,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAnyRedirectTarget",
+   "onTryHit"
+  ],
+  "flag": "redirection"
+ },
+ {
+  "kind": "item",
+  "id": "choicescarf",
+  "score": 31,
+  "fns": 3,
+  "loc": 13,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyMove",
+   "onModifySpe",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "healreplacement",
+  "score": 31,
+  "fns": 2,
+  "loc": 11,
+  "core_refs": 2,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart",
+   "onSwitchIn"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "quickguard",
+  "score": 31,
+  "fns": 2,
+  "loc": 15,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSideStart",
+   "onTryHit"
+  ],
+  "flag": "priority block"
+ },
+ {
+  "kind": "move",
+  "id": "hurricane",
+  "score": 30,
+  "fns": 1,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 4,
+  "hooks": [
+   "onModifyMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "ragingbull",
+  "score": 30,
+  "fns": 2,
+  "loc": 18,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyType",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "thunder",
+  "score": 30,
+  "fns": 1,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 4,
+  "hooks": [
+   "onModifyMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "cloudnine",
+  "score": 30,
+  "fns": 3,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onEnd",
+   "onStart",
+   "onSwitchIn"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "moody",
+  "score": 30,
+  "fns": 1,
+  "loc": 24,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onResidual"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "ironball",
+  "score": 30,
+  "fns": 2,
+  "loc": 8,
+  "core_refs": 1,
+  "mentioned_by": 2,
+  "hooks": [
+   "onEffectiveness",
+   "onModifySpe"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "lumberry",
+  "score": 30,
+  "fns": 3,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterSetStatus",
+   "onEat",
+   "onUpdate"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "followme",
+  "score": 30,
+  "fns": 2,
+  "loc": 14,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onFoeRedirectTarget",
+   "onStart"
+  ],
+  "flag": "redirection"
+ },
+ {
+  "kind": "condition",
+  "id": "minimize",
+  "score": 30,
+  "fns": 3,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAccuracy",
+   "onRestart",
+   "onSourceModifyDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "unnerve",
+  "score": 29,
+  "fns": 3,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onEnd",
+   "onFoeTryEatItem",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "flinch",
+  "score": 29,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 6,
+  "hooks": [
+   "onBeforeMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "aurawheel",
+  "score": 28,
+  "fns": 2,
+  "loc": 16,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyType",
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "clangoroussoul",
+  "score": 28,
+  "fns": 3,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onTry",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "knockoff",
+  "score": 28,
+  "fns": 2,
+  "loc": 13,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onAfterHit",
+   "onBasePower"
+  ],
+  "flag": "item removal"
+ },
+ {
+  "kind": "move",
+  "id": "round",
+  "score": 28,
+  "fns": 2,
+  "loc": 16,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback",
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "sweetveil",
+  "score": 28,
+  "fns": 2,
+  "loc": 16,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAllySetStatus",
+   "onAllyTryAddVolatile"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "allyswitch",
+  "score": 28,
+  "fns": 2,
+  "loc": 16,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onRestart",
+   "onStart"
+  ],
+  "flag": "Ally Switch"
+ },
+ {
+  "kind": "move",
+  "id": "defog",
+  "score": 27,
+  "fns": 1,
+  "loc": 21,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "futuresight",
+  "score": 27,
+  "fns": 1,
+  "loc": 21,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTry"
+  ],
+  "flag": "delayed slot effect"
+ },
+ {
+  "kind": "move",
+  "id": "steelroller",
+  "score": 27,
+  "fns": 3,
+  "loc": 9,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterSubDamage",
+   "onHit",
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "sheerforce",
+  "score": 27,
+  "fns": 2,
+  "loc": 11,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower",
+   "onModifyMove"
+  ],
+  "flag": "secondary suppression"
+ },
+ {
+  "kind": "item",
+  "id": "mentalherb",
+  "score": 27,
+  "fns": 1,
+  "loc": 15,
+  "core_refs": 0,
+  "mentioned_by": 2,
+  "hooks": [
+   "onUpdate"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "saltcure",
+  "score": 27,
+  "fns": 3,
+  "loc": 9,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onEnd",
+   "onResidual",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "ceaselessedge",
+  "score": 26,
+  "fns": 2,
+  "loc": 14,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterHit",
+   "onAfterSubDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "stoneaxe",
+  "score": 26,
+  "fns": 2,
+  "loc": 14,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterHit",
+   "onAfterSubDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "eelevate",
+  "score": 26,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 2,
+  "mentioned_by": 2,
+  "hooks": [
+   "onSourceAfterFaint"
+  ],
+  "flag": "Champions mega ability"
+ },
+ {
+  "kind": "ability",
+  "id": "leafguard",
+  "score": 26,
+  "fns": 2,
+  "loc": 14,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSetStatus",
+   "onTryAddVolatile"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "sapsipper",
+  "score": 26,
+  "fns": 2,
+  "loc": 14,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAllyTryHitSide",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "soundproof",
+  "score": 26,
+  "fns": 2,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onAllyTryHitSide",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "zerotohero",
+  "score": 26,
+  "fns": 2,
+  "loc": 14,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSwitchIn",
+   "onSwitchOut"
+  ],
+  "flag": "Zero to Hero (form change)"
+ },
+ {
+  "kind": "condition",
+  "id": "perishsong",
+  "score": 26,
+  "fns": 2,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 2,
+  "hooks": [
+   "onEnd",
+   "onResidual"
+  ],
+  "flag": "perish counter"
+ },
+ {
+  "kind": "move",
+  "id": "burnup",
+  "score": 25,
+  "fns": 2,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onHit",
+   "onTryMove"
+  ],
+  "flag": "type change"
+ },
+ {
+  "kind": "move",
+  "id": "instruct",
+  "score": 25,
+  "fns": 1,
+  "loc": 15,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": "Instruct"
+ },
+ {
+  "kind": "ability",
+  "id": "mirrorarmor",
+  "score": 25,
+  "fns": 1,
+  "loc": 16,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onTryBoost"
+  ],
+  "flag": "boost reflection"
+ },
+ {
+  "kind": "ability",
+  "id": "scrappy",
+  "score": 25,
+  "fns": 2,
+  "loc": 13,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyMove",
+   "onTryBoost"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "tidyup",
+  "score": 24,
+  "fns": 1,
+  "loc": 18,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "damp",
+  "score": 24,
+  "fns": 2,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAnyDamage",
+   "onAnyTryMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "firemane",
+  "score": 24,
+  "fns": 2,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyAtk",
+   "onModifySpA"
+  ],
+  "flag": "Champions mega ability"
+ },
+ {
+  "kind": "ability",
+  "id": "illuminate",
+  "score": 24,
+  "fns": 2,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyMove",
+   "onTryBoost"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "imposter",
+  "score": 24,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 4,
+  "hooks": [
+   "onSwitchIn"
+  ],
+  "flag": "Imposter"
+ },
+ {
+  "kind": "ability",
+  "id": "keeneye",
+  "score": 24,
+  "fns": 2,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyMove",
+   "onTryBoost"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "punkrock",
+  "score": 24,
+  "fns": 2,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower",
+   "onSourceModifyDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "shadowtag",
+  "score": 24,
+  "fns": 2,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onFoeMaybeTrapPokemon",
+   "onFoeTrapPokemon"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "sturdy",
+  "score": 24,
+  "fns": 2,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamage",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "thickfat",
+  "score": 24,
+  "fns": 2,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSourceModifyAtk",
+   "onSourceModifySpA"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "mustrecharge",
+  "score": 24,
+  "fns": 2,
+  "loc": 9,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onBeforeMove",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "ragepowder",
+  "score": 24,
+  "fns": 2,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onFoeRedirectTarget",
+   "onStart"
+  ],
+  "flag": "redirection"
+ },
+ {
+  "kind": "move",
+  "id": "acupressure",
+  "score": 23,
+  "fns": 1,
+  "loc": 17,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "electroshot",
+  "score": 23,
+  "fns": 1,
+  "loc": 17,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTryMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "entrainment",
+  "score": 23,
+  "fns": 2,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onTryHit"
+  ],
+  "flag": "Entrainment"
+ },
+ {
+  "kind": "move",
+  "id": "expandingforce",
+  "score": 23,
+  "fns": 2,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower",
+   "onModifyMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "fakeout",
+  "score": 23,
+  "fns": 2,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDisableMove",
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "firstimpression",
+  "score": 23,
+  "fns": 2,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDisableMove",
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "magician",
+  "score": 23,
+  "fns": 1,
+  "loc": 17,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterMoveSecondarySelf"
+  ],
+  "flag": "item theft"
+ },
+ {
+  "kind": "ability",
+  "id": "pickpocket",
+  "score": 23,
+  "fns": 1,
+  "loc": 17,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterMoveSecondary"
+  ],
+  "flag": "item theft"
+ },
+ {
+  "kind": "ability",
+  "id": "sandforce",
+  "score": 23,
+  "fns": 2,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower",
+   "onImmunity"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "solarpower",
+  "score": 23,
+  "fns": 2,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifySpA",
+   "onWeather"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "lifeorb",
+  "score": 23,
+  "fns": 2,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onAfterMoveSecondarySelf",
+   "onModifyDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "healingwish",
+  "score": 23,
+  "fns": 2,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSwap",
+   "onSwitchIn"
+  ],
+  "flag": "slot condition"
+ },
+ {
+  "kind": "move",
+  "id": "batonpass",
+  "score": 22,
+  "fns": 2,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": "Baton Pass"
+ },
+ {
+  "kind": "move",
+  "id": "beatup",
+  "score": 22,
+  "fns": 2,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback",
+   "onModifyMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "doubleshock",
+  "score": 22,
+  "fns": 2,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onTryMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "healpulse",
+  "score": 22,
+  "fns": 1,
+  "loc": 16,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "fairyaura",
+  "score": 22,
+  "fns": 2,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAnyBasePower",
+   "onStart"
+  ],
+  "flag": "aura"
+ },
+ {
+  "kind": "ability",
+  "id": "sandveil",
+  "score": 22,
+  "fns": 2,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onImmunity",
+   "onModifyAccuracy"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "snowcloak",
+  "score": 22,
+  "fns": 2,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onImmunity",
+   "onModifyAccuracy"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "lightball",
+  "score": 22,
+  "fns": 2,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyAtk",
+   "onModifySpA"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "redcard",
+  "score": 22,
+  "fns": 1,
+  "loc": 12,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterMoveSecondary"
+  ],
+  "flag": "forced switch"
+ },
+ {
+  "kind": "condition",
+  "id": "gem",
+  "score": 22,
+  "fns": 1,
+  "loc": 4,
+  "core_refs": 0,
+  "mentioned_by": 4,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "simplebeam",
+  "score": 21,
+  "fns": 2,
+  "loc": 9,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit",
+   "onTryHit"
+  ],
+  "flag": "ability change"
+ },
+ {
+  "kind": "ability",
+  "id": "competitive",
+  "score": 21,
+  "fns": 1,
+  "loc": 15,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterEachBoost"
+  ],
+  "flag": "boost reaction"
+ },
+ {
+  "kind": "ability",
+  "id": "defiant",
+  "score": 21,
+  "fns": 1,
+  "loc": 15,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterEachBoost"
+  ],
+  "flag": "boost reaction"
+ },
+ {
+  "kind": "ability",
+  "id": "noguard",
+  "score": 21,
+  "fns": 2,
+  "loc": 9,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAnyAccuracy",
+   "onAnyInvulnerability"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "overcoat",
+  "score": 21,
+  "fns": 2,
+  "loc": 9,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onImmunity",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "unaware",
+  "score": 21,
+  "fns": 1,
+  "loc": 15,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAnyModifyBoost"
+  ],
+  "flag": "boost ignoring"
+ },
+ {
+  "kind": "condition",
+  "id": "endure",
+  "score": 21,
+  "fns": 2,
+  "loc": 9,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamage",
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "bugbite",
+  "score": 20,
+  "fns": 1,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "icespinner",
+  "score": 20,
+  "fns": 2,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterHit",
+   "onAfterSubDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "pluck",
+  "score": 20,
+  "fns": 1,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "clearbody",
+  "score": 20,
+  "fns": 1,
+  "loc": 14,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTryBoost"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "hustle",
+  "score": 20,
+  "fns": 2,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyAtk",
+   "onSourceModifyAccuracy"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "icebody",
+  "score": 20,
+  "fns": 2,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onImmunity",
+   "onWeather"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "intimidate",
+  "score": 20,
+  "fns": 1,
+  "loc": 14,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart"
+  ],
+  "flag": "switch-in boost chain"
+ },
+ {
+  "kind": "ability",
+  "id": "prankster",
+  "score": 20,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 2,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyPriority"
+  ],
+  "flag": "priority + immunity"
+ },
+ {
+  "kind": "ability",
+  "id": "sandrush",
+  "score": 20,
+  "fns": 2,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onImmunity",
+   "onModifySpe"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "screencleaner",
+  "score": 20,
+  "fns": 1,
+  "loc": 14,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "whitesmoke",
+  "score": 20,
+  "fns": 1,
+  "loc": 14,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTryBoost"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "chillyreception",
+  "score": 19,
+  "fns": 2,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBeforeMove",
+   "priorityChargeCallback"
+  ],
+  "flag": "mid-turn switch"
+ },
+ {
+  "kind": "move",
+  "id": "facade",
+  "score": 19,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 2,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "noretreat",
+  "score": 19,
+  "fns": 2,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart",
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "harvest",
+  "score": 19,
+  "fns": 1,
+  "loc": 9,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onResidual"
+  ],
+  "flag": "berry regen"
+ },
+ {
+  "kind": "ability",
+  "id": "mummy",
+  "score": 19,
+  "fns": 1,
+  "loc": 9,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "pressure",
+  "score": 19,
+  "fns": 2,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDeductPP",
+   "onStart"
+  ],
+  "flag": "pp"
+ },
+ {
+  "kind": "ability",
+  "id": "synchronize",
+  "score": 19,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 2,
+  "hooks": [
+   "onAfterSetStatus"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "ejectbutton",
+  "score": 19,
+  "fns": 1,
+  "loc": 13,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterMoveSecondary"
+  ],
+  "flag": "mid-turn switch"
+ },
+ {
+  "kind": "move",
+  "id": "endeavor",
+  "score": 18,
+  "fns": 2,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "damageCallback",
+   "onTryImmunity"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "lastresort",
+  "score": 18,
+  "fns": 1,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "poltergeist",
+  "score": 18,
+  "fns": 2,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTry",
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "strengthsap",
+  "score": 18,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 2,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "armortail",
+  "score": 18,
+  "fns": 1,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onFoeTryMove"
+  ],
+  "flag": "priority block"
+ },
+ {
+  "kind": "ability",
+  "id": "megasol",
+  "score": 18,
+  "fns": 1,
+  "loc": 4,
+  "core_refs": 2,
+  "mentioned_by": 0,
+  "hooks": [
+   "onWeatherModifyDamage"
+  ],
+  "flag": "Champions mega ability"
+ },
+ {
+  "kind": "ability",
+  "id": "moldbreaker",
+  "score": 18,
+  "fns": 2,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyMove",
+   "onStart"
+  ],
+  "flag": "ability suppression"
+ },
+ {
+  "kind": "ability",
+  "id": "queenlymajesty",
+  "score": 18,
+  "fns": 1,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onFoeTryMove"
+  ],
+  "flag": "priority block"
+ },
+ {
+  "kind": "item",
+  "id": "kingsrock",
+  "score": 18,
+  "fns": 1,
+  "loc": 12,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "fling",
+  "score": 18,
+  "fns": 1,
+  "loc": 9,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onUpdate"
+  ],
+  "flag": "item consumption"
+ },
+ {
+  "kind": "move",
+  "id": "bellydrum",
+  "score": 17,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "topsyturvy",
+  "score": 17,
+  "fns": 1,
+  "loc": 11,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "afteryou",
+  "score": 16,
+  "fns": 1,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": "After You"
+ },
+ {
+  "kind": "move",
+  "id": "avalanche",
+  "score": 16,
+  "fns": 1,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "angerpoint",
+  "score": 16,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "libero",
+  "score": 16,
+  "fns": 1,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onPrepareHit"
+  ],
+  "flag": "type change"
+ },
+ {
+  "kind": "ability",
+  "id": "protean",
+  "score": 16,
+  "fns": 1,
+  "loc": 10,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onPrepareHit"
+  ],
+  "flag": "type change"
+ },
+ {
+  "kind": "move",
+  "id": "copycat",
+  "score": 15,
+  "fns": 1,
+  "loc": 9,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": "Copycat"
+ },
+ {
+  "kind": "move",
+  "id": "mistyexplosion",
+  "score": 15,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "painsplit",
+  "score": 15,
+  "fns": 1,
+  "loc": 9,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "aromaveil",
+  "score": 15,
+  "fns": 1,
+  "loc": 9,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAllyTryAddVolatile"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "goodasgold",
+  "score": 15,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "hypercutter",
+  "score": 15,
+  "fns": 1,
+  "loc": 9,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTryBoost"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "naturalcure",
+  "score": 15,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSwitchOut"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "payback",
+  "score": 14,
+  "fns": 1,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "adaptability",
+  "score": 14,
+  "fns": 1,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifySTAB"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "cursedbody",
+  "score": 14,
+  "fns": 1,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "healer",
+  "score": 14,
+  "fns": 1,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onResidual"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "megalauncher",
+  "score": 14,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": "mega"
+ },
+ {
+  "kind": "ability",
+  "id": "poisontouch",
+  "score": 14,
+  "fns": 1,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSourceDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "skilllink",
+  "score": 14,
+  "fns": 1,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyMove"
+  ],
+  "flag": "multi-hit"
+ },
+ {
+  "kind": "ability",
+  "id": "technician",
+  "score": 14,
+  "fns": 1,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "toxicdebris",
+  "score": 14,
+  "fns": 1,
+  "loc": 8,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "acrobatics",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "assurance",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "ficklebeam",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "gyroball",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "hardpress",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "hex",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "quash",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": "Quash"
+ },
+ {
+  "kind": "move",
+  "id": "risingvoltage",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "skillswap",
+  "score": 13,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": "Skill Swap"
+ },
+ {
+  "kind": "move",
+  "id": "soak",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": "type change"
+ },
+ {
+  "kind": "move",
+  "id": "stompingtantrum",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "suckerpunch",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "temperflare",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "upperhand",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "contrary",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onChangeBoost"
+  ],
+  "flag": "boost inversion"
+ },
+ {
+  "kind": "ability",
+  "id": "cutecharm",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "frisk",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "stalwart",
+  "score": 13,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 1,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "focussash",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "quickclaw",
+  "score": 13,
+  "fns": 1,
+  "loc": 7,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onFractionalPriority"
+  ],
+  "flag": "fractional priority"
+ },
+ {
+  "kind": "move",
+  "id": "haze",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHitField"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "lashout",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "partingshot",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": "mid-turn switch"
+ },
+ {
+  "kind": "move",
+  "id": "speedswap",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "watershuriken",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "bulletproof",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "curiousmedicine",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "emergencyexit",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onEmergencyExit"
+  ],
+  "flag": "mid-turn switch"
+ },
+ {
+  "kind": "ability",
+  "id": "filter",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSourceModifyDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "friendguard",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAnyModifyDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "gooey",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "infiltrator",
+  "score": 12,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 1,
+  "hooks": [
+   "onModifyMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "innardsout",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "ironfist",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "magicguard",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "multiscale",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSourceModifyDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "piercingdrill",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHitProtect"
+  ],
+  "flag": "Champions mega ability"
+ },
+ {
+  "kind": "ability",
+  "id": "quickdraw",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onFractionalPriority"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "raindish",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onWeather"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "reckless",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "rockhead",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "sharpness",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "sniper",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "solidrock",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSourceModifyDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "stancechange",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyMove"
+  ],
+  "flag": "Stance Change (form change)"
+ },
+ {
+  "kind": "ability",
+  "id": "steelyspirit",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAllyBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "telepathy",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "unseenfist",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHitProtect"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "bigroot",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTryHeal"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "normalgem",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSourceTryPrimaryHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "zoomlens",
+  "score": 12,
+  "fns": 1,
+  "loc": 6,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSourceModifyAccuracy"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "alluringvoice",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "barbbarrage",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "burningjealousy",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "eruption",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "finalgambit",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "damageCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "grassyglide",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyPriority"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "powertrip",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "storedpower",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "venoshock",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "waterspout",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "chlorophyll",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifySpe"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "compoundeyes",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSourceModifyAccuracy"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "hospitality",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "hungerswitch",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onResidual"
+  ],
+  "flag": "Hunger Switch (form change)"
+ },
+ {
+  "kind": "ability",
+  "id": "justified",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "liquidvoice",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyType"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "marvelscale",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyDef"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "moxie",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSourceAfterFaint"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "regenerator",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSwitchOut"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "roughskin",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "speedboost",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onResidual"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "strongjaw",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "surgesurfer",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifySpe"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "swiftswim",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifySpe"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "toughclaws",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "weakarmor",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "brightpowder",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyAccuracy"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "expertbelt",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyDamage"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "leek",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyCritRatio"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "muscleband",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "rockyhelmet",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "shellbell",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onAfterMoveSecondarySelf"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "widelens",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSourceModifyAccuracy"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "wiseglasses",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBasePower"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "unburden",
+  "score": 11,
+  "fns": 1,
+  "loc": 5,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifySpe"
+  ],
+  "flag": "item-loss trigger"
+ },
+ {
+  "kind": "move",
+  "id": "clearsmog",
+  "score": 10,
+  "fns": 1,
+  "loc": 4,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "direclaw",
+  "score": 10,
+  "fns": 1,
+  "loc": 4,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "infernalparade",
+  "score": 10,
+  "fns": 1,
+  "loc": 4,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "magicpowder",
+  "score": 10,
+  "fns": 1,
+  "loc": 4,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": "type change"
+ },
+ {
+  "kind": "move",
+  "id": "steelbeam",
+  "score": 10,
+  "fns": 1,
+  "loc": 4,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onMoveFail"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "triattack",
+  "score": 10,
+  "fns": 1,
+  "loc": 4,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "drizzle",
+  "score": 10,
+  "fns": 1,
+  "loc": 4,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "drought",
+  "score": 10,
+  "fns": 1,
+  "loc": 4,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "condition",
+  "id": "chillyreception",
+  "score": 10,
+  "fns": 1,
+  "loc": 4,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onBeforeMove"
+  ],
+  "flag": "mid-turn switch"
+ },
+ {
+  "kind": "condition",
+  "id": "noretreat",
+  "score": 10,
+  "fns": 1,
+  "loc": 4,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "blizzard",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyMove"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "freezedry",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onEffectiveness"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "lastrespects",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": "faint counter"
+ },
+ {
+  "kind": "move",
+  "id": "ragefist",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": "hit counter"
+ },
+ {
+  "kind": "move",
+  "id": "snore",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTry"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "superfang",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "damageCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "move",
+  "id": "tripleaxel",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "basePowerCallback"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "auraguard",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onSourceModifyDamage"
+  ],
+  "flag": "Champions mega ability"
+ },
+ {
+  "kind": "ability",
+  "id": "electromorphosis",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "furcoat",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyDef"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "galewings",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyPriority"
+  ],
+  "flag": "priority"
+ },
+ {
+  "kind": "ability",
+  "id": "grasspelt",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyDef"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "hugepower",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyAtk"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "merciless",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyCritRatio"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "purepower",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onModifyAtk"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "sandstream",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "seedsower",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "snowwarning",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onStart"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "spicyspray",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": "Champions mega ability"
+ },
+ {
+  "kind": "ability",
+  "id": "stamina",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "steadfast",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onFlinch"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "ability",
+  "id": "wanderingspirit",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onDamagingHit"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "floettite",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTakeItem"
+  ],
+  "flag": ""
+ },
+ {
+  "kind": "item",
+  "id": "meowsticite",
+  "score": 9,
+  "fns": 1,
+  "loc": 3,
+  "core_refs": 0,
+  "mentioned_by": 0,
+  "hooks": [
+   "onTakeItem"
+  ],
+  "flag": ""
+ }
+]

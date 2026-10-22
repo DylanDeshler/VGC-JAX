@@ -1,0 +1,133 @@
+
+==== 1. stat calc and PP (gen9championsvgc2026regmc) ====
+validator problems for team: [
+  "Incineroar can't learn Quick Attack.",
+  'Sinistcha needs to have an ability.',
+  "Sinistcha's ability No Ability does not exist in Gen 9.",
+  'Kingambit needs to have an ability.',
+  "Kingambit's ability No Ability does not exist in Gen 9.",
+  'Whimsicott needs to have an ability.',
+  "Whimsicott's ability No Ability does not exist in Gen 9.",
+  'Pelipper needs to have an ability.',
+  "Pelipper's ability No Ability does not exist in Gen 9."
+]
+Garchomp base { hp: 108, atk: 130, def: 95, spa: 80, spd: 85, spe: 102 } stored { atk: 182, def: 115, spa: 90, spd: 105, spe: 136 } maxhp 215
+expected HP 108+32+75=215, Atk 130+32+20=182, Spe floor((102+2+20)*1.1)=136, SpA (80+0+20)*0.9=90
+PP: protect:8/8 (dex pp 5, base gen9 pp 10), earthquake:12/12 (dex pp 10, base gen9 pp 10), dragonclaw:16/16 (dex pp 15, base gen9 pp 15), scaleshot:20/20 (dex pp 20, base gen9 pp 20)
+Incineroar PP: fakeout:12/12 (base gen9 pp 10), quickattack:20/20 (base gen9 pp 30)
+gen9 base statModify(Garchomp atk, 252EV/31IV/Jolly L50)= 182  champions SP32 = 182
+SP vs mainline(EV=8SP-4, IV31, L50) identical in 660/660 cases
+
+==== 2. Force Open Team Sheets (Bo3) team preview log ====
+|gametype|doubles
+|player|p1|A||
+|player|p2|B||
+|rule|Species Clause: Limit one of each Pokemon
+|rule|Item Clause: Limit 1 of each item
+|clearpoke
+|poke|p1|Garchomp, L50, M|
+|poke|p1|Incineroar, L50, F|
+|poke|p1|Sinistcha, L50|
+|poke|p1|Kingambit, L50, F|
+|poke|p1|Whimsicott, L50, M|
+|poke|p1|Pelipper, L50, F|
+|poke|p2|Garchomp, L50, F|
+|poke|p2|Incineroar, L50, F|
+|poke|p2|Sinistcha, L50|
+|poke|p2|Kingambit, L50, M|
+|poke|p2|Whimsicott, L50, F|
+|poke|p2|Pelipper, L50, F|
+|teampreview|4
+|showteam|p1|Garchomp||Garchompite|RoughSkin|protect,earthquake|Jolly||M|||50|]Incineroar||SitrusBerry|Intimidate|fakeout|Hardy||F|||50|]Sinistcha||||ragepowder|Hardy|||||50|]Kingambit||||protect|Hardy||F|||50|]Whimsicott||||protect|Hardy||M|||50|]Pelipper||||protect|Hardy||F|||50|
+|showteam|p2|Garchomp||Garchompite|RoughSkin|protect,earthquake|Jolly||F|||50|]Incineroar||SitrusBerry|Intimidate|fakeout|Hardy||F|||50|]Sinistcha||||ragepowder|Hardy|||||50|]Kingambit||||protect|Hardy||M|||50|]Whimsicott||||protect|Hardy||F|||50|]Pelipper||||protect|Hardy||F|||50|
+request p1 teamPreview wait: {"teamPreview":true,"maxChosenTeamSize":4}
+
+==== 3. Mega flow: Camerupt (Spe 40+20=60 -> Mega 20+20=40) vs foe at 50 Spe ====
+speeds before: Camerupt:60 Torkoal:40 Slowbro:50 Hippowdon:67
+|turn|1
+|detailschange|p1a: Camerupt|Camerupt-Mega, L50, M
+|-mega|p1a: Camerupt|Camerupt|Cameruptite
+|move|p2b: Hippowdon|Protect|p2b: Hippowdon
+|-singleturn|p2b: Hippowdon|Protect
+|move|p1b: Torkoal|Protect|p1b: Torkoal
+|-singleturn|p1b: Torkoal|Protect
+|move|p2a: Slowbro|Scald|p1a: Camerupt
+|-supereffective|p1a: Camerupt|2
+|split|p1
+|-damage|p1a: Camerupt|57/145
+|-damage|p1a: Camerupt|39/100
+|move|p1a: Camerupt|Earth Power|p2a: Slowbro
+|split|p2
+|-damage|p2a: Slowbro|61/170
+|-damage|p2a: Slowbro|35/100
+|-weather|SunnyDay|[upkeep]
+|split|p2
+|-heal|p2a: Slowbro|71/170|[from] item: Leftovers
+|-heal|p2a: Slowbro|41/100|[from] item: Leftovers
+|upkeep
+|turn|2
+speeds after: Camerupt(Camerupt-Mega):40 Torkoal(Torkoal):40 Slowbro(Slowbro):50 Hippowdon(Hippowdon):67
+canMegaEvo flags p1: Camerupt:false Torkoal:false Kingambit:false Whimsicott:false
+
+==== 4. Mega Charizard Y: Drought fires on mega evolution; species after faint ====
+|start
+|split|p1
+|switch|p1a: Charizard|Charizard, L50, F|153/153
+|switch|p1a: Charizard|Charizard, L50, F|100/100
+|split|p1
+|switch|p1b: Torkoal|Torkoal, L50, F|145/145
+|switch|p1b: Torkoal|Torkoal, L50, F|100/100
+|split|p2
+|switch|p2a: Tyranitar|Tyranitar, L50, F|175/175
+|switch|p2a: Tyranitar|Tyranitar, L50, F|100/100
+|split|p2
+|switch|p2b: Garchomp|Garchomp, L50, F|183/183
+|switch|p2b: Garchomp|Garchomp, L50, F|100/100
+|-weather|Sandstorm|[from] ability: Sand Stream|[of] p2a: Tyranitar
+|-weather|SunnyDay|[from] ability: Drought|[of] p1b: Torkoal
+|turn|1
+|turn|1
+|detailschange|p1a: Charizard|Charizard-Mega-Y, L50, F
+|-mega|p1a: Charizard|Charizard|Charizardite Y
+|detailschange|p2a: Tyranitar|Tyranitar-Mega, L50, F
+|-mega|p2a: Tyranitar|Tyranitar|Tyranitarite
+|-weather|Sandstorm|[from] ability: Sand Stream|[of] p2a: Tyranitar
+|move|p1b: Torkoal|Protect|p1b: Torkoal
+|-singleturn|p1b: Torkoal|Protect
+|move|p2b: Garchomp|Rock Slide|p1b: Torkoal|[spread] p1a
+|-activate|p1b: Torkoal|move: Protect
+|-supereffective|p1a: Charizard|2
+|split|p1
+|-damage|p1a: Charizard|0 fnt
+|-damage|p1a: Charizard|0 fnt
+|faint|p1a: Charizard
+|move|p2a: Tyranitar|Rock Slide|p1b: Torkoal
+|-activate|p1b: Torkoal|move: Protect
+|-weather|Sandstorm|[upkeep]
+|split|p1
+|-damage|p1b: Torkoal|136/145|[from] Sandstorm
+|-damage|p1b: Torkoal|93/100|[from] Sandstorm
+|upkeep
+after faint: species Charizard-Mega-Y baseSpecies Charizard-Mega-Y details Charizard-Mega-Y, L50, F ability drought baseAbility drought
+
+==== 5. Base-mod comparison: gen9 National Dex Doubles mega reverts on faint ====
+before faint species Charizard-Mega-Y
+gen9 natdex after faint: species Charizard baseSpecies Charizard details Charizard, L50, M
+
+==== 6. getActionSpeed under Trick Room ====
+champions TR: spe 60 -> actionSpeed -60
+champions TR: spe 1808 -> actionSpeed -1808
+champions TR: spe 1809 -> actionSpeed -1809
+champions TR: spe 2000 -> actionSpeed -2000
+base gen9 TR: spe 60 -> actionSpeed 1748
+base gen9 TR: spe 1808 -> actionSpeed 0
+base gen9 TR: spe 1809 -> actionSpeed 8191
+base gen9 TR: spe 2000 -> actionSpeed 8000
+
+==== 7. HP shared display (champions) for hp/maxhp samples ====
+183/183 -> 100/100
+182/183 -> 99/100
+92/183 -> 50/100g
+91/183 -> 49/100
+37/183 -> 20/100y
+1/183 -> 1/100

@@ -1,0 +1,14 @@
+data/raw/
+traces/
+reports/**/shards/
+reports/conformance/*/battles/
+scratch/
+tests/.oracle_cache/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+node_modules/
+.jax_cache/
+.DS_Store

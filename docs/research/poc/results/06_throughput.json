@@ -1,0 +1,102 @@
+{
+ "M": 200,
+ "teamGenMsPerTeam": 1.293,
+ "randomDoublesMsPerTeam": 1.252,
+ "configs": {
+  "direct_uninstrumented_gen5": {
+   "battlesPerSec": 39.9,
+   "decisionsPerSec": 1052,
+   "drawsPerSec": null,
+   "msPerBattle": 25.04,
+   "turnsPerBattle": 10.22
+  },
+  "direct_uninstrumented_sodium": {
+   "battlesPerSec": 40.7,
+   "decisionsPerSec": 1042,
+   "drawsPerSec": null,
+   "msPerBattle": 24.54,
+   "turnsPerBattle": 9.88
+  },
+  "stream_uninstrumented_gen5": {
+   "battlesPerSec": 40.4,
+   "decisionsPerSec": 1062,
+   "msPerBattle": 24.78
+  },
+  "record_noctx": {
+   "battlesPerSec": 38.6,
+   "decisionsPerSec": 1018,
+   "drawsPerSec": 3786,
+   "msPerBattle": 25.88,
+   "turnsPerBattle": 10.22
+  },
+  "record_ctx_markers": {
+   "battlesPerSec": 38.6,
+   "decisionsPerSec": 1016,
+   "drawsPerSec": 3782,
+   "msPerBattle": 25.9,
+   "turnsPerBattle": 10.22
+  },
+  "record_ctx_stack": {
+   "battlesPerSec": 35,
+   "decisionsPerSec": 922,
+   "drawsPerSec": 3431,
+   "msPerBattle": 28.55,
+   "turnsPerBattle": 10.22
+  },
+  "record_ctx_markers_projection": {
+   "battlesPerSec": 37.1,
+   "decisionsPerSec": 977,
+   "drawsPerSec": 3635,
+   "msPerBattle": 26.95,
+   "turnsPerBattle": 10.22
+  },
+  "record_ctx_stack_projection": {
+   "battlesPerSec": 33.3,
+   "decisionsPerSec": 878,
+   "drawsPerSec": 3267,
+   "msPerBattle": 29.99,
+   "turnsPerBattle": 10.22
+  }
+ },
+ "interleaved": {
+  "uninstrumented": {
+   "battlesPerSec": 42.7,
+   "decisionsPerSec": 1124,
+   "relativeCost": 1,
+   "usPerDrawOverhead": null
+  },
+  "record_noctx": {
+   "battlesPerSec": 40.5,
+   "decisionsPerSec": 1066,
+   "relativeCost": 1.055,
+   "usPerDrawOverhead": 13.18
+  },
+  "record_ctx_markers": {
+   "battlesPerSec": 40.2,
+   "decisionsPerSec": 1057,
+   "relativeCost": 1.064,
+   "usPerDrawOverhead": 15.22
+  },
+  "record_ctx_stack": {
+   "battlesPerSec": 34.3,
+   "decisionsPerSec": 902,
+   "relativeCost": 1.247,
+   "usPerDrawOverhead": 58.95
+  },
+  "record_ctx_both_projection": {
+   "battlesPerSec": 32.4,
+   "decisionsPerSec": 854,
+   "relativeCost": 1.317,
+   "usPerDrawOverhead": 75.75
+  }
+ },
+ "loadavg": [
+  82.44287109375,
+  49.369140625,
+  37.05712890625
+ ],
+ "micro": {
+  "captureSite_structured_mapped_us": 7.65,
+  "errorStackString_us": 15.421
+ }
+}

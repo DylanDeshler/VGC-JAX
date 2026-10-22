@@ -1,0 +1,302 @@
+priorityEvent(LockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(LockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(LockMove) tgt=p1b:Garchomp src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1b:Garchomp src=- eff=-
+priorityEvent(LockMove) tgt=p1b:Garchomp src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1b:Garchomp src=- eff=-
+priorityEvent(LockMove) tgt=p2a:Whimsicott src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2a:Whimsicott src=- eff=-
+priorityEvent(LockMove) tgt=p2a:Whimsicott src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2a:Whimsicott src=- eff=-
+priorityEvent(LockMove) tgt=p2b:Salamence src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2b:Salamence src=- eff=-
+priorityEvent(LockMove) tgt=p2b:Salamence src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+runEvent(FractionalPriority) tgt=p1a:Incineroar src=- eff=Move:protect
+singleEvent(ModifyPriority) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(ModifyPriority) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(FractionalPriority) tgt=p1b:Garchomp src=- eff=Move:dragonclaw
+singleEvent(ModifyPriority) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyPriority) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(FractionalPriority) tgt=p2a:Whimsicott src=- eff=Move:encore
+singleEvent(ModifyPriority) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+runEvent(ModifyPriority) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore  H=[Ability:prankster]
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+runEvent(FractionalPriority) tgt=p2b:Salamence src=- eff=Move:dragonclaw
+singleEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+eachEvent(BeforeTurn) tgt=- src=- eff=-
+  runEvent(BeforeTurn) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(BeforeTurn) tgt=p2b:Salamence src=- eff=object
+  runEvent(BeforeTurn) tgt=p1b:Garchomp src=- eff=object
+  runEvent(BeforeTurn) tgt=p1a:Incineroar src=- eff=object
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(ModifyPriority) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+singleEvent(ModifyPriority) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+runEvent(ModifyPriority) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore  H=[Ability:prankster]
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyPriority) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(OverrideAction) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(BeforeMove) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+priorityEvent(LockMove) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyTarget) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+singleEvent(ModifyType) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+singleEvent(ModifyMove) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(ModifyType) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(ModifyMove) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+priorityEvent(RedirectTarget) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(DeductPP) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+singleEvent(TryMove) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(TryMove) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+singleEvent(UseMoveMessage) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+singleEvent(Try) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+singleEvent(PrepareHit) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect  H=[Move:protect]
+  runEvent(StallMove) tgt=p1a:Incineroar src=- eff=-
+runEvent(PrepareHit) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(Invulnerability) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(TryHit) tgt=[p1a:Incineroar] src=p1a:Incineroar eff=Move:protect
+singleEvent(TryImmunity) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(ModifyAccuracy) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+singleEvent(TryHit) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(TryPrimaryHit) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+runEvent(Immunity) tgt=p1a:Incineroar src=- eff=-
+runEvent(TryAddVolatile) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+singleEvent(Start) tgt=p1a:Incineroar src=p1a:Incineroar eff=Condition:protect  H=[Condition:protect]
+singleEvent(Hit) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect  H=[Move:protect]
+  runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+  runEvent(Immunity) tgt=p1a:Incineroar src=- eff=-
+  runEvent(TryAddVolatile) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+  singleEvent(Start) tgt=p1a:Incineroar src=p1a:Incineroar eff=Condition:stall  H=[Condition:stall]
+runEvent(Hit) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object
+singleEvent(AfterMoveSecondary) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(AfterMoveSecondary) tgt=[p1a:Incineroar] src=p1a:Incineroar eff=Move:protect
+runEvent(EmergencyExit) tgt=p1a:Incineroar src=p1a:Incineroar eff=-
+singleEvent(AfterMoveSecondarySelf) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(AfterMoveSecondarySelf) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+singleEvent(AfterMove) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+runEvent(AfterMove) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:protect
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+runEvent(ModifyPriority) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore  H=[Ability:prankster]
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyPriority) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(OverrideAction) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+runEvent(BeforeMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+priorityEvent(LockMove) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifyTarget) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+singleEvent(ModifyType) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+singleEvent(ModifyMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+runEvent(ModifyType) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+runEvent(ModifyMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+priorityEvent(RedirectTarget) tgt=p2a:Whimsicott src=p2a:Whimsicott eff=Move:encore
+runEvent(DeductPP) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:encore
+singleEvent(TryMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+runEvent(TryMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+singleEvent(UseMoveMessage) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+singleEvent(Try) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+singleEvent(PrepareHit) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:encore
+runEvent(PrepareHit) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+runEvent(Invulnerability) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:encore
+runEvent(TryHit) tgt=[p1a:Incineroar] src=p2a:Whimsicott eff=Move:encore  H=[Condition:protect]
+  runEvent(HitProtect) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+singleEvent(MoveFail) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:encore
+singleEvent(AfterMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+runEvent(AfterMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:encore
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyPriority) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(OverrideAction) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(BeforeMove) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+priorityEvent(LockMove) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyTarget) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+singleEvent(ModifyType) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+singleEvent(ModifyMove) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(ModifyType) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(ModifyMove) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+priorityEvent(RedirectTarget) tgt=p2b:Salamence src=p2b:Salamence eff=Move:dragonclaw
+runEvent(DeductPP) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+singleEvent(TryMove) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(TryMove) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+singleEvent(UseMoveMessage) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+singleEvent(Try) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+singleEvent(PrepareHit) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(PrepareHit) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(Invulnerability) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(TryHit) tgt=[p1b:Garchomp] src=p2b:Salamence eff=Move:dragonclaw
+runEvent(NegateImmunity) tgt=p1b:Garchomp src=Dragon eff=-
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(TryImmunity) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyAccuracy) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(Accuracy) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+singleEvent(TryHit) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(TryPrimaryHit) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(NegateImmunity) tgt=p1b:Garchomp src=Dragon eff=-
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyCritRatio) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(CriticalHit) tgt=p1b:Garchomp src=- eff=Move:dragonclaw
+runEvent(BasePower) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyAtk) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(ModifyDef) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+priorityEvent(WeatherModifyDamage) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(Type) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySTAB) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(Effectiveness) tgt=p1b:Garchomp src=Dragon eff=Move:dragonclaw
+runEvent(Effectiveness) tgt=p1b:Garchomp src=Dragon eff=Move:dragonclaw
+singleEvent(Effectiveness) tgt=p1b:Garchomp src=Ground eff=Move:dragonclaw
+runEvent(Effectiveness) tgt=p1b:Garchomp src=Ground eff=Move:dragonclaw
+runEvent(ModifyDamage) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(Damage) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(Hit) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(DamagingHit) tgt=[p1b:Garchomp] src=p2b:Salamence eff=Move:dragonclaw  H=[Ability:roughskin]
+  runEvent(Damage) tgt=p2b:Salamence src=p1b:Garchomp eff=Ability:roughskin
+runEvent(EmergencyExit) tgt=p2b:Salamence src=- eff=-
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object
+runEvent(BeforeFaint) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(Faint) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+singleEvent(End) tgt=p1b:Garchomp src=- eff=Ability:roughskin
+singleEvent(End) tgt=p1b:Garchomp src=- eff=Item:lifeorb
+runEvent(ModifySpecies) tgt=p1b:Garchomp src=- eff=object
+runEvent(AfterFaint) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object
+singleEvent(AfterMoveSecondary) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(AfterMoveSecondary) tgt=[p1b:Garchomp] src=p2b:Salamence eff=Move:dragonclaw
+singleEvent(AfterMoveSecondarySelf) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(AfterMoveSecondarySelf) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(EmergencyExit) tgt=p2b:Salamence src=p2b:Salamence eff=-
+singleEvent(AfterMove) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+runEvent(AfterMove) tgt=p2b:Salamence src=p1b:Garchomp eff=Move:dragonclaw
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyPriority) tgt=p1b:Garchomp src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+fieldEvent(Residual) tgt=- src=- eff=-
+  singleEvent(Residual) tgt=p2b:Salamence src=- eff=Item:leftovers  H=[Item:leftovers]
+    runEvent(TryHeal) tgt=p2b:Salamence src=- eff=Item:leftovers
+    runEvent(Heal) tgt=p2b:Salamence src=- eff=Item:leftovers
+  singleEvent(Residual) tgt=p2b:Salamence src=- eff=Status:brn  H=[Status:brn]
+    runEvent(Damage) tgt=p2b:Salamence src=- eff=Status:brn
+  singleEvent(End) tgt=p1a:Incineroar src=- eff=Condition:protect
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object
+runEvent(EmergencyExit) tgt=p1a:Incineroar src=- eff=-
+runEvent(EmergencyExit) tgt=p2a:Whimsicott src=- eff=-
+runEvent(EmergencyExit) tgt=p2b:Salamence src=- eff=-

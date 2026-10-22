@@ -1,0 +1,101 @@
+{
+  "sha": "b19c6f7a98810f2aa509e8003fa37844076972fd",
+  "node_id": "C_kwDOAC5c7toAKGIxOWM2ZjdhOTg4MTBmMmFhNTA5ZTgwMDNmYTM3ODQ0MDc2OTcyZmQ",
+  "commit": {
+    "author": {
+      "name": "Marty-D",
+      "email": "Marty-D@users.noreply.github.com",
+      "date": "2026-10-21T12:44:03Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-10-21T12:44:03Z"
+    },
+    "message": "Champions: Fix Aura Guard inheritance",
+    "tree": {
+      "sha": "e3df4527325eb0ff1eed0ab0f8ea9c30c8bcc122",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/e3df4527325eb0ff1eed0ab0f8ea9c30c8bcc122"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/b19c6f7a98810f2aa509e8003fa37844076972fd",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq2LOTCRC1aQ7uu5UhlAAA6IQQABDHt7dgsSrrfOtsR/ASyScC\nx8kRXXUC5V9ao6S03h1FepsA3ddJ4O/reI3RNqdh7wohTeZSaCrXtSpER92mdUwx\nEIIVDLTxj+AIxEIu/UDOyOWPJS5c2a0id5HoJZle6kZF5Ai8sEy0/0KMATvS3iAI\nGsb/KWVSDJGrt1ZUxjBlpGj7K7bauWy0tgB6c8d1VZ+T6Q+5b9NN4g+RMncDDiZh\nRKj1X7bP1mXy1vLsiDBzLP7KckeLMxTZuN41ijYgcWqTqsMad/h/IA4PjJeR9TMW\nYBZb122wjvwfb2uxau3XtOb4sPtZw2l7HtlAWJSyggbcnaeNgZGG8BXRooXp4lDF\nwEEtHsZUvNVDhohX44QFilCyof9JLOg8q1hqMuFjewjW0oTmeNiMNnD257dbIZkf\nNeWqWOy8mKVJPG21WwDt6mwmgGX+xYy8Kag8o4MCINRMjwqoFL0zdX1ro9hplNlX\nVDvIAL728G5plsFeeZub3QsqbYlcK0CQo2GEZutcrA11R5wihzuOYRCFVQF/nRoS\n/1/dte5bGH1AX9N/YjGv8cpHldGQVJ2ioSlWidACw1z4wV3KqVJVsBPd88DTqBqk\nsbY/BZ3DRydvXY4SgHt2NSiN2fJb2Vpk8ohNNX0ukiIGKQLY5jng4LGiT7GG8uYi\ni1cskEJRQStYODj0Btd/\n=coaN\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree e3df4527325eb0ff1eed0ab0f8ea9c30c8bcc122\nparent 651b6fa8542bb75078fd66337ab150effe623d30\nauthor Marty-D <Marty-D@users.noreply.github.com> 1792586643 -0400\ncommitter GitHub <noreply@github.com> 1792586643 -0400\n\nChampions: Fix Aura Guard inheritance",
+      "verified_at": "2026-10-21T12:44:04Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/b19c6f7a98810f2aa509e8003fa37844076972fd",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/b19c6f7a98810f2aa509e8003fa37844076972fd",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/b19c6f7a98810f2aa509e8003fa37844076972fd/comments",
+  "author": {
+    "login": "Marty-D",
+    "id": 1645989,
+    "node_id": "MDQ6VXNlcjE2NDU5ODk=",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1645989?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/Marty-D",
+    "html_url": "https://github.com/Marty-D",
+    "followers_url": "https://api.github.com/users/Marty-D/followers",
+    "following_url": "https://api.github.com/users/Marty-D/following{/other_user}",
+    "gists_url": "https://api.github.com/users/Marty-D/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/Marty-D/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/Marty-D/subscriptions",
+    "organizations_url": "https://api.github.com/users/Marty-D/orgs",
+    "repos_url": "https://api.github.com/users/Marty-D/repos",
+    "events_url": "https://api.github.com/users/Marty-D/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/Marty-D/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "651b6fa8542bb75078fd66337ab150effe623d30",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/651b6fa8542bb75078fd66337ab150effe623d30",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/651b6fa8542bb75078fd66337ab150effe623d30"
+    }
+  ],
+  "stats": {
+    "total": 4,
+    "additions": 4,
+    "deletions": 0
+  },
+  "files": [
+    {
+      "sha": "4be1d179b8786fa69d611823f31c6aabff8d58ba",
+      "filename": "data/mods/champions/abilities.ts",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 0,
+      "changes": 4,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/b19c6f7a98810f2aa509e8003fa37844076972fd/data%2Fmods%2Fchampions%2Fabilities.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/b19c6f7a98810f2aa509e8003fa37844076972fd/data%2Fmods%2Fchampions%2Fabilities.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fabilities.ts?ref=b19c6f7a98810f2aa509e8003fa37844076972fd",
+      "patch": "@@ -5,6 +5,10 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa\n \t\t\tthis.effectState.checkedAngerShell = !(effect.effectType === \"Move\" && !effect.multihit);\n \t\t},\n \t},\n+\tauraguard: {\n+\t\tinherit: true,\n+\t\tisNonstandard: null,\n+\t},\n \tberserk: {\n \t\tinherit: true,\n \t\tonDamage(damage, target, source, effect) {"
+    }
+  ]
+}

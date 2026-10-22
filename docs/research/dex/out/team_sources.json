@@ -1,0 +1,210 @@
+[
+ {
+  "label": "replays_regmc_bo3",
+  "n": 3211,
+  "valid": 3211,
+  "inV1": 3192,
+  "validAndInV1": 3192,
+  "problems": [],
+  "v1miss": [
+   [
+    "move:reversal",
+    3
+   ],
+   [
+    "ability:rivalry",
+    3
+   ],
+   [
+    "move:electrify",
+    3
+   ],
+   [
+    "ability:gluttony",
+    2
+   ],
+   [
+    "ability:shedskin",
+    2
+   ],
+   [
+    "ability:guts",
+    2
+   ],
+   [
+    "move:fly",
+    1
+   ],
+   [
+    "move:fairylock",
+    1
+   ],
+   [
+    "move:meteorbeam",
+    1
+   ],
+   [
+    "move:attract",
+    1
+   ]
+  ]
+ },
+ {
+  "label": "vgcbench_regmb_bo3",
+  "n": 4000,
+  "valid": 4000,
+  "inV1": 3907,
+  "validAndInV1": 3907,
+  "problems": [],
+  "v1miss": [
+   [
+    "ability:symbiosis",
+    16
+   ],
+   [
+    "move:reversal",
+    6
+   ],
+   [
+    "ability:rivalry",
+    6
+   ],
+   [
+    "move:meteorbeam",
+    5
+   ],
+   [
+    "move:meanlook",
+    4
+   ],
+   [
+    "move:safeguard",
+    4
+   ],
+   [
+    "move:roleplay",
+    4
+   ],
+   [
+    "ability:analytic",
+    4
+   ],
+   [
+    "move:electroball",
+    4
+   ],
+   [
+    "ability:poisonheal",
+    3
+   ],
+   [
+    "ability:supersweetsyrup",
+    3
+   ],
+   [
+    "ability:bigpecks",
+    3
+   ]
+  ]
+ },
+ {
+  "label": "ps_random_doubles_champions",
+  "n": 1000,
+  "valid": 91,
+  "inV1": 682,
+  "validAndInV1": 61,
+  "problems": [
+   [
+    "You are limited to 1 of each item by Item Clause.",
+    909
+   ],
+   [
+    "(You have more than 1 Life Orb)",
+    378
+   ],
+   [
+    "(You have more than 1 Sitrus Berry)",
+    374
+   ],
+   [
+    "(You have more than 1 Leftovers)",
+    85
+   ],
+   [
+    "(You have more than 1 Choice Scarf)",
+    57
+   ],
+   [
+    "(You have more than 1 Focus Sash)",
+    11
+   ],
+   [
+    "(You have more than 1 White Herb)",
+    3
+   ],
+   [
+    "(You have more than 1 Rocky Helmet)",
+    1
+   ]
+  ],
+  "v1miss": [
+   [
+    "ability:fluffy",
+    30
+   ],
+   [
+    "move:gravapple",
+    27
+   ],
+   [
+    "ability:ripen",
+    27
+   ],
+   [
+    "ability:shedskin",
+    27
+   ],
+   [
+    "ability:effectspore",
+    26
+   ],
+   [
+    "ability:stakeout",
+    26
+   ],
+   [
+    "ability:bigpecks",
+    26
+   ],
+   [
+    "ability:motordrive",
+    25
+   ],
+   [
+    "ability:cheekpouch",
+    24
+   ],
+   [
+    "ability:aftermath",
+    24
+   ],
+   [
+    "ability:liquidooze",
+    23
+   ],
+   [
+    "ability:analytic",
+    23
+   ]
+  ]
+ },
+ {
+  "label": "usage_sampler_bo3_1760_v1",
+  "n": 2000,
+  "valid": 2000,
+  "inV1": 2000,
+  "problems": [],
+  "distinctSpecies": 159,
+  "distinctTeams": 1208
+ }
+]

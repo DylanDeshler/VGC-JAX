@@ -1,0 +1,353 @@
+{
+  "sha": "954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+  "node_id": "C_kwDOAC5c7toAKDk1NGM3ZThmZGEzNDYyNjljMzkwNDhlMDhkNGMzZTU5ZTBiOGFlYjI",
+  "commit": {
+    "author": {
+      "name": "André Bastos Dias",
+      "email": "80102738+andrebastosdias@users.noreply.github.com",
+      "date": "2026-07-15T16:27:45Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-07-15T16:27:45Z"
+    },
+    "message": "Normalize the implementation of all recoil and crash damage moves (#11704)\n\n---------\n\nCo-authored-by: Guangcong Luo <guangcongluo@gmail.com>",
+    "tree": {
+      "sha": "e86d665ae5fd964f4c7c6f5347701778194d2c4a",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/e86d665ae5fd964f4c7c6f5347701778194d2c4a"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqV7UBCRC1aQ7uu5UhlAAApPcQAAC0ejzUKDxsRDZ0XwrVb4cY\nAPZoKbm88QCLoQM8FgErev8ADd1TF9ZYKhEHDUNfo40D8WqdSfDO7ZXvPwOWHqbn\nQMcjJhATja5iOOdCySw9AfDivJPM4iZ7JA+BiIZEvyqFnlh5JshLmBOYN4ns8Eaf\n9mUC+jGxf3RNdpGBbJvHL18vRnyeMCku2ffGrOLPuMPTiKSOKrrM2OMQrqlgd5N0\ny5G1M1Dtrp6hDm7gSLwuw/bF1F9DBtm7m0TYxf2lcIYdPmQEMxagKqk8V906l55Z\n4JX8E0PBAOqZl6qf3M+NdJAyUur9YIFeNbTefGucQ0N+N/F6gWy+wiWuqD/YVv/t\nuxatii8HhPuYKGJhmqyloQtiQVqB0LZJzJvDa8pVF1g/T9BF9I6B0SimTGli4AIt\nguN2kOpwbC78aPm+lSW1r3CIgNBcscyyQ9BS0CKDySxzKh/QpWmNlGGk0YT1Rg3+\n0U8iTTWLFyKQq3Emq8APTVGAcwvQ8AjFjBSpp8O4UhtZxXtLlyoUoYq9O15xYZYp\n8id4sR9KH/c7VGtG90Iig6r4n1SCWpnQZlLcmtGX+IRdgdq1wZ6YtAwD1DbBqgNZ\nCJVYnSg1ebRjYq46Od//FBwlgPdFjCzNEtcAK57q2r2wJUn6ZL6KCjbROuHuMfz1\nSOEqyt3/h8wiOiKh5JNj\n=4kO9\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree e86d665ae5fd964f4c7c6f5347701778194d2c4a\nparent 1627bd6f9ac77e14f92e77a761c4197e2806bb0c\nauthor André Bastos Dias <80102738+andrebastosdias@users.noreply.github.com> 1784132865 +0100\ncommitter GitHub <noreply@github.com> 1784132865 -0700\n\nNormalize the implementation of all recoil and crash damage moves (#11704)\n\n---------\n\nCo-authored-by: Guangcong Luo <guangcongluo@gmail.com>",
+      "verified_at": "2026-07-15T16:27:45Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/comments",
+  "author": {
+    "login": "andrebastosdias",
+    "id": 80102738,
+    "node_id": "MDQ6VXNlcjgwMTAyNzM4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/80102738?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/andrebastosdias",
+    "html_url": "https://github.com/andrebastosdias",
+    "followers_url": "https://api.github.com/users/andrebastosdias/followers",
+    "following_url": "https://api.github.com/users/andrebastosdias/following{/other_user}",
+    "gists_url": "https://api.github.com/users/andrebastosdias/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/andrebastosdias/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/andrebastosdias/subscriptions",
+    "organizations_url": "https://api.github.com/users/andrebastosdias/orgs",
+    "repos_url": "https://api.github.com/users/andrebastosdias/repos",
+    "events_url": "https://api.github.com/users/andrebastosdias/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/andrebastosdias/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "1627bd6f9ac77e14f92e77a761c4197e2806bb0c",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/1627bd6f9ac77e14f92e77a761c4197e2806bb0c",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/1627bd6f9ac77e14f92e77a761c4197e2806bb0c"
+    }
+  ],
+  "stats": {
+    "total": 358,
+    "additions": 167,
+    "deletions": 191
+  },
+  "files": [
+    {
+      "sha": "7f100a0947a203454a1a97b54f6a99932e808bce",
+      "filename": "data/mods/champions/scripts.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 28,
+      "changes": 30,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fchampions%2Fscripts.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fchampions%2Fscripts.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fscripts.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -535,14 +535,6 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t\t\t// Total damage dealt is accumulated for the purposes of recoil (Parental Bond).\n \t\t\t\t\tmove.totalDamage += damage[i];\n \t\t\t\t}\n-\t\t\t\tif (move.mindBlownRecoil) {\n-\t\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\t\tthis.battle.damage(Math.round(pokemon.maxhp / 2), pokemon, pokemon, this.dex.conditions.get(move.id), true);\n-\t\t\t\t\tmove.mindBlownRecoil = false;\n-\t\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t\t}\n-\t\t\t\t}\n \t\t\t\tthis.battle.eachEvent('Update');\n \t\t\t\tif (!pokemon.hp && targets.length === 1) {\n \t\t\t\t\thit++; // report the correct number of hits for multihit moves\n@@ -558,26 +550,8 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t\tthis.battle.add('-hitcount', targets[0], hit - 1);\n \t\t\t}\n \n-\t\t\tif ((move.recoil || move.id === 'chloroblast') && move.totalDamage) {\n-\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\tthis.battle.damage(this.calcRecoilDamage(move.totalDamage, move, pokemon), pokemon, pokemon, 'recoil');\n-\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t}\n-\t\t\t}\n-\n-\t\t\tif (move.struggleRecoil) {\n-\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\tlet recoilDamage;\n-\t\t\t\tif (this.dex.gen >= 5) {\n-\t\t\t\t\trecoilDamage = this.battle.clampIntRange(Math.round(pokemon.baseMaxhp / 4), 1);\n-\t\t\t\t} else {\n-\t\t\t\t\trecoilDamage = this.battle.clampIntRange(this.battle.trunc(pokemon.maxhp / 4), 1);\n-\t\t\t\t}\n-\t\t\t\tthis.battle.directDamage(recoilDamage, pokemon, pokemon, { id: 'strugglerecoil' } as Condition);\n-\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t}\n+\t\t\tif (move.totalDamage) {\n+\t\t\t\tthis.applyRecoilDamage(move.totalDamage, move, pokemon);\n \t\t\t}\n \n \t\t\t// smartTarget messes up targetsCopy, but smartTarget should in theory ensure that targets will never fail, anyway"
+    },
+    {
+      "sha": "1072e8017670571bd544e8c7f60795b25b2091c7",
+      "filename": "data/mods/gen1/moves.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 3,
+      "changes": 5,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen1%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen1%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen1%2Fmoves.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -865,9 +865,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\t\t\t}\n \t\t\t\t// Drain/recoil/secondary effect confusion do not happen if the substitute breaks\n \t\t\t\tif (target.volatiles['substitute']) {\n-\t\t\t\t\tif (move.recoil) {\n-\t\t\t\t\t\tthis.damage(this.clampIntRange(Math.floor(uncappedDamage * move.recoil[0] / move.recoil[1]), 1),\n-\t\t\t\t\t\t\tsource, target, 'recoil');\n+\t\t\t\t\tif (uncappedDamage) {\n+\t\t\t\t\t\tthis.actions.applyRecoilDamage(uncappedDamage, move, source);\n \t\t\t\t\t}\n \t\t\t\t\tif (move.drain) {\n \t\t\t\t\t\tconst amount = this.clampIntRange(Math.floor(uncappedDamage * move.drain[0] / move.drain[1]), 1);"
+    },
+    {
+      "sha": "2c7fed71ad5532a22f38994cb1ffb00c6919aead",
+      "filename": "data/mods/gen1/scripts.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen1%2Fscripts.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen1%2Fscripts.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen1%2Fscripts.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -602,6 +602,7 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t\t}\n \t\t\t\tif ((damage || damage === 0) && !target.fainted) {\n \t\t\t\t\tdamage = this.battle.damage(damage, target, pokemon, move);\n+\t\t\t\t\tif (damage) this.applyRecoilDamage(damage, move, pokemon);\n \t\t\t\t\tif (!(damage || damage === 0)) return false;\n \t\t\t\t\tdidSomething = true;\n \t\t\t\t} else if (damage === false && typeof hitResult === 'undefined') {"
+    },
+    {
+      "sha": "9ad0ee2c4e0c5e8eced09dc838f960b9251d8c52",
+      "filename": "data/mods/gen1jpn/moves.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "changes": 4,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen1jpn%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen1jpn%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen1jpn%2Fmoves.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -47,8 +47,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\t\t\t}\n \t\t\t\t// Drain/recoil does not happen if the substitute breaks\n \t\t\t\tif (target.volatiles['substitute']) {\n-\t\t\t\t\tif (move.recoil) {\n-\t\t\t\t\t\tthis.damage(Math.round(uncappedDamage * move.recoil[0] / move.recoil[1]), source, target, 'recoil');\n+\t\t\t\t\tif (uncappedDamage) {\n+\t\t\t\t\t\tthis.actions.applyRecoilDamage(uncappedDamage, move, source);\n \t\t\t\t\t}\n \t\t\t\t\tif (move.drain) {\n \t\t\t\t\t\tthis.heal(Math.ceil(uncappedDamage * move.drain[0] / move.drain[1]), source, target, 'drain');"
+    },
+    {
+      "sha": "852ac46ee9d04a9cb7fe767caccaf73071fd295d",
+      "filename": "data/mods/gen1stadium/scripts.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen1stadium%2Fscripts.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen1stadium%2Fscripts.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen1stadium%2Fscripts.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -433,6 +433,7 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t\t}\n \t\t\t\tif ((damage || damage === 0) && !target.fainted) {\n \t\t\t\t\tdamage = this.battle.damage(damage, target, pokemon, move);\n+\t\t\t\t\tif (damage && target.hp > 0) this.applyRecoilDamage(damage, move, pokemon);\n \t\t\t\t\tif (!(damage || damage === 0)) return false;\n \t\t\t\t\tdidSomething = true;\n \t\t\t\t} else if (damage === false && typeof hitResult === 'undefined') {"
+    },
+    {
+      "sha": "86444e5eb8dfd166af40074c5e6bcb1951048119",
+      "filename": "data/mods/gen2/scripts.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "changes": 4,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen2%2Fscripts.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen2%2Fscripts.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen2%2Fscripts.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -295,8 +295,8 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\tthis.battle.singleEvent('AfterMoveSecondary', move, null, target, pokemon, move);\n \t\t\tthis.battle.runEvent('AfterMoveSecondary', target, pokemon, move);\n \n-\t\t\tif (move.recoil && move.totalDamage) {\n-\t\t\t\tthis.battle.damage(this.calcRecoilDamage(move.totalDamage, move, pokemon), pokemon, target, 'recoil');\n+\t\t\tif (move.totalDamage) {\n+\t\t\t\tthis.applyRecoilDamage(move.totalDamage, move, pokemon);\n \t\t\t}\n \t\t\treturn damage;\n \t\t},"
+    },
+    {
+      "sha": "6bec87321f9592b03ce7696391e13bed9d9ae56e",
+      "filename": "data/mods/gen2stadium2/scripts.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "changes": 4,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen2stadium2%2Fscripts.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen2stadium2%2Fscripts.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen2stadium2%2Fscripts.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -233,8 +233,8 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t// Implementing Recoil mechanics from Stadium 2.\n \t\t\t// If a pokemon caused the other to faint with a recoil move and only one pokemon remains on both sides,\n \t\t\t// recoil damage will not be taken.\n-\t\t\tif (move.recoil && move.totalDamage && (pokemon.side.pokemonLeft > 1 || target.side.pokemonLeft > 1 || target.hp)) {\n-\t\t\t\tthis.battle.damage(this.calcRecoilDamage(move.totalDamage, move, pokemon), pokemon, target, 'recoil');\n+\t\t\tif (move.totalDamage && (pokemon.side.pokemonLeft > 1 || target.side.pokemonLeft > 1 || target.hp)) {\n+\t\t\t\tthis.applyRecoilDamage(move.totalDamage, move, pokemon);\n \t\t\t}\n \t\t\treturn damage;\n \t\t},"
+    },
+    {
+      "sha": "a821c8572051714185e936633575308213c7a48c",
+      "filename": "data/mods/gen3/scripts.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 7,
+      "changes": 9,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen3%2Fscripts.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen3%2Fscripts.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen3%2Fscripts.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -188,7 +188,6 @@ export const Scripts: ModdedBattleScriptsData = {\n \n \t\t\tif (!this.battle.singleEvent('TryMove', move, null, pokemon, target, move) ||\n \t\t\t\t!this.battle.runEvent('TryMove', pokemon, target, move)) {\n-\t\t\t\tmove.mindBlownRecoil = false;\n \t\t\t\treturn false;\n \t\t\t}\n \n@@ -457,8 +456,8 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t\tmove.totalDamage = damage;\n \t\t\t}\n \n-\t\t\tif (move.recoil && move.totalDamage) {\n-\t\t\t\tthis.battle.damage(this.calcRecoilDamage(move.totalDamage, move, pokemon), pokemon, target, 'recoil');\n+\t\t\tif (move.totalDamage) {\n+\t\t\t\tthis.applyRecoilDamage(move.totalDamage, move, pokemon);\n \t\t\t}\n \n \t\t\tif (target && pokemon !== target) target.gotAttacked(move, damage, pokemon);\n@@ -476,9 +475,5 @@ export const Scripts: ModdedBattleScriptsData = {\n \n \t\t\treturn damage;\n \t\t},\n-\n-\t\tcalcRecoilDamage(damageDealt, move) {\n-\t\t\treturn this.battle.clampIntRange(Math.floor(damageDealt * move.recoil![0] / move.recoil![1]), 1);\n-\t\t},\n \t},\n };"
+    },
+    {
+      "sha": "a3fc08dec41d219fe8fc85d21ee3cd75a7d67738",
+      "filename": "data/mods/gen4/moves.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "changes": 4,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen4%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen4%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen4%2Fmoves.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -1304,8 +1304,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\t\t\t\tthis.add('-activate', target, 'Substitute', '[damage]');\n \t\t\t\t}\n \t\t\t\tif (move.ohko) this.add('-ohko');\n-\t\t\t\tif (move.recoil && damage) {\n-\t\t\t\t\tthis.damage(this.actions.calcRecoilDamage(damage, move, source), source, target, 'recoil');\n+\t\t\t\tif (damage) {\n+\t\t\t\t\tthis.actions.applyRecoilDamage(damage, move, source);\n \t\t\t\t}\n \t\t\t\tif (move.drain) {\n \t\t\t\t\tthis.heal(Math.ceil(damage * move.drain[0] / move.drain[1]), source, target, 'drain');"
+    },
+    {
+      "sha": "24af08264eb9b47f77ba4ae89270f00aa625a432",
+      "filename": "data/mods/gen4/scripts.ts",
+      "status": "modified",
+      "additions": 14,
+      "deletions": 2,
+      "changes": 16,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen4%2Fscripts.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen4%2Fscripts.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen4%2Fscripts.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -202,8 +202,20 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t}\n \t\t\treturn hitResults;\n \t\t},\n-\t\tcalcRecoilDamage(damageDealt, move) {\n-\t\t\treturn this.battle.clampIntRange(Math.floor(damageDealt * move.recoil![0] / move.recoil![1]), 1);\n+\t\tapplyRecoilDamage(damageDealt: number, move: Move, pokemon: Pokemon): number | null {\n+\t\t\tlet recoilDamage = 0;\n+\t\t\tif (move.struggleRecoil) recoilDamage = this.battle.clampIntRange(Math.floor(pokemon.baseMaxhp / 4), 1);\n+\t\t\telse if (move.mindBlownRecoil) recoilDamage = Math.round(pokemon.maxhp / 2);\n+\t\t\telse if (move.recoil) {\n+\t\t\t\trecoilDamage = this.battle.clampIntRange(Math.floor(damageDealt * move.recoil[0] / move.recoil[1]), 1);\n+\t\t\t} else return null;\n+\n+\t\t\tif (move.struggleRecoil) {\n+\t\t\t\tthis.battle.directDamage(recoilDamage, pokemon, pokemon, { id: 'strugglerecoil' } as Condition);\n+\t\t\t} else {\n+\t\t\t\tthis.battle.damage(recoilDamage, pokemon, pokemon, 'recoil');\n+\t\t\t}\n+\t\t\treturn recoilDamage;\n \t\t},\n \t},\n };"
+    },
+    {
+      "sha": "5fa5f044cf133b4fc1b7e79c2bd0f78e5eda73fc",
+      "filename": "data/mods/gen5/moves.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "changes": 4,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen5%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen5%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen5%2Fmoves.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -872,8 +872,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\t\t\t} else {\n \t\t\t\t\tthis.add('-activate', target, 'Substitute', '[damage]');\n \t\t\t\t}\n-\t\t\t\tif (move.recoil && damage) {\n-\t\t\t\t\tthis.damage(this.actions.calcRecoilDamage(damage, move, source), source, target, 'recoil');\n+\t\t\t\tif (damage) {\n+\t\t\t\t\tthis.actions.applyRecoilDamage(damage, move, source);\n \t\t\t\t}\n \t\t\t\tif (move.drain) {\n \t\t\t\t\tthis.heal(Math.ceil(damage * move.drain[0] / move.drain[1]), source, target, 'drain');"
+    },
+    {
+      "sha": "4ce793a5dcfd5cc26bae9d42236d0ec20d627a29",
+      "filename": "data/mods/gen9ssb/scripts.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 28,
+      "changes": 30,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen9ssb%2Fscripts.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fgen9ssb%2Fscripts.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen9ssb%2Fscripts.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -1307,14 +1307,6 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t\t\t// Total damage dealt is accumulated for the purposes of recoil (Parental Bond).\n \t\t\t\t\tmove.totalDamage += damage[i];\n \t\t\t\t}\n-\t\t\t\tif (move.mindBlownRecoil) {\n-\t\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\t\tthis.battle.damage(Math.round(pokemon.maxhp / 2), pokemon, pokemon, this.dex.conditions.get(move.id), true);\n-\t\t\t\t\tmove.mindBlownRecoil = false;\n-\t\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t\t}\n-\t\t\t\t}\n \t\t\t\tthis.battle.eachEvent('Update');\n \t\t\t\tif (!pokemon.hp && targets.length === 1) {\n \t\t\t\t\thit++; // report the correct number of hits for multihit moves\n@@ -1329,26 +1321,8 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t\tthis.battle.add('-hitcount', targets[0], hit - 1);\n \t\t\t}\n \n-\t\t\tif ((move.recoil || move.id === 'chloroblast') && move.totalDamage) {\n-\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\tthis.battle.damage(this.calcRecoilDamage(move.totalDamage, move, pokemon), pokemon, pokemon, 'recoil');\n-\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t}\n-\t\t\t}\n-\n-\t\t\tif (move.struggleRecoil) {\n-\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\tlet recoilDamage;\n-\t\t\t\tif (this.dex.gen >= 5) {\n-\t\t\t\t\trecoilDamage = this.battle.clampIntRange(Math.round(pokemon.baseMaxhp / 4), 1);\n-\t\t\t\t} else {\n-\t\t\t\t\trecoilDamage = this.battle.clampIntRange(this.battle.trunc(pokemon.maxhp / 4), 1);\n-\t\t\t\t}\n-\t\t\t\tthis.battle.directDamage(recoilDamage, pokemon, pokemon, { id: 'strugglerecoil' } as Condition);\n-\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t}\n+\t\t\tif (move.totalDamage) {\n+\t\t\t\tthis.applyRecoilDamage(move.totalDamage, move, pokemon);\n \t\t\t}\n \n \t\t\t// smartTarget messes up targetsCopy, but smartTarget should in theory ensure that targets will never fail, anyway"
+    },
+    {
+      "sha": "8953f6f9ec68d85f97732a912028f69210a014a7",
+      "filename": "data/mods/passiveaggressive/moves.ts",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 18,
+      "changes": 26,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fpassiveaggressive%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fpassiveaggressive%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fpassiveaggressive%2Fmoves.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -140,15 +140,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t},\n \tmindblown: {\n \t\tinherit: true,\n-\t\tonAfterMove(pokemon, target, move) {\n-\t\t\tif (move.mindBlownRecoil && !move.multihit) {\n-\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\tconst calc = calculate(this, pokemon, pokemon, 'mindblown');\n-\t\t\t\tthis.damage(Math.round(calc * pokemon.maxhp / 2), pokemon, pokemon, this.dex.conditions.get('Mind Blown'), true);\n-\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\tthis.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t}\n-\t\t\t}\n+\t\tonMoveFail(target, source, move) {\n+\t\t\tif (move.multihit) return;\n+\t\t\tconst calc = calculate(this, source, source, 'mindblown');\n+\t\t\tthis.damage(Math.round(calc * source.maxhp / 2), source, source, this.dex.conditions.get('Mind Blown'));\n \t\t},\n \t},\n \tnightmare: {\n@@ -244,15 +239,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t},\n \tsteelbeam: {\n \t\tinherit: true,\n-\t\tonAfterMove(pokemon, target, move) {\n-\t\t\tif (move.mindBlownRecoil && !move.multihit) {\n-\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\tconst calc = calculate(this, pokemon, pokemon, 'steelbeam');\n-\t\t\t\tthis.damage(Math.round(calc * pokemon.maxhp / 2), pokemon, pokemon, this.dex.conditions.get('Steel Beam'), true);\n-\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\tthis.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t}\n-\t\t\t}\n+\t\tonMoveFail(target, source, move) {\n+\t\t\tif (move.multihit) return;\n+\t\t\tconst calc = calculate(this, source, source, 'steelbeam');\n+\t\t\tthis.damage(Math.round(calc * source.maxhp / 2), source, source, this.dex.conditions.get('Mind Blown'));\n \t\t},\n \t},\n \tsupercellslam: {"
+    },
+    {
+      "sha": "cab0123df1ca675eea458926ebfa7e97502a64d7",
+      "filename": "data/mods/passiveaggressive/scripts.ts",
+      "status": "modified",
+      "additions": 23,
+      "deletions": 35,
+      "changes": 58,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fpassiveaggressive%2Fscripts.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmods%2Fpassiveaggressive%2Fscripts.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fpassiveaggressive%2Fscripts.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -110,15 +110,6 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t\t\t// Total damage dealt is accumulated for the purposes of recoil (Parental Bond).\n \t\t\t\t\tmove.totalDamage += damage[i];\n \t\t\t\t}\n-\t\t\t\tif (move.mindBlownRecoil) {\n-\t\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\t\tconst calc = calculate(this.battle, pokemon, pokemon, move.id);\n-\t\t\t\t\tthis.battle.damage(Math.round(calc * pokemon.maxhp / 2), pokemon, pokemon, this.dex.conditions.get(move.id), true);\n-\t\t\t\t\tmove.mindBlownRecoil = false;\n-\t\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t\t}\n-\t\t\t\t}\n \t\t\t\tthis.battle.eachEvent('Update');\n \t\t\t\tif (!pokemon.hp && targets.length === 1) {\n \t\t\t\t\thit++; // report the correct number of hits for multihit moves\n@@ -133,27 +124,8 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\t\tthis.battle.add('-hitcount', targets[0], hit - 1);\n \t\t\t}\n \n-\t\t\tif ((move.recoil || move.id === 'chloroblast') && move.totalDamage) {\n-\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\tconst recoilDamage = this.calcRecoilDamage(move.totalDamage, move, pokemon);\n-\t\t\t\tif (recoilDamage !== 1.1) this.battle.damage(recoilDamage, pokemon, pokemon, 'recoil');\n-\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t}\n-\t\t\t}\n-\n-\t\t\tif (move.struggleRecoil) {\n-\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\tlet recoilDamage;\n-\t\t\t\tif (this.dex.gen >= 5) {\n-\t\t\t\t\trecoilDamage = this.battle.clampIntRange(Math.round(pokemon.baseMaxhp / 4), 1);\n-\t\t\t\t} else {\n-\t\t\t\t\trecoilDamage = this.battle.clampIntRange(this.battle.trunc(pokemon.maxhp / 4), 1);\n-\t\t\t\t}\n-\t\t\t\tthis.battle.directDamage(recoilDamage, pokemon, pokemon, { id: 'strugglerecoil' } as Condition);\n-\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t}\n+\t\t\tif (move.totalDamage) {\n+\t\t\t\tthis.applyRecoilDamage(move.totalDamage, move, pokemon);\n \t\t\t}\n \n \t\t\t// smartTarget messes up targetsCopy, but smartTarget should in theory ensure that targets will never fail, anyway\n@@ -194,12 +166,28 @@ export const Scripts: ModdedBattleScriptsData = {\n \n \t\t\treturn damage;\n \t\t},\n-\t\tcalcRecoilDamage(damageDealt, move, pokemon): number {\n+\t\tapplyRecoilDamage(damageDealt: number, move: Move, pokemon: Pokemon): number | null {\n \t\t\tconst calc = calculate(this.battle, pokemon, pokemon, move.id);\n-\t\t\tif (calc === 0) return 1.1;\n-\t\t\tif (move.id === 'chloroblast') return Math.round(calc * pokemon.maxhp / 2);\n-\t\t\tconst recoil = Math.round(damageDealt * calc * move.recoil![0] / move.recoil![1]);\n-\t\t\treturn this.battle.clampIntRange(recoil, 1);\n+\t\t\tif (!calc) return 0;\n+\n+\t\t\tlet recoilDamage = 0;\n+\t\t\tif (move.struggleRecoil) recoilDamage = this.battle.clampIntRange(Math.round(pokemon.baseMaxhp / 4), 1);\n+\t\t\telse if (move.mindBlownRecoil) recoilDamage = Math.round(calc * pokemon.maxhp / 2);\n+\t\t\telse if (move.recoil) {\n+\t\t\t\trecoilDamage = this.battle.clampIntRange(Math.round(damageDealt * calc * move.recoil[0] / move.recoil[1]), 1);\n+\t\t\t} else return null;\n+\n+\t\t\tconst hpBeforeRecoil = pokemon.hp;\n+\t\t\tif (move.struggleRecoil) {\n+\t\t\t\tthis.battle.directDamage(recoilDamage, pokemon, pokemon, { id: 'strugglerecoil' } as Condition);\n+\t\t\t} else {\n+\t\t\t\tthis.battle.damage(recoilDamage, pokemon, pokemon, 'recoil');\n+\t\t\t}\n+\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n+\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n+\t\t\t}\n+\n+\t\t\treturn recoilDamage;\n \t\t},\n \t},\n };"
+    },
+    {
+      "sha": "35774ddbc0318f799104097546fb0f2b0ab0e845",
+      "filename": "data/moves.ts",
+      "status": "modified",
+      "additions": 11,
+      "deletions": 20,
+      "changes": 31,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/data%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmoves.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -939,7 +939,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {\n \t\tflags: { contact: 1, protect: 1, mirror: 1, metronome: 1 },\n \t\thasCrashDamage: true,\n \t\tonMoveFail(target, source, move) {\n-\t\t\tthis.damage(source.baseMaxhp / 2, source, source, this.dex.conditions.get('High Jump Kick'));\n+\t\t\tthis.damage(source.baseMaxhp / 2, source, source, this.dex.conditions.get('Axe Kick'));\n \t\t},\n \t\tsecondary: {\n \t\t\tchance: 30,\n@@ -2443,7 +2443,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {\n \t\tpp: 5,\n \t\tpriority: 0,\n \t\tflags: { protect: 1, mirror: 1, metronome: 1 },\n-\t\t// Recoil implemented in battle-actions.ts\n+\t\tmindBlownRecoil: true,\n+\t\t// Contrary to Mind Blown, Chloroblast does not implement the MoveFail event\n \t\ttarget: \"normal\",\n \t\ttype: \"Grass\",\n \t},\n@@ -11886,14 +11887,9 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {\n \t\tpriority: 0,\n \t\tflags: { protect: 1, mirror: 1 },\n \t\tmindBlownRecoil: true,\n-\t\tonAfterMove(pokemon, target, move) {\n-\t\t\tif (move.mindBlownRecoil && !move.multihit) {\n-\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\tthis.damage(Math.round(pokemon.maxhp / 2), pokemon, pokemon, this.dex.conditions.get('Mind Blown'), true);\n-\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\tthis.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t}\n-\t\t\t}\n+\t\tonMoveFail(target, source, move) {\n+\t\t\tif (move.multihit) return;\n+\t\t\tthis.damage(Math.round(source.maxhp / 2), source, source, this.dex.conditions.get('Mind Blown'));\n \t\t},\n \t\ttarget: \"allAdjacent\",\n \t\ttype: \"Fire\",\n@@ -17881,14 +17877,9 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {\n \t\tpriority: 0,\n \t\tflags: { protect: 1, mirror: 1 },\n \t\tmindBlownRecoil: true,\n-\t\tonAfterMove(pokemon, target, move) {\n-\t\t\tif (move.mindBlownRecoil && !move.multihit) {\n-\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\tthis.damage(Math.round(pokemon.maxhp / 2), pokemon, pokemon, this.dex.conditions.get('Steel Beam'), true);\n-\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\tthis.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t}\n-\t\t\t}\n+\t\tonMoveFail(target, source, move) {\n+\t\t\tif (move.multihit) return;\n+\t\t\tthis.damage(Math.round(source.maxhp / 2), source, source, this.dex.conditions.get('Steel Beam'));\n \t\t},\n \t\ttarget: \"normal\",\n \t\ttype: \"Steel\",\n@@ -18362,8 +18353,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {\n \t\t\t\t} else {\n \t\t\t\t\tthis.add('-activate', target, 'move: Substitute', '[damage]');\n \t\t\t\t}\n-\t\t\t\tif (move.recoil || move.id === 'chloroblast') {\n-\t\t\t\t\tthis.damage(this.actions.calcRecoilDamage(damage, move, source), source, target, 'recoil');\n+\t\t\t\tif (damage) {\n+\t\t\t\t\tthis.actions.applyRecoilDamage(damage, move, source);\n \t\t\t\t}\n \t\t\t\tif (move.drain) {\n \t\t\t\t\tthis.heal(Math.ceil(damage * move.drain[0] / move.drain[1]), source, target, 'drain');"
+    },
+    {
+      "sha": "95843477e79bc48e2a09b1ec193302b751df1c22",
+      "filename": "sim/battle-actions.ts",
+      "status": "modified",
+      "additions": 27,
+      "deletions": 32,
+      "changes": 59,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/sim%2Fbattle-actions.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/sim%2Fbattle-actions.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/sim%2Fbattle-actions.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -488,7 +488,6 @@ export class BattleActions {\n \t\t\ttryMoveResult = this.battle.runEvent('TryMove', pokemon, target, move);\n \t\t}\n \t\tif (!tryMoveResult) {\n-\t\t\tmove.mindBlownRecoil = false;\n \t\t\treturn tryMoveResult;\n \t\t}\n \n@@ -524,7 +523,13 @@ export class BattleActions {\n \t\t}\n \n \t\tif (!moveResult) {\n+\t\t\tconst originalHp = pokemon.hp;\n \t\t\tthis.battle.singleEvent('MoveFail', move, null, target, pokemon, move);\n+\t\t\tif (pokemon && pokemon !== target && move.category !== 'Status') {\n+\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && originalHp > pokemon.maxhp / 2) {\n+\t\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n+\t\t\t\t}\n+\t\t\t}\n \t\t\treturn false;\n \t\t}\n \n@@ -959,14 +964,6 @@ export class BattleActions {\n \t\t\t\t// Total damage dealt is accumulated for the purposes of recoil (Parental Bond).\n \t\t\t\tmove.totalDamage += damage[i];\n \t\t\t}\n-\t\t\tif (move.mindBlownRecoil) {\n-\t\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\t\tthis.battle.damage(Math.round(pokemon.maxhp / 2), pokemon, pokemon, this.dex.conditions.get(move.id), true);\n-\t\t\t\tmove.mindBlownRecoil = false;\n-\t\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t\t}\n-\t\t\t}\n \t\t\tthis.battle.eachEvent('Update');\n \t\t\tif (!pokemon.hp && targets.length === 1) {\n \t\t\t\thit++; // report the correct number of hits for multihit moves\n@@ -981,26 +978,8 @@ export class BattleActions {\n \t\t\tthis.battle.add('-hitcount', targets[0], hit - 1);\n \t\t}\n \n-\t\tif ((move.recoil || move.id === 'chloroblast') && move.totalDamage) {\n-\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\tthis.battle.damage(this.calcRecoilDamage(move.totalDamage, move, pokemon), pokemon, pokemon, 'recoil');\n-\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t}\n-\t\t}\n-\n-\t\tif (move.struggleRecoil) {\n-\t\t\tconst hpBeforeRecoil = pokemon.hp;\n-\t\t\tlet recoilDamage;\n-\t\t\tif (this.dex.gen >= 5) {\n-\t\t\t\trecoilDamage = this.battle.clampIntRange(Math.round(pokemon.baseMaxhp / 4), 1);\n-\t\t\t} else {\n-\t\t\t\trecoilDamage = this.battle.clampIntRange(this.battle.trunc(pokemon.maxhp / 4), 1);\n-\t\t\t}\n-\t\t\tthis.battle.directDamage(recoilDamage, pokemon, pokemon, { id: 'strugglerecoil' } as Condition);\n-\t\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n-\t\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n-\t\t\t}\n+\t\tif (move.totalDamage) {\n+\t\t\tthis.applyRecoilDamage(move.totalDamage, move, pokemon);\n \t\t}\n \n \t\t// smartTarget messes up targetsCopy, but smartTarget should in theory ensure that targets will never fail, anyway\n@@ -1397,9 +1376,25 @@ export class BattleActions {\n \t\treturn retVal === true ? undefined : retVal;\n \t}\n \n-\tcalcRecoilDamage(damageDealt: number, move: Move, pokemon: Pokemon): number {\n-\t\tif (move.id === 'chloroblast') return Math.round(pokemon.maxhp / 2);\n-\t\treturn this.battle.clampIntRange(Math.round(damageDealt * move.recoil![0] / move.recoil![1]), 1);\n+\tapplyRecoilDamage(damageDealt: number, move: Move, pokemon: Pokemon): number | null {\n+\t\tlet recoilDamage = null;\n+\t\tif (move.struggleRecoil) recoilDamage = this.battle.clampIntRange(Math.round(pokemon.baseMaxhp / 4), 1);\n+\t\telse if (move.mindBlownRecoil) recoilDamage = Math.round(pokemon.maxhp / 2);\n+\t\telse if (move.recoil) {\n+\t\t\trecoilDamage = this.battle.clampIntRange(Math.round(damageDealt * move.recoil[0] / move.recoil[1]), 1);\n+\t\t} else return null;\n+\n+\t\tconst hpBeforeRecoil = pokemon.hp;\n+\t\tif (move.struggleRecoil) {\n+\t\t\tthis.battle.directDamage(recoilDamage, pokemon, pokemon, { id: 'strugglerecoil' } as Condition);\n+\t\t} else {\n+\t\t\tthis.battle.damage(recoilDamage, pokemon, pokemon, 'recoil');\n+\t\t}\n+\t\tif (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {\n+\t\t\tthis.battle.runEvent('EmergencyExit', pokemon, pokemon);\n+\t\t}\n+\n+\t\treturn recoilDamage;\n \t}\n \n \tgetZMove(move: Move, pokemon: Pokemon, skipChecks?: boolean): string | undefined {"
+    },
+    {
+      "sha": "c5c463eaf23c0dc236f37c2c69a3852834d76f8f",
+      "filename": "sim/battle.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 7,
+      "changes": 8,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/sim%2Fbattle.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/sim%2Fbattle.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/sim%2Fbattle.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -2109,7 +2109,7 @@ export class Battle {\n \t\t\t}\n \t\t\tif (targetDamage !== 0) targetDamage = this.clampIntRange(targetDamage, 1);\n \n-\t\t\tif (effect.id !== 'struggle-recoil') { // Struggle recoil is not affected by effects\n+\t\t\tif (effect.id !== 'strugglerecoil') { // Struggle recoil is not affected by effects\n \t\t\t\tif (effect.effectType === 'Weather' && !target.runStatusImmunity(effect.id)) {\n \t\t\t\t\tthis.debug('weather immunity');\n \t\t\t\t\tretVals[i] = 0;\n@@ -2158,12 +2158,6 @@ export class Battle {\n \t\t\t}\n \n \t\t\tif (targetDamage && effect.effectType === 'Move') {\n-\t\t\t\tif (this.gen <= 1 && effect.recoil && source) {\n-\t\t\t\t\tif (this.dex.currentMod !== 'gen1stadium' || target.hp > 0) {\n-\t\t\t\t\t\tconst amount = this.clampIntRange(Math.floor(targetDamage * effect.recoil[0] / effect.recoil[1]), 1);\n-\t\t\t\t\t\tthis.damage(amount, source, target, 'recoil');\n-\t\t\t\t\t}\n-\t\t\t\t}\n \t\t\t\tif (this.gen <= 4 && effect.drain && source) {\n \t\t\t\t\tconst amount = this.clampIntRange(Math.floor(targetDamage * effect.drain[0] / effect.drain[1]), 1);\n \t\t\t\t\t// Draining can be countered in gen 1"
+    },
+    {
+      "sha": "4b18ade3846b01e41479e45426c305a1e48a962b",
+      "filename": "sim/global-types.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/sim%2Fglobal-types.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/sim%2Fglobal-types.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/sim%2Fglobal-types.ts?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -161,7 +161,7 @@ interface BattleScriptsData {\n interface ModdedBattleActions {\n \tinherit?: true;\n \tafterMoveSecondaryEvent?: (this: BattleActions, targets: Pokemon[], pokemon: Pokemon, move: ActiveMove) => undefined;\n-\tcalcRecoilDamage?: (this: BattleActions, damageDealt: number, move: Move, pokemon: Pokemon) => number;\n+\tapplyRecoilDamage?: (this: BattleActions, damageDealt: number, move: Move, pokemon: Pokemon) => number | null;\n \tcanMegaEvo?: (this: BattleActions, pokemon: Pokemon) => string | undefined | null;\n \tcanMegaEvoX?: (this: BattleActions, pokemon: Pokemon) => string | undefined | null;\n \tcanMegaEvoY?: (this: BattleActions, pokemon: Pokemon) => string | undefined | null;"
+    },
+    {
+      "sha": "fd6beff474ce431640e4297fdfad25b4584ba137",
+      "filename": "test/sim/abilities/emergencyexit.js",
+      "status": "modified",
+      "additions": 26,
+      "deletions": 0,
+      "changes": 26,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/test%2Fsim%2Fabilities%2Femergencyexit.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/test%2Fsim%2Fabilities%2Femergencyexit.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/test%2Fsim%2Fabilities%2Femergencyexit.js?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -401,6 +401,32 @@ describe(`Emergency Exit`, () => {\n \t\tassert.equal(battle.requestState, 'switch');\n \t});\n \n+\tit(`should request a switchout after crash damage`, () => {\n+\t\tbattle = common.createBattle([[\n+\t\t\t{ species: 'Golisopod', ability: 'Emergency Exit', moves: ['highjumpkick'], evs: { hp: 4 } },\n+\t\t\t{ species: 'Wynaut', moves: ['sleeptalk'] },\n+\t\t], [\n+\t\t\t{ species: 'Chansey', moves: ['protect'] },\n+\t\t]]);\n+\t\tconst eePokemon = battle.p1.active[0];\n+\t\tbattle.makeChoices();\n+\t\tassert.atMost(eePokemon.hp, eePokemon.maxhp / 2);\n+\t\tassert.equal(battle.requestState, 'switch');\n+\t});\n+\n+\tit(`should request a switchout after Mind Blown recoil damage`, () => {\n+\t\tbattle = common.createBattle([[\n+\t\t\t{ species: 'Golisopod', ability: 'Emergency Exit', moves: ['mindblown'], evs: { hp: 4 } },\n+\t\t\t{ species: 'Wynaut', moves: ['sleeptalk'] },\n+\t\t], [\n+\t\t\t{ species: 'Chansey', moves: ['protect'] },\n+\t\t]]);\n+\t\tconst eePokemon = battle.p1.active[0];\n+\t\tbattle.makeChoices();\n+\t\tassert.atMost(eePokemon.hp, eePokemon.maxhp / 2);\n+\t\tassert.equal(battle.requestState, 'switch');\n+\t});\n+\n \tit(`should request a switchout after taking struggle recoil damage`, () => {\n \t\tbattle = common.createBattle([[\n \t\t\t{ species: 'Golisopod', item: 'Assault Vest', ability: 'Emergency Exit', moves: ['protect'] },"
+    },
+    {
+      "sha": "f346c318802a69572263a7c181d70fa3a9e15018",
+      "filename": "test/sim/misc/recoil.js",
+      "status": "modified",
+      "additions": 16,
+      "deletions": 0,
+      "changes": 16,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/test%2Fsim%2Fmisc%2Frecoil.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/test%2Fsim%2Fmisc%2Frecoil.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/test%2Fsim%2Fmisc%2Frecoil.js?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -21,4 +21,20 @@ describe('Recoil', () => {\n \t\t\tassert.hurtsBy(battle.p1.active[0], Math.round((battle.p2.active[0].maxhp - 1) * recoilFactors[i]), () => battle.makeChoices(`move ${i + 1}`, `move strengthsap`));\n \t\t}\n \t});\n+\n+\tit('[Gen 1] should deal recoil damage based on the damage dealt', () => {\n+\t\tbattle = common.gen(1).createBattle({ forceRandomChance: false }, [[\n+\t\t\t{ species: \"Snorlax\", moves: ['doubleedge'] },\n+\t\t], [\n+\t\t\t{ species: \"Chansey\", moves: ['softboiled'] },\n+\t\t]]);\n+\t\tconst snorlax = battle.p1.active[0];\n+\t\tconst chansey = battle.p2.active[0];\n+\t\tconst hp = snorlax.hp;\n+\n+\t\tbattle.makeChoices();\n+\n+\t\tconst damage = chansey.maxhp - chansey.hp;\n+\t\tassert.equal(hp - snorlax.hp, Math.floor(damage * 33 / 100));\n+\t});\n });"
+    },
+    {
+      "sha": "0864b1d5d86b93a489c3d595b73766d325e05909",
+      "filename": "test/sim/moves/chloroblast.js",
+      "status": "modified",
+      "additions": 9,
+      "deletions": 0,
+      "changes": 9,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/test%2Fsim%2Fmoves%2Fchloroblast.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/test%2Fsim%2Fmoves%2Fchloroblast.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/test%2Fsim%2Fmoves%2Fchloroblast.js?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -19,6 +19,15 @@ describe('Chloroblast', () => {\n \t\tassert.hurtsBy(battle.p1.active[0], Math.round(battle.p1.active[0].maxhp / 2), () => battle.makeChoices());\n \t});\n \n+\tit('should not crash in Gen 4 Custom Game', () => {\n+\t\tbattle = common.createBattle({ formatid: 'gen4customgame' }, [[\n+\t\t\t{ species: \"Electrode-Hisui\", item: 'widelens', moves: ['chloroblast'] },\n+\t\t], [\n+\t\t\t{ species: \"Blissey\", ability: 'shellarmor', moves: ['sleeptalk'] },\n+\t\t]]);\n+\t\tassert.hurtsBy(battle.p1.active[0], Math.round(battle.p1.active[0].maxhp / 2), () => battle.makeChoices());\n+\t});\n+\n \tit('should not deal recoil damage to the user if it misses or is blocked by Protect', () => {\n \t\tbattle = common.createBattle([[\n \t\t\t{ species: \"Electrode-Hisui\", item: 'widelens', moves: ['chloroblast', 'protect'] },"
+    },
+    {
+      "sha": "83bcd5ca97f8f495468fbe69b9d0c96d1d5fdd98",
+      "filename": "test/sim/moves/mindblown.js",
+      "status": "modified",
+      "additions": 11,
+      "deletions": 0,
+      "changes": 11,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/test%2Fsim%2Fmoves%2Fmindblown.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/954c7e8fda346269c39048e08d4c3e59e0b8aeb2/test%2Fsim%2Fmoves%2Fmindblown.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/test%2Fsim%2Fmoves%2Fmindblown.js?ref=954c7e8fda346269c39048e08d4c3e59e0b8aeb2",
+      "patch": "@@ -27,4 +27,15 @@ describe('Mind Blown', () => {\n \t\t]]);\n \t\tassert.hurtsBy(battle.p1.active[0], Math.ceil(battle.p1.active[0].maxhp / 2), () => battle.makeChoices());\n \t});\n+\n+\tit('should not deal damage to the user if there is no target', () => {\n+\t\tbattle = common.createBattle([[\n+\t\t\t{ species: 'Dugtrio', ability: 'sandveil', moves: ['memento'] },\n+\t\t\t{ species: 'Dugtrio', ability: 'sandveil', moves: ['memento'] },\n+\t\t], [\n+\t\t\t{ species: 'Blacephalon', ability: 'limber', moves: ['mindblown'] },\n+\t\t]]);\n+\n+\t\tassert.false.hurts(battle.p2.active[0], () => battle.makeChoices());\n+\t});\n });"
+    }
+  ]
+}

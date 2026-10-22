@@ -1,0 +1,86 @@
+{
+ "teams": {
+  "p1": [
+   "Arcanine-Hisui",
+   "Indeedee-F",
+   "Incineroar",
+   "Charizard",
+   "Kingambit",
+   "Tyranitar"
+  ],
+  "p2": [
+   "Basculegion-F",
+   "Charizard",
+   "Staraptor",
+   "Sneasler",
+   "Archaludon",
+   "Volcarona"
+  ]
+ },
+ "approachA_mutationLogLines": [
+  "|-fieldstart|move: Trick Room|[of] p2a: Basculegion",
+  "|-sidestart|p2: p2|move: Tailwind"
+ ],
+ "preTurnProjectionDiff_A_vs_B": [],
+ "turn": {
+  "choices": {
+   "p1": "move 4 2, move 2",
+   "p2": "move 1 2, move 4 -1"
+  },
+  "speedsAtChoice": {
+   "p1a": {
+    "spe": 156,
+    "tailwind": false
+   },
+   "p1b": {
+    "spe": 105,
+    "tailwind": false
+   },
+   "p2a": {
+    "spe": 260,
+    "tailwind": true
+   },
+   "p2b": {
+    "spe": 288,
+    "tailwind": true
+   }
+  },
+  "moveOrder": [
+   "p1b",
+   "p1a",
+   "p2a",
+   "p2b"
+  ],
+  "sitrusLine": "|-enditem|p1a: Arcanine|Sitrus Berry|[eat]",
+  "firstLines": [
+   "|",
+   "|-enditem|p1a: Arcanine|Sitrus Berry|[eat]",
+   "|split|p1",
+   "|-heal|p1a: Arcanine|93/170|[from] item: Sitrus Berry",
+   "|-heal|p1a: Arcanine|54/100|[from] item: Sitrus Berry",
+   "|move|p1b: Indeedee|Follow Me|p1b: Indeedee",
+   "|-singleturn|p1b: Indeedee|move: Follow Me",
+   "|move|p1a: Arcanine|Extreme Speed|p2b: Charizard",
+   "|split|p2",
+   "|-damage|p2b: Charizard|133/181",
+   "|-damage|p2b: Charizard|73/100",
+   "|move|p2a: Basculegion|Shadow Ball|p1b: Indeedee",
+   "|-immune|p1b: Indeedee",
+   "|move|p2b: Charizard|Ancient Power|p1b: Indeedee",
+   "|split|p1",
+   "|-damage|p1b: Indeedee|147/177",
+   "|-damage|p1b: Indeedee|83/100",
+   "|",
+   "|upkeep",
+   "|turn|2"
+  ]
+ },
+ "postTurnProjectionDiff_A_vs_B": [],
+ "postTurnLogsEqual": true,
+ "afterTurn": {
+  "trickroom": 2,
+  "tailwind": 2,
+  "p1aItem": "",
+  "p1aHp": "93/170"
+ }
+}

@@ -1,0 +1,5 @@
+computations=411 entry=main.142
+[as compiled for CPU] kernel-like ops executed per rollout: 286454 -> per env step (T=128): 2238
+   top ops per env step: [('fusion', 1149), ('copy', 1089)]
+[treating trip<=5 loops (CPU-only rolled threefry) as 1 kernel] kernel-like ops executed per rollout: 125090 -> per env step (T=128): 977
+   top ops per env step: [('fusion', 849), ('copy', 113), ('small-loop(as 1 kernel)', 15)]

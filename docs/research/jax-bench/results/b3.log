@@ -1,0 +1,34 @@
+3A F=    1 lower=0.002s compile=0.017s 28.5 ns/elem 215.5 GB/s
+3A F=    4 lower=0.003s compile=0.021s 42.7 ns/elem 144.0 GB/s
+3A F=   16 lower=0.004s compile=0.041s 41.5 ns/elem 148.2 GB/s
+3A F=   64 lower=0.009s compile=0.027s 43.8 ns/elem 140.2 GB/s
+3A F=  256 lower=0.031s compile=0.056s 69.9 ns/elem 87.9 GB/s
+3A F= 1024 lower=0.116s compile=0.192s 208.2 ns/elem 29.5 GB/s
+3B F=256 k=   1 compile=0.039s 38.1 ns/elem
+3B F=256 k=   8 compile=0.040s 40.6 ns/elem
+3B F=256 k=  64 compile=0.049s 54.8 ns/elem
+3B F=256 k= 256 compile=0.078s 100.3 ns/elem
+3C F=    1 6.2 us/call
+3C F=   16 23.4 us/call
+3C F=   64 74.1 us/call
+3C F=  256 268.3 us/call
+3C F= 1024 1158.7 us/call
+3D copy int8     18.4 ns/elem 167.4 GB/s
+3D copy int16    29.4 ns/elem 208.8 GB/s
+3D copy int32    58.0 ns/elem 211.7 GB/s
+3D copy float32  54.0 ns/elem 227.6 GB/s
+3D dmg  int8     compute=int32  2.66 ns/calc
+3D dmg  int8     compute=native 5.81 ns/calc
+3D dmg  int16    compute=int32  5.08 ns/calc
+3D dmg  int16    compute=native 5.48 ns/calc
+3D dmg  int32    compute=int32  4.47 ns/calc
+3D dmg  float32  compute=int32  5.70 ns/calc
+3E bool[64]   41.36 ns/mon
+3E int8[64]   35.42 ns/mon
+3E uint32[2]  2.13 ns/mon
+3F dict                     flatten+unflatten 7.5 us  jit call 67.4 us
+3F NamedTuple               flatten+unflatten 4.5 us  jit call 65.0 us
+3F flax.struct.dataclass    flatten+unflatten 14.2 us  jit call 75.2 us
+3F chex.dataclass           flatten+unflatten 17.7 us  jit call 78.9 us
+3F jax register_dataclass   flatten+unflatten 14.1 us  jit call 75.0 us
+[saved /Users/dylan.d/Documents/research/pokemon/research/jax-bench/results/b3_state_ABCDEF.json]

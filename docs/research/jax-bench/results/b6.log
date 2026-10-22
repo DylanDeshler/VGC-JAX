@@ -1,0 +1,12 @@
+6A disable_jit branch calls: {'cond_true': 1, 'cond_false': 0, 'switch': [0, 0, 1, 0], 'fori': 8}
+6A eager step (disable_jit, B=1): 318.4 ms; jitted step B=1: 77.5 us/call
+6B user_checks                outside vmap compile=0.85s 2087.6 ns/step   (no checks: compile=0.80s 2057.8)
+6B user_checks                inside vmap  compile=0.80s 2047.7 ns/step   (no checks: compile=0.80s 2057.8)
+6B user+index                 outside vmap compile=nans nan ns/step  IndexError: tuple index out of range (no checks: compile=0.80s 2057.8)
+6B user+index                 inside vmap  compile=2.40s 2742.8 ns/step   (no checks: compile=0.80s 2057.8)
+6B all (user+index+nan+div)   outside vmap compile=nans nan ns/step  IndexError: tuple index out of range (no checks: compile=0.80s 2057.8)
+6B all (user+index+nan+div)   inside vmap  compile=2.76s 2761.7 ns/step   (no checks: compile=0.80s 2057.8)
+6B error message: negative hp -5 (`check` failed)
+6C debug.print per step: 2068.1 ns/step (vs no-checks row above)
+6D eager == jit bit-exact: True
+[saved /Users/dylan.d/Documents/research/pokemon/research/jax-bench/results/b6_ergonomics.json]

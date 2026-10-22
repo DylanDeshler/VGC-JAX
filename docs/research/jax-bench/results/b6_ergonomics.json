@@ -1,0 +1,96 @@
+{
+ "env": {
+  "jax": "0.12.0.1",
+  "backend": "cpu",
+  "devices": [
+   "cpu:0"
+  ],
+  "python": "3.12.11",
+  "machine": "arm64",
+  "xla_flags": ""
+ },
+ "rows": [
+  {
+   "test": "6A",
+   "calls": "{'cond_true': 1, 'cond_false': 0, 'switch': [0, 0, 1, 0], 'fori': 8}",
+   "eager_ms": 318.4330000000652,
+   "jit_us_B1": 77.51041499886924
+  },
+  {
+   "lower_s": 0.4113570829999844,
+   "compile_s": 0.7995585829999072,
+   "run_s": 0.2697230409999065,
+   "ns_per_elem": 2057.8234939568065,
+   "temp_bytes": 8129488,
+   "arg_bytes": 8282112,
+   "out_bytes": 6185136,
+   "test": "6B no checks"
+  },
+  {
+   "lower_s": 0.5764160419998916,
+   "compile_s": 0.8512169580003501,
+   "run_s": 0.2736198749998948,
+   "ns_per_elem": 2087.553977965506,
+   "temp_bytes": 8137808,
+   "arg_bytes": 8282112,
+   "out_bytes": 6185188,
+   "test": "6B checkify user_checks (outside vmap)"
+  },
+  {
+   "lower_s": 0.6121218329999465,
+   "compile_s": 0.7962899170001947,
+   "run_s": 0.2684005830001297,
+   "ns_per_elem": 2047.7339401255012,
+   "temp_bytes": 8129552,
+   "arg_bytes": 8282112,
+   "out_bytes": 7758040,
+   "test": "6B checkify user_checks (inside vmap)"
+  },
+  {
+   "error": "IndexError: tuple index out of range",
+   "test": "6B checkify user+index (outside vmap)"
+  },
+  {
+   "lower_s": 1.8246737499998744,
+   "compile_s": 2.39948404200004,
+   "run_s": 0.3595035830003326,
+   "ns_per_elem": 2742.794670107518,
+   "temp_bytes": 15424888,
+   "arg_bytes": 8282112,
+   "out_bytes": 9986288,
+   "test": "6B checkify user+index (inside vmap)"
+  },
+  {
+   "error": "IndexError: tuple index out of range",
+   "test": "6B checkify all (user+index+nan+div) (outside vmap)"
+  },
+  {
+   "lower_s": 2.6893855829998756,
+   "compile_s": 2.758115957999962,
+   "run_s": 0.36197520799987615,
+   "ns_per_elem": 2761.6516723623363,
+   "temp_bytes": 15744416,
+   "arg_bytes": 8282112,
+   "out_bytes": 11297040,
+   "test": "6B checkify all (user+index+nan+div) (inside vmap)"
+  },
+  {
+   "test": "6B error message",
+   "msg": "negative hp -5 (`check` failed)"
+  },
+  {
+   "lower_s": 0.3214704580000216,
+   "compile_s": 0.7612418749999961,
+   "run_s": 0.2710643750001509,
+   "ns_per_elem": 2068.0570602428506,
+   "temp_bytes": 8129552,
+   "arg_bytes": 8282112,
+   "out_bytes": 6185136,
+   "test": "6C debug.print once per scan step"
+  },
+  {
+   "test": "6D eager==jit",
+   "same": true
+  }
+ ]
+}

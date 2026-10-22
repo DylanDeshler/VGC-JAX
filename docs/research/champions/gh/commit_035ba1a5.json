@@ -1,0 +1,113 @@
+{
+  "sha": "035ba1a5872619cab0f76b251824d5221db94b85",
+  "node_id": "C_kwDOAC5c7toAKDAzNWJhMWE1ODcyNjE5Y2FiMGY3NmIyNTE4MjRkNTIyMWRiOTRiODU",
+  "commit": {
+    "author": {
+      "name": "Marty",
+      "email": "Marty-D@users.noreply.github.com",
+      "date": "2026-10-18T20:05:25Z"
+    },
+    "committer": {
+      "name": "Marty",
+      "email": "Marty-D@users.noreply.github.com",
+      "date": "2026-10-18T20:05:25Z"
+    },
+    "message": "Champions: Correct Mega Stone inheritance",
+    "tree": {
+      "sha": "320d1ff1b6bb286f6534e1ecf7c97dc327a70e7d",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/320d1ff1b6bb286f6534e1ecf7c97dc327a70e7d"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/035ba1a5872619cab0f76b251824d5221db94b85",
+    "comment_count": 0,
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null,
+      "verified_at": null
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/035ba1a5872619cab0f76b251824d5221db94b85",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/035ba1a5872619cab0f76b251824d5221db94b85",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/035ba1a5872619cab0f76b251824d5221db94b85/comments",
+  "author": {
+    "login": "Marty-D",
+    "id": 1645989,
+    "node_id": "MDQ6VXNlcjE2NDU5ODk=",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1645989?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/Marty-D",
+    "html_url": "https://github.com/Marty-D",
+    "followers_url": "https://api.github.com/users/Marty-D/followers",
+    "following_url": "https://api.github.com/users/Marty-D/following{/other_user}",
+    "gists_url": "https://api.github.com/users/Marty-D/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/Marty-D/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/Marty-D/subscriptions",
+    "organizations_url": "https://api.github.com/users/Marty-D/orgs",
+    "repos_url": "https://api.github.com/users/Marty-D/repos",
+    "events_url": "https://api.github.com/users/Marty-D/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/Marty-D/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "Marty-D",
+    "id": 1645989,
+    "node_id": "MDQ6VXNlcjE2NDU5ODk=",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1645989?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/Marty-D",
+    "html_url": "https://github.com/Marty-D",
+    "followers_url": "https://api.github.com/users/Marty-D/followers",
+    "following_url": "https://api.github.com/users/Marty-D/following{/other_user}",
+    "gists_url": "https://api.github.com/users/Marty-D/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/Marty-D/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/Marty-D/subscriptions",
+    "organizations_url": "https://api.github.com/users/Marty-D/orgs",
+    "repos_url": "https://api.github.com/users/Marty-D/repos",
+    "events_url": "https://api.github.com/users/Marty-D/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/Marty-D/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "f0e61e58ad297885578231746036438e1b42f40a",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/f0e61e58ad297885578231746036438e1b42f40a",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/f0e61e58ad297885578231746036438e1b42f40a"
+    }
+  ],
+  "stats": {
+    "total": 16,
+    "additions": 0,
+    "deletions": 16
+  },
+  "files": [
+    {
+      "sha": "b066f753f7c14d5aafb2f13ac3120f75f467b27a",
+      "filename": "data/mods/champions/items.ts",
+      "status": "modified",
+      "additions": 0,
+      "deletions": 8,
+      "changes": 8,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/035ba1a5872619cab0f76b251824d5221db94b85/data%2Fmods%2Fchampions%2Fitems.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/035ba1a5872619cab0f76b251824d5221db94b85/data%2Fmods%2Fchampions%2Fitems.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fitems.ts?ref=035ba1a5872619cab0f76b251824d5221db94b85",
+      "patch": "@@ -195,10 +195,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\",\n \t},\n-\tdarkranite: {\n-\t\tinherit: true,\n-\t\tisNonstandard: \"Past\",\n-\t},\n \tdawnstone: {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\",\n@@ -447,10 +443,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\",\n \t},\n-\theatranite: {\n-\t\tinherit: true,\n-\t\tisNonstandard: \"Past\",\n-\t},\n \theavyball: {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\","
+    },
+    {
+      "sha": "b724914762141e6c2bcb820bb740b6894b046951",
+      "filename": "data/mods/championsregmb/items.ts",
+      "status": "modified",
+      "additions": 0,
+      "deletions": 8,
+      "changes": 8,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/035ba1a5872619cab0f76b251824d5221db94b85/data%2Fmods%2Fchampionsregmb%2Fitems.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/035ba1a5872619cab0f76b251824d5221db94b85/data%2Fmods%2Fchampionsregmb%2Fitems.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampionsregmb%2Fitems.ts?ref=035ba1a5872619cab0f76b251824d5221db94b85",
+      "patch": "@@ -203,10 +203,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\",\n \t},\n-\tdarkranite: {\n-\t\tinherit: true,\n-\t\tisNonstandard: \"Past\",\n-\t},\n \tdawnstone: {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\",\n@@ -451,10 +447,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\",\n \t},\n-\theatranite: {\n-\t\tinherit: true,\n-\t\tisNonstandard: \"Past\",\n-\t},\n \theavyball: {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\","
+    }
+  ]
+}

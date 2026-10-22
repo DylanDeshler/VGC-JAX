@@ -1,0 +1,572 @@
+priorityEvent(LockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(LockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(LockMove) tgt=p1b:Garchomp src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1b:Garchomp src=- eff=-
+priorityEvent(LockMove) tgt=p1b:Garchomp src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1b:Garchomp src=- eff=-
+priorityEvent(LockMove) tgt=p2a:Pelipper src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2a:Pelipper src=- eff=-
+priorityEvent(LockMove) tgt=p2a:Pelipper src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2a:Pelipper src=- eff=-
+priorityEvent(LockMove) tgt=p2b:Rillaboom src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2b:Rillaboom src=- eff=-
+priorityEvent(LockMove) tgt=p2b:Rillaboom src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Rillaboom src=- eff=-
+runEvent(FractionalPriority) tgt=p1a:Incineroar src=- eff=Move:fakeout
+singleEvent(ModifyPriority) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(ModifyPriority) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(FractionalPriority) tgt=p1b:Garchomp src=- eff=Move:rockslide
+singleEvent(ModifyPriority) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide
+runEvent(ModifyPriority) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(FractionalPriority) tgt=p2a:Pelipper src=- eff=Move:hurricane
+singleEvent(ModifyPriority) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(ModifyPriority) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Pelipper src=- eff=-
+runEvent(FractionalPriority) tgt=p2b:Rillaboom src=- eff=Move:woodhammer
+singleEvent(ModifyPriority) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer
+runEvent(ModifyPriority) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Rillaboom src=- eff=-
+eachEvent(BeforeTurn) tgt=- src=- eff=-
+  runEvent(BeforeTurn) tgt=p1b:Garchomp src=- eff=object
+  runEvent(BeforeTurn) tgt=p2a:Pelipper src=- eff=object
+  runEvent(BeforeTurn) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(BeforeTurn) tgt=p1a:Incineroar src=- eff=object
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2a:Pelipper src=- eff=object
+  runEvent(Update) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(ModifyPriority) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(ModifyPriority) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+singleEvent(ModifyPriority) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(ModifyPriority) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+singleEvent(ModifyPriority) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(ModifyPriority) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Pelipper src=- eff=-
+singleEvent(ModifyPriority) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer
+runEvent(ModifyPriority) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Rillaboom src=- eff=-
+runEvent(OverrideAction) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(BeforeMove) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+priorityEvent(LockMove) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyTarget) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+singleEvent(ModifyType) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+singleEvent(ModifyMove) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(ModifyType) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(ModifyMove) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+priorityEvent(RedirectTarget) tgt=p1a:Incineroar src=p1a:Incineroar eff=Move:fakeout
+runEvent(DeductPP) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+singleEvent(TryMove) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(TryMove) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+singleEvent(UseMoveMessage) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+singleEvent(Try) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout  H=[Move:fakeout]
+singleEvent(PrepareHit) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+runEvent(PrepareHit) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(Invulnerability) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+runEvent(TryHit) tgt=[p2b:Rillaboom] src=p1a:Incineroar eff=Move:fakeout
+runEvent(NegateImmunity) tgt=p2b:Rillaboom src=Normal eff=-
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(TryImmunity) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+runEvent(ModifyAccuracy) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(Accuracy) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+singleEvent(TryHit) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+runEvent(TryPrimaryHit) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+runEvent(NegateImmunity) tgt=p2b:Rillaboom src=Normal eff=-
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifyCritRatio) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(BasePower) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout  H=[Terrain:grassyterrain]
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifyAtk) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(ModifyDef) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+priorityEvent(WeatherModifyDamage) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout  H=[Weather:raindance]
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySTAB) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(Effectiveness) tgt=p2b:Rillaboom src=Grass eff=Move:fakeout
+runEvent(Effectiveness) tgt=p2b:Rillaboom src=Grass eff=Move:fakeout
+runEvent(ModifyDamage) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(Damage) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+runEvent(Hit) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+runEvent(ModifySecondaries) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+singleEvent(TryHit) tgt=p2b:Rillaboom src=p1a:Incineroar eff=object
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+runEvent(Immunity) tgt=p2b:Rillaboom src=- eff=-
+runEvent(TryAddVolatile) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+singleEvent(Start) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Condition:flinch
+runEvent(DamagingHit) tgt=[p2b:Rillaboom] src=p1a:Incineroar eff=Move:fakeout
+runEvent(EmergencyExit) tgt=p1a:Incineroar src=- eff=-
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2a:Pelipper src=- eff=object
+  runEvent(Update) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2a:Pelipper src=- eff=object
+  runEvent(Update) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+singleEvent(AfterMoveSecondary) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:fakeout
+runEvent(AfterMoveSecondary) tgt=[p2b:Rillaboom] src=p1a:Incineroar eff=Move:fakeout
+runEvent(EmergencyExit) tgt=p2b:Rillaboom src=p1a:Incineroar eff=-
+singleEvent(AfterMoveSecondarySelf) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(AfterMoveSecondarySelf) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(EmergencyExit) tgt=p1a:Incineroar src=p1a:Incineroar eff=-
+singleEvent(AfterMove) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+runEvent(AfterMove) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Move:fakeout
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2a:Pelipper src=- eff=object
+  runEvent(Update) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(ModifyPriority) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(ModifyPriority) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+singleEvent(ModifyPriority) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(ModifyPriority) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Pelipper src=- eff=-
+singleEvent(ModifyPriority) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer
+runEvent(ModifyPriority) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Rillaboom src=- eff=-
+runEvent(OverrideAction) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(BeforeMove) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+priorityEvent(LockMove) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyTarget) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+singleEvent(ModifyType) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+singleEvent(ModifyMove) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(ModifyType) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(ModifyMove) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(DeductPP) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide
+runEvent(DeductPP) tgt=p2b:Rillaboom src=p1b:Garchomp eff=Move:rockslide
+singleEvent(TryMove) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide
+runEvent(TryMove) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide
+singleEvent(UseMoveMessage) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide
+singleEvent(Try) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+singleEvent(PrepareHit) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide
+runEvent(PrepareHit) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(Invulnerability) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide
+runEvent(Invulnerability) tgt=p2b:Rillaboom src=p1b:Garchomp eff=Move:rockslide
+runEvent(TryHit) tgt=[p2a:Pelipper,p2b:Rillaboom] src=p1b:Garchomp eff=Move:rockslide
+runEvent(NegateImmunity) tgt=p2a:Pelipper src=Rock eff=-
+runEvent(Type) tgt=p2a:Pelipper src=- eff=-
+runEvent(NegateImmunity) tgt=p2b:Rillaboom src=Rock eff=-
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(TryImmunity) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide
+singleEvent(TryImmunity) tgt=p2b:Rillaboom src=p1b:Garchomp eff=Move:rockslide
+runEvent(ModifyAccuracy) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(Accuracy) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide
+runEvent(ModifyAccuracy) tgt=p2b:Rillaboom src=p1b:Garchomp eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(Accuracy) tgt=p2b:Rillaboom src=p1b:Garchomp eff=Move:rockslide
+singleEvent(TryHit) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide
+runEvent(TryPrimaryHit) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide
+runEvent(TryPrimaryHit) tgt=p2b:Rillaboom src=p1b:Garchomp eff=Move:rockslide
+runEvent(NegateImmunity) tgt=p2a:Pelipper src=Rock eff=-
+runEvent(Type) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifyCritRatio) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(BasePower) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide  H=[Terrain:grassyterrain]
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifyAtk) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(ModifyDef) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide
+priorityEvent(WeatherModifyDamage) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide  H=[Weather:raindance]
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySTAB) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(Type) tgt=p2a:Pelipper src=- eff=-
+singleEvent(Effectiveness) tgt=p2a:Pelipper src=Water eff=Move:rockslide
+runEvent(Effectiveness) tgt=p2a:Pelipper src=Water eff=Move:rockslide
+singleEvent(Effectiveness) tgt=p2a:Pelipper src=Flying eff=Move:rockslide
+runEvent(Effectiveness) tgt=p2a:Pelipper src=Flying eff=Move:rockslide
+runEvent(ModifyDamage) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide  H=[Item:lifeorb]
+runEvent(NegateImmunity) tgt=p2b:Rillaboom src=Rock eff=-
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifyCritRatio) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide
+runEvent(BasePower) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide  H=[Terrain:grassyterrain]
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifyAtk) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide
+runEvent(ModifyDef) tgt=p2b:Rillaboom src=p1b:Garchomp eff=Move:rockslide
+priorityEvent(WeatherModifyDamage) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide  H=[Weather:raindance]
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySTAB) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(Effectiveness) tgt=p2b:Rillaboom src=Grass eff=Move:rockslide
+runEvent(Effectiveness) tgt=p2b:Rillaboom src=Grass eff=Move:rockslide
+runEvent(ModifyDamage) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide  H=[Item:lifeorb]
+runEvent(Damage) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide  H=[Item:focussash]
+runEvent(Damage) tgt=p2b:Rillaboom src=p1b:Garchomp eff=Move:rockslide
+runEvent(Hit) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide
+runEvent(Hit) tgt=p2b:Rillaboom src=p1b:Garchomp eff=Move:rockslide
+runEvent(ModifySecondaries) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide
+runEvent(ModifySecondaries) tgt=p2b:Rillaboom src=p1b:Garchomp eff=Move:rockslide
+runEvent(DamagingHit) tgt=[p2a:Pelipper,p2b:Rillaboom] src=p1b:Garchomp eff=Move:rockslide
+runEvent(EmergencyExit) tgt=p1b:Garchomp src=- eff=-
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2a:Pelipper src=- eff=object
+  runEvent(Update) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2a:Pelipper src=- eff=object
+  runEvent(Update) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+singleEvent(AfterMoveSecondary) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:rockslide
+runEvent(AfterMoveSecondary) tgt=[p2a:Pelipper,p2b:Rillaboom] src=p1b:Garchomp eff=Move:rockslide
+runEvent(EmergencyExit) tgt=p2a:Pelipper src=p1b:Garchomp eff=-
+runEvent(EmergencyExit) tgt=p2b:Rillaboom src=p1b:Garchomp eff=-
+singleEvent(AfterMoveSecondarySelf) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide
+runEvent(AfterMoveSecondarySelf) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Move:rockslide  H=[Item:lifeorb]
+  runEvent(Damage) tgt=p1b:Garchomp src=p1b:Garchomp eff=Item:lifeorb
+runEvent(EmergencyExit) tgt=p1b:Garchomp src=p1b:Garchomp eff=-
+singleEvent(AfterMove) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+runEvent(AfterMove) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:rockslide
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2a:Pelipper src=- eff=object
+  runEvent(Update) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(ModifyPriority) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(ModifyPriority) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Pelipper src=- eff=-
+singleEvent(ModifyPriority) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer
+runEvent(ModifyPriority) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Rillaboom src=- eff=-
+runEvent(OverrideAction) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(BeforeMove) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+priorityEvent(LockMove) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifyTarget) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+singleEvent(ModifyType) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+singleEvent(ModifyMove) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane  H=[Move:hurricane]
+runEvent(ModifyType) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(ModifyMove) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+priorityEvent(RedirectTarget) tgt=p2a:Pelipper src=p2a:Pelipper eff=Move:hurricane
+runEvent(DeductPP) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+singleEvent(TryMove) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(TryMove) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+singleEvent(UseMoveMessage) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+singleEvent(Try) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+singleEvent(PrepareHit) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+runEvent(PrepareHit) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(Invulnerability) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+runEvent(TryHit) tgt=[p1b:Garchomp] src=p2a:Pelipper eff=Move:hurricane
+runEvent(NegateImmunity) tgt=p1b:Garchomp src=Flying eff=-
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(TryImmunity) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+runEvent(ModifyAccuracy) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+runEvent(Accuracy) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+singleEvent(TryHit) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+runEvent(TryPrimaryHit) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+runEvent(NegateImmunity) tgt=p1b:Garchomp src=Flying eff=-
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyCritRatio) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(BasePower) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane  H=[Terrain:grassyterrain]
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpA) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(ModifySpD) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+priorityEvent(WeatherModifyDamage) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane  H=[Weather:raindance]
+runEvent(Type) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifySTAB) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(Effectiveness) tgt=p1b:Garchomp src=Dragon eff=Move:hurricane
+runEvent(Effectiveness) tgt=p1b:Garchomp src=Dragon eff=Move:hurricane
+singleEvent(Effectiveness) tgt=p1b:Garchomp src=Ground eff=Move:hurricane
+runEvent(Effectiveness) tgt=p1b:Garchomp src=Ground eff=Move:hurricane
+runEvent(ModifyDamage) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(Damage) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+runEvent(Hit) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+runEvent(ModifySecondaries) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+runEvent(DamagingHit) tgt=[p1b:Garchomp] src=p2a:Pelipper eff=Move:hurricane  H=[Ability:roughskin]
+runEvent(EmergencyExit) tgt=p2a:Pelipper src=- eff=-
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2a:Pelipper src=- eff=object
+  runEvent(Update) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2a:Pelipper src=- eff=object
+  runEvent(Update) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+singleEvent(AfterMoveSecondary) tgt=p1b:Garchomp src=p2a:Pelipper eff=Move:hurricane
+runEvent(AfterMoveSecondary) tgt=[p1b:Garchomp] src=p2a:Pelipper eff=Move:hurricane
+runEvent(EmergencyExit) tgt=p1b:Garchomp src=p2a:Pelipper eff=-
+singleEvent(AfterMoveSecondarySelf) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(AfterMoveSecondarySelf) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(EmergencyExit) tgt=p2a:Pelipper src=p2a:Pelipper eff=-
+singleEvent(AfterMove) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+runEvent(AfterMove) tgt=p2a:Pelipper src=p1b:Garchomp eff=Move:hurricane
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2a:Pelipper src=- eff=object
+  runEvent(Update) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(ModifyPriority) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer
+runEvent(ModifyPriority) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Rillaboom src=- eff=-
+runEvent(OverrideAction) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer
+runEvent(BeforeMove) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer  H=[Condition:flinch]
+  runEvent(Flinch) tgt=p2b:Rillaboom src=- eff=-
+runEvent(MoveAborted) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Move:woodhammer
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2a:Pelipper src=- eff=object
+  runEvent(Update) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Pelipper src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Rillaboom src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Rillaboom src=- eff=-
+fieldEvent(Residual) tgt=- src=- eff=-
+  singleEvent(FieldResidual) tgt=field src=- eff=Weather:raindance  H=[Weather:raindance]
+    eachEvent(Weather) tgt=- src=- eff=-
+      runEvent(Weather) tgt=p1b:Garchomp src=- eff=Weather:raindance
+      runEvent(Weather) tgt=p2a:Pelipper src=- eff=Weather:raindance
+      runEvent(Weather) tgt=p2b:Rillaboom src=- eff=Weather:raindance
+      runEvent(Weather) tgt=p1a:Incineroar src=- eff=Weather:raindance
+      eachEvent(Update) tgt=- src=- eff=-
+        runEvent(Update) tgt=p1b:Garchomp src=- eff=Weather:raindance
+        runEvent(Update) tgt=p2a:Pelipper src=- eff=Weather:raindance
+        runEvent(Update) tgt=p2b:Rillaboom src=- eff=Weather:raindance
+        runEvent(Update) tgt=p1a:Incineroar src=- eff=Weather:raindance  H=[Item:sitrusberry]
+  singleEvent(Residual) tgt=p1b:Garchomp src=- eff=Terrain:grassyterrain  H=[Terrain:grassyterrain]
+    runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+    runEvent(TryHeal) tgt=p1b:Garchomp src=p1b:Garchomp eff=Terrain:grassyterrain
+    runEvent(Heal) tgt=p1b:Garchomp src=p1b:Garchomp eff=Terrain:grassyterrain
+  singleEvent(Residual) tgt=p2a:Pelipper src=- eff=Terrain:grassyterrain  H=[Terrain:grassyterrain]
+    runEvent(Type) tgt=p2a:Pelipper src=- eff=-
+    runEvent(Type) tgt=p2a:Pelipper src=- eff=-
+  singleEvent(Residual) tgt=p2b:Rillaboom src=- eff=Terrain:grassyterrain  H=[Terrain:grassyterrain]
+    runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+    runEvent(TryHeal) tgt=p2b:Rillaboom src=p2b:Rillaboom eff=Terrain:grassyterrain
+    runEvent(Heal) tgt=p2b:Rillaboom src=p2b:Rillaboom eff=Terrain:grassyterrain
+  singleEvent(Residual) tgt=p2b:Rillaboom src=- eff=Item:leftovers  H=[Item:leftovers]
+    runEvent(TryHeal) tgt=p2b:Rillaboom src=- eff=Item:leftovers
+    runEvent(Heal) tgt=p2b:Rillaboom src=- eff=Item:leftovers
+  singleEvent(Residual) tgt=p1a:Incineroar src=- eff=Terrain:grassyterrain  H=[Terrain:grassyterrain]
+    runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+    runEvent(TryHeal) tgt=p1a:Incineroar src=p1a:Incineroar eff=Terrain:grassyterrain
+  singleEvent(End) tgt=p2b:Rillaboom src=- eff=Condition:flinch
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2a:Pelipper src=- eff=object
+  runEvent(Update) tgt=p2b:Rillaboom src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+runEvent(EmergencyExit) tgt=p1a:Incineroar src=- eff=-
+runEvent(EmergencyExit) tgt=p1b:Garchomp src=- eff=-
+runEvent(EmergencyExit) tgt=p2a:Pelipper src=- eff=-
+runEvent(EmergencyExit) tgt=p2b:Rillaboom src=- eff=-
+runEvent(DisableMove) tgt=p1a:Incineroar src=- eff=-
+singleEvent(DisableMove) tgt=p1a:Incineroar src=- eff=Move:fakeout  H=[Move:fakeout]
+singleEvent(DisableMove) tgt=p1a:Incineroar src=- eff=Move:flareblitz
+singleEvent(DisableMove) tgt=p1a:Incineroar src=- eff=Move:protect
+singleEvent(DisableMove) tgt=p1a:Incineroar src=- eff=Move:partingshot
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+runEvent(TrapPokemon) tgt=p1a:Incineroar src=- eff=-
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+runEvent(MaybeTrapPokemon) tgt=p1a:Incineroar src=- eff=-
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1a:Incineroar src=p2a:Pelipper eff=Ability:keeneye
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1a:Incineroar src=p2a:Pelipper eff=Ability:drizzle
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1a:Incineroar src=p2a:Pelipper eff=Ability:raindish
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Ability:overgrow
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1a:Incineroar src=p2b:Rillaboom eff=Ability:grassysurge
+runEvent(DisableMove) tgt=p1b:Garchomp src=- eff=-
+singleEvent(DisableMove) tgt=p1b:Garchomp src=- eff=Move:rockslide
+singleEvent(DisableMove) tgt=p1b:Garchomp src=- eff=Move:earthquake
+singleEvent(DisableMove) tgt=p1b:Garchomp src=- eff=Move:protect
+singleEvent(DisableMove) tgt=p1b:Garchomp src=- eff=Move:dragonclaw
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+runEvent(TrapPokemon) tgt=p1b:Garchomp src=- eff=-
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+runEvent(MaybeTrapPokemon) tgt=p1b:Garchomp src=- eff=-
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1b:Garchomp src=p2a:Pelipper eff=Ability:keeneye
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1b:Garchomp src=p2a:Pelipper eff=Ability:drizzle
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1b:Garchomp src=p2a:Pelipper eff=Ability:raindish
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Ability:overgrow
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1b:Garchomp src=p2b:Rillaboom eff=Ability:grassysurge
+runEvent(DisableMove) tgt=p2a:Pelipper src=- eff=-
+singleEvent(DisableMove) tgt=p2a:Pelipper src=- eff=Move:hurricane
+singleEvent(DisableMove) tgt=p2a:Pelipper src=- eff=Move:weatherball
+singleEvent(DisableMove) tgt=p2a:Pelipper src=- eff=Move:protect
+singleEvent(DisableMove) tgt=p2a:Pelipper src=- eff=Move:tailwind
+runEvent(Type) tgt=p2a:Pelipper src=- eff=-
+runEvent(TrapPokemon) tgt=p2a:Pelipper src=- eff=-
+runEvent(Type) tgt=p2a:Pelipper src=- eff=-
+runEvent(MaybeTrapPokemon) tgt=p2a:Pelipper src=- eff=-
+runEvent(Type) tgt=p2a:Pelipper src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2a:Pelipper src=p1a:Incineroar eff=Ability:blaze
+runEvent(Type) tgt=p2a:Pelipper src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2a:Pelipper src=p1a:Incineroar eff=Ability:intimidate
+runEvent(Type) tgt=p2a:Pelipper src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2a:Pelipper src=p1b:Garchomp eff=Ability:sandveil
+runEvent(Type) tgt=p2a:Pelipper src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2a:Pelipper src=p1b:Garchomp eff=Ability:roughskin
+runEvent(DisableMove) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(DisableMove) tgt=p2b:Rillaboom src=- eff=Move:woodhammer
+singleEvent(DisableMove) tgt=p2b:Rillaboom src=- eff=Move:grassyglide
+singleEvent(DisableMove) tgt=p2b:Rillaboom src=- eff=Move:fakeout  H=[Move:fakeout]
+singleEvent(DisableMove) tgt=p2b:Rillaboom src=- eff=Move:protect
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+runEvent(TrapPokemon) tgt=p2b:Rillaboom src=- eff=-
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+runEvent(MaybeTrapPokemon) tgt=p2b:Rillaboom src=- eff=-
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Ability:blaze
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2b:Rillaboom src=p1a:Incineroar eff=Ability:intimidate
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2b:Rillaboom src=p1b:Garchomp eff=Ability:sandveil
+runEvent(Type) tgt=p2b:Rillaboom src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2b:Rillaboom src=p1b:Garchomp eff=Ability:roughskin
+priorityEvent(LockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(LockMove) tgt=p1b:Garchomp src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1b:Garchomp src=- eff=-
+priorityEvent(LockMove) tgt=p2a:Pelipper src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2a:Pelipper src=- eff=-
+priorityEvent(LockMove) tgt=p2b:Rillaboom src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2b:Rillaboom src=- eff=-
+
+|start
+|split|p1
+|uhtmlchange|otsrequest|
+
+|split|p2
+|uhtmlchange|otsrequest|
+
+|split|p1
+|switch|p1a: Incineroar|Incineroar, L50, M|202/202
+|switch|p1a: Incineroar|Incineroar, L50, M|100/100
+|split|p1
+|switch|p1b: Garchomp|Garchomp, L50, F|183/183
+|switch|p1b: Garchomp|Garchomp, L50, F|100/100
+|split|p2
+|switch|p2a: Pelipper|Pelipper, L50, F|135/135
+|switch|p2a: Pelipper|Pelipper, L50, F|100/100
+|split|p2
+|switch|p2b: Rillaboom|Rillaboom, L50, M|207/207
+|switch|p2b: Rillaboom|Rillaboom, L50, M|100/100
+|-weather|RainDance|[from] ability: Drizzle|[of] p2a: Pelipper
+|-fieldstart|move: Grassy Terrain|[from] ability: Grassy Surge|[of] p2b: Rillaboom
+|-ability|p1a: Incineroar|Intimidate|boost
+|-unboost|p2a: Pelipper|atk|1
+|-unboost|p2b: Rillaboom|atk|1
+|turn|1
+|
+|t:|1792622322
+|move|p1a: Incineroar|Fake Out|p2b: Rillaboom
+|split|p2
+|-damage|p2b: Rillaboom|176/207
+|-damage|p2b: Rillaboom|85/100
+|move|p1b: Garchomp|Rock Slide|p2a: Pelipper|[spread] p2a,p2b
+|-supereffective|p2a: Pelipper|1
+|split|p2
+|-damage|p2a: Pelipper|34/135
+|-damage|p2a: Pelipper|25/100
+|split|p2
+|-damage|p2b: Rillaboom|121/207
+|-damage|p2b: Rillaboom|58/100
+|split|p1
+|-damage|p1b: Garchomp|165/183|[from] item: Life Orb
+|-damage|p1b: Garchomp|90/100|[from] item: Life Orb
+|move|p2a: Pelipper|Hurricane|p1b: Garchomp
+|split|p1
+|-damage|p1b: Garchomp|51/183
+|-damage|p1b: Garchomp|27/100
+|cant|p2b: Rillaboom|flinch
+|
+|-weather|RainDance|[upkeep]
+|split|p1
+|-heal|p1b: Garchomp|62/183|[from] Grassy Terrain
+|-heal|p1b: Garchomp|33/100|[from] Grassy Terrain
+|split|p2
+|-heal|p2b: Rillaboom|133/207|[from] Grassy Terrain
+|-heal|p2b: Rillaboom|64/100|[from] Grassy Terrain
+|split|p2
+|-heal|p2b: Rillaboom|145/207|[from] item: Leftovers
+|-heal|p2b: Rillaboom|70/100|[from] item: Leftovers
+|upkeep
+|turn|2

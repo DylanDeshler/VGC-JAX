@@ -1,0 +1,392 @@
+{
+ "N": 300,
+ "mode1": {
+  "logSame": 300,
+  "projSame": 300,
+  "desync": 0,
+  "logSameRate": 1
+ },
+ "mode2": {
+  "naive": {
+   "logSame": 136,
+   "projSame": 287,
+   "conflictsBattles": 235,
+   "missBattles": 25,
+   "failKinds": {
+    "RANDOM_TARGET_NOMINAL": 143,
+    "SPEED_TIE_EACH_EVENT": 14,
+    "SECONDARY": 3,
+    "SPEED_TIE_ACTION_ORDER": 3,
+    "RANDOM_TARGET": 1
+   },
+   "examples": [
+    {
+     "battle": 4,
+     "firstDrawDiff": {
+      "i": 90,
+      "rec": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "11|beforeTurn|RANDOM_TARGET_NOMINAL|p1a|-|clangingscales|getTarget",
+       "out": "0"
+      },
+      "rep": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "11|beforeTurn|RANDOM_TARGET_NOMINAL|p1a|-|clangingscales|getTarget",
+       "out": "1"
+      }
+     },
+     "dictConflicts": 2,
+     "misses": 0
+    },
+    {
+     "battle": 5,
+     "firstDrawDiff": {
+      "i": 2,
+      "rec": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "1|megaEvo:p2a|RANDOM_TARGET_NOMINAL|p2a|-|heatwave|getTarget",
+       "out": "1"
+      },
+      "rep": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "1|megaEvo:p2a|RANDOM_TARGET_NOMINAL|p2a|-|heatwave|getTarget",
+       "out": "0"
+      }
+     },
+     "dictConflicts": 16,
+     "misses": 0
+    },
+    {
+     "battle": 8,
+     "firstDrawDiff": {
+      "i": 10,
+      "rec": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "2|megaEvo:p1b|RANDOM_TARGET_NOMINAL|p1b|-|heatwave|getTarget",
+       "out": "0"
+      },
+      "rep": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "2|megaEvo:p1b|RANDOM_TARGET_NOMINAL|p1b|-|heatwave|getTarget",
+       "out": "1"
+      }
+     },
+     "dictConflicts": 6,
+     "misses": 0
+    },
+    {
+     "battle": 12,
+     "firstDrawDiff": {
+      "i": 4,
+      "rec": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "2|runSwitch:p2a|RANDOM_TARGET_NOMINAL|p2b|-|rockslide|getTarget",
+       "out": "0"
+      },
+      "rep": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "2|runSwitch:p2a|RANDOM_TARGET_NOMINAL|p2b|-|rockslide|getTarget",
+       "out": "1"
+      }
+     },
+     "dictConflicts": 3,
+     "misses": 0
+    }
+   ],
+   "logSameRate": 0.4533333333333333,
+   "projSameRate": 0.9566666666666667
+  },
+  "step": {
+   "logSame": 288,
+   "projSame": 297,
+   "conflictsBattles": 65,
+   "missBattles": 2,
+   "failKinds": {
+    "RANDOM_TARGET_NOMINAL": 9,
+    "SECONDARY": 3
+   },
+   "examples": [
+    {
+     "battle": 12,
+     "firstDrawDiff": {
+      "i": 22,
+      "rec": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "3|move:p2a:expandingforce|RANDOM_TARGET_NOMINAL|p2a|-|expandingforce|other",
+       "out": "0"
+      },
+      "rep": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "3|move:p2a:expandingforce|RANDOM_TARGET_NOMINAL|p2a|-|expandingforce|other",
+       "out": "1"
+      }
+     },
+     "dictConflicts": 1,
+     "misses": 0
+    },
+    {
+     "battle": 29,
+     "firstDrawDiff": {
+      "i": 18,
+      "rec": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "3|move:p1b:expandingforce|RANDOM_TARGET_NOMINAL|p1b|-|expandingforce|other",
+       "out": "1"
+      },
+      "rep": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "3|move:p1b:expandingforce|RANDOM_TARGET_NOMINAL|p1b|-|expandingforce|other",
+       "out": "0"
+      }
+     },
+     "dictConflicts": 3,
+     "misses": 0
+    },
+    {
+     "battle": 83,
+     "firstDrawDiff": {
+      "i": 41,
+      "rec": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "5|move:p2a:expandingforce|RANDOM_TARGET_NOMINAL|p2a|-|expandingforce|other",
+       "out": "1"
+      },
+      "rep": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "5|move:p2a:expandingforce|RANDOM_TARGET_NOMINAL|p2a|-|expandingforce|other",
+       "out": "0"
+      }
+     },
+     "dictConflicts": 2,
+     "misses": 0
+    },
+    {
+     "battle": 106,
+     "firstDrawDiff": {
+      "i": 50,
+      "rec": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "7|move:p1b:expandingforce|RANDOM_TARGET_NOMINAL|p1b|-|expandingforce|other",
+       "out": "0"
+      },
+      "rep": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "7|move:p1b:expandingforce|RANDOM_TARGET_NOMINAL|p1b|-|expandingforce|other",
+       "out": "1"
+      }
+     },
+     "dictConflicts": 2,
+     "misses": 0
+    }
+   ],
+   "logSameRate": 0.96,
+   "projSameRate": 0.99
+  },
+  "step+ord": {
+   "logSame": 300,
+   "projSame": 300,
+   "conflictsBattles": 0,
+   "missBattles": 0,
+   "failKinds": {},
+   "examples": [],
+   "logSameRate": 1,
+   "projSameRate": 1
+  },
+  "engine": {
+   "logSame": 147,
+   "projSame": 300,
+   "conflictsBattles": 60,
+   "missBattles": 3,
+   "failKinds": {
+    "SPEED_TIE_FIELD_EVENT": 34,
+    "RANDOM_TARGET_NOMINAL": 84,
+    "SELF_EFFECT_ROLL": 17,
+    "SPEED_TIE_EACH_EVENT": 10,
+    "QUEUE_INSERT_TIE": 8
+   },
+   "examples": [
+    {
+     "battle": 0,
+     "firstDrawDiff": {
+      "i": 0,
+      "rec": {
+       "kind": "SPEED_TIE_FIELD_EVENT",
+       "key": "1|residual|SPEED_TIE_FIELD_EVENT|-|-|Residual|phantomforce@p2a,twoturnmove@p2a",
+       "out": "[\"twoturnmove@p2a\",\"phantomforce@p2a\"]"
+      },
+      "rep": {
+       "kind": "SPEED_TIE_FIELD_EVENT",
+       "key": "1|residual|SPEED_TIE_FIELD_EVENT|-|-|Residual|phantomforce@p2a,twoturnmove@p2a",
+       "out": "[\"phantomforce@p2a\",\"twoturnmove@p2a\"]"
+      }
+     },
+     "dictConflicts": 0,
+     "misses": 0
+    },
+    {
+     "battle": 1,
+     "firstDrawDiff": {
+      "i": 18,
+      "rec": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "3|beforeTurn|RANDOM_TARGET_NOMINAL|p2b|-|blizzard|getTarget",
+       "out": "0"
+      },
+      "rep": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "3|beforeTurn|RANDOM_TARGET_NOMINAL|p2b|-|blizzard|getTarget",
+       "out": "1"
+      }
+     },
+     "dictConflicts": 0,
+     "misses": 0
+    },
+    {
+     "battle": 4,
+     "firstDrawDiff": {
+      "i": 3,
+      "rec": {
+       "kind": "SELF_EFFECT_ROLL",
+       "key": "1|move:p1b:dracometeor|SELF_EFFECT_ROLL|p1b|-|dracometeor|1",
+       "out": "86"
+      },
+      "rep": {
+       "kind": "SELF_EFFECT_ROLL",
+       "key": "1|move:p1b:dracometeor|SELF_EFFECT_ROLL|p1b|-|dracometeor|1",
+       "out": "94"
+      }
+     },
+     "dictConflicts": 0,
+     "misses": 0
+    },
+    {
+     "battle": 5,
+     "firstDrawDiff": {
+      "i": 0,
+      "rec": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "1|commit|RANDOM_TARGET_NOMINAL|p2a|-|heatwave|resolve",
+       "out": "0"
+      },
+      "rep": {
+       "kind": "RANDOM_TARGET_NOMINAL",
+       "key": "1|commit|RANDOM_TARGET_NOMINAL|p2a|-|heatwave|resolve",
+       "out": "1"
+      }
+     },
+     "dictConflicts": 0,
+     "misses": 0
+    }
+   ],
+   "logSameRate": 0.49,
+   "projSameRate": 1
+  }
+ },
+ "observability": {
+  "RANDOM_TARGET_NOMINAL": {
+   "battlesWithKind": 242,
+   "stateChanged": 0,
+   "logChanged": 144,
+   "stateChangedRate": 0
+  },
+  "RANDOM_TARGET": {
+   "battlesWithKind": 249,
+   "stateChanged": 10,
+   "logChanged": 9,
+   "stateChangedRate": 0.04
+  },
+  "SPEED_TIE_EACH_EVENT": {
+   "battlesWithKind": 63,
+   "stateChanged": 0,
+   "logChanged": 2,
+   "stateChangedRate": 0
+  },
+  "SPEED_TIE_HANDLER_ORDER": {
+   "battlesWithKind": 5,
+   "stateChanged": 0,
+   "logChanged": 0,
+   "stateChangedRate": 0
+  },
+  "SPEED_TIE_FIELD_EVENT": {
+   "battlesWithKind": 275,
+   "stateChanged": 0,
+   "logChanged": 6,
+   "stateChangedRate": 0
+  },
+  "SPEED_TIE_ACTION_ORDER": {
+   "battlesWithKind": 51,
+   "stateChanged": 9,
+   "logChanged": 23,
+   "stateChangedRate": 0.176
+  },
+  "SPEED_TIE_SWITCHIN_ORDER": {
+   "battlesWithKind": 56,
+   "stateChanged": 1,
+   "logChanged": 3,
+   "stateChangedRate": 0.018
+  },
+  "QUEUE_INSERT_TIE": {
+   "battlesWithKind": 24,
+   "stateChanged": 0,
+   "logChanged": 1,
+   "stateChangedRate": 0
+  },
+  "SELF_EFFECT_ROLL": {
+   "battlesWithKind": 189,
+   "stateChanged": 0,
+   "logChanged": 0,
+   "stateChangedRate": 0
+  },
+  "SECONDARY": {
+   "battlesWithKind": 297,
+   "stateChanged": 205,
+   "logChanged": 212,
+   "stateChangedRate": 0.69
+  },
+  "CRIT": {
+   "battlesWithKind": 300,
+   "stateChanged": 215,
+   "logChanged": 272,
+   "stateChangedRate": 0.717
+  },
+  "DAMAGE_ROLL": {
+   "battlesWithKind": 300,
+   "stateChanged": 300,
+   "logChanged": 300,
+   "stateChangedRate": 1
+  },
+  "ACCURACY": {
+   "battlesWithKind": 300,
+   "stateChanged": 192,
+   "logChanged": 193,
+   "stateChangedRate": 0.64
+  }
+ },
+ "mode3": {
+  "maxroll_nocrit_alwayshit": {
+   "battles": 300,
+   "forced": 16471,
+   "critLines": 0,
+   "missLines": 5,
+   "fullParaLines": 10,
+   "completed": 300
+  },
+  "minroll_alwayscrit_noparafullpara": {
+   "battles": 300,
+   "forced": 8841,
+   "critLines": 4396,
+   "missLines": 125,
+   "fullParaLines": 0,
+   "completed": 300
+  },
+  "no_speed_tie_randomness": {
+   "battles": 300,
+   "forced": 2954,
+   "critLines": 224,
+   "missLines": 171,
+   "fullParaLines": 22,
+   "completed": 300
+  }
+ },
+ "seconds": 146.211
+}

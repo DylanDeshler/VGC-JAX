@@ -1,0 +1,32 @@
+{
+ "mb_2026-08_bo3_1760": {
+  "battles": 179434,
+  "team_cov_mc": 0.9955,
+  "team_cov_indep": 0.9983,
+  "species_not_in_v1": []
+ },
+ "mb_2026-08_bo1_1760": {
+  "battles": 1269250,
+  "team_cov_mc": 0.9839,
+  "team_cov_indep": 0.9914,
+  "species_not_in_v1": []
+ },
+ "mb_2026-08_bo1_0": {
+  "battles": 1269250,
+  "team_cov_mc": 0.9295,
+  "team_cov_indep": 0.9472,
+  "species_not_in_v1": []
+ },
+ "mc_2026-09_bo3_1760": {
+  "battles": 223477,
+  "team_cov_mc": 0.9963,
+  "team_cov_indep": 0.9989,
+  "species_not_in_v1": []
+ },
+ "top30_overlap mb_2026-08_bo3_1760 vs mb_2026-08_bo1_1760": 27,
+ "top30_overlap mb_2026-08_bo3_1760 vs mb_2026-08_bo1_0": 24,
+ "top30_overlap mb_2026-08_bo3_1760 vs mc_2026-09_bo3_1760": 22,
+ "top30_overlap mb_2026-08_bo1_1760 vs mb_2026-08_bo1_0": 25,
+ "top30_overlap mb_2026-08_bo1_1760 vs mc_2026-09_bo3_1760": 22,
+ "top30_overlap mb_2026-08_bo1_0 vs mc_2026-09_bo3_1760": 20
+}

@@ -1,0 +1,161 @@
+runEvent(ModifySpecies) tgt=p1a:Incineroar src=- eff=object
+runEvent(ModifySpecies) tgt=p1a:Garchomp src=- eff=object
+runEvent(ModifySpecies) tgt=p1a:Corviknight src=- eff=object
+runEvent(ModifySpecies) tgt=p1a:Tyranitar src=- eff=object
+runEvent(ModifySpecies) tgt=p1a:Milotic src=- eff=object
+runEvent(ModifySpecies) tgt=p1a:Metagross src=- eff=object
+runEvent(ModifySpecies) tgt=p2a:Whimsicott src=- eff=object
+runEvent(ModifySpecies) tgt=p2a:Salamence src=- eff=object
+runEvent(ModifySpecies) tgt=p2a:Milotic src=- eff=object
+runEvent(ModifySpecies) tgt=p2a:Metagross src=- eff=object
+runEvent(ModifySpecies) tgt=p2a:Milotic src=- eff=object
+runEvent(ModifySpecies) tgt=p2a:Metagross src=- eff=object
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p1undefined:Corviknight src=- eff=-
+runEvent(ModifySpe) tgt=p1undefined:Corviknight src=- eff=-
+runEvent(ModifyBoost) tgt=p1undefined:Tyranitar src=- eff=-
+runEvent(ModifySpe) tgt=p1undefined:Tyranitar src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyBoost) tgt=p2undefined:Milotic src=- eff=-
+runEvent(ModifySpe) tgt=p2undefined:Milotic src=- eff=-
+runEvent(ModifyBoost) tgt=p2undefined:Metagross src=- eff=-
+runEvent(ModifySpe) tgt=p2undefined:Metagross src=- eff=-
+singleEvent(BattleStart) tgt=p1a:Incineroar src=- eff=Condition:incineroar
+singleEvent(BattleStart) tgt=p1b:Garchomp src=- eff=Condition:garchomp
+singleEvent(BattleStart) tgt=p1undefined:Corviknight src=- eff=Condition:corviknight
+singleEvent(BattleStart) tgt=p1undefined:Tyranitar src=- eff=Condition:tyranitar
+singleEvent(BattleStart) tgt=p2a:Whimsicott src=- eff=Condition:whimsicott
+singleEvent(BattleStart) tgt=p2b:Salamence src=- eff=Condition:salamence
+singleEvent(BattleStart) tgt=p2undefined:Milotic src=- eff=Condition:milotic
+singleEvent(BattleStart) tgt=p2undefined:Metagross src=- eff=Condition:metagross
+runEvent(BeforeSwitchIn) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(BeforeSwitchIn) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Garchomp src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Garchomp src=- eff=-
+runEvent(BeforeSwitchIn) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-
+runEvent(BeforeSwitchIn) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-
+fieldEvent(SwitchIn) tgt=[p2a:Whimsicott,p1b:Garchomp,p2b:Salamence,p1a:Incineroar] src=- eff=-
+  singleEvent(SwitchIn) tgt=p2b:Salamence src=- eff=Ability:intimidate  H=[Ability:intimidate]
+    runEvent(ChangeBoost) tgt=p1a:Incineroar src=p2b:Salamence eff=Ability:intimidate
+    runEvent(TryBoost) tgt=p1a:Incineroar src=p2b:Salamence eff=Ability:intimidate
+    runEvent(AfterEachBoost) tgt=p1a:Incineroar src=p2b:Salamence eff=Ability:intimidate
+    runEvent(AfterBoost) tgt=p1a:Incineroar src=p2b:Salamence eff=Ability:intimidate
+    runEvent(ChangeBoost) tgt=p1b:Garchomp src=p2b:Salamence eff=Ability:intimidate
+    runEvent(TryBoost) tgt=p1b:Garchomp src=p2b:Salamence eff=Ability:intimidate
+    runEvent(AfterEachBoost) tgt=p1b:Garchomp src=p2b:Salamence eff=Ability:intimidate
+    runEvent(AfterBoost) tgt=p1b:Garchomp src=p2b:Salamence eff=Ability:intimidate
+  singleEvent(SwitchIn) tgt=p1a:Incineroar src=- eff=Ability:intimidate  H=[Ability:intimidate]
+    runEvent(ChangeBoost) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Ability:intimidate
+    runEvent(TryBoost) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Ability:intimidate
+    runEvent(AfterEachBoost) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Ability:intimidate
+    runEvent(AfterBoost) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Ability:intimidate
+    runEvent(ChangeBoost) tgt=p2b:Salamence src=p1a:Incineroar eff=Ability:intimidate
+    runEvent(TryBoost) tgt=p2b:Salamence src=p1a:Incineroar eff=Ability:intimidate
+    runEvent(AfterEachBoost) tgt=p2b:Salamence src=p1a:Incineroar eff=Ability:intimidate
+    runEvent(AfterBoost) tgt=p2b:Salamence src=p1a:Incineroar eff=Ability:intimidate
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p1b:Garchomp src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object  H=[Item:sitrusberry]
+runEvent(EmergencyExit) tgt=p2a:Whimsicott src=- eff=-
+runEvent(DisableMove) tgt=p1a:Incineroar src=- eff=-
+singleEvent(DisableMove) tgt=p1a:Incineroar src=- eff=Move:fakeout  H=[Move:fakeout]
+singleEvent(DisableMove) tgt=p1a:Incineroar src=- eff=Move:willowisp
+singleEvent(DisableMove) tgt=p1a:Incineroar src=- eff=Move:protect
+singleEvent(DisableMove) tgt=p1a:Incineroar src=- eff=Move:partingshot
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+runEvent(TrapPokemon) tgt=p1a:Incineroar src=- eff=-
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+runEvent(MaybeTrapPokemon) tgt=p1a:Incineroar src=- eff=-
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Ability:prankster
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Ability:infiltrator
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Ability:chlorophyll
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1a:Incineroar src=p2b:Salamence eff=Ability:intimidate
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1a:Incineroar src=p2b:Salamence eff=Ability:moxie
+runEvent(DisableMove) tgt=p1b:Garchomp src=- eff=-
+singleEvent(DisableMove) tgt=p1b:Garchomp src=- eff=Move:rockslide
+singleEvent(DisableMove) tgt=p1b:Garchomp src=- eff=Move:earthquake
+singleEvent(DisableMove) tgt=p1b:Garchomp src=- eff=Move:protect
+singleEvent(DisableMove) tgt=p1b:Garchomp src=- eff=Move:dragonclaw
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+runEvent(TrapPokemon) tgt=p1b:Garchomp src=- eff=-
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+runEvent(MaybeTrapPokemon) tgt=p1b:Garchomp src=- eff=-
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1b:Garchomp src=p2a:Whimsicott eff=Ability:prankster
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1b:Garchomp src=p2a:Whimsicott eff=Ability:infiltrator
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1b:Garchomp src=p2a:Whimsicott eff=Ability:chlorophyll
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1b:Garchomp src=p2b:Salamence eff=Ability:intimidate
+runEvent(Type) tgt=p1b:Garchomp src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p1b:Garchomp src=p2b:Salamence eff=Ability:moxie
+runEvent(DisableMove) tgt=p2a:Whimsicott src=- eff=-
+singleEvent(DisableMove) tgt=p2a:Whimsicott src=- eff=Move:moonblast
+singleEvent(DisableMove) tgt=p2a:Whimsicott src=- eff=Move:tailwind
+singleEvent(DisableMove) tgt=p2a:Whimsicott src=- eff=Move:protect
+singleEvent(DisableMove) tgt=p2a:Whimsicott src=- eff=Move:encore
+runEvent(Type) tgt=p2a:Whimsicott src=- eff=-
+runEvent(TrapPokemon) tgt=p2a:Whimsicott src=- eff=-
+runEvent(Type) tgt=p2a:Whimsicott src=- eff=-
+runEvent(MaybeTrapPokemon) tgt=p2a:Whimsicott src=- eff=-
+runEvent(Type) tgt=p2a:Whimsicott src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Ability:blaze
+runEvent(Type) tgt=p2a:Whimsicott src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Ability:intimidate
+runEvent(Type) tgt=p2a:Whimsicott src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2a:Whimsicott src=p1b:Garchomp eff=Ability:sandveil
+runEvent(Type) tgt=p2a:Whimsicott src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2a:Whimsicott src=p1b:Garchomp eff=Ability:roughskin
+runEvent(DisableMove) tgt=p2b:Salamence src=- eff=-
+singleEvent(DisableMove) tgt=p2b:Salamence src=- eff=Move:dragonclaw
+singleEvent(DisableMove) tgt=p2b:Salamence src=- eff=Move:icywind
+singleEvent(DisableMove) tgt=p2b:Salamence src=- eff=Move:protect
+singleEvent(DisableMove) tgt=p2b:Salamence src=- eff=Move:dracometeor
+runEvent(Type) tgt=p2b:Salamence src=- eff=-
+runEvent(TrapPokemon) tgt=p2b:Salamence src=- eff=-
+runEvent(Type) tgt=p2b:Salamence src=- eff=-
+runEvent(MaybeTrapPokemon) tgt=p2b:Salamence src=- eff=-
+runEvent(Type) tgt=p2b:Salamence src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2b:Salamence src=p1a:Incineroar eff=Ability:blaze
+runEvent(Type) tgt=p2b:Salamence src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2b:Salamence src=p1a:Incineroar eff=Ability:intimidate
+runEvent(Type) tgt=p2b:Salamence src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2b:Salamence src=p1b:Garchomp eff=Ability:sandveil
+runEvent(Type) tgt=p2b:Salamence src=- eff=-
+singleEvent(FoeMaybeTrapPokemon) tgt=p2b:Salamence src=p1b:Garchomp eff=Ability:roughskin
+priorityEvent(LockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(LockMove) tgt=p1b:Garchomp src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1b:Garchomp src=- eff=-
+priorityEvent(LockMove) tgt=p2a:Whimsicott src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2a:Whimsicott src=- eff=-
+priorityEvent(LockMove) tgt=p2b:Salamence src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2b:Salamence src=- eff=-

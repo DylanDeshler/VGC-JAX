@@ -1,0 +1,392 @@
+priorityEvent(LockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(LockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1a:Incineroar src=- eff=-
+priorityEvent(LockMove) tgt=p1b:Tyranitar src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1b:Tyranitar src=- eff=-
+priorityEvent(LockMove) tgt=p1b:Tyranitar src=- eff=-
+priorityEvent(SemiLockMove) tgt=p1b:Tyranitar src=- eff=-
+priorityEvent(LockMove) tgt=p2a:Whimsicott src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2a:Whimsicott src=- eff=-
+priorityEvent(LockMove) tgt=p2a:Whimsicott src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2a:Whimsicott src=- eff=-
+priorityEvent(LockMove) tgt=p2b:Salamence src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2b:Salamence src=- eff=-
+priorityEvent(LockMove) tgt=p2b:Salamence src=- eff=-
+priorityEvent(SemiLockMove) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+runEvent(FractionalPriority) tgt=p1a:Incineroar src=- eff=Move:partingshot
+singleEvent(ModifyPriority) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:partingshot
+runEvent(ModifyPriority) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:partingshot
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(FractionalPriority) tgt=p1b:Tyranitar src=- eff=Move:rockslide
+singleEvent(ModifyPriority) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(ModifyPriority) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Tyranitar src=- eff=-
+runEvent(FractionalPriority) tgt=p2a:Whimsicott src=- eff=Move:moonblast
+singleEvent(ModifyPriority) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(ModifyPriority) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast  H=[Ability:prankster]
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+runEvent(FractionalPriority) tgt=p2b:Salamence src=- eff=Move:dragonclaw
+singleEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+eachEvent(BeforeTurn) tgt=- src=- eff=-
+  runEvent(BeforeTurn) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(BeforeTurn) tgt=p2b:Salamence src=- eff=object
+  runEvent(BeforeTurn) tgt=p1b:Tyranitar src=- eff=object
+  runEvent(BeforeTurn) tgt=p1a:Incineroar src=- eff=object
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Tyranitar src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(ModifyPriority) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast  H=[Ability:prankster]
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(ModifyPriority) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Tyranitar src=- eff=-
+singleEvent(ModifyPriority) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:partingshot
+runEvent(ModifyPriority) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:partingshot
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(OverrideAction) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(BeforeMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+priorityEvent(LockMove) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifyTarget) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+singleEvent(ModifyType) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+singleEvent(ModifyMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(ModifyType) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(ModifyMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+priorityEvent(RedirectTarget) tgt=p2a:Whimsicott src=p2a:Whimsicott eff=Move:moonblast
+runEvent(DeductPP) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+singleEvent(TryMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(TryMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+singleEvent(UseMoveMessage) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+singleEvent(Try) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+singleEvent(PrepareHit) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+runEvent(PrepareHit) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(Invulnerability) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+runEvent(TryHit) tgt=[p1a:Incineroar] src=p2a:Whimsicott eff=Move:moonblast
+runEvent(NegateImmunity) tgt=p1a:Incineroar src=Fairy eff=-
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+singleEvent(TryImmunity) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+runEvent(ModifyAccuracy) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(Accuracy) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+singleEvent(TryHit) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+runEvent(TryPrimaryHit) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+runEvent(NegateImmunity) tgt=p1a:Incineroar src=Fairy eff=-
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyCritRatio) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(CriticalHit) tgt=p1a:Incineroar src=- eff=Move:moonblast
+runEvent(BasePower) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpA) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(ModifySpD) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+priorityEvent(WeatherModifyDamage) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(Type) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySTAB) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(Type) tgt=p1a:Incineroar src=- eff=-
+singleEvent(Effectiveness) tgt=p1a:Incineroar src=Fire eff=Move:moonblast
+runEvent(Effectiveness) tgt=p1a:Incineroar src=Fire eff=Move:moonblast
+singleEvent(Effectiveness) tgt=p1a:Incineroar src=Dark eff=Move:moonblast
+runEvent(Effectiveness) tgt=p1a:Incineroar src=Dark eff=Move:moonblast
+runEvent(ModifyDamage) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(Damage) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+runEvent(Hit) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+runEvent(ModifySecondaries) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+singleEvent(TryHit) tgt=p1a:Incineroar src=p2a:Whimsicott eff=object
+runEvent(DamagingHit) tgt=[p1a:Incineroar] src=p2a:Whimsicott eff=Move:moonblast
+runEvent(EmergencyExit) tgt=p2a:Whimsicott src=- eff=-
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Tyranitar src=- eff=object
+  runEvent(Update) tgt=p1a:Incineroar src=- eff=object
+runEvent(BeforeFaint) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+runEvent(Faint) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+singleEvent(End) tgt=p1a:Incineroar src=- eff=Ability:intimidate
+singleEvent(End) tgt=p1a:Incineroar src=- eff=Item:
+runEvent(ModifySpecies) tgt=p1a:Incineroar src=- eff=object
+runEvent(AfterFaint) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Tyranitar src=- eff=object
+singleEvent(AfterMoveSecondary) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:moonblast
+runEvent(AfterMoveSecondary) tgt=[p1a:Incineroar] src=p2a:Whimsicott eff=Move:moonblast
+singleEvent(AfterMoveSecondarySelf) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(AfterMoveSecondarySelf) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(EmergencyExit) tgt=p2a:Whimsicott src=p2a:Whimsicott eff=-
+singleEvent(AfterMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+runEvent(AfterMove) tgt=p2a:Whimsicott src=p1a:Incineroar eff=Move:moonblast
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Tyranitar src=- eff=object
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(ModifyPriority) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(ModifyPriority) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Tyranitar src=- eff=-
+singleEvent(ModifyPriority) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:partingshot
+runEvent(ModifyPriority) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:partingshot
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(OverrideAction) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(BeforeMove) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+priorityEvent(LockMove) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyTarget) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+singleEvent(ModifyType) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+singleEvent(ModifyMove) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(ModifyType) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(ModifyMove) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+priorityEvent(RedirectTarget) tgt=p2b:Salamence src=p2b:Salamence eff=Move:dragonclaw
+runEvent(DeductPP) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:dragonclaw
+singleEvent(TryMove) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(TryMove) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+singleEvent(UseMoveMessage) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+singleEvent(Try) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+singleEvent(PrepareHit) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:dragonclaw
+runEvent(PrepareHit) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(Invulnerability) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:dragonclaw
+runEvent(TryHit) tgt=[p1b:Tyranitar] src=p2b:Salamence eff=Move:dragonclaw
+runEvent(NegateImmunity) tgt=p1b:Tyranitar src=Dragon eff=-
+runEvent(Type) tgt=p1b:Tyranitar src=- eff=-
+singleEvent(TryImmunity) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyAccuracy) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(Accuracy) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:dragonclaw
+singleEvent(TryHit) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:dragonclaw
+runEvent(TryPrimaryHit) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:dragonclaw
+runEvent(NegateImmunity) tgt=p1b:Tyranitar src=Dragon eff=-
+runEvent(Type) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyCritRatio) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(CriticalHit) tgt=p1b:Tyranitar src=- eff=Move:dragonclaw
+runEvent(BasePower) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyAtk) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(ModifyDef) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:dragonclaw
+priorityEvent(WeatherModifyDamage) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(Type) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySTAB) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(Type) tgt=p1b:Tyranitar src=- eff=-
+singleEvent(Effectiveness) tgt=p1b:Tyranitar src=Rock eff=Move:dragonclaw
+runEvent(Effectiveness) tgt=p1b:Tyranitar src=Rock eff=Move:dragonclaw
+singleEvent(Effectiveness) tgt=p1b:Tyranitar src=Dark eff=Move:dragonclaw
+runEvent(Effectiveness) tgt=p1b:Tyranitar src=Dark eff=Move:dragonclaw
+runEvent(ModifyDamage) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(Damage) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:dragonclaw
+runEvent(Hit) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:dragonclaw
+runEvent(DamagingHit) tgt=[p1b:Tyranitar] src=p2b:Salamence eff=Move:dragonclaw
+runEvent(EmergencyExit) tgt=p2b:Salamence src=- eff=-
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Tyranitar src=- eff=object
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Tyranitar src=- eff=object
+singleEvent(AfterMoveSecondary) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:dragonclaw
+runEvent(AfterMoveSecondary) tgt=[p1b:Tyranitar] src=p2b:Salamence eff=Move:dragonclaw
+runEvent(EmergencyExit) tgt=p1b:Tyranitar src=p2b:Salamence eff=-
+singleEvent(AfterMoveSecondarySelf) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(AfterMoveSecondarySelf) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(EmergencyExit) tgt=p2b:Salamence src=p2b:Salamence eff=-
+singleEvent(AfterMove) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+runEvent(AfterMove) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:dragonclaw
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Tyranitar src=- eff=object
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifySpe) tgt=p2b:Salamence src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(ModifyPriority) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Tyranitar src=- eff=-
+singleEvent(ModifyPriority) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:partingshot
+runEvent(ModifyPriority) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:partingshot
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(OverrideAction) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(BeforeMove) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+priorityEvent(LockMove) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyTarget) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+singleEvent(ModifyType) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+singleEvent(ModifyMove) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(ModifyType) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(ModifyMove) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(DeductPP) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+runEvent(DeductPP) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+singleEvent(TryMove) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(TryMove) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+singleEvent(UseMoveMessage) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+singleEvent(Try) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+singleEvent(PrepareHit) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+runEvent(PrepareHit) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(Invulnerability) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+runEvent(Invulnerability) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+runEvent(TryHit) tgt=[p2a:Whimsicott,p2b:Salamence] src=p1b:Tyranitar eff=Move:rockslide
+runEvent(NegateImmunity) tgt=p2a:Whimsicott src=Rock eff=-
+runEvent(Type) tgt=p2a:Whimsicott src=- eff=-
+runEvent(NegateImmunity) tgt=p2b:Salamence src=Rock eff=-
+runEvent(Type) tgt=p2b:Salamence src=- eff=-
+singleEvent(TryImmunity) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+singleEvent(TryImmunity) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+runEvent(ModifyAccuracy) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(Accuracy) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+runEvent(ModifyAccuracy) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(Accuracy) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+singleEvent(TryHit) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+runEvent(TryPrimaryHit) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+runEvent(TryPrimaryHit) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+runEvent(NegateImmunity) tgt=p2a:Whimsicott src=Rock eff=-
+runEvent(Type) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifyCritRatio) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(CriticalHit) tgt=p2a:Whimsicott src=- eff=Move:rockslide
+runEvent(BasePower) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifyAtk) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(ModifyDef) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+priorityEvent(WeatherModifyDamage) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(Type) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySTAB) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(Type) tgt=p2a:Whimsicott src=- eff=-
+singleEvent(Effectiveness) tgt=p2a:Whimsicott src=Grass eff=Move:rockslide
+runEvent(Effectiveness) tgt=p2a:Whimsicott src=Grass eff=Move:rockslide
+singleEvent(Effectiveness) tgt=p2a:Whimsicott src=Fairy eff=Move:rockslide
+runEvent(Effectiveness) tgt=p2a:Whimsicott src=Fairy eff=Move:rockslide
+runEvent(ModifyDamage) tgt=p1b:Tyranitar src=p2a:Whimsicott eff=Move:rockslide
+runEvent(NegateImmunity) tgt=p2b:Salamence src=Rock eff=-
+runEvent(Type) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyCritRatio) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(CriticalHit) tgt=p2b:Salamence src=- eff=Move:rockslide
+runEvent(BasePower) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyBoost) tgt=p2b:Salamence src=- eff=-
+runEvent(ModifyAtk) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(ModifyDef) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+priorityEvent(WeatherModifyDamage) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(Type) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySTAB) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(Type) tgt=p2b:Salamence src=- eff=-
+singleEvent(Effectiveness) tgt=p2b:Salamence src=Dragon eff=Move:rockslide
+runEvent(Effectiveness) tgt=p2b:Salamence src=Dragon eff=Move:rockslide
+singleEvent(Effectiveness) tgt=p2b:Salamence src=Flying eff=Move:rockslide
+runEvent(Effectiveness) tgt=p2b:Salamence src=Flying eff=Move:rockslide
+runEvent(ModifyDamage) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(Damage) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide  H=[Item:focussash]
+runEvent(Damage) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+runEvent(Hit) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+runEvent(Hit) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+runEvent(ModifySecondaries) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+singleEvent(TryHit) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=object
+runEvent(Type) tgt=p2a:Whimsicott src=- eff=-
+runEvent(Immunity) tgt=p2a:Whimsicott src=- eff=-
+runEvent(TryAddVolatile) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+singleEvent(Start) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Condition:flinch
+runEvent(ModifySecondaries) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+singleEvent(TryHit) tgt=p2b:Salamence src=p1b:Tyranitar eff=object
+runEvent(DamagingHit) tgt=[p2a:Whimsicott,p2b:Salamence] src=p1b:Tyranitar eff=Move:rockslide
+runEvent(EmergencyExit) tgt=p1b:Tyranitar src=- eff=-
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p2b:Salamence src=- eff=object
+  runEvent(Update) tgt=p1b:Tyranitar src=- eff=object
+runEvent(BeforeFaint) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+runEvent(Faint) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+singleEvent(End) tgt=p2b:Salamence src=- eff=Ability:intimidate
+singleEvent(End) tgt=p2b:Salamence src=- eff=Item:leftovers
+runEvent(ModifySpecies) tgt=p2b:Salamence src=- eff=object
+runEvent(AfterFaint) tgt=p2b:Salamence src=p1b:Tyranitar eff=Move:rockslide
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p1b:Tyranitar src=- eff=object
+singleEvent(AfterMoveSecondary) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=Move:rockslide
+runEvent(AfterMoveSecondary) tgt=[p2a:Whimsicott,p2b:Salamence] src=p1b:Tyranitar eff=Move:rockslide
+runEvent(EmergencyExit) tgt=p2a:Whimsicott src=p1b:Tyranitar eff=-
+singleEvent(AfterMoveSecondarySelf) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(AfterMoveSecondarySelf) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(EmergencyExit) tgt=p1b:Tyranitar src=p1b:Tyranitar eff=-
+singleEvent(AfterMove) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+runEvent(AfterMove) tgt=p1b:Tyranitar src=p2b:Salamence eff=Move:rockslide
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p1b:Tyranitar src=- eff=object
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+singleEvent(ModifyPriority) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:partingshot
+runEvent(ModifyPriority) tgt=p1a:Incineroar src=p2a:Whimsicott eff=Move:partingshot
+runEvent(ModifyBoost) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifySpe) tgt=p1a:Incineroar src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]
+fieldEvent(Residual) tgt=- src=- eff=-
+  singleEvent(Residual) tgt=p1b:Tyranitar src=- eff=Item:leftovers  H=[Item:leftovers]
+    runEvent(TryHeal) tgt=p1b:Tyranitar src=- eff=Item:leftovers
+    runEvent(Heal) tgt=p1b:Tyranitar src=- eff=Item:leftovers
+  singleEvent(End) tgt=p2a:Whimsicott src=- eff=Condition:flinch
+eachEvent(Update) tgt=- src=- eff=-
+  runEvent(Update) tgt=p2a:Whimsicott src=- eff=object
+  runEvent(Update) tgt=p1b:Tyranitar src=- eff=object
+runEvent(EmergencyExit) tgt=p1b:Tyranitar src=- eff=-
+runEvent(EmergencyExit) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifyBoost) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifySpe) tgt=p1b:Tyranitar src=- eff=-
+runEvent(ModifyBoost) tgt=p2a:Whimsicott src=- eff=-
+runEvent(ModifySpe) tgt=p2a:Whimsicott src=- eff=-  H=[Condition:tailwind]

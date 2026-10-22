@@ -1,0 +1,1628 @@
+
+######## b19c6f7a Champions: Fix Aura Guard inheritance
+--- data/mods/champions/abilities.ts 
+@@ -5,6 +5,10 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
+ 			this.effectState.checkedAngerShell = !(effect.effectType === "Move" && !effect.multihit);
+ 		},
+ 	},
++	auraguard: {
++		inherit: true,
++		isNonstandard: null,
++	},
+ 	berserk: {
+ 		inherit: true,
+ 		onDamage(damage, target, source, effect) {
+
+######## 035ba1a5 Champions: Correct Mega Stone inheritance
+--- data/mods/champions/items.ts 
+@@ -195,10 +195,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	darkranite: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	dawnstone: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -447,10 +443,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	heatranite: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	heavyball: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+
+######## d12b9c1e Champions: Can no longer double No Retreat when already trapped (#12124)
+
+* No Retreat no longer can be double clicked when already trapped
+
+* No longer display message if already trapped
+
+* Formatting
+
+* Added Andre + Ukerab's implementation
+
+* Added tests
+
+* Add 2 no retreats in test 3
+
+* Re-add Champions no retreat test
+--- data/mods/champions/moves.ts 
+@@ -689,6 +689,15 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		pp: 5,
+ 	},
++	noretreat: {
++		inherit: true,
++		condition: {
++			onStart(pokemon) {
++				if (!pokemon.addVolatile('trapped')) return;
++				this.add('-start', pokemon, 'move: No Retreat');
++			},
++		},
++	},
+ 	noxioustorque: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+--- data/moves.ts 
+@@ -12796,17 +12796,12 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
+ 		volatileStatus: 'noretreat',
+ 		onTry(source, target, move) {
+ 			if (source.volatiles['noretreat']) return false;
+-			if (source.volatiles['trapped']) {
+-				delete move.volatileStatus;
+-			}
+ 		},
+ 		condition: {
+ 			onStart(pokemon) {
++				if (!pokemon.addVolatile('trapped')) return false;
+ 				this.add('-start', pokemon, 'move: No Retreat');
+ 			},
+-			onTrapPokemon(pokemon) {
+-				pokemon.tryTrap();
+-			},
+ 		},
+ 		boosts: {
+ 			atk: 1,
+
+######## 10f47c9d Champions: Fix multiple M-A bugs (#12297)
+
+* Champions: Fix multiple M-A bugs
+
+* Gigaton Hammer should bypass the Disable check
+
+---------
+
+Co-authored-by: André Bastos Dias <dias.andre@siemens.com>
+--- data/mods/champions/abilities.ts 
+@@ -11,26 +11,6 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
+ 			this.effectState.checkedBerserk = !(effect.effectType === "Move" && !effect.multihit);
+ 		},
+ 	},
+-	disguise: {
+-		inherit: true,
+-		onEffectiveness(typeMod, target, type, move) {
+-			if (!target || move.category === 'Status') return;
+-
+-			if (move.hit === 1) delete this.effectState.neutral;
+-			if (this.effectState.neutral) return 0;
+-
+-			if (!['mimikyu', 'mimikyutotem'].includes(target.species.id)) {
+-				return;
+-			}
+-
+-			const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
+-			if (hitSub) return;
+-
+-			if (!target.runImmunity(move)) return;
+-			this.effectState.neutral = true;
+-			return 0;
+-		},
+-	},
+ 	dragonize: {
+ 		inherit: true,
+ 		isNonstandard: null,
+--- data/mods/champions/items.ts 
+@@ -1019,21 +1019,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	whiteherb: {
+-		inherit: true,
+-		onAnyAfterMove() {
+-			// Desync: proceed from Parting Shot's point of view
+-			this.queue.insertChoice({
+-				choice: 'event',
+-				event: 'WhiteHerb',
+-				order: 99, // before switches
+-				pokemon: this.effectState.target,
+-			});
+-		},
+-		onWhiteHerb(pokemon) {
+-			((this.effect as any).onStart as (p: Pokemon) => void).call(this, this.effectState.target);
+-		},
+-	},
+ 	wikiberry: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+--- data/mods/champions/moves.ts 
+@@ -197,6 +197,18 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 			},
+ 		},
+ 	},
++	disable: {
++		inherit: true,
++		condition: {
++			inherit: true,
++			onBeforeMove(attacker, defender, move) {
++				if (!(move.isZ && move.isZOrMaxPowered) && move.id === this.effectState.move && !move.flags['cantusetwice']) {
++					this.add('cant', attacker, 'Disable', move);
++					return false;
++				}
++			},
++		},
++	},
+ 	disarmingvoice: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+--- data/moves.ts 
+@@ -2227,7 +2227,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
+ 		priority: 0,
+ 		flags: { contact: 1, protect: 1, mirror: 1, metronome: 1, slicing: 1 },
+ 		onAfterHit(target, source, move) {
+-			if (!move.hasSheerForce && source.hp) {
++			if (!move.hasSheerForce) {
+ 				for (const side of source.side.foeSidesWithConditions()) {
+ 					side.addSideCondition('spikes');
+ 				}
+@@ -7868,9 +7868,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
+ 		priority: 0,
+ 		flags: { snatch: 1, metronome: 1 },
+ 		onModifyMove(move, pokemon) {
+-			if (pokemon.hasAbility('megasol') && !this.field.isWeather('sunnyday')) {
+-				delete move.boosts;
+-			} else if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {
++			if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {
+ 				move.boosts = { atk: 2, spa: 2 };
+ 			}
+ 		},
+@@ -18070,7 +18068,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
+ 		priority: 0,
+ 		flags: { contact: 1, protect: 1, mirror: 1, metronome: 1, slicing: 1 },
+ 		onAfterHit(target, source, move) {
+-			if (!move.hasSheerForce && source.hp) {
++			if (!move.hasSheerForce) {
+ 				for (const side of source.side.foeSidesWithConditions()) {
+ 					side.addSideCondition('stealthrock');
+ 				}
+
+######## fbafa725 Champions: Sheer Force doesn't suppress Berserk, Pickpocket, Eject Button, etc. (#12330)
+
+* Champions: Sheer Force doesn't suppress Berserk, Pickpocket, Eject Button, etc
+
+* Lint
+--- data/mods/champions/scripts.ts 
+@@ -53,7 +53,6 @@ export const Scripts: ModdedBattleScriptsData = {
+ 			return speed;
+ 		},
+ 		// Don't revert Mega Evolutions after fainting
+-		// TODO: confirm interaction with Revival Blessing
+ 		formeChange(speciesId, source, isPermanent, abilitySlot = '0', message) {
+ 			const rawSpecies = this.battle.dex.species.get(speciesId);
+ 
+@@ -311,7 +310,7 @@ export const Scripts: ModdedBattleScriptsData = {
+ 			// ...but 16-bit truncation happens even later, and can truncate to 0
+ 			return tr(baseDamage, 16);
+ 		},
+-		// Run `AfterHit` events even if the source fainted
++		// Run `AfterHit` events even if the source fainted: Rapid Spin, Ceaseless Edge, etc.
+ 		spreadMoveHit(targets, pokemon, moveOrMoveName, hitEffect?, isSecondary?, isSelf?) {
+ 			// Hardcoded for single-target purposes
+ 			// (no spread moves have any kind of onTryHit handler)
+@@ -425,7 +424,7 @@ export const Scripts: ModdedBattleScriptsData = {
+ 			return [damage, targets];
+ 		},
+ 		// Parental Bond shouldn't announce hit count if it only hits once
+-		hitStepMoveHitLoop(targets: Pokemon[], pokemon: Pokemon, move: ActiveMove) { // Temporary name
++		hitStepMoveHitLoop(targets, pokemon, move) {
+ 			let damage: (number | boolean | undefined)[] = [];
+ 			for (const i of targets.keys()) {
+ 				damage[i] = 0;
+@@ -592,5 +591,11 @@ export const Scripts: ModdedBattleScriptsData = {
+ 
+ 			return damage;
+ 		},
++		// Sheer Force doesn't suppress AfterMoveSecondary events: Berserk, Pickpocket, Eject Button, etc.
++		afterMoveSecondaryEvent(targets, pokemon, move) {
++			this.battle.singleEvent('AfterMoveSecondary', move, null, targets[0], pokemon, move);
++			this.battle.runEvent('AfterMoveSecondary', targets, pokemon, move);
++			return undefined;
++		},
+ 	},
+ };
+
+######## 89905975 Champions: Implement Mega Sol + Electro Shot and Encore interactions (#12318)
+
+* Champions: Implement Mega Sol + Electro Shot and Encore interactions
+
+* Fix tests names
+
+* Fix Ceaseless Edge and Stone Axe vs Substitute
+
+* Add afterEach cleanup for No Retreat tests
+
+* Revert changes
+--- data/mods/champions/moves.ts 
+@@ -326,21 +326,16 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 				const action = this.queue.willMove(target);
+ 				if (!action) {
+ 					this.effectState.duration!++;
+-					// TODO: this is a quick fix, check if move priority is changed when Mental Herb cures Encore
+ 				} else if (action.moveid !== move.id && !target.hasItem('mentalherb')) {
+-					const priority = action.priority -
+-						this.dex.moves.get(action.moveid).priority +
+-						this.dex.moves.get(move.id).priority;
+ 					this.queue.changeAction(target, {
+ 						choice: 'move',
+ 						// target: undefined,
+ 						// targetLoc: undefined,
+ 						moveid: move.id,
+-						order: action.order,
+ 					});
+-					this.queue.willMove(target)!.priority = priority;
+ 				}
+ 			},
++			onOverrideAction: undefined, // no inherit
+ 		},
+ 	},
+ 	esperwing: {
+--- sim/pokemon.ts 
+@@ -2191,8 +2191,7 @@ export class Pokemon {
+ 		if (!sourceEffect && this.battle.effect) sourceEffect = this.battle.effect;
+ 		const weather = this.battle.field.effectiveWeather();
+ 		if (this.battle.activePokemon?.hasAbility('megasol') && sourceEffect &&
+-			(sourceEffect.id === 'megasol' || sourceEffect.effectType === 'Move' || sourceEffect.effectType === 'Weather') &&
+-			sourceEffect.id !== 'electroshot') {
++			(sourceEffect.id === 'megasol' || sourceEffect.effectType === 'Move' || sourceEffect.effectType === 'Weather')) {
+ 			if (weather !== 'sunnyday' && message) this.battle.add('-activate', this, 'ability: Mega Sol');
+ 			return 'sunnyday' as ID;
+ 		}
+
+######## a7ce30c0 Champions: Add a lot of tests (#12361)
+
+* Champions: Fix Emergency Exit + Sheer Force, Add a lot of Champions tests
+
+* Code refactor
+
+* Chain checks
+--- data/abilities.ts 
+@@ -144,7 +144,7 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
+ 		onDamage(damage, target, source, effect) {
+ 			this.effectState.checkedAngerShell = !(
+ 				effect.effectType === "Move" && !effect.multihit &&
+-				!(effect.hasSheerForce && source.hasAbility('sheerforce'))
++				!this.suppressingSecondaries()
+ 			);
+ 		},
+ 		onTryEatItem(item) {
+@@ -415,7 +415,7 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
+ 		onDamage(damage, target, source, effect) {
+ 			this.effectState.checkedBerserk = !(
+ 				effect.effectType === "Move" && !effect.multihit &&
+-				!(effect.hasSheerForce && source.hasAbility('sheerforce'))
++				!this.suppressingSecondaries()
+ 			);
+ 		},
+ 		onTryEatItem(item) {
+@@ -1248,7 +1248,8 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
+ 		num: 302,
+ 	},
+ 	emergencyexit: {
+-		onEmergencyExit(target) {
++		onEmergencyExit(originalHp, target) {
++			if (!target.hp || target.hp > target.maxhp / 2 || originalHp <= target.maxhp / 2) return;
+ 			if (!this.canSwitch(target.side) || target.forceSwitchFlag || target.switchFlag) return;
+ 			for (const side of this.sides) {
+ 				for (const active of side.active) {
+@@ -5492,7 +5493,8 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
+ 		num: 73,
+ 	},
+ 	wimpout: {
+-		onEmergencyExit(target) {
++		onEmergencyExit(originalHp, target) {
++			if (!target.hp || target.hp > target.maxhp / 2 || originalHp <= target.maxhp / 2) return;
+ 			if (!this.canSwitch(target.side) || target.forceSwitchFlag || target.switchFlag) return;
+ 			for (const side of this.sides) {
+ 				for (const active of side.active) {
+--- data/conditions.ts 
+@@ -754,7 +754,7 @@ export const Conditions: import('../sim/dex-conditions').ConditionDataTable = {
+ 		name: 'Dynamax',
+ 		noCopy: true,
+ 		onStart(pokemon) {
+-			this.effectState.turns = 0;
++			this.effectState.turns = 3;
+ 			pokemon.removeVolatile('minimize');
+ 			pokemon.removeVolatile('substitute');
+ 			if (pokemon.volatiles['torment']) {
+@@ -793,7 +793,7 @@ export const Conditions: import('../sim/dex-conditions').ConditionDataTable = {
+ 		},
+ 		onResidualPriority: -100,
+ 		onResidual() {
+-			this.effectState.turns++;
++			this.effectState.turns--;
+ 		},
+ 		onEnd(pokemon) {
+ 			this.add('-end', pokemon, 'Dynamax');
+--- data/mods/champions/abilities.ts 
+@@ -21,7 +21,8 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
+ 	},
+ 	emergencyexit: {
+ 		inherit: true,
+-		onEmergencyExit(target) {
++		onEmergencyExit(originalHp, target) {
++			if (!target.hp || target.hp > target.maxhp / 2 || originalHp <= target.maxhp / 2) return;
+ 			if (!this.canSwitch(target.side) || target.forceSwitchFlag || target.switchFlag) return;
+ 			target.switchFlag = true;
+ 			this.add('-activate', target, 'ability: Emergency Exit');
+@@ -95,7 +96,8 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
+ 	},
+ 	wimpout: {
+ 		inherit: true,
+-		onEmergencyExit(target) {
++		onEmergencyExit(originalHp, target) {
++			if (!target.hp || target.hp > target.maxhp / 2 || originalHp <= target.maxhp / 2) return;
+ 			if (!this.canSwitch(target.side) || target.forceSwitchFlag || target.switchFlag) return;
+ 			target.switchFlag = true;
+ 			this.add('-activate', target, 'ability: Wimp Out');
+--- data/mods/champions/scripts.ts 
+@@ -416,13 +416,12 @@ export const Scripts: ModdedBattleScriptsData = {
+ 				if (this.battle.gen < 5) {
+ 					this.battle.runEvent('DamagingHit', damagedTargets, pokemon, move, damagedDamage);
+ 				}
+-				if (pokemon.hp && pokemon.hp <= pokemon.maxhp / 2 && pokemonOriginalHP > pokemon.maxhp / 2) {
+-					this.battle.runEvent('EmergencyExit', pokemon);
+-				}
++				this.battle.runEvent('EmergencyExit', pokemon, undefined, undefined, pokemonOriginalHP);
+ 			}
+ 
+ 			return [damage, targets];
+ 		},
++		// Sheer Force doesn't suppress AfterMoveSecondary events: Berserk, Pickpocket, Emergency Exit, Eject Button, etc.
+ 		// Parental Bond shouldn't announce hit count if it only hits once
+ 		hitStepMoveHitLoop(targets, pokemon, move) {
+ 			let damage: (number | boolean | undefined)[] = [];
+@@ -575,27 +574,17 @@ export const Scripts: ModdedBattleScriptsData = {
+ 
+ 			this.afterMoveSecondaryEvent(targetsCopy.filter(val => !!val), pokemon, move);
+ 
+-			if (!(move.hasSheerForce && pokemon.hasAbility('sheerforce'))) {
+-				for (const [i, d] of damage.entries()) {
+-					// There are no multihit spread moves, so it's safe to use move.totalDamage for multihit moves
+-					// The previous check was for `move.multihit`, but that fails for Dragon Darts
+-					const curDamage = targets.length === 1 ? move.totalDamage : d;
+-					if (typeof curDamage === 'number' && targets[i].hp) {
+-						const targetHPBeforeDamage = (targets[i].hurtThisTurn || 0) + curDamage;
+-						if (targets[i].hp <= targets[i].maxhp / 2 && targetHPBeforeDamage > targets[i].maxhp / 2) {
+-							this.battle.runEvent('EmergencyExit', targets[i], pokemon);
+-						}
+-					}
++			for (const [i, d] of damage.entries()) {
++				// There are no multihit spread moves, so it's safe to use move.totalDamage for multihit moves
++				// The previous check was for `move.multihit`, but that fails for Dragon Darts
++				const curDamage = targets.length === 1 ? move.totalDamage : d;
++				if (typeof curDamage === 'number' && targets[i].hp) {
++					const targetHPBeforeDamage = (targets[i].hurtThisTurn || 0) + curDamage;
++					this.battle.runEvent('EmergencyExit', targets[i], pokemon, undefined, targetHPBeforeDamage);
+ 				}
+ 			}
+ 
+ 			return damage;
+ 		},
+-		// Sheer Force doesn't suppress AfterMoveSecondary events: Berserk, Pickpocket, Eject Button, etc.
+-		afterMoveSecondaryEvent(targets, pokemon, move) {
+-			this.battle.singleEvent('AfterMoveSecondary', move, null, targets[0], pokemon, move);
+-			this.battle.runEvent('AfterMoveSecondary', targets, pokemon, move);
+-			return undefined;
+-		},
+ 	},
+ };
+--- data/mods/gen3/scripts.ts 
+@@ -256,7 +256,7 @@ export const Scripts: ModdedBattleScriptsData = {
+ 				return false;
+ 			}
+ 
+-			if (!(move.hasSheerForce && pokemon.hasAbility('sheerforce'))) {
++			if (!this.battle.suppressingSecondaries()) {
+ 				this.battle.singleEvent('AfterMoveSecondarySelf', move, null, pokemon, target, move);
+ 				this.battle.runEvent('AfterMoveSecondarySelf', pokemon, target, move);
+ 			}
+--- data/mods/gen9ssb/scripts.ts 
+@@ -517,7 +517,7 @@ export const Scripts: ModdedBattleScriptsData = {
+ 			this.add('');
+ 			this.clearActiveMove(true);
+ 			this.updateSpeed();
+-			residualPokemon = this.getAllActive().map(pokemon => [pokemon, pokemon.getUndynamaxedHP()] as const);
++			residualPokemon = this.getAllActive().map(pokemon => [pokemon, pokemon.hp] as const);
+ 			this.fieldEvent('Residual');
+ 			this.add('upkeep');
+ 			break;
+@@ -565,18 +565,12 @@ export const Scripts: ModdedBattleScriptsData = {
+ 		if (this.gen >= 5 && action.choice !== 'start') {
+ 			this.eachEvent('Update');
+ 			for (const [pokemon, originalHP] of residualPokemon) {
+-				const maxhp = pokemon.getUndynamaxedHP(pokemon.maxhp);
+-				if (pokemon.hp && pokemon.getUndynamaxedHP() <= maxhp / 2 && originalHP > maxhp / 2) {
+-					this.runEvent('EmergencyExit', pokemon);
+-				}
++				this.runEvent('EmergencyExit', pokemon, undefined, undefined, originalHP);
+ 			}
+ 		}
+ 
+ 		if (action.choice === 'runSwitch') {
+-			const pokemon = action.pokemon;
+-			if (pokemon.hp && pokemon.hp <= pokemon.maxhp / 2 && pokemonOriginalHP! > pokemon.maxhp / 2) {
+-				this.runEvent('EmergencyExit', pokemon);
+-			}
++			this.runEvent('EmergencyExit', action.pokemon, undefined, undefined, pokemonOriginalHP!);
+ 		}
+ 
+ 		const switches = this.sides.map(
+@@ -1345,18 +1339,16 @@ export const Scripts: ModdedBattleScriptsData = {
+ 
+ 			this.battle.eachEvent('Update');
+ 
+-			this.afterMoveSecondaryEvent(targetsCopy.filter(val => !!val), pokemon, move);
++			if (!this.battle.suppressingSecondaries()) {
++				this.afterMoveSecondaryEvent(targetsCopy.filter(val => !!val), pokemon, move);
+ 
+-			if (!(move.hasSheerForce && pokemon.hasAbility('sheerforce'))) {
+ 				for (const [i, d] of damage.entries()) {
+ 					// There are no multihit spread moves, so it's safe to use move.totalDamage for multihit moves
+ 					// The previous check was for `move.multihit`, but that fails for Dragon Darts
+ 					const curDamage = targets.length === 1 ? move.totalDamage : d;
+ 					if (typeof curDamage === 'number' && targets[i].hp) {
+ 						const targetHPBeforeDamage = (targets[i].hurtThisTurn || 0) + curDamage;
+-						if (targets[i].hp <= targets[i].maxhp / 2 && targetHPBeforeDamage > targets[i].maxhp / 2) {
+-							this.battle.runEvent('EmergencyExit', targets[i], pokemon);
+-						}
++						this.battle.runEvent('EmergencyExit', targets[i], pokemon, undefined, targetHPBeforeDamage);
+ 					}
+ 				}
+ 			}
+@@ -1489,9 +1481,7 @@ export const Scripts: ModdedBattleScriptsData = {
+ 						this.battle.singleEvent('AfterHit', moveData, {}, t, pokemon, move);
+ 					}
+ 				}
+-				if (pokemon.hp && pokemon.hp <= pokemon.maxhp / 2 && pokemonOriginalHP > pokemon.maxhp / 2) {
+-					this.battle.runEvent('EmergencyExit', pokemon);
+-				}
++				this.battle.runEvent('EmergencyExit', pokemon, undefined, undefined, pokemonOriginalHP);
+ 			}
+ 
+ 			return [damage, targets];
+--- data/mods/linked/scripts.ts 
+@@ -245,7 +245,7 @@ export const Scripts: ModdedBattleScriptsData = {
+ 			this.add('');
+ 			this.clearActiveMove(true);
+ 			this.updateSpeed();
+-			residualPokemon = this.getAllActive().map(pokemon => [pokemon, pokemon.getUndynamaxedHP()] as const);
++			residualPokemon = this.getAllActive().map(pokemon => [pokemon, pokemon.hp] as const);
+ 			this.fieldEvent('Residual');
+ 			if (!this.ended) this.add('upkeep');
+ 			break;
+@@ -293,18 +293,12 @@ export const Scripts: ModdedBattleScriptsData = {
+ 		if (this.gen >= 5 && action.choice !== 'start') {
+ 			this.eachEvent('Update');
+ 			for (const [pokemon, originalHP] of residualPokemon) {
+-				const maxhp = pokemon.getUndynamaxedHP(pokemon.maxhp);
+-				if (pokemon.hp && pokemon.getUndynamaxedHP() <= maxhp / 2 && originalHP > maxhp / 2) {
+-					this.runEvent('EmergencyExit', pokemon);
+-				}
++				this.runEvent('EmergencyExit', pokemon, undefined, undefined, originalHP);
+ 			}
+ 		}
+ 
+ 		if (action.choice === 'runSwitch') {
+-			const pokemon = action.pokemon;
+-			if (pokemon.hp && pokemon.hp <= pokemon.maxhp / 2 && pokemonOriginalHP! > pokemon.maxhp / 2) {
+-				this.runEvent('EmergencyExit', pokemon);
+-			}
++			this.runEvent('EmergencyExit', action.pokemon, undefined, undefined, pokemonOriginalHP!);
+ 		}
+ 
+ 		const switches = this.sides.map(
+--- data/mods/mixandmega/scripts.ts 
+@@ -275,7 +275,7 @@ export const Scripts: ModdedBattleScriptsData = {
+ 			this.add('');
+ 			this.clearActiveMove(true);
+ 			this.updateSpeed();
+-			residualPokemon = this.getAllActive().map(pokemon => [pokemon, pokemon.getUndynamaxedHP()] as const);
++			residualPokemon = this.getAllActive().map(pokemon => [pokemon, pokemon.hp] as const);
+ 			this.fieldEvent('Residual');
+ 			this.add('upkeep');
+ 			break;
+@@ -323,18 +323,12 @@ export const Scripts: ModdedBattleScriptsData = {
+ 		if (this.gen >= 5 && action.choice !== 'start') {
+ 			this.eachEvent('Update');
+ 			for (const [pokemon, originalHP] of residualPokemon) {
+-				const maxhp = pokemon.getUndynamaxedHP(pokemon.maxhp);
+-				if (pokemon.hp && pokemon.getUndynamaxedHP() <= maxhp / 2 && originalHP > maxhp / 2) {
+-					this.runEvent('EmergencyExit', pokemon);
+-				}
++				this.runEvent('EmergencyExit', pokemon, undefined, undefined, originalHP);
+ 			}
+ 		}
+ 
+ 		if (action.choice === 'runSwitch') {
+-			const pokemon = action.pokemon;
+-			if (pokemon.hp && pokemon.hp <= pokemon.maxhp / 2 && pokemonOriginalHP! > pokemon.maxhp / 2) {
+-				this.runEvent('EmergencyExit', pokemon);
+-			}
++			this.runEvent('EmergencyExit', action.pokemon, undefined, undefined, pokemonOriginalHP!);
+ 		}
+ 
+ 		const switches = this.sides.map(
+--- data/mods/monkeyspaw/scripts.ts 
+@@ -5,7 +5,7 @@ export const Scripts: ModdedBattleScriptsData = {
+ 
+ 		const dynamaxEnding: Pokemon[] = [];
+ 		for (const pokemon of this.getAllActive()) {
+-			if (pokemon.volatiles['dynamax']?.turns === 3) {
++			if (pokemon.volatiles['dynamax']?.turns <= 0) {
+ 				dynamaxEnding.push(pokemon);
+ 			}
+ 		}
+@@ -331,7 +331,7 @@ export const Scripts: ModdedBattleScriptsData = {
+ 			this.add('');
+ 			this.clearActiveMove(true);
+ 			this.updateSpeed();
+-			residualPokemon = this.getAllActive().map(pokemon => [pokemon, pokemon.getUndynamaxedHP()] as const);
++			residualPokemon = this.getAllActive().map(pokemon => [pokemon, pokemon.hp] as const);
+ 			this.fieldEvent('Residual');
+ 			if (!this.ended) this.add('upkeep');
+ 			break;
+@@ -379,18 +379,12 @@ export const Scripts: ModdedBattleScriptsData = {
+ 		if (this.gen >= 5 && action.choice !== 'start') {
+ 			this.eachEvent('Update');
+ 			for (const [pokemon, originalHP] of residualPokemon) {
+-				const maxhp = pokemon.getUndynamaxedHP(pokemon.maxhp);
+-				if (pokemon.hp && pokemon.getUndynamaxedHP() <= maxhp / 2 && originalHP > maxhp / 2) {
+-					this.runEvent('EmergencyExit', pokemon);
+-				}
++				this.runEvent('EmergencyExit', pokemon, undefined, undefined, originalHP);
+ 			}
+ 		}
+ 
+ 		if (action.choice === 'runSwitch') {
+-			const pokemon = action.pokemon;
+-			if (pokemon.hp && pokemon.hp <= pokemon.maxhp / 2 && pokemonOriginalHP! > pokemon.maxhp / 2) {
+-				this.runEvent('EmergencyExit', pokemon);
+-			}
++			this.runEvent('EmergencyExit', action.pokemon, undefined, undefined, pokemonOriginalHP!);
+ 		}
+ 
+ 		const switches = this.sides.map(
+--- data/mods/partnersincrime/scripts.ts 
+@@ -138,7 +138,7 @@ export const Scripts: ModdedBattleScriptsData = {
+ 
+ 		const dynamaxEnding: Pokemon[] = [];
+ 		for (const pokemon of this.getAllActive()) {
+-			if (pokemon.volatiles['dynamax']?.turns === 3) {
++			if (pokemon.volatiles['dynamax']?.turns <= 0) {
+ 				dynamaxEnding.push(pokemon);
+ 			}
+ 		}
+--- data/mods/passiveaggressive/scripts.ts 
+@@ -148,18 +148,16 @@ export const Scripts: ModdedBattleScriptsData = {
+ 
+ 			this.battle.eachEvent('Update');
+ 
+-			this.afterMoveSecondaryEvent(targetsCopy.filter(val => !!val), pokemon, move);
++			if (!this.battle.suppressingSecondaries()) {
++				this.afterMoveSecondaryEvent(targetsCopy.filter(val => !!val), pokemon, move);
+ 
+-			if (!(move.hasSheerForce && pokemon.hasAbility('sheerforce'))) {
+ 				for (const [i, d] of damage.entries()) {
+ 					// There are no multihit spread moves, so it's safe to use move.totalDamage for multihit moves
+ 					// The previous check was for `move.multihit`, but that fails for Dragon Darts
+ 					const curDamage = targets.length === 1 ? move.totalDamage : d;
+ 					if (typeof curDamage === 'number' && targets[i].hp) {
+ 						const targetHPBeforeDamage = (targets[i].hurtThisTurn || 0) + curDamage;
+-						if (targets[i].hp <= targets[i].maxhp / 2 && targetHPBeforeDamage > targets[i].maxhp / 2) {
+-							this.battle.runEvent('EmergencyExit', targets[i], pokemon);
+-						}
++						this.battle.runEvent('EmergencyExit', targets[i], pokemon, undefined, targetHPBeforeDamage);
+ 					}
+ 				}
+ 			}
+@@ -184,9 +182,7 @@ export const Scripts: ModdedBattleScriptsData = {
+ 				const effect = move.mindBlownRecoil ? this.dex.conditions.get(move.name) : 'recoil';
+ 				this.battle.damage(recoilDamage, pokemon, pokemon, effect);
+ 			}
+-			if (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {
+-				this.battle.runEvent('EmergencyExit', pokemon, pokemon);
+-			}
++			this.battle.runEvent('EmergencyExit', pokemon, pokemon, undefined, hpBeforeRecoil);
+ 
+ 			return recoilDamage;
+ 		},
+--- data/mods/trademarked/scripts.ts 
+@@ -14,7 +14,7 @@ export const Scripts: ModdedBattleScriptsData = {
+ 
+ 		const dynamaxEnding: Pokemon[] = [];
+ 		for (const pokemon of this.getAllActive()) {
+-			if (pokemon.volatiles['dynamax']?.turns === 3) {
++			if (pokemon.volatiles['dynamax']?.turns <= 0) {
+ 				dynamaxEnding.push(pokemon);
+ 			}
+ 		}
+--- sim/battle-actions.ts 
+@@ -526,21 +526,17 @@ export class BattleActions {
+ 			const originalHp = pokemon.hp;
+ 			this.battle.singleEvent('MoveFail', move, null, target, pokemon, move);
+ 			if (pokemon && pokemon !== target && move.category !== 'Status') {
+-				if (pokemon.hp <= pokemon.maxhp / 2 && originalHp > pokemon.maxhp / 2) {
+-					this.battle.runEvent('EmergencyExit', pokemon, pokemon);
+-				}
++				this.battle.runEvent('EmergencyExit', pokemon, pokemon, undefined, originalHp);
+ 			}
+ 			return false;
+ 		}
+ 
+-		if (!(move.hasSheerForce && pokemon.hasAbility('sheerforce')) && !move.flags['futuremove']) {
++		if (!this.battle.suppressingSecondaries() && !move.flags['futuremove']) {
+ 			const originalHp = pokemon.hp;
+ 			this.battle.singleEvent('AfterMoveSecondarySelf', move, null, pokemon, target, move);
+ 			this.battle.runEvent('AfterMoveSecondarySelf', pokemon, target, move);
+ 			if (pokemon && pokemon !== target && move.category !== 'Status') {
+-				if (pokemon.hp <= pokemon.maxhp / 2 && originalHp > pokemon.maxhp / 2) {
+-					this.battle.runEvent('EmergencyExit', pokemon, pokemon);
+-				}
++				this.battle.runEvent('EmergencyExit', pokemon, pokemon, undefined, originalHp);
+ 			}
+ 		}
+ 
+@@ -809,11 +805,8 @@ export class BattleActions {
+ 		return undefined;
+ 	}
+ 	afterMoveSecondaryEvent(targets: Pokemon[], pokemon: Pokemon, move: ActiveMove) {
+-		// console.log(`${targets}, ${pokemon}, ${move}`)
+-		if (!(move.hasSheerForce && pokemon.hasAbility('sheerforce'))) {
+-			this.battle.singleEvent('AfterMoveSecondary', move, null, targets[0], pokemon, move);
+-			this.battle.runEvent('AfterMoveSecondary', targets, pokemon, move);
+-		}
++		this.battle.singleEvent('AfterMoveSecondary', move, null, targets[0], pokemon, move);
++		this.battle.runEvent('AfterMoveSecondary', targets, pokemon, move);
+ 		return undefined;
+ 	}
+ 	/** NOTE: used only for moves that target sides/fields rather than pokemon */
+@@ -1002,18 +995,16 @@ export class BattleActions {
+ 
+ 		this.battle.eachEvent('Update');
+ 
+-		this.afterMoveSecondaryEvent(targetsCopy.filter(val => !!val), pokemon, move);
++		if (!this.battle.suppressingSecondaries()) {
++			this.afterMoveSecondaryEvent(targetsCopy.filter(val => !!val), pokemon, move);
+ 
+-		if (!(move.hasSheerForce && pokemon.hasAbility('sheerforce'))) {
+ 			for (const [i, d] of damage.entries()) {
+ 				// There are no multihit spread moves, so it's safe to use move.totalDamage for multihit moves
+ 				// The previous check was for `move.multihit`, but that fails for Dragon Darts
+ 				const curDamage = targets.length === 1 ? move.totalDamage : d;
+ 				if (typeof curDamage === 'number' && targets[i].hp) {
+ 					const targetHPBeforeDamage = (targets[i].hurtThisTurn || 0) + curDamage;
+-					if (targets[i].hp <= targets[i].maxhp / 2 && targetHPBeforeDamage > targets[i].maxhp / 2) {
+-						this.battle.runEvent('EmergencyExit', targets[i], pokemon);
+-					}
++					this.battle.runEvent('EmergencyExit', targets[i], pokemon, undefined, targetHPBeforeDamage);
+ 				}
+ 			}
+ 		}
+@@ -1128,9 +1119,7 @@ export class BattleActions {
+ 			if (this.battle.gen < 5) {
+ 				this.battle.runEvent('DamagingHit', damagedTargets, pokemon, move, damagedDamage);
+ 			}
+-			if (pokemon.hp && pokemon.hp <= pokemon.maxhp / 2 && pokemonOriginalHP > pokemon.maxhp / 2) {
+-				this.battle.runEvent('EmergencyExit', pokemon);
+-			}
++			this.battle.runEvent('EmergencyExit', pokemon, undefined, undefined, pokemonOriginalHP);
+ 		}
+ 
+ 		return [damage, targets];
+@@ -1391,9 +1380,7 @@ export class BattleActions {
+ 			const effect = move.mindBlownRecoil ? this.dex.conditions.get(move.name) : 'recoil';
+ 			this.battle.damage(recoilDamage, pokemon, pokemon, effect);
+ 		}
+-		if (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {
+-			this.battle.runEvent('EmergencyExit', pokemon, pokemon);
+-		}
++		this.battle.runEvent('EmergencyExit', pokemon, pokemon, undefined, hpBeforeRecoil);
+ 
+ 		return recoilDamage;
+ 	}
+--- sim/battle.ts 
+@@ -363,8 +363,12 @@ export class Battle {
+ 	}
+ 
+ 	suppressingAbility(target?: Pokemon) {
+-		return this.activePokemon && this.activePokemon.isActive && (this.activePokemon !== target || this.gen < 8) &&
+-			this.activeMove && this.activeMove.ignoreAbility && !target?.hasItem('Ability Shield');
++		return this.activePokemon?.isActive && (this.activePokemon !== target || this.gen < 8) &&
++			this.activeMove?.ignoreAbility && !target?.hasItem('Ability Shield');
++	}
++
++	suppressingSecondaries() {
++		return this.activeMove?.hasSheerForce && this.activePokemon?.hasAbility('sheerforce');
+ 	}
+ 
+ 	setActiveMove(move?: ActiveMove | null, pokemon?: Pokemon | null, target?: Pokemon | null) {
+@@ -1626,7 +1630,7 @@ export class Battle {
+ 
+ 		const dynamaxEnding: Pokemon[] = [];
+ 		for (const pokemon of this.getAllActive()) {
+-			if (pokemon.volatiles['dynamax']?.turns === 3) {
++			if (pokemon.volatiles['dynamax']?.turns <= 0) {
+ 				dynamaxEnding.push(pokemon);
+ 			}
+ 		}
+@@ -2812,7 +2816,7 @@ export class Battle {
+ 			this.add('');
+ 			this.clearActiveMove(true);
+ 			this.updateSpeed();
+-			residualPokemon = this.getAllActive().map(pokemon => [pokemon, pokemon.getUndynamaxedHP()] as const);
++			residualPokemon = this.getAllActive().map(pokemon => [pokemon, pokemon.hp] as const);
+ 			this.fieldEvent('Residual');
+ 			if (!this.ended) this.add('upkeep');
+ 			break;
+@@ -2860,18 +2864,12 @@ export class Battle {
+ 		if (this.gen >= 5 && action.choice !== 'start') {
+ 			this.eachEvent('Update');
+ 			for (const [pokemon, originalHP] of residualPokemon) {
+-				const maxhp = pokemon.getUndynamaxedHP(pokemon.maxhp);
+-				if (pokemon.hp && pokemon.getUndynamaxedHP() <= maxhp / 2 && originalHP > maxhp / 2) {
+-					this.runEvent('EmergencyExit', pokemon);
+-				}
++				this.runEvent('EmergencyExit', pokemon, undefined, undefined, originalHP);
+ 			}
+ 		}
+ 
+ 		if (action.choice === 'runSwitch') {
+-			const pokemon = action.pokemon;
+-			if (pokemon.hp && pokemon.hp <= pokemon.maxhp / 2 && pokemonOriginalHP! > pokemon.maxhp / 2) {
+-				this.runEvent('EmergencyExit', pokemon);
+-			}
++			this.runEvent('EmergencyExit', action.pokemon, undefined, undefined, pokemonOriginalHP!);
+ 		}
+ 
+ 		const switches = this.sides.map(
+--- sim/dex-conditions.ts 
+@@ -12,7 +12,7 @@ import type { SecondaryEffect, MoveEventMethods } from './dex-moves';
+ 
+ export interface EventMethods {
+ 	onDamagingHit?: (this: Battle, damage: number, target: Pokemon, source: Pokemon, move: ActiveMove) => void;
+-	onEmergencyExit?: (this: Battle, pokemon: Pokemon) => void;
++	onEmergencyExit?: (this: Battle, originalHp: number, pokemon: Pokemon) => void;
+ 	onAfterEachBoost?: (this: Battle, boost: SparseBoostsTable, target: Pokemon, source: Pokemon, effect: Effect) => void;
+ 	onAfterHit?: MoveEventMethods['onAfterHit'];
+ 	onAfterMega?: (this: Battle, pokemon: Pokemon) => void;
+
+######## 57ecb348 Champions: Allow Emergency Exit to activate even if other Pokemon are switching out (#12320)
+
+* Champions: Allow Emergency Exit to activate even if other Pokemon are switching out
+
+* Small Eject Pack fix
+--- data/items.ts 
+@@ -1722,19 +1722,23 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
+ 		onAnySwitchIn() {
+ 			if (!this.effectState.eject) return;
+ 			(this.effectState.target as Pokemon).useItem();
++			delete this.effectState.eject;
+ 		},
+ 		onAnyAfterMega() {
+ 			if (!this.effectState.eject) return;
+ 			(this.effectState.target as Pokemon).useItem();
++			delete this.effectState.eject;
+ 		},
+ 		onAnyAfterMove() {
+ 			if (!this.effectState.eject) return;
+ 			(this.effectState.target as Pokemon).useItem();
++			delete this.effectState.eject;
+ 		},
+ 		onResidualOrder: 29,
+ 		onResidual(pokemon) {
+ 			if (!this.effectState.eject) return;
+ 			(this.effectState.target as Pokemon).useItem();
++			delete this.effectState.eject;
+ 		},
+ 		onUseItem(item, pokemon) {
+ 			if (!this.canSwitch(pokemon.side)) return false;
+--- data/mods/champions/abilities.ts 
+@@ -19,6 +19,14 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
+ 		inherit: true,
+ 		isNonstandard: null,
+ 	},
++	emergencyexit: {
++		inherit: true,
++		onEmergencyExit(target) {
++			if (!this.canSwitch(target.side) || target.forceSwitchFlag || target.switchFlag) return;
++			target.switchFlag = true;
++			this.add('-activate', target, 'ability: Emergency Exit');
++		},
++	},
+ 	firemane: {
+ 		inherit: true,
+ 		isNonstandard: null,
+@@ -85,4 +93,12 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
+ 			}
+ 		},
+ 	},
++	wimpout: {
++		inherit: true,
++		onEmergencyExit(target) {
++			if (!this.canSwitch(target.side) || target.forceSwitchFlag || target.switchFlag) return;
++			target.switchFlag = true;
++			this.add('-activate', target, 'ability: Wimp Out');
++		},
++	},
+ };
+
+######## aa6d5f08 Champions: Allow self-switches even if Eject Button is triggered (#12309)
+
+* Champions: Allow self-switches even if Eject Button is triggered
+
+* Remove onAfterMoveSecondaryPriority
+--- data/mods/champions/items.ts 
+@@ -263,6 +263,22 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: null,
+ 	},
++	ejectbutton: {
++		inherit: true,
++		onAfterMoveSecondary(target, source, move) {
++			if (source && source !== target && target.hp && move && move.category !== 'Status' && !move.flags['futuremove']) {
++				if (!this.canSwitch(target.side) || target.forceSwitchFlag || target.beingCalledBack || target.isSkyDropped()) return;
++				if (target.volatiles['commanding'] || target.volatiles['commanded']) return;
++				for (const pokemon of this.getAllActive()) {
++					if (pokemon.switchFlag === true) return;
++				}
++				target.switchFlag = true;
++				if (!target.useItem()) {
++					target.switchFlag = false;
++				}
++			}
++		},
++	},
+ 	ejectpack: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+
+######## d849b220 Champions: Implement Run Away's immunity to trapping (#12303)
+--- data/mods/champions/abilities.ts 
+@@ -60,18 +60,29 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
+ 			}
+ 		},
+ 	},
++	runaway: {
++		inherit: true,
++		onTrapPokemonPriority: -10,
++		onTrapPokemon(pokemon) {
++			pokemon.trapped = false;
++		},
++		onMaybeTrapPokemonPriority: -10,
++		onMaybeTrapPokemon(pokemon) {
++			pokemon.maybeTrapped = false;
++		},
++	},
+ 	spicyspray: {
+ 		inherit: true,
+ 		isNonstandard: null,
+ 	},
+ 	unseenfist: {
++		inherit: true,
+ 		onModifyMove: undefined, // no inherit
+ 		onHitProtect(source, target, move) {
+ 			if (move.flags['contact']) {
+ 				target.getMoveHitData(move).bypassProtect = this.effect;
+ 				return false;
+ 			}
+ 		},
+-		inherit: true,
+ 	},
+ };
+
+######## 1daa64d3 Champions: Ban Mega Raichu Y (#12369)
+
+https://www.smogon.com/forums/threads/np-thunder-champions-ou-suspect-test.3788759/post-11156766
+
+######## 700b4f75 Champions: Fix Curse + Follow Me interaction and add Curse + Electrify tests (#12329)
+
+* Champions: Fix Curse + Follow Me interaction and add Curse + Electrify tests
+
+* Fix Curse interaction with Ally Switch across generations
+
+* Lint
+--- data/mods/champions/moves.ts 
+@@ -164,21 +164,23 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 	},
+ 	curse: {
+ 		inherit: true,
+-		tracksTarget: true,
+ 		volatileStatus: undefined, // no inherit
+ 		onModifyMove(move, source, target) {
++			this.debug('Curse onModifyMove triggered', source, target);
+ 			if (!source.hasType('Ghost')) {
+ 				move.target = 'self';
+-			} else if (source !== target && source.isAlly(target)) {
++			} else if (!target || (source !== target && source.isAlly(target))) {
+ 				move.target = 'randomNormal';
+ 			}
+ 		},
+ 		onTryHit(target, source, move) {
++			this.debug('Curse onTryHit triggered', target, source);
+ 			if (source.hasType('Ghost') && target.volatiles['curse']) {
+ 				return false;
+ 			}
+ 		},
+ 		onHit(target, source) {
++			this.debug('Curse onHit triggered', source, target);
+ 			if (!source.hasType('Ghost')) {
+ 				return !!this.boost({ spe: -1, atk: 1, def: 1 }, source, source);
+ 			}
+--- data/mods/gen8/moves.ts 
+@@ -100,6 +100,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		onModifyMove(move, source, target) {
+ 			if (!source.hasType('Ghost')) {
+ 				move.target = 'self';
++			} else if (!target) {
++				move.target = 'randomNormal';
+ 			}
+ 		},
+ 		target: "randomNormal",
+--- data/moves.ts 
+@@ -3276,7 +3276,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
+ 		onModifyMove(move, source, target) {
+ 			if (!source.hasType('Ghost')) {
+ 				move.target = 'self';
+-			} else if (source.isAlly(target)) {
++			} else if (!target || source.isAlly(target)) {
+ 				move.target = 'randomNormal';
+ 			}
+ 		},
+--- sim/battle-queue.ts 
+@@ -262,7 +262,7 @@ export class BattleQueue {
+ 
+ 			if (this.battle.dex.currentMod.startsWith('champions') &&
+ 				action.move.id === 'curse' && !action.pokemon.hasType('Ghost')) {
+-				action.targetLoc = action.pokemon.getLocOf(action.pokemon);
++				action.move.target = 'self';
+ 			}
+ 
+ 			if (!action.targetLoc) {
+
+######## 23451198 Champions: Fix Curse + type-changing interactions (#12321)
+
+* Champions: Fix Curse + type changing interactions
+
+* Add tests with Encore
+--- data/mods/champions/moves.ts 
+@@ -162,6 +162,36 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
++	curse: {
++		inherit: true,
++		tracksTarget: true,
++		volatileStatus: undefined, // no inherit
++		onModifyMove(move, source, target) {
++			if (!source.hasType('Ghost')) {
++				move.target = 'self';
++			} else if (source !== target && source.isAlly(target)) {
++				move.target = 'randomNormal';
++			}
++		},
++		onTryHit(target, source, move) {
++			if (source.hasType('Ghost') && target.volatiles['curse']) {
++				return false;
++			}
++		},
++		onHit(target, source) {
++			if (!source.hasType('Ghost')) {
++				return !!this.boost({ spe: -1, atk: 1, def: 1 }, source, source);
++			}
++			this.directDamage(source.maxhp / 2, source, source);
++			if (source.isAlly(target)) {
++				const random = this.getRandomTarget(source, 'Curse');
++				if (!random) return false;
++				target = random;
++			}
++			delete target.volatiles['curse'];
++			target.addVolatile('curse');
++		},
++	},
+ 	cut: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+--- data/mods/gen4/moves.ts 
+@@ -273,7 +273,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 				delete move.volatileStatus;
+ 				delete move.onHit;
+ 				move.self = { boosts: { atk: 1, def: 1, spe: -1 } };
+-				move.target = move.nonGhostTarget!;
++				move.target = 'self';
+ 			} else if (target?.volatiles['substitute']) {
+ 				delete move.volatileStatus;
+ 				delete move.onHit;
+--- data/mods/gen8/moves.ts 
+@@ -99,7 +99,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		onModifyMove(move, source, target) {
+ 			if (!source.hasType('Ghost')) {
+-				move.target = move.nonGhostTarget!;
++				move.target = 'self';
+ 			}
+ 		},
+ 		target: "randomNormal",
+--- data/mods/teraoverride/moves.ts 
+@@ -57,7 +57,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		onModifyMove(move, source, target) {
+ 			if (!source.hasType(source.teraType)) {
+-				move.target = move.nonGhostTarget!;
++				move.target = 'self';
+ 			} else if (source.isAlly(target)) {
+ 				move.target = 'randomNormal';
+ 			}
+--- data/moves.ts 
+@@ -3275,7 +3275,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
+ 		volatileStatus: 'curse',
+ 		onModifyMove(move, source, target) {
+ 			if (!source.hasType('Ghost')) {
+-				move.target = move.nonGhostTarget!;
++				move.target = 'self';
+ 			} else if (source.isAlly(target)) {
+ 				move.target = 'randomNormal';
+ 			}
+@@ -3302,7 +3302,6 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
+ 			},
+ 		},
+ 		target: "normal",
+-		nonGhostTarget: "self",
+ 		type: "Ghost",
+ 		zMove: { effect: 'curse' },
+ 		contestType: "Tough",
+--- sim/battle-queue.ts 
+@@ -260,6 +260,11 @@ export class BattleQueue {
+ 			let target = null;
+ 			action.move = this.battle.dex.getActiveMove(action.move);
+ 
++			if (this.battle.dex.currentMod.startsWith('champions') &&
++				action.move.id === 'curse' && !action.pokemon.hasType('Ghost')) {
++				action.targetLoc = action.pokemon.getLocOf(action.pokemon);
++			}
++
+ 			if (!action.targetLoc) {
+ 				target = this.battle.getRandomTarget(action.pokemon, action.move);
+ 				// TODO: what actually happens here?
+--- sim/dex-moves.ts 
+@@ -251,7 +251,6 @@ export interface MoveData extends EffectData, MoveEventMethods, HitEffect {
+ 	multihit?: number | number[];
+ 	multihitType?: 'parentalbond';
+ 	noDamageVariance?: boolean;
+-	nonGhostTarget?: MoveTarget;
+ 	spreadModifier?: number;
+ 	sleepUsable?: boolean;
+ 	/**
+@@ -451,8 +450,6 @@ export class DataMove extends BasicEffect implements Readonly<BasicEffect & Move
+ 	readonly flags: MoveFlags;
+ 	/** Whether or not the user must switch after using this move. */
+ 	readonly selfSwitch?: 'copyvolatile' | 'shedtail' | boolean;
+-	/** Move target used if the user is not a Ghost type (for Curse). */
+-	readonly nonGhostTarget: MoveTarget;
+ 	/** Whether or not the move ignores abilities. */
+ 	readonly ignoreAbility: boolean;
+ 	/**
+@@ -505,7 +502,6 @@ export class DataMove extends BasicEffect implements Readonly<BasicEffect & Move
+ 		this.isMax = data.isMax || false;
+ 		this.flags = data.flags || {};
+ 		this.selfSwitch = (typeof data.selfSwitch === 'string' ? (data.selfSwitch as ID) : data.selfSwitch) || undefined;
+-		this.nonGhostTarget = data.nonGhostTarget || '';
+ 		this.ignoreAbility = data.ignoreAbility || false;
+ 		this.damage = data.damage!;
+ 		this.spreadHit = data.spreadHit || false;
+--- sim/pokemon.ts 
+@@ -998,7 +998,7 @@ export class Pokemon {
+ 			switch (moveSlot.id) {
+ 			case 'curse':
+ 				if (!this.hasType('Ghost')) {
+-					target = this.battle.dex.moves.get('curse').nonGhostTarget;
++					target = 'self';
+ 				}
+ 				break;
+ 			case 'pollenpuff':
+
+######## 812501ed Add Champions Regulation M-C
+--- config/formats.ts 
+@@ -264,15 +264,16 @@ export const Formats: import('../sim/dex-formats').FormatList = [
+ 		banlist: ['OU', 'UUBL', 'Drought'],
+ 	},
+ 	{
+-		name: "[Gen 9 Champions] BSS Reg M-A",
+-		mod: 'championsregma',
++		name: "[Gen 9 Champions] BSS Reg M-C",
++		mod: 'champions',
+ 		searchShow: false,
+ 		bestOfDefault: true,
+ 		ruleset: ['Flat Rules', 'VGC Timer'],
+ 	},
+ 	{
+ 		name: "[Gen 9 Champions] BSS Reg M-B",
+-		mod: 'champions',
++		mod: 'championsregmb',
++		searchShow: false,
+ 		bestOfDefault: true,
+ 		ruleset: ['Flat Rules', 'VGC Timer'],
+ 	},
+@@ -285,31 +286,31 @@ export const Formats: import('../sim/dex-formats').FormatList = [
+ 		ruleset: ['Obtainable', 'Species Clause', 'Cancel Mod', 'Illusion Level Mod', 'Level Clause Mod'],
+ 	},
+ 	{
+-		name: "[Gen 9 Champions] VGC 2026 Reg M-A",
+-		mod: 'championsregma',
++		name: "[Gen 9 Champions] VGC 2026 Reg M-C",
++		mod: 'champions',
+ 		gameType: 'doubles',
+-		searchShow: false,
+ 		bestOfDefault: true,
+ 		ruleset: ['Flat Rules', 'VGC Timer', 'Open Team Sheets'],
+ 	},
+ 	{
+-		name: "[Gen 9 Champions] VGC 2026 Reg M-A (Bo3)",
+-		mod: 'championsregma',
++		name: "[Gen 9 Champions] VGC 2026 Reg M-C (Bo3)",
++		mod: 'champions',
+ 		gameType: 'doubles',
+-		searchShow: false,
+ 		ruleset: ['Flat Rules', 'VGC Timer', 'Force Open Team Sheets', 'Best of = 3'],
+ 	},
+ 	{
+ 		name: "[Gen 9 Champions] VGC 2026 Reg M-B",
+-		mod: 'champions',
++		mod: 'championsregmb',
+ 		gameType: 'doubles',
++		searchShow: false,
+ 		bestOfDefault: true,
+ 		ruleset: ['Flat Rules', 'VGC Timer', 'Open Team Sheets'],
+ 	},
+ 	{
+ 		name: "[Gen 9 Champions] VGC 2026 Reg M-B (Bo3)",
+-		mod: 'champions',
++		mod: 'championsregmb',
+ 		gameType: 'doubles',
++		searchShow: false,
+ 		ruleset: ['Flat Rules', 'VGC Timer', 'Force Open Team Sheets', 'Best of = 3'],
+ 	},
+ 	{
+@@ -371,12 +372,12 @@ export const Formats: import('../sim/dex-formats').FormatList = [
+ 	},
+ 	{
+ 		name: "[Gen 9 Champions] 4v4 Doubles UU",
+-		desc: "VGC rules, but only Pok&eacute;mon that get less than 4.52% usage on the [Gen 9 Champions] VGC 2026 Reg M-A ladder are legal, as well as a few other guidelines.",
+-		mod: 'championsregma',
++		desc: "VGC rules, but only Pok&eacute;mon that get less than 4.52% usage on the [Gen 9 Champions] VGC 2026 Reg M-B ladder are legal, as well as a few other guidelines.",
++		mod: 'championsregmb',
+ 		gameType: 'doubles',
+ 		searchShow: false,
+ 		bestOfDefault: true,
+-		ruleset: ['[Gen 9 Champions] VGC 2026 Reg M-A', 'Evasion Clause', 'OHKO Clause', 'Gravity Sleep Clause'],
++		ruleset: ['[Gen 9 Champions] VGC 2026 Reg M-B', 'Evasion Clause', 'OHKO Clause', 'Gravity Sleep Clause'],
+ 		banlist: [
+ 			'Aegislash', 'Aerodactyl', 'Archaludon', 'Basculegion-M', 'Charizard-Mega-Y', 'Delphox-Mega', 'Excadrill', 'Farigiraf', 'Floette-Mega', 'Froslass-Mega', 'Garchomp',
+ 			'Gardevoir-Mega', 'Gengar-Mega', 'Incineroar', 'Kingambit', 'Kommo-o', 'Maushold', 'Meganium-Mega', 'Milotic', 'Ninetales-Alola', 'Pelipper', 'Rotom-Wash', 'Scizor-Mega',
+--- data/mods/champions/items.ts 
+@@ -11,6 +11,10 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: null,
+ 	},
++	absolitez: {
++		inherit: true,
++		isNonstandard: null,
++	},
+ 	absorbbulb: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -39,10 +43,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	airballoon: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	alakazite: {
+ 		inherit: true,
+ 		isNonstandard: null,
+@@ -79,6 +79,10 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: null,
+ 	},
++	baxcalibrite: {
++		inherit: true,
++		isNonstandard: null,
++	},
+ 	beastball: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -95,10 +99,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	bindingband: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	blacksludge: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -263,10 +263,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: null,
+ 	},
+-	ejectbutton: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	ejectpack: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -275,10 +271,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	electricseed: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	emboarite: {
+ 		inherit: true,
+ 		isNonstandard: null,
+@@ -367,6 +359,10 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: null,
+ 	},
++	garchompitez: {
++		inherit: true,
++		isNonstandard: null,
++	},
+ 	gardevoirite: {
+ 		inherit: true,
+ 		isNonstandard: null,
+@@ -389,16 +385,12 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 	},
+ 	golisopite: {
+ 		inherit: true,
+-		isNonstandard: "Past",
++		isNonstandard: null,
+ 	},
+ 	golurkite: {
+ 		inherit: true,
+ 		isNonstandard: null,
+ 	},
+-	grassyseed: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	greatball: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -511,6 +503,10 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
++	leek: {
++		inherit: true,
++		isNonstandard: null,
++	},
+ 	levelball: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -539,6 +535,10 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: null,
+ 	},
++	lucarionitez: {
++		inherit: true,
++		isNonstandard: null,
++	},
+ 	luminousmoss: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -631,10 +631,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	mistyseed: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	moonball: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -651,10 +647,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	normalgem: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	ovalstone: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -735,10 +727,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	psychicseed: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	punchingglove: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -779,10 +767,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	redcard: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	repeatball: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -795,10 +779,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	rockyhelmet: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	roomservice: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -831,6 +811,10 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
++	salamencite: {
++		inherit: true,
++		isNonstandard: null,
++	},
+ 	sceptilite: {
+ 		inherit: true,
+ 		isNonstandard: null,
+@@ -955,10 +939,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	terrainextender: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	throatspray: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+--- data/mods/champions/moves.ts 
+@@ -150,10 +150,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		isNonstandard: null,
+ 	},
+-	courtchange: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	crabhammer: {
+ 		inherit: true,
+ 		accuracy: 95,
+@@ -225,10 +221,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	doubleshock: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	dragonascent: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -258,10 +250,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	drumbeating: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	dynamaxcannon: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -433,10 +421,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	glaiverush: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	grasspledge: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -533,10 +517,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	jawlock: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	judgment: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -616,6 +596,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		isNonstandard: "Past",
+ 		flags: { contact: 1, protect: 1, mirror: 1, metronome: 1, slicing: 1 },
+ 	},
++	meteorassault: {
++		inherit: true,
++		basePower: 170,
++	},
+ 	metronome: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -626,7 +610,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 	},
+ 	milkdrink: {
+ 		inherit: true,
+-		isNonstandard: "Past",
++		target: "adjacentAllyOrSelf",
+ 	},
+ 	mimic: {
+ 		inherit: true,
+@@ -681,15 +665,15 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		pp: 5,
+ 	},
+-	orderup: {
++	octolock: {
+ 		inherit: true,
+-		isNonstandard: "Past",
++		isNonstandard: null,
+ 	},
+-	originpulse: {
++	orderup: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	overdrive: {
++	originpulse: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+@@ -769,10 +753,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		pp: 5,
+ 	},
+-	pyroball: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	ragefist: {
+ 		inherit: true,
+ 		// Hit counter reset is implemented in Pokemon#clearVolatile
+@@ -794,10 +774,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		basePower: 100,
+ 		isNonstandard: "Past",
+ 	},
+-	revivalblessing: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	roaroftime: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -867,10 +843,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		pp: 10,
+ 	},
+-	shiftgear: {
+-		inherit: true,
+-		isNonstandard: "Past",
+-	},
+ 	shockwave: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+@@ -893,7 +865,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 	},
+ 	slash: {
+ 		inherit: true,
+-		isNonstandard: "Past",
++		basePower: 80,
+ 	},
+ 	sludge: {
+ 		inherit: true,
+@@ -915,7 +887,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 	snipeshot: {
+ 		inherit: true,
+ 		basePower: 85,
+-		isNonstandard: "Past",
+ 	},
+ 	snowscape: {
+ 		inherit: true,
+@@ -970,6 +941,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
++	strengthsap: {
++		inherit: true,
++		pp: 5,
++	},
+ 	stuffcheeks: {
+ 		inherit: true,
+ 		onDisableMove: undefined, // no inherit
+@@ -1117,15 +1092,15 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	withdraw: {
++	wish: {
+ 		inherit: true,
+-		isNonstandard: "Past",
++		pp: 5,
+ 	},
+-	workup: {
++	withdraw: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+-	zingzap: {
++	workup: {
+ 		inherit: true,
+ 		isNonstandard: "Past",
+ 	},
+--- data/pokedex.ts 
+@@ -14535,7 +14535,7 @@ export const Pokedex: import('../sim/dex-species').SpeciesDataTable = {
+ 		forme: "Mega",
+ 		types: ["Bug", "Steel"],
+ 		baseStats: { hp: 75, atk: 150, def: 175, spa: 70, spd: 120, spe: 40 },
+-		abilities: { 0: "Emergency Exit" },
++		abilities: { 0: "Tough Claws" },
+ 		heightm: 2.3,
+ 		weightkg: 148,
+ 		color: "Gray",
+--- data/text/zh-cn/abilities.ts 
+@@ -136,7 +136,7 @@ export const AbilitiesText: { [id: IDEntry]: AbilityText } = {
+ 		start: "  {POKEMON}压制了所有气场！",
+ 	},
+ 	auraguard: {
+-		name: null, // NEEDS TRANSLATION
++		name: "气场破坏",
+ 		shortDesc: null, // NEEDS TRANSLATION
+ 	},
+ 	baddreams: {
+--- data/text/zh-tw/abilities.ts 
+@@ -136,7 +136,7 @@ export const AbilitiesText: { [id: IDEntry]: AbilityText } = {
+ 		start: "  {POKEMON}壓制了所有氣場！",
+ 	},
+ 	auraguard: {
+-		name: null, // NEEDS TRANSLATION
++		name: "氣場破壞",
+ 		shortDesc: null, // NEEDS TRANSLATION
+ 	},
+ 	baddreams: {

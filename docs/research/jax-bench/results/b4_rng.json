@@ -1,0 +1,225 @@
+{
+ "env": {
+  "jax": "0.12.0.1",
+  "backend": "cpu",
+  "devices": [
+   "cpu:0"
+  ],
+  "python": "3.12.11",
+  "machine": "arm64",
+  "xla_flags": ""
+ },
+ "rows": [
+  {
+   "lower_s": 0.003965875000176311,
+   "compile_s": 0.013624457999867445,
+   "run_s": 2.314600010322465e-05,
+   "ns_per_elem": 1.4127197328628327,
+   "temp_bytes": 0,
+   "arg_bytes": 65536,
+   "out_bytes": 65536,
+   "impl": "-",
+   "method": "baseline (no RNG)"
+  },
+  {
+   "lower_s": 0.05391445899977043,
+   "compile_s": 3.006420832999993,
+   "run_s": 0.050276792000204296,
+   "ns_per_elem": 3068.651855481219,
+   "temp_bytes": 47522560,
+   "arg_bytes": 196608,
+   "out_bytes": 65536,
+   "ns_per_draw": 21.31008232973069,
+   "impl": "threefry2x32",
+   "method": "foldin x144"
+  },
+  {
+   "lower_s": 0.02979383299998517,
+   "compile_s": 0.08113124999999854,
+   "run_s": 0.041700166999817156,
+   "ns_per_elem": 2545.176208484934,
+   "temp_bytes": 94372352,
+   "arg_bytes": 196608,
+   "out_bytes": 65536,
+   "ns_per_draw": 17.674834781145375,
+   "impl": "threefry2x32",
+   "method": "split 144"
+  },
+  {
+   "lower_s": 0.024904416000026686,
+   "compile_s": 0.5022078339998188,
+   "run_s": 0.029063875000247208,
+   "ns_per_elem": 1773.918151870557,
+   "temp_bytes": 38076928,
+   "arg_bytes": 196608,
+   "out_bytes": 65536,
+   "ns_per_draw": 12.318876054656647,
+   "impl": "threefry2x32",
+   "method": "bulk (8,3,6)"
+  },
+  {
+   "error": "compile+run > 150 s (timeout)",
+   "impl": "philox4x32",
+   "method": "foldin x144"
+  },
+  {
+   "lower_s": 0.029625332999785314,
+   "compile_s": 0.09355004200006078,
+   "run_s": 0.004624958000022161,
+   "ns_per_elem": 282.28503418104015,
+   "temp_bytes": 19202048,
+   "arg_bytes": 196608,
+   "out_bytes": 65536,
+   "ns_per_draw": 1.9603127373683344,
+   "impl": "philox4x32",
+   "method": "split 144"
+  },
+  {
+   "lower_s": 0.03259875000003376,
+   "compile_s": 0.1260826669999915,
+   "run_s": 0.0033892084998115024,
+   "ns_per_elem": 206.86087034982313,
+   "temp_bytes": 131072,
+   "arg_bytes": 196608,
+   "out_bytes": 65536,
+   "ns_per_draw": 1.4365338218737718,
+   "impl": "philox4x32",
+   "method": "bulk (8,3,6)"
+  },
+  {
+   "error": "compile+run > 150 s (timeout)",
+   "impl": "philox2x32",
+   "method": "foldin x144"
+  },
+  {
+   "lower_s": 0.022204832999705104,
+   "compile_s": 0.07260283300001902,
+   "run_s": 0.003692999999884705,
+   "ns_per_elem": 225.40283202421296,
+   "temp_bytes": 19202048,
+   "arg_bytes": 131072,
+   "out_bytes": 65536,
+   "ns_per_draw": 1.56529744461259,
+   "impl": "philox2x32",
+   "method": "split 144"
+  },
+  {
+   "lower_s": 0.01778845899980297,
+   "compile_s": 0.059894916000303056,
+   "run_s": 0.0017033750000337022,
+   "ns_per_elem": 103.96575927940077,
+   "temp_bytes": 65536,
+   "arg_bytes": 131072,
+   "out_bytes": 65536,
+   "ns_per_draw": 0.7219844394402831,
+   "impl": "philox2x32",
+   "method": "bulk (8,3,6)"
+  },
+  {
+   "lower_s": 0.06437083300033919,
+   "compile_s": 2.4580781249997017,
+   "run_s": 0.10649789600006443,
+   "ns_per_elem": 6500.115722660183,
+   "temp_bytes": 95073984,
+   "arg_bytes": 327680,
+   "out_bytes": 65536,
+   "ns_per_draw": 45.13969251847349,
+   "impl": "rbg",
+   "method": "foldin x144"
+  },
+  {
+   "lower_s": 0.03129629200020645,
+   "compile_s": 0.17694233300017004,
+   "run_s": 0.037133666000045196,
+   "ns_per_elem": 2266.459106448071,
+   "temp_bytes": 76284352,
+   "arg_bytes": 327680,
+   "out_bytes": 65536,
+   "ns_per_draw": 15.739299350333827,
+   "impl": "rbg",
+   "method": "split 144"
+  },
+  {
+   "lower_s": 0.022548041999925772,
+   "compile_s": 0.12259320800012574,
+   "run_s": 0.00785718749989428,
+   "ns_per_elem": 479.56466674159424,
+   "temp_bytes": 9437376,
+   "arg_bytes": 327680,
+   "out_bytes": 65536,
+   "ns_per_draw": 3.3303101857055157,
+   "impl": "rbg",
+   "method": "bulk (8,3,6)"
+  },
+  {
+   "lower_s": 0.049182666999968205,
+   "compile_s": 0.8900149580003927,
+   "run_s": 0.011924124999950436,
+   "ns_per_elem": 727.7908325165062,
+   "temp_bytes": 28322000,
+   "arg_bytes": 327680,
+   "out_bytes": 65536,
+   "ns_per_draw": 5.054103003586849,
+   "impl": "unsafe_rbg",
+   "method": "foldin x144"
+  },
+  {
+   "lower_s": 0.01715799999965384,
+   "compile_s": 0.14077720800014504,
+   "run_s": 0.17977974999985236,
+   "ns_per_elem": 10972.885131826926,
+   "temp_bytes": 377487428,
+   "arg_bytes": 327680,
+   "out_bytes": 65536,
+   "ns_per_draw": 76.20059119324254,
+   "impl": "unsafe_rbg",
+   "method": "split 144"
+  },
+  {
+   "lower_s": 0.013785791999907815,
+   "compile_s": 0.12266729100019802,
+   "run_s": 0.00904070799992951,
+   "ns_per_elem": 551.8010253863226,
+   "temp_bytes": 9437252,
+   "arg_bytes": 327680,
+   "out_bytes": 65536,
+   "ns_per_draw": 3.8319515651827962,
+   "impl": "unsafe_rbg",
+   "method": "bulk (8,3,6)"
+  },
+  {
+   "lower_s": 0.012218207999922015,
+   "compile_s": 0.0435383340000044,
+   "run_s": 0.0004993954999008565,
+   "ns_per_elem": 30.480682366995637,
+   "temp_bytes": 0,
+   "arg_bytes": 131072,
+   "out_bytes": 65536,
+   "ns_per_draw": 0.21167140532635859,
+   "impl": "custom u32 hash",
+   "method": "hash(seed,turn,a,t,e)"
+  },
+  {
+   "impl": "threefry2x32",
+   "method": "vmap-exact check",
+   "vmap_exact": true
+  },
+  {
+   "impl": "philox4x32",
+   "method": "vmap-exact check",
+   "vmap_exact": true
+  },
+  {
+   "impl": "rbg",
+   "method": "vmap-exact check",
+   "vmap_exact": false
+  },
+  {
+   "impl": "unsafe_rbg",
+   "method": "vmap-exact check",
+   "vmap_exact": false
+  }
+ ],
+ "B": 16384,
+ "draws_per_turn": 144
+}

@@ -1,0 +1,35 @@
+1B N=   8 naive N-way x8         lower=0.04s compile=0.06s 4.3 ns/elem
+1B N=   8 grouped (N/8)-way x8   lower=0.04s compile=0.06s 4.9 ns/elem
+1B N=   8 grouped + opt_barrier  lower=0.03s compile=0.06s 6.7 ns/elem
+1B N=   8 table+specials x8      lower=0.13s compile=0.45s 23.6 ns/elem
+1B N=  32 naive N-way x8         lower=0.15s compile=0.27s 10.7 ns/elem
+1B N=  32 grouped (N/8)-way x8   lower=0.07s compile=0.23s 16.2 ns/elem
+1B N=  32 grouped + opt_barrier  lower=0.07s compile=0.13s 13.0 ns/elem
+1B N=  32 table+specials x8      lower=0.16s compile=0.63s 31.1 ns/elem
+1B N= 128 naive N-way x8         lower=0.58s compile=2.59s 83.6 ns/elem
+1B N= 128 grouped (N/8)-way x8   lower=0.26s compile=1.91s 87.1 ns/elem
+1B N= 128 grouped + opt_barrier  lower=0.27s compile=0.44s 32.8 ns/elem
+1B N= 128 table+specials x8      lower=0.19s compile=0.73s 42.9 ns/elem
+1B N= 512 naive N-way x8         lower=2.60s compile=27.11s 2528.1 ns/elem
+1B N= 512 grouped (N/8)-way x8   lower=1.14s compile=24.54s 795.1 ns/elem
+1B N= 512 grouped + opt_barrier  lower=1.17s compile=1.73s 93.2 ns/elem
+1B N= 512 table+specials x8      lower=0.29s compile=1.95s 97.1 ns/elem
+| N | variant | lower_s | compile_s | ns_per_elem |
+|---|---|---|---|---|
+| 8 | naive N-way x8 | 0.04 | 0.06 | 4.3 |
+| 8 | grouped (N/8)-way x8 | 0.04 | 0.06 | 4.9 |
+| 8 | grouped + opt_barrier | 0.03 | 0.06 | 6.7 |
+| 8 | table+specials x8 | 0.13 | 0.45 | 23.6 |
+| 32 | naive N-way x8 | 0.15 | 0.27 | 10.7 |
+| 32 | grouped (N/8)-way x8 | 0.07 | 0.23 | 16.2 |
+| 32 | grouped + opt_barrier | 0.07 | 0.13 | 13.0 |
+| 32 | table+specials x8 | 0.16 | 0.63 | 31.1 |
+| 128 | naive N-way x8 | 0.58 | 2.59 | 83.6 |
+| 128 | grouped (N/8)-way x8 | 0.26 | 1.91 | 87.1 |
+| 128 | grouped + opt_barrier | 0.27 | 0.44 | 32.8 |
+| 128 | table+specials x8 | 0.19 | 0.73 | 42.9 |
+| 512 | naive N-way x8 | 2.60 | 27.11 | 2528.1 |
+| 512 | grouped (N/8)-way x8 | 1.14 | 24.54 | 795.1 |
+| 512 | grouped + opt_barrier | 1.17 | 1.73 | 93.2 |
+| 512 | table+specials x8 | 0.29 | 1.95 | 97.1 |
+[saved /Users/dylan.d/Documents/research/pokemon/research/jax-bench/results/b1_dispatch_B_B65536.json]

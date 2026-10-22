@@ -1,0 +1,8 @@
+{
+  "name": "vgcjax-oracle",
+  "private": true,
+  "description": "Instrumented Pokemon Showdown oracle for vgc-jax conformance testing",
+  "license": "MIT",
+  "engines": { "node": ">=22" },
+  "dependencies": { "source-map": "0.6.1" }
+}

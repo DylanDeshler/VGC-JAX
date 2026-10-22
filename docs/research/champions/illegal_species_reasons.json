@@ -1,0 +1,3256 @@
+{
+ "Bulbasaur": [
+  "Bulbasaur does not exist in Gen 9."
+ ],
+ "Ivysaur": [
+  "Ivysaur does not exist in Gen 9."
+ ],
+ "Charmander": [
+  "Charmander does not exist in Gen 9."
+ ],
+ "Charmeleon": [
+  "Charmeleon does not exist in Gen 9."
+ ],
+ "Squirtle": [
+  "Squirtle does not exist in Gen 9."
+ ],
+ "Wartortle": [
+  "Wartortle does not exist in Gen 9."
+ ],
+ "Caterpie": [
+  "no learnable legal move / no learnset"
+ ],
+ "Metapod": [
+  "no learnable legal move / no learnset"
+ ],
+ "Butterfree": [
+  "no learnable legal move / no learnset"
+ ],
+ "Butterfree-Gmax": [
+  "no learnable legal move / no learnset"
+ ],
+ "Weedle": [
+  "no learnable legal move / no learnset"
+ ],
+ "Kakuna": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pidgey": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pidgeotto": [
+  "no learnable legal move / no learnset"
+ ],
+ "Rattata": [
+  "no learnable legal move / no learnset"
+ ],
+ "Rattata-Alola": [
+  "no learnable legal move / no learnset"
+ ],
+ "Raticate": [
+  "no learnable legal move / no learnset"
+ ],
+ "Raticate-Alola": [
+  "no learnable legal move / no learnset"
+ ],
+ "Raticate-Alola-Totem": [
+  "no learnable legal move / no learnset"
+ ],
+ "Spearow": [
+  "no learnable legal move / no learnset"
+ ],
+ "Fearow": [
+  "no learnable legal move / no learnset"
+ ],
+ "Ekans": [
+  "Ekans does not exist in Gen 9."
+ ],
+ "Pikachu-Cosplay": [
+  "Pikachu (Pikachu-Cosplay) does not exist in Gen 9."
+ ],
+ "Pikachu-Rock-Star": [
+  "Pikachu (Pikachu-Rock-Star) does not exist in Gen 9."
+ ],
+ "Pikachu-Belle": [
+  "Pikachu (Pikachu-Belle) does not exist in Gen 9."
+ ],
+ "Pikachu-Pop-Star": [
+  "Pikachu (Pikachu-Pop-Star) does not exist in Gen 9."
+ ],
+ "Pikachu-PhD": [
+  "Pikachu (Pikachu-PhD) does not exist in Gen 9."
+ ],
+ "Pikachu-Libre": [
+  "Pikachu (Pikachu-Libre) does not exist in Gen 9."
+ ],
+ "Pikachu-Original": [
+  "Pikachu (Pikachu-Original) does not exist in Gen 9."
+ ],
+ "Pikachu-Hoenn": [
+  "Pikachu (Pikachu-Hoenn) does not exist in Gen 9."
+ ],
+ "Pikachu-Sinnoh": [
+  "Pikachu (Pikachu-Sinnoh) does not exist in Gen 9."
+ ],
+ "Pikachu-Unova": [
+  "Pikachu (Pikachu-Unova) does not exist in Gen 9."
+ ],
+ "Pikachu-Kalos": [
+  "Pikachu (Pikachu-Kalos) does not exist in Gen 9."
+ ],
+ "Pikachu-Alola": [
+  "Pikachu (Pikachu-Alola) does not exist in Gen 9."
+ ],
+ "Pikachu-Partner": [
+  "Pikachu (Pikachu-Partner) does not exist in Gen 9."
+ ],
+ "Pikachu-Starter": [
+  "Pikachu (Pikachu-Starter) does not exist in this game, only in Let's Go Pikachu/Eevee."
+ ],
+ "Pikachu-World": [
+  "Pikachu (Pikachu-World) does not exist in Gen 9."
+ ],
+ "Sandshrew": [
+  "Sandshrew does not exist in Gen 9."
+ ],
+ "Sandshrew-Alola": [
+  "Sandshrew (Sandshrew-Alola) does not exist in Gen 9."
+ ],
+ "Sandslash": [
+  "Sandslash does not exist in Gen 9."
+ ],
+ "Sandslash-Alola": [
+  "Sandslash (Sandslash-Alola) does not exist in Gen 9."
+ ],
+ "Nidoran-F": [
+  "no learnable legal move / no learnset"
+ ],
+ "Nidorina": [
+  "no learnable legal move / no learnset"
+ ],
+ "Nidoqueen": [
+  "no learnable legal move / no learnset"
+ ],
+ "Nidoran-M": [
+  "no learnable legal move / no learnset"
+ ],
+ "Nidorino": [
+  "no learnable legal move / no learnset"
+ ],
+ "Nidoking": [
+  "no learnable legal move / no learnset"
+ ],
+ "Clefairy": [
+  "Clefairy does not exist in Gen 9."
+ ],
+ "Vulpix": [
+  "Vulpix does not exist in Gen 9."
+ ],
+ "Vulpix-Alola": [
+  "Vulpix (Vulpix-Alola) does not exist in Gen 9."
+ ],
+ "Jigglypuff": [
+  "Jigglypuff does not exist in Gen 9."
+ ],
+ "Zubat": [
+  "no learnable legal move / no learnset"
+ ],
+ "Golbat": [
+  "no learnable legal move / no learnset"
+ ],
+ "Oddish": [
+  "Oddish does not exist in Gen 9."
+ ],
+ "Gloom": [
+  "Gloom does not exist in Gen 9."
+ ],
+ "Paras": [
+  "no learnable legal move / no learnset"
+ ],
+ "Parasect": [
+  "no learnable legal move / no learnset"
+ ],
+ "Venonat": [
+  "Venonat does not exist in Gen 9."
+ ],
+ "Venomoth": [
+  "Venomoth does not exist in Gen 9."
+ ],
+ "Diglett": [
+  "Diglett does not exist in Gen 9."
+ ],
+ "Diglett-Alola": [
+  "Diglett (Diglett-Alola) does not exist in Gen 9."
+ ],
+ "Dugtrio": [
+  "Dugtrio does not exist in Gen 9."
+ ],
+ "Dugtrio-Alola": [
+  "Dugtrio (Dugtrio-Alola) does not exist in Gen 9."
+ ],
+ "Meowth": [
+  "Meowth does not exist in Gen 9."
+ ],
+ "Meowth-Alola": [
+  "Meowth (Meowth-Alola) does not exist in Gen 9."
+ ],
+ "Meowth-Galar": [
+  "Meowth (Meowth-Galar) does not exist in Gen 9."
+ ],
+ "Meowth-Gmax": [
+  "Meowth does not exist in Gen 9."
+ ],
+ "Psyduck": [
+  "Psyduck does not exist in Gen 9."
+ ],
+ "Golduck": [
+  "Golduck does not exist in Gen 9."
+ ],
+ "Mankey": [
+  "Mankey does not exist in Gen 9."
+ ],
+ "Primeape": [
+  "Primeape does not exist in Gen 9."
+ ],
+ "Growlithe": [
+  "Growlithe does not exist in Gen 9."
+ ],
+ "Growlithe-Hisui": [
+  "Growlithe (Growlithe-Hisui) does not exist in Gen 9."
+ ],
+ "Poliwag": [
+  "Poliwag does not exist in Gen 9."
+ ],
+ "Poliwhirl": [
+  "Poliwhirl does not exist in Gen 9."
+ ],
+ "Poliwrath": [
+  "Poliwrath does not exist in Gen 9."
+ ],
+ "Abra": [
+  "no learnable legal move / no learnset"
+ ],
+ "Kadabra": [
+  "no learnable legal move / no learnset"
+ ],
+ "Machop": [
+  "no learnable legal move / no learnset"
+ ],
+ "Machoke": [
+  "no learnable legal move / no learnset"
+ ],
+ "Bellsprout": [
+  "Bellsprout does not exist in Gen 9."
+ ],
+ "Weepinbell": [
+  "Weepinbell does not exist in Gen 9."
+ ],
+ "Tentacool": [
+  "Tentacool does not exist in Gen 9."
+ ],
+ "Tentacruel": [
+  "Tentacruel does not exist in Gen 9."
+ ],
+ "Geodude": [
+  "Geodude does not exist in Gen 9."
+ ],
+ "Geodude-Alola": [
+  "Geodude (Geodude-Alola) does not exist in Gen 9."
+ ],
+ "Graveler": [
+  "Graveler does not exist in Gen 9."
+ ],
+ "Graveler-Alola": [
+  "Graveler (Graveler-Alola) does not exist in Gen 9."
+ ],
+ "Golem": [
+  "Golem does not exist in Gen 9."
+ ],
+ "Golem-Alola": [
+  "Golem (Golem-Alola) does not exist in Gen 9."
+ ],
+ "Ponyta": [
+  "no learnable legal move / no learnset"
+ ],
+ "Ponyta-Galar": [
+  "no learnable legal move / no learnset"
+ ],
+ "Rapidash": [
+  "no learnable legal move / no learnset"
+ ],
+ "Rapidash-Galar": [
+  "no learnable legal move / no learnset"
+ ],
+ "Slowpoke": [
+  "Slowpoke does not exist in Gen 9."
+ ],
+ "Slowpoke-Galar": [
+  "Slowpoke (Slowpoke-Galar) does not exist in Gen 9."
+ ],
+ "Magnemite": [
+  "Magnemite does not exist in Gen 9."
+ ],
+ "Magneton": [
+  "Magneton does not exist in Gen 9."
+ ],
+ "Farfetch’d-Galar": [
+  "no learnable legal move / no learnset"
+ ],
+ "Doduo": [
+  "Doduo does not exist in Gen 9."
+ ],
+ "Dodrio": [
+  "Dodrio does not exist in Gen 9."
+ ],
+ "Seel": [
+  "Seel does not exist in Gen 9."
+ ],
+ "Dewgong": [
+  "Dewgong does not exist in Gen 9."
+ ],
+ "Grimer": [
+  "Grimer does not exist in Gen 9."
+ ],
+ "Grimer-Alola": [
+  "Grimer (Grimer-Alola) does not exist in Gen 9."
+ ],
+ "Muk": [
+  "Muk does not exist in Gen 9."
+ ],
+ "Muk-Alola": [
+  "Muk (Muk-Alola) does not exist in Gen 9."
+ ],
+ "Shellder": [
+  "Shellder does not exist in Gen 9."
+ ],
+ "Cloyster": [
+  "Cloyster does not exist in Gen 9."
+ ],
+ "Gastly": [
+  "Gastly does not exist in Gen 9."
+ ],
+ "Haunter": [
+  "Haunter does not exist in Gen 9."
+ ],
+ "Onix": [
+  "no learnable legal move / no learnset"
+ ],
+ "Drowzee": [
+  "Drowzee does not exist in Gen 9."
+ ],
+ "Hypno": [
+  "Hypno does not exist in Gen 9."
+ ],
+ "Krabby": [
+  "no learnable legal move / no learnset"
+ ],
+ "Kingler": [
+  "no learnable legal move / no learnset"
+ ],
+ "Kingler-Gmax": [
+  "no learnable legal move / no learnset"
+ ],
+ "Voltorb": [
+  "Voltorb does not exist in Gen 9."
+ ],
+ "Voltorb-Hisui": [
+  "Voltorb (Voltorb-Hisui) does not exist in Gen 9."
+ ],
+ "Electrode": [
+  "Electrode does not exist in Gen 9."
+ ],
+ "Electrode-Hisui": [
+  "Electrode (Electrode-Hisui) does not exist in Gen 9."
+ ],
+ "Exeggcute": [
+  "Exeggcute does not exist in Gen 9."
+ ],
+ "Exeggutor": [
+  "Exeggutor does not exist in Gen 9."
+ ],
+ "Exeggutor-Alola": [
+  "Exeggutor (Exeggutor-Alola) does not exist in Gen 9."
+ ],
+ "Cubone": [
+  "no learnable legal move / no learnset"
+ ],
+ "Marowak": [
+  "no learnable legal move / no learnset"
+ ],
+ "Marowak-Alola": [
+  "no learnable legal move / no learnset"
+ ],
+ "Marowak-Alola-Totem": [
+  "no learnable legal move / no learnset"
+ ],
+ "Hitmonlee": [
+  "Hitmonlee does not exist in Gen 9."
+ ],
+ "Hitmonchan": [
+  "Hitmonchan does not exist in Gen 9."
+ ],
+ "Lickitung": [
+  "no learnable legal move / no learnset"
+ ],
+ "Koffing": [
+  "Koffing does not exist in Gen 9."
+ ],
+ "Weezing": [
+  "Weezing does not exist in Gen 9."
+ ],
+ "Weezing-Galar": [
+  "Weezing (Weezing-Galar) does not exist in Gen 9."
+ ],
+ "Rhyhorn": [
+  "Rhyhorn does not exist in Gen 9."
+ ],
+ "Rhydon": [
+  "Rhydon does not exist in Gen 9."
+ ],
+ "Chansey": [
+  "Chansey does not exist in Gen 9."
+ ],
+ "Tangela": [
+  "no learnable legal move / no learnset"
+ ],
+ "Horsea": [
+  "Horsea does not exist in Gen 9."
+ ],
+ "Seadra": [
+  "Seadra does not exist in Gen 9."
+ ],
+ "Goldeen": [
+  "no learnable legal move / no learnset"
+ ],
+ "Seaking": [
+  "no learnable legal move / no learnset"
+ ],
+ "Staryu": [
+  "no learnable legal move / no learnset"
+ ],
+ "Mr. Mime-Galar": [
+  "no learnable legal move / no learnset"
+ ],
+ "Scyther": [
+  "Scyther does not exist in Gen 9."
+ ],
+ "Jynx": [
+  "no learnable legal move / no learnset"
+ ],
+ "Electabuzz": [
+  "Electabuzz does not exist in Gen 9."
+ ],
+ "Magmar": [
+  "Magmar does not exist in Gen 9."
+ ],
+ "Magikarp": [
+  "Magikarp does not exist in Gen 9."
+ ],
+ "Lapras": [
+  "Lapras does not exist in Gen 9."
+ ],
+ "Lapras-Gmax": [
+  "Lapras does not exist in Gen 9."
+ ],
+ "Eevee": [
+  "Eevee does not exist in Gen 9."
+ ],
+ "Eevee-Starter": [
+  "Eevee (Eevee-Starter) does not exist in this game, only in Let's Go Pikachu/Eevee."
+ ],
+ "Eevee-Gmax": [
+  "Eevee does not exist in Gen 9."
+ ],
+ "Porygon": [
+  "Porygon does not exist in Gen 9."
+ ],
+ "Omanyte": [
+  "no learnable legal move / no learnset"
+ ],
+ "Omastar": [
+  "no learnable legal move / no learnset"
+ ],
+ "Kabuto": [
+  "no learnable legal move / no learnset"
+ ],
+ "Kabutops": [
+  "no learnable legal move / no learnset"
+ ],
+ "Articuno": [
+  "Articuno does not exist in Gen 9."
+ ],
+ "Articuno-Galar": [
+  "Articuno (Articuno-Galar) does not exist in Gen 9."
+ ],
+ "Zapdos": [
+  "Zapdos does not exist in Gen 9."
+ ],
+ "Zapdos-Galar": [
+  "Zapdos (Zapdos-Galar) does not exist in Gen 9."
+ ],
+ "Moltres": [
+  "Moltres does not exist in Gen 9."
+ ],
+ "Moltres-Galar": [
+  "Moltres (Moltres-Galar) does not exist in Gen 9."
+ ],
+ "Dratini": [
+  "Dratini does not exist in Gen 9."
+ ],
+ "Dragonair": [
+  "Dragonair does not exist in Gen 9."
+ ],
+ "Mewtwo": [
+  "Mewtwo is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Mew": [
+  "Mew is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Chikorita": [
+  "Chikorita does not exist in Gen 9."
+ ],
+ "Bayleef": [
+  "Bayleef does not exist in Gen 9."
+ ],
+ "Cyndaquil": [
+  "Cyndaquil does not exist in Gen 9."
+ ],
+ "Quilava": [
+  "Quilava does not exist in Gen 9."
+ ],
+ "Totodile": [
+  "Totodile does not exist in Gen 9."
+ ],
+ "Croconaw": [
+  "Croconaw does not exist in Gen 9."
+ ],
+ "Sentret": [
+  "Sentret does not exist in Gen 9."
+ ],
+ "Furret": [
+  "Furret does not exist in Gen 9."
+ ],
+ "Hoothoot": [
+  "Hoothoot does not exist in Gen 9."
+ ],
+ "Noctowl": [
+  "Noctowl does not exist in Gen 9."
+ ],
+ "Ledyba": [
+  "no learnable legal move / no learnset"
+ ],
+ "Ledian": [
+  "no learnable legal move / no learnset"
+ ],
+ "Spinarak": [
+  "Spinarak does not exist in Gen 9."
+ ],
+ "Crobat": [
+  "no learnable legal move / no learnset"
+ ],
+ "Chinchou": [
+  "Chinchou does not exist in Gen 9."
+ ],
+ "Lanturn": [
+  "Lanturn does not exist in Gen 9."
+ ],
+ "Pichu": [
+  "Pichu does not exist in Gen 9."
+ ],
+ "Pichu-Spiky-eared": [
+  "no learnable legal move / no learnset"
+ ],
+ "Cleffa": [
+  "Cleffa does not exist in Gen 9."
+ ],
+ "Igglybuff": [
+  "Igglybuff does not exist in Gen 9."
+ ],
+ "Togepi": [
+  "no learnable legal move / no learnset"
+ ],
+ "Togetic": [
+  "no learnable legal move / no learnset"
+ ],
+ "Natu": [
+  "no learnable legal move / no learnset"
+ ],
+ "Xatu": [
+  "no learnable legal move / no learnset"
+ ],
+ "Mareep": [
+  "Mareep does not exist in Gen 9."
+ ],
+ "Flaaffy": [
+  "Flaaffy does not exist in Gen 9."
+ ],
+ "Bellossom": [
+  "Bellossom does not exist in Gen 9."
+ ],
+ "Marill": [
+  "Marill does not exist in Gen 9."
+ ],
+ "Sudowoodo": [
+  "Sudowoodo does not exist in Gen 9."
+ ],
+ "Hoppip": [
+  "Hoppip does not exist in Gen 9."
+ ],
+ "Skiploom": [
+  "Skiploom does not exist in Gen 9."
+ ],
+ "Jumpluff": [
+  "Jumpluff does not exist in Gen 9."
+ ],
+ "Aipom": [
+  "Aipom does not exist in Gen 9."
+ ],
+ "Sunkern": [
+  "Sunkern does not exist in Gen 9."
+ ],
+ "Sunflora": [
+  "Sunflora does not exist in Gen 9."
+ ],
+ "Yanma": [
+  "Yanma does not exist in Gen 9."
+ ],
+ "Wooper": [
+  "Wooper does not exist in Gen 9."
+ ],
+ "Wooper-Paldea": [
+  "Wooper (Wooper-Paldea) does not exist in Gen 9."
+ ],
+ "Quagsire": [
+  "Quagsire does not exist in Gen 9."
+ ],
+ "Murkrow": [
+  "Murkrow does not exist in Gen 9."
+ ],
+ "Misdreavus": [
+  "Misdreavus does not exist in Gen 9."
+ ],
+ "Unown": [
+  "no learnable legal move / no learnset"
+ ],
+ "Wobbuffet": [
+  "no learnable legal move / no learnset"
+ ],
+ "Girafarig": [
+  "Girafarig does not exist in Gen 9."
+ ],
+ "Pineco": [
+  "Pineco does not exist in Gen 9."
+ ],
+ "Dunsparce": [
+  "Dunsparce does not exist in Gen 9."
+ ],
+ "Gligar": [
+  "Gligar does not exist in Gen 9."
+ ],
+ "Snubbull": [
+  "Snubbull does not exist in Gen 9."
+ ],
+ "Granbull": [
+  "Granbull does not exist in Gen 9."
+ ],
+ "Qwilfish-Hisui": [
+  "Qwilfish (Qwilfish-Hisui) does not exist in Gen 9."
+ ],
+ "Shuckle": [
+  "no learnable legal move / no learnset"
+ ],
+ "Sneasel": [
+  "Sneasel does not exist in Gen 9."
+ ],
+ "Sneasel-Hisui": [
+  "Sneasel (Sneasel-Hisui) does not exist in Gen 9."
+ ],
+ "Teddiursa": [
+  "Teddiursa does not exist in Gen 9."
+ ],
+ "Ursaring": [
+  "Ursaring does not exist in Gen 9."
+ ],
+ "Slugma": [
+  "Slugma does not exist in Gen 9."
+ ],
+ "Magcargo": [
+  "Magcargo does not exist in Gen 9."
+ ],
+ "Swinub": [
+  "Swinub does not exist in Gen 9."
+ ],
+ "Piloswine": [
+  "Piloswine does not exist in Gen 9."
+ ],
+ "Corsola": [
+  "no learnable legal move / no learnset"
+ ],
+ "Corsola-Galar": [
+  "no learnable legal move / no learnset"
+ ],
+ "Remoraid": [
+  "no learnable legal move / no learnset"
+ ],
+ "Octillery": [
+  "no learnable legal move / no learnset"
+ ],
+ "Delibird": [
+  "Delibird does not exist in Gen 9."
+ ],
+ "Mantine": [
+  "no learnable legal move / no learnset"
+ ],
+ "Houndour": [
+  "Houndour does not exist in Gen 9."
+ ],
+ "Kingdra": [
+  "Kingdra does not exist in Gen 9."
+ ],
+ "Phanpy": [
+  "Phanpy does not exist in Gen 9."
+ ],
+ "Donphan": [
+  "Donphan does not exist in Gen 9."
+ ],
+ "Porygon2": [
+  "Porygon2 does not exist in Gen 9."
+ ],
+ "Stantler": [
+  "Stantler does not exist in Gen 9."
+ ],
+ "Smeargle": [
+  "Smeargle does not exist in Gen 9."
+ ],
+ "Tyrogue": [
+  "Tyrogue does not exist in Gen 9."
+ ],
+ "Hitmontop": [
+  "Hitmontop does not exist in Gen 9."
+ ],
+ "Smoochum": [
+  "no learnable legal move / no learnset"
+ ],
+ "Elekid": [
+  "Elekid does not exist in Gen 9."
+ ],
+ "Magby": [
+  "Magby does not exist in Gen 9."
+ ],
+ "Miltank": [
+  "no learnable legal move / no learnset"
+ ],
+ "Blissey": [
+  "Blissey does not exist in Gen 9."
+ ],
+ "Raikou": [
+  "Raikou does not exist in Gen 9."
+ ],
+ "Entei": [
+  "Entei does not exist in Gen 9."
+ ],
+ "Suicune": [
+  "Suicune does not exist in Gen 9."
+ ],
+ "Larvitar": [
+  "Larvitar does not exist in Gen 9."
+ ],
+ "Pupitar": [
+  "Pupitar does not exist in Gen 9."
+ ],
+ "Lugia": [
+  "Lugia is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Ho-Oh": [
+  "Ho-Oh is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Celebi": [
+  "no learnable legal move / no learnset"
+ ],
+ "Treecko": [
+  "Treecko does not exist in Gen 9."
+ ],
+ "Grovyle": [
+  "Grovyle does not exist in Gen 9."
+ ],
+ "Torchic": [
+  "Torchic does not exist in Gen 9."
+ ],
+ "Combusken": [
+  "Combusken does not exist in Gen 9."
+ ],
+ "Mudkip": [
+  "Mudkip does not exist in Gen 9."
+ ],
+ "Marshtomp": [
+  "Marshtomp does not exist in Gen 9."
+ ],
+ "Poochyena": [
+  "Poochyena does not exist in Gen 9."
+ ],
+ "Mightyena": [
+  "Mightyena does not exist in Gen 9."
+ ],
+ "Zigzagoon": [
+  "no learnable legal move / no learnset"
+ ],
+ "Zigzagoon-Galar": [
+  "no learnable legal move / no learnset"
+ ],
+ "Linoone": [
+  "no learnable legal move / no learnset"
+ ],
+ "Linoone-Galar": [
+  "no learnable legal move / no learnset"
+ ],
+ "Wurmple": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silcoon": [
+  "no learnable legal move / no learnset"
+ ],
+ "Beautifly": [
+  "no learnable legal move / no learnset"
+ ],
+ "Cascoon": [
+  "no learnable legal move / no learnset"
+ ],
+ "Dustox": [
+  "no learnable legal move / no learnset"
+ ],
+ "Lotad": [
+  "Lotad does not exist in Gen 9."
+ ],
+ "Lombre": [
+  "Lombre does not exist in Gen 9."
+ ],
+ "Ludicolo": [
+  "Ludicolo does not exist in Gen 9."
+ ],
+ "Seedot": [
+  "Seedot does not exist in Gen 9."
+ ],
+ "Nuzleaf": [
+  "Nuzleaf does not exist in Gen 9."
+ ],
+ "Shiftry": [
+  "Shiftry does not exist in Gen 9."
+ ],
+ "Taillow": [
+  "no learnable legal move / no learnset"
+ ],
+ "Swellow": [
+  "no learnable legal move / no learnset"
+ ],
+ "Wingull": [
+  "Wingull does not exist in Gen 9."
+ ],
+ "Ralts": [
+  "Ralts does not exist in Gen 9."
+ ],
+ "Kirlia": [
+  "Kirlia does not exist in Gen 9."
+ ],
+ "Surskit": [
+  "Surskit does not exist in Gen 9."
+ ],
+ "Masquerain": [
+  "Masquerain does not exist in Gen 9."
+ ],
+ "Shroomish": [
+  "Shroomish does not exist in Gen 9."
+ ],
+ "Breloom": [
+  "Breloom does not exist in Gen 9."
+ ],
+ "Slakoth": [
+  "Slakoth does not exist in Gen 9."
+ ],
+ "Vigoroth": [
+  "Vigoroth does not exist in Gen 9."
+ ],
+ "Slaking": [
+  "Slaking does not exist in Gen 9."
+ ],
+ "Nincada": [
+  "no learnable legal move / no learnset"
+ ],
+ "Ninjask": [
+  "no learnable legal move / no learnset"
+ ],
+ "Shedinja": [
+  "no learnable legal move / no learnset"
+ ],
+ "Whismur": [
+  "no learnable legal move / no learnset"
+ ],
+ "Loudred": [
+  "no learnable legal move / no learnset"
+ ],
+ "Exploud": [
+  "no learnable legal move / no learnset"
+ ],
+ "Makuhita": [
+  "Makuhita does not exist in Gen 9."
+ ],
+ "Hariyama": [
+  "Hariyama does not exist in Gen 9."
+ ],
+ "Azurill": [
+  "Azurill does not exist in Gen 9."
+ ],
+ "Nosepass": [
+  "Nosepass does not exist in Gen 9."
+ ],
+ "Skitty": [
+  "no learnable legal move / no learnset"
+ ],
+ "Delcatty": [
+  "no learnable legal move / no learnset"
+ ],
+ "Aron": [
+  "no learnable legal move / no learnset"
+ ],
+ "Lairon": [
+  "no learnable legal move / no learnset"
+ ],
+ "Meditite": [
+  "Meditite does not exist in Gen 9."
+ ],
+ "Electrike": [
+  "no learnable legal move / no learnset"
+ ],
+ "Plusle": [
+  "Plusle does not exist in Gen 9."
+ ],
+ "Minun": [
+  "Minun does not exist in Gen 9."
+ ],
+ "Volbeat": [
+  "Volbeat does not exist in Gen 9."
+ ],
+ "Illumise": [
+  "Illumise does not exist in Gen 9."
+ ],
+ "Roselia": [
+  "no learnable legal move / no learnset"
+ ],
+ "Gulpin": [
+  "Gulpin does not exist in Gen 9."
+ ],
+ "Carvanha": [
+  "no learnable legal move / no learnset"
+ ],
+ "Wailmer": [
+  "no learnable legal move / no learnset"
+ ],
+ "Wailord": [
+  "no learnable legal move / no learnset"
+ ],
+ "Numel": [
+  "Numel does not exist in Gen 9."
+ ],
+ "Spoink": [
+  "Spoink does not exist in Gen 9."
+ ],
+ "Grumpig": [
+  "Grumpig does not exist in Gen 9."
+ ],
+ "Spinda": [
+  "no learnable legal move / no learnset"
+ ],
+ "Trapinch": [
+  "Trapinch does not exist in Gen 9."
+ ],
+ "Vibrava": [
+  "Vibrava does not exist in Gen 9."
+ ],
+ "Flygon": [
+  "Flygon does not exist in Gen 9."
+ ],
+ "Cacnea": [
+  "Cacnea does not exist in Gen 9."
+ ],
+ "Cacturne": [
+  "Cacturne does not exist in Gen 9."
+ ],
+ "Swablu": [
+  "Swablu does not exist in Gen 9."
+ ],
+ "Zangoose": [
+  "Zangoose does not exist in Gen 9."
+ ],
+ "Seviper": [
+  "Seviper does not exist in Gen 9."
+ ],
+ "Lunatone": [
+  "no learnable legal move / no learnset"
+ ],
+ "Solrock": [
+  "no learnable legal move / no learnset"
+ ],
+ "Barboach": [
+  "Barboach does not exist in Gen 9."
+ ],
+ "Whiscash": [
+  "Whiscash does not exist in Gen 9."
+ ],
+ "Corphish": [
+  "Corphish does not exist in Gen 9."
+ ],
+ "Crawdaunt": [
+  "Crawdaunt does not exist in Gen 9."
+ ],
+ "Baltoy": [
+  "no learnable legal move / no learnset"
+ ],
+ "Claydol": [
+  "no learnable legal move / no learnset"
+ ],
+ "Lileep": [
+  "no learnable legal move / no learnset"
+ ],
+ "Cradily": [
+  "no learnable legal move / no learnset"
+ ],
+ "Anorith": [
+  "no learnable legal move / no learnset"
+ ],
+ "Armaldo": [
+  "no learnable legal move / no learnset"
+ ],
+ "Feebas": [
+  "Feebas does not exist in Gen 9."
+ ],
+ "Kecleon": [
+  "no learnable legal move / no learnset"
+ ],
+ "Shuppet": [
+  "Shuppet does not exist in Gen 9."
+ ],
+ "Duskull": [
+  "Duskull does not exist in Gen 9."
+ ],
+ "Dusclops": [
+  "Dusclops does not exist in Gen 9."
+ ],
+ "Tropius": [
+  "Tropius does not exist in Gen 9."
+ ],
+ "Wynaut": [
+  "no learnable legal move / no learnset"
+ ],
+ "Snorunt": [
+  "Snorunt does not exist in Gen 9."
+ ],
+ "Spheal": [
+  "no learnable legal move / no learnset"
+ ],
+ "Sealeo": [
+  "no learnable legal move / no learnset"
+ ],
+ "Walrein": [
+  "no learnable legal move / no learnset"
+ ],
+ "Clamperl": [
+  "no learnable legal move / no learnset"
+ ],
+ "Huntail": [
+  "no learnable legal move / no learnset"
+ ],
+ "Gorebyss": [
+  "no learnable legal move / no learnset"
+ ],
+ "Relicanth": [
+  "no learnable legal move / no learnset"
+ ],
+ "Luvdisc": [
+  "Luvdisc does not exist in Gen 9."
+ ],
+ "Bagon": [
+  "Bagon does not exist in Gen 9."
+ ],
+ "Shelgon": [
+  "Shelgon does not exist in Gen 9."
+ ],
+ "Beldum": [
+  "Beldum does not exist in Gen 9."
+ ],
+ "Metang": [
+  "Metang does not exist in Gen 9."
+ ],
+ "Regirock": [
+  "Regirock does not exist in Gen 9."
+ ],
+ "Regice": [
+  "Regice does not exist in Gen 9."
+ ],
+ "Registeel": [
+  "Registeel does not exist in Gen 9."
+ ],
+ "Latias": [
+  "Latias does not exist in Gen 9."
+ ],
+ "Latios": [
+  "Latios does not exist in Gen 9."
+ ],
+ "Kyogre": [
+  "Kyogre is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Groudon": [
+  "Groudon is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Rayquaza": [
+  "Rayquaza is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Jirachi": [
+  "Jirachi is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Deoxys": [
+  "Deoxys is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Deoxys-Attack": [
+  "Deoxys (Deoxys-Attack) is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Deoxys-Defense": [
+  "Deoxys (Deoxys-Defense) is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Deoxys-Speed": [
+  "Deoxys (Deoxys-Speed) is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Turtwig": [
+  "Turtwig does not exist in Gen 9."
+ ],
+ "Grotle": [
+  "Grotle does not exist in Gen 9."
+ ],
+ "Chimchar": [
+  "Chimchar does not exist in Gen 9."
+ ],
+ "Monferno": [
+  "Monferno does not exist in Gen 9."
+ ],
+ "Piplup": [
+  "Piplup does not exist in Gen 9."
+ ],
+ "Prinplup": [
+  "Prinplup does not exist in Gen 9."
+ ],
+ "Starly": [
+  "Starly does not exist in Gen 9."
+ ],
+ "Staravia": [
+  "Staravia does not exist in Gen 9."
+ ],
+ "Bidoof": [
+  "no learnable legal move / no learnset"
+ ],
+ "Bibarel": [
+  "no learnable legal move / no learnset"
+ ],
+ "Kricketot": [
+  "Kricketot does not exist in Gen 9."
+ ],
+ "Kricketune": [
+  "Kricketune does not exist in Gen 9."
+ ],
+ "Shinx": [
+  "Shinx does not exist in Gen 9."
+ ],
+ "Luxio": [
+  "Luxio does not exist in Gen 9."
+ ],
+ "Budew": [
+  "no learnable legal move / no learnset"
+ ],
+ "Cranidos": [
+  "Cranidos does not exist in Gen 9."
+ ],
+ "Shieldon": [
+  "Shieldon does not exist in Gen 9."
+ ],
+ "Burmy": [
+  "no learnable legal move / no learnset"
+ ],
+ "Burmy-Sandy": [
+  "no learnable legal move / no learnset"
+ ],
+ "Burmy-Trash": [
+  "no learnable legal move / no learnset"
+ ],
+ "Wormadam": [
+  "no learnable legal move / no learnset"
+ ],
+ "Wormadam-Sandy": [
+  "no learnable legal move / no learnset"
+ ],
+ "Wormadam-Trash": [
+  "no learnable legal move / no learnset"
+ ],
+ "Mothim": [
+  "no learnable legal move / no learnset"
+ ],
+ "Combee": [
+  "Combee does not exist in Gen 9."
+ ],
+ "Vespiquen": [
+  "Vespiquen does not exist in Gen 9."
+ ],
+ "Pachirisu": [
+  "Pachirisu does not exist in Gen 9."
+ ],
+ "Buizel": [
+  "Buizel does not exist in Gen 9."
+ ],
+ "Floatzel": [
+  "Floatzel does not exist in Gen 9."
+ ],
+ "Cherubi": [
+  "no learnable legal move / no learnset"
+ ],
+ "Cherrim": [
+  "no learnable legal move / no learnset"
+ ],
+ "Shellos": [
+  "Shellos does not exist in Gen 9."
+ ],
+ "Shellos-East": [
+  "Shellos (Shellos-East) does not exist in Gen 9."
+ ],
+ "Gastrodon": [
+  "Gastrodon does not exist in Gen 9."
+ ],
+ "Gastrodon-East": [
+  "Gastrodon (Gastrodon-East) does not exist in Gen 9."
+ ],
+ "Ambipom": [
+  "Ambipom does not exist in Gen 9."
+ ],
+ "Drifloon": [
+  "Drifloon does not exist in Gen 9."
+ ],
+ "Drifblim": [
+  "Drifblim does not exist in Gen 9."
+ ],
+ "Buneary": [
+  "no learnable legal move / no learnset"
+ ],
+ "Mismagius": [
+  "Mismagius does not exist in Gen 9."
+ ],
+ "Honchkrow": [
+  "Honchkrow does not exist in Gen 9."
+ ],
+ "Glameow": [
+  "no learnable legal move / no learnset"
+ ],
+ "Purugly": [
+  "no learnable legal move / no learnset"
+ ],
+ "Chingling": [
+  "Chingling does not exist in Gen 9."
+ ],
+ "Stunky": [
+  "Stunky does not exist in Gen 9."
+ ],
+ "Skuntank": [
+  "Skuntank does not exist in Gen 9."
+ ],
+ "Bronzor": [
+  "Bronzor does not exist in Gen 9."
+ ],
+ "Bronzong": [
+  "Bronzong does not exist in Gen 9."
+ ],
+ "Bonsly": [
+  "Bonsly does not exist in Gen 9."
+ ],
+ "Mime Jr.": [
+  "no learnable legal move / no learnset"
+ ],
+ "Happiny": [
+  "Happiny does not exist in Gen 9."
+ ],
+ "Chatot": [
+  "no learnable legal move / no learnset"
+ ],
+ "Gible": [
+  "Gible does not exist in Gen 9."
+ ],
+ "Gabite": [
+  "Gabite does not exist in Gen 9."
+ ],
+ "Munchlax": [
+  "Munchlax does not exist in Gen 9."
+ ],
+ "Riolu": [
+  "Riolu does not exist in Gen 9."
+ ],
+ "Hippopotas": [
+  "Hippopotas does not exist in Gen 9."
+ ],
+ "Skorupi": [
+  "no learnable legal move / no learnset"
+ ],
+ "Drapion": [
+  "no learnable legal move / no learnset"
+ ],
+ "Croagunk": [
+  "Croagunk does not exist in Gen 9."
+ ],
+ "Carnivine": [
+  "no learnable legal move / no learnset"
+ ],
+ "Finneon": [
+  "Finneon does not exist in Gen 9."
+ ],
+ "Lumineon": [
+  "Lumineon does not exist in Gen 9."
+ ],
+ "Mantyke": [
+  "no learnable legal move / no learnset"
+ ],
+ "Snover": [
+  "Snover does not exist in Gen 9."
+ ],
+ "Magnezone": [
+  "Magnezone does not exist in Gen 9."
+ ],
+ "Lickilicky": [
+  "no learnable legal move / no learnset"
+ ],
+ "Tangrowth": [
+  "no learnable legal move / no learnset"
+ ],
+ "Electivire": [
+  "Electivire does not exist in Gen 9."
+ ],
+ "Magmortar": [
+  "Magmortar does not exist in Gen 9."
+ ],
+ "Togekiss": [
+  "no learnable legal move / no learnset"
+ ],
+ "Yanmega": [
+  "Yanmega does not exist in Gen 9."
+ ],
+ "Porygon-Z": [
+  "Porygon-Z does not exist in Gen 9."
+ ],
+ "Probopass": [
+  "Probopass does not exist in Gen 9."
+ ],
+ "Dusknoir": [
+  "Dusknoir does not exist in Gen 9."
+ ],
+ "Uxie": [
+  "Uxie does not exist in Gen 9."
+ ],
+ "Mesprit": [
+  "Mesprit does not exist in Gen 9."
+ ],
+ "Azelf": [
+  "Azelf does not exist in Gen 9."
+ ],
+ "Dialga": [
+  "Dialga is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Dialga-Origin": [
+  "Dialga (Dialga-Origin) is tagged Restricted Legendary, which is banned by Flat Rules.",
+  "Dialga's item Adamant Crystal does not exist in Gen 9."
+ ],
+ "Palkia": [
+  "Palkia is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Palkia-Origin": [
+  "Palkia (Palkia-Origin) is tagged Restricted Legendary, which is banned by Flat Rules.",
+  "Palkia's item Lustrous Globe does not exist in Gen 9."
+ ],
+ "Heatran": [
+  "Heatran does not exist in Gen 9."
+ ],
+ "Regigigas": [
+  "Regigigas does not exist in Gen 9."
+ ],
+ "Giratina": [
+  "Giratina is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Giratina-Origin": [
+  "Giratina (Giratina-Origin) is tagged Restricted Legendary, which is banned by Flat Rules.",
+  "Giratina's item Griseous Core does not exist in Gen 9."
+ ],
+ "Cresselia": [
+  "Cresselia does not exist in Gen 9."
+ ],
+ "Phione": [
+  "Phione is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Manaphy": [
+  "Manaphy is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Darkrai": [
+  "Darkrai is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Shaymin": [
+  "Shaymin is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Shaymin-Sky": [
+  "Shaymin (Shaymin-Sky) is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Arceus": [
+  "Arceus is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Arceus-Bug": [
+  "Arceus (Arceus-Bug) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Insect Plate does not exist in Gen 9."
+ ],
+ "Arceus-Dark": [
+  "Arceus (Arceus-Dark) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Dread Plate does not exist in Gen 9."
+ ],
+ "Arceus-Dragon": [
+  "Arceus (Arceus-Dragon) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Draco Plate does not exist in Gen 9."
+ ],
+ "Arceus-Electric": [
+  "Arceus (Arceus-Electric) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Zap Plate does not exist in Gen 9."
+ ],
+ "Arceus-Fairy": [
+  "Arceus (Arceus-Fairy) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Pixie Plate does not exist in Gen 9."
+ ],
+ "Arceus-Fighting": [
+  "Arceus (Arceus-Fighting) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Fist Plate does not exist in Gen 9."
+ ],
+ "Arceus-Fire": [
+  "Arceus (Arceus-Fire) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Flame Plate does not exist in Gen 9."
+ ],
+ "Arceus-Flying": [
+  "Arceus (Arceus-Flying) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Sky Plate does not exist in Gen 9."
+ ],
+ "Arceus-Ghost": [
+  "Arceus (Arceus-Ghost) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Spooky Plate does not exist in Gen 9."
+ ],
+ "Arceus-Grass": [
+  "Arceus (Arceus-Grass) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Meadow Plate does not exist in Gen 9."
+ ],
+ "Arceus-Ground": [
+  "Arceus (Arceus-Ground) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Earth Plate does not exist in Gen 9."
+ ],
+ "Arceus-Ice": [
+  "Arceus (Arceus-Ice) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Icicle Plate does not exist in Gen 9."
+ ],
+ "Arceus-Poison": [
+  "Arceus (Arceus-Poison) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Toxic Plate does not exist in Gen 9."
+ ],
+ "Arceus-Psychic": [
+  "Arceus (Arceus-Psychic) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Mind Plate does not exist in Gen 9."
+ ],
+ "Arceus-Rock": [
+  "Arceus (Arceus-Rock) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Stone Plate does not exist in Gen 9."
+ ],
+ "Arceus-Steel": [
+  "Arceus (Arceus-Steel) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Iron Plate does not exist in Gen 9."
+ ],
+ "Arceus-Water": [
+  "Arceus (Arceus-Water) is tagged Mythical, which is banned by Flat Rules.",
+  "Arceus's item Splash Plate does not exist in Gen 9."
+ ],
+ "Victini": [
+  "no learnable legal move / no learnset"
+ ],
+ "Snivy": [
+  "Snivy does not exist in Gen 9."
+ ],
+ "Servine": [
+  "Servine does not exist in Gen 9."
+ ],
+ "Tepig": [
+  "Tepig does not exist in Gen 9."
+ ],
+ "Pignite": [
+  "Pignite does not exist in Gen 9."
+ ],
+ "Oshawott": [
+  "Oshawott does not exist in Gen 9."
+ ],
+ "Dewott": [
+  "Dewott does not exist in Gen 9."
+ ],
+ "Patrat": [
+  "no learnable legal move / no learnset"
+ ],
+ "Lillipup": [
+  "no learnable legal move / no learnset"
+ ],
+ "Herdier": [
+  "no learnable legal move / no learnset"
+ ],
+ "Stoutland": [
+  "no learnable legal move / no learnset"
+ ],
+ "Purrloin": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pansage": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pansear": [
+  "no learnable legal move / no learnset"
+ ],
+ "Panpour": [
+  "no learnable legal move / no learnset"
+ ],
+ "Munna": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pidove": [
+  "no learnable legal move / no learnset"
+ ],
+ "Tranquill": [
+  "no learnable legal move / no learnset"
+ ],
+ "Unfezant": [
+  "no learnable legal move / no learnset"
+ ],
+ "Blitzle": [
+  "Blitzle does not exist in Gen 9."
+ ],
+ "Zebstrika": [
+  "Zebstrika does not exist in Gen 9."
+ ],
+ "Roggenrola": [
+  "no learnable legal move / no learnset"
+ ],
+ "Boldore": [
+  "no learnable legal move / no learnset"
+ ],
+ "Gigalith": [
+  "no learnable legal move / no learnset"
+ ],
+ "Woobat": [
+  "no learnable legal move / no learnset"
+ ],
+ "Swoobat": [
+  "no learnable legal move / no learnset"
+ ],
+ "Drilbur": [
+  "Drilbur does not exist in Gen 9."
+ ],
+ "Timburr": [
+  "Timburr does not exist in Gen 9."
+ ],
+ "Gurdurr": [
+  "Gurdurr does not exist in Gen 9."
+ ],
+ "Tympole": [
+  "no learnable legal move / no learnset"
+ ],
+ "Palpitoad": [
+  "no learnable legal move / no learnset"
+ ],
+ "Seismitoad": [
+  "no learnable legal move / no learnset"
+ ],
+ "Throh": [
+  "no learnable legal move / no learnset"
+ ],
+ "Sawk": [
+  "no learnable legal move / no learnset"
+ ],
+ "Sewaddle": [
+  "Sewaddle does not exist in Gen 9."
+ ],
+ "Swadloon": [
+  "Swadloon does not exist in Gen 9."
+ ],
+ "Leavanny": [
+  "Leavanny does not exist in Gen 9."
+ ],
+ "Venipede": [
+  "no learnable legal move / no learnset"
+ ],
+ "Whirlipede": [
+  "no learnable legal move / no learnset"
+ ],
+ "Cottonee": [
+  "Cottonee does not exist in Gen 9."
+ ],
+ "Petilil": [
+  "Petilil does not exist in Gen 9."
+ ],
+ "Lilligant": [
+  "Lilligant does not exist in Gen 9."
+ ],
+ "Lilligant-Hisui": [
+  "Lilligant (Lilligant-Hisui) does not exist in Gen 9."
+ ],
+ "Basculin": [
+  "Basculin does not exist in Gen 9."
+ ],
+ "Basculin-Blue-Striped": [
+  "Basculin (Basculin-Blue-Striped) does not exist in Gen 9."
+ ],
+ "Basculin-White-Striped": [
+  "Basculin (Basculin-White-Striped) does not exist in Gen 9."
+ ],
+ "Sandile": [
+  "Sandile does not exist in Gen 9."
+ ],
+ "Krokorok": [
+  "Krokorok does not exist in Gen 9."
+ ],
+ "Darumaka": [
+  "no learnable legal move / no learnset"
+ ],
+ "Darumaka-Galar": [
+  "no learnable legal move / no learnset"
+ ],
+ "Darmanitan": [
+  "no learnable legal move / no learnset"
+ ],
+ "Darmanitan-Galar": [
+  "no learnable legal move / no learnset"
+ ],
+ "Maractus": [
+  "no learnable legal move / no learnset"
+ ],
+ "Dwebble": [
+  "no learnable legal move / no learnset"
+ ],
+ "Crustle": [
+  "no learnable legal move / no learnset"
+ ],
+ "Scraggy": [
+  "Scraggy does not exist in Gen 9."
+ ],
+ "Sigilyph": [
+  "no learnable legal move / no learnset"
+ ],
+ "Yamask": [
+  "no learnable legal move / no learnset"
+ ],
+ "Yamask-Galar": [
+  "no learnable legal move / no learnset"
+ ],
+ "Tirtouga": [
+  "no learnable legal move / no learnset"
+ ],
+ "Carracosta": [
+  "no learnable legal move / no learnset"
+ ],
+ "Archen": [
+  "no learnable legal move / no learnset"
+ ],
+ "Archeops": [
+  "no learnable legal move / no learnset"
+ ],
+ "Trubbish": [
+  "no learnable legal move / no learnset"
+ ],
+ "Zorua": [
+  "Zorua does not exist in Gen 9."
+ ],
+ "Zorua-Hisui": [
+  "Zorua (Zorua-Hisui) does not exist in Gen 9."
+ ],
+ "Minccino": [
+  "Minccino does not exist in Gen 9."
+ ],
+ "Cinccino": [
+  "Cinccino does not exist in Gen 9."
+ ],
+ "Gothita": [
+  "Gothita does not exist in Gen 9."
+ ],
+ "Gothorita": [
+  "Gothorita does not exist in Gen 9."
+ ],
+ "Gothitelle": [
+  "Gothitelle does not exist in Gen 9."
+ ],
+ "Solosis": [
+  "Solosis does not exist in Gen 9."
+ ],
+ "Duosion": [
+  "Duosion does not exist in Gen 9."
+ ],
+ "Ducklett": [
+  "Ducklett does not exist in Gen 9."
+ ],
+ "Swanna": [
+  "Swanna does not exist in Gen 9."
+ ],
+ "Vanillite": [
+  "no learnable legal move / no learnset"
+ ],
+ "Vanillish": [
+  "no learnable legal move / no learnset"
+ ],
+ "Deerling": [
+  "Deerling does not exist in Gen 9."
+ ],
+ "Deerling-Summer": [
+  "Deerling (Deerling-Summer) does not exist in Gen 9."
+ ],
+ "Deerling-Autumn": [
+  "Deerling (Deerling-Autumn) does not exist in Gen 9."
+ ],
+ "Deerling-Winter": [
+  "Deerling (Deerling-Winter) does not exist in Gen 9."
+ ],
+ "Sawsbuck": [
+  "Sawsbuck does not exist in Gen 9."
+ ],
+ "Karrablast": [
+  "no learnable legal move / no learnset"
+ ],
+ "Escavalier": [
+  "no learnable legal move / no learnset"
+ ],
+ "Foongus": [
+  "Foongus does not exist in Gen 9."
+ ],
+ "Amoonguss": [
+  "Amoonguss does not exist in Gen 9."
+ ],
+ "Frillish": [
+  "no learnable legal move / no learnset"
+ ],
+ "Jellicent": [
+  "no learnable legal move / no learnset"
+ ],
+ "Alomomola": [
+  "Alomomola does not exist in Gen 9."
+ ],
+ "Joltik": [
+  "Joltik does not exist in Gen 9."
+ ],
+ "Galvantula": [
+  "Galvantula does not exist in Gen 9."
+ ],
+ "Ferroseed": [
+  "no learnable legal move / no learnset"
+ ],
+ "Ferrothorn": [
+  "no learnable legal move / no learnset"
+ ],
+ "Klink": [
+  "no learnable legal move / no learnset"
+ ],
+ "Klang": [
+  "no learnable legal move / no learnset"
+ ],
+ "Klinklang": [
+  "no learnable legal move / no learnset"
+ ],
+ "Tynamo": [
+  "Tynamo does not exist in Gen 9."
+ ],
+ "Eelektrik": [
+  "Eelektrik does not exist in Gen 9."
+ ],
+ "Elgyem": [
+  "no learnable legal move / no learnset"
+ ],
+ "Beheeyem": [
+  "no learnable legal move / no learnset"
+ ],
+ "Litwick": [
+  "Litwick does not exist in Gen 9."
+ ],
+ "Lampent": [
+  "Lampent does not exist in Gen 9."
+ ],
+ "Axew": [
+  "Axew does not exist in Gen 9."
+ ],
+ "Fraxure": [
+  "Fraxure does not exist in Gen 9."
+ ],
+ "Haxorus": [
+  "Haxorus does not exist in Gen 9."
+ ],
+ "Cubchoo": [
+  "Cubchoo does not exist in Gen 9."
+ ],
+ "Cryogonal": [
+  "Cryogonal does not exist in Gen 9."
+ ],
+ "Shelmet": [
+  "no learnable legal move / no learnset"
+ ],
+ "Accelgor": [
+  "no learnable legal move / no learnset"
+ ],
+ "Mienfoo": [
+  "Mienfoo does not exist in Gen 9."
+ ],
+ "Mienshao": [
+  "Mienshao does not exist in Gen 9."
+ ],
+ "Druddigon": [
+  "no learnable legal move / no learnset"
+ ],
+ "Golett": [
+  "Golett does not exist in Gen 9."
+ ],
+ "Pawniard": [
+  "Pawniard does not exist in Gen 9."
+ ],
+ "Bisharp": [
+  "Bisharp does not exist in Gen 9."
+ ],
+ "Bouffalant": [
+  "no learnable legal move / no learnset"
+ ],
+ "Rufflet": [
+  "Rufflet does not exist in Gen 9."
+ ],
+ "Braviary": [
+  "Braviary does not exist in Gen 9."
+ ],
+ "Braviary-Hisui": [
+  "Braviary (Braviary-Hisui) does not exist in Gen 9."
+ ],
+ "Vullaby": [
+  "Vullaby does not exist in Gen 9."
+ ],
+ "Mandibuzz": [
+  "Mandibuzz does not exist in Gen 9."
+ ],
+ "Heatmor": [
+  "no learnable legal move / no learnset"
+ ],
+ "Durant": [
+  "no learnable legal move / no learnset"
+ ],
+ "Deino": [
+  "Deino does not exist in Gen 9."
+ ],
+ "Zweilous": [
+  "Zweilous does not exist in Gen 9."
+ ],
+ "Larvesta": [
+  "Larvesta does not exist in Gen 9."
+ ],
+ "Cobalion": [
+  "Cobalion does not exist in Gen 9."
+ ],
+ "Terrakion": [
+  "Terrakion does not exist in Gen 9."
+ ],
+ "Virizion": [
+  "Virizion does not exist in Gen 9."
+ ],
+ "Tornadus": [
+  "Tornadus does not exist in Gen 9."
+ ],
+ "Tornadus-Therian": [
+  "Tornadus (Tornadus-Therian) does not exist in Gen 9."
+ ],
+ "Thundurus": [
+  "Thundurus does not exist in Gen 9."
+ ],
+ "Thundurus-Therian": [
+  "Thundurus (Thundurus-Therian) does not exist in Gen 9."
+ ],
+ "Reshiram": [
+  "Reshiram is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Zekrom": [
+  "Zekrom is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Landorus": [
+  "Landorus does not exist in Gen 9."
+ ],
+ "Landorus-Therian": [
+  "Landorus (Landorus-Therian) does not exist in Gen 9."
+ ],
+ "Kyurem": [
+  "Kyurem is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Kyurem-Black": [
+  "Kyurem (Kyurem-Black) is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Kyurem-White": [
+  "Kyurem (Kyurem-White) is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Keldeo": [
+  "Keldeo is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Keldeo-Resolute": [
+  "Keldeo needs to know the move Secret Sword to be in its Resolute forme.",
+  "(It will revert to its Ordinary forme if it forgets the move.)",
+  "Keldeo (Keldeo-Resolute) is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Meloetta": [
+  "Meloetta is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Genesect": [
+  "no learnable legal move / no learnset"
+ ],
+ "Genesect-Douse": [
+  "no learnable legal move / no learnset"
+ ],
+ "Genesect-Shock": [
+  "no learnable legal move / no learnset"
+ ],
+ "Genesect-Burn": [
+  "no learnable legal move / no learnset"
+ ],
+ "Genesect-Chill": [
+  "no learnable legal move / no learnset"
+ ],
+ "Chespin": [
+  "Chespin does not exist in Gen 9."
+ ],
+ "Quilladin": [
+  "Quilladin does not exist in Gen 9."
+ ],
+ "Fennekin": [
+  "Fennekin does not exist in Gen 9."
+ ],
+ "Braixen": [
+  "Braixen does not exist in Gen 9."
+ ],
+ "Froakie": [
+  "Froakie does not exist in Gen 9."
+ ],
+ "Frogadier": [
+  "Frogadier does not exist in Gen 9."
+ ],
+ "Greninja-Bond": [
+  "Greninja (Greninja-Bond) does not exist in Gen 9."
+ ],
+ "Bunnelby": [
+  "no learnable legal move / no learnset"
+ ],
+ "Fletchling": [
+  "Fletchling does not exist in Gen 9."
+ ],
+ "Fletchinder": [
+  "Fletchinder does not exist in Gen 9."
+ ],
+ "Scatterbug": [
+  "Scatterbug does not exist in Gen 9."
+ ],
+ "Spewpa": [
+  "Spewpa does not exist in Gen 9."
+ ],
+ "Litleo": [
+  "Litleo does not exist in Gen 9."
+ ],
+ "Flabébé": [
+  "Flabébé does not exist in Gen 9."
+ ],
+ "Floette": [
+  "Floette does not exist in Gen 9."
+ ],
+ "Skiddo": [
+  "Skiddo does not exist in Gen 9."
+ ],
+ "Pancham": [
+  "no learnable legal move / no learnset"
+ ],
+ "Espurr": [
+  "Espurr does not exist in Gen 9."
+ ],
+ "Honedge": [
+  "no learnable legal move / no learnset"
+ ],
+ "Doublade": [
+  "no learnable legal move / no learnset"
+ ],
+ "Spritzee": [
+  "no learnable legal move / no learnset"
+ ],
+ "Swirlix": [
+  "no learnable legal move / no learnset"
+ ],
+ "Inkay": [
+  "Inkay does not exist in Gen 9."
+ ],
+ "Binacle": [
+  "no learnable legal move / no learnset"
+ ],
+ "Skrelp": [
+  "Skrelp does not exist in Gen 9."
+ ],
+ "Clauncher": [
+  "Clauncher does not exist in Gen 9."
+ ],
+ "Helioptile": [
+  "no learnable legal move / no learnset"
+ ],
+ "Tyrunt": [
+  "no learnable legal move / no learnset"
+ ],
+ "Amaura": [
+  "no learnable legal move / no learnset"
+ ],
+ "Carbink": [
+  "Carbink does not exist in Gen 9."
+ ],
+ "Goomy": [
+  "Goomy does not exist in Gen 9."
+ ],
+ "Sliggoo": [
+  "Sliggoo does not exist in Gen 9."
+ ],
+ "Sliggoo-Hisui": [
+  "Sliggoo (Sliggoo-Hisui) does not exist in Gen 9."
+ ],
+ "Phantump": [
+  "Phantump does not exist in Gen 9."
+ ],
+ "Pumpkaboo": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pumpkaboo-Small": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pumpkaboo-Large": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pumpkaboo-Super": [
+  "no learnable legal move / no learnset"
+ ],
+ "Bergmite": [
+  "Bergmite does not exist in Gen 9."
+ ],
+ "Noibat": [
+  "Noibat does not exist in Gen 9."
+ ],
+ "Xerneas": [
+  "no learnable legal move / no learnset"
+ ],
+ "Xerneas-Neutral": [
+  "no learnable legal move / no learnset"
+ ],
+ "Yveltal": [
+  "no learnable legal move / no learnset"
+ ],
+ "Zygarde": [
+  "no learnable legal move / no learnset"
+ ],
+ "Zygarde-10%": [
+  "no learnable legal move / no learnset"
+ ],
+ "Diancie": [
+  "Diancie is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Hoopa": [
+  "Hoopa is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Hoopa-Unbound": [
+  "Hoopa (Hoopa-Unbound) is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Volcanion": [
+  "Volcanion is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Rowlet": [
+  "Rowlet does not exist in Gen 9."
+ ],
+ "Dartrix": [
+  "Dartrix does not exist in Gen 9."
+ ],
+ "Litten": [
+  "Litten does not exist in Gen 9."
+ ],
+ "Torracat": [
+  "Torracat does not exist in Gen 9."
+ ],
+ "Popplio": [
+  "Popplio does not exist in Gen 9."
+ ],
+ "Brionne": [
+  "Brionne does not exist in Gen 9."
+ ],
+ "Pikipek": [
+  "Pikipek does not exist in Gen 9."
+ ],
+ "Trumbeak": [
+  "Trumbeak does not exist in Gen 9."
+ ],
+ "Yungoos": [
+  "Yungoos does not exist in Gen 9."
+ ],
+ "Gumshoos": [
+  "Gumshoos does not exist in Gen 9."
+ ],
+ "Gumshoos-Totem": [
+  "Gumshoos (Gumshoos-Totem) does not exist in Gen 9."
+ ],
+ "Grubbin": [
+  "Grubbin does not exist in Gen 9."
+ ],
+ "Charjabug": [
+  "Charjabug does not exist in Gen 9."
+ ],
+ "Vikavolt": [
+  "Vikavolt does not exist in Gen 9."
+ ],
+ "Vikavolt-Totem": [
+  "Vikavolt (Vikavolt-Totem) does not exist in Gen 9."
+ ],
+ "Crabrawler": [
+  "Crabrawler does not exist in Gen 9."
+ ],
+ "Oricorio": [
+  "Oricorio does not exist in Gen 9."
+ ],
+ "Oricorio-Pom-Pom": [
+  "Oricorio (Oricorio-Pom-Pom) does not exist in Gen 9."
+ ],
+ "Oricorio-Pa'u": [
+  "Oricorio (Oricorio-Pa'u) does not exist in Gen 9."
+ ],
+ "Oricorio-Sensu": [
+  "Oricorio (Oricorio-Sensu) does not exist in Gen 9."
+ ],
+ "Cutiefly": [
+  "Cutiefly does not exist in Gen 9."
+ ],
+ "Ribombee": [
+  "Ribombee does not exist in Gen 9."
+ ],
+ "Ribombee-Totem": [
+  "Ribombee (Ribombee-Totem) does not exist in Gen 9."
+ ],
+ "Rockruff": [
+  "Rockruff (Rockruff-Dusk) does not exist in Gen 9."
+ ],
+ "Rockruff-Dusk": [
+  "Rockruff (Rockruff-Dusk) does not exist in Gen 9."
+ ],
+ "Wishiwashi": [
+  "no learnable legal move / no learnset"
+ ],
+ "Mareanie": [
+  "Mareanie does not exist in Gen 9."
+ ],
+ "Mudbray": [
+  "Mudbray does not exist in Gen 9."
+ ],
+ "Dewpider": [
+  "Dewpider does not exist in Gen 9."
+ ],
+ "Araquanid-Totem": [
+  "Araquanid (Araquanid-Totem) does not exist in Gen 9."
+ ],
+ "Fomantis": [
+  "Fomantis does not exist in Gen 9."
+ ],
+ "Lurantis": [
+  "Lurantis does not exist in Gen 9."
+ ],
+ "Lurantis-Totem": [
+  "Lurantis (Lurantis-Totem) does not exist in Gen 9."
+ ],
+ "Morelull": [
+  "no learnable legal move / no learnset"
+ ],
+ "Shiinotic": [
+  "no learnable legal move / no learnset"
+ ],
+ "Salandit": [
+  "Salandit does not exist in Gen 9."
+ ],
+ "Salazzle-Totem": [
+  "Salazzle (Salazzle-Totem) does not exist in Gen 9."
+ ],
+ "Stufful": [
+  "no learnable legal move / no learnset"
+ ],
+ "Bewear": [
+  "no learnable legal move / no learnset"
+ ],
+ "Bounsweet": [
+  "Bounsweet does not exist in Gen 9."
+ ],
+ "Steenee": [
+  "Steenee does not exist in Gen 9."
+ ],
+ "Comfey": [
+  "Comfey does not exist in Gen 9."
+ ],
+ "Wimpod": [
+  "no learnable legal move / no learnset"
+ ],
+ "Sandygast": [
+  "Sandygast does not exist in Gen 9."
+ ],
+ "Palossand": [
+  "Palossand does not exist in Gen 9."
+ ],
+ "Pyukumuku": [
+  "no learnable legal move / no learnset"
+ ],
+ "Type: Null": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Bug": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Dark": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Dragon": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Electric": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Fairy": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Fighting": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Fire": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Flying": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Ghost": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Grass": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Ground": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Ice": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Poison": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Psychic": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Rock": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Steel": [
+  "no learnable legal move / no learnset"
+ ],
+ "Silvally-Water": [
+  "no learnable legal move / no learnset"
+ ],
+ "Minior": [
+  "Minior does not exist in Gen 9."
+ ],
+ "Minior-Orange": [
+  "Minior (Minior-Orange) does not exist in Gen 9."
+ ],
+ "Minior-Yellow": [
+  "Minior (Minior-Yellow) does not exist in Gen 9."
+ ],
+ "Minior-Green": [
+  "Minior (Minior-Green) does not exist in Gen 9."
+ ],
+ "Minior-Blue": [
+  "Minior (Minior-Blue) does not exist in Gen 9."
+ ],
+ "Minior-Indigo": [
+  "Minior (Minior-Indigo) does not exist in Gen 9."
+ ],
+ "Minior-Violet": [
+  "Minior (Minior-Violet) does not exist in Gen 9."
+ ],
+ "Komala": [
+  "Komala does not exist in Gen 9."
+ ],
+ "Turtonator": [
+  "no learnable legal move / no learnset"
+ ],
+ "Togedemaru": [
+  "no learnable legal move / no learnset"
+ ],
+ "Togedemaru-Totem": [
+  "no learnable legal move / no learnset"
+ ],
+ "Mimikyu-Totem": [
+  "no learnable legal move / no learnset"
+ ],
+ "Bruxish": [
+  "Bruxish does not exist in Gen 9."
+ ],
+ "Dhelmise": [
+  "no learnable legal move / no learnset"
+ ],
+ "Jangmo-o": [
+  "Jangmo-o does not exist in Gen 9."
+ ],
+ "Hakamo-o": [
+  "Hakamo-o does not exist in Gen 9."
+ ],
+ "Kommo-o-Totem": [
+  "Kommo-o (Kommo-o-Totem) does not exist in Gen 9."
+ ],
+ "Tapu Koko": [
+  "no learnable legal move / no learnset"
+ ],
+ "Tapu Lele": [
+  "no learnable legal move / no learnset"
+ ],
+ "Tapu Bulu": [
+  "no learnable legal move / no learnset"
+ ],
+ "Tapu Fini": [
+  "no learnable legal move / no learnset"
+ ],
+ "Cosmog": [
+  "no learnable legal move / no learnset"
+ ],
+ "Cosmoem": [
+  "Cosmoem is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Solgaleo": [
+  "Solgaleo is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Lunala": [
+  "Lunala is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Nihilego": [
+  "no learnable legal move / no learnset"
+ ],
+ "Buzzwole": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pheromosa": [
+  "no learnable legal move / no learnset"
+ ],
+ "Xurkitree": [
+  "no learnable legal move / no learnset"
+ ],
+ "Celesteela": [
+  "no learnable legal move / no learnset"
+ ],
+ "Kartana": [
+  "no learnable legal move / no learnset"
+ ],
+ "Guzzlord": [
+  "no learnable legal move / no learnset"
+ ],
+ "Necrozma": [
+  "Necrozma is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Necrozma-Dusk-Mane": [
+  "Necrozma (Necrozma-Dusk-Mane) is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Necrozma-Dawn-Wings": [
+  "Necrozma (Necrozma-Dawn-Wings) is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Magearna": [
+  "Magearna is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Magearna-Original": [
+  "Magearna (Magearna-Original) is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Marshadow": [
+  "no learnable legal move / no learnset"
+ ],
+ "Poipole": [
+  "no learnable legal move / no learnset"
+ ],
+ "Naganadel": [
+  "no learnable legal move / no learnset"
+ ],
+ "Stakataka": [
+  "no learnable legal move / no learnset"
+ ],
+ "Blacephalon": [
+  "no learnable legal move / no learnset"
+ ],
+ "Zeraora": [
+  "no learnable legal move / no learnset"
+ ],
+ "Meltan": [
+  "Meltan is tagged Mythical, which is banned by Flat Rules.",
+  "Meltan must be shiny because it has a move only available from an event.",
+  "Meltan is only obtainable from Pokemon GO, and failed to validate because:",
+  "Meltan's move Acid Armor is incompatible with a Pokemon GO origin."
+ ],
+ "Melmetal": [
+  "no learnable legal move / no learnset"
+ ],
+ "Melmetal-Gmax": [
+  "no learnable legal move / no learnset"
+ ],
+ "Grookey": [
+  "Grookey does not exist in Gen 9."
+ ],
+ "Thwackey": [
+  "Thwackey does not exist in Gen 9."
+ ],
+ "Scorbunny": [
+  "Scorbunny does not exist in Gen 9."
+ ],
+ "Raboot": [
+  "Raboot does not exist in Gen 9."
+ ],
+ "Sobble": [
+  "Sobble does not exist in Gen 9."
+ ],
+ "Drizzile": [
+  "Drizzile does not exist in Gen 9."
+ ],
+ "Skwovet": [
+  "Skwovet does not exist in Gen 9."
+ ],
+ "Greedent": [
+  "Greedent does not exist in Gen 9."
+ ],
+ "Rookidee": [
+  "Rookidee does not exist in Gen 9."
+ ],
+ "Corvisquire": [
+  "Corvisquire does not exist in Gen 9."
+ ],
+ "Blipbug": [
+  "no learnable legal move / no learnset"
+ ],
+ "Dottler": [
+  "no learnable legal move / no learnset"
+ ],
+ "Orbeetle": [
+  "no learnable legal move / no learnset"
+ ],
+ "Orbeetle-Gmax": [
+  "no learnable legal move / no learnset"
+ ],
+ "Nickit": [
+  "no learnable legal move / no learnset"
+ ],
+ "Gossifleur": [
+  "no learnable legal move / no learnset"
+ ],
+ "Eldegoss": [
+  "no learnable legal move / no learnset"
+ ],
+ "Wooloo": [
+  "no learnable legal move / no learnset"
+ ],
+ "Dubwool": [
+  "no learnable legal move / no learnset"
+ ],
+ "Chewtle": [
+  "Chewtle does not exist in Gen 9."
+ ],
+ "Drednaw": [
+  "Drednaw does not exist in Gen 9."
+ ],
+ "Drednaw-Gmax": [
+  "Drednaw does not exist in Gen 9."
+ ],
+ "Yamper": [
+  "no learnable legal move / no learnset"
+ ],
+ "Boltund": [
+  "no learnable legal move / no learnset"
+ ],
+ "Rolycoly": [
+  "Rolycoly does not exist in Gen 9."
+ ],
+ "Carkol": [
+  "Carkol does not exist in Gen 9."
+ ],
+ "Coalossal": [
+  "Coalossal does not exist in Gen 9."
+ ],
+ "Coalossal-Gmax": [
+  "Coalossal does not exist in Gen 9."
+ ],
+ "Applin": [
+  "Applin does not exist in Gen 9."
+ ],
+ "Silicobra": [
+  "Silicobra does not exist in Gen 9."
+ ],
+ "Cramorant": [
+  "Cramorant does not exist in Gen 9."
+ ],
+ "Arrokuda": [
+  "Arrokuda does not exist in Gen 9."
+ ],
+ "Barraskewda": [
+  "Barraskewda does not exist in Gen 9."
+ ],
+ "Toxel": [
+  "Toxel does not exist in Gen 9."
+ ],
+ "Sizzlipede": [
+  "no learnable legal move / no learnset"
+ ],
+ "Centiskorch": [
+  "no learnable legal move / no learnset"
+ ],
+ "Centiskorch-Gmax": [
+  "no learnable legal move / no learnset"
+ ],
+ "Clobbopus": [
+  "no learnable legal move / no learnset"
+ ],
+ "Sinistea": [
+  "Sinistea does not exist in Gen 9."
+ ],
+ "Sinistea-Antique": [
+  "Sinistea (Sinistea-Antique) does not exist in Gen 9."
+ ],
+ "Hatenna": [
+  "Hatenna does not exist in Gen 9."
+ ],
+ "Hattrem": [
+  "Hattrem does not exist in Gen 9."
+ ],
+ "Impidimp": [
+  "Impidimp does not exist in Gen 9."
+ ],
+ "Morgrem": [
+  "Morgrem does not exist in Gen 9."
+ ],
+ "Obstagoon": [
+  "no learnable legal move / no learnset"
+ ],
+ "Cursola": [
+  "no learnable legal move / no learnset"
+ ],
+ "Milcery": [
+  "Milcery does not exist in Gen 9."
+ ],
+ "Snom": [
+  "Snom does not exist in Gen 9."
+ ],
+ "Frosmoth": [
+  "Frosmoth does not exist in Gen 9."
+ ],
+ "Stonjourner": [
+  "Stonjourner does not exist in Gen 9."
+ ],
+ "Eiscue": [
+  "Eiscue does not exist in Gen 9."
+ ],
+ "Cufant": [
+  "Cufant does not exist in Gen 9."
+ ],
+ "Copperajah": [
+  "Copperajah does not exist in Gen 9."
+ ],
+ "Copperajah-Gmax": [
+  "Copperajah does not exist in Gen 9."
+ ],
+ "Dracozolt": [
+  "no learnable legal move / no learnset"
+ ],
+ "Arctozolt": [
+  "no learnable legal move / no learnset"
+ ],
+ "Dracovish": [
+  "no learnable legal move / no learnset"
+ ],
+ "Arctovish": [
+  "no learnable legal move / no learnset"
+ ],
+ "Duraludon": [
+  "Duraludon does not exist in Gen 9."
+ ],
+ "Duraludon-Gmax": [
+  "Duraludon does not exist in Gen 9."
+ ],
+ "Dreepy": [
+  "Dreepy does not exist in Gen 9."
+ ],
+ "Drakloak": [
+  "Drakloak does not exist in Gen 9."
+ ],
+ "Zacian": [
+  "Zacian is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Zamazenta": [
+  "Zamazenta is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Eternatus": [
+  "Eternatus is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Eternatus-Eternamax": [
+  "Eternatus (Eternatus-Eternamax) does not exist in Gen 9."
+ ],
+ "Kubfu": [
+  "Kubfu does not exist in Gen 9."
+ ],
+ "Urshifu": [
+  "Urshifu does not exist in Gen 9."
+ ],
+ "Urshifu-Rapid-Strike": [
+  "Urshifu (Urshifu-Rapid-Strike) does not exist in Gen 9."
+ ],
+ "Urshifu-Gmax": [
+  "Urshifu does not exist in Gen 9."
+ ],
+ "Zarude": [
+  "Zarude is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Zarude-Dada": [
+  "Zarude (Zarude-Dada) is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Regieleki": [
+  "Regieleki does not exist in Gen 9."
+ ],
+ "Regidrago": [
+  "Regidrago does not exist in Gen 9."
+ ],
+ "Glastrier": [
+  "Glastrier does not exist in Gen 9."
+ ],
+ "Spectrier": [
+  "Spectrier does not exist in Gen 9."
+ ],
+ "Calyrex": [
+  "Calyrex is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Calyrex-Ice": [
+  "Calyrex (Calyrex-Ice) is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Calyrex-Shadow": [
+  "Calyrex (Calyrex-Shadow) is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Ursaluna": [
+  "Ursaluna does not exist in Gen 9."
+ ],
+ "Ursaluna-Bloodmoon": [
+  "Ursaluna (Ursaluna-Bloodmoon) does not exist in Gen 9."
+ ],
+ "Enamorus": [
+  "Enamorus does not exist in Gen 9."
+ ],
+ "Enamorus-Therian": [
+  "Enamorus (Enamorus-Therian) does not exist in Gen 9."
+ ],
+ "Sprigatito": [
+  "Sprigatito does not exist in Gen 9."
+ ],
+ "Floragato": [
+  "Floragato does not exist in Gen 9."
+ ],
+ "Fuecoco": [
+  "Fuecoco does not exist in Gen 9."
+ ],
+ "Crocalor": [
+  "Crocalor does not exist in Gen 9."
+ ],
+ "Quaxly": [
+  "Quaxly does not exist in Gen 9."
+ ],
+ "Quaxwell": [
+  "Quaxwell does not exist in Gen 9."
+ ],
+ "Lechonk": [
+  "Lechonk does not exist in Gen 9."
+ ],
+ "Oinkologne": [
+  "Oinkologne does not exist in Gen 9."
+ ],
+ "Oinkologne-F": [
+  "Oinkologne (Oinkologne-F) does not exist in Gen 9."
+ ],
+ "Tarountula": [
+  "Tarountula does not exist in Gen 9."
+ ],
+ "Spidops": [
+  "Spidops does not exist in Gen 9."
+ ],
+ "Nymble": [
+  "Nymble does not exist in Gen 9."
+ ],
+ "Lokix": [
+  "Lokix does not exist in Gen 9."
+ ],
+ "Pawmi": [
+  "Pawmi does not exist in Gen 9."
+ ],
+ "Pawmo": [
+  "Pawmo does not exist in Gen 9."
+ ],
+ "Tandemaus": [
+  "Tandemaus does not exist in Gen 9."
+ ],
+ "Fidough": [
+  "Fidough does not exist in Gen 9."
+ ],
+ "Dachsbun": [
+  "Dachsbun does not exist in Gen 9."
+ ],
+ "Smoliv": [
+  "Smoliv does not exist in Gen 9."
+ ],
+ "Dolliv": [
+  "Dolliv does not exist in Gen 9."
+ ],
+ "Nacli": [
+  "Nacli does not exist in Gen 9."
+ ],
+ "Naclstack": [
+  "Naclstack does not exist in Gen 9."
+ ],
+ "Charcadet": [
+  "Charcadet does not exist in Gen 9."
+ ],
+ "Tadbulb": [
+  "Tadbulb does not exist in Gen 9."
+ ],
+ "Wattrel": [
+  "Wattrel does not exist in Gen 9."
+ ],
+ "Kilowattrel": [
+  "Kilowattrel does not exist in Gen 9."
+ ],
+ "Maschiff": [
+  "Maschiff does not exist in Gen 9."
+ ],
+ "Shroodle": [
+  "Shroodle does not exist in Gen 9."
+ ],
+ "Grafaiai": [
+  "Grafaiai does not exist in Gen 9."
+ ],
+ "Bramblin": [
+  "Bramblin does not exist in Gen 9."
+ ],
+ "Brambleghast": [
+  "Brambleghast does not exist in Gen 9."
+ ],
+ "Toedscool": [
+  "Toedscool does not exist in Gen 9."
+ ],
+ "Toedscruel": [
+  "Toedscruel does not exist in Gen 9."
+ ],
+ "Klawf": [
+  "Klawf does not exist in Gen 9."
+ ],
+ "Capsakid": [
+  "Capsakid does not exist in Gen 9."
+ ],
+ "Rellor": [
+  "Rellor does not exist in Gen 9."
+ ],
+ "Rabsca": [
+  "Rabsca does not exist in Gen 9."
+ ],
+ "Flittle": [
+  "Flittle does not exist in Gen 9."
+ ],
+ "Tinkatink": [
+  "Tinkatink does not exist in Gen 9."
+ ],
+ "Tinkatuff": [
+  "Tinkatuff does not exist in Gen 9."
+ ],
+ "Wiglett": [
+  "Wiglett does not exist in Gen 9."
+ ],
+ "Wugtrio": [
+  "Wugtrio does not exist in Gen 9."
+ ],
+ "Bombirdier": [
+  "Bombirdier does not exist in Gen 9."
+ ],
+ "Finizen": [
+  "Finizen does not exist in Gen 9."
+ ],
+ "Varoom": [
+  "Varoom does not exist in Gen 9."
+ ],
+ "Revavroom": [
+  "Revavroom does not exist in Gen 9."
+ ],
+ "Cyclizar": [
+  "Cyclizar does not exist in Gen 9."
+ ],
+ "Glimmet": [
+  "Glimmet does not exist in Gen 9."
+ ],
+ "Greavard": [
+  "Greavard does not exist in Gen 9."
+ ],
+ "Flamigo": [
+  "Flamigo does not exist in Gen 9."
+ ],
+ "Cetoddle": [
+  "Cetoddle does not exist in Gen 9."
+ ],
+ "Cetitan": [
+  "Cetitan does not exist in Gen 9."
+ ],
+ "Veluza": [
+  "Veluza does not exist in Gen 9."
+ ],
+ "Dondozo": [
+  "Dondozo does not exist in Gen 9."
+ ],
+ "Tatsugiri": [
+  "Tatsugiri does not exist in Gen 9."
+ ],
+ "Tatsugiri-Droopy": [
+  "Tatsugiri (Tatsugiri-Droopy) does not exist in Gen 9."
+ ],
+ "Tatsugiri-Stretchy": [
+  "Tatsugiri (Tatsugiri-Stretchy) does not exist in Gen 9."
+ ],
+ "Clodsire": [
+  "Clodsire does not exist in Gen 9."
+ ],
+ "Dudunsparce": [
+  "Dudunsparce does not exist in Gen 9."
+ ],
+ "Dudunsparce-Three-Segment": [
+  "Dudunsparce (Dudunsparce-Three-Segment) does not exist in Gen 9."
+ ],
+ "Great Tusk": [
+  "Great Tusk does not exist in Gen 9."
+ ],
+ "Scream Tail": [
+  "Scream Tail does not exist in Gen 9."
+ ],
+ "Brute Bonnet": [
+  "Brute Bonnet does not exist in Gen 9."
+ ],
+ "Flutter Mane": [
+  "Flutter Mane does not exist in Gen 9."
+ ],
+ "Slither Wing": [
+  "Slither Wing does not exist in Gen 9."
+ ],
+ "Sandy Shocks": [
+  "Sandy Shocks does not exist in Gen 9."
+ ],
+ "Iron Treads": [
+  "Iron Treads does not exist in Gen 9."
+ ],
+ "Iron Bundle": [
+  "Iron Bundle does not exist in Gen 9."
+ ],
+ "Iron Hands": [
+  "Iron Hands does not exist in Gen 9."
+ ],
+ "Iron Jugulis": [
+  "Iron Jugulis does not exist in Gen 9."
+ ],
+ "Iron Moth": [
+  "Iron Moth does not exist in Gen 9."
+ ],
+ "Iron Thorns": [
+  "Iron Thorns does not exist in Gen 9."
+ ],
+ "Frigibax": [
+  "Frigibax does not exist in Gen 9."
+ ],
+ "Arctibax": [
+  "Arctibax does not exist in Gen 9."
+ ],
+ "Gimmighoul": [
+  "Gimmighoul does not exist in Gen 9."
+ ],
+ "Gimmighoul-Roaming": [
+  "Gimmighoul (Gimmighoul-Roaming) does not exist in Gen 9."
+ ],
+ "Wo-Chien": [
+  "Wo-Chien does not exist in Gen 9."
+ ],
+ "Chien-Pao": [
+  "Chien-Pao does not exist in Gen 9."
+ ],
+ "Ting-Lu": [
+  "Ting-Lu does not exist in Gen 9."
+ ],
+ "Chi-Yu": [
+  "Chi-Yu does not exist in Gen 9."
+ ],
+ "Roaring Moon": [
+  "Roaring Moon does not exist in Gen 9."
+ ],
+ "Iron Valiant": [
+  "Iron Valiant does not exist in Gen 9."
+ ],
+ "Koraidon": [
+  "Koraidon is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Miraidon": [
+  "Miraidon is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Walking Wake": [
+  "Walking Wake does not exist in Gen 9."
+ ],
+ "Iron Leaves": [
+  "Iron Leaves does not exist in Gen 9."
+ ],
+ "Dipplin": [
+  "Dipplin does not exist in Gen 9."
+ ],
+ "Poltchageist": [
+  "Poltchageist does not exist in Gen 9."
+ ],
+ "Poltchageist-Artisan": [
+  "Poltchageist (Poltchageist-Artisan) does not exist in Gen 9."
+ ],
+ "Okidogi": [
+  "Okidogi does not exist in Gen 9."
+ ],
+ "Munkidori": [
+  "Munkidori does not exist in Gen 9."
+ ],
+ "Fezandipiti": [
+  "Fezandipiti does not exist in Gen 9."
+ ],
+ "Ogerpon": [
+  "Ogerpon does not exist in Gen 9."
+ ],
+ "Ogerpon-Wellspring": [
+  "Ogerpon (Ogerpon-Wellspring) does not exist in Gen 9.",
+  "Ogerpon's item Wellspring Mask does not exist in Gen 9."
+ ],
+ "Ogerpon-Hearthflame": [
+  "Ogerpon (Ogerpon-Hearthflame) does not exist in Gen 9.",
+  "Ogerpon's item Hearthflame Mask does not exist in Gen 9."
+ ],
+ "Ogerpon-Cornerstone": [
+  "Ogerpon (Ogerpon-Cornerstone) does not exist in Gen 9.",
+  "Ogerpon's item Cornerstone Mask does not exist in Gen 9."
+ ],
+ "Gouging Fire": [
+  "Gouging Fire does not exist in Gen 9."
+ ],
+ "Raging Bolt": [
+  "Raging Bolt does not exist in Gen 9."
+ ],
+ "Iron Boulder": [
+  "Iron Boulder does not exist in Gen 9."
+ ],
+ "Iron Crown": [
+  "Iron Crown does not exist in Gen 9."
+ ],
+ "Terapagos": [
+  "Terapagos is tagged Restricted Legendary, which is banned by Flat Rules."
+ ],
+ "Pecharunt": [
+  "Pecharunt is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "MissingNo.": [
+  "no learnable legal move / no learnset"
+ ],
+ "Syclar": [
+  "Syclar is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Syclant": [
+  "Syclant is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Revenankh": [
+  "Revenankh is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Embirch": [
+  "Embirch is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Flarelm": [
+  "Flarelm is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Pyroak": [
+  "Pyroak is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Breezi": [
+  "Breezi is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Fidgit": [
+  "Fidgit is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Rebble": [
+  "Rebble is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Tactite": [
+  "Tactite is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Stratagem": [
+  "Stratagem is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Privatyke": [
+  "Privatyke is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Arghonaut": [
+  "Arghonaut is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Kitsunoh": [
+  "Kitsunoh is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Cyclohm": [
+  "Cyclohm is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Colossoil": [
+  "Colossoil is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Krilowatt": [
+  "Krilowatt is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Voodoll": [
+  "Voodoll is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Voodoom": [
+  "Voodoom is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Scratchet": [
+  "Scratchet is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Tomohawk": [
+  "Tomohawk is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Necturine": [
+  "Necturine is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Necturna": [
+  "Necturna is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Mollux": [
+  "Mollux is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Cupra": [
+  "Cupra is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Argalis": [
+  "Argalis is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Aurumoth": [
+  "Aurumoth is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Brattler": [
+  "Brattler is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Malaconda": [
+  "Malaconda is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Cawdet": [
+  "Cawdet is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Cawmodore": [
+  "Cawmodore is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Volkritter": [
+  "Volkritter is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Volkraken": [
+  "Volkraken is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Snugglow": [
+  "Snugglow is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Plasmanta": [
+  "Plasmanta is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Floatoy": [
+  "Floatoy is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Caimanoe": [
+  "Caimanoe is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Naviathan": [
+  "Naviathan is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Crucibelle": [
+  "Crucibelle is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Pluffle": [
+  "Pluffle is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Kerfluffle": [
+  "Kerfluffle is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Pajantom": [
+  "Pajantom is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Mumbao": [
+  "Mumbao is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Jumbao": [
+  "Jumbao is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Fawnifer": [
+  "Fawnifer is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Electrelk": [
+  "Electrelk is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Caribolt": [
+  "Caribolt is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Smogecko": [
+  "Smogecko is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Smoguana": [
+  "Smoguana is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Smokomodo": [
+  "Smokomodo is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Swirlpool": [
+  "Swirlpool is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Coribalis": [
+  "Coribalis is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Snaelstrom": [
+  "Snaelstrom is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Justyke": [
+  "Justyke is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Equilibra": [
+  "Equilibra is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Solotl": [
+  "Solotl is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Astrolotl": [
+  "Astrolotl is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Miasmite": [
+  "Miasmite is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Miasmaw": [
+  "Miasmaw is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Chromera": [
+  "Chromera is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Nohface": [
+  "Nohface is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Monohm": [
+  "Monohm is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Duohm": [
+  "Duohm is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Dorsoil": [
+  "Dorsoil is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Protowatt": [
+  "Protowatt is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Venomicon": [
+  "Venomicon is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Venomicon-Epilogue": [
+  "Venomicon (Venomicon-Epilogue) is made up for Smogon CAP and does not exist in this game.",
+  "Venomicon's item Vile Vial is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Saharascal": [
+  "Saharascal is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Saharaja": [
+  "Saharaja is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Ababo": [
+  "Ababo is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Scattervein": [
+  "Scattervein is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Hemogoblin": [
+  "Hemogoblin is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Cresceidon": [
+  "Cresceidon is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Chuggon": [
+  "Chuggon is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Draggalong": [
+  "Draggalong is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Chuggalong": [
+  "Chuggalong is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Flox": [
+  "Flox is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Shox": [
+  "Shox is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Ramnarok": [
+  "Ramnarok is tagged Mythical, which is banned by Flat Rules."
+ ],
+ "Scraptor": [
+  "Scraptor is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Obliteryx": [
+  "Obliteryx is made up for Smogon CAP and does not exist in this game."
+ ],
+ "Pokestar Smeargle": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar UFO": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar UFO-2": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar Brycen-Man": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar MT": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar MT2": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar Transport": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar Giant": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar Humanoid": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar Monster": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar F-00": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar F-002": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar Spirit": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar Black Door": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar White Door": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar Black Belt": [
+  "no learnable legal move / no learnset"
+ ],
+ "Pokestar UFO-PropU2": [
+  "no learnable legal move / no learnset"
+ ]
+}

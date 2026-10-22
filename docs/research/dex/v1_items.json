@@ -1,0 +1,4875 @@
+{
+ "meta": {
+  "format": "[Gen 9 Champions] VGC 2026 Reg M-C",
+  "selection": "cost-aware, tau=0.001 on P(team contains) in bo3_1760 or bo1_0",
+  "stats_month": "2026-09",
+  "ps_commit": "d601443"
+ },
+ "count": 160,
+ "entries": [
+  {
+   "id": "sitrusberry",
+   "name": "Sitrus Berry",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 3,
+   "hooks": [
+    "onUpdate",
+    "onTryEatItem",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.512911,
+     "slot_mass": 0.109369
+    },
+    "bo3_0": {
+     "p_team": 0.461662,
+     "slot_mass": 0.0966
+    },
+    "bo1_1760": {
+     "p_team": 0.460486,
+     "slot_mass": 0.097526
+    },
+    "bo1_0": {
+     "p_team": 0.438159,
+     "slot_mass": 0.092421
+    },
+    "replays_bo3_p_team": 0.57241
+   }
+  },
+  {
+   "id": "focussash",
+   "name": "Focus Sash",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onDamage"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.479296,
+     "slot_mass": 0.104612
+    },
+    "bo3_0": {
+     "p_team": 0.459097,
+     "slot_mass": 0.099483
+    },
+    "bo1_1760": {
+     "p_team": 0.47842,
+     "slot_mass": 0.106093
+    },
+    "bo1_0": {
+     "p_team": 0.469871,
+     "slot_mass": 0.103905
+    },
+    "replays_bo3_p_team": 0.62317
+   }
+  },
+  {
+   "id": "lifeorb",
+   "name": "Life Orb",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onModifyDamage",
+    "onAfterMoveSecondarySelf"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.47824,
+     "slot_mass": 0.102226
+    },
+    "bo3_0": {
+     "p_team": 0.448172,
+     "slot_mass": 0.094792
+    },
+    "bo1_1760": {
+     "p_team": 0.434826,
+     "slot_mass": 0.092169
+    },
+    "bo1_0": {
+     "p_team": 0.407984,
+     "slot_mass": 0.085841
+    },
+    "replays_bo3_p_team": 0.5285
+   }
+  },
+  {
+   "id": "miracleseed",
+   "name": "Miracle Seed",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.370528,
+     "slot_mass": 0.061793
+    },
+    "bo3_0": {
+     "p_team": 0.346449,
+     "slot_mass": 0.057891
+    },
+    "bo1_1760": {
+     "p_team": 0.291786,
+     "slot_mass": 0.048726
+    },
+    "bo1_0": {
+     "p_team": 0.216643,
+     "slot_mass": 0.036291
+    },
+    "replays_bo3_p_team": 0.2834
+   }
+  },
+  {
+   "id": "leftovers",
+   "name": "Leftovers",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onResidual"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.273039,
+     "slot_mass": 0.050742
+    },
+    "bo3_0": {
+     "p_team": 0.274337,
+     "slot_mass": 0.052064
+    },
+    "bo1_1760": {
+     "p_team": 0.303622,
+     "slot_mass": 0.057886
+    },
+    "bo1_0": {
+     "p_team": 0.315832,
+     "slot_mass": 0.062029
+    },
+    "replays_bo3_p_team": 0.41482
+   }
+  },
+  {
+   "id": "salamencite",
+   "name": "Salamencite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.245142,
+     "slot_mass": 0.040879
+    },
+    "bo3_0": {
+     "p_team": 0.267942,
+     "slot_mass": 0.044718
+    },
+    "bo1_1760": {
+     "p_team": 0.280649,
+     "slot_mass": 0.046832
+    },
+    "bo1_0": {
+     "p_team": 0.222465,
+     "slot_mass": 0.037168
+    },
+    "replays_bo3_p_team": 0.08876
+   }
+  },
+  {
+   "id": "charizarditey",
+   "name": "Charizardite Y",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.211458,
+     "slot_mass": 0.035262
+    },
+    "bo3_0": {
+     "p_team": 0.118542,
+     "slot_mass": 0.019784
+    },
+    "bo1_1760": {
+     "p_team": 0.121985,
+     "slot_mass": 0.020355
+    },
+    "bo1_0": {
+     "p_team": 0.083876,
+     "slot_mass": 0.014013
+    },
+    "replays_bo3_p_team": 0.21769
+   }
+  },
+  {
+   "id": "grassyseed",
+   "name": "Grassy Seed",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onStart",
+    "onTerrainChange"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.194517,
+     "slot_mass": 0.034583
+    },
+    "bo3_0": {
+     "p_team": 0.217087,
+     "slot_mass": 0.039169
+    },
+    "bo1_1760": {
+     "p_team": 0.175998,
+     "slot_mass": 0.031277
+    },
+    "bo1_0": {
+     "p_team": 0.158715,
+     "slot_mass": 0.028181
+    },
+    "replays_bo3_p_team": 0.11585
+   }
+  },
+  {
+   "id": "raichunitey",
+   "name": "Raichunite Y",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.194241,
+     "slot_mass": 0.032391
+    },
+    "bo3_0": {
+     "p_team": 0.178433,
+     "slot_mass": 0.029779
+    },
+    "bo1_1760": {
+     "p_team": 0.1254,
+     "slot_mass": 0.020925
+    },
+    "bo1_0": {
+     "p_team": 0.093026,
+     "slot_mass": 0.015542
+    },
+    "replays_bo3_p_team": 0.18405
+   }
+  },
+  {
+   "id": "floettite",
+   "name": "Floettite",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.189343,
+     "slot_mass": 0.031574
+    },
+    "bo3_0": {
+     "p_team": 0.136877,
+     "slot_mass": 0.022844
+    },
+    "bo1_1760": {
+     "p_team": 0.108234,
+     "slot_mass": 0.018061
+    },
+    "bo1_0": {
+     "p_team": 0.075372,
+     "slot_mass": 0.012592
+    },
+    "replays_bo3_p_team": 0.1445
+   }
+  },
+  {
+   "id": "choicescarf",
+   "name": "Choice Scarf",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 3,
+   "hooks": [
+    "onStart",
+    "onModifyMove",
+    "onModifySpe"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.181361,
+     "slot_mass": 0.032547
+    },
+    "bo3_0": {
+     "p_team": 0.212151,
+     "slot_mass": 0.038937
+    },
+    "bo1_1760": {
+     "p_team": 0.249714,
+     "slot_mass": 0.046999
+    },
+    "bo1_0": {
+     "p_team": 0.258458,
+     "slot_mass": 0.049148
+    },
+    "replays_bo3_p_team": 0.29991
+   }
+  },
+  {
+   "id": "whiteherb",
+   "name": "White Herb",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 6,
+   "hooks": [
+    "onStart",
+    "onAnySwitchIn",
+    "onAnyAfterMega",
+    "onAnyAfterMove",
+    "onResidual",
+    "onUse"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.15127,
+     "slot_mass": 0.025557
+    },
+    "bo3_0": {
+     "p_team": 0.140118,
+     "slot_mass": 0.023781
+    },
+    "bo1_1760": {
+     "p_team": 0.11287,
+     "slot_mass": 0.019099
+    },
+    "bo1_0": {
+     "p_team": 0.119096,
+     "slot_mass": 0.020317
+    },
+    "replays_bo3_p_team": 0.18437
+   }
+  },
+  {
+   "id": "chopleberry",
+   "name": "Chople Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.142887,
+     "slot_mass": 0.024631
+    },
+    "bo3_0": {
+     "p_team": 0.139391,
+     "slot_mass": 0.024192
+    },
+    "bo1_1760": {
+     "p_team": 0.160462,
+     "slot_mass": 0.027924
+    },
+    "bo1_0": {
+     "p_team": 0.132291,
+     "slot_mass": 0.022994
+    },
+    "replays_bo3_p_team": 0.128
+   }
+  },
+  {
+   "id": "fairyfeather",
+   "name": "Fairy Feather",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.139316,
+     "slot_mass": 0.023295
+    },
+    "bo3_0": {
+     "p_team": 0.109786,
+     "slot_mass": 0.018444
+    },
+    "bo1_1760": {
+     "p_team": 0.099383,
+     "slot_mass": 0.016712
+    },
+    "bo1_0": {
+     "p_team": 0.071131,
+     "slot_mass": 0.011979
+    },
+    "replays_bo3_p_team": 0.13236
+   }
+  },
+  {
+   "id": "rockyhelmet",
+   "name": "Rocky Helmet",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onDamagingHit"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.130808,
+     "slot_mass": 0.022817
+    },
+    "bo3_0": {
+     "p_team": 0.136615,
+     "slot_mass": 0.024059
+    },
+    "bo1_1760": {
+     "p_team": 0.129646,
+     "slot_mass": 0.022702
+    },
+    "bo1_0": {
+     "p_team": 0.14816,
+     "slot_mass": 0.026478
+    },
+    "replays_bo3_p_team": 0.14419
+   }
+  },
+  {
+   "id": "psychicseed",
+   "name": "Psychic Seed",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onStart",
+    "onTerrainChange"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.1228,
+     "slot_mass": 0.021233
+    },
+    "bo3_0": {
+     "p_team": 0.169228,
+     "slot_mass": 0.029863
+    },
+    "bo1_1760": {
+     "p_team": 0.165937,
+     "slot_mass": 0.029182
+    },
+    "bo1_0": {
+     "p_team": 0.174309,
+     "slot_mass": 0.031008
+    },
+    "replays_bo3_p_team": 0.1062
+   }
+  },
+  {
+   "id": "garchompitez",
+   "name": "Garchompite Z",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.097677,
+     "slot_mass": 0.016288
+    },
+    "bo3_0": {
+     "p_team": 0.092483,
+     "slot_mass": 0.015435
+    },
+    "bo1_1760": {
+     "p_team": 0.078759,
+     "slot_mass": 0.013142
+    },
+    "bo1_0": {
+     "p_team": 0.067016,
+     "slot_mass": 0.011196
+    },
+    "replays_bo3_p_team": 0.16475
+   }
+  },
+  {
+   "id": "gengarite",
+   "name": "Gengarite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.095186,
+     "slot_mass": 0.015873
+    },
+    "bo3_0": {
+     "p_team": 0.058835,
+     "slot_mass": 0.009819
+    },
+    "bo1_1760": {
+     "p_team": 0.063386,
+     "slot_mass": 0.010577
+    },
+    "bo1_0": {
+     "p_team": 0.043114,
+     "slot_mass": 0.007203
+    },
+    "replays_bo3_p_team": 0.05201
+   }
+  },
+  {
+   "id": "lightclay",
+   "name": "Light Clay",
+   "class": "DATA_ONLY",
+   "inclusion": "zero_cost",
+   "n_hooks": 0,
+   "hooks": [],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.090098,
+     "slot_mass": 0.015164
+    },
+    "bo3_0": {
+     "p_team": 0.063401,
+     "slot_mass": 0.010742
+    },
+    "bo1_1760": {
+     "p_team": 0.072139,
+     "slot_mass": 0.012264
+    },
+    "bo1_0": {
+     "p_team": 0.078814,
+     "slot_mass": 0.013525
+    },
+    "replays_bo3_p_team": 0.08533
+   }
+  },
+  {
+   "id": "staraptite",
+   "name": "Staraptite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.087295,
+     "slot_mass": 0.014557
+    },
+    "bo3_0": {
+     "p_team": 0.085767,
+     "slot_mass": 0.014314
+    },
+    "bo1_1760": {
+     "p_team": 0.06257,
+     "slot_mass": 0.010441
+    },
+    "bo1_0": {
+     "p_team": 0.056836,
+     "slot_mass": 0.009496
+    },
+    "replays_bo3_p_team": 0.09343
+   }
+  },
+  {
+   "id": "colburberry",
+   "name": "Colbur Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.077804,
+     "slot_mass": 0.01335
+    },
+    "bo3_0": {
+     "p_team": 0.103817,
+     "slot_mass": 0.01795
+    },
+    "bo1_1760": {
+     "p_team": 0.11573,
+     "slot_mass": 0.020138
+    },
+    "bo1_0": {
+     "p_team": 0.133908,
+     "slot_mass": 0.023479
+    },
+    "replays_bo3_p_team": 0.05793
+   }
+  },
+  {
+   "id": "golisopite",
+   "name": "Golisopite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.069151,
+     "slot_mass": 0.011531
+    },
+    "bo3_0": {
+     "p_team": 0.12715,
+     "slot_mass": 0.02122
+    },
+    "bo1_1760": {
+     "p_team": 0.157075,
+     "slot_mass": 0.026211
+    },
+    "bo1_0": {
+     "p_team": 0.1822,
+     "slot_mass": 0.03044
+    },
+    "replays_bo3_p_team": 0.12052
+   }
+  },
+  {
+   "id": "froslassite",
+   "name": "Froslassite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.059045,
+     "slot_mass": 0.009846
+    },
+    "bo3_0": {
+     "p_team": 0.056243,
+     "slot_mass": 0.009387
+    },
+    "bo1_1760": {
+     "p_team": 0.048118,
+     "slot_mass": 0.008029
+    },
+    "bo1_0": {
+     "p_team": 0.041815,
+     "slot_mass": 0.006986
+    },
+    "replays_bo3_p_team": 0.04609
+   }
+  },
+  {
+   "id": "delphoxite",
+   "name": "Delphoxite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.057746,
+     "slot_mass": 0.00963
+    },
+    "bo3_0": {
+     "p_team": 0.044461,
+     "slot_mass": 0.00742
+    },
+    "bo1_1760": {
+     "p_team": 0.034178,
+     "slot_mass": 0.005703
+    },
+    "bo1_0": {
+     "p_team": 0.030824,
+     "slot_mass": 0.00515
+    },
+    "replays_bo3_p_team": 0.07848
+   }
+  },
+  {
+   "id": "swampertite",
+   "name": "Swampertite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.057723,
+     "slot_mass": 0.009626
+    },
+    "bo3_0": {
+     "p_team": 0.035153,
+     "slot_mass": 0.005867
+    },
+    "bo1_1760": {
+     "p_team": 0.052925,
+     "slot_mass": 0.008832
+    },
+    "bo1_0": {
+     "p_team": 0.035701,
+     "slot_mass": 0.005965
+    },
+    "replays_bo3_p_team": 0.02429
+   }
+  },
+  {
+   "id": "occaberry",
+   "name": "Occa Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.051068,
+     "slot_mass": 0.008632
+    },
+    "bo3_0": {
+     "p_team": 0.048624,
+     "slot_mass": 0.008254
+    },
+    "bo1_1760": {
+     "p_team": 0.041231,
+     "slot_mass": 0.006973
+    },
+    "bo1_0": {
+     "p_team": 0.03346,
+     "slot_mass": 0.005664
+    },
+    "replays_bo3_p_team": 0.06073
+   }
+  },
+  {
+   "id": "blackglasses",
+   "name": "Black Glasses",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.050309,
+     "slot_mass": 0.008393
+    },
+    "bo3_0": {
+     "p_team": 0.047497,
+     "slot_mass": 0.007939
+    },
+    "bo1_1760": {
+     "p_team": 0.05256,
+     "slot_mass": 0.008785
+    },
+    "bo1_0": {
+     "p_team": 0.046365,
+     "slot_mass": 0.007775
+    },
+    "replays_bo3_p_team": 0.04578
+   }
+  },
+  {
+   "id": "ejectbutton",
+   "name": "Eject Button",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onAfterMoveSecondary"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.049212,
+     "slot_mass": 0.008241
+    },
+    "bo3_0": {
+     "p_team": 0.03634,
+     "slot_mass": 0.006113
+    },
+    "bo1_1760": {
+     "p_team": 0.040321,
+     "slot_mass": 0.006806
+    },
+    "bo1_0": {
+     "p_team": 0.037465,
+     "slot_mass": 0.006353
+    },
+    "replays_bo3_p_team": 0.00623
+   }
+  },
+  {
+   "id": "gardevoirite",
+   "name": "Gardevoirite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.048681,
+     "slot_mass": 0.008118
+    },
+    "bo3_0": {
+     "p_team": 0.077524,
+     "slot_mass": 0.012938
+    },
+    "bo1_1760": {
+     "p_team": 0.094437,
+     "slot_mass": 0.015759
+    },
+    "bo1_0": {
+     "p_team": 0.084736,
+     "slot_mass": 0.014157
+    },
+    "replays_bo3_p_team": 0.05512
+   }
+  },
+  {
+   "id": "dragoninite",
+   "name": "Dragoninite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.047117,
+     "slot_mass": 0.007857
+    },
+    "bo3_0": {
+     "p_team": 0.035186,
+     "slot_mass": 0.005872
+    },
+    "bo1_1760": {
+     "p_team": 0.026979,
+     "slot_mass": 0.004502
+    },
+    "bo1_0": {
+     "p_team": 0.025634,
+     "slot_mass": 0.004283
+    },
+    "replays_bo3_p_team": 0.05107
+   }
+  },
+  {
+   "id": "passhoberry",
+   "name": "Passho Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.046521,
+     "slot_mass": 0.007766
+    },
+    "bo3_0": {
+     "p_team": 0.036053,
+     "slot_mass": 0.006027
+    },
+    "bo1_1760": {
+     "p_team": 0.035819,
+     "slot_mass": 0.006006
+    },
+    "bo1_0": {
+     "p_team": 0.023092,
+     "slot_mass": 0.003872
+    },
+    "replays_bo3_p_team": 0.02523
+   }
+  },
+  {
+   "id": "mysticwater",
+   "name": "Mystic Water",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.046417,
+     "slot_mass": 0.007836
+    },
+    "bo3_0": {
+     "p_team": 0.045224,
+     "slot_mass": 0.007656
+    },
+    "bo1_1760": {
+     "p_team": 0.047096,
+     "slot_mass": 0.007978
+    },
+    "bo1_0": {
+     "p_team": 0.05376,
+     "slot_mass": 0.009165
+    },
+    "replays_bo3_p_team": 0.06197
+   }
+  },
+  {
+   "id": "tyranitarite",
+   "name": "Tyranitarite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.043765,
+     "slot_mass": 0.007298
+    },
+    "bo3_0": {
+     "p_team": 0.065387,
+     "slot_mass": 0.010913
+    },
+    "bo1_1760": {
+     "p_team": 0.057196,
+     "slot_mass": 0.009544
+    },
+    "bo1_0": {
+     "p_team": 0.061461,
+     "slot_mass": 0.010268
+    },
+    "replays_bo3_p_team": 0.07225
+   }
+  },
+  {
+   "id": "metagrossite",
+   "name": "Metagrossite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.041555,
+     "slot_mass": 0.00693
+    },
+    "bo3_0": {
+     "p_team": 0.051824,
+     "slot_mass": 0.008649
+    },
+    "bo1_1760": {
+     "p_team": 0.062687,
+     "slot_mass": 0.010461
+    },
+    "bo1_0": {
+     "p_team": 0.060161,
+     "slot_mass": 0.010051
+    },
+    "replays_bo3_p_team": 0.02554
+   }
+  },
+  {
+   "id": "aerodactylite",
+   "name": "Aerodactylite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.040776,
+     "slot_mass": 0.0068
+    },
+    "bo3_0": {
+     "p_team": 0.024452,
+     "slot_mass": 0.004081
+    },
+    "bo1_1760": {
+     "p_team": 0.021963,
+     "slot_mass": 0.003665
+    },
+    "bo1_0": {
+     "p_team": 0.013743,
+     "slot_mass": 0.002296
+    },
+    "replays_bo3_p_team": 0.01713
+   }
+  },
+  {
+   "id": "glimmoranite",
+   "name": "Glimmoranite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.035119,
+     "slot_mass": 0.005856
+    },
+    "bo3_0": {
+     "p_team": 0.026363,
+     "slot_mass": 0.0044
+    },
+    "bo1_1760": {
+     "p_team": 0.021514,
+     "slot_mass": 0.00359
+    },
+    "bo1_0": {
+     "p_team": 0.020466,
+     "slot_mass": 0.003419
+    },
+    "replays_bo3_p_team": 0.02678
+   }
+  },
+  {
+   "id": "charcoal",
+   "name": "Charcoal",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.027439,
+     "slot_mass": 0.004597
+    },
+    "bo3_0": {
+     "p_team": 0.041904,
+     "slot_mass": 0.007044
+    },
+    "bo1_1760": {
+     "p_team": 0.058107,
+     "slot_mass": 0.009803
+    },
+    "bo1_0": {
+     "p_team": 0.061042,
+     "slot_mass": 0.010314
+    },
+    "replays_bo3_p_team": 0.02959
+   }
+  },
+  {
+   "id": "garchompite",
+   "name": "Garchompite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.017965,
+     "slot_mass": 0.002996
+    },
+    "bo3_0": {
+     "p_team": 0.005186,
+     "slot_mass": 0.000866
+    },
+    "bo1_1760": {
+     "p_team": 0.003224,
+     "slot_mass": 0.000538
+    },
+    "bo1_0": {
+     "p_team": 0.005289,
+     "slot_mass": 0.000884
+    },
+    "replays_bo3_p_team": 0.00997
+   }
+  },
+  {
+   "id": "lucarionitez",
+   "name": "Lucarionite Z",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.017691,
+     "slot_mass": 0.00295
+    },
+    "bo3_0": {
+     "p_team": 0.037489,
+     "slot_mass": 0.006257
+    },
+    "bo1_1760": {
+     "p_team": 0.038403,
+     "slot_mass": 0.006408
+    },
+    "bo1_0": {
+     "p_team": 0.055788,
+     "slot_mass": 0.009321
+    },
+    "replays_bo3_p_team": 0.01401
+   }
+  },
+  {
+   "id": "blastoisinite",
+   "name": "Blastoisinite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.015853,
+     "slot_mass": 0.002644
+    },
+    "bo3_0": {
+     "p_team": 0.02167,
+     "slot_mass": 0.003617
+    },
+    "bo1_1760": {
+     "p_team": 0.030004,
+     "slot_mass": 0.005007
+    },
+    "bo1_0": {
+     "p_team": 0.026292,
+     "slot_mass": 0.004393
+    },
+    "replays_bo3_p_team": 0.01152
+   }
+  },
+  {
+   "id": "cameruptite",
+   "name": "Cameruptite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.01544,
+     "slot_mass": 0.002575
+    },
+    "bo3_0": {
+     "p_team": 0.023168,
+     "slot_mass": 0.003867
+    },
+    "bo1_1760": {
+     "p_team": 0.018666,
+     "slot_mass": 0.003115
+    },
+    "bo1_0": {
+     "p_team": 0.021004,
+     "slot_mass": 0.003509
+    },
+    "replays_bo3_p_team": 0.04298
+   }
+  },
+  {
+   "id": "twistedspoon",
+   "name": "Twisted Spoon",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.012426,
+     "slot_mass": 0.002077
+    },
+    "bo3_0": {
+     "p_team": 0.00785,
+     "slot_mass": 0.001313
+    },
+    "bo1_1760": {
+     "p_team": 0.006051,
+     "slot_mass": 0.001012
+    },
+    "bo1_0": {
+     "p_team": 0.008629,
+     "slot_mass": 0.001446
+    },
+    "replays_bo3_p_team": 0.00343
+   }
+  },
+  {
+   "id": "kasibberry",
+   "name": "Kasib Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.011213,
+     "slot_mass": 0.001873
+    },
+    "bo3_0": {
+     "p_team": 0.010219,
+     "slot_mass": 0.00171
+    },
+    "bo1_1760": {
+     "p_team": 0.011438,
+     "slot_mass": 0.001913
+    },
+    "bo1_0": {
+     "p_team": 0.01269,
+     "slot_mass": 0.002126
+    },
+    "replays_bo3_p_team": 0.01401
+   }
+  },
+  {
+   "id": "baxcalibrite",
+   "name": "Baxcalibrite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.009422,
+     "slot_mass": 0.001571
+    },
+    "bo3_0": {
+     "p_team": 0.029773,
+     "slot_mass": 0.004969
+    },
+    "bo1_1760": {
+     "p_team": 0.029117,
+     "slot_mass": 0.004859
+    },
+    "bo1_0": {
+     "p_team": 0.048412,
+     "slot_mass": 0.008088
+    },
+    "replays_bo3_p_team": 0.01121
+   }
+  },
+  {
+   "id": "cobaberry",
+   "name": "Coba Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.009254,
+     "slot_mass": 0.001547
+    },
+    "bo3_0": {
+     "p_team": 0.01184,
+     "slot_mass": 0.001984
+    },
+    "bo1_1760": {
+     "p_team": 0.012331,
+     "slot_mass": 0.002067
+    },
+    "bo1_0": {
+     "p_team": 0.012942,
+     "slot_mass": 0.002173
+    },
+    "replays_bo3_p_team": 0.00218
+   }
+  },
+  {
+   "id": "expertbelt",
+   "name": "Expert Belt",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onModifyDamage"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.008722,
+     "slot_mass": 0.00146
+    },
+    "bo3_0": {
+     "p_team": 0.022393,
+     "slot_mass": 0.003778
+    },
+    "bo1_1760": {
+     "p_team": 0.017389,
+     "slot_mass": 0.002925
+    },
+    "bo1_0": {
+     "p_team": 0.03791,
+     "slot_mass": 0.006453
+    },
+    "replays_bo3_p_team": 0.02678
+   }
+  },
+  {
+   "id": "blazikenite",
+   "name": "Blazikenite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.00828,
+     "slot_mass": 0.001381
+    },
+    "bo3_0": {
+     "p_team": 0.012238,
+     "slot_mass": 0.002042
+    },
+    "bo1_1760": {
+     "p_team": 0.011363,
+     "slot_mass": 0.001896
+    },
+    "bo1_0": {
+     "p_team": 0.014607,
+     "slot_mass": 0.00244
+    },
+    "replays_bo3_p_team": 0.01246
+   }
+  },
+  {
+   "id": "pyroarite",
+   "name": "Pyroarite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.007774,
+     "slot_mass": 0.001296
+    },
+    "bo3_0": {
+     "p_team": 0.006649,
+     "slot_mass": 0.00111
+    },
+    "bo1_1760": {
+     "p_team": 0.009387,
+     "slot_mass": 0.001566
+    },
+    "bo1_0": {
+     "p_team": 0.00667,
+     "slot_mass": 0.001114
+    },
+    "replays_bo3_p_team": 0.00592
+   }
+  },
+  {
+   "id": "kebiaberry",
+   "name": "Kebia Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.007233,
+     "slot_mass": 0.001206
+    },
+    "bo3_0": {
+     "p_team": 0.002323,
+     "slot_mass": 0.000388
+    },
+    "bo1_1760": {
+     "p_team": 0.004312,
+     "slot_mass": 0.000721
+    },
+    "bo1_0": {
+     "p_team": 0.003434,
+     "slot_mass": 0.000575
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "absolitez",
+   "name": "Absolite Z",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.006621,
+     "slot_mass": 0.001104
+    },
+    "bo3_0": {
+     "p_team": 0.015078,
+     "slot_mass": 0.002516
+    },
+    "bo1_1760": {
+     "p_team": 0.018841,
+     "slot_mass": 0.003144
+    },
+    "bo1_0": {
+     "p_team": 0.031874,
+     "slot_mass": 0.005325
+    },
+    "replays_bo3_p_team": 0.00903
+   }
+  },
+  {
+   "id": "scovillainite",
+   "name": "Scovillainite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.005831,
+     "slot_mass": 0.000972
+    },
+    "bo3_0": {
+     "p_team": 0.010296,
+     "slot_mass": 0.001718
+    },
+    "bo1_1760": {
+     "p_team": 0.01067,
+     "slot_mass": 0.001781
+    },
+    "bo1_0": {
+     "p_team": 0.012494,
+     "slot_mass": 0.002087
+    },
+    "replays_bo3_p_team": 0.01059
+   }
+  },
+  {
+   "id": "raichunitex",
+   "name": "Raichunite X",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.005548,
+     "slot_mass": 0.000925
+    },
+    "bo3_0": {
+     "p_team": 0.007211,
+     "slot_mass": 0.001203
+    },
+    "bo1_1760": {
+     "p_team": 0.017767,
+     "slot_mass": 0.002965
+    },
+    "bo1_0": {
+     "p_team": 0.016039,
+     "slot_mass": 0.00268
+    },
+    "replays_bo3_p_team": 0.09218
+   }
+  },
+  {
+   "id": "kangaskhanite",
+   "name": "Kangaskhanite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.00526,
+     "slot_mass": 0.000877
+    },
+    "bo3_0": {
+     "p_team": 0.003929,
+     "slot_mass": 0.000656
+    },
+    "bo1_1760": {
+     "p_team": 0.002567,
+     "slot_mass": 0.000428
+    },
+    "bo1_0": {
+     "p_team": 0.003353,
+     "slot_mass": 0.00056
+    },
+    "replays_bo3_p_team": 0.00125
+   }
+  },
+  {
+   "id": "mawilite",
+   "name": "Mawilite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.005094,
+     "slot_mass": 0.000849
+    },
+    "bo3_0": {
+     "p_team": 0.010556,
+     "slot_mass": 0.001762
+    },
+    "bo1_1760": {
+     "p_team": 0.012679,
+     "slot_mass": 0.002116
+    },
+    "bo1_0": {
+     "p_team": 0.017824,
+     "slot_mass": 0.002978
+    },
+    "replays_bo3_p_team": 0.01183
+   }
+  },
+  {
+   "id": "nevermeltice",
+   "name": "Never-Melt Ice",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.00476,
+     "slot_mass": 0.000794
+    },
+    "bo3_0": {
+     "p_team": 0.005557,
+     "slot_mass": 0.000929
+    },
+    "bo1_1760": {
+     "p_team": 0.007535,
+     "slot_mass": 0.00126
+    },
+    "bo1_0": {
+     "p_team": 0.008807,
+     "slot_mass": 0.001476
+    },
+    "replays_bo3_p_team": 0.00218
+   }
+  },
+  {
+   "id": "lumberry",
+   "name": "Lum Berry",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 3,
+   "hooks": [
+    "onAfterSetStatus",
+    "onUpdate",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.004346,
+     "slot_mass": 0.000726
+    },
+    "bo3_0": {
+     "p_team": 0.00448,
+     "slot_mass": 0.000749
+    },
+    "bo1_1760": {
+     "p_team": 0.004114,
+     "slot_mass": 0.000688
+    },
+    "bo1_0": {
+     "p_team": 0.006626,
+     "slot_mass": 0.00111
+    },
+    "replays_bo3_p_team": 0.00965
+   }
+  },
+  {
+   "id": "sceptilite",
+   "name": "Sceptilite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.004152,
+     "slot_mass": 0.000692
+    },
+    "bo3_0": {
+     "p_team": 0.002951,
+     "slot_mass": 0.000493
+    },
+    "bo1_1760": {
+     "p_team": 0.002042,
+     "slot_mass": 0.000341
+    },
+    "bo1_0": {
+     "p_team": 0.006001,
+     "slot_mass": 0.001003
+    },
+    "replays_bo3_p_team": 0.00498
+   }
+  },
+  {
+   "id": "meowsticite",
+   "name": "Meowsticite",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.004049,
+     "slot_mass": 0.000675
+    },
+    "bo3_0": {
+     "p_team": 0.005265,
+     "slot_mass": 0.000879
+    },
+    "bo1_1760": {
+     "p_team": 0.00703,
+     "slot_mass": 0.001173
+    },
+    "bo1_0": {
+     "p_team": 0.006901,
+     "slot_mass": 0.001154
+    },
+    "replays_bo3_p_team": 0.00031
+   }
+  },
+  {
+   "id": "softsand",
+   "name": "Soft Sand",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.004005,
+     "slot_mass": 0.000668
+    },
+    "bo3_0": {
+     "p_team": 0.001652,
+     "slot_mass": 0.000276
+    },
+    "bo1_1760": {
+     "p_team": 0.001547,
+     "slot_mass": 0.000258
+    },
+    "bo1_0": {
+     "p_team": 0.002187,
+     "slot_mass": 0.000366
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "sharpbeak",
+   "name": "Sharp Beak",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.003598,
+     "slot_mass": 0.0006
+    },
+    "bo3_0": {
+     "p_team": 0.007819,
+     "slot_mass": 0.001306
+    },
+    "bo1_1760": {
+     "p_team": 0.005634,
+     "slot_mass": 0.000941
+    },
+    "bo1_0": {
+     "p_team": 0.010348,
+     "slot_mass": 0.001731
+    },
+    "replays_bo3_p_team": 0.01869
+   }
+  },
+  {
+   "id": "habanberry",
+   "name": "Haban Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.003515,
+     "slot_mass": 0.000587
+    },
+    "bo3_0": {
+     "p_team": 0.004473,
+     "slot_mass": 0.000748
+    },
+    "bo1_1760": {
+     "p_team": 0.005534,
+     "slot_mass": 0.000925
+    },
+    "bo1_0": {
+     "p_team": 0.00574,
+     "slot_mass": 0.000961
+    },
+    "replays_bo3_p_team": 0.00311
+   }
+  },
+  {
+   "id": "widelens",
+   "name": "Wide Lens",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onSourceModifyAccuracy"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.003273,
+     "slot_mass": 0.000546
+    },
+    "bo3_0": {
+     "p_team": 0.014821,
+     "slot_mass": 0.002489
+    },
+    "bo1_1760": {
+     "p_team": 0.020291,
+     "slot_mass": 0.00341
+    },
+    "bo1_0": {
+     "p_team": 0.029961,
+     "slot_mass": 0.005071
+    },
+    "replays_bo3_p_team": 0.00779
+   }
+  },
+  {
+   "id": "damprock",
+   "name": "Damp Rock",
+   "class": "DATA_ONLY",
+   "inclusion": "zero_cost",
+   "n_hooks": 0,
+   "hooks": [],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.002736,
+     "slot_mass": 0.000456
+    },
+    "bo3_0": {
+     "p_team": 0.007564,
+     "slot_mass": 0.001264
+    },
+    "bo1_1760": {
+     "p_team": 0.011294,
+     "slot_mass": 0.001886
+    },
+    "bo1_0": {
+     "p_team": 0.016558,
+     "slot_mass": 0.002774
+    },
+    "replays_bo3_p_team": 0.05357
+   }
+  },
+  {
+   "id": "dragonfang",
+   "name": "Dragon Fang",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.002735,
+     "slot_mass": 0.000456
+    },
+    "bo3_0": {
+     "p_team": 0.001935,
+     "slot_mass": 0.000323
+    },
+    "bo1_1760": {
+     "p_team": 0.001789,
+     "slot_mass": 0.000299
+    },
+    "bo1_0": {
+     "p_team": 0.003128,
+     "slot_mass": 0.000523
+    },
+    "replays_bo3_p_team": 0.00498
+   }
+  },
+  {
+   "id": "spelltag",
+   "name": "Spell Tag",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.00257,
+     "slot_mass": 0.000429
+    },
+    "bo3_0": {
+     "p_team": 0.002883,
+     "slot_mass": 0.000482
+    },
+    "bo1_1760": {
+     "p_team": 0.002131,
+     "slot_mass": 0.000356
+    },
+    "bo1_0": {
+     "p_team": 0.004294,
+     "slot_mass": 0.000719
+    },
+    "replays_bo3_p_team": 0.00592
+   }
+  },
+  {
+   "id": "venusaurite",
+   "name": "Venusaurite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.00232,
+     "slot_mass": 0.000387
+    },
+    "bo3_0": {
+     "p_team": 0.004862,
+     "slot_mass": 0.000811
+    },
+    "bo1_1760": {
+     "p_team": 0.004534,
+     "slot_mass": 0.000757
+    },
+    "bo1_0": {
+     "p_team": 0.006822,
+     "slot_mass": 0.00114
+    },
+    "replays_bo3_p_team": 0.01401
+   }
+  },
+  {
+   "id": "chartiberry",
+   "name": "Charti Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.002076,
+     "slot_mass": 0.000346
+    },
+    "bo3_0": {
+     "p_team": 0.003007,
+     "slot_mass": 0.000502
+    },
+    "bo1_1760": {
+     "p_team": 0.001974,
+     "slot_mass": 0.000329
+    },
+    "bo1_0": {
+     "p_team": 0.004998,
+     "slot_mass": 0.000836
+    },
+    "replays_bo3_p_team": 0.01401
+   }
+  },
+  {
+   "id": "electricseed",
+   "name": "Electric Seed",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onStart",
+    "onTerrainChange"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.002051,
+     "slot_mass": 0.000342
+    },
+    "bo3_0": {
+     "p_team": 0.005298,
+     "slot_mass": 0.000886
+    },
+    "bo1_1760": {
+     "p_team": 0.013043,
+     "slot_mass": 0.002186
+    },
+    "bo1_0": {
+     "p_team": 0.013884,
+     "slot_mass": 0.002334
+    },
+    "replays_bo3_p_team": 0.06166
+   }
+  },
+  {
+   "id": "scraftinite",
+   "name": "Scraftinite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001894,
+     "slot_mass": 0.000316
+    },
+    "bo3_0": {
+     "p_team": 0.004242,
+     "slot_mass": 0.000708
+    },
+    "bo1_1760": {
+     "p_team": 0.002836,
+     "slot_mass": 0.000473
+    },
+    "bo1_0": {
+     "p_team": 0.006445,
+     "slot_mass": 0.001077
+    },
+    "replays_bo3_p_team": 0.0028
+   }
+  },
+  {
+   "id": "manectite",
+   "name": "Manectite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001876,
+     "slot_mass": 0.000313
+    },
+    "bo3_0": {
+     "p_team": 0.002506,
+     "slot_mass": 0.000418
+    },
+    "bo1_1760": {
+     "p_team": 0.004803,
+     "slot_mass": 0.000801
+    },
+    "bo1_0": {
+     "p_team": 0.002915,
+     "slot_mass": 0.000487
+    },
+    "replays_bo3_p_team": 0.00187
+   }
+  },
+  {
+   "id": "rindoberry",
+   "name": "Rindo Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.00176,
+     "slot_mass": 0.000294
+    },
+    "bo3_0": {
+     "p_team": 0.003946,
+     "slot_mass": 0.00066
+    },
+    "bo1_1760": {
+     "p_team": 0.006379,
+     "slot_mass": 0.001067
+    },
+    "bo1_0": {
+     "p_team": 0.005738,
+     "slot_mass": 0.000961
+    },
+    "replays_bo3_p_team": 0.00343
+   }
+  },
+  {
+   "id": "roseliberry",
+   "name": "Roseli Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.00172,
+     "slot_mass": 0.000287
+    },
+    "bo3_0": {
+     "p_team": 0.00632,
+     "slot_mass": 0.001057
+    },
+    "bo1_1760": {
+     "p_team": 0.010253,
+     "slot_mass": 0.001717
+    },
+    "bo1_0": {
+     "p_team": 0.016262,
+     "slot_mass": 0.002733
+    },
+    "replays_bo3_p_team": 0.01183
+   }
+  },
+  {
+   "id": "meganiumite",
+   "name": "Meganiumite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001638,
+     "slot_mass": 0.000273
+    },
+    "bo3_0": {
+     "p_team": 0.005618,
+     "slot_mass": 0.000938
+    },
+    "bo1_1760": {
+     "p_team": 0.006202,
+     "slot_mass": 0.001035
+    },
+    "bo1_0": {
+     "p_team": 0.013071,
+     "slot_mass": 0.002184
+    },
+    "replays_bo3_p_team": 0.00311
+   }
+  },
+  {
+   "id": "airballoon",
+   "name": "Air Balloon",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 3,
+   "hooks": [
+    "onStart",
+    "onDamagingHit",
+    "onAfterSubDamage"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001476,
+     "slot_mass": 0.000246
+    },
+    "bo3_0": {
+     "p_team": 0.007435,
+     "slot_mass": 0.001245
+    },
+    "bo1_1760": {
+     "p_team": 0.006112,
+     "slot_mass": 0.001023
+    },
+    "bo1_0": {
+     "p_team": 0.021121,
+     "slot_mass": 0.003565
+    },
+    "replays_bo3_p_team": 0.00311
+   }
+  },
+  {
+   "id": "lopunnite",
+   "name": "Lopunnite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.00145,
+     "slot_mass": 0.000242
+    },
+    "bo3_0": {
+     "p_team": 0.006542,
+     "slot_mass": 0.001092
+    },
+    "bo1_1760": {
+     "p_team": 0.004712,
+     "slot_mass": 0.000786
+    },
+    "bo1_0": {
+     "p_team": 0.009139,
+     "slot_mass": 0.001527
+    },
+    "replays_bo3_p_team": 0.00436
+   }
+  },
+  {
+   "id": "shucaberry",
+   "name": "Shuca Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001406,
+     "slot_mass": 0.000235
+    },
+    "bo3_0": {
+     "p_team": 0.003968,
+     "slot_mass": 0.000663
+    },
+    "bo1_1760": {
+     "p_team": 0.003386,
+     "slot_mass": 0.000566
+    },
+    "bo1_0": {
+     "p_team": 0.007641,
+     "slot_mass": 0.001281
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "mentalherb",
+   "name": "Mental Herb",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onUpdate"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001405,
+     "slot_mass": 0.000234
+    },
+    "bo3_0": {
+     "p_team": 0.015036,
+     "slot_mass": 0.002527
+    },
+    "bo1_1760": {
+     "p_team": 0.01786,
+     "slot_mass": 0.003004
+    },
+    "bo1_0": {
+     "p_team": 0.042349,
+     "slot_mass": 0.007217
+    },
+    "replays_bo3_p_team": 0.00716
+   }
+  },
+  {
+   "id": "barbaracite",
+   "name": "Barbaracite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001403,
+     "slot_mass": 0.000234
+    },
+    "bo3_0": {
+     "p_team": 0.000698,
+     "slot_mass": 0.000117
+    },
+    "bo1_1760": {
+     "p_team": 0.000504,
+     "slot_mass": 8.4e-05
+    },
+    "bo1_0": {
+     "p_team": 0.000792,
+     "slot_mass": 0.000132
+    },
+    "replays_bo3_p_team": 0.00156
+   }
+  },
+  {
+   "id": "starminite",
+   "name": "Starminite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001258,
+     "slot_mass": 0.00021
+    },
+    "bo3_0": {
+     "p_team": 0.003142,
+     "slot_mass": 0.000524
+    },
+    "bo1_1760": {
+     "p_team": 0.002968,
+     "slot_mass": 0.000495
+    },
+    "bo1_0": {
+     "p_team": 0.006633,
+     "slot_mass": 0.001108
+    },
+    "replays_bo3_p_team": 0.00436
+   }
+  },
+  {
+   "id": "metalcoat",
+   "name": "Metal Coat",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001166,
+     "slot_mass": 0.000194
+    },
+    "bo3_0": {
+     "p_team": 0.005016,
+     "slot_mass": 0.000838
+    },
+    "bo1_1760": {
+     "p_team": 0.003688,
+     "slot_mass": 0.000616
+    },
+    "bo1_0": {
+     "p_team": 0.006828,
+     "slot_mass": 0.001143
+    },
+    "replays_bo3_p_team": 0.00093
+   }
+  },
+  {
+   "id": "skarmorite",
+   "name": "Skarmorite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001139,
+     "slot_mass": 0.00019
+    },
+    "bo3_0": {
+     "p_team": 0.001489,
+     "slot_mass": 0.000249
+    },
+    "bo1_1760": {
+     "p_team": 0.00194,
+     "slot_mass": 0.000324
+    },
+    "bo1_0": {
+     "p_team": 0.004781,
+     "slot_mass": 0.000799
+    },
+    "replays_bo3_p_team": 0.00031
+   }
+  },
+  {
+   "id": "brightpowder",
+   "name": "Bright Powder",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onModifyAccuracy"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001128,
+     "slot_mass": 0.000188
+    },
+    "bo3_0": {
+     "p_team": 0.003874,
+     "slot_mass": 0.000648
+    },
+    "bo1_1760": {
+     "p_team": 0.003557,
+     "slot_mass": 0.000595
+    },
+    "bo1_0": {
+     "p_team": 0.010446,
+     "slot_mass": 0.001754
+    },
+    "replays_bo3_p_team": 0.0028
+   }
+  },
+  {
+   "id": "babiriberry",
+   "name": "Babiri Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001119,
+     "slot_mass": 0.000187
+    },
+    "bo3_0": {
+     "p_team": 0.00172,
+     "slot_mass": 0.000287
+    },
+    "bo1_1760": {
+     "p_team": 0.001177,
+     "slot_mass": 0.000197
+    },
+    "bo1_0": {
+     "p_team": 0.003807,
+     "slot_mass": 0.000637
+    },
+    "replays_bo3_p_team": 0.00716
+   }
+  },
+  {
+   "id": "lightball",
+   "name": "Light Ball",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onModifyAtk",
+    "onModifySpA"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.001002,
+     "slot_mass": 0.000167
+    },
+    "bo3_0": {
+     "p_team": 0.000332,
+     "slot_mass": 5.5e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000227,
+     "slot_mass": 3.8e-05
+    },
+    "bo1_0": {
+     "p_team": 0.001189,
+     "slot_mass": 0.000199
+    },
+    "replays_bo3_p_team": 0.00093
+   }
+  },
+  {
+   "id": "blackbelt",
+   "name": "Black Belt",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000968,
+     "slot_mass": 0.000161
+    },
+    "bo3_0": {
+     "p_team": 0.003095,
+     "slot_mass": 0.000517
+    },
+    "bo1_1760": {
+     "p_team": 0.004185,
+     "slot_mass": 0.000699
+    },
+    "bo1_0": {
+     "p_team": 0.006571,
+     "slot_mass": 0.0011
+    },
+    "replays_bo3_p_team": 0.00156
+   }
+  },
+  {
+   "id": "leppaberry",
+   "name": "Leppa Berry",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onUpdate",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000867,
+     "slot_mass": 0.000145
+    },
+    "bo3_0": {
+     "p_team": 0.000942,
+     "slot_mass": 0.000157
+    },
+    "bo1_1760": {
+     "p_team": 0.000948,
+     "slot_mass": 0.000158
+    },
+    "bo1_0": {
+     "p_team": 0.003726,
+     "slot_mass": 0.000622
+    },
+    "replays_bo3_p_team": 0.00156
+   }
+  },
+  {
+   "id": "leek",
+   "name": "Leek",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onModifyCritRatio"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.00086,
+     "slot_mass": 0.000143
+    },
+    "bo3_0": {
+     "p_team": 0.005084,
+     "slot_mass": 0.000849
+    },
+    "bo1_1760": {
+     "p_team": 0.004329,
+     "slot_mass": 0.000723
+    },
+    "bo1_0": {
+     "p_team": 0.015529,
+     "slot_mass": 0.002598
+    },
+    "replays_bo3_p_team": 0.00218
+   }
+  },
+  {
+   "id": "abomasite",
+   "name": "Abomasite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000794,
+     "slot_mass": 0.000132
+    },
+    "bo3_0": {
+     "p_team": 0.001736,
+     "slot_mass": 0.00029
+    },
+    "bo1_1760": {
+     "p_team": 0.002194,
+     "slot_mass": 0.000366
+    },
+    "bo1_0": {
+     "p_team": 0.003052,
+     "slot_mass": 0.00051
+    },
+    "replays_bo3_p_team": 0.00156
+   }
+  },
+  {
+   "id": "charizarditex",
+   "name": "Charizardite X",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000777,
+     "slot_mass": 0.00013
+    },
+    "bo3_0": {
+     "p_team": 0.003603,
+     "slot_mass": 0.000601
+    },
+    "bo1_1760": {
+     "p_team": 0.003046,
+     "slot_mass": 0.000508
+    },
+    "bo1_0": {
+     "p_team": 0.005607,
+     "slot_mass": 0.000937
+    },
+    "replays_bo3_p_team": 0.00218
+   }
+  },
+  {
+   "id": "alakazite",
+   "name": "Alakazite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000698,
+     "slot_mass": 0.000116
+    },
+    "bo3_0": {
+     "p_team": 0.005824,
+     "slot_mass": 0.000972
+    },
+    "bo1_1760": {
+     "p_team": 0.005351,
+     "slot_mass": 0.000893
+    },
+    "bo1_0": {
+     "p_team": 0.012253,
+     "slot_mass": 0.002047
+    },
+    "replays_bo3_p_team": 0.00031
+   }
+  },
+  {
+   "id": "crabominite",
+   "name": "Crabominite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000615,
+     "slot_mass": 0.000103
+    },
+    "bo3_0": {
+     "p_team": 0.003403,
+     "slot_mass": 0.000568
+    },
+    "bo1_1760": {
+     "p_team": 0.003641,
+     "slot_mass": 0.000608
+    },
+    "bo1_0": {
+     "p_team": 0.006192,
+     "slot_mass": 0.001035
+    },
+    "replays_bo3_p_team": 0.00249
+   }
+  },
+  {
+   "id": "houndoominite",
+   "name": "Houndoominite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000594,
+     "slot_mass": 9.9e-05
+    },
+    "bo3_0": {
+     "p_team": 0.000966,
+     "slot_mass": 0.000161
+    },
+    "bo1_1760": {
+     "p_team": 0.000622,
+     "slot_mass": 0.000104
+    },
+    "bo1_0": {
+     "p_team": 0.002778,
+     "slot_mass": 0.000464
+    },
+    "replays_bo3_p_team": 0.00062
+   }
+  },
+  {
+   "id": "silkscarf",
+   "name": "Silk Scarf",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000575,
+     "slot_mass": 9.6e-05
+    },
+    "bo3_0": {
+     "p_team": 0.002105,
+     "slot_mass": 0.000351
+    },
+    "bo1_1760": {
+     "p_team": 0.002628,
+     "slot_mass": 0.000439
+    },
+    "bo1_0": {
+     "p_team": 0.00448,
+     "slot_mass": 0.00075
+    },
+    "replays_bo3_p_team": 0.00187
+   }
+  },
+  {
+   "id": "magnet",
+   "name": "Magnet",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000538,
+     "slot_mass": 9e-05
+    },
+    "bo3_0": {
+     "p_team": 0.003115,
+     "slot_mass": 0.00052
+    },
+    "bo1_1760": {
+     "p_team": 0.006106,
+     "slot_mass": 0.001021
+    },
+    "bo1_0": {
+     "p_team": 0.007749,
+     "slot_mass": 0.001299
+    },
+    "replays_bo3_p_team": 0.0028
+   }
+  },
+  {
+   "id": "gyaradosite",
+   "name": "Gyaradosite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000526,
+     "slot_mass": 8.8e-05
+    },
+    "bo3_0": {
+     "p_team": 0.002989,
+     "slot_mass": 0.000499
+    },
+    "bo1_1760": {
+     "p_team": 0.002298,
+     "slot_mass": 0.000384
+    },
+    "bo1_0": {
+     "p_team": 0.004638,
+     "slot_mass": 0.000775
+    },
+    "replays_bo3_p_team": 0.0028
+   }
+  },
+  {
+   "id": "greninjite",
+   "name": "Greninjite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000508,
+     "slot_mass": 8.5e-05
+    },
+    "bo3_0": {
+     "p_team": 0.001779,
+     "slot_mass": 0.000297
+    },
+    "bo1_1760": {
+     "p_team": 0.001248,
+     "slot_mass": 0.000208
+    },
+    "bo1_0": {
+     "p_team": 0.004493,
+     "slot_mass": 0.000751
+    },
+    "replays_bo3_p_team": 0.0028
+   }
+  },
+  {
+   "id": "slowbronite",
+   "name": "Slowbronite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000506,
+     "slot_mass": 8.4e-05
+    },
+    "bo3_0": {
+     "p_team": 0.001653,
+     "slot_mass": 0.000276
+    },
+    "bo1_1760": {
+     "p_team": 0.003641,
+     "slot_mass": 0.000608
+    },
+    "bo1_0": {
+     "p_team": 0.004492,
+     "slot_mass": 0.000751
+    },
+    "replays_bo3_p_team": 0.00187
+   }
+  },
+  {
+   "id": "scopelens",
+   "name": "Scope Lens",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onModifyCritRatio"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000487,
+     "slot_mass": 8.1e-05
+    },
+    "bo3_0": {
+     "p_team": 0.003964,
+     "slot_mass": 0.000662
+    },
+    "bo1_1760": {
+     "p_team": 0.003413,
+     "slot_mass": 0.00057
+    },
+    "bo1_0": {
+     "p_team": 0.01395,
+     "slot_mass": 0.002341
+    },
+    "replays_bo3_p_team": 0.00187
+   }
+  },
+  {
+   "id": "chandelurite",
+   "name": "Chandelurite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000472,
+     "slot_mass": 7.9e-05
+    },
+    "bo3_0": {
+     "p_team": 0.001813,
+     "slot_mass": 0.000303
+    },
+    "bo1_1760": {
+     "p_team": 0.001981,
+     "slot_mass": 0.000331
+    },
+    "bo1_0": {
+     "p_team": 0.004648,
+     "slot_mass": 0.000776
+    },
+    "replays_bo3_p_team": 0.00374
+   }
+  },
+  {
+   "id": "bindingband",
+   "name": "Binding Band",
+   "class": "DATA_ONLY",
+   "inclusion": "zero_cost",
+   "n_hooks": 0,
+   "hooks": [],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000347,
+     "slot_mass": 5.8e-05
+    },
+    "bo3_0": {
+     "p_team": 0.000299,
+     "slot_mass": 5e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000458,
+     "slot_mass": 7.6e-05
+    },
+    "bo1_0": {
+     "p_team": 0.000759,
+     "slot_mass": 0.000127
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "zoomlens",
+   "name": "Zoom Lens",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onSourceModifyAccuracy"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000321,
+     "slot_mass": 5.4e-05
+    },
+    "bo3_0": {
+     "p_team": 0.000748,
+     "slot_mass": 0.000125
+    },
+    "bo1_1760": {
+     "p_team": 0.000396,
+     "slot_mass": 6.6e-05
+    },
+    "bo1_0": {
+     "p_team": 0.001499,
+     "slot_mass": 0.000251
+    },
+    "replays_bo3_p_team": 0.00125
+   }
+  },
+  {
+   "id": "heracronite",
+   "name": "Heracronite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000304,
+     "slot_mass": 5.1e-05
+    },
+    "bo3_0": {
+     "p_team": 0.000767,
+     "slot_mass": 0.000128
+    },
+    "bo1_1760": {
+     "p_team": 0.000429,
+     "slot_mass": 7.2e-05
+    },
+    "bo1_0": {
+     "p_team": 0.001912,
+     "slot_mass": 0.000319
+    },
+    "replays_bo3_p_team": 0.00093
+   }
+  },
+  {
+   "id": "ironball",
+   "name": "Iron Ball",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onEffectiveness",
+    "onModifySpe"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000298,
+     "slot_mass": 5e-05
+    },
+    "bo3_0": {
+     "p_team": 0.002846,
+     "slot_mass": 0.000476
+    },
+    "bo1_1760": {
+     "p_team": 0.00735,
+     "slot_mass": 0.001231
+    },
+    "bo1_0": {
+     "p_team": 0.009193,
+     "slot_mass": 0.001543
+    },
+    "replays_bo3_p_team": 0.00156
+   }
+  },
+  {
+   "id": "altarianite",
+   "name": "Altarianite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000284,
+     "slot_mass": 4.7e-05
+    },
+    "bo3_0": {
+     "p_team": 0.00147,
+     "slot_mass": 0.000245
+    },
+    "bo1_1760": {
+     "p_team": 0.001093,
+     "slot_mass": 0.000182
+    },
+    "bo1_0": {
+     "p_team": 0.003283,
+     "slot_mass": 0.000549
+    },
+    "replays_bo3_p_team": 0.00592
+   }
+  },
+  {
+   "id": "golurkite",
+   "name": "Golurkite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000258,
+     "slot_mass": 4.3e-05
+    },
+    "bo3_0": {
+     "p_team": 0.001698,
+     "slot_mass": 0.000283
+    },
+    "bo1_1760": {
+     "p_team": 0.001322,
+     "slot_mass": 0.000221
+    },
+    "bo1_0": {
+     "p_team": 0.004193,
+     "slot_mass": 0.0007
+    },
+    "replays_bo3_p_team": 0.00125
+   }
+  },
+  {
+   "id": "steelixite",
+   "name": "Steelixite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000245,
+     "slot_mass": 4.1e-05
+    },
+    "bo3_0": {
+     "p_team": 0.002034,
+     "slot_mass": 0.000339
+    },
+    "bo1_1760": {
+     "p_team": 0.001004,
+     "slot_mass": 0.000168
+    },
+    "bo1_0": {
+     "p_team": 0.003562,
+     "slot_mass": 0.000595
+    },
+    "replays_bo3_p_team": 0.00125
+   }
+  },
+  {
+   "id": "banettite",
+   "name": "Banettite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000245,
+     "slot_mass": 4.1e-05
+    },
+    "bo3_0": {
+     "p_team": 0.001481,
+     "slot_mass": 0.000247
+    },
+    "bo1_1760": {
+     "p_team": 0.000368,
+     "slot_mass": 6.1e-05
+    },
+    "bo1_0": {
+     "p_team": 0.002041,
+     "slot_mass": 0.000341
+    },
+    "replays_bo3_p_team": 0.00156
+   }
+  },
+  {
+   "id": "quickclaw",
+   "name": "Quick Claw",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onFractionalPriority"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000243,
+     "slot_mass": 4.1e-05
+    },
+    "bo3_0": {
+     "p_team": 0.002478,
+     "slot_mass": 0.000414
+    },
+    "bo1_1760": {
+     "p_team": 0.001963,
+     "slot_mass": 0.000328
+    },
+    "bo1_0": {
+     "p_team": 0.006009,
+     "slot_mass": 0.001007
+    },
+    "replays_bo3_p_team": 0.00125
+   }
+  },
+  {
+   "id": "tangaberry",
+   "name": "Tanga Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000238,
+     "slot_mass": 4e-05
+    },
+    "bo3_0": {
+     "p_team": 0.00077,
+     "slot_mass": 0.000129
+    },
+    "bo1_1760": {
+     "p_team": 0.000781,
+     "slot_mass": 0.00013
+    },
+    "bo1_0": {
+     "p_team": 0.002126,
+     "slot_mass": 0.000355
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "chesnaughtite",
+   "name": "Chesnaughtite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000199,
+     "slot_mass": 3.3e-05
+    },
+    "bo3_0": {
+     "p_team": 0.001841,
+     "slot_mass": 0.000307
+    },
+    "bo1_1760": {
+     "p_team": 0.001475,
+     "slot_mass": 0.000246
+    },
+    "bo1_0": {
+     "p_team": 0.003754,
+     "slot_mass": 0.000627
+    },
+    "replays_bo3_p_team": 0.00249
+   }
+  },
+  {
+   "id": "terrainextender",
+   "name": "Terrain Extender",
+   "class": "DATA_ONLY",
+   "inclusion": "zero_cost",
+   "n_hooks": 0,
+   "hooks": [],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000193,
+     "slot_mass": 3.2e-05
+    },
+    "bo3_0": {
+     "p_team": 0.003054,
+     "slot_mass": 0.00051
+    },
+    "bo1_1760": {
+     "p_team": 0.003473,
+     "slot_mass": 0.00058
+    },
+    "bo1_0": {
+     "p_team": 0.011218,
+     "slot_mass": 0.001881
+    },
+    "replays_bo3_p_team": 0.00343
+   }
+  },
+  {
+   "id": "ampharosite",
+   "name": "Ampharosite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000185,
+     "slot_mass": 3.1e-05
+    },
+    "bo3_0": {
+     "p_team": 0.001418,
+     "slot_mass": 0.000237
+    },
+    "bo1_1760": {
+     "p_team": 0.002301,
+     "slot_mass": 0.000384
+    },
+    "bo1_0": {
+     "p_team": 0.004097,
+     "slot_mass": 0.000684
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "excadrite",
+   "name": "Excadrite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000184,
+     "slot_mass": 3.1e-05
+    },
+    "bo3_0": {
+     "p_team": 0.001027,
+     "slot_mass": 0.000171
+    },
+    "bo1_1760": {
+     "p_team": 0.000869,
+     "slot_mass": 0.000145
+    },
+    "bo1_0": {
+     "p_team": 0.002422,
+     "slot_mass": 0.000405
+    },
+    "replays_bo3_p_team": 0.00187
+   }
+  },
+  {
+   "id": "redcard",
+   "name": "Red Card",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onAfterMoveSecondary"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000169,
+     "slot_mass": 2.8e-05
+    },
+    "bo3_0": {
+     "p_team": 0.00191,
+     "slot_mass": 0.000319
+    },
+    "bo1_1760": {
+     "p_team": 0.001552,
+     "slot_mass": 0.000259
+    },
+    "bo1_0": {
+     "p_team": 0.006878,
+     "slot_mass": 0.001153
+    },
+    "replays_bo3_p_team": 0.00062
+   }
+  },
+  {
+   "id": "scizorite",
+   "name": "Scizorite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000157,
+     "slot_mass": 2.6e-05
+    },
+    "bo3_0": {
+     "p_team": 0.002123,
+     "slot_mass": 0.000354
+    },
+    "bo1_1760": {
+     "p_team": 0.001761,
+     "slot_mass": 0.000294
+    },
+    "bo1_0": {
+     "p_team": 0.004662,
+     "slot_mass": 0.000779
+    },
+    "replays_bo3_p_team": 0.00031
+   }
+  },
+  {
+   "id": "medichamite",
+   "name": "Medichamite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000152,
+     "slot_mass": 2.5e-05
+    },
+    "bo3_0": {
+     "p_team": 0.000468,
+     "slot_mass": 7.8e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000163,
+     "slot_mass": 2.7e-05
+    },
+    "bo1_0": {
+     "p_team": 0.001009,
+     "slot_mass": 0.000169
+    },
+    "replays_bo3_p_team": 0.00062
+   }
+  },
+  {
+   "id": "beedrillite",
+   "name": "Beedrillite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.00015,
+     "slot_mass": 2.5e-05
+    },
+    "bo3_0": {
+     "p_team": 0.001204,
+     "slot_mass": 0.000201
+    },
+    "bo1_1760": {
+     "p_team": 0.000383,
+     "slot_mass": 6.4e-05
+    },
+    "bo1_0": {
+     "p_team": 0.002936,
+     "slot_mass": 0.00049
+    },
+    "replays_bo3_p_team": 0.00311
+   }
+  },
+  {
+   "id": "aggronite",
+   "name": "Aggronite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000148,
+     "slot_mass": 2.5e-05
+    },
+    "bo3_0": {
+     "p_team": 0.002217,
+     "slot_mass": 0.00037
+    },
+    "bo1_1760": {
+     "p_team": 0.001554,
+     "slot_mass": 0.000259
+    },
+    "bo1_0": {
+     "p_team": 0.004678,
+     "slot_mass": 0.000782
+    },
+    "replays_bo3_p_team": 0.0028
+   }
+  },
+  {
+   "id": "smoothrock",
+   "name": "Smooth Rock",
+   "class": "DATA_ONLY",
+   "inclusion": "zero_cost",
+   "n_hooks": 0,
+   "hooks": [],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000121,
+     "slot_mass": 2e-05
+    },
+    "bo3_0": {
+     "p_team": 0.000325,
+     "slot_mass": 5.4e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000277,
+     "slot_mass": 4.6e-05
+    },
+    "bo1_0": {
+     "p_team": 0.000849,
+     "slot_mass": 0.000142
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "feraligite",
+   "name": "Feraligite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.000104,
+     "slot_mass": 1.7e-05
+    },
+    "bo3_0": {
+     "p_team": 0.001481,
+     "slot_mass": 0.000247
+    },
+    "bo1_1760": {
+     "p_team": 0.000841,
+     "slot_mass": 0.00014
+    },
+    "bo1_0": {
+     "p_team": 0.002673,
+     "slot_mass": 0.000447
+    },
+    "replays_bo3_p_team": 0.00031
+   }
+  },
+  {
+   "id": "muscleband",
+   "name": "Muscle Band",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 8.5e-05,
+     "slot_mass": 1.4e-05
+    },
+    "bo3_0": {
+     "p_team": 0.001824,
+     "slot_mass": 0.000305
+    },
+    "bo1_1760": {
+     "p_team": 0.00073,
+     "slot_mass": 0.000122
+    },
+    "bo1_0": {
+     "p_team": 0.003611,
+     "slot_mass": 0.000604
+    },
+    "replays_bo3_p_team": 0.00561
+   }
+  },
+  {
+   "id": "wacanberry",
+   "name": "Wacan Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 8.2e-05,
+     "slot_mass": 1.4e-05
+    },
+    "bo3_0": {
+     "p_team": 0.00158,
+     "slot_mass": 0.000264
+    },
+    "bo1_1760": {
+     "p_team": 0.001625,
+     "slot_mass": 0.000271
+    },
+    "bo1_0": {
+     "p_team": 0.003471,
+     "slot_mass": 0.000581
+    },
+    "replays_bo3_p_team": 0.00125
+   }
+  },
+  {
+   "id": "normalgem",
+   "name": "Normal Gem",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onSourceTryPrimaryHit"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 7.6e-05,
+     "slot_mass": 1.3e-05
+    },
+    "bo3_0": {
+     "p_team": 0.000982,
+     "slot_mass": 0.000164
+    },
+    "bo1_1760": {
+     "p_team": 0.001472,
+     "slot_mass": 0.000246
+    },
+    "bo1_0": {
+     "p_team": 0.004938,
+     "slot_mass": 0.000826
+    },
+    "replays_bo3_p_team": 0.00218
+   }
+  },
+  {
+   "id": "chestoberry",
+   "name": "Chesto Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onUpdate",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 7.2e-05,
+     "slot_mass": 1.2e-05
+    },
+    "bo3_0": {
+     "p_team": 0.000883,
+     "slot_mass": 0.000147
+    },
+    "bo1_1760": {
+     "p_team": 0.00035,
+     "slot_mass": 5.8e-05
+    },
+    "bo1_0": {
+     "p_team": 0.002025,
+     "slot_mass": 0.000339
+    },
+    "replays_bo3_p_team": 0.00249
+   }
+  },
+  {
+   "id": "yacheberry",
+   "name": "Yache Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 5.4e-05,
+     "slot_mass": 9e-06
+    },
+    "bo3_0": {
+     "p_team": 0.001252,
+     "slot_mass": 0.000209
+    },
+    "bo1_1760": {
+     "p_team": 0.000671,
+     "slot_mass": 0.000112
+    },
+    "bo1_0": {
+     "p_team": 0.003185,
+     "slot_mass": 0.000533
+    },
+    "replays_bo3_p_team": 0.00125
+   }
+  },
+  {
+   "id": "kingsrock",
+   "name": "King's Rock",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onModifyMove"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 4.3e-05,
+     "slot_mass": 7e-06
+    },
+    "bo3_0": {
+     "p_team": 0.00133,
+     "slot_mass": 0.000222
+    },
+    "bo1_1760": {
+     "p_team": 0.001301,
+     "slot_mass": 0.000217
+    },
+    "bo1_0": {
+     "p_team": 0.003757,
+     "slot_mass": 0.000629
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "silverpowder",
+   "name": "Silver Powder",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "free_rider_shared_template",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 3.2e-05,
+     "slot_mass": 5e-06
+    },
+    "bo3_0": {
+     "p_team": 0.000145,
+     "slot_mass": 2.4e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000125,
+     "slot_mass": 2.1e-05
+    },
+    "bo1_0": {
+     "p_team": 0.000521,
+     "slot_mass": 8.7e-05
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "hardstone",
+   "name": "Hard Stone",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 2.7e-05,
+     "slot_mass": 5e-06
+    },
+    "bo3_0": {
+     "p_team": 0.000599,
+     "slot_mass": 0.0001
+    },
+    "bo1_1760": {
+     "p_team": 0.001392,
+     "slot_mass": 0.000232
+    },
+    "bo1_0": {
+     "p_team": 0.001702,
+     "slot_mass": 0.000284
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "wiseglasses",
+   "name": "Wise Glasses",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 2.5e-05,
+     "slot_mass": 4e-06
+    },
+    "bo3_0": {
+     "p_team": 0.001502,
+     "slot_mass": 0.000251
+    },
+    "bo1_1760": {
+     "p_team": 0.008564,
+     "slot_mass": 0.00143
+    },
+    "bo1_0": {
+     "p_team": 0.003338,
+     "slot_mass": 0.000559
+    },
+    "replays_bo3_p_team": 0.0028
+   }
+  },
+  {
+   "id": "poisonbarb",
+   "name": "Poison Barb",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "free_rider_shared_template",
+   "n_hooks": 1,
+   "hooks": [
+    "onBasePower"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 1.2e-05,
+     "slot_mass": 2e-06
+    },
+    "bo3_0": {
+     "p_team": 0.000277,
+     "slot_mass": 4.6e-05
+    },
+    "bo1_1760": {
+     "p_team": 5e-05,
+     "slot_mass": 8e-06
+    },
+    "bo1_0": {
+     "p_team": 0.000772,
+     "slot_mass": 0.000129
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "mistyseed",
+   "name": "Misty Seed",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "free_rider_shared_template",
+   "n_hooks": 2,
+   "hooks": [
+    "onStart",
+    "onTerrainChange"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 1e-05,
+     "slot_mass": 2e-06
+    },
+    "bo3_0": {
+     "p_team": 0.00028,
+     "slot_mass": 4.7e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000334,
+     "slot_mass": 5.6e-05
+    },
+    "bo1_0": {
+     "p_team": 0.000531,
+     "slot_mass": 8.9e-05
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "shellbell",
+   "name": "Shell Bell",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onAfterMoveSecondarySelf"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 9e-06,
+     "slot_mass": 1e-06
+    },
+    "bo3_0": {
+     "p_team": 0.001073,
+     "slot_mass": 0.000179
+    },
+    "bo1_1760": {
+     "p_team": 0.000409,
+     "slot_mass": 6.8e-05
+    },
+    "bo1_0": {
+     "p_team": 0.00282,
+     "slot_mass": 0.000472
+    },
+    "replays_bo3_p_team": 0.00093
+   }
+  },
+  {
+   "id": "metronome",
+   "name": "Metronome",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onStart"
+   ],
+   "condition_hooks": [
+    "onStart",
+    "onTryMove",
+    "onModifyDamage"
+   ],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 4e-06,
+     "slot_mass": 1e-06
+    },
+    "bo3_0": {
+     "p_team": 0.000387,
+     "slot_mass": 6.5e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000211,
+     "slot_mass": 3.5e-05
+    },
+    "bo1_0": {
+     "p_team": 0.001146,
+     "slot_mass": 0.000192
+    },
+    "replays_bo3_p_team": 0.00093
+   }
+  },
+  {
+   "id": "heatrock",
+   "name": "Heat Rock",
+   "class": "DATA_ONLY",
+   "inclusion": "zero_cost",
+   "n_hooks": 0,
+   "hooks": [],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 4e-06,
+     "slot_mass": 1e-06
+    },
+    "bo3_0": {
+     "p_team": 0.000736,
+     "slot_mass": 0.000123
+    },
+    "bo1_1760": {
+     "p_team": 0.000412,
+     "slot_mass": 6.9e-05
+    },
+    "bo1_0": {
+     "p_team": 0.002511,
+     "slot_mass": 0.00042
+    },
+    "replays_bo3_p_team": 0.00062
+   }
+  },
+  {
+   "id": "payapaberry",
+   "name": "Payapa Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 2,
+   "hooks": [
+    "onSourceModifyDamage",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 4e-06,
+     "slot_mass": 1e-06
+    },
+    "bo3_0": {
+     "p_team": 0.000554,
+     "slot_mass": 9.2e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000213,
+     "slot_mass": 3.5e-05
+    },
+    "bo1_0": {
+     "p_team": 0.001255,
+     "slot_mass": 0.00021
+    },
+    "replays_bo3_p_team": 0.00125
+   }
+  },
+  {
+   "id": "sablenite",
+   "name": "Sablenite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 2e-06,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000488,
+     "slot_mass": 8.1e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000744,
+     "slot_mass": 0.000124
+    },
+    "bo1_0": {
+     "p_team": 0.001286,
+     "slot_mass": 0.000215
+    },
+    "replays_bo3_p_team": 0.00031
+   }
+  },
+  {
+   "id": "icyrock",
+   "name": "Icy Rock",
+   "class": "DATA_ONLY",
+   "inclusion": "zero_cost",
+   "n_hooks": 0,
+   "hooks": [],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 1e-06,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000408,
+     "slot_mass": 6.8e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000165,
+     "slot_mass": 2.8e-05
+    },
+    "bo1_0": {
+     "p_team": 0.001164,
+     "slot_mass": 0.000195
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "galladite",
+   "name": "Galladite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.001294,
+     "slot_mass": 0.000216
+    },
+    "bo1_1760": {
+     "p_team": 0.000614,
+     "slot_mass": 0.000103
+    },
+    "bo1_0": {
+     "p_team": 0.002874,
+     "slot_mass": 0.00048
+    },
+    "replays_bo3_p_team": 0.00156
+   }
+  },
+  {
+   "id": "drampanite",
+   "name": "Drampanite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.00136,
+     "slot_mass": 0.000227
+    },
+    "bo1_1760": {
+     "p_team": 0.002243,
+     "slot_mass": 0.000374
+    },
+    "bo1_0": {
+     "p_team": 0.004875,
+     "slot_mass": 0.000814
+    },
+    "replays_bo3_p_team": 0.00249
+   }
+  },
+  {
+   "id": "clefablite",
+   "name": "Clefablite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000886,
+     "slot_mass": 0.000148
+    },
+    "bo1_1760": {
+     "p_team": 0.00061,
+     "slot_mass": 0.000102
+    },
+    "bo1_0": {
+     "p_team": 0.002493,
+     "slot_mass": 0.000417
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "emboarite",
+   "name": "Emboarite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000253,
+     "slot_mass": 4.2e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000292,
+     "slot_mass": 4.9e-05
+    },
+    "bo1_0": {
+     "p_team": 0.001128,
+     "slot_mass": 0.000189
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "victreebelite",
+   "name": "Victreebelite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000546,
+     "slot_mass": 9.1e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000536,
+     "slot_mass": 8.9e-05
+    },
+    "bo1_0": {
+     "p_team": 0.001369,
+     "slot_mass": 0.000229
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "dragalgite",
+   "name": "Dragalgite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.002139,
+     "slot_mass": 0.000357
+    },
+    "bo1_1760": {
+     "p_team": 0.00192,
+     "slot_mass": 0.00032
+    },
+    "bo1_0": {
+     "p_team": 0.004538,
+     "slot_mass": 0.000758
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "glalitite",
+   "name": "Glalitite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000383,
+     "slot_mass": 6.4e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000718,
+     "slot_mass": 0.00012
+    },
+    "bo1_0": {
+     "p_team": 0.003567,
+     "slot_mass": 0.000596
+    },
+    "replays_bo3_p_team": 0.00156
+   }
+  },
+  {
+   "id": "cheriberry",
+   "name": "Cheri Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "free_rider_shared_template",
+   "n_hooks": 2,
+   "hooks": [
+    "onUpdate",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 2e-06,
+     "slot_mass": 0.0
+    },
+    "bo1_1760": {
+     "p_team": 1e-06,
+     "slot_mass": 0.0
+    },
+    "bo1_0": {
+     "p_team": 1.8e-05,
+     "slot_mass": 3e-06
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "sharpedonite",
+   "name": "Sharpedonite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "free_rider_shared_template",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000405,
+     "slot_mass": 6.8e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000241,
+     "slot_mass": 4e-05
+    },
+    "bo1_0": {
+     "p_team": 0.000862,
+     "slot_mass": 0.000144
+    },
+    "replays_bo3_p_team": 0.00031
+   }
+  },
+  {
+   "id": "chimechite",
+   "name": "Chimechite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000734,
+     "slot_mass": 0.000122
+    },
+    "bo1_1760": {
+     "p_team": 0.000467,
+     "slot_mass": 7.8e-05
+    },
+    "bo1_0": {
+     "p_team": 0.002077,
+     "slot_mass": 0.000347
+    },
+    "replays_bo3_p_team": 0.00062
+   }
+  },
+  {
+   "id": "absolite",
+   "name": "Absolite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "free_rider_shared_template",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 7e-06,
+     "slot_mass": 1e-06
+    },
+    "bo1_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo1_0": {
+     "p_team": 0.000272,
+     "slot_mass": 4.5e-05
+    },
+    "replays_bo3_p_team": 0.00062
+   }
+  },
+  {
+   "id": "scolipite",
+   "name": "Scolipite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000384,
+     "slot_mass": 6.4e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.00044,
+     "slot_mass": 7.3e-05
+    },
+    "bo1_0": {
+     "p_team": 0.001429,
+     "slot_mass": 0.000239
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "bigroot",
+   "name": "Big Root",
+   "class": "CUSTOM",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTryHeal"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000668,
+     "slot_mass": 0.000112
+    },
+    "bo1_1760": {
+     "p_team": 0.000422,
+     "slot_mass": 7e-05
+    },
+    "bo1_0": {
+     "p_team": 0.002012,
+     "slot_mass": 0.000336
+    },
+    "replays_bo3_p_team": 0.00062
+   }
+  },
+  {
+   "id": "lucarionite",
+   "name": "Lucarionite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.002349,
+     "slot_mass": 0.000392
+    },
+    "bo1_1760": {
+     "p_team": 0.001361,
+     "slot_mass": 0.000227
+    },
+    "bo1_0": {
+     "p_team": 0.004363,
+     "slot_mass": 0.000729
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "rawstberry",
+   "name": "Rawst Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "free_rider_shared_template",
+   "n_hooks": 2,
+   "hooks": [
+    "onUpdate",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 4e-06,
+     "slot_mass": 1e-06
+    },
+    "bo1_1760": {
+     "p_team": 5e-06,
+     "slot_mass": 1e-06
+    },
+    "bo1_0": {
+     "p_team": 8.7e-05,
+     "slot_mass": 1.5e-05
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "pidgeotite",
+   "name": "Pidgeotite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.001206,
+     "slot_mass": 0.000201
+    },
+    "bo1_1760": {
+     "p_team": 0.000429,
+     "slot_mass": 7.2e-05
+    },
+    "bo1_0": {
+     "p_team": 0.001377,
+     "slot_mass": 0.00023
+    },
+    "replays_bo3_p_team": 0.00062
+   }
+  },
+  {
+   "id": "pinsirite",
+   "name": "Pinsirite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "free_rider_shared_template",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000338,
+     "slot_mass": 5.6e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000191,
+     "slot_mass": 3.2e-05
+    },
+    "bo1_0": {
+     "p_team": 0.000795,
+     "slot_mass": 0.000133
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "malamarite",
+   "name": "Malamarite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.001464,
+     "slot_mass": 0.000244
+    },
+    "bo1_1760": {
+     "p_team": 0.001547,
+     "slot_mass": 0.000258
+    },
+    "bo1_0": {
+     "p_team": 0.00491,
+     "slot_mass": 0.00082
+    },
+    "replays_bo3_p_team": 0.00062
+   }
+  },
+  {
+   "id": "falinksite",
+   "name": "Falinksite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000651,
+     "slot_mass": 0.000109
+    },
+    "bo1_1760": {
+     "p_team": 0.00027,
+     "slot_mass": 4.5e-05
+    },
+    "bo1_0": {
+     "p_team": 0.001494,
+     "slot_mass": 0.00025
+    },
+    "replays_bo3_p_team": 0.00187
+   }
+  },
+  {
+   "id": "hawluchanite",
+   "name": "Hawluchanite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000602,
+     "slot_mass": 0.0001
+    },
+    "bo1_1760": {
+     "p_team": 0.000788,
+     "slot_mass": 0.000131
+    },
+    "bo1_0": {
+     "p_team": 0.002844,
+     "slot_mass": 0.000475
+    },
+    "replays_bo3_p_team": 0.00125
+   }
+  },
+  {
+   "id": "audinite",
+   "name": "Audinite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.000254,
+     "slot_mass": 4.2e-05
+    },
+    "bo1_1760": {
+     "p_team": 0.000644,
+     "slot_mass": 0.000107
+    },
+    "bo1_0": {
+     "p_team": 0.001467,
+     "slot_mass": 0.000245
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  },
+  {
+   "id": "eelektrossite",
+   "name": "Eelektrossite",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "usage",
+   "n_hooks": 1,
+   "hooks": [
+    "onTakeItem"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 0.001148,
+     "slot_mass": 0.000192
+    },
+    "bo1_1760": {
+     "p_team": 0.000982,
+     "slot_mass": 0.000164
+    },
+    "bo1_0": {
+     "p_team": 0.004348,
+     "slot_mass": 0.000726
+    },
+    "replays_bo3_p_team": 0.00093
+   }
+  },
+  {
+   "id": "aspearberry",
+   "name": "Aspear Berry",
+   "class": "DATA_PLUS_COMMON",
+   "inclusion": "free_rider_shared_template",
+   "n_hooks": 2,
+   "hooks": [
+    "onUpdate",
+    "onEat"
+   ],
+   "condition_hooks": [],
+   "usage": {
+    "bo3_1760": {
+     "p_team": 0.0,
+     "slot_mass": 0.0
+    },
+    "bo3_0": {
+     "p_team": 4.9e-05,
+     "slot_mass": 8e-06
+    },
+    "bo1_1760": {
+     "p_team": 5e-06,
+     "slot_mass": 1e-06
+    },
+    "bo1_0": {
+     "p_team": 2e-05,
+     "slot_mass": 3e-06
+    },
+    "replays_bo3_p_team": 0.0
+   }
+  }
+ ],
+ "excluded_legal": [
+  {
+   "id": "focusband",
+   "class": "CUSTOM",
+   "max_p_team_bo3_1760_bo1_0": 0.000549
+  },
+  {
+   "id": "persimberry",
+   "class": "CUSTOM",
+   "max_p_team_bo3_1760_bo1_0": 0.000249
+  },
+  {
+   "id": "shedshell",
+   "class": "CUSTOM",
+   "max_p_team_bo3_1760_bo1_0": 0.0002
+  },
+  {
+   "id": "chilanberry",
+   "class": "CUSTOM",
+   "max_p_team_bo3_1760_bo1_0": 9.4e-05
+  },
+  {
+   "id": "oranberry",
+   "class": "CUSTOM",
+   "max_p_team_bo3_1760_bo1_0": 7.5e-05
+  },
+  {
+   "id": "pechaberry",
+   "class": "CUSTOM",
+   "max_p_team_bo3_1760_bo1_0": 2e-06
+  }
+ ]
+}

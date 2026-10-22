@@ -1,0 +1,207 @@
+{
+ "env": {
+  "jax": "0.12.0.1",
+  "backend": "cpu",
+  "devices": [
+   "cpu:0"
+  ],
+  "python": "3.12.11",
+  "machine": "arm64",
+  "xla_flags": ""
+ },
+ "1B": [
+  {
+   "lower_s": 0.042464582999969025,
+   "compile_s": 0.05551924999997482,
+   "run_s": 0.00028466700001672507,
+   "ns_per_elem": 4.343673706309891,
+   "temp_bytes": 262144,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 8,
+   "variant": "naive N-way x8",
+   "temp_MB": 0.25
+  },
+  {
+   "lower_s": 0.043286333999958515,
+   "compile_s": 0.06057650000002468,
+   "run_s": 0.00032049999998662315,
+   "ns_per_elem": 4.890441894327136,
+   "temp_bytes": 786432,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 8,
+   "variant": "grouped (N/8)-way x8",
+   "temp_MB": 0.75
+  },
+  {
+   "lower_s": 0.027512958999977855,
+   "compile_s": 0.057724832999952014,
+   "run_s": 0.0004392084999835788,
+   "ns_per_elem": 6.701789855706464,
+   "temp_bytes": 262144,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 8,
+   "variant": "grouped + opt_barrier",
+   "temp_MB": 0.25
+  },
+  {
+   "lower_s": 0.13098483300007047,
+   "compile_s": 0.4477288329999283,
+   "run_s": 0.001544104000004154,
+   "ns_per_elem": 23.561157226625884,
+   "temp_bytes": 9175040,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 8,
+   "variant": "table+specials x8",
+   "temp_MB": 8.75
+  },
+  {
+   "lower_s": 0.14615570800003752,
+   "compile_s": 0.2672704579999845,
+   "run_s": 0.0007017500000188193,
+   "ns_per_elem": 10.707855224896534,
+   "temp_bytes": 2359296,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 32,
+   "variant": "naive N-way x8",
+   "temp_MB": 2.25
+  },
+  {
+   "lower_s": 0.06590641699995103,
+   "compile_s": 0.23405479200005175,
+   "run_s": 0.0010584999999423417,
+   "ns_per_elem": 16.151428221776452,
+   "temp_bytes": 4456448,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 32,
+   "variant": "grouped (N/8)-way x8",
+   "temp_MB": 4.25
+  },
+  {
+   "lower_s": 0.06663587500008816,
+   "compile_s": 0.12825712499989095,
+   "run_s": 0.0008546249999881184,
+   "ns_per_elem": 13.040542602357764,
+   "temp_bytes": 1835008,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 32,
+   "variant": "grouped + opt_barrier",
+   "temp_MB": 1.75
+  },
+  {
+   "lower_s": 0.1571131250000235,
+   "compile_s": 0.6309506249999686,
+   "run_s": 0.0020376459999624785,
+   "ns_per_elem": 31.09201049747434,
+   "temp_bytes": 10223616,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 32,
+   "variant": "table+specials x8",
+   "temp_MB": 9.75
+  },
+  {
+   "lower_s": 0.5786030000000437,
+   "compile_s": 2.594036791999997,
+   "run_s": 0.005481582999948387,
+   "ns_per_elem": 83.64231872479839,
+   "temp_bytes": 10223616,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 128,
+   "variant": "naive N-way x8",
+   "temp_MB": 9.75
+  },
+  {
+   "lower_s": 0.25717199999996865,
+   "compile_s": 1.9095978750000313,
+   "run_s": 0.00570506249994196,
+   "ns_per_elem": 87.05234527499329,
+   "temp_bytes": 13107200,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 128,
+   "variant": "grouped (N/8)-way x8",
+   "temp_MB": 12.5
+  },
+  {
+   "lower_s": 0.27255954200006727,
+   "compile_s": 0.4385813330000019,
+   "run_s": 0.002147312499914733,
+   "ns_per_elem": 32.76538848746846,
+   "temp_bytes": 3932160,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 128,
+   "variant": "grouped + opt_barrier",
+   "temp_MB": 3.75
+  },
+  {
+   "lower_s": 0.188806459000034,
+   "compile_s": 0.7255618329999152,
+   "run_s": 0.0028117504999727316,
+   "ns_per_elem": 42.90390777546283,
+   "temp_bytes": 11534336,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 128,
+   "variant": "table+specials x8",
+   "temp_MB": 11.0
+  },
+  {
+   "lower_s": 2.597332415999972,
+   "compile_s": 27.11222795900005,
+   "run_s": 0.16568354200001068,
+   "ns_per_elem": 2528.130218506022,
+   "temp_bytes": 33816576,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 512,
+   "variant": "naive N-way x8",
+   "temp_MB": 32.25
+  },
+  {
+   "lower_s": 1.1440992079999432,
+   "compile_s": 24.541011083000058,
+   "run_s": 0.05211037500009752,
+   "ns_per_elem": 795.1412200942615,
+   "temp_bytes": 35913728,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 512,
+   "variant": "grouped (N/8)-way x8",
+   "temp_MB": 34.25
+  },
+  {
+   "lower_s": 1.1724695839999413,
+   "compile_s": 1.7295778330000076,
+   "run_s": 0.006108020999988639,
+   "ns_per_elem": 93.20100402814695,
+   "temp_bytes": 6815744,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 512,
+   "variant": "grouped + opt_barrier",
+   "temp_MB": 6.5
+  },
+  {
+   "lower_s": 0.28664983400005895,
+   "compile_s": 1.9481505830000287,
+   "run_s": 0.0063621460000149455,
+   "ns_per_elem": 97.07864379905618,
+   "temp_bytes": 15990784,
+   "arg_bytes": 2621440,
+   "out_bytes": 2359368,
+   "N": 512,
+   "variant": "table+specials x8",
+   "temp_MB": 15.25
+  }
+ ],
+ "B": 65536
+}

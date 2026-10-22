@@ -1,0 +1,101 @@
+{
+  "sha": "4880d3693580bd33652797cf31179c6fcdf87e50",
+  "node_id": "C_kwDOAC5c7toAKDQ4ODBkMzY5MzU4MGJkMzM2NTI3OTdjZjMxMTc5YzZmY2RmODdlNTA",
+  "commit": {
+    "author": {
+      "name": "Caznovia",
+      "email": "104919647+Caznovia@users.noreply.github.com",
+      "date": "2026-06-19T00:13:11Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-06-19T00:13:11Z"
+    },
+    "message": "Champions: Add Wise Glasses (#12120)\n\nhttps://www.smogon.com/forums/threads/bug-report-validator.3784120/",
+    "tree": {
+      "sha": "696b75a541a314bfb96c58ca5a2269873e18e39e",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/696b75a541a314bfb96c58ca5a2269873e18e39e"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/4880d3693580bd33652797cf31179c6fcdf87e50",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqNImXCRC1aQ7uu5UhlAAAn1UQAAbYsfe3Y15TYgyHTN819LQH\nde7lkdso0cYJgMsguQX5Pt/rH0cJFgKunT+wsbBtVAI9VIu3SxEBRyJjy6P0CQid\nye5AZMBRu5n+INqh98RwRi+pdFYyB9H7HlsNYA0P7MIPxxO8vvqWiM+yglJCH21D\n2KeRfXiXO3++HZuBgo4KK4b9rU6mjV8sTxIiqRAZPVkVRlV8NTu501W2/x8IfYv2\nltL048QDAubkIGpuHAGNYbKZQPoLuD1f80WGCxG9YK/XEKYQr72l1yuTxZ++agUZ\njtDSEoFH954cBXQKxChqMwU9kA1H3IJGYJO5uZ2LOoa5rehnaRHsc4HRCGJtSaDg\nO2+mCXsc3C+vIJZ+hFdAJb+AKebSUwLWoE5iL9QmmLEOxPtK1A5UJCyGmFDADUU5\n740pAfroD68ole6BLAOfncNKes6lYEh9HTuNsAYXrSmpEqklm2kKKCfj5g0ejQPR\n7s38e7ktnLLeLJUfOFuUF3/dUtH0zzKJgaSb4Mr53SR3F9SwsKCxFpNfAgkcTXqG\nK8lM1MA7bKU+oET4R56GIay107AxEY7vQ6IraqUXHiOlmm4WnXd2Q2YPO4IE0M7F\ncDlD9MsdiQNr2kDiYMtPre1CbhsaORRUzcJFN9ox4ZqMmmaP2ck4vlx9A3MXcQAg\nyTGvLAGvhuthWYe6vRqF\n=z2Le\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 696b75a541a314bfb96c58ca5a2269873e18e39e\nparent 755f4665a341e3a9533baf1e1a3802fd233b0d69\nauthor Caznovia <104919647+Caznovia@users.noreply.github.com> 1781827991 -0400\ncommitter GitHub <noreply@github.com> 1781827991 -0600\n\nChampions: Add Wise Glasses (#12120)\n\nhttps://www.smogon.com/forums/threads/bug-report-validator.3784120/",
+      "verified_at": "2026-06-19T00:13:12Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/4880d3693580bd33652797cf31179c6fcdf87e50",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/4880d3693580bd33652797cf31179c6fcdf87e50",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/4880d3693580bd33652797cf31179c6fcdf87e50/comments",
+  "author": {
+    "login": "Caznovia",
+    "id": 104919647,
+    "node_id": "U_kgDOBkDyXw",
+    "avatar_url": "https://avatars.githubusercontent.com/u/104919647?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/Caznovia",
+    "html_url": "https://github.com/Caznovia",
+    "followers_url": "https://api.github.com/users/Caznovia/followers",
+    "following_url": "https://api.github.com/users/Caznovia/following{/other_user}",
+    "gists_url": "https://api.github.com/users/Caznovia/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/Caznovia/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/Caznovia/subscriptions",
+    "organizations_url": "https://api.github.com/users/Caznovia/orgs",
+    "repos_url": "https://api.github.com/users/Caznovia/repos",
+    "events_url": "https://api.github.com/users/Caznovia/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/Caznovia/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "755f4665a341e3a9533baf1e1a3802fd233b0d69",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/755f4665a341e3a9533baf1e1a3802fd233b0d69",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/755f4665a341e3a9533baf1e1a3802fd233b0d69"
+    }
+  ],
+  "stats": {
+    "total": 4,
+    "additions": 0,
+    "deletions": 4
+  },
+  "files": [
+    {
+      "sha": "728a4da7799a995d53038a4db2ade3757d05d0d6",
+      "filename": "data/mods/champions/items.ts",
+      "status": "modified",
+      "additions": 0,
+      "deletions": 4,
+      "changes": 4,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/4880d3693580bd33652797cf31179c6fcdf87e50/data%2Fmods%2Fchampions%2Fitems.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/4880d3693580bd33652797cf31179c6fcdf87e50/data%2Fmods%2Fchampions%2Fitems.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fitems.ts?ref=4880d3693580bd33652797cf31179c6fcdf87e50",
+      "patch": "@@ -1039,10 +1039,6 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\",\n \t},\n-\twiseglasses: {\n-\t\tinherit: true,\n-\t\tisNonstandard: \"Past\",\n-\t},\n \tzapplate: {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\","
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+ "D": 8,
+ "config": "oracle",
+ "cpus": 14,
+ "model": "Apple M4 Max",
+ "runs": [
+  {
+   "W": 1,
+   "battlesPerSec": 35.5,
+   "decisionsPerSec": 937,
+   "perWorker": 35.5,
+   "loadavgBefore": 78.2,
+   "wallSec": 9.091
+  },
+  {
+   "W": 12,
+   "battlesPerSec": 162.8,
+   "decisionsPerSec": 4332,
+   "perWorker": 13.6,
+   "loadavgBefore": 77.1,
+   "wallSec": 10.845
+  }
+ ]
+}

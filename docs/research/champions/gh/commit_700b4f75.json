@@ -1,0 +1,161 @@
+{
+  "sha": "700b4f75b493be5c49173247be87f6749e5cba3e",
+  "node_id": "C_kwDOAC5c7toAKDcwMGI0Zjc1YjQ5M2JlNWM0OTE3MzI0N2JlODdmNjc0OWU1Y2JhM2U",
+  "commit": {
+    "author": {
+      "name": "André Bastos Dias",
+      "email": "80102738+andrebastosdias@users.noreply.github.com",
+      "date": "2026-09-30T17:41:51Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-09-30T17:41:51Z"
+    },
+    "message": "Champions: Fix Curse + Follow Me interaction and add Curse + Electrify tests (#12329)\n\n* Champions: Fix Curse + Follow Me interaction and add Curse + Electrify tests\n\n* Fix Curse interaction with Ally Switch across generations\n\n* Lint",
+    "tree": {
+      "sha": "233b5cc5cb65ca1bdd3d9f226b97dfa9c1e828c0",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/233b5cc5cb65ca1bdd3d9f226b97dfa9c1e828c0"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/700b4f75b493be5c49173247be87f6749e5cba3e",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqvUnfCRC1aQ7uu5UhlAAAgh0QAKwOZQqI1MYIRRp6l8L54INL\nPW5jATgTGYKDMsv70Km4IXjhs0gI3GymQ+uNQxZYMRd+AUYJ2yGoQgoy/oS40eMI\nlmkBnqKLDKkobvL1ZIVI6ZLJHDQrqvF1mKgCOQbGkZdOLG3KSysaemLUAXVdvpCR\n/GUkd0a5ZvGCD7dDqSWckc5ksrsb4jVLcOZ1NFUIRx963OL9s4rS8oODloFvwlMU\nndgY8+YxlEF5O6G9ycVINm+q95ZARXr1tEbOyeDnIZk9tucaziDXRYvetTWoMJLq\nKlRYsKEUJjrA2EViukn9NjoVWtIzqXm6d4dpTK6cMP5lcbu723zTRa3afYTx5fRM\nUCLVeoIg45OK/QFg+sAd3TZgazp8MEuOu+0ackJn2WEqyMrv7T7kiglmQjyrExye\nPEvX3IuO67D9ekSjufBOjKR/2lZGjDgNaJ3Okja00rScSlsa+EX9wpXtSwTZI3eA\nYi0QknxCMlDYm5u41XlMY+KDizRI4IofxDCXZYsrEDQN/m1dOqMfLx910Pl1Aeq+\nOv0XBaMlj9hLdvr+0OA/ux6yKDZYzgfRibtIJHw8x985IXX+Q4JT+S8+43IqOQRR\nhiZQ0b2dkeUdy4V4GNNKAg2PXAogsicsFlDAFztY+2IARoWzWu1chP8lA3GQ+yoN\n0tvZzO9WPw3jt/931Kaq\n=Dqo5\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 233b5cc5cb65ca1bdd3d9f226b97dfa9c1e828c0\nparent 99836619c7188c9e421ea6923d48da2ebeda09f5\nauthor André Bastos Dias <80102738+andrebastosdias@users.noreply.github.com> 1790790111 +0300\ncommitter GitHub <noreply@github.com> 1790790111 -0600\n\nChampions: Fix Curse + Follow Me interaction and add Curse + Electrify tests (#12329)\n\n* Champions: Fix Curse + Follow Me interaction and add Curse + Electrify tests\n\n* Fix Curse interaction with Ally Switch across generations\n\n* Lint",
+      "verified_at": "2026-09-30T17:41:52Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/700b4f75b493be5c49173247be87f6749e5cba3e",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/700b4f75b493be5c49173247be87f6749e5cba3e",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/700b4f75b493be5c49173247be87f6749e5cba3e/comments",
+  "author": {
+    "login": "andrebastosdias",
+    "id": 80102738,
+    "node_id": "MDQ6VXNlcjgwMTAyNzM4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/80102738?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/andrebastosdias",
+    "html_url": "https://github.com/andrebastosdias",
+    "followers_url": "https://api.github.com/users/andrebastosdias/followers",
+    "following_url": "https://api.github.com/users/andrebastosdias/following{/other_user}",
+    "gists_url": "https://api.github.com/users/andrebastosdias/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/andrebastosdias/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/andrebastosdias/subscriptions",
+    "organizations_url": "https://api.github.com/users/andrebastosdias/orgs",
+    "repos_url": "https://api.github.com/users/andrebastosdias/repos",
+    "events_url": "https://api.github.com/users/andrebastosdias/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/andrebastosdias/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "99836619c7188c9e421ea6923d48da2ebeda09f5",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/99836619c7188c9e421ea6923d48da2ebeda09f5",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/99836619c7188c9e421ea6923d48da2ebeda09f5"
+    }
+  ],
+  "stats": {
+    "total": 389,
+    "additions": 277,
+    "deletions": 112
+  },
+  "files": [
+    {
+      "sha": "ee92c7e3033cc0a495f5adb1b413ed79c0781160",
+      "filename": "data/mods/champions/moves.ts",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 2,
+      "changes": 6,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/700b4f75b493be5c49173247be87f6749e5cba3e/data%2Fmods%2Fchampions%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/700b4f75b493be5c49173247be87f6749e5cba3e/data%2Fmods%2Fchampions%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fmoves.ts?ref=700b4f75b493be5c49173247be87f6749e5cba3e",
+      "patch": "@@ -164,21 +164,23 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t},\n \tcurse: {\n \t\tinherit: true,\n-\t\ttracksTarget: true,\n \t\tvolatileStatus: undefined, // no inherit\n \t\tonModifyMove(move, source, target) {\n+\t\t\tthis.debug('Curse onModifyMove triggered', source, target);\n \t\t\tif (!source.hasType('Ghost')) {\n \t\t\t\tmove.target = 'self';\n-\t\t\t} else if (source !== target && source.isAlly(target)) {\n+\t\t\t} else if (!target || (source !== target && source.isAlly(target))) {\n \t\t\t\tmove.target = 'randomNormal';\n \t\t\t}\n \t\t},\n \t\tonTryHit(target, source, move) {\n+\t\t\tthis.debug('Curse onTryHit triggered', target, source);\n \t\t\tif (source.hasType('Ghost') && target.volatiles['curse']) {\n \t\t\t\treturn false;\n \t\t\t}\n \t\t},\n \t\tonHit(target, source) {\n+\t\t\tthis.debug('Curse onHit triggered', source, target);\n \t\t\tif (!source.hasType('Ghost')) {\n \t\t\t\treturn !!this.boost({ spe: -1, atk: 1, def: 1 }, source, source);\n \t\t\t}"
+    },
+    {
+      "sha": "f323e7c233024307a955a520404d22ec61c1965e",
+      "filename": "data/mods/gen8/moves.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 0,
+      "changes": 2,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/700b4f75b493be5c49173247be87f6749e5cba3e/data%2Fmods%2Fgen8%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/700b4f75b493be5c49173247be87f6749e5cba3e/data%2Fmods%2Fgen8%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fgen8%2Fmoves.ts?ref=700b4f75b493be5c49173247be87f6749e5cba3e",
+      "patch": "@@ -100,6 +100,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\tonModifyMove(move, source, target) {\n \t\t\tif (!source.hasType('Ghost')) {\n \t\t\t\tmove.target = 'self';\n+\t\t\t} else if (!target) {\n+\t\t\t\tmove.target = 'randomNormal';\n \t\t\t}\n \t\t},\n \t\ttarget: \"randomNormal\","
+    },
+    {
+      "sha": "f40f82cf80812141f16cd50b5839722dc55fa7e4",
+      "filename": "data/moves.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/700b4f75b493be5c49173247be87f6749e5cba3e/data%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/700b4f75b493be5c49173247be87f6749e5cba3e/data%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmoves.ts?ref=700b4f75b493be5c49173247be87f6749e5cba3e",
+      "patch": "@@ -3276,7 +3276,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {\n \t\tonModifyMove(move, source, target) {\n \t\t\tif (!source.hasType('Ghost')) {\n \t\t\t\tmove.target = 'self';\n-\t\t\t} else if (source.isAlly(target)) {\n+\t\t\t} else if (!target || source.isAlly(target)) {\n \t\t\t\tmove.target = 'randomNormal';\n \t\t\t}\n \t\t},"
+    },
+    {
+      "sha": "7d6d0a3b19b175f14990931d4a18b90f7015283c",
+      "filename": "sim/battle-queue.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/700b4f75b493be5c49173247be87f6749e5cba3e/sim%2Fbattle-queue.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/700b4f75b493be5c49173247be87f6749e5cba3e/sim%2Fbattle-queue.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/sim%2Fbattle-queue.ts?ref=700b4f75b493be5c49173247be87f6749e5cba3e",
+      "patch": "@@ -262,7 +262,7 @@ export class BattleQueue {\n \n \t\t\tif (this.battle.dex.currentMod.startsWith('champions') &&\n \t\t\t\taction.move.id === 'curse' && !action.pokemon.hasType('Ghost')) {\n-\t\t\t\taction.targetLoc = action.pokemon.getLocOf(action.pokemon);\n+\t\t\t\taction.move.target = 'self';\n \t\t\t}\n \n \t\t\tif (!action.targetLoc) {"
+    },
+    {
+      "sha": "e02c05fef923d84ec045771b19f486e7aa398904",
+      "filename": "test/sim/champions.js",
+      "status": "modified",
+      "additions": 88,
+      "deletions": 8,
+      "changes": 96,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/700b4f75b493be5c49173247be87f6749e5cba3e/test%2Fsim%2Fchampions.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/700b4f75b493be5c49173247be87f6749e5cba3e/test%2Fsim%2Fchampions.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/test%2Fsim%2Fchampions.js?ref=700b4f75b493be5c49173247be87f6749e5cba3e",
+      "patch": "@@ -36,7 +36,7 @@ describe('Curse', () => {\n \t\t);\n \t});\n \n-\tit(`should redirect to a foe when targeting an ally`, () => {\n+\tit(`should redirect to a foe when targeting an ally already affected by Curse`, () => {\n \t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n \t\t\t{ species: 'Gengar', moves: ['curse'] },\n \t\t\t{ species: 'Magikarp', moves: ['splash'] },\n@@ -71,7 +71,7 @@ describe('Curse', () => {\n \t\tassert.equal(caterpie.hp, caterpie.maxhp - curseResidual * 2);\n \t});\n \n-\tit(`should be affected by Pressure if targeting an ally`, () => {\n+\tit(`should be affected by opposing Pressure if targeting an ally`, () => {\n \t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n \t\t\t{ species: 'Gengar', moves: ['curse'] },\n \t\t\t{ species: 'Magikarp', moves: ['splash'] },\n@@ -111,7 +111,7 @@ describe('Curse', () => {\n \t\tassert.equal(greninja.moveSlots[0].pp, greninja.moveSlots[0].maxpp - 3);\n \t});\n \n-\tit(`should not hit a target mid-fly`, () => {\n+\tit(`should not hit a semi-invulnerable target`, () => {\n \t\tbattle = createChampionsBattle([[\n \t\t\t{ species: 'Gengar', moves: ['curse'] },\n \t\t], [\n@@ -122,7 +122,7 @@ describe('Curse', () => {\n \t\tassert.fullHP(battle.p2.active[0]);\n \t});\n \n-\tit(`should be able to hit a target mid-fly if a non-Ghost user has Protean`, () => {\n+\tit(`should be able to hit a semi-invulnerable target if a non-Ghost user has Protean`, () => {\n \t\tbattle = createChampionsBattle([[\n \t\t\t{ species: 'Greninja', ability: 'protean', moves: ['curse'] },\n \t\t], [\n@@ -136,7 +136,7 @@ describe('Curse', () => {\n \t\tassert.equal(aerodactyl.hp, aerodactyl.maxhp - curseResidual);\n \t});\n \n-\tit(`should be able to hit a target mid-fly if the user became a Ghost due to Trick-or-Treat`, () => {\n+\tit(`should be able to hit a semi-invulnerable target if the user became a Ghost due to Trick-or-Treat`, () => {\n \t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n \t\t\t{ species: 'Kecleon', ability: 'protean', moves: ['curse'] },\n \t\t\t{ species: 'Magikarp', moves: ['splash'] },\n@@ -185,7 +185,6 @@ describe('Curse', () => {\n \t\tbattle.makeChoices('move curse 1, move curse 2', 'move soak 1, move soak 2');\n \t\tbattle.makeChoices('move curse, move curse', 'move tailwind, move sleeptalk');\n \t\tbattle.makeChoices('move shadowball 1, move curse', 'move encore 1, move skillswap 1');\n-\t\tconsole.log(battle.getDebugLog());\n \n \t\tconst gengar1 = battle.p1.active[0];\n \t\tassert.equal(gengar1.hp, gengar1.maxhp - Math.floor(gengar1.maxhp / 2) * 2);\n@@ -207,7 +206,6 @@ describe('Curse', () => {\n \t\tbattle.makeChoices('move curse 1, move curse 2', 'move soak 1, move soak 2');\n \t\tbattle.makeChoices('move curse, move curse', 'move tailwind, move sleeptalk');\n \t\tbattle.makeChoices('move shadowball 1, move curse', 'move encore 1, move trickortreat 1');\n-\t\tconsole.log(battle.getDebugLog());\n \n \t\tconst gengar1 = battle.p1.active[0];\n \t\tassert.equal(gengar1.hp, gengar1.maxhp - Math.floor(gengar1.maxhp / 2));\n@@ -232,6 +230,88 @@ describe('Curse', () => {\n \t\tassert.fullHP(aerodactyl);\n \t});\n \n+\tit(`should target a random opponent if the target is a semi-invulnerable ally`, () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'Deoxys', moves: ['fly'] },\n+\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Caterpie', moves: ['sleeptalk'] },\n+\t\t\t{ species: 'Metapod', moves: ['sleeptalk'] },\n+\t\t]]);\n+\t\tbattle.makeChoices('move fly 1, move curse -1', 'auto');\n+\t\tassert.fullHP(battle.p1.active[0]);\n+\t\tassert(battle.p2.active[0].maxhp !== battle.p2.active[0].hp || battle.p2.active[1].maxhp !== battle.p2.active[1].hp);\n+\t});\n+\n+\tit(`should boost its stats if a Ghost user has Protean and was hit by Electrify`, () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: 'Gengar', ability: 'protean', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', moves: ['electrify'] },\n+\t\t]]);\n+\t\tconst gengar = battle.p1.active[0];\n+\t\tconst aerodactyl = battle.p2.active[0];\n+\t\tbattle.makeChoices();\n+\t\tassert.fullHP(gengar);\n+\t\tassert.equal(gengar.boosts.atk, 1);\n+\t\tassert.fullHP(aerodactyl);\n+\t});\n+\n+\tit(`should not be affected by Pressure if a Ghost user has Protean and was hit by Electrify`, () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: 'Gengar', ability: 'protean', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', moves: ['electrify'] },\n+\t\t]]);\n+\t\tconst gengar = battle.p1.active[0];\n+\t\tconst aerodactyl = battle.p2.active[0];\n+\t\tbattle.makeChoices();\n+\t\tassert.fullHP(gengar);\n+\t\tassert.equal(gengar.boosts.atk, 1);\n+\t\tassert.fullHP(aerodactyl);\n+\t\tassert.equal(aerodactyl.moveSlots[0].pp, aerodactyl.moveSlots[0].maxpp - 1);\n+\t});\n+\n+\tit(`should target a random opponent if the target is an ally that uses Ally Switch`, () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'Wynaut', moves: ['allyswitch'] },\n+\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Caterpie', moves: ['sleeptalk'] },\n+\t\t\t{ species: 'Metapod', moves: ['sleeptalk'] },\n+\t\t]]);\n+\t\tbattle.makeChoices('move allyswitch, move curse -1', 'auto');\n+\t\tassert.fullHP(battle.p1.active[1]);\n+\t\tassert(battle.p2.active[0].maxhp !== battle.p2.active[0].hp || battle.p2.active[1].maxhp !== battle.p2.active[1].hp);\n+\t});\n+\n+\tit(`should not be able to hit an opposing semi-invulnerable target if targeted an ally`, () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t\t{ species: 'Gourgeist', moves: ['sleeptalk'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', moves: ['fly'] },\n+\t\t\t{ species: 'Aerodactyl', moves: ['fly'] },\n+\t\t]]);\n+\t\tbattle.makeChoices();\n+\t\tassert.fullHP(battle.p2.active[0]);\n+\t\tassert.fullHP(battle.p2.active[1]);\n+\t});\n+\n+\tit(`should not be able to hit an opposing semi-invulnerable target if targeted an ally that uses Ally Switch`, () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t\t{ species: 'Gourgeist', moves: ['allyswitch'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', moves: ['fly'] },\n+\t\t\t{ species: 'Aerodactyl', moves: ['fly'] },\n+\t\t]]);\n+\n+\t\tbattle.makeChoices('move curse -2, move allyswitch', 'auto');\n+\t\tassert.fullHP(battle.p2.active[0]);\n+\t\tassert.fullHP(battle.p2.active[1]);\n+\t});\n+\n \tit(`should boost its stats if the target is already afflicted with Curse and the user stops being a Ghost-type mid-turn`, () => {\n \t\tbattle = createChampionsBattle([[\n \t\t\t{ species: 'Gengar', moves: ['curse'] },\n@@ -251,7 +331,7 @@ describe('Curse', () => {\n \t\tassert.equal(gengar.boosts.atk, 1);\n \t});\n \n-\tit(`should boost not be affected by Pressure if the user stops being a Ghost-type mid-turn`, () => {\n+\tit(`should not be affected by Pressure if the user stops being a Ghost-type mid-turn`, () => {\n \t\tbattle = createChampionsBattle([[\n \t\t\t{ species: 'Gengar', moves: ['curse'] },\n \t\t], ["
+    },
+    {
+      "sha": "9d3c8c852a7bfe9bf054a4881a67776d3d9b985c",
+      "filename": "test/sim/moves/curse.js",
+      "status": "modified",
+      "additions": 181,
+      "deletions": 100,
+      "changes": 281,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/700b4f75b493be5c49173247be87f6749e5cba3e/test%2Fsim%2Fmoves%2Fcurse.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/700b4f75b493be5c49173247be87f6749e5cba3e/test%2Fsim%2Fmoves%2Fcurse.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/test%2Fsim%2Fmoves%2Fcurse.js?ref=700b4f75b493be5c49173247be87f6749e5cba3e",
+      "patch": "@@ -124,123 +124,204 @@ describe('Curse', () => {\n \t\tassert(caterpie.maxhp !== caterpie.hp || metapod.maxhp !== metapod.hp, `Either Caterpie or Metapod should have lost HP from Curse`);\n \t});\n \n-\tit(`[Gen 7] should target the ally if the target is an ally`, () => {\n-\t\tbattle = common.gen(7).createBattle({ gameType: 'doubles' }, [[\n-\t\t\t{ species: 'Wynaut', moves: ['sleeptalk'] },\n+\tit(`should target a random opponent if the target is a semi-invulnerable ally`, () => {\n+\t\tbattle = common.createBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'Deoxys', moves: ['fly'] },\n \t\t\t{ species: 'Gengar', moves: ['curse'] },\n \t\t], [\n \t\t\t{ species: 'Caterpie', moves: ['sleeptalk'] },\n \t\t\t{ species: 'Metapod', moves: ['sleeptalk'] },\n \t\t]]);\n-\t\tbattle.makeChoices('move sleeptalk, move curse -1', 'auto');\n+\t\tbattle.makeChoices('move fly 1, move curse -1', 'auto');\n+\t\tassert.fullHP(battle.p1.active[0]);\n+\t\tassert(battle.p2.active[0].maxhp !== battle.p2.active[0].hp || battle.p2.active[1].maxhp !== battle.p2.active[1].hp);\n+\t});\n \n-\t\tconst wynaut = battle.p1.active[0];\n-\t\tassert.false.fullHP(wynaut);\n+\tit(`should boost its stats if a Ghost user has Protean and was hit by Electrify`, () => {\n+\t\tbattle = common.createBattle([[\n+\t\t\t{ species: 'Gengar', ability: 'protean', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Aerodactyl', moves: ['electrify'] },\n+\t\t]]);\n+\t\tconst gengar = battle.p1.active[0];\n+\t\tconst aerodactyl = battle.p2.active[0];\n+\t\tbattle.makeChoices();\n+\t\tassert.fullHP(gengar);\n+\t\tassert.equal(gengar.boosts.atk, 1);\n+\t\tassert.fullHP(aerodactyl);\n \t});\n-});\n \n-describe('XY/ORAS Curse targeting when becoming Ghost the same turn', () => {\n-\tafterEach(() => {\n-\t\tbattle.destroy();\n+\tit(`should target a random opponent if the target is an ally that uses Ally Switch`, () => {\n+\t\tbattle = common.createBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'Wynaut', moves: ['allyswitch'] },\n+\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t], [\n+\t\t\t{ species: 'Caterpie', moves: ['sleeptalk'] },\n+\t\t\t{ species: 'Metapod', moves: ['sleeptalk'] },\n+\t\t]]);\n+\t\tbattle.makeChoices('move allyswitch, move curse -1', 'auto');\n+\t\tassert.fullHP(battle.p1.active[1]);\n+\t\tassert(battle.p2.active[0].maxhp !== battle.p2.active[0].hp || battle.p2.active[1].maxhp !== battle.p2.active[1].hp);\n \t});\n \n-\tconst doublesTeams = [[\n-\t\t{ species: \"Kecleon\", ability: 'colorchange', item: 'laggingtail', moves: ['curse', 'calmmind'] },\n-\t\t{ species: \"Sableye\", ability: 'prankster', item: '', moves: ['lightscreen', 'mudsport'] },\n-\t], [\n-\t\t{ species: \"Raikou\", ability: 'pressure', item: '', moves: ['aurasphere', 'calmmind'] },\n-\t\t{ species: \"Gastly\", ability: 'levitate', item: '', moves: ['lick', 'calmmind'] },\n-\t]];\n-\n-\tconst triplesTeams = [\n-\t\tdoublesTeams[0].concat({ species: \"Metapod\", ability: 'shedskin', item: '', moves: ['harden', 'stringshot'] }),\n-\t\tdoublesTeams[1].concat({ species: \"Kakuna\", ability: 'shedskin', item: '', moves: ['harden', 'stringshot'] }),\n-\t];\n-\n-\tfunction runDoublesTest(battle, curseUser) {\n-\t\tconst p2active = battle.p2.active;\n-\t\tconst cursePartner = curseUser.side.active[1 - curseUser.position];\n-\n-\t\tbattle.makeChoices(\n-\t\t\t// p1: Kecleon uses Curse last in the turn.\n-\t\t\t// p2: Fighting attack on Kecleon, then Ghost.\n-\t\t\t`move 1, move 1`,\n-\t\t\t`move aurasphere ${curseUser.position + 1}, move lick ${curseUser.position + 1}`\n-\t\t);\n-\n-\t\tassert(curseUser.hasType('Ghost')); // Curse user must be Ghost\n-\t\tassert(curseUser.hp < curseUser.maxhp / 2); // Curse user cut its HP down\n-\n-\t\tconst foeHP = [p2active[0].hp, p2active[1].hp];\n-\t\tbattle.makeChoices(`move 2, move 2`, `move 2, move 2`);\n-\n-\t\tassert.notEqual(curseUser.hp, curseUser.maxhp); // Curse user cut its HP down\n-\t\tif (curseUser.position === 0) {\n-\t\t\t// Expected behavior\n-\t\t\tassert.equal(cursePartner.hp, cursePartner.maxhp); // Partner unaffected by Curse\n-\t\t\tassert(foeHP[0] !== p2active[0].maxhp || foeHP[1] !== p2active[1].maxhp); // Foe afflicted by Curse\n-\t\t} else {\n-\t\t\t// Cartridge glitch\n-\t\t\tassert.false.fullHP(cursePartner); // Partner afflicted by Curse\n-\n-\t\t\t// Foes unaffected by Curse\n-\t\t\tassert.fullHP(p2active[0]);\n-\t\t\tassert.fullHP(p2active[1]);\n-\t\t}\n-\t}\n-\n-\tfunction runTriplesTest(battle, curseUser) {\n-\t\tconst p1active = battle.p1.active;\n-\t\tconst p2active = battle.p2.active;\n-\n-\t\tbattle.makeChoices(\n-\t\t\t// p1: Kecleon uses Curse last in the turn.\n-\t\t\t// p2: Electric attack on Kecleon, then Ghost.\n-\t\t\t`move 1, move 1, move 1`,\n-\t\t\t`move aurasphere ${curseUser.position + 1}, move lick ${curseUser.position + 1}, move harden`\n-\t\t);\n-\n-\t\tassert(curseUser.hasType('Ghost')); // Curse user must be Ghost\n-\t\tassert(curseUser.hp < curseUser.maxhp / 2); // Curse user cut its HP down\n-\n-\t\tlet cursedFoe = false;\n-\t\tfor (let i = 0; i < 3; i++) {\n-\t\t\tconst allyPokemon = p1active[i];\n-\t\t\tif (allyPokemon === curseUser) {\n-\t\t\t\tassert.notEqual(allyPokemon.hp, allyPokemon.maxhp); // Curse user cut its HP down\n+\tdescribe('[Gen 7]', () => {\n+\t\tit(`should target the ally if the target is an ally`, () => {\n+\t\t\tbattle = common.gen(7).createBattle({ gameType: 'doubles' }, [[\n+\t\t\t\t{ species: 'Wynaut', moves: ['sleeptalk'] },\n+\t\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t\t], [\n+\t\t\t\t{ species: 'Caterpie', moves: ['sleeptalk'] },\n+\t\t\t\t{ species: 'Metapod', moves: ['sleeptalk'] },\n+\t\t\t]]);\n+\t\t\tbattle.makeChoices('move sleeptalk, move curse -1', 'auto');\n+\n+\t\t\tconst wynaut = battle.p1.active[0];\n+\t\t\tassert.false.fullHP(wynaut);\n+\t\t});\n+\n+\t\tit(`should fail if the target is a semi-invulnerable ally`, () => {\n+\t\t\tbattle = common.gen(7).createBattle({ gameType: 'doubles' }, [[\n+\t\t\t\t{ species: 'Deoxys', moves: ['fly'] },\n+\t\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t\t], [\n+\t\t\t\t{ species: 'Caterpie', moves: ['sleeptalk'] },\n+\t\t\t\t{ species: 'Metapod', moves: ['sleeptalk'] },\n+\t\t\t]]);\n+\t\t\tbattle.makeChoices('move fly 1, move curse -1', 'auto');\n+\t\t\tassert.fullHP(battle.p1.active[0]);\n+\t\t\tassert.fullHP(battle.p2.active[0]);\n+\t\t\tassert.fullHP(battle.p2.active[1]);\n+\t\t});\n+\n+\t\t// same tests\n+\n+\t\tit(`should boost its stats if a Ghost user has Protean and was hit by Electrify`, () => {\n+\t\t\tbattle = common.gen(7).createBattle([[\n+\t\t\t\t{ species: 'Gengar', ability: 'protean', moves: ['curse'] },\n+\t\t\t], [\n+\t\t\t\t{ species: 'Aerodactyl', moves: ['electrify'] },\n+\t\t\t]]);\n+\t\t\tconst gengar = battle.p1.active[0];\n+\t\t\tconst aerodactyl = battle.p2.active[0];\n+\t\t\tbattle.makeChoices();\n+\t\t\tassert.fullHP(gengar);\n+\t\t\tassert.equal(gengar.boosts.atk, 1);\n+\t\t\tassert.fullHP(aerodactyl);\n+\t\t});\n+\n+\t\tit(`should target a random opponent if the target is an ally that uses Ally Switch`, () => {\n+\t\t\tbattle = common.gen(7).createBattle({ gameType: 'doubles' }, [[\n+\t\t\t\t{ species: 'Wynaut', moves: ['allyswitch'] },\n+\t\t\t\t{ species: 'Gengar', moves: ['curse'] },\n+\t\t\t], [\n+\t\t\t\t{ species: 'Caterpie', moves: ['sleeptalk'] },\n+\t\t\t\t{ species: 'Metapod', moves: ['sleeptalk'] },\n+\t\t\t]]);\n+\t\t\tbattle.makeChoices('move allyswitch, move curse -1', 'auto');\n+\t\t\tassert.fullHP(battle.p1.active[1]);\n+\t\t\tassert(battle.p2.active[0].maxhp !== battle.p2.active[0].hp || battle.p2.active[1].maxhp !== battle.p2.active[1].hp);\n+\t\t});\n+\t});\n+\n+\tdescribe('[Gen 6] Curse targeting when becoming Ghost the same turn', () => {\n+\t\tconst doublesTeams = [[\n+\t\t\t{ species: \"Kecleon\", ability: 'colorchange', item: 'laggingtail', moves: ['curse', 'calmmind'] },\n+\t\t\t{ species: \"Sableye\", ability: 'prankster', item: '', moves: ['lightscreen', 'mudsport'] },\n+\t\t], [\n+\t\t\t{ species: \"Raikou\", ability: 'pressure', item: '', moves: ['aurasphere', 'calmmind'] },\n+\t\t\t{ species: \"Gastly\", ability: 'levitate', item: '', moves: ['lick', 'calmmind'] },\n+\t\t]];\n+\n+\t\tconst triplesTeams = [\n+\t\t\tdoublesTeams[0].concat({ species: \"Metapod\", ability: 'shedskin', item: '', moves: ['harden', 'stringshot'] }),\n+\t\t\tdoublesTeams[1].concat({ species: \"Kakuna\", ability: 'shedskin', item: '', moves: ['harden', 'stringshot'] }),\n+\t\t];\n+\n+\t\tfunction runDoublesTest(battle, curseUser) {\n+\t\t\tconst p2active = battle.p2.active;\n+\t\t\tconst cursePartner = curseUser.side.active[1 - curseUser.position];\n+\n+\t\t\tbattle.makeChoices(\n+\t\t\t\t// p1: Kecleon uses Curse last in the turn.\n+\t\t\t\t// p2: Fighting attack on Kecleon, then Ghost.\n+\t\t\t\t`move 1, move 1`,\n+\t\t\t\t`move aurasphere ${curseUser.position + 1}, move lick ${curseUser.position + 1}`\n+\t\t\t);\n+\n+\t\t\tassert(curseUser.hasType('Ghost')); // Curse user must be Ghost\n+\t\t\tassert(curseUser.hp < curseUser.maxhp / 2); // Curse user cut its HP down\n+\n+\t\t\tconst foeHP = [p2active[0].hp, p2active[1].hp];\n+\t\t\tbattle.makeChoices(`move 2, move 2`, `move 2, move 2`);\n+\n+\t\t\tassert.notEqual(curseUser.hp, curseUser.maxhp); // Curse user cut its HP down\n+\t\t\tif (curseUser.position === 0) {\n+\t\t\t\t// Expected behavior\n+\t\t\t\tassert.equal(cursePartner.hp, cursePartner.maxhp); // Partner unaffected by Curse\n+\t\t\t\tassert(foeHP[0] !== p2active[0].maxhp || foeHP[1] !== p2active[1].maxhp); // Foe afflicted by Curse\n \t\t\t} else {\n-\t\t\t\tassert.equal(allyPokemon.hp, allyPokemon.maxhp); // Partners unaffected by Curse\n+\t\t\t\t// Cartridge glitch\n+\t\t\t\tassert.false.fullHP(cursePartner); // Partner afflicted by Curse\n+\n+\t\t\t\t// Foes unaffected by Curse\n+\t\t\t\tassert.fullHP(p2active[0]);\n+\t\t\t\tassert.fullHP(p2active[1]);\n \t\t\t}\n+\t\t}\n \n-\t\t\tconst foePokemon = p2active[i];\n-\t\t\tif (foePokemon.hp !== foePokemon.maxhp) {\n-\t\t\t\tcursedFoe = true;\n+\t\tfunction runTriplesTest(battle, curseUser) {\n+\t\t\tconst p1active = battle.p1.active;\n+\t\t\tconst p2active = battle.p2.active;\n+\n+\t\t\tbattle.makeChoices(\n+\t\t\t\t// p1: Kecleon uses Curse last in the turn.\n+\t\t\t\t// p2: Electric attack on Kecleon, then Ghost.\n+\t\t\t\t`move 1, move 1, move 1`,\n+\t\t\t\t`move aurasphere ${curseUser.position + 1}, move lick ${curseUser.position + 1}, move harden`\n+\t\t\t);\n+\n+\t\t\tassert(curseUser.hasType('Ghost')); // Curse user must be Ghost\n+\t\t\tassert(curseUser.hp < curseUser.maxhp / 2); // Curse user cut its HP down\n+\n+\t\t\tlet cursedFoe = false;\n+\t\t\tfor (let i = 0; i < 3; i++) {\n+\t\t\t\tconst allyPokemon = p1active[i];\n+\t\t\t\tif (allyPokemon === curseUser) {\n+\t\t\t\t\tassert.notEqual(allyPokemon.hp, allyPokemon.maxhp); // Curse user cut its HP down\n+\t\t\t\t} else {\n+\t\t\t\t\tassert.equal(allyPokemon.hp, allyPokemon.maxhp); // Partners unaffected by Curse\n+\t\t\t\t}\n+\n+\t\t\t\tconst foePokemon = p2active[i];\n+\t\t\t\tif (foePokemon.hp !== foePokemon.maxhp) {\n+\t\t\t\t\tcursedFoe = true;\n+\t\t\t\t}\n \t\t\t}\n+\t\t\tassert(cursedFoe);\n \t\t}\n-\t\tassert(cursedFoe);\n-\t}\n \n-\tit('should target an opponent in Doubles if the user is on left side and becomes Ghost the same turn', () => {\n-\t\tbattle = common.gen(6).createBattle({ gameType: 'doubles' }, doublesTeams.slice());\n-\t\trunDoublesTest(battle, battle.p1.active[0]);\n-\t});\n+\t\tit('should target an opponent in Doubles if the user is on left side and becomes Ghost the same turn', () => {\n+\t\t\tbattle = common.gen(6).createBattle({ gameType: 'doubles' }, doublesTeams.slice());\n+\t\t\trunDoublesTest(battle, battle.p1.active[0]);\n+\t\t});\n \n-\tit('should target the ally in Doubles if the user is on right side and becomes Ghost the same turn', () => {\n-\t\tbattle = common.gen(6).createBattle({ gameType: 'doubles' }, [\n-\t\t\t[doublesTeams[0][1], doublesTeams[0][0]],\n-\t\t\tdoublesTeams[1],\n-\t\t]);\n-\t\trunDoublesTest(battle, battle.p1.active[1]);\n-\t});\n+\t\tit('should target the ally in Doubles if the user is on right side and becomes Ghost the same turn', () => {\n+\t\t\tbattle = common.gen(6).createBattle({ gameType: 'doubles' }, [\n+\t\t\t\t[doublesTeams[0][1], doublesTeams[0][0]],\n+\t\t\t\tdoublesTeams[1],\n+\t\t\t]);\n+\t\t\trunDoublesTest(battle, battle.p1.active[1]);\n+\t\t});\n \n-\tfor (const cursePos of [0, 1, 2]) {\n-\t\tit('should target an opponent in Triples even if the user is on position ' + cursePos, () => {\n-\t\t\tconst p1team = triplesTeams[0].slice(1);\n-\t\t\tp1team.splice(cursePos, 0, triplesTeams[0][0]);\n-\t\t\tconst p2team = triplesTeams[1].slice();\n+\t\tfor (const cursePos of [0, 1, 2]) {\n+\t\t\tit('should target an opponent in Triples even if the user is on position ' + cursePos, () => {\n+\t\t\t\tconst p1team = triplesTeams[0].slice(1);\n+\t\t\t\tp1team.splice(cursePos, 0, triplesTeams[0][0]);\n+\t\t\t\tconst p2team = triplesTeams[1].slice();\n \n-\t\t\tbattle = common.gen(5).createBattle({ gameType: 'triples' }, [p1team, p2team]);\n-\t\t\trunTriplesTest(battle, battle.p1.active[cursePos]);\n-\t\t});\n-\t}\n+\t\t\t\tbattle = common.gen(5).createBattle({ gameType: 'triples' }, [p1team, p2team]);\n+\t\t\t\trunTriplesTest(battle, battle.p1.active[cursePos]);\n+\t\t\t});\n+\t\t}\n+\t});\n });"
+    }
+  ]
+}

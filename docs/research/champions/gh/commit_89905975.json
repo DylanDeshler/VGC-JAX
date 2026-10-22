@@ -1,0 +1,149 @@
+{
+  "sha": "89905975ec62269aa2cbcd738d994b3c6cfa6bb5",
+  "node_id": "C_kwDOAC5c7toAKDg5OTA1OTc1ZWM2MjI2OWFhMmNiY2Q3MzhkOTk0YjNjNmNmYTZiYjU",
+  "commit": {
+    "author": {
+      "name": "André Bastos Dias",
+      "email": "80102738+andrebastosdias@users.noreply.github.com",
+      "date": "2026-09-30T21:56:19Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-09-30T21:56:19Z"
+    },
+    "message": "Champions: Implement Mega Sol + Electro Shot and Encore interactions (#12318)\n\n* Champions: Implement Mega Sol + Electro Shot and Encore interactions\n\n* Fix tests names\n\n* Fix Ceaseless Edge and Stone Axe vs Substitute\n\n* Add afterEach cleanup for No Retreat tests\n\n* Revert changes",
+    "tree": {
+      "sha": "993a88de15838b67367889a69a8abdf6e518cdc0",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/993a88de15838b67367889a69a8abdf6e518cdc0"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/89905975ec62269aa2cbcd738d994b3c6cfa6bb5",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqvYWDCRC1aQ7uu5UhlAAAqzsQAEjr43mLY1tPBF2PBnEUSAWa\nIFm2PZ2PW6ZLyvUgJmxNMxSlzEA6yUXAUTafM1WvbxEgaBSeEkgsNtmlCen87otR\nBBBTxYDIoZwmwFr+gJqPEnGiFNep49HbmJox2N6z/QfcYohDRMPDtrHFZPY/kwEp\n82EhtZoXJJdicSnpK/iT8Dasrz75KyzJrcokkRmp9U4d3YcTNu08SA/l2L7YyJMT\n1ObxMQBCWmsBgG8hnioS0crh450QAspD3WD0GEvtQDyZ/1zPCw5erKiYkaQ5RE4V\n3M35HvzgtMXfXMlckfds0WCq/Glmzun8DFmxSS33myj04ltLJJ4q/+TL6KlaLHgP\nRXJ2SgUMVoFZQvX3R2tYpiLU9mgxpLLOtianZ9zieQPwn+QtTT3xUo5u9j8MPlo7\n6AaHjS/3DVoPbEo+wOM7269wNFS5ab+9jPS/1CSCnMTJwuYYNWBOkkFb+82Xv2tT\nBkGaFV0buyzTi0Xij24hCsMhIB7mv+pbXX4/QU9M83ZUoVXmXyqNgZTaJfW6FJGp\nzjmFnUYeBCJ2iCzLg2OVS+0jEaeV1ipQSN3tb3YwIDL/BLD1AesTI0s8PaUhHpBn\nOXrwWwRPSHMtBDFsAxh+bDp13gN1HDFmpyNdHR56/AHpf3PSt/cMCc4HzLLLoLzo\nYpvMXD3pmcuOoHOoL03u\n=SDPx\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 993a88de15838b67367889a69a8abdf6e518cdc0\nparent 5a36d442ad3f8de91077f34c5c3cd7f00db7ff8e\nauthor André Bastos Dias <80102738+andrebastosdias@users.noreply.github.com> 1790805379 +0300\ncommitter GitHub <noreply@github.com> 1790805379 -0600\n\nChampions: Implement Mega Sol + Electro Shot and Encore interactions (#12318)\n\n* Champions: Implement Mega Sol + Electro Shot and Encore interactions\n\n* Fix tests names\n\n* Fix Ceaseless Edge and Stone Axe vs Substitute\n\n* Add afterEach cleanup for No Retreat tests\n\n* Revert changes",
+      "verified_at": "2026-09-30T21:56:20Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/89905975ec62269aa2cbcd738d994b3c6cfa6bb5",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/89905975ec62269aa2cbcd738d994b3c6cfa6bb5",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/89905975ec62269aa2cbcd738d994b3c6cfa6bb5/comments",
+  "author": {
+    "login": "andrebastosdias",
+    "id": 80102738,
+    "node_id": "MDQ6VXNlcjgwMTAyNzM4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/80102738?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/andrebastosdias",
+    "html_url": "https://github.com/andrebastosdias",
+    "followers_url": "https://api.github.com/users/andrebastosdias/followers",
+    "following_url": "https://api.github.com/users/andrebastosdias/following{/other_user}",
+    "gists_url": "https://api.github.com/users/andrebastosdias/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/andrebastosdias/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/andrebastosdias/subscriptions",
+    "organizations_url": "https://api.github.com/users/andrebastosdias/orgs",
+    "repos_url": "https://api.github.com/users/andrebastosdias/repos",
+    "events_url": "https://api.github.com/users/andrebastosdias/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/andrebastosdias/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "5a36d442ad3f8de91077f34c5c3cd7f00db7ff8e",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/5a36d442ad3f8de91077f34c5c3cd7f00db7ff8e",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/5a36d442ad3f8de91077f34c5c3cd7f00db7ff8e"
+    }
+  ],
+  "stats": {
+    "total": 198,
+    "additions": 154,
+    "deletions": 44
+  },
+  "files": [
+    {
+      "sha": "01b9ce6f0d0eeb73f98b7e5d93b75ec75256437e",
+      "filename": "data/mods/champions/moves.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 6,
+      "changes": 7,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/89905975ec62269aa2cbcd738d994b3c6cfa6bb5/data%2Fmods%2Fchampions%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/89905975ec62269aa2cbcd738d994b3c6cfa6bb5/data%2Fmods%2Fchampions%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fmoves.ts?ref=89905975ec62269aa2cbcd738d994b3c6cfa6bb5",
+      "patch": "@@ -326,21 +326,16 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\t\t\tconst action = this.queue.willMove(target);\n \t\t\t\tif (!action) {\n \t\t\t\t\tthis.effectState.duration!++;\n-\t\t\t\t\t// TODO: this is a quick fix, check if move priority is changed when Mental Herb cures Encore\n \t\t\t\t} else if (action.moveid !== move.id && !target.hasItem('mentalherb')) {\n-\t\t\t\t\tconst priority = action.priority -\n-\t\t\t\t\t\tthis.dex.moves.get(action.moveid).priority +\n-\t\t\t\t\t\tthis.dex.moves.get(move.id).priority;\n \t\t\t\t\tthis.queue.changeAction(target, {\n \t\t\t\t\t\tchoice: 'move',\n \t\t\t\t\t\t// target: undefined,\n \t\t\t\t\t\t// targetLoc: undefined,\n \t\t\t\t\t\tmoveid: move.id,\n-\t\t\t\t\t\torder: action.order,\n \t\t\t\t\t});\n-\t\t\t\t\tthis.queue.willMove(target)!.priority = priority;\n \t\t\t\t}\n \t\t\t},\n+\t\t\tonOverrideAction: undefined, // no inherit\n \t\t},\n \t},\n \tesperwing: {"
+    },
+    {
+      "sha": "511e7b0b54634d0211dc59f806925c00aa1bada6",
+      "filename": "sim/pokemon.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 2,
+      "changes": 3,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/89905975ec62269aa2cbcd738d994b3c6cfa6bb5/sim%2Fpokemon.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/89905975ec62269aa2cbcd738d994b3c6cfa6bb5/sim%2Fpokemon.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/sim%2Fpokemon.ts?ref=89905975ec62269aa2cbcd738d994b3c6cfa6bb5",
+      "patch": "@@ -2191,8 +2191,7 @@ export class Pokemon {\n \t\tif (!sourceEffect && this.battle.effect) sourceEffect = this.battle.effect;\n \t\tconst weather = this.battle.field.effectiveWeather();\n \t\tif (this.battle.activePokemon?.hasAbility('megasol') && sourceEffect &&\n-\t\t\t(sourceEffect.id === 'megasol' || sourceEffect.effectType === 'Move' || sourceEffect.effectType === 'Weather') &&\n-\t\t\tsourceEffect.id !== 'electroshot') {\n+\t\t\t(sourceEffect.id === 'megasol' || sourceEffect.effectType === 'Move' || sourceEffect.effectType === 'Weather')) {\n \t\t\tif (weather !== 'sunnyday' && message) this.battle.add('-activate', this, 'ability: Mega Sol');\n \t\t\treturn 'sunnyday' as ID;\n \t\t}"
+    },
+    {
+      "sha": "e2530c4c517bcf55364fc9952927adb1d69b7c30",
+      "filename": "test/sim/abilities/megasol.js",
+      "status": "removed",
+      "additions": 0,
+      "deletions": 36,
+      "changes": 36,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/5a36d442ad3f8de91077f34c5c3cd7f00db7ff8e/test%2Fsim%2Fabilities%2Fmegasol.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/5a36d442ad3f8de91077f34c5c3cd7f00db7ff8e/test%2Fsim%2Fabilities%2Fmegasol.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/test%2Fsim%2Fabilities%2Fmegasol.js?ref=5a36d442ad3f8de91077f34c5c3cd7f00db7ff8e",
+      "patch": "@@ -1,36 +0,0 @@\n-'use strict';\n-\n-const assert = require('./../../assert');\n-const common = require('./../../common');\n-\n-let battle;\n-\n-describe('Mega Sol', () => {\n-\tafterEach(() => {\n-\t\tbattle.destroy();\n-\t});\n-\n-\tit('should apply Sunny Day damage boosts', () => {\n-\t\tbattle = common.createBattle([[\n-\t\t\t{ species: \"Meganium\", item: 'meganiumite', moves: ['weatherball'] },\n-\t\t], [\n-\t\t\t{ species: \"Pelipper\", ability: 'drizzle', moves: ['sleeptalk'] },\n-\t\t]]);\n-\n-\t\tbattle.makeChoices('move weatherball mega', 'move sleeptalk');\n-\t\tconst pelipper = battle.p2.active[0];\n-\t\tassert.bounded(pelipper.maxhp - pelipper.hp, [98, 116]);\n-\t});\n-\n-\tit('should bypass weather defensive boosts', () => {\n-\t\tbattle = common.createBattle([[\n-\t\t\t{ species: \"Meganium\", item: 'meganiumite', moves: ['weatherball'] },\n-\t\t], [\n-\t\t\t{ species: \"Tyranitar\", item: 'tyranitarite', moves: ['sleeptalk'] },\n-\t\t]]);\n-\n-\t\tbattle.makeChoices('move weatherball mega', 'move sleeptalk mega');\n-\t\tconst tyranitar = battle.p2.active[0];\n-\t\tassert.bounded(tyranitar.maxhp - tyranitar.hp, [63, 75]);\n-\t});\n-});"
+    },
+    {
+      "sha": "91d8f6dd4e33fa81460915cfc80448a43cf2cf20",
+      "filename": "test/sim/champions.js",
+      "status": "modified",
+      "additions": 133,
+      "deletions": 0,
+      "changes": 133,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/89905975ec62269aa2cbcd738d994b3c6cfa6bb5/test%2Fsim%2Fchampions.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/89905975ec62269aa2cbcd738d994b3c6cfa6bb5/test%2Fsim%2Fchampions.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/test%2Fsim%2Fchampions.js?ref=89905975ec62269aa2cbcd738d994b3c6cfa6bb5",
+      "patch": "@@ -15,6 +15,82 @@ const createChampionsBattle = (options, teams) => {\n \treturn common.createBattle({ formatid, ...options }, teams);\n };\n \n+describe('Mega Sol', () => {\n+\tafterEach(() => {\n+\t\tbattle.destroy();\n+\t});\n+\n+\tit('should apply Sunny Day damage boosts', () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: \"Meganium\", item: 'meganiumite', moves: ['weatherball'] },\n+\t\t], [\n+\t\t\t{ species: \"Pelipper\", ability: 'drizzle', moves: ['sleeptalk'] },\n+\t\t]]);\n+\n+\t\tbattle.makeChoices('move weatherball mega', 'move sleeptalk');\n+\t\tconst pelipper = battle.p2.active[0];\n+\t\tassert.bounded(pelipper.maxhp - pelipper.hp, [98, 116]);\n+\t});\n+\n+\tit('should bypass weather defensive boosts', () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: \"Meganium\", item: 'meganiumite', moves: ['weatherball'] },\n+\t\t], [\n+\t\t\t{ species: \"Tyranitar\", item: 'tyranitarite', moves: ['sleeptalk'] },\n+\t\t]]);\n+\n+\t\tbattle.makeChoices('move weatherball mega', 'move sleeptalk mega');\n+\t\tconst tyranitar = battle.p2.active[0];\n+\t\tassert.bounded(tyranitar.maxhp - tyranitar.hp, [63, 75]);\n+\t});\n+\n+\tit('should force Electro Shot to charge under rain', () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: \"Meganium\", item: 'meganiumite', moves: ['electroshot'] },\n+\t\t], [\n+\t\t\t{ species: \"Pelipper\", ability: 'drizzle', moves: ['sleeptalk'] },\n+\t\t]]);\n+\n+\t\tbattle.makeChoices('move electroshot mega', 'move sleeptalk');\n+\t\tconst pelipper = battle.p2.active[0];\n+\t\tassert.false.fainted(pelipper);\n+\t\tbattle.makeChoices('move electroshot', 'move sleeptalk');\n+\t\tassert.fainted(pelipper);\n+\t});\n+});\n+\n+describe('Prankster', () => {\n+\tafterEach(() => {\n+\t\tbattle.destroy();\n+\t});\n+\n+\tit('should cause Status moves forced by Encore to fail against Dark Pokémon', () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: \"Liepard\", ability: 'prankster', moves: ['encore'] },\n+\t\t], [\n+\t\t\t{ species: \"Riolu\", ability: 'prankster', moves: ['confide', 'return'] },\n+\t\t]]);\n+\t\tbattle.makeChoices('move encore', 'move confide');\n+\t\tbattle.makeChoices('move encore', 'move return');\n+\t\tassert.statStage(battle.p1.active[0], 'spa', 0);\n+\t});\n+\n+\tit('should not cause damaging moves forced by Encore to fail against Dark Pokémon even if the attacker intended to use a Status move', () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: \"Liepard\", ability: 'prankster', moves: ['encore', 'nastyplot'] },\n+\t\t\t{ species: \"Tapu Fini\", ability: 'mistysurge', moves: ['calmmind'] },\n+\t\t], [\n+\t\t\t{ species: \"Meowstic\", ability: 'prankster', moves: ['frustration', 'leer'] },\n+\t\t\t{ species: \"Lopunny\", ability: 'limber', moves: ['agility'] },\n+\t\t]]);\n+\n+\t\tbattle.makeChoices('move encore 1, move calmmind', 'move frustration 2, move agility');\n+\t\tbattle.makeChoices('move encore 1, move calmmind', 'move leer, move agility');\n+\t\tassert(battle.p2.active[0].volatiles['encore'], `Meowstic should be encored`);\n+\t\tassert.false.fullHP(battle.p1.active[0]);\n+\t});\n+});\n+\n describe('Curse', () => {\n \tafterEach(() => {\n \t\tbattle.destroy();\n@@ -364,3 +440,60 @@ describe('Curse', () => {\n \t\tassert.equal(aerodactyl.hp, aerodactyl.maxhp - curseResidual * 2);\n \t});\n });\n+\n+describe('Encore', () => {\n+\tafterEach(() => {\n+\t\tbattle.destroy();\n+\t});\n+\n+\tit(`should restore the priority of the originally selected move`, () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'regieleki', moves: ['sleeptalk', 'substitute'] },\n+\t\t\t{ species: 'pichu', moves: ['sleeptalk'] },\n+\t\t], [\n+\t\t\t{ species: 'whimsicott', ability: 'prankster', moves: ['sleeptalk', 'encore'] },\n+\t\t\t{ species: 'terrakion', moves: ['quickattack', 'headlongrush'] },\n+\t\t]]);\n+\n+\t\tconst eleki = battle.p1.active[0];\n+\t\tbattle.makeChoices('auto', 'move sleeptalk, move headlongrush 2');\n+\t\tbattle.makeChoices('move substitute', 'move encore -2, move quickattack 1');\n+\n+\t\tassert.false.fainted(eleki);\n+\t});\n+\n+\tit(`should restore the priority of the originally selected move once and get blocked when appropriate`, () => {\n+\t\tbattle = createChampionsBattle({ gameType: 'doubles' }, [[\n+\t\t\t{ species: 'regieleki', moves: ['psychicterrain'] },\n+\t\t\t{ species: 'pichu', moves: ['sleeptalk'] },\n+\t\t], [\n+\t\t\t{ species: 'whimsicott', ability: 'prankster', moves: ['sleeptalk', 'encore'] },\n+\t\t\t{ species: 'terrakion', moves: ['quickattack', 'headlongrush'] },\n+\t\t]]);\n+\n+\t\tconst eleki = battle.p1.active[0];\n+\t\tbattle.makeChoices('auto', 'move sleeptalk, move quickattack 2');\n+\t\tbattle.makeChoices('auto', 'move encore -2, move headlongrush 1');\n+\t\tassert.fullHP(eleki);\n+\t});\n+});\n+\n+describe('No Retreat', () => {\n+\tafterEach(() => {\n+\t\tbattle.destroy();\n+\t});\n+\n+\tit.skip(`should not allow usage multiple times in a row even if it has the trapped volatile`, () => {\n+\t\tbattle = createChampionsBattle([[\n+\t\t\t{ species: \"Wynaut\", moves: ['noretreat'] },\n+\t\t], [\n+\t\t\t{ species: \"Caterpie\", moves: ['block'] },\n+\t\t]]);\n+\n+\t\tconst wynaut = battle.p1.active[0];\n+\t\tbattle.makeChoices();\n+\t\tassert.statStage(wynaut, 'atk', 1);\n+\t\tbattle.makeChoices();\n+\t\tassert.statStage(wynaut, 'atk', 1);\n+\t});\n+});"
+    },
+    {
+      "sha": "6e3b8b6308f511f42ca83ebf5366f8bead5d3246",
+      "filename": "test/sim/moves/noretreat.js",
+      "status": "modified",
+      "additions": 19,
+      "deletions": 0,
+      "changes": 19,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/89905975ec62269aa2cbcd738d994b3c6cfa6bb5/test%2Fsim%2Fmoves%2Fnoretreat.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/89905975ec62269aa2cbcd738d994b3c6cfa6bb5/test%2Fsim%2Fmoves%2Fnoretreat.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/test%2Fsim%2Fmoves%2Fnoretreat.js?ref=89905975ec62269aa2cbcd738d994b3c6cfa6bb5",
+      "patch": "@@ -37,4 +37,23 @@ describe('No Retreat', () => {\n \t\tconst wynaut = battle.p1.active[0];\n \t\tassert.statStage(wynaut, 'atk', 2);\n \t});\n+\n+\tit(`should not trap the user if it is already trapped`, () => {\n+\t\tbattle = common.createBattle([[\n+\t\t\t{ species: \"Wynaut\", moves: ['noretreat', 'splash'] },\n+\t\t\t{ species: \"Magikarp\", moves: ['splash'] },\n+\t\t], [\n+\t\t\t{ species: \"Caterpie\", moves: ['block'] },\n+\t\t\t{ species: \"Weedle\", moves: ['splash'] },\n+\t\t]]);\n+\n+\t\tconst wynaut = battle.p1.active[0];\n+\t\tbattle.makeChoices();\n+\t\tbattle.makeChoices();\n+\t\tassert.statStage(wynaut, 'atk', 2);\n+\n+\t\t// Should not be trapped after caterpie switches out\n+\t\tbattle.makeChoices('move splash', 'switch 2');\n+\t\tbattle.makeChoices('switch 2', 'move splash');\n+\t});\n });"
+    }
+  ]
+}

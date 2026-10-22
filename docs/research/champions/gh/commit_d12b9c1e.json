@@ -1,0 +1,125 @@
+{
+  "sha": "d12b9c1e905d1f98dd0e2f2fd04987d721a735f5",
+  "node_id": "C_kwDOAC5c7toAKGQxMmI5YzFlOTA1ZDFmOThkZDBlMmYyZmQwNDk4N2Q3MjFhNzM1ZjU",
+  "commit": {
+    "author": {
+      "name": "ShivaD173",
+      "email": "ShivaD173@users.noreply.github.com",
+      "date": "2026-10-16T19:30:44Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-10-16T19:30:44Z"
+    },
+    "message": "Champions: Can no longer double No Retreat when already trapped (#12124)\n\n* No Retreat no longer can be double clicked when already trapped\n\n* No longer display message if already trapped\n\n* Formatting\n\n* Added Andre + Ukerab's implementation\n\n* Added tests\n\n* Add 2 no retreats in test 3\n\n* Re-add Champions no retreat test",
+    "tree": {
+      "sha": "06a187e156a640f7ffc05db6899aeb7b6d2b2b11",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/06a187e156a640f7ffc05db6899aeb7b6d2b2b11"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/d12b9c1e905d1f98dd0e2f2fd04987d721a735f5",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq0ntkCRC1aQ7uu5UhlAAAj1gQAFPayqf1x3WbxUCIuY7nCD43\nSGRnyVS+3y+RzhZfWzIFYhba/d/olrrLGoU+Mzgis+VcpOqrqzUcImCqAr3mJUcP\n5cfBkL8MywGb2Cx2thS15yqp/o3TN6751jjnckoc29LuYV+D6lCyCGsU52pXPwt9\n4Nuu+EDS3Sb5u0sEkifqVPltk6r/XVubWz3VbMg3N8tl6oNvV4Cniy8EKO1BJKw0\nhZ1gYnCYMjiQ475P8cYybvlyB+MGQKP7DAxaADcYLwMmKiOwV3RQt8A8DAfrbMdC\n5Bkx1caxaG4bqM+Qx7+YZKhi2Garjfpb0ubh43lLvtf9vneZR79XndXPOdAqPNnw\n4AQAuVzJw/qaJqR9Ll1bE5wo846eMnPOzSQLDg7v09V56wivCLUtDK38zfPIoy8+\nSOll983RWrXgjwFiPT9aLxoKstqHf9vw8YoDQY20sDMDbMvHvNF4gQtImT0QN2+1\nhhieFo4NJNGK4+NboGcu/nitX2SmUJ3mRHK2V8J2rEgjgxv26SBgEypH/oFTgaAu\nr3QZ3j0P5NkTYcoUEO3DSFl7MRz2yw9S/Y7cAf25MdaHWVUG75txYb2jTGbgEnHP\nr53s+g9Gdba2sqdZe8VYoOYiO0830lxEJPdaNO0d+CNJ/ye1sC3snNEp3krg/TfU\nFpUUYf+dq77va+uO6cWP\n=PGlK\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 06a187e156a640f7ffc05db6899aeb7b6d2b2b11\nparent bc281dae0e46e8a5edc03db4c4b914fe8818dde6\nauthor ShivaD173 <ShivaD173@users.noreply.github.com> 1792179044 -0400\ncommitter GitHub <noreply@github.com> 1792179044 -0600\n\nChampions: Can no longer double No Retreat when already trapped (#12124)\n\n* No Retreat no longer can be double clicked when already trapped\n\n* No longer display message if already trapped\n\n* Formatting\n\n* Added Andre + Ukerab's implementation\n\n* Added tests\n\n* Add 2 no retreats in test 3\n\n* Re-add Champions no retreat test",
+      "verified_at": "2026-10-16T19:30:45Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/d12b9c1e905d1f98dd0e2f2fd04987d721a735f5",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/d12b9c1e905d1f98dd0e2f2fd04987d721a735f5",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/d12b9c1e905d1f98dd0e2f2fd04987d721a735f5/comments",
+  "author": {
+    "login": "ShivaD173",
+    "id": 13453363,
+    "node_id": "MDQ6VXNlcjEzNDUzMzYz",
+    "avatar_url": "https://avatars.githubusercontent.com/u/13453363?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/ShivaD173",
+    "html_url": "https://github.com/ShivaD173",
+    "followers_url": "https://api.github.com/users/ShivaD173/followers",
+    "following_url": "https://api.github.com/users/ShivaD173/following{/other_user}",
+    "gists_url": "https://api.github.com/users/ShivaD173/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/ShivaD173/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/ShivaD173/subscriptions",
+    "organizations_url": "https://api.github.com/users/ShivaD173/orgs",
+    "repos_url": "https://api.github.com/users/ShivaD173/repos",
+    "events_url": "https://api.github.com/users/ShivaD173/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/ShivaD173/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "bc281dae0e46e8a5edc03db4c4b914fe8818dde6",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/bc281dae0e46e8a5edc03db4c4b914fe8818dde6",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/bc281dae0e46e8a5edc03db4c4b914fe8818dde6"
+    }
+  ],
+  "stats": {
+    "total": 18,
+    "additions": 11,
+    "deletions": 7
+  },
+  "files": [
+    {
+      "sha": "c191a6f95a7f0e3c34352bd76aac99e7984cdf76",
+      "filename": "data/mods/champions/moves.ts",
+      "status": "modified",
+      "additions": 9,
+      "deletions": 0,
+      "changes": 9,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/d12b9c1e905d1f98dd0e2f2fd04987d721a735f5/data%2Fmods%2Fchampions%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/d12b9c1e905d1f98dd0e2f2fd04987d721a735f5/data%2Fmods%2Fchampions%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fmoves.ts?ref=d12b9c1e905d1f98dd0e2f2fd04987d721a735f5",
+      "patch": "@@ -689,6 +689,15 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {\n \t\tinherit: true,\n \t\tpp: 5,\n \t},\n+\tnoretreat: {\n+\t\tinherit: true,\n+\t\tcondition: {\n+\t\t\tonStart(pokemon) {\n+\t\t\t\tif (!pokemon.addVolatile('trapped')) return;\n+\t\t\t\tthis.add('-start', pokemon, 'move: No Retreat');\n+\t\t\t},\n+\t\t},\n+\t},\n \tnoxioustorque: {\n \t\tinherit: true,\n \t\tisNonstandard: \"Past\","
+    },
+    {
+      "sha": "022f7f77cb07b0c167d52357dafa0f90184c7670",
+      "filename": "data/moves.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 6,
+      "changes": 7,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/d12b9c1e905d1f98dd0e2f2fd04987d721a735f5/data%2Fmoves.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/d12b9c1e905d1f98dd0e2f2fd04987d721a735f5/data%2Fmoves.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmoves.ts?ref=d12b9c1e905d1f98dd0e2f2fd04987d721a735f5",
+      "patch": "@@ -12796,17 +12796,12 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {\n \t\tvolatileStatus: 'noretreat',\n \t\tonTry(source, target, move) {\n \t\t\tif (source.volatiles['noretreat']) return false;\n-\t\t\tif (source.volatiles['trapped']) {\n-\t\t\t\tdelete move.volatileStatus;\n-\t\t\t}\n \t\t},\n \t\tcondition: {\n \t\t\tonStart(pokemon) {\n+\t\t\t\tif (!pokemon.addVolatile('trapped')) return false;\n \t\t\t\tthis.add('-start', pokemon, 'move: No Retreat');\n \t\t\t},\n-\t\t\tonTrapPokemon(pokemon) {\n-\t\t\t\tpokemon.tryTrap();\n-\t\t\t},\n \t\t},\n \t\tboosts: {\n \t\t\tatk: 1,"
+    },
+    {
+      "sha": "d3332682082a155269d5ab9802302b3b63392b03",
+      "filename": "test/sim/champions.js",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/d12b9c1e905d1f98dd0e2f2fd04987d721a735f5/test%2Fsim%2Fchampions.js",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/d12b9c1e905d1f98dd0e2f2fd04987d721a735f5/test%2Fsim%2Fchampions.js",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/test%2Fsim%2Fchampions.js?ref=d12b9c1e905d1f98dd0e2f2fd04987d721a735f5",
+      "patch": "@@ -751,7 +751,7 @@ describe('Champions moves', () => {\n \t});\n \n \tdescribe('No Retreat', () => {\n-\t\tit.skip(`should not allow usage multiple times in a row even if it has the trapped volatile`, () => {\n+\t\tit(`should not allow usage multiple times in a row even if it has the trapped volatile`, () => {\n \t\t\tbattle = createChampionsBattle([[\n \t\t\t\t{ species: \"Wynaut\", moves: ['noretreat'] },\n \t\t\t], ["
+    }
+  ]
+}

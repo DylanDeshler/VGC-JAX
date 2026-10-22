@@ -1,0 +1,33 @@
+{
+ "N": 300,
+ "format": "gen9championsvgc2026regmc",
+ "randomDoublesRaw": {
+  "validRate": 0.10333333333333333,
+  "msPerTeam": 2.64,
+  "topProblems": {
+   "limited to 1 of each item by Item Clause.": 269,
+   "(You have more than 1 Sitrus Berry)": 113,
+   "(You have more than 1 Life Orb)": 104,
+   "Floette-Eternal is only obtainable from an event - it needs to match i": 7,
+   "level 72 to be from its event.": 7,
+   "(You have more than 1 Choice Scarf)": 15,
+   "(You have more than 1 Leftovers)": 29,
+   "level 50 to be evolved.": 4,
+   "(You have more than 1 Focus Sash)": 5,
+   "(You have more than 1 White Herb)": 3
+  }
+ },
+ "randomDoublesFixed": {
+  "validRate": 1,
+  "msPerTeamInclValidation": 1.93,
+  "distinctSpecies": 284
+ },
+ "chaos": {
+  "firstTryValidRate": 1,
+  "meanAttempts": 1,
+  "msPerTeamInclValidation": 1.46,
+  "distinctSpecies": 86,
+  "distinctMegaStones": 27,
+  "poolSize": 190
+ }
+}

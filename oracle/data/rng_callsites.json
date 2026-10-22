@@ -1,0 +1,2762 @@
+{
+ "generated": "2026-10-21T22:55:32.366Z",
+ "ps": {
+  "root": "/tmp/psrepo/ps",
+  "commit": "d601443",
+  "format": "gen9championsvgc2026regmc",
+  "mod": "champions"
+ },
+ "legalSpeciesCount": 382,
+ "summary": {
+  "total": 88,
+  "reachable": 52,
+  "conditional": 2,
+  "unreachable": 34
+ },
+ "kinds": {
+  "SPEED_TIE (primitive)": [
+   "sim/battle.ts:461"
+  ],
+  "SPEED_TIE_EACH_EVENT": [
+   "sim/battle.ts:473"
+  ],
+  "SPEED_TIE_FIELD_EVENT": [
+   "sim/battle.ts:512"
+  ],
+  "SPEED_TIE_HANDLER_ORDER": [
+   "sim/battle.ts:801"
+  ],
+  "FORCED_SWITCH_PICK": [
+   "sim/battle.ts:1586"
+  ],
+  "DAMAGE_ROLL": [
+   "sim/battle.ts:2409"
+  ],
+  "RANDOM_TARGET": [
+   "sim/battle.ts:2523",
+   "sim/side.ts:372",
+   "data/conditions.ts:305"
+  ],
+  "SPEED_TIE_SWITCHIN_ORDER": [
+   "sim/battle-actions.ts:235"
+  ],
+  "ACCURACY": [
+   "sim/battle-actions.ts:800",
+   "data/mods/champions/scripts.ts:507"
+  ],
+  "SELF_EFFECT_ROLL": [
+   "sim/battle-actions.ts:1381"
+  ],
+  "SECONDARY": [
+   "sim/battle-actions.ts:1399"
+  ],
+  "CRIT": [
+   "sim/battle-actions.ts:1695"
+  ],
+  "QUEUE_INSERT_TIE": [
+   "sim/battle-queue.ts:406"
+  ],
+  "SPEED_TIE_ACTION_ORDER": [
+   "sim/battle-queue.ts:426"
+  ],
+  "GENDER": [
+   "sim/pokemon.ts:361"
+  ],
+  "ABILITY_ONHIT_PROC": [
+   "data/abilities.ts:788",
+   "data/abilities.ts:801",
+   "data/abilities.ts:1164",
+   "data/abilities.ts:1320",
+   "data/abilities.ts:3348",
+   "data/abilities.ts:3376",
+   "data/abilities.ts:4540"
+  ],
+  "ABILITY_FOREWARN_PICK": [
+   "data/abilities.ts:1526"
+  ],
+  "ABILITY_RESIDUAL_PROC": [
+   "data/abilities.ts:1805",
+   "data/abilities.ts:4192",
+   "data/mods/champions/abilities.ts:43"
+  ],
+  "SPEED_TIE_ABILITY": [
+   "data/abilities.ts:2483"
+  ],
+  "ABILITY_MOODY_STAT": [
+   "data/abilities.ts:2715",
+   "data/abilities.ts:2726"
+  ],
+  "ABILITY_PICKUP_TARGET": [
+   "data/abilities.ts:3272"
+  ],
+  "PRIORITY_PROC": [
+   "data/abilities.ts:3739"
+  ],
+  "ABILITY_TRACE_TARGET": [
+   "data/abilities.ts:5145"
+  ],
+  "ITEM_FOCUS_BAND": [
+   "data/items.ts:2273"
+  ],
+  "QUICK_CLAW": [
+   "data/items.ts:5017"
+  ],
+  "MOVE_ACUPRESSURE_STAT": [
+   "data/moves.ts:155"
+  ],
+  "ALLY_SWITCH_STALL": [
+   "data/moves.ts:343"
+  ],
+  "INFATUATION": [
+   "data/moves.ts:745"
+  ],
+  "MOVE_FICKLE_BEAM": [
+   "data/moves.ts:5231"
+  ],
+  "MOVE_SHELLSIDEARM_TIE": [
+   "data/moves.ts:16232"
+  ],
+  "MOVE_CALL_PICK": [
+   "data/moves.ts:16887"
+  ],
+  "SECONDARY_STATUS_PICK": [
+   "data/moves.ts:19853",
+   "data/mods/champions/moves.ts:223"
+  ],
+  "CONFUSION_DURATION": [
+   "data/conditions.ts:174"
+  ],
+  "CONFUSION_SELFHIT": [
+   "data/conditions.ts:187"
+  ],
+  "PARTIAL_TRAP_DURATION": [
+   "data/conditions.ts:227"
+  ],
+  "LOCKEDMOVE_DURATION": [
+   "data/conditions.ts:265"
+  ],
+  "PROTECT_STALL": [
+   "data/conditions.ts:456"
+  ],
+  "PARALYSIS": [
+   "data/mods/champions/conditions.ts:5"
+  ],
+  "SLEEP_DURATION": [
+   "data/mods/champions/conditions.ts:23"
+  ],
+  "FREEZE_THAW": [
+   "data/mods/champions/conditions.ts:49"
+  ],
+  "MULTIHIT_COUNT": [
+   "data/mods/champions/scripts.ts:439"
+  ]
+ },
+ "contextFields": {
+  "turn": "battle.turn (choices for turn N are committed while battle.turn === N; turn 0 = leads/team preview)",
+  "actor": "slot label p1a/p1b/p2a/p2b of the acting/affected mon (resolved from the context expression)",
+  "target": "slot label of the other mon",
+  "move": "battle.activeMove.id",
+  "hit": "battle.activeMove.hit (1-based multi-hit index; 0/1 for single hit)",
+  "effect": "battle.effect.id (ability/item/condition whose handler is drawing)",
+  "ord": "occurrence index of an otherwise-identical key within the battle (e.g. secondary #2 of Fire Fang)",
+  "tied": "sorted canonical labels of the tied elements of a speedSort shuffle (perm outcome = labels in result order)",
+  "event": "id of the runEvent/fieldEvent whose handler list is being sorted",
+  "caller": "speedSort caller frame"
+ },
+ "callsites": [
+  {
+   "id": "sim/battle.ts:461",
+   "file": "sim/battle.ts",
+   "line": 461,
+   "enclosing": "speedSort",
+   "method": "shuffle",
+   "args": "list, sorted, sorted + nextIndexes.length",
+   "code": "this.prng.shuffle(list, sorted, sorted + nextIndexes.length);",
+   "kind": "SPEED_TIE (primitive)",
+   "decides": "Fisher-Yates order of a run of equal-priority elements inside speedSort",
+   "distribution": "shuffle(list, start, end): (end-start-1) uniform draws",
+   "outcome": "perm",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "caller",
+     "tied"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "The only shuffle in a battle. Semantics come from the speedSort caller (rows below); classify by the caller frame.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle.ts:473",
+   "file": "sim/battle.ts",
+   "line": 473,
+   "enclosing": "eachEvent",
+   "method": "speedSort",
+   "args": "actives, (a, b) => b.speed - a.speed",
+   "code": "this.speedSort(actives, (a, b) => b.speed - a.speed);",
+   "kind": "SPEED_TIE_EACH_EVENT",
+   "decides": "order in which equal-speed active mons run an eachEvent (e.g. Update after Weather)",
+   "distribution": "shuffle of tied actives",
+   "outcome": "perm",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "event",
+     "tied"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "eachEvent(Weather/Update/...). Usually unobservable; observable when two tied mons both react (e.g. two Booster Energy/seed activations).",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle.ts:512",
+   "file": "sim/battle.ts",
+   "line": 512,
+   "enclosing": "fieldEvent",
+   "method": "speedSort",
+   "args": "handlers",
+   "code": "this.speedSort(handlers);",
+   "kind": "SPEED_TIE_FIELD_EVENT",
+   "decides": "order of tied handlers in fieldEvent (Residual, SwitchIn)",
+   "distribution": "shuffle of tied handlers",
+   "outcome": "perm",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "event",
+     "tied"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "End-of-turn residual order and switch-in ability order among speed-tied holders. Observable (e.g. who gets Intimidated first, Leftovers vs poison order across mons).",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle.ts:801",
+   "file": "sim/battle.ts",
+   "line": 801,
+   "enclosing": "runEvent",
+   "method": "speedSort",
+   "args": "handlers",
+   "code": "this.speedSort(handlers);",
+   "kind": "SPEED_TIE_HANDLER_ORDER",
+   "decides": "order of tied handlers inside runEvent",
+   "distribution": "shuffle of tied handlers",
+   "outcome": "perm",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "event",
+     "tied"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Fires very often (any event with >=2 equal-priority handlers from different holders, e.g. two Pokémon with same Speed both listening to an \"Any\" event). Mostly unobservable; most frequent draw kind by count.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle.ts:1586",
+   "file": "sim/battle.ts",
+   "line": 1586,
+   "enclosing": "getRandomSwitchable",
+   "method": "sample",
+   "args": "canSwitchIn",
+   "code": "return canSwitchIn.length ? this.sample(canSwitchIn) : null;",
+   "kind": "FORCED_SWITCH_PICK",
+   "decides": "which benched mon is dragged in (Roar, Whirlwind, Dragon Tail, Circle Throw, Red Card)",
+   "distribution": "sample(canSwitchIn)",
+   "outcome": "index",
+   "context": {
+    "actor": "sw.side",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "slot"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "dragIn(). Outcome = bench index among legal switch-ins (order = side.pokemon order).",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle.ts:1652",
+   "file": "sim/battle.ts",
+   "line": 1652,
+   "enclosing": "endTurn",
+   "method": "speedSort",
+   "args": "dynamaxEnding",
+   "code": "this.speedSort(dynamaxEnding);",
+   "kind": "SPEED_TIE_DYNAMAX_END",
+   "decides": "order of Dynamax-ending messages",
+   "distribution": "speedSort",
+   "outcome": "perm",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "No Dynamax in Champions.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle.ts:1814",
+   "file": "sim/battle.ts",
+   "line": 1814,
+   "enclosing": "endTurn",
+   "method": "randomChance",
+   "args": "60, 256",
+   "code": "if (this.gen === 2) this.quickClawRoll = this.randomChance(60, 256);",
+   "kind": "QUICK_CLAW_GEN2",
+   "decides": "gen 2 Quick Claw",
+   "distribution": "randomChance(60,256)",
+   "outcome": "bool",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "gen === 2 only.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle.ts:1815",
+   "file": "sim/battle.ts",
+   "line": 1815,
+   "enclosing": "endTurn",
+   "method": "randomChance",
+   "args": "1, 5",
+   "code": "if (this.gen === 3) this.quickClawRoll = this.randomChance(1, 5);",
+   "kind": "QUICK_CLAW_GEN3",
+   "decides": "gen 3 Quick Claw",
+   "distribution": "randomChance(1,5)",
+   "outcome": "bool",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "gen === 3 only.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle.ts:2409",
+   "file": "sim/battle.ts",
+   "line": 2409,
+   "enclosing": "randomizer",
+   "method": "random",
+   "args": "16",
+   "code": "return tr(tr(baseDamage * (100 - this.random(16))) / 100);",
+   "kind": "DAMAGE_ROLL",
+   "decides": "damage random factor (100 - r)%",
+   "distribution": "random(16) -> r in 0..15 (0 = max roll)",
+   "outcome": "int",
+   "context": {
+    "actor": "last.WeatherModifyDamage.target",
+    "target": "last.WeatherModifyDamage.source",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Called from champions modifyDamage (per target, per hit) and from getConfusionDamage (caller frame => CONFUSION_SELFHIT_DAMAGE_ROLL, actor=target=self).",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle.ts:2523",
+   "file": "sim/battle.ts",
+   "line": 2523,
+   "enclosing": "getRandomTarget",
+   "method": "sample",
+   "args": "adjacentAllies",
+   "code": "return adjacentAllies.length ? this.sample(adjacentAllies) : null;",
+   "kind": "RANDOM_TARGET",
+   "decides": "random ally for an adjacentAlly move used without a target",
+   "distribution": "sample(adjacentAllies)",
+   "outcome": "index",
+   "context": {
+    "actor": "rt.pokemon",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "cond",
+   "notes": "Only when an adjacentAlly move (e.g. Aromatic Mist via Copycat) is called without a chosen target; 1 candidate in doubles => degenerate.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle.ts:2532",
+   "file": "sim/battle.ts",
+   "line": 2532,
+   "enclosing": "getRandomTarget",
+   "method": "sample",
+   "args": "adjacentFoes",
+   "code": "if (adjacentFoes.length) return this.sample(adjacentFoes);",
+   "kind": "RANDOM_TARGET",
+   "decides": "random adjacent foe (triples)",
+   "distribution": "sample(adjacentFoes)",
+   "outcome": "index",
+   "context": {
+    "actor": "rt.pokemon",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "no",
+   "notes": "activePerHalf > 2 only (triples / multi).",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-actions.ts:235",
+   "file": "sim/battle-actions.ts",
+   "line": 235,
+   "enclosing": "runSwitch",
+   "method": "speedSort",
+   "args": "allActive",
+   "code": "this.battle.speedSort(allActive);",
+   "kind": "SPEED_TIE_SWITCHIN_ORDER",
+   "decides": "speedOrder snapshot for simultaneous switch-ins (used to order SwitchIn handlers)",
+   "distribution": "speedSort(allActive)",
+   "outcome": "perm",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "tied"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Turn 0 leads and simultaneous replacements; observable via switch-in ability order (Intimidate/weather/terrain wars) when Speed ties.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-actions.ts:800",
+   "file": "sim/battle-actions.ts",
+   "line": 800,
+   "enclosing": "hitStepAccuracy",
+   "method": "randomChance",
+   "args": "accuracy, 100",
+   "code": "if (accuracy !== true && !this.battle.randomChance(accuracy, 100)) {",
+   "kind": "ACCURACY",
+   "decides": "move hits this target",
+   "distribution": "randomChance(acc, 100) with acc after boosts/modifiers",
+   "outcome": "bool",
+   "context": {
+    "actor": "last.Accuracy.source",
+    "target": "last.Accuracy.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "hitStepAccuracy, one draw per target (spread moves draw per target). No draw when accuracy===true (alwaysHit, No Guard, Lock-On...).",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-actions.ts:929",
+   "file": "sim/battle-actions.ts",
+   "line": 929,
+   "enclosing": "hitStepMoveHitLoop",
+   "method": "sample",
+   "args": "[2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5]",
+   "code": "targetHits = this.battle.sample([2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5]);",
+   "kind": "MULTIHIT_COUNT",
+   "decides": "2-5 hit count",
+   "distribution": "sample 35/35/15/15",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Overridden by champions scripts.ts hitStepMoveHitLoop (same logic at scripts.ts:439).",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-actions.ts:931",
+   "file": "sim/battle-actions.ts",
+   "line": 931,
+   "enclosing": "hitStepMoveHitLoop",
+   "method": "random",
+   "args": "2",
+   "code": "targetHits = 5 - this.battle.random(2);",
+   "kind": "MULTIHIT_COUNT",
+   "decides": "Loaded Dice 4-5",
+   "distribution": "5 - random(2)",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Overridden by champions scripts.ts:441.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-actions.ts:934",
+   "file": "sim/battle-actions.ts",
+   "line": 934,
+   "enclosing": "hitStepMoveHitLoop",
+   "method": "sample",
+   "args": "[2, 2, 2, 3, 3, 3, 4, 5]",
+   "code": "targetHits = this.battle.sample([2, 2, 2, 3, 3, 3, 4, 5]);",
+   "kind": "MULTIHIT_COUNT",
+   "decides": "gen<5 2-5 hits",
+   "distribution": "sample 3/3/1/1",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Overridden; gen < 5 only.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-actions.ts:937",
+   "file": "sim/battle-actions.ts",
+   "line": 937,
+   "enclosing": "hitStepMoveHitLoop",
+   "method": "random",
+   "args": "targetHits[0], targetHits[1] + 1",
+   "code": "targetHits = this.battle.random(targetHits[0], targetHits[1] + 1);",
+   "kind": "MULTIHIT_COUNT",
+   "decides": "generic [m,n] hit count",
+   "distribution": "random(m, n+1)",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Overridden by champions scripts.ts:447.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-actions.ts:940",
+   "file": "sim/battle-actions.ts",
+   "line": 940,
+   "enclosing": "hitStepMoveHitLoop",
+   "method": "random",
+   "args": "7",
+   "code": "if (targetHits === 10 && pokemon.hasItem('loadeddice')) targetHits -= this.battle.random(7);",
+   "kind": "MULTIHIT_COUNT",
+   "decides": "Loaded Dice Population Bomb",
+   "distribution": "10 - random(7)",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Overridden by champions scripts.ts:450.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-actions.ts:997",
+   "file": "sim/battle-actions.ts",
+   "line": 997,
+   "enclosing": "hitStepMoveHitLoop",
+   "method": "randomChance",
+   "args": "accuracy, 100",
+   "code": "if (accuracy !== true && !this.battle.randomChance(accuracy, 100)) break;",
+   "kind": "ACCURACY",
+   "decides": "per-hit accuracy (Triple Axel / Population Bomb)",
+   "distribution": "randomChance(acc,100)",
+   "outcome": "bool",
+   "context": {
+    "actor": "A",
+    "target": "last.Accuracy.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move",
+     "hit"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Overridden by champions scripts.ts:507.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-actions.ts:1381",
+   "file": "sim/battle-actions.ts",
+   "line": 1381,
+   "enclosing": "selfDrops",
+   "method": "random",
+   "args": "100",
+   "code": "const secondaryRoll = this.battle.random(100);",
+   "kind": "SELF_EFFECT_ROLL",
+   "decides": "chance of a move's self stat change (move.self.boosts)",
+   "distribution": "random(100) < self.chance",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Drawn even when self.chance is undefined (always applies: Close Combat, Draco Meteor...) => usually don't-care. Once per move (selfDropped) unless multihit.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-actions.ts:1399",
+   "file": "sim/battle-actions.ts",
+   "line": 1399,
+   "enclosing": "secondaries",
+   "method": "random",
+   "args": "100",
+   "code": "const secondaryRoll = this.battle.random(100);",
+   "kind": "SECONDARY",
+   "decides": "whether secondary effect i applies to this target",
+   "distribution": "random(100) < secondary.chance",
+   "outcome": "int",
+   "context": {
+    "actor": "last.ModifySecondaries.source",
+    "target": "last.ModifySecondaries.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move",
+     "hit",
+     "ord"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "One draw per (target, secondary) — drawn even when chance is undefined (don't-care). Moves with 2 secondaries (Fire Fang, Ice Fang, Thunder Fang) need the secondary index (ord). Serene Grace doubles chance (no extra draw). King's Rock adds a secondary.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-actions.ts:1695",
+   "file": "sim/battle-actions.ts",
+   "line": 1695,
+   "enclosing": "getDamage",
+   "method": "randomChance",
+   "args": "1, critMult[critRatio]",
+   "code": "moveHit.crit = this.battle.randomChance(1, critMult[critRatio]);",
+   "kind": "CRIT",
+   "decides": "critical hit on this target",
+   "distribution": "randomChance(1, [0,24,8,2,1][critRatio])",
+   "outcome": "bool",
+   "context": {
+    "actor": "last.ModifyCritRatio.target",
+    "target": "last.ModifyCritRatio.source",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "getDamage, per target per hit. No draw when willCrit is defined (Storm Throw, Flower Trick, Frost Breath) or critRatio clamps to 0. critRatio>=4 still draws randomChance(1,1).",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-queue.ts:406",
+   "file": "sim/battle-queue.ts",
+   "line": 406,
+   "enclosing": "insertChoice",
+   "method": "random",
+   "args": "firstIndex, lastIndex + 1",
+   "code": "const index = firstIndex === lastIndex ? firstIndex : this.battle.random(firstIndex, lastIndex + 1);",
+   "kind": "QUEUE_INSERT_TIE",
+   "decides": "insertion point of a mid-turn action among equal-priority queued actions",
+   "distribution": "random(firstIndex, lastIndex+1)",
+   "outcome": "int",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "inserted",
+     "tiedWith"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "insertChoice for runSwitch/megaEvo/instaswitch etc. Draws only when a speed-tied action is already queued. Outcome is a queue position => key by labels of the inserted action and the actions it ties with.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/battle-queue.ts:426",
+   "file": "sim/battle-queue.ts",
+   "line": 426,
+   "enclosing": "sort",
+   "method": "speedSort",
+   "args": "this.list",
+   "code": "this.battle.speedSort(this.list);",
+   "kind": "SPEED_TIE_ACTION_ORDER",
+   "decides": "order of speed-tied actions in the turn queue (the classic speed tie)",
+   "distribution": "speedSort(queue)",
+   "outcome": "perm",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "tied"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Includes ties between mega-evolution actions, switches, moves of equal priority/speed, and residual pseudo-actions.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/pokemon.ts:361",
+   "file": "sim/pokemon.ts",
+   "line": 361,
+   "enclosing": "constructor",
+   "method": "sample",
+   "args": "['M', 'F']",
+   "code": "this.gender = genders[set.gender] || this.species.gender || this.battle.sample(['M', 'F']);",
+   "kind": "GENDER",
+   "decides": "gender for a set with no gender on a mixed-gender species",
+   "distribution": "sample(['M','F'])",
+   "outcome": "index",
+   "context": {
+    "actor": "self (constructor)",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "side",
+     "teamIndex"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "At battle construction (turn 0, before team preview). Avoid by always setting gender in generated sets. Gender affects Attract/Cute Charm/Rivalry.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "sim/side.ts:372",
+   "file": "sim/side.ts",
+   "line": 372,
+   "enclosing": "randomFoe",
+   "method": "sample",
+   "args": "actives",
+   "code": "return this.battle.sample(actives);",
+   "kind": "RANDOM_TARGET",
+   "decides": "random foe when a move has no valid chosen target (randomNormal moves, retarget after the chosen target fainted, Dragon Darts)",
+   "distribution": "sample(foes)",
+   "outcome": "index",
+   "context": {
+    "actor": "rt.pokemon",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Called from getRandomTarget (doubles fallback). Draws even with 1 foe left (degenerate). Callers: queue.resolveAction (randomNormal: Outrage/Thrash/Petal Dance/Raging Fury/Uproar/Struggle at commit time), useMove retargeting, getTarget for smartTarget, champions Curse.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/abilities.ts:788",
+   "file": "data/abilities.ts",
+   "line": 788,
+   "enclosing": "cursedbody.onDamagingHit",
+   "method": "randomChance",
+   "args": "3, 10",
+   "code": "if (this.randomChance(3, 10)) {",
+   "kind": "ABILITY_ONHIT_PROC",
+   "decides": "Cursed Body disables the move",
+   "distribution": "randomChance(3,10)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.source",
+    "target": "ev.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "onDamagingHit (holder = ev.target). Only draws if source has a lastMove and is not already disabled.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:801",
+   "file": "data/abilities.ts",
+   "line": 801,
+   "enclosing": "cutecharm.onDamagingHit",
+   "method": "randomChance",
+   "args": "3, 10",
+   "code": "if (this.randomChance(3, 10)) {",
+   "kind": "ABILITY_ONHIT_PROC",
+   "decides": "Cute Charm infatuates attacker",
+   "distribution": "randomChance(3,10)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.source",
+    "target": "ev.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Contact only.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:1164",
+   "file": "data/abilities.ts",
+   "line": 1164,
+   "enclosing": "effectspore.onDamagingHit",
+   "method": "random",
+   "args": "100",
+   "code": "const r = this.random(100);",
+   "kind": "ABILITY_ONHIT_PROC",
+   "decides": "Effect Spore: slp (<11) / par (<21) / psn (<30) / none",
+   "distribution": "random(100)",
+   "outcome": "int",
+   "context": {
+    "actor": "ev.source",
+    "target": "ev.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Contact and powder-immunity check first.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:1320",
+   "file": "data/abilities.ts",
+   "line": 1320,
+   "enclosing": "flamebody.onDamagingHit",
+   "method": "randomChance",
+   "args": "3, 10",
+   "code": "if (this.randomChance(3, 10)) {",
+   "kind": "ABILITY_ONHIT_PROC",
+   "decides": "Flame Body burns attacker",
+   "distribution": "randomChance(3,10)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.source",
+    "target": "ev.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Contact only.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:1526",
+   "file": "data/abilities.ts",
+   "line": 1526,
+   "enclosing": "forewarn.onStart",
+   "method": "sample",
+   "args": "warnMoves",
+   "code": "const [warnMoveName, warnTarget] = this.sample(warnMoves);",
+   "kind": "ABILITY_FOREWARN_PICK",
+   "decides": "which tied highest-BP foe move Forewarn reveals",
+   "distribution": "sample(warnMoves)",
+   "outcome": "index",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Message-only (no state change) but consumes a draw.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:1805",
+   "file": "data/abilities.ts",
+   "line": 1805,
+   "enclosing": "harvest.onResidual",
+   "method": "randomChance",
+   "args": "1, 2",
+   "code": "if (this.field.isWeather(['sunnyday', 'desolateland']) || this.randomChance(1, 2)) {",
+   "kind": "ABILITY_RESIDUAL_PROC",
+   "decides": "Harvest restores berry (always in sun)",
+   "distribution": "randomChance(1,2)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Short-circuit: no draw in sun.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:1823",
+   "file": "data/abilities.ts",
+   "line": 1823,
+   "enclosing": "healer.onResidual",
+   "method": "randomChance",
+   "args": "3, 10",
+   "code": "if (allyActive.status && this.randomChance(3, 10)) {",
+   "kind": "ABILITY_RESIDUAL_PROC",
+   "decides": "Healer (base 30%)",
+   "distribution": "randomChance(3,10)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": "ally",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Overridden by champions abilities.ts:43 (50%).",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:2483",
+   "file": "data/abilities.ts",
+   "line": 2483,
+   "enclosing": "magician.onAfterMoveSecondarySelf",
+   "method": "speedSort",
+   "args": "hitTargets",
+   "code": "this.speedSort(hitTargets);",
+   "kind": "SPEED_TIE_ABILITY",
+   "decides": "Magician steal order among speed-tied hit targets",
+   "distribution": "speedSort(hitTargets)",
+   "outcome": "perm",
+   "context": {
+    "actor": "ev.source",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect",
+     "tied"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Only matters for spread moves hitting two tied item holders.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:2715",
+   "file": "data/abilities.ts",
+   "line": 2715,
+   "enclosing": "moody.onResidual",
+   "method": "sample",
+   "args": "stats",
+   "code": "let randomStat: BoostID | undefined = stats.length ? this.sample(stats) : undefined;",
+   "kind": "ABILITY_MOODY_STAT",
+   "decides": "Moody stat to raise",
+   "distribution": "sample(stats)",
+   "outcome": "index",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect",
+     "ord"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Moody is legal by species but usually banned in Smogon formats; Reg M-C has no Moody ban.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:2726",
+   "file": "data/abilities.ts",
+   "line": 2726,
+   "enclosing": "moody.onResidual",
+   "method": "sample",
+   "args": "stats",
+   "code": "randomStat = stats.length ? this.sample(stats) : undefined;",
+   "kind": "ABILITY_MOODY_STAT",
+   "decides": "Moody stat to lower",
+   "distribution": "sample(stats)",
+   "outcome": "index",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect",
+     "ord"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Second draw of the same handler => ord=1.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:2952",
+   "file": "data/abilities.ts",
+   "line": 2952,
+   "enclosing": "neutralizinggas.onEnd",
+   "method": "speedSort",
+   "args": "sortedActive",
+   "code": "this.speedSort(sortedActive);",
+   "kind": "SPEED_TIE_ABILITY",
+   "decides": "Neutralizing Gas end order",
+   "distribution": "speedSort",
+   "outcome": "perm",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "tied"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Neutralizing Gas not on any legal species.",
+   "dexAvailability": "available",
+   "dexReachable": false
+  },
+  {
+   "id": "data/abilities.ts:3272",
+   "file": "data/abilities.ts",
+   "line": 3272,
+   "enclosing": "pickup.onResidual",
+   "method": "sample",
+   "args": "pickupTargets",
+   "code": "const randomTarget = this.sample(pickupTargets);",
+   "kind": "ABILITY_PICKUP_TARGET",
+   "decides": "whose consumed item Pickup takes",
+   "distribution": "sample(pickupTargets)",
+   "outcome": "index",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Residual.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:3348",
+   "file": "data/abilities.ts",
+   "line": 3348,
+   "enclosing": "poisonpoint.onDamagingHit",
+   "method": "randomChance",
+   "args": "3, 10",
+   "code": "if (this.randomChance(3, 10)) {",
+   "kind": "ABILITY_ONHIT_PROC",
+   "decides": "Poison Point poisons attacker",
+   "distribution": "randomChance(3,10)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.source",
+    "target": "ev.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Contact only.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:3376",
+   "file": "data/abilities.ts",
+   "line": 3376,
+   "enclosing": "poisontouch.onSourceDamagingHit",
+   "method": "randomChance",
+   "args": "3, 10",
+   "code": "if (this.randomChance(3, 10)) {",
+   "kind": "ABILITY_ONHIT_PROC",
+   "decides": "Poison Touch poisons target",
+   "distribution": "randomChance(3,10)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.source",
+    "target": "ev.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "onSourceDamagingHit: holder is the attacker (ev.source).",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:3739",
+   "file": "data/abilities.ts",
+   "line": 3739,
+   "enclosing": "quickdraw.onFractionalPriority",
+   "method": "randomChance",
+   "args": "3, 10",
+   "code": "if (move.category !== \"Status\" && this.randomChance(3, 10)) {",
+   "kind": "PRIORITY_PROC",
+   "decides": "Quick Draw moves first in bracket",
+   "distribution": "randomChance(3,10)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Drawn at choice-commit time (queue.resolveAction -> FractionalPriority), i.e. before the turn starts; non-Status moves only.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:4192",
+   "file": "data/abilities.ts",
+   "line": 4192,
+   "enclosing": "shedskin.onResidual",
+   "method": "randomChance",
+   "args": "33, 100",
+   "code": "if (pokemon.hp && pokemon.status && this.randomChance(33, 100)) {",
+   "kind": "ABILITY_RESIDUAL_PROC",
+   "decides": "Shed Skin cures status",
+   "distribution": "randomChance(33,100)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Only when statused.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:4540",
+   "file": "data/abilities.ts",
+   "line": 4540,
+   "enclosing": "static.onDamagingHit",
+   "method": "randomChance",
+   "args": "3, 10",
+   "code": "if (this.randomChance(3, 10)) {",
+   "kind": "ABILITY_ONHIT_PROC",
+   "decides": "Static paralyzes attacker",
+   "distribution": "randomChance(3,10)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.source",
+    "target": "ev.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Contact only.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/abilities.ts:5097",
+   "file": "data/abilities.ts",
+   "line": 5097,
+   "enclosing": "toxicchain.onSourceDamagingHit",
+   "method": "randomChance",
+   "args": "3, 10",
+   "code": "if (this.randomChance(3, 10)) {",
+   "kind": "ABILITY_ONHIT_PROC",
+   "decides": "Toxic Chain badly poisons",
+   "distribution": "randomChance(3,10)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.source",
+    "target": "ev.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect",
+     "hit"
+    ]
+   },
+   "reachable": "no",
+   "notes": "No legal species has Toxic Chain.",
+   "dexAvailability": "available",
+   "dexReachable": false
+  },
+  {
+   "id": "data/abilities.ts:5145",
+   "file": "data/abilities.ts",
+   "line": 5145,
+   "enclosing": "trace.onUpdate",
+   "method": "sample",
+   "args": "possibleTargets",
+   "code": "const target = this.sample(possibleTargets);",
+   "kind": "ABILITY_TRACE_TARGET",
+   "decides": "which adjacent foe Trace copies",
+   "distribution": "sample(possibleTargets)",
+   "outcome": "index",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "onUpdate; draws even with one candidate.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/items.ts:2273",
+   "file": "data/items.ts",
+   "line": 2273,
+   "enclosing": "focusband.onDamage",
+   "method": "randomChance",
+   "args": "1, 10",
+   "code": "if (this.randomChance(1, 10) && damage >= target.hp && effect?.effectType === 'Move') {",
+   "kind": "ITEM_FOCUS_BAND",
+   "decides": "Focus Band survives at 1 HP",
+   "distribution": "randomChance(1,10)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": "ev.source",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Drawn on EVERY damage instance to the holder (draw happens before the lethal check).",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/items.ts:5017",
+   "file": "data/items.ts",
+   "line": 5017,
+   "enclosing": "quickclaw.onFractionalPriority",
+   "method": "randomChance",
+   "args": "1, 5",
+   "code": "if (priority <= 0 && this.randomChance(1, 5)) {",
+   "kind": "QUICK_CLAW",
+   "decides": "Quick Claw moves first in bracket",
+   "distribution": "randomChance(1,5)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "At choice-commit time; only for priority <= 0 moves.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/items.ts:6036",
+   "file": "data/items.ts",
+   "line": 6036,
+   "enclosing": "starfberry.onEat",
+   "method": "sample",
+   "args": "stats",
+   "code": "const randomStat = this.sample(stats);",
+   "kind": "ITEM_STARF_STAT",
+   "decides": "Starf Berry stat",
+   "distribution": "sample(stats)",
+   "outcome": "index",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Starf Berry isNonstandard Past in Champions.",
+   "dexAvailability": "Past",
+   "dexReachable": false
+  },
+  {
+   "id": "data/moves.ts:155",
+   "file": "data/moves.ts",
+   "line": 155,
+   "enclosing": "acupressure.onHit",
+   "method": "sample",
+   "args": "stats",
+   "code": "const randomStat = this.sample(stats);",
+   "kind": "MOVE_ACUPRESSURE_STAT",
+   "decides": "stat boosted by Acupressure",
+   "distribution": "sample(stats not at +6)",
+   "outcome": "index",
+   "context": {
+    "actor": "A",
+    "target": "ev.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/moves.ts:343",
+   "file": "data/moves.ts",
+   "line": 343,
+   "enclosing": "allyswitch.condition.onRestart",
+   "method": "randomChance",
+   "args": "1, counter",
+   "code": "const success = this.randomChance(1, counter);",
+   "kind": "ALLY_SWITCH_STALL",
+   "decides": "consecutive Ally Switch succeeds",
+   "distribution": "randomChance(1, counter) counter=3,9,27..",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Gen 9 Ally Switch shares the Protect-style counter (onRestart).",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/moves.ts:632",
+   "file": "data/moves.ts",
+   "line": 632,
+   "enclosing": "assist.onHit",
+   "method": "sample",
+   "args": "moves",
+   "code": "if (moves.length) randomMove = this.sample(moves);",
+   "kind": "MOVE_CALL_PICK",
+   "decides": "Assist move",
+   "distribution": "sample",
+   "outcome": "index",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Assist Past.",
+   "dexAvailability": "Past",
+   "dexReachable": false
+  },
+  {
+   "id": "data/moves.ts:745",
+   "file": "data/moves.ts",
+   "line": 745,
+   "enclosing": "attract.condition.onBeforeMove",
+   "method": "randomChance",
+   "args": "1, 2",
+   "code": "if (this.randomChance(1, 2)) {",
+   "kind": "INFATUATION",
+   "decides": "infatuated mon is immobilized",
+   "distribution": "randomChance(1,2)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "attract condition onBeforeMove.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/moves.ts:2839",
+   "file": "data/moves.ts",
+   "line": 2839,
+   "enclosing": "conversion2.onHit",
+   "method": "sample",
+   "args": "possibleTypes",
+   "code": "const randomType = this.sample(possibleTypes);",
+   "kind": "MOVE_CONVERSION2_TYPE",
+   "decides": "Conversion 2 type",
+   "distribution": "sample",
+   "outcome": "index",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Past.",
+   "dexAvailability": "Past",
+   "dexReachable": false
+  },
+  {
+   "id": "data/moves.ts:3641",
+   "file": "data/moves.ts",
+   "line": 3641,
+   "enclosing": "direclaw.secondary.onHit",
+   "method": "sample",
+   "args": "['psn', 'par', 'slp']",
+   "code": "const status = this.sample(['psn', 'par', 'slp']);",
+   "kind": "SECONDARY_STATUS_PICK",
+   "decides": "Dire Claw status (base)",
+   "distribution": "sample(['psn','par','slp'])",
+   "outcome": "index",
+   "context": {
+    "actor": "ev.source",
+    "target": "ev.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Overridden by champions moves.ts:223.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/moves.ts:5231",
+   "file": "data/moves.ts",
+   "line": 5231,
+   "enclosing": "ficklebeam.onBasePower",
+   "method": "randomChance",
+   "args": "3, 10",
+   "code": "if (this.randomChance(3, 10)) {",
+   "kind": "MOVE_FICKLE_BEAM",
+   "decides": "Fickle Beam doubles power",
+   "distribution": "randomChance(3,10)",
+   "outcome": "bool",
+   "context": {
+    "actor": "A",
+    "target": "ev.source",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "onBasePower: drawn once per target (spread: n/a, single target).",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/moves.ts:6728",
+   "file": "data/moves.ts",
+   "line": 6728,
+   "enclosing": "gmaxbefuddle.self.onHit",
+   "method": "sample",
+   "args": "['slp', 'par', 'psn']",
+   "code": "const status = this.sample(['slp', 'par', 'psn']);",
+   "kind": "GMAX",
+   "decides": "G-Max Befuddle status",
+   "distribution": "sample",
+   "outcome": "index",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Gmax.",
+   "dexAvailability": "Gmax",
+   "dexReachable": false
+  },
+  {
+   "id": "data/moves.ts:7110",
+   "file": "data/moves.ts",
+   "line": 7110,
+   "enclosing": "gmaxreplenish.self.onHit",
+   "method": "randomChance",
+   "args": "1, 2",
+   "code": "if (this.randomChance(1, 2)) return;",
+   "kind": "GMAX",
+   "decides": "G-Max Replenish",
+   "distribution": "randomChance(1,2)",
+   "outcome": "bool",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Gmax.",
+   "dexAvailability": "Gmax",
+   "dexReachable": false
+  },
+  {
+   "id": "data/moves.ts:7202",
+   "file": "data/moves.ts",
+   "line": 7202,
+   "enclosing": "gmaxsnooze.onHit",
+   "method": "randomChance",
+   "args": "1, 2",
+   "code": "if (this.randomChance(1, 2)) return;",
+   "kind": "GMAX",
+   "decides": "G-Max Snooze",
+   "distribution": "randomChance(1,2)",
+   "outcome": "bool",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Gmax.",
+   "dexAvailability": "Gmax",
+   "dexReachable": false
+  },
+  {
+   "id": "data/moves.ts:7207",
+   "file": "data/moves.ts",
+   "line": 7207,
+   "enclosing": "gmaxsnooze.onAfterSubDamage",
+   "method": "randomChance",
+   "args": "1, 2",
+   "code": "if (this.randomChance(1, 2)) return;",
+   "kind": "GMAX",
+   "decides": "G-Max Snooze",
+   "distribution": "randomChance(1,2)",
+   "outcome": "bool",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Gmax.",
+   "dexAvailability": "Gmax",
+   "dexReachable": false
+  },
+  {
+   "id": "data/moves.ts:7288",
+   "file": "data/moves.ts",
+   "line": 7288,
+   "enclosing": "gmaxstunshock.self.onHit",
+   "method": "random",
+   "args": "2",
+   "code": "const result = this.random(2);",
+   "kind": "GMAX",
+   "decides": "G-Max Stun Shock",
+   "distribution": "random(2)",
+   "outcome": "int",
+   "context": {
+    "actor": null,
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Gmax.",
+   "dexAvailability": "Gmax",
+   "dexReachable": false
+  },
+  {
+   "id": "data/moves.ts:10903",
+   "file": "data/moves.ts",
+   "line": 10903,
+   "enclosing": "magnitude.onModifyMove",
+   "method": "random",
+   "args": "100",
+   "code": "const i = this.random(100);",
+   "kind": "MOVE_MAGNITUDE",
+   "decides": "Magnitude power",
+   "distribution": "random(100)",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Past.",
+   "dexAvailability": "Past",
+   "dexReachable": false
+  },
+  {
+   "id": "data/moves.ts:11803",
+   "file": "data/moves.ts",
+   "line": 11803,
+   "enclosing": "metronome.onHit",
+   "method": "sample",
+   "args": "moves",
+   "code": "randomMove = this.sample(moves).id;",
+   "kind": "MOVE_CALL_PICK",
+   "decides": "Metronome move",
+   "distribution": "sample",
+   "outcome": "index",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Past in Champions.",
+   "dexAvailability": "Past",
+   "dexReachable": false
+  },
+  {
+   "id": "data/moves.ts:13926",
+   "file": "data/moves.ts",
+   "line": 13926,
+   "enclosing": "present.onModifyMove",
+   "method": "random",
+   "args": "10",
+   "code": "const rand = this.random(10);",
+   "kind": "MOVE_PRESENT",
+   "decides": "Present power/heal",
+   "distribution": "random(10)",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Past.",
+   "dexAvailability": "Past",
+   "dexReachable": false
+  },
+  {
+   "id": "data/moves.ts:14294",
+   "file": "data/moves.ts",
+   "line": 14294,
+   "enclosing": "psywave.damageCallback",
+   "method": "random",
+   "args": "50, 151",
+   "code": "return (this.random(50, 151) * pokemon.level) / 100;",
+   "kind": "MOVE_PSYWAVE",
+   "decides": "Psywave damage",
+   "distribution": "random(50,151)",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Past.",
+   "dexAvailability": "Past",
+   "dexReachable": false
+  },
+  {
+   "id": "data/moves.ts:16232",
+   "file": "data/moves.ts",
+   "line": 16232,
+   "enclosing": "shellsidearm.onModifyMove",
+   "method": "randomChance",
+   "args": "1, 2",
+   "code": "if (physical > special || (physical === special && this.randomChance(1, 2))) {",
+   "kind": "MOVE_SHELLSIDEARM_TIE",
+   "decides": "Shell Side Arm category when physical == special",
+   "distribution": "randomChance(1,2)",
+   "outcome": "bool",
+   "context": {
+    "actor": "A",
+    "target": "ev.source",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Short-circuit: draws only on an exact tie.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/moves.ts:16887",
+   "file": "data/moves.ts",
+   "line": 16887,
+   "enclosing": "sleeptalk.onHit",
+   "method": "sample",
+   "args": "moves",
+   "code": "if (moves.length) randomMove = this.sample(moves);",
+   "kind": "MOVE_CALL_PICK",
+   "decides": "move called by Sleep Talk",
+   "distribution": "sample(eligible moves)",
+   "outcome": "index",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Outcome index into the filtered move list (moveSlots order minus nosleeptalk/charge).",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/moves.ts:19853",
+   "file": "data/moves.ts",
+   "line": 19853,
+   "enclosing": "triattack.secondary.onHit",
+   "method": "sample",
+   "args": "['brn', 'par', 'frz']",
+   "code": "const status = this.sample(['brn', 'par', 'frz']);",
+   "kind": "SECONDARY_STATUS_PICK",
+   "decides": "Tri Attack status (after the 20% SECONDARY passed)",
+   "distribution": "sample(['brn','par','frz'])",
+   "outcome": "index",
+   "context": {
+    "actor": "ev.source",
+    "target": "ev.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Second draw after SECONDARY for the same (actor,target).",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/conditions.ts:41",
+   "file": "data/conditions.ts",
+   "line": 41,
+   "enclosing": "par.onBeforeMove",
+   "method": "randomChance",
+   "args": "1, 4",
+   "code": "if (this.randomChance(1, 4)) {",
+   "kind": "PARALYSIS",
+   "decides": "full paralysis (base 25%)",
+   "distribution": "randomChance(1,4)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Overridden by champions conditions.ts:5 (12.5%).",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/conditions.ts:59",
+   "file": "data/conditions.ts",
+   "line": 59,
+   "enclosing": "slp.onStart",
+   "method": "random",
+   "args": "2, 5",
+   "code": "this.effectState.startTime = this.random(2, 5);",
+   "kind": "SLEEP_DURATION",
+   "decides": "sleep turns (base 1-3)",
+   "distribution": "random(2,5)",
+   "outcome": "int",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Overridden by champions conditions.ts:23.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/conditions.ts:99",
+   "file": "data/conditions.ts",
+   "line": 99,
+   "enclosing": "frz.onBeforeMove",
+   "method": "randomChance",
+   "args": "1, 5",
+   "code": "if (this.randomChance(1, 5)) {",
+   "kind": "FREEZE_THAW",
+   "decides": "thaw (base 20%)",
+   "distribution": "randomChance(1,5)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Overridden by champions conditions.ts:49.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/conditions.ts:174",
+   "file": "data/conditions.ts",
+   "line": 174,
+   "enclosing": "confusion.onStart",
+   "method": "random",
+   "args": "min, 6",
+   "code": "this.effectState.time = this.random(min, 6);",
+   "kind": "CONFUSION_DURATION",
+   "decides": "confusion turns",
+   "distribution": "random(min,6), min=3 for Axe Kick else 2",
+   "outcome": "int",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "onStart of the volatile; also fatigue confusion after lockedmove ends.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/conditions.ts:187",
+   "file": "data/conditions.ts",
+   "line": 187,
+   "enclosing": "confusion.onBeforeMove",
+   "method": "randomChance",
+   "args": "33, 100",
+   "code": "if (!this.randomChance(33, 100)) {",
+   "kind": "CONFUSION_SELFHIT",
+   "decides": "confused mon hits itself",
+   "distribution": "randomChance(33,100)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Followed by a DAMAGE_ROLL from getConfusionDamage when true.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/conditions.ts:227",
+   "file": "data/conditions.ts",
+   "line": 227,
+   "enclosing": "partiallytrapped.durationCallback",
+   "method": "random",
+   "args": "5, 7",
+   "code": "return this.random(5, 7);",
+   "kind": "PARTIAL_TRAP_DURATION",
+   "decides": "binding turns (4-5 effective)",
+   "distribution": "random(5,7) (Grip Claw: 8, no draw)",
+   "outcome": "int",
+   "context": {
+    "actor": "ev.target",
+    "target": "ev.source",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "durationCallback: Bind/Wrap/Fire Spin/Whirlpool/Sand Tomb/Infestation/Snap Trap. battle.event may be the addVolatile context; actor taken from effectState/target.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/conditions.ts:265",
+   "file": "data/conditions.ts",
+   "line": 265,
+   "enclosing": "lockedmove.onStart",
+   "method": "random",
+   "args": "2, 4",
+   "code": "this.effectState.trueDuration = this.random(2, 4);",
+   "kind": "LOCKEDMOVE_DURATION",
+   "decides": "Outrage/Thrash/Petal Dance/Raging Fury length",
+   "distribution": "random(2,4)",
+   "outcome": "int",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/conditions.ts:305",
+   "file": "data/conditions.ts",
+   "line": 305,
+   "enclosing": "twoturnmove.onStart",
+   "method": "sample",
+   "args": "attacker.foes(true)",
+   "code": "defender = this.sample(attacker.foes(true));",
+   "kind": "RANDOM_TARGET",
+   "decides": "target for a called two-turn move whose target fainted",
+   "distribution": "sample(foes)",
+   "outcome": "index",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "cond",
+   "notes": "Only when a charge move is called by another move (Copycat) — very rare.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/conditions.ts:456",
+   "file": "data/conditions.ts",
+   "line": 456,
+   "enclosing": "stall.onStallMove",
+   "method": "randomChance",
+   "args": "1, counter",
+   "code": "const success = this.randomChance(1, counter);",
+   "kind": "PROTECT_STALL",
+   "decides": "consecutive Protect/Detect/Endure/... succeeds",
+   "distribution": "randomChance(1, counter) counter=3,9,27..729",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "No draw on the first use (no stall volatile yet).",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/rulesets.ts:2623",
+   "file": "data/rulesets.ts",
+   "line": 2623,
+   "enclosing": "categoryswapmod.onModifyMove",
+   "method": "randomChance",
+   "args": "1, 2",
+   "code": "if (physical > special || (physical === special && this.randomChance(1, 2))) {",
+   "kind": "RULE_CATEGORY_SWAP",
+   "decides": "Category Swap Mod tie",
+   "distribution": "randomChance(1,2)",
+   "outcome": "bool",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Rule not in Reg M-C.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/mods/champions/abilities.ts:43",
+   "file": "data/mods/champions/abilities.ts",
+   "line": 43,
+   "enclosing": "healer.onResidual",
+   "method": "randomChance",
+   "args": "1, 2",
+   "code": "if (allyActive.status && this.randomChance(1, 2)) {",
+   "kind": "ABILITY_RESIDUAL_PROC",
+   "decides": "Healer cures adjacent ally (Champions 50%)",
+   "distribution": "randomChance(1,2)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": "ally",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "effect"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Per adjacent statused ally.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/mods/champions/conditions.ts:5",
+   "file": "data/mods/champions/conditions.ts",
+   "line": 5,
+   "enclosing": "par.onBeforeMove",
+   "method": "randomChance",
+   "args": "1, 8",
+   "code": "if (this.randomChance(1, 8)) {",
+   "kind": "PARALYSIS",
+   "decides": "full paralysis (Champions 12.5%)",
+   "distribution": "randomChance(1,8)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "par onBeforeMove.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/mods/champions/conditions.ts:23",
+   "file": "data/mods/champions/conditions.ts",
+   "line": 23,
+   "enclosing": "slp.onStart",
+   "method": "sample",
+   "args": "[2, 3, 3]",
+   "code": "this.effectState.startTime = this.sample([2, 3, 3]);",
+   "kind": "SLEEP_DURATION",
+   "decides": "sleep length (Champions: 2 w.p. 1/3, else 3)",
+   "distribution": "sample([2,3,3])",
+   "outcome": "index",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Drawn at status start. Record the value (2|3), not the index.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/mods/champions/conditions.ts:49",
+   "file": "data/mods/champions/conditions.ts",
+   "line": 49,
+   "enclosing": "frz.onBeforeMove",
+   "method": "randomChance",
+   "args": "1, 4",
+   "code": "if (pokemon.statusState.time <= 0 || this.randomChance(1, 4)) {",
+   "kind": "FREEZE_THAW",
+   "decides": "thaw before the 3-turn cap (Champions 25%)",
+   "distribution": "randomChance(1,4) (short-circuited when time<=0)",
+   "outcome": "bool",
+   "context": {
+    "actor": "ev.target",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "No draw on the forced-thaw turn.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/mods/champions/moves.ts:223",
+   "file": "data/mods/champions/moves.ts",
+   "line": 223,
+   "enclosing": "direclaw.secondary.onHit",
+   "method": "sample",
+   "args": "['psn', 'par', 'slp']",
+   "code": "const status = this.sample(['psn', 'par', 'slp']);",
+   "kind": "SECONDARY_STATUS_PICK",
+   "decides": "Dire Claw status",
+   "distribution": "sample(['psn','par','slp'])",
+   "outcome": "index",
+   "context": {
+    "actor": "ev.source",
+    "target": "ev.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "After the 50% SECONDARY passed.",
+   "dexAvailability": "available",
+   "dexReachable": true
+  },
+  {
+   "id": "data/mods/champions/scripts.ts:439",
+   "file": "data/mods/champions/scripts.ts",
+   "line": 439,
+   "enclosing": "actions.hitStepMoveHitLoop",
+   "method": "sample",
+   "args": "[2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5]",
+   "code": "targetHits = this.battle.sample([2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5]);",
+   "kind": "MULTIHIT_COUNT",
+   "decides": "2-5 hit count",
+   "distribution": "sample: 2,3 w.p. 35% each; 4,5 w.p. 15% each",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "Bullet Seed, Icicle Spear, Rock Blast, Scale Shot, Pin Missile, Bone Rush, Tail Slap, Water Shuriken. Skill Link sets multihit=5 (no draw).",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/mods/champions/scripts.ts:441",
+   "file": "data/mods/champions/scripts.ts",
+   "line": 441,
+   "enclosing": "actions.hitStepMoveHitLoop",
+   "method": "random",
+   "args": "2",
+   "code": "targetHits = 5 - this.battle.random(2);",
+   "kind": "MULTIHIT_COUNT",
+   "decides": "Loaded Dice reroll to 4-5",
+   "distribution": "5 - random(2)",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Loaded Dice not available in Champions.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/mods/champions/scripts.ts:444",
+   "file": "data/mods/champions/scripts.ts",
+   "line": 444,
+   "enclosing": "actions.hitStepMoveHitLoop",
+   "method": "sample",
+   "args": "[2, 2, 2, 3, 3, 3, 4, 5]",
+   "code": "targetHits = this.battle.sample([2, 2, 2, 3, 3, 3, 4, 5]);",
+   "kind": "MULTIHIT_COUNT",
+   "decides": "gen<5 table",
+   "distribution": "sample",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "no",
+   "notes": "gen < 5.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/mods/champions/scripts.ts:447",
+   "file": "data/mods/champions/scripts.ts",
+   "line": 447,
+   "enclosing": "actions.hitStepMoveHitLoop",
+   "method": "random",
+   "args": "targetHits[0], targetHits[1] + 1",
+   "code": "targetHits = this.battle.random(targetHits[0], targetHits[1] + 1);",
+   "kind": "MULTIHIT_COUNT",
+   "decides": "generic [m,n] range",
+   "distribution": "random(m,n+1)",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "no",
+   "notes": "No legal move has a multihit range other than [2,5].",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/mods/champions/scripts.ts:450",
+   "file": "data/mods/champions/scripts.ts",
+   "line": 450,
+   "enclosing": "actions.hitStepMoveHitLoop",
+   "method": "random",
+   "args": "7",
+   "code": "if (targetHits === 10 && pokemon.hasItem('loadeddice')) targetHits -= this.battle.random(7);",
+   "kind": "MULTIHIT_COUNT",
+   "decides": "Loaded Dice Population Bomb",
+   "distribution": "10 - random(7)",
+   "outcome": "int",
+   "context": {
+    "actor": "A",
+    "target": null,
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move"
+    ]
+   },
+   "reachable": "no",
+   "notes": "Loaded Dice not available.",
+   "dexAvailability": null,
+   "dexReachable": null
+  },
+  {
+   "id": "data/mods/champions/scripts.ts:507",
+   "file": "data/mods/champions/scripts.ts",
+   "line": 507,
+   "enclosing": "actions.hitStepMoveHitLoop",
+   "method": "randomChance",
+   "args": "accuracy, 100",
+   "code": "if (accuracy !== true && !this.battle.randomChance(accuracy, 100)) break;",
+   "kind": "ACCURACY",
+   "decides": "per-hit accuracy for hits 2..n (Triple Axel, Population Bomb)",
+   "distribution": "randomChance(acc,100)",
+   "outcome": "bool",
+   "context": {
+    "actor": "last.Accuracy.source",
+    "target": "last.Accuracy.target",
+    "key": [
+     "turn",
+     "kind",
+     "actor",
+     "target",
+     "move",
+     "hit"
+    ]
+   },
+   "reachable": "yes",
+   "notes": "hit index disambiguates from the hit-1 ACCURACY draw.",
+   "dexAvailability": null,
+   "dexReachable": null
+  }
+ ],
+ "observed": {
+  "chaos": {
+   "battles": 300,
+   "drawsPerBattle": 100.47,
+   "perBattleByKind": {
+    "ACCURACY": 19.83,
+    "CRIT": 19.6,
+    "DAMAGE_ROLL": 19.6,
+    "RANDOM_TARGET_NOMINAL": 12.617,
+    "SECONDARY": 8.227,
+    "RANDOM_TARGET": 7.003,
+    "SPEED_TIE_EACH_EVENT": 5.397,
+    "SPEED_TIE_FIELD_EVENT": 3.397,
+    "SELF_EFFECT_ROLL": 1.397,
+    "SPEED_TIE_ACTION_ORDER": 0.82,
+    "ABILITY_ONHIT_PROC": 0.483,
+    "PROTECT_STALL": 0.483,
+    "PARALYSIS": 0.38,
+    "SPEED_TIE_SWITCHIN_ORDER": 0.35,
+    "SLEEP_DURATION": 0.253,
+    "SPEED_TIE_HANDLER_ORDER": 0.157,
+    "SECONDARY_STATUS_PICK": 0.09,
+    "QUEUE_INSERT_TIE": 0.08,
+    "FREEZE_THAW": 0.07,
+    "ABILITY_TRACE_TARGET": 0.06,
+    "CONFUSION_SELFHIT": 0.053,
+    "CONFUSION_DURATION": 0.04,
+    "MULTIHIT_COUNT": 0.03,
+    "PARTIAL_TRAP_DURATION": 0.027,
+    "CONFUSION_SELFHIT_DAMAGE_ROLL": 0.017,
+    "FORCED_SWITCH_PICK": 0.01
+   },
+   "sitesHit": {
+    "sim/battle.ts:512": 1019,
+    "sim/side.ts:372": 5886,
+    "sim/battle-actions.ts:800": 5949,
+    "sim/battle-actions.ts:1695": 5880,
+    "sim/battle.ts:2409": 5885,
+    "sim/battle-actions.ts:1399": 2468,
+    "data/mods/champions/conditions.ts:23": 76,
+    "data/mods/champions/conditions.ts:5": 114,
+    "sim/battle-queue.ts:406": 24,
+    "sim/battle-actions.ts:235": 105,
+    "sim/battle.ts:473": 1619,
+    "sim/battle-queue.ts:426": 246,
+    "sim/battle-actions.ts:1381": 419,
+    "data/abilities.ts:1320": 63,
+    "data/abilities.ts:3376": 37,
+    "data/conditions.ts:456": 145,
+    "data/conditions.ts:174": 12,
+    "data/conditions.ts:187": 16,
+    "data/abilities.ts:788": 43,
+    "sim/battle.ts:801": 47,
+    "data/abilities.ts:5145": 18,
+    "data/mods/champions/conditions.ts:49": 21,
+    "data/abilities.ts:801": 2,
+    "data/conditions.ts:227": 8,
+    "data/mods/champions/moves.ts:223": 27,
+    "data/mods/champions/scripts.ts:439": 9,
+    "sim/battle.ts:1586": 3
+   }
+  },
+  "randomDoubles": {
+   "battles": 300,
+   "drawsPerBattle": 113.92666666666666,
+   "perBattleByKind": {
+    "ACCURACY": 22.803,
+    "DAMAGE_ROLL": 20.79,
+    "CRIT": 20.723,
+    "RANDOM_TARGET_NOMINAL": 11.16,
+    "SPEED_TIE_EACH_EVENT": 10.973,
+    "SECONDARY": 9.35,
+    "RANDOM_TARGET": 7.513,
+    "SPEED_TIE_FIELD_EVENT": 2.32,
+    "PARALYSIS": 2.037,
+    "SELF_EFFECT_ROLL": 1.787,
+    "SPEED_TIE_ACTION_ORDER": 1.787,
+    "SPEED_TIE_SWITCHIN_ORDER": 0.78,
+    "ABILITY_ONHIT_PROC": 0.41,
+    "SPEED_TIE_HANDLER_ORDER": 0.32,
+    "PROTECT_STALL": 0.313,
+    "ABILITY_RESIDUAL_PROC": 0.19,
+    "QUEUE_INSERT_TIE": 0.153,
+    "SLEEP_DURATION": 0.11,
+    "CONFUSION_SELFHIT": 0.107,
+    "PARTIAL_TRAP_DURATION": 0.08,
+    "ABILITY_TRACE_TARGET": 0.073,
+    "CONFUSION_DURATION": 0.053,
+    "FREEZE_THAW": 0.03,
+    "CONFUSION_SELFHIT_DAMAGE_ROLL": 0.023,
+    "FORCED_SWITCH_PICK": 0.017,
+    "MOVE_FICKLE_BEAM": 0.01,
+    "SECONDARY_STATUS_PICK": 0.01,
+    "MULTIHIT_COUNT": 0.003
+   },
+   "sitesHit": {
+    "sim/side.ts:372": 5602,
+    "sim/battle-actions.ts:800": 6717,
+    "sim/battle-actions.ts:1695": 6217,
+    "sim/battle.ts:2409": 6244,
+    "data/mods/champions/scripts.ts:507": 124,
+    "sim/battle-actions.ts:1381": 536,
+    "sim/battle.ts:512": 696,
+    "sim/battle-actions.ts:1399": 2805,
+    "data/mods/champions/conditions.ts:5": 611,
+    "sim/battle-actions.ts:235": 234,
+    "data/conditions.ts:456": 94,
+    "sim/battle.ts:801": 96,
+    "sim/battle.ts:473": 3292,
+    "sim/battle-queue.ts:426": 536,
+    "data/abilities.ts:1805": 45,
+    "data/conditions.ts:174": 16,
+    "data/conditions.ts:187": 32,
+    "data/abilities.ts:788": 34,
+    "sim/battle-queue.ts:406": 46,
+    "data/conditions.ts:227": 24,
+    "data/moves.ts:5231": 3,
+    "data/abilities.ts:3376": 34,
+    "data/mods/champions/moves.ts:223": 3,
+    "data/mods/champions/conditions.ts:23": 33,
+    "data/abilities.ts:4192": 8,
+    "data/abilities.ts:1164": 18,
+    "data/abilities.ts:1320": 19,
+    "sim/battle.ts:1586": 5,
+    "data/abilities.ts:5145": 22,
+    "data/mods/champions/conditions.ts:49": 9,
+    "data/abilities.ts:4540": 18,
+    "data/mods/champions/scripts.ts:439": 1,
+    "data/mods/champions/abilities.ts:43": 4
+   }
+  }
+ }
+}

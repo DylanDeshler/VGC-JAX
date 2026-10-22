@@ -1,0 +1,296 @@
+absorb             | pp: 25 -> 20 ; isNonstandard: null -> "Past" 
+acid               | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+aeroblast          | isNonstandard: null -> "Past" 
+anchorshot         | basePower: 80 -> 90 
+appleacid          | basePower: 80 -> 90 
+armthrust          | isNonstandard: null -> "Past" 
+astonish           | isNonstandard: null -> "Past" 
+astralbarrage      | basePower: 120 -> 110 ; isNonstandard: null -> "Past" 
+attackorder        | isNonstandard: null -> "Past" 
+aurorabeam         | isNonstandard: null -> "Past" 
+banefulbunker      | pp: 10 -> 5 
+beakblast          | basePower: 100 -> 120 ; pp: 15 -> 5 
+belch              |  
+behemothbash       | isNonstandard: null -> "Past" 
+behemothblade      | isNonstandard: null -> "Past" 
+blazingtorque      | isNonstandard: "Unobtainable" -> "Past" 
+bleakwindstorm     | isNonstandard: null -> "Past" 
+bloodmoon          | basePower: 140 -> 130 ; isNonstandard: null -> "Past" 
+blueflare          | isNonstandard: null -> "Past" 
+boltbeak           | basePower: 85 -> 80 
+boltstrike         | isNonstandard: null -> "Past" 
+bonerush           | basePower: 25 -> 30 
+branchpoke         | pp: 40 -> 20 ; isNonstandard: null -> "Past" 
+brine              | isNonstandard: null -> "Past" 
+bubblebeam         | isNonstandard: null -> "Past" 
+burningbulwark     | isNonstandard: null -> "Past" 
+burnup             | isNonstandard: "Unobtainable" -> null 
+celebrate          | pp: 40 -> 20 ; isNonstandard: null -> "Past" 
+chloroblast        | isNonstandard: null -> "Past" 
+clangoroussoul     | accuracy: 100 -> true 
+collisioncourse    | isNonstandard: null -> "Past" 
+combattorque       | isNonstandard: "Unobtainable" -> "Past" 
+confide            | isNonstandard: null -> "Past" 
+confusion          | pp: 25 -> 20 ; isNonstandard: null -> "Past" 
+conversion         | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+conversion2        | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+corrosivegas       | pp: 40 -> 20 ; isNonstandard: "Unobtainable" -> null 
+crabhammer         | accuracy: 90 -> 95 
+crushclaw          | flags: {"contact":1,"protect":1,"mirror":1,"metronome":1} -> {"contact":1,"protect":1,"mirror":1,"metronome":1,"slicing":1} 
+crushgrip          | isNonstandard: null -> "Past" 
+curse              | volatileStatus: "curse" -> undefined 
+cut                | pp: 30 -> 20 ; isNonstandard: "Unobtainable" -> "Past" 
+darkvoid           | isNonstandard: null -> "Past" 
+defendorder        | isNonstandard: null -> "Past" 
+defensecurl        | pp: 40 -> 20 ; isNonstandard: null -> "Past" 
+diamondstorm       | isNonstandard: null -> "Past" 
+direclaw           | flags: {"contact":1,"protect":1,"mirror":1,"metronome":1} -> {"contact":1,"protect":1,"mirror":1,"metronome":1,"slicing":1} ; secondary: {"chance":50} -> {"chance":30} 
+disable            |  
+disarmingvoice     | isNonstandard: null -> "Past" 
+doodle             | isNonstandard: null -> "Past" 
+doomdesire         | isNonstandard: null -> "Past" 
+doublekick         | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+doubleshock        | flags: {"contact":1,"protect":1,"mirror":1} -> {"contact":1,"protect":1,"mirror":1,"punch":1} 
+dragonascent       | isNonstandard: null -> "Past" 
+dragonbreath       | isNonstandard: null -> "Past" 
+dragoncheer        | flags: {"bypasssub":1,"allyanim":1,"metronome":1} -> {"bypasssub":1,"allyanim":1,"metronome":1,"sound":1} 
+dragonclaw         | flags: {"contact":1,"protect":1,"mirror":1,"metronome":1} -> {"contact":1,"protect":1,"mirror":1,"metronome":1,"slicing":1} 
+dragonenergy       | isNonstandard: null -> "Past" 
+dragonhammer       | basePower: 90 -> 100 ; isNonstandard: null -> "Past" 
+dreameater         | isNonstandard: null -> "Past" 
+dynamaxcannon      | isNonstandard: null -> "Past" 
+echoedvoice        | isNonstandard: null -> "Past" 
+electrify          | isNonstandard: "Past" -> null 
+electrodrift       | isNonstandard: null -> "Past" 
+ember              | pp: 25 -> 20 ; isNonstandard: null -> "Past" 
+encore             |  
+esperwing          | isNonstandard: null -> "Past" 
+fairywind          | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+fakeout            |  
+falsesurrender     | isNonstandard: null -> "Past" 
+falseswipe         | pp: 40 -> 20 ; isNonstandard: null -> "Past" 
+fierywrath         | isNonstandard: null -> "Past" 
+filletaway         | isNonstandard: null -> "Past" 
+firelash           | basePower: 80 -> 90 
+firepledge         | isNonstandard: null -> "Past" 
+firstimpression    | basePower: 90 -> 100 
+fishiousrend       | basePower: 85 -> 80 
+flamewheel         | pp: 25 -> 20 ; isNonstandard: null -> "Past" 
+fleurcannon        | isNonstandard: null -> "Past" 
+floralhealing      | isNonstandard: null -> "Past" 
+forcepalm          | isNonstandard: null -> "Past" 
+freezedry          | secondary: {"chance":10,"status":"frz"} -> undefined 
+freezeshock        | isNonstandard: null -> "Past" 
+freezingglare      | isNonstandard: null -> "Past" 
+furyattack         | isNonstandard: null -> "Past" 
+furycutter         | isNonstandard: null -> "Past" 
+furyswipes         | isNonstandard: null -> "Past" 
+fusionbolt         | isNonstandard: null -> "Past" 
+fusionflare        | isNonstandard: null -> "Past" 
+geargrind          | basePower: 50 -> 60 ; accuracy: 85 -> 90 
+glaciallance       | isNonstandard: null -> "Past" 
+glaciate           | isNonstandard: null -> "Past" 
+grasspledge        | isNonstandard: null -> "Past" 
+gravapple          | basePower: 80 -> 90 
+growl              | pp: 40 -> 20 ; isNonstandard: null -> "Past" 
+growth             | type: "Normal" -> "Grass" 
+gust               | pp: 35 -> 20 ; isNonstandard: null -> "Past" 
+happyhour          | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+harden             | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+headbutt           | isNonstandard: null -> "Past" 
+heartswap          | isNonstandard: null -> "Past" 
+holdback           | pp: 40 -> 20 ; isNonstandard: "Unobtainable" -> "Past" 
+holdhands          | pp: 40 -> 20 ; isNonstandard: "Unobtainable" -> "Past" 
+honeclaws          | isNonstandard: null -> "Past" 
+hornattack         | pp: 25 -> 20 ; isNonstandard: null -> "Past" 
+howl               | pp: 40 -> 20 ; flags: {"snatch":1,"sound":1,"metronome":1} -> {"snatch":1,"sound":1,"bypasssub":1,"metronome":1} 
+hydrosteam         | isNonstandard: null -> "Past" 
+hyperdrill         | basePower: 100 -> 120 ; isNonstandard: null -> "Past" 
+hyperspacefury     | isNonstandard: null -> "Past" 
+hyperspacehole     | isNonstandard: null -> "Past" 
+iceburn            | isNonstandard: null -> "Past" 
+incinerate         | isNonstandard: null -> "Past" 
+infernalparade     | basePower: 60 -> 65 
+ironhead           | secondary: {"chance":30,"volatileStatus":"flinch"} -> {"chance":20,"volatileStatus":"flinch"} 
+ivycudgel          | isNonstandard: null -> "Past" 
+judgment           | isNonstandard: null -> "Past" 
+junglehealing      | isNonstandard: null -> "Past" 
+kingsshield        | pp: 10 -> 5 ; isNonstandard: "Past" -> null 
+leafage            | pp: 40 -> 20 ; isNonstandard: null -> "Past" 
+leer               | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+lick               | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+lightofruin        | isNonstandard: "Past" -> null 
+lunarblessing      | isNonstandard: null -> "Past" 
+lunardance         | isNonstandard: null -> "Past" 
+lusterpurge        | isNonstandard: null -> "Past" 
+magicalleaf        | isNonstandard: null -> "Past" 
+magicaltorque      | isNonstandard: "Unobtainable" -> "Past" 
+magmastorm         | isNonstandard: null -> "Past" 
+makeitrain         | accuracy: 100 -> 95 ; self: {"boosts":{"spa":-1}} -> {"boosts":{"spa":-2}} 
+malignantchain     | isNonstandard: null -> "Past" 
+megadrain          | isNonstandard: null -> "Past" 
+megapunch          | isNonstandard: null -> "Past" 
+metalclaw          | pp: 35 -> 20 ; isNonstandard: null -> "Past" ; flags: {"contact":1,"protect":1,"mirror":1,"metronome":1} -> {"contact":1,"protect":1,"mirror":1,"metronome":1,"slicing":1} 
+meteorassault      | basePower: 150 -> 170 ; isNonstandard: "Past" -> null 
+metronome          | isNonstandard: null -> "Past" 
+mightycleave       | isNonstandard: null -> "Past" 
+milkdrink          | target: "self" -> "adjacentAllyOrSelf" 
+mimic              | isNonstandard: null -> "Past" 
+mist               | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+mistball           | isNonstandard: null -> "Past" 
+moonblast          | secondary: {"chance":30,"boosts":{"spa":-1}} -> {"chance":10,"boosts":{"spa":-1}} 
+moongeistbeam      | isNonstandard: null -> "Past" 
+mountaingale       | basePower: 100 -> 120 
+mysticalpower      | isNonstandard: null -> "Past" 
+nightdaze          | basePower: 85 -> 90 
+nightslash         | pp: 15 -> 20 
+nihillight         | pp: 10 -> 5 
+noretreat          |  
+noxioustorque      | isNonstandard: "Unobtainable" -> "Past" 
+obstruct           | pp: 10 -> 5 
+octolock           | isNonstandard: "Past" -> null 
+orderup            | isNonstandard: null -> "Past" 
+originpulse        | isNonstandard: null -> "Past" 
+payday             | isNonstandard: null -> "Past" 
+peck               | pp: 35 -> 20 ; isNonstandard: null -> "Past" 
+photongeyser       | isNonstandard: null -> "Past" 
+playnice           | isNonstandard: null -> "Past" 
+poisongas          | pp: 40 -> 20 ; isNonstandard: null -> "Past" 
+poisonsting        | pp: 35 -> 20 ; isNonstandard: null -> "Past" 
+poisontail         | pp: 25 -> 20 ; isNonstandard: null -> "Past" 
+powdersnow         | pp: 25 -> 20 ; isNonstandard: null -> "Past" 
+powershift         | isNonstandard: "Unobtainable" -> null 
+precipiceblades    | isNonstandard: null -> "Past" 
+present            | isNonstandard: null -> "Past" 
+prismaticlaser     | isNonstandard: null -> "Past" 
+protect            | pp: 10 -> 5 
+psybeam            | isNonstandard: null -> "Past" 
+psyblade           | isNonstandard: null -> "Past" 
+psychoboost        | isNonstandard: null -> "Past" 
+psyshieldbash      | basePower: 70 -> 90 
+psystrike          | isNonstandard: null -> "Past" 
+purify             | pp: 20 -> 5 
+ragefist           |  
+razorleaf          | pp: 25 -> 20 ; isNonstandard: null -> "Past" 
+relicsong          | isNonstandard: null -> "Past" 
+retaliate          | isNonstandard: null -> "Past" 
+revelationdance    | basePower: 90 -> 100 ; isNonstandard: null -> "Past" 
+roaroftime         | isNonstandard: null -> "Past" 
+rocksmash          | isNonstandard: null -> "Past" 
+rockthrow          | isNonstandard: null -> "Past" 
+rollout            | isNonstandard: null -> "Past" 
+ruination          | isNonstandard: null -> "Past" 
+sacredfire         | isNonstandard: null -> "Past" 
+saltcure           |  
+sandattack         | isNonstandard: null -> "Past" 
+sandsearstorm      | isNonstandard: null -> "Past" 
+sandstorm          | pp: 10 -> 5 
+scratch            | pp: 35 -> 20 ; isNonstandard: null -> "Past" 
+secretsword        | isNonstandard: null -> "Past" 
+seedflare          | isNonstandard: null -> "Past" 
+shadowclaw         | flags: {"contact":1,"protect":1,"mirror":1,"metronome":1} -> {"contact":1,"protect":1,"mirror":1,"metronome":1,"slicing":1} 
+shadowforce        | isNonstandard: null -> "Past" 
+shelltrap          | pp: 5 -> 10 
+shockwave          | isNonstandard: null -> "Past" 
+shoreup            | isNonstandard: null -> "Past" 
+silktrap           | isNonstandard: null -> "Past" 
+sketch             | isNonstandard: null -> "Past" 
+slam               | isNonstandard: null -> "Past" 
+slash              | basePower: 70 -> 80 
+sludge             | isNonstandard: null -> "Past" 
+smog               | isNonstandard: null -> "Past" 
+smokescreen        | isNonstandard: null -> "Past" 
+snaptrap           | type: "Grass" -> "Steel" ; isNonstandard: "Past" -> null 
+snipeshot          | basePower: 80 -> 85 
+snowscape          | pp: 10 -> 5 
+spacialrend        | isNonstandard: null -> "Past" 
+spark              | isNonstandard: null -> "Past" 
+spikyshield        | pp: 10 -> 5 
+spinout            | pp: 5 -> 10 ; isNonstandard: null -> "Past" 
+spiritshackle      | basePower: 80 -> 90 
+splash             | pp: 40 -> 20 ; isNonstandard: null -> "Past" 
+springtidestorm    | isNonstandard: null -> "Past" 
+steameruption      | isNonstandard: null -> "Past" 
+stomp              | isNonstandard: null -> "Past" 
+stormthrow         | isNonstandard: "Past" -> null 
+strangesteam       | isNonstandard: null -> "Past" 
+strength           | isNonstandard: null -> "Past" 
+strengthsap        | pp: 10 -> 5 
+stuffcheeks        |  
+sunsteelstrike     | isNonstandard: null -> "Past" 
+supersonic         | isNonstandard: null -> "Past" 
+surgingstrikes     | isNonstandard: null -> "Past" 
+swift              | isNonstandard: null -> "Past" 
+syrupbomb          | accuracy: 85 -> 90 
+tachyoncutter      | isNonstandard: null -> "Past" 
+tackle             | pp: 35 -> 20 ; isNonstandard: null -> "Past" 
+tailglow           | isNonstandard: null -> "Past" 
+tailwhip           | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+takedown           | isNonstandard: null -> "Past" 
+takeheart          | isNonstandard: null -> "Past" 
+tarshot            | isNonstandard: null -> "Past" 
+teleport           | isNonstandard: null -> "Past" 
+terablast          | isNonstandard: null -> "Past" 
+terastarstorm      | isNonstandard: null -> "Past" 
+thundercage        | isNonstandard: null -> "Past" 
+thunderclap        | isNonstandard: null -> "Past" 
+thunderouskick     | isNonstandard: null -> "Past" 
+thundershock       | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+toxicthread        | boosts: {"spe":-1} -> {"spe":-2} 
+trickortreat       | isNonstandard: "Past" -> null 
+tripledive         | basePower: 30 -> 35 ; isNonstandard: null -> "Past" 
+triplekick         | isNonstandard: null -> "Past" 
+tropkick           | basePower: 70 -> 85 
+twister            | isNonstandard: null -> "Past" 
+vcreate            | isNonstandard: "Unobtainable" -> "Past" 
+victorydance       | isNonstandard: null -> "Past" 
+vinewhip           | pp: 25 -> 20 ; isNonstandard: null -> "Past" 
+visegrip           | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+watergun           | pp: 25 -> 20 ; isNonstandard: null -> "Past" 
+waterpledge        | isNonstandard: null -> "Past" 
+wickedblow         | isNonstandard: null -> "Past" 
+wickedtorque       | isNonstandard: "Unobtainable" -> "Past" 
+wildboltstorm      | isNonstandard: null -> "Past" 
+wingattack         | pp: 35 -> 20 ; isNonstandard: null -> "Past" 
+wish               | pp: 10 -> 5 
+withdraw           | pp: 40 -> 20 ; isNonstandard: null -> "Past" 
+workup             | pp: 30 -> 20 ; isNonstandard: null -> "Past" 
+
+PP>20 capped to 20 by init(): 45
+acupressure:30->20 agility:30->20 aircutter:25->20 babydolleyes:30->20 batonpass:40->20 bite:25->20 bubble:30->20 bulletpunch:30->20 bulletseed:30->20 constrict:35->20 cottonspore:40->20 covet:25->20 fellstinger:25->20 focusenergy:30->20 foresight:40->20 glare:30->20 haze:30->20 heartstamp:25->20 iceshard:30->20 iciclespear:30->20 iondeluge:25->20 karatechop:25->20 laserfocus:30->20 lightscreen:30->20 luckychant:30->20 machpunch:30->20 magnitude:30->20 meditate:40->20 metalsound:40->20 miracleeye:40->20 nobleroar:30->20 odorsleuth:40->20 poisonpowder:35->20 pound:35->20 quickattack:30->20 rapidspin:40->20 safeguard:25->20 screech:40->20 shadowsneak:30->20 sharpen:30->20 steelwing:25->20 stringshot:40->20 stunspore:30->20 thief:25->20 vacuumwave:30->20
+
+RegMB vs RegMC move field diffs: 34
+strengthsap.pp: MC=5 MB=10
+wish.pp: MC=5 MB=10
+hiddenpower.type: MC="Bug" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Dark" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Dragon" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Electric" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Fighting" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Fire" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Flying" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Ghost" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Grass" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Ground" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Ice" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Poison" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Psychic" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Rock" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Steel" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}
+hiddenpower.type: MC="Water" MB="Normal"
+hiddenpower.flags: MC={"protect":1,"mirror":1} MB={"protect":1,"mirror":1,"metronome":1}

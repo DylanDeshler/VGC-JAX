@@ -1,0 +1,101 @@
+{
+  "sha": "951f3d84f5515251e815da1ff9f5421a5da1da00",
+  "node_id": "C_kwDOAC5c7toAKDk1MWYzZDg0ZjU1MTUyNTFlODE1ZGExZmY5ZjU0MjFhNWRhMWRhMDA",
+  "commit": {
+    "author": {
+      "name": "Mia",
+      "email": "49593536+mia-pi-git@users.noreply.github.com",
+      "date": "2026-06-24T04:29:13Z"
+    },
+    "committer": {
+      "name": "Mia",
+      "email": "49593536+mia-pi-git@users.noreply.github.com",
+      "date": "2026-07-15T06:34:23Z"
+    },
+    "message": "Fix crash in champs scripts",
+    "tree": {
+      "sha": "808cf806da498a969fb8e9d2e86539e60b208a5f",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/808cf806da498a969fb8e9d2e86539e60b208a5f"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/951f3d84f5515251e815da1ff9f5421a5da1da00",
+    "comment_count": 0,
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null,
+      "verified_at": null
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/951f3d84f5515251e815da1ff9f5421a5da1da00",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/951f3d84f5515251e815da1ff9f5421a5da1da00",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/951f3d84f5515251e815da1ff9f5421a5da1da00/comments",
+  "author": {
+    "login": "mia-pi-git",
+    "id": 49593536,
+    "node_id": "MDQ6VXNlcjQ5NTkzNTM2",
+    "avatar_url": "https://avatars.githubusercontent.com/u/49593536?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/mia-pi-git",
+    "html_url": "https://github.com/mia-pi-git",
+    "followers_url": "https://api.github.com/users/mia-pi-git/followers",
+    "following_url": "https://api.github.com/users/mia-pi-git/following{/other_user}",
+    "gists_url": "https://api.github.com/users/mia-pi-git/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/mia-pi-git/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/mia-pi-git/subscriptions",
+    "organizations_url": "https://api.github.com/users/mia-pi-git/orgs",
+    "repos_url": "https://api.github.com/users/mia-pi-git/repos",
+    "events_url": "https://api.github.com/users/mia-pi-git/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/mia-pi-git/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "mia-pi-git",
+    "id": 49593536,
+    "node_id": "MDQ6VXNlcjQ5NTkzNTM2",
+    "avatar_url": "https://avatars.githubusercontent.com/u/49593536?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/mia-pi-git",
+    "html_url": "https://github.com/mia-pi-git",
+    "followers_url": "https://api.github.com/users/mia-pi-git/followers",
+    "following_url": "https://api.github.com/users/mia-pi-git/following{/other_user}",
+    "gists_url": "https://api.github.com/users/mia-pi-git/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/mia-pi-git/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/mia-pi-git/subscriptions",
+    "organizations_url": "https://api.github.com/users/mia-pi-git/orgs",
+    "repos_url": "https://api.github.com/users/mia-pi-git/repos",
+    "events_url": "https://api.github.com/users/mia-pi-git/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/mia-pi-git/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "51e039a6d5d0042597ddfbd0c3056df7c8152d68",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/51e039a6d5d0042597ddfbd0c3056df7c8152d68",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/51e039a6d5d0042597ddfbd0c3056df7c8152d68"
+    }
+  ],
+  "stats": {
+    "total": 2,
+    "additions": 1,
+    "deletions": 1
+  },
+  "files": [
+    {
+      "sha": "1f6eb8bc547d7f1b8e115bdc5739868834f6b184",
+      "filename": "data/mods/champions/scripts.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/951f3d84f5515251e815da1ff9f5421a5da1da00/data%2Fmods%2Fchampions%2Fscripts.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/951f3d84f5515251e815da1ff9f5421a5da1da00/data%2Fmods%2Fchampions%2Fscripts.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fscripts.ts?ref=951f3d84f5515251e815da1ff9f5421a5da1da00",
+      "patch": "@@ -190,7 +190,7 @@ export const Scripts: ModdedBattleScriptsData = {\n \t\t\tif ((this.battle.gen <= 7 || this.battle.ruleTable.has('+tag:past') ||\n \t\t\t\tthis.battle.ruleTable.has('+tag:future')) &&\n \t\t\t\taltForme?.isMega && altForme?.requiredMove &&\n-\t\t\t\tpokemon.baseMoves.includes(toID(altForme.requiredMove)) && !item.zMove) {\n+\t\t\t\tpokemon.baseMoves.includes(this.battle.toID(altForme.requiredMove)) && !item.zMove) {\n \t\t\t\treturn altForme.name;\n \t\t\t}\n \t\t\treturn item.megaStone?.[species.name] || null;"
+    }
+  ]
+}

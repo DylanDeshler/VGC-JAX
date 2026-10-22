@@ -1,0 +1,101 @@
+{
+  "sha": "1daa64d333ebb367d181818949460f074be8c5db",
+  "node_id": "C_kwDOAC5c7toAKDFkYWE2NGQzMzNlYmIzNjdkMTgxODE4OTQ5NDYwZjA3NGJlOGM1ZGI",
+  "commit": {
+    "author": {
+      "name": "André Bastos Dias",
+      "email": "80102738+andrebastosdias@users.noreply.github.com",
+      "date": "2026-10-08T17:03:18Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-10-08T17:03:18Z"
+    },
+    "message": "Champions: Ban Mega Raichu Y (#12369)\n\nhttps://www.smogon.com/forums/threads/np-thunder-champions-ou-suspect-test.3788759/post-11156766",
+    "tree": {
+      "sha": "1d9cf8bc8e97f5cfe4f030d3c0295476fbbe414e",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/trees/1d9cf8bc8e97f5cfe4f030d3c0295476fbbe414e"
+    },
+    "url": "https://api.github.com/repos/smogon/pokemon-showdown/git/commits/1daa64d333ebb367d181818949460f074be8c5db",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqx8zWCRC1aQ7uu5UhlAAAjcUQAGvBsggirHbv3Z2rZNEtNFtK\nMdayhyKh7zbI/NlhP1SmWKznsEjlCuXB1URfBbHXBN7rpOJe8mmBZ78cNpSN2z+n\n03qs7wKkXOd40vf6+sF8BxgtVWT3oSKws8LkRqASFYKqnnWcONUR30tSZSLy+Rwo\nNmIDmXXwamnkBfAyXekGKnlPbOplOjHVOYB9Fv1S8lzJozglKyF5PN3ty+x5TCEN\nrTqPV17E+xSnkGt4BY5y6gLzVOKFD9p1RAdYEX0mh6r5OPJCcqGMBRksmZ4MYZwI\n/xDE76rLgJS21M7DjqLoHpayMrQ1K+zqJN6a4q0l7GS6csYD+yTmouV1F6LfdwsF\nAdF+A1MivYeyhD8O435rxAwlPE/cDMXing3AxSlyHlU9kk2DNdwk9UOOniUXvunT\nRPaEQd7KBrTaPfcSDMddU5F2r/1kSwoPmn/t3a1TdQuNCzrsZzPD4GixD04UhXVQ\nMYMIv9I+6kKD1I9oZx7zByHw0xp1VHPxAyyLFjnx6BLUW3UvKHQn541vOVYHXCvi\nE5DbFFdZ8f6zr94LIxuadDQ4oesiH6UtJssfKiCv+DK0vLkfOVKdRWjsWhofwH3A\nc9vNr4YgPP5ACBh4GnTdOj5fsSakwyZFHHEgxD4RH33VTnk2r43Hb9zaHOGh2Cop\nEZijP2R5tYzWi7kDAOZ2\n=Q8cK\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 1d9cf8bc8e97f5cfe4f030d3c0295476fbbe414e\nparent 4373e278cd09c20605b7213fb46bb6f8a875dfaf\nauthor André Bastos Dias <80102738+andrebastosdias@users.noreply.github.com> 1791478998 +0100\ncommitter GitHub <noreply@github.com> 1791478998 -0600\n\nChampions: Ban Mega Raichu Y (#12369)\n\nhttps://www.smogon.com/forums/threads/np-thunder-champions-ou-suspect-test.3788759/post-11156766",
+      "verified_at": "2026-10-08T17:03:19Z"
+    }
+  },
+  "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/1daa64d333ebb367d181818949460f074be8c5db",
+  "html_url": "https://github.com/smogon/pokemon-showdown/commit/1daa64d333ebb367d181818949460f074be8c5db",
+  "comments_url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/1daa64d333ebb367d181818949460f074be8c5db/comments",
+  "author": {
+    "login": "andrebastosdias",
+    "id": 80102738,
+    "node_id": "MDQ6VXNlcjgwMTAyNzM4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/80102738?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/andrebastosdias",
+    "html_url": "https://github.com/andrebastosdias",
+    "followers_url": "https://api.github.com/users/andrebastosdias/followers",
+    "following_url": "https://api.github.com/users/andrebastosdias/following{/other_user}",
+    "gists_url": "https://api.github.com/users/andrebastosdias/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/andrebastosdias/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/andrebastosdias/subscriptions",
+    "organizations_url": "https://api.github.com/users/andrebastosdias/orgs",
+    "repos_url": "https://api.github.com/users/andrebastosdias/repos",
+    "events_url": "https://api.github.com/users/andrebastosdias/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/andrebastosdias/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "4373e278cd09c20605b7213fb46bb6f8a875dfaf",
+      "url": "https://api.github.com/repos/smogon/pokemon-showdown/commits/4373e278cd09c20605b7213fb46bb6f8a875dfaf",
+      "html_url": "https://github.com/smogon/pokemon-showdown/commit/4373e278cd09c20605b7213fb46bb6f8a875dfaf"
+    }
+  ],
+  "stats": {
+    "total": 2,
+    "additions": 1,
+    "deletions": 1
+  },
+  "files": [
+    {
+      "sha": "d6c366653cb90d0de668d3007c691ce339a7245a",
+      "filename": "data/mods/champions/formats-data.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/smogon/pokemon-showdown/blob/1daa64d333ebb367d181818949460f074be8c5db/data%2Fmods%2Fchampions%2Fformats-data.ts",
+      "raw_url": "https://github.com/smogon/pokemon-showdown/raw/1daa64d333ebb367d181818949460f074be8c5db/data%2Fmods%2Fchampions%2Fformats-data.ts",
+      "contents_url": "https://api.github.com/repos/smogon/pokemon-showdown/contents/data%2Fmods%2Fchampions%2Fformats-data.ts?ref=1daa64d333ebb367d181818949460f074be8c5db",
+      "patch": "@@ -220,7 +220,7 @@ export const FormatsData: import('../../../sim/dex-species').ModdedSpeciesFormat\n \t\ttier: \"RU\",\n \t},\n \traichumegay: {\n-\t\ttier: \"OU\",\n+\t\ttier: \"Uber\",\n \t},\n \tsandshrew: {\n \t\tisNonstandard: \"Past\","
+    }
+  ]
+}

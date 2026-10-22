@@ -1,0 +1,8462 @@
+{
+ "format": "[Gen 9 Champions] VGC 2026 Reg M-C",
+ "countValidatorAccepted": 312,
+ "countExcludingGmaxPlaceholders": 293,
+ "countBattleDistinct": 263,
+ "countDistinctDexNumbers": 231,
+ "species": [
+  {
+   "name": "Venusaur",
+   "id": "venusaur",
+   "num": 3,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 82,
+    "def": 83,
+    "spa": 100,
+    "spd": 100,
+    "spe": 80
+   },
+   "weightkg": 100,
+   "abilities": [
+    "Overgrow",
+    "Chlorophyll"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Venusaur-Gmax",
+   "id": "venusaurgmax",
+   "num": 3,
+   "forme": "Gmax",
+   "types": [
+    "Grass",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 82,
+    "def": 83,
+    "spa": 100,
+    "spd": 100,
+    "spe": 80
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Overgrow",
+    "Chlorophyll"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Charizard",
+   "id": "charizard",
+   "num": 6,
+   "forme": "",
+   "types": [
+    "Fire",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 78,
+    "atk": 84,
+    "def": 78,
+    "spa": 109,
+    "spd": 85,
+    "spe": 100
+   },
+   "weightkg": 90.5,
+   "abilities": [
+    "Blaze",
+    "Solar Power"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Charizard-Gmax",
+   "id": "charizardgmax",
+   "num": 6,
+   "forme": "Gmax",
+   "types": [
+    "Fire",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 78,
+    "atk": 84,
+    "def": 78,
+    "spa": 109,
+    "spd": 85,
+    "spe": 100
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Blaze",
+    "Solar Power"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Blastoise",
+   "id": "blastoise",
+   "num": 9,
+   "forme": "",
+   "types": [
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 79,
+    "atk": 83,
+    "def": 100,
+    "spa": 85,
+    "spd": 105,
+    "spe": 78
+   },
+   "weightkg": 85.5,
+   "abilities": [
+    "Torrent",
+    "Rain Dish"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Blastoise-Gmax",
+   "id": "blastoisegmax",
+   "num": 9,
+   "forme": "Gmax",
+   "types": [
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 79,
+    "atk": 83,
+    "def": 100,
+    "spa": 85,
+    "spd": 105,
+    "spe": 78
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Torrent",
+    "Rain Dish"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Beedrill",
+   "id": "beedrill",
+   "num": 15,
+   "forme": "",
+   "types": [
+    "Bug",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 90,
+    "def": 40,
+    "spa": 45,
+    "spd": 80,
+    "spe": 75
+   },
+   "weightkg": 29.5,
+   "abilities": [
+    "Swarm",
+    "Sniper"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Pidgeot",
+   "id": "pidgeot",
+   "num": 18,
+   "forme": "",
+   "types": [
+    "Normal",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 83,
+    "atk": 80,
+    "def": 75,
+    "spa": 70,
+    "spd": 70,
+    "spe": 101
+   },
+   "weightkg": 39.5,
+   "abilities": [
+    "Keen Eye",
+    "Tangled Feet",
+    "Big Pecks"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Arbok",
+   "id": "arbok",
+   "num": 24,
+   "forme": "",
+   "types": [
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 95,
+    "def": 69,
+    "spa": 65,
+    "spd": 79,
+    "spe": 80
+   },
+   "weightkg": 65,
+   "abilities": [
+    "Intimidate",
+    "Shed Skin",
+    "Unnerve"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Pikachu",
+   "id": "pikachu",
+   "num": 25,
+   "forme": "",
+   "types": [
+    "Electric"
+   ],
+   "baseStats": {
+    "hp": 35,
+    "atk": 55,
+    "def": 40,
+    "spa": 50,
+    "spd": 50,
+    "spe": 90
+   },
+   "weightkg": 6,
+   "abilities": [
+    "Static",
+    "Lightning Rod"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Pikachu-Gmax",
+   "id": "pikachugmax",
+   "num": 25,
+   "forme": "Gmax",
+   "types": [
+    "Electric"
+   ],
+   "baseStats": {
+    "hp": 35,
+    "atk": 55,
+    "def": 40,
+    "spa": 50,
+    "spd": 50,
+    "spe": 90
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Static",
+    "Lightning Rod"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Raichu",
+   "id": "raichu",
+   "num": 26,
+   "forme": "",
+   "types": [
+    "Electric"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 90,
+    "def": 55,
+    "spa": 90,
+    "spd": 80,
+    "spe": 110
+   },
+   "weightkg": 30,
+   "abilities": [
+    "Static",
+    "Lightning Rod"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Raichu-Alola",
+   "id": "raichualola",
+   "num": 26,
+   "forme": "Alola",
+   "types": [
+    "Electric",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 85,
+    "def": 50,
+    "spa": 95,
+    "spd": 85,
+    "spe": 110
+   },
+   "weightkg": 21,
+   "abilities": [
+    "Surge Surfer"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Clefable",
+   "id": "clefable",
+   "num": 36,
+   "forme": "",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 70,
+    "def": 73,
+    "spa": 95,
+    "spd": 90,
+    "spe": 60
+   },
+   "weightkg": 40,
+   "abilities": [
+    "Cute Charm",
+    "Magic Guard",
+    "Unaware"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Ninetales",
+   "id": "ninetales",
+   "num": 38,
+   "forme": "",
+   "types": [
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 73,
+    "atk": 76,
+    "def": 75,
+    "spa": 81,
+    "spd": 100,
+    "spe": 100
+   },
+   "weightkg": 19.9,
+   "abilities": [
+    "Flash Fire",
+    "Drought"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Ninetales-Alola",
+   "id": "ninetalesalola",
+   "num": 38,
+   "forme": "Alola",
+   "types": [
+    "Ice",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 73,
+    "atk": 67,
+    "def": 75,
+    "spa": 81,
+    "spd": 100,
+    "spe": 109
+   },
+   "weightkg": 19.9,
+   "abilities": [
+    "Snow Cloak",
+    "Snow Warning"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Wigglytuff",
+   "id": "wigglytuff",
+   "num": 40,
+   "forme": "",
+   "types": [
+    "Normal",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 140,
+    "atk": 70,
+    "def": 45,
+    "spa": 85,
+    "spd": 50,
+    "spe": 45
+   },
+   "weightkg": 12,
+   "abilities": [
+    "Cute Charm",
+    "Competitive",
+    "Frisk"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Vileplume",
+   "id": "vileplume",
+   "num": 45,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 80,
+    "def": 85,
+    "spa": 110,
+    "spd": 90,
+    "spe": 50
+   },
+   "weightkg": 18.6,
+   "abilities": [
+    "Chlorophyll",
+    "Effect Spore"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Persian",
+   "id": "persian",
+   "num": 53,
+   "forme": "",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 70,
+    "def": 60,
+    "spa": 65,
+    "spd": 65,
+    "spe": 115
+   },
+   "weightkg": 32,
+   "abilities": [
+    "Limber",
+    "Technician",
+    "Unnerve"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Persian-Alola",
+   "id": "persianalola",
+   "num": 53,
+   "forme": "Alola",
+   "types": [
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 60,
+    "def": 60,
+    "spa": 75,
+    "spd": 65,
+    "spe": 115
+   },
+   "weightkg": 33,
+   "abilities": [
+    "Fur Coat",
+    "Technician",
+    "Rattled"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Arcanine",
+   "id": "arcanine",
+   "num": 59,
+   "forme": "",
+   "types": [
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 90,
+    "atk": 110,
+    "def": 80,
+    "spa": 100,
+    "spd": 80,
+    "spe": 95
+   },
+   "weightkg": 155,
+   "abilities": [
+    "Intimidate",
+    "Flash Fire",
+    "Justified"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Arcanine-Hisui",
+   "id": "arcaninehisui",
+   "num": 59,
+   "forme": "Hisui",
+   "types": [
+    "Fire",
+    "Rock"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 115,
+    "def": 80,
+    "spa": 95,
+    "spd": 80,
+    "spe": 90
+   },
+   "weightkg": 168,
+   "abilities": [
+    "Intimidate",
+    "Flash Fire",
+    "Rock Head"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Alakazam",
+   "id": "alakazam",
+   "num": 65,
+   "forme": "",
+   "types": [
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 55,
+    "atk": 50,
+    "def": 45,
+    "spa": 135,
+    "spd": 95,
+    "spe": 120
+   },
+   "weightkg": 48,
+   "abilities": [
+    "Synchronize",
+    "Inner Focus",
+    "Magic Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Machamp",
+   "id": "machamp",
+   "num": 68,
+   "forme": "",
+   "types": [
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 90,
+    "atk": 130,
+    "def": 80,
+    "spa": 65,
+    "spd": 85,
+    "spe": 55
+   },
+   "weightkg": 130,
+   "abilities": [
+    "Guts",
+    "No Guard",
+    "Steadfast"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Machamp-Gmax",
+   "id": "machampgmax",
+   "num": 68,
+   "forme": "Gmax",
+   "types": [
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 90,
+    "atk": 130,
+    "def": 80,
+    "spa": 65,
+    "spd": 85,
+    "spe": 55
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Guts",
+    "No Guard",
+    "Steadfast"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Victreebel",
+   "id": "victreebel",
+   "num": 71,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 105,
+    "def": 65,
+    "spa": 100,
+    "spd": 70,
+    "spe": 70
+   },
+   "weightkg": 15.5,
+   "abilities": [
+    "Chlorophyll",
+    "Gluttony"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Slowbro",
+   "id": "slowbro",
+   "num": 80,
+   "forme": "",
+   "types": [
+    "Water",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 75,
+    "def": 110,
+    "spa": 100,
+    "spd": 80,
+    "spe": 30
+   },
+   "weightkg": 78.5,
+   "abilities": [
+    "Oblivious",
+    "Own Tempo",
+    "Regenerator"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Slowbro-Galar",
+   "id": "slowbrogalar",
+   "num": 80,
+   "forme": "Galar",
+   "types": [
+    "Poison",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 100,
+    "def": 95,
+    "spa": 100,
+    "spd": 70,
+    "spe": 30
+   },
+   "weightkg": 70.5,
+   "abilities": [
+    "Quick Draw",
+    "Own Tempo",
+    "Regenerator"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Farfetch’d",
+   "id": "farfetchd",
+   "num": 83,
+   "forme": "",
+   "types": [
+    "Normal",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 52,
+    "atk": 90,
+    "def": 55,
+    "spa": 58,
+    "spd": 62,
+    "spe": 60
+   },
+   "weightkg": 15,
+   "abilities": [
+    "Keen Eye",
+    "Inner Focus",
+    "Defiant"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Gengar",
+   "id": "gengar",
+   "num": 94,
+   "forme": "",
+   "types": [
+    "Ghost",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 65,
+    "def": 60,
+    "spa": 130,
+    "spd": 75,
+    "spe": 110
+   },
+   "weightkg": 40.5,
+   "abilities": [
+    "Cursed Body"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Gengar-Gmax",
+   "id": "gengargmax",
+   "num": 94,
+   "forme": "Gmax",
+   "types": [
+    "Ghost",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 65,
+    "def": 60,
+    "spa": 130,
+    "spd": 75,
+    "spe": 110
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Cursed Body"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Kangaskhan",
+   "id": "kangaskhan",
+   "num": 115,
+   "forme": "",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 105,
+    "atk": 95,
+    "def": 80,
+    "spa": 40,
+    "spd": 80,
+    "spe": 90
+   },
+   "weightkg": 80,
+   "abilities": [
+    "Early Bird",
+    "Scrappy",
+    "Inner Focus"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Starmie",
+   "id": "starmie",
+   "num": 121,
+   "forme": "",
+   "types": [
+    "Water",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 75,
+    "def": 85,
+    "spa": 100,
+    "spd": 85,
+    "spe": 115
+   },
+   "weightkg": 80,
+   "abilities": [
+    "Illuminate",
+    "Natural Cure",
+    "Analytic"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Mr. Mime",
+   "id": "mrmime",
+   "num": 122,
+   "forme": "",
+   "types": [
+    "Psychic",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 40,
+    "atk": 45,
+    "def": 65,
+    "spa": 100,
+    "spd": 120,
+    "spe": 90
+   },
+   "weightkg": 54.5,
+   "abilities": [
+    "Soundproof",
+    "Filter",
+    "Technician"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Pinsir",
+   "id": "pinsir",
+   "num": 127,
+   "forme": "",
+   "types": [
+    "Bug"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 125,
+    "def": 100,
+    "spa": 55,
+    "spd": 70,
+    "spe": 85
+   },
+   "weightkg": 55,
+   "abilities": [
+    "Hyper Cutter",
+    "Mold Breaker",
+    "Moxie"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Tauros",
+   "id": "tauros",
+   "num": 128,
+   "forme": "",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 100,
+    "def": 95,
+    "spa": 40,
+    "spd": 70,
+    "spe": 110
+   },
+   "weightkg": 88.4,
+   "abilities": [
+    "Intimidate",
+    "Anger Point",
+    "Sheer Force"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Tauros-Paldea-Combat",
+   "id": "taurospaldeacombat",
+   "num": 128,
+   "forme": "Paldea-Combat",
+   "types": [
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 110,
+    "def": 105,
+    "spa": 30,
+    "spd": 70,
+    "spe": 100
+   },
+   "weightkg": 115,
+   "abilities": [
+    "Intimidate",
+    "Anger Point",
+    "Cud Chew"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Tauros-Paldea-Blaze",
+   "id": "taurospaldeablaze",
+   "num": 128,
+   "forme": "Paldea-Blaze",
+   "types": [
+    "Fighting",
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 110,
+    "def": 105,
+    "spa": 30,
+    "spd": 70,
+    "spe": 100
+   },
+   "weightkg": 85,
+   "abilities": [
+    "Intimidate",
+    "Anger Point",
+    "Cud Chew"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Tauros-Paldea-Aqua",
+   "id": "taurospaldeaaqua",
+   "num": 128,
+   "forme": "Paldea-Aqua",
+   "types": [
+    "Fighting",
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 110,
+    "def": 105,
+    "spa": 30,
+    "spd": 70,
+    "spe": 100
+   },
+   "weightkg": 110,
+   "abilities": [
+    "Intimidate",
+    "Anger Point",
+    "Cud Chew"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Gyarados",
+   "id": "gyarados",
+   "num": 130,
+   "forme": "",
+   "types": [
+    "Water",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 125,
+    "def": 79,
+    "spa": 60,
+    "spd": 100,
+    "spe": 81
+   },
+   "weightkg": 235,
+   "abilities": [
+    "Intimidate",
+    "Moxie"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Ditto",
+   "id": "ditto",
+   "num": 132,
+   "forme": "",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 48,
+    "atk": 48,
+    "def": 48,
+    "spa": 48,
+    "spd": 48,
+    "spe": 48
+   },
+   "weightkg": 4,
+   "abilities": [
+    "Limber",
+    "Imposter"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Vaporeon",
+   "id": "vaporeon",
+   "num": 134,
+   "forme": "",
+   "types": [
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 130,
+    "atk": 65,
+    "def": 60,
+    "spa": 110,
+    "spd": 95,
+    "spe": 65
+   },
+   "weightkg": 29,
+   "abilities": [
+    "Water Absorb",
+    "Hydration"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Jolteon",
+   "id": "jolteon",
+   "num": 135,
+   "forme": "",
+   "types": [
+    "Electric"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 65,
+    "def": 60,
+    "spa": 110,
+    "spd": 95,
+    "spe": 130
+   },
+   "weightkg": 24.5,
+   "abilities": [
+    "Volt Absorb",
+    "Quick Feet"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Flareon",
+   "id": "flareon",
+   "num": 136,
+   "forme": "",
+   "types": [
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 130,
+    "def": 60,
+    "spa": 95,
+    "spd": 110,
+    "spe": 65
+   },
+   "weightkg": 25,
+   "abilities": [
+    "Flash Fire",
+    "Guts"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Aerodactyl",
+   "id": "aerodactyl",
+   "num": 142,
+   "forme": "",
+   "types": [
+    "Rock",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 105,
+    "def": 65,
+    "spa": 60,
+    "spd": 75,
+    "spe": 130
+   },
+   "weightkg": 59,
+   "abilities": [
+    "Rock Head",
+    "Pressure",
+    "Unnerve"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Snorlax",
+   "id": "snorlax",
+   "num": 143,
+   "forme": "",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 160,
+    "atk": 110,
+    "def": 65,
+    "spa": 65,
+    "spd": 110,
+    "spe": 30
+   },
+   "weightkg": 460,
+   "abilities": [
+    "Immunity",
+    "Thick Fat",
+    "Gluttony"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Snorlax-Gmax",
+   "id": "snorlaxgmax",
+   "num": 143,
+   "forme": "Gmax",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 160,
+    "atk": 110,
+    "def": 65,
+    "spa": 65,
+    "spd": 110,
+    "spe": 30
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Immunity",
+    "Thick Fat",
+    "Gluttony"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Dragonite",
+   "id": "dragonite",
+   "num": 149,
+   "forme": "",
+   "types": [
+    "Dragon",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 91,
+    "atk": 134,
+    "def": 95,
+    "spa": 100,
+    "spd": 100,
+    "spe": 80
+   },
+   "weightkg": 210,
+   "abilities": [
+    "Inner Focus",
+    "Multiscale"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Meganium",
+   "id": "meganium",
+   "num": 154,
+   "forme": "",
+   "types": [
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 82,
+    "def": 100,
+    "spa": 83,
+    "spd": 100,
+    "spe": 80
+   },
+   "weightkg": 100.5,
+   "abilities": [
+    "Overgrow",
+    "Leaf Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Typhlosion",
+   "id": "typhlosion",
+   "num": 157,
+   "forme": "",
+   "types": [
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 78,
+    "atk": 84,
+    "def": 78,
+    "spa": 109,
+    "spd": 85,
+    "spe": 100
+   },
+   "weightkg": 79.5,
+   "abilities": [
+    "Blaze",
+    "Flash Fire"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Typhlosion-Hisui",
+   "id": "typhlosionhisui",
+   "num": 157,
+   "forme": "Hisui",
+   "types": [
+    "Fire",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 73,
+    "atk": 84,
+    "def": 78,
+    "spa": 119,
+    "spd": 85,
+    "spe": 95
+   },
+   "weightkg": 69.8,
+   "abilities": [
+    "Blaze",
+    "Frisk"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Feraligatr",
+   "id": "feraligatr",
+   "num": 160,
+   "forme": "",
+   "types": [
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 105,
+    "def": 100,
+    "spa": 79,
+    "spd": 83,
+    "spe": 78
+   },
+   "weightkg": 88.8,
+   "abilities": [
+    "Torrent",
+    "Sheer Force"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Ariados",
+   "id": "ariados",
+   "num": 168,
+   "forme": "",
+   "types": [
+    "Bug",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 90,
+    "def": 70,
+    "spa": 60,
+    "spd": 70,
+    "spe": 40
+   },
+   "weightkg": 33.5,
+   "abilities": [
+    "Swarm",
+    "Insomnia",
+    "Sniper"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Ampharos",
+   "id": "ampharos",
+   "num": 181,
+   "forme": "",
+   "types": [
+    "Electric"
+   ],
+   "baseStats": {
+    "hp": 90,
+    "atk": 75,
+    "def": 85,
+    "spa": 115,
+    "spd": 90,
+    "spe": 55
+   },
+   "weightkg": 61.5,
+   "abilities": [
+    "Static",
+    "Plus"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Azumarill",
+   "id": "azumarill",
+   "num": 184,
+   "forme": "",
+   "types": [
+    "Water",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 100,
+    "atk": 50,
+    "def": 80,
+    "spa": 60,
+    "spd": 80,
+    "spe": 50
+   },
+   "weightkg": 28.5,
+   "abilities": [
+    "Thick Fat",
+    "Huge Power",
+    "Sap Sipper"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Politoed",
+   "id": "politoed",
+   "num": 186,
+   "forme": "",
+   "types": [
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 90,
+    "atk": 75,
+    "def": 75,
+    "spa": 90,
+    "spd": 100,
+    "spe": 70
+   },
+   "weightkg": 33.9,
+   "abilities": [
+    "Water Absorb",
+    "Damp",
+    "Drizzle"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Espeon",
+   "id": "espeon",
+   "num": 196,
+   "forme": "",
+   "types": [
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 65,
+    "def": 60,
+    "spa": 130,
+    "spd": 95,
+    "spe": 110
+   },
+   "weightkg": 26.5,
+   "abilities": [
+    "Synchronize",
+    "Magic Bounce"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Umbreon",
+   "id": "umbreon",
+   "num": 197,
+   "forme": "",
+   "types": [
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 65,
+    "def": 110,
+    "spa": 60,
+    "spd": 130,
+    "spe": 65
+   },
+   "weightkg": 27,
+   "abilities": [
+    "Synchronize",
+    "Inner Focus"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Slowking",
+   "id": "slowking",
+   "num": 199,
+   "forme": "",
+   "types": [
+    "Water",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 75,
+    "def": 80,
+    "spa": 100,
+    "spd": 110,
+    "spe": 30
+   },
+   "weightkg": 79.5,
+   "abilities": [
+    "Oblivious",
+    "Own Tempo",
+    "Regenerator"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Slowking-Galar",
+   "id": "slowkinggalar",
+   "num": 199,
+   "forme": "Galar",
+   "types": [
+    "Poison",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 65,
+    "def": 80,
+    "spa": 110,
+    "spd": 110,
+    "spe": 30
+   },
+   "weightkg": 79.5,
+   "abilities": [
+    "Curious Medicine",
+    "Own Tempo",
+    "Regenerator"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Forretress",
+   "id": "forretress",
+   "num": 205,
+   "forme": "",
+   "types": [
+    "Bug",
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 90,
+    "def": 140,
+    "spa": 60,
+    "spd": 60,
+    "spe": 40
+   },
+   "weightkg": 125.8,
+   "abilities": [
+    "Sturdy",
+    "Overcoat"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Steelix",
+   "id": "steelix",
+   "num": 208,
+   "forme": "",
+   "types": [
+    "Steel",
+    "Ground"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 85,
+    "def": 200,
+    "spa": 55,
+    "spd": 65,
+    "spe": 30
+   },
+   "weightkg": 400,
+   "abilities": [
+    "Rock Head",
+    "Sturdy",
+    "Sheer Force"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Qwilfish",
+   "id": "qwilfish",
+   "num": 211,
+   "forme": "",
+   "types": [
+    "Water",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 95,
+    "def": 85,
+    "spa": 55,
+    "spd": 55,
+    "spe": 85
+   },
+   "weightkg": 3.9,
+   "abilities": [
+    "Poison Point",
+    "Swift Swim",
+    "Intimidate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Scizor",
+   "id": "scizor",
+   "num": 212,
+   "forme": "",
+   "types": [
+    "Bug",
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 130,
+    "def": 100,
+    "spa": 55,
+    "spd": 80,
+    "spe": 65
+   },
+   "weightkg": 118,
+   "abilities": [
+    "Swarm",
+    "Technician",
+    "Light Metal"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Heracross",
+   "id": "heracross",
+   "num": 214,
+   "forme": "",
+   "types": [
+    "Bug",
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 125,
+    "def": 75,
+    "spa": 40,
+    "spd": 95,
+    "spe": 85
+   },
+   "weightkg": 54,
+   "abilities": [
+    "Swarm",
+    "Guts",
+    "Moxie"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Skarmory",
+   "id": "skarmory",
+   "num": 227,
+   "forme": "",
+   "types": [
+    "Steel",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 80,
+    "def": 140,
+    "spa": 40,
+    "spd": 70,
+    "spe": 70
+   },
+   "weightkg": 50.5,
+   "abilities": [
+    "Keen Eye",
+    "Sturdy",
+    "Weak Armor"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Houndoom",
+   "id": "houndoom",
+   "num": 229,
+   "forme": "",
+   "types": [
+    "Dark",
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 90,
+    "def": 50,
+    "spa": 110,
+    "spd": 80,
+    "spe": 95
+   },
+   "weightkg": 35,
+   "abilities": [
+    "Early Bird",
+    "Flash Fire",
+    "Unnerve"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Tyranitar",
+   "id": "tyranitar",
+   "num": 248,
+   "forme": "",
+   "types": [
+    "Rock",
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 100,
+    "atk": 134,
+    "def": 110,
+    "spa": 95,
+    "spd": 100,
+    "spe": 61
+   },
+   "weightkg": 202,
+   "abilities": [
+    "Sand Stream",
+    "Unnerve"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Sceptile",
+   "id": "sceptile",
+   "num": 254,
+   "forme": "",
+   "types": [
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 85,
+    "def": 65,
+    "spa": 105,
+    "spd": 85,
+    "spe": 120
+   },
+   "weightkg": 52.2,
+   "abilities": [
+    "Overgrow",
+    "Unburden"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Blaziken",
+   "id": "blaziken",
+   "num": 257,
+   "forme": "",
+   "types": [
+    "Fire",
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 120,
+    "def": 70,
+    "spa": 110,
+    "spd": 70,
+    "spe": 80
+   },
+   "weightkg": 52,
+   "abilities": [
+    "Blaze",
+    "Speed Boost"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Swampert",
+   "id": "swampert",
+   "num": 260,
+   "forme": "",
+   "types": [
+    "Water",
+    "Ground"
+   ],
+   "baseStats": {
+    "hp": 100,
+    "atk": 110,
+    "def": 90,
+    "spa": 85,
+    "spd": 90,
+    "spe": 60
+   },
+   "weightkg": 81.9,
+   "abilities": [
+    "Torrent",
+    "Damp"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Pelipper",
+   "id": "pelipper",
+   "num": 279,
+   "forme": "",
+   "types": [
+    "Water",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 50,
+    "def": 100,
+    "spa": 95,
+    "spd": 70,
+    "spe": 65
+   },
+   "weightkg": 28,
+   "abilities": [
+    "Keen Eye",
+    "Drizzle",
+    "Rain Dish"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Gardevoir",
+   "id": "gardevoir",
+   "num": 282,
+   "forme": "",
+   "types": [
+    "Psychic",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 68,
+    "atk": 65,
+    "def": 65,
+    "spa": 125,
+    "spd": 115,
+    "spe": 80
+   },
+   "weightkg": 48.4,
+   "abilities": [
+    "Synchronize",
+    "Trace",
+    "Telepathy"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Sableye",
+   "id": "sableye",
+   "num": 302,
+   "forme": "",
+   "types": [
+    "Dark",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 50,
+    "atk": 75,
+    "def": 75,
+    "spa": 65,
+    "spd": 65,
+    "spe": 50
+   },
+   "weightkg": 11,
+   "abilities": [
+    "Keen Eye",
+    "Stall",
+    "Prankster"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Mawile",
+   "id": "mawile",
+   "num": 303,
+   "forme": "",
+   "types": [
+    "Steel",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 50,
+    "atk": 85,
+    "def": 85,
+    "spa": 55,
+    "spd": 55,
+    "spe": 50
+   },
+   "weightkg": 11.5,
+   "abilities": [
+    "Hyper Cutter",
+    "Intimidate",
+    "Sheer Force"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Aggron",
+   "id": "aggron",
+   "num": 306,
+   "forme": "",
+   "types": [
+    "Steel",
+    "Rock"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 110,
+    "def": 180,
+    "spa": 60,
+    "spd": 60,
+    "spe": 50
+   },
+   "weightkg": 360,
+   "abilities": [
+    "Sturdy",
+    "Rock Head",
+    "Heavy Metal"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Medicham",
+   "id": "medicham",
+   "num": 308,
+   "forme": "",
+   "types": [
+    "Fighting",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 60,
+    "def": 75,
+    "spa": 60,
+    "spd": 75,
+    "spe": 80
+   },
+   "weightkg": 31.5,
+   "abilities": [
+    "Pure Power",
+    "Telepathy"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Manectric",
+   "id": "manectric",
+   "num": 310,
+   "forme": "",
+   "types": [
+    "Electric"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 75,
+    "def": 60,
+    "spa": 105,
+    "spd": 60,
+    "spe": 105
+   },
+   "weightkg": 40.2,
+   "abilities": [
+    "Static",
+    "Lightning Rod",
+    "Minus"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Swalot",
+   "id": "swalot",
+   "num": 317,
+   "forme": "",
+   "types": [
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 100,
+    "atk": 73,
+    "def": 83,
+    "spa": 73,
+    "spd": 83,
+    "spe": 55
+   },
+   "weightkg": 80,
+   "abilities": [
+    "Liquid Ooze",
+    "Sticky Hold",
+    "Gluttony"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Sharpedo",
+   "id": "sharpedo",
+   "num": 319,
+   "forme": "",
+   "types": [
+    "Water",
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 120,
+    "def": 40,
+    "spa": 95,
+    "spd": 40,
+    "spe": 95
+   },
+   "weightkg": 88.8,
+   "abilities": [
+    "Rough Skin",
+    "Speed Boost"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Camerupt",
+   "id": "camerupt",
+   "num": 323,
+   "forme": "",
+   "types": [
+    "Fire",
+    "Ground"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 100,
+    "def": 70,
+    "spa": 105,
+    "spd": 75,
+    "spe": 40
+   },
+   "weightkg": 220,
+   "abilities": [
+    "Magma Armor",
+    "Solid Rock",
+    "Anger Point"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Torkoal",
+   "id": "torkoal",
+   "num": 324,
+   "forme": "",
+   "types": [
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 85,
+    "def": 140,
+    "spa": 85,
+    "spd": 70,
+    "spe": 20
+   },
+   "weightkg": 80.4,
+   "abilities": [
+    "White Smoke",
+    "Drought",
+    "Shell Armor"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Altaria",
+   "id": "altaria",
+   "num": 334,
+   "forme": "",
+   "types": [
+    "Dragon",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 70,
+    "def": 90,
+    "spa": 70,
+    "spd": 105,
+    "spe": 80
+   },
+   "weightkg": 20.6,
+   "abilities": [
+    "Natural Cure",
+    "Cloud Nine"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Milotic",
+   "id": "milotic",
+   "num": 350,
+   "forme": "",
+   "types": [
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 60,
+    "def": 79,
+    "spa": 100,
+    "spd": 125,
+    "spe": 81
+   },
+   "weightkg": 162,
+   "abilities": [
+    "Marvel Scale",
+    "Competitive",
+    "Cute Charm"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Castform",
+   "id": "castform",
+   "num": 351,
+   "forme": "",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 70,
+    "def": 70,
+    "spa": 70,
+    "spd": 70,
+    "spe": 70
+   },
+   "weightkg": 0.8,
+   "abilities": [
+    "Forecast"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Banette",
+   "id": "banette",
+   "num": 354,
+   "forme": "",
+   "types": [
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 64,
+    "atk": 115,
+    "def": 65,
+    "spa": 83,
+    "spd": 63,
+    "spe": 65
+   },
+   "weightkg": 12.5,
+   "abilities": [
+    "Insomnia",
+    "Frisk",
+    "Cursed Body"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Chimecho",
+   "id": "chimecho",
+   "num": 358,
+   "forme": "",
+   "types": [
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 50,
+    "def": 80,
+    "spa": 95,
+    "spd": 90,
+    "spe": 65
+   },
+   "weightkg": 1,
+   "abilities": [
+    "Levitate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Absol",
+   "id": "absol",
+   "num": 359,
+   "forme": "",
+   "types": [
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 130,
+    "def": 60,
+    "spa": 75,
+    "spd": 60,
+    "spe": 75
+   },
+   "weightkg": 47,
+   "abilities": [
+    "Pressure",
+    "Super Luck",
+    "Justified"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Glalie",
+   "id": "glalie",
+   "num": 362,
+   "forme": "",
+   "types": [
+    "Ice"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 80,
+    "def": 80,
+    "spa": 80,
+    "spd": 80,
+    "spe": 80
+   },
+   "weightkg": 256.5,
+   "abilities": [
+    "Inner Focus",
+    "Ice Body",
+    "Moody"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Salamence",
+   "id": "salamence",
+   "num": 373,
+   "forme": "",
+   "types": [
+    "Dragon",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 135,
+    "def": 80,
+    "spa": 110,
+    "spd": 80,
+    "spe": 100
+   },
+   "weightkg": 102.6,
+   "abilities": [
+    "Intimidate",
+    "Moxie"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Metagross",
+   "id": "metagross",
+   "num": 376,
+   "forme": "",
+   "types": [
+    "Steel",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 135,
+    "def": 130,
+    "spa": 95,
+    "spd": 90,
+    "spe": 70
+   },
+   "weightkg": 550,
+   "abilities": [
+    "Clear Body",
+    "Light Metal"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Torterra",
+   "id": "torterra",
+   "num": 389,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Ground"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 109,
+    "def": 105,
+    "spa": 75,
+    "spd": 85,
+    "spe": 56
+   },
+   "weightkg": 310,
+   "abilities": [
+    "Overgrow",
+    "Shell Armor"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Infernape",
+   "id": "infernape",
+   "num": 392,
+   "forme": "",
+   "types": [
+    "Fire",
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 76,
+    "atk": 104,
+    "def": 71,
+    "spa": 104,
+    "spd": 71,
+    "spe": 108
+   },
+   "weightkg": 55,
+   "abilities": [
+    "Blaze",
+    "Iron Fist"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Empoleon",
+   "id": "empoleon",
+   "num": 395,
+   "forme": "",
+   "types": [
+    "Water",
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 84,
+    "atk": 86,
+    "def": 88,
+    "spa": 111,
+    "spd": 101,
+    "spe": 60
+   },
+   "weightkg": 84.5,
+   "abilities": [
+    "Torrent",
+    "Competitive"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Staraptor",
+   "id": "staraptor",
+   "num": 398,
+   "forme": "",
+   "types": [
+    "Normal",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 120,
+    "def": 70,
+    "spa": 50,
+    "spd": 60,
+    "spe": 100
+   },
+   "weightkg": 24.9,
+   "abilities": [
+    "Intimidate",
+    "Reckless"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Luxray",
+   "id": "luxray",
+   "num": 405,
+   "forme": "",
+   "types": [
+    "Electric"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 120,
+    "def": 79,
+    "spa": 95,
+    "spd": 79,
+    "spe": 70
+   },
+   "weightkg": 42,
+   "abilities": [
+    "Rivalry",
+    "Intimidate",
+    "Guts"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Roserade",
+   "id": "roserade",
+   "num": 407,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 70,
+    "def": 65,
+    "spa": 125,
+    "spd": 105,
+    "spe": 90
+   },
+   "weightkg": 14.5,
+   "abilities": [
+    "Natural Cure",
+    "Poison Point",
+    "Technician"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Rampardos",
+   "id": "rampardos",
+   "num": 409,
+   "forme": "",
+   "types": [
+    "Rock"
+   ],
+   "baseStats": {
+    "hp": 97,
+    "atk": 165,
+    "def": 60,
+    "spa": 65,
+    "spd": 50,
+    "spe": 58
+   },
+   "weightkg": 102.5,
+   "abilities": [
+    "Mold Breaker",
+    "Sheer Force"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Bastiodon",
+   "id": "bastiodon",
+   "num": 411,
+   "forme": "",
+   "types": [
+    "Rock",
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 52,
+    "def": 168,
+    "spa": 47,
+    "spd": 138,
+    "spe": 30
+   },
+   "weightkg": 149.5,
+   "abilities": [
+    "Sturdy",
+    "Soundproof"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Lopunny",
+   "id": "lopunny",
+   "num": 428,
+   "forme": "",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 76,
+    "def": 84,
+    "spa": 54,
+    "spd": 96,
+    "spe": 105
+   },
+   "weightkg": 33.3,
+   "abilities": [
+    "Cute Charm",
+    "Klutz",
+    "Limber"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Spiritomb",
+   "id": "spiritomb",
+   "num": 442,
+   "forme": "",
+   "types": [
+    "Ghost",
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 50,
+    "atk": 92,
+    "def": 108,
+    "spa": 92,
+    "spd": 108,
+    "spe": 35
+   },
+   "weightkg": 108,
+   "abilities": [
+    "Pressure",
+    "Infiltrator"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Garchomp",
+   "id": "garchomp",
+   "num": 445,
+   "forme": "",
+   "types": [
+    "Dragon",
+    "Ground"
+   ],
+   "baseStats": {
+    "hp": 108,
+    "atk": 130,
+    "def": 95,
+    "spa": 80,
+    "spd": 85,
+    "spe": 102
+   },
+   "weightkg": 95,
+   "abilities": [
+    "Sand Veil",
+    "Rough Skin"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Lucario",
+   "id": "lucario",
+   "num": 448,
+   "forme": "",
+   "types": [
+    "Fighting",
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 110,
+    "def": 70,
+    "spa": 115,
+    "spd": 70,
+    "spe": 90
+   },
+   "weightkg": 54,
+   "abilities": [
+    "Steadfast",
+    "Inner Focus",
+    "Justified"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Hippowdon",
+   "id": "hippowdon",
+   "num": 450,
+   "forme": "",
+   "types": [
+    "Ground"
+   ],
+   "baseStats": {
+    "hp": 108,
+    "atk": 112,
+    "def": 118,
+    "spa": 68,
+    "spd": 72,
+    "spe": 47
+   },
+   "weightkg": 300,
+   "abilities": [
+    "Sand Stream",
+    "Sand Force"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Toxicroak",
+   "id": "toxicroak",
+   "num": 454,
+   "forme": "",
+   "types": [
+    "Poison",
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 83,
+    "atk": 106,
+    "def": 65,
+    "spa": 86,
+    "spd": 65,
+    "spe": 85
+   },
+   "weightkg": 44.4,
+   "abilities": [
+    "Anticipation",
+    "Dry Skin",
+    "Poison Touch"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Abomasnow",
+   "id": "abomasnow",
+   "num": 460,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Ice"
+   ],
+   "baseStats": {
+    "hp": 90,
+    "atk": 92,
+    "def": 75,
+    "spa": 92,
+    "spd": 85,
+    "spe": 60
+   },
+   "weightkg": 135.5,
+   "abilities": [
+    "Snow Warning",
+    "Soundproof"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Weavile",
+   "id": "weavile",
+   "num": 461,
+   "forme": "",
+   "types": [
+    "Dark",
+    "Ice"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 120,
+    "def": 65,
+    "spa": 45,
+    "spd": 85,
+    "spe": 125
+   },
+   "weightkg": 34,
+   "abilities": [
+    "Pressure",
+    "Pickpocket"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Rhyperior",
+   "id": "rhyperior",
+   "num": 464,
+   "forme": "",
+   "types": [
+    "Ground",
+    "Rock"
+   ],
+   "baseStats": {
+    "hp": 115,
+    "atk": 140,
+    "def": 130,
+    "spa": 55,
+    "spd": 55,
+    "spe": 40
+   },
+   "weightkg": 282.8,
+   "abilities": [
+    "Lightning Rod",
+    "Solid Rock",
+    "Reckless"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Leafeon",
+   "id": "leafeon",
+   "num": 470,
+   "forme": "",
+   "types": [
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 110,
+    "def": 130,
+    "spa": 60,
+    "spd": 65,
+    "spe": 95
+   },
+   "weightkg": 25.5,
+   "abilities": [
+    "Leaf Guard",
+    "Chlorophyll"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Glaceon",
+   "id": "glaceon",
+   "num": 471,
+   "forme": "",
+   "types": [
+    "Ice"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 60,
+    "def": 110,
+    "spa": 130,
+    "spd": 95,
+    "spe": 65
+   },
+   "weightkg": 25.9,
+   "abilities": [
+    "Snow Cloak",
+    "Ice Body"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Gliscor",
+   "id": "gliscor",
+   "num": 472,
+   "forme": "",
+   "types": [
+    "Ground",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 95,
+    "def": 125,
+    "spa": 45,
+    "spd": 75,
+    "spe": 95
+   },
+   "weightkg": 42.5,
+   "abilities": [
+    "Hyper Cutter",
+    "Sand Veil",
+    "Poison Heal"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Mamoswine",
+   "id": "mamoswine",
+   "num": 473,
+   "forme": "",
+   "types": [
+    "Ice",
+    "Ground"
+   ],
+   "baseStats": {
+    "hp": 110,
+    "atk": 130,
+    "def": 80,
+    "spa": 70,
+    "spd": 60,
+    "spe": 80
+   },
+   "weightkg": 291,
+   "abilities": [
+    "Oblivious",
+    "Snow Cloak",
+    "Thick Fat"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Gallade",
+   "id": "gallade",
+   "num": 475,
+   "forme": "",
+   "types": [
+    "Psychic",
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 68,
+    "atk": 125,
+    "def": 65,
+    "spa": 65,
+    "spd": 115,
+    "spe": 80
+   },
+   "weightkg": 52,
+   "abilities": [
+    "Steadfast",
+    "Sharpness",
+    "Justified"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Froslass",
+   "id": "froslass",
+   "num": 478,
+   "forme": "",
+   "types": [
+    "Ice",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 80,
+    "def": 70,
+    "spa": 80,
+    "spd": 70,
+    "spe": 110
+   },
+   "weightkg": 26.6,
+   "abilities": [
+    "Snow Cloak",
+    "Cursed Body"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Rotom",
+   "id": "rotom",
+   "num": 479,
+   "forme": "",
+   "types": [
+    "Electric",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 50,
+    "atk": 50,
+    "def": 77,
+    "spa": 95,
+    "spd": 77,
+    "spe": 91
+   },
+   "weightkg": 0.3,
+   "abilities": [
+    "Levitate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Rotom-Heat",
+   "id": "rotomheat",
+   "num": 479,
+   "forme": "Heat",
+   "types": [
+    "Electric",
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 50,
+    "atk": 65,
+    "def": 107,
+    "spa": 105,
+    "spd": 107,
+    "spe": 86
+   },
+   "weightkg": 0.3,
+   "abilities": [
+    "Levitate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Rotom-Wash",
+   "id": "rotomwash",
+   "num": 479,
+   "forme": "Wash",
+   "types": [
+    "Electric",
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 50,
+    "atk": 65,
+    "def": 107,
+    "spa": 105,
+    "spd": 107,
+    "spe": 86
+   },
+   "weightkg": 0.3,
+   "abilities": [
+    "Levitate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Rotom-Frost",
+   "id": "rotomfrost",
+   "num": 479,
+   "forme": "Frost",
+   "types": [
+    "Electric",
+    "Ice"
+   ],
+   "baseStats": {
+    "hp": 50,
+    "atk": 65,
+    "def": 107,
+    "spa": 105,
+    "spd": 107,
+    "spe": 86
+   },
+   "weightkg": 0.3,
+   "abilities": [
+    "Levitate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Rotom-Fan",
+   "id": "rotomfan",
+   "num": 479,
+   "forme": "Fan",
+   "types": [
+    "Electric",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 50,
+    "atk": 65,
+    "def": 107,
+    "spa": 105,
+    "spd": 107,
+    "spe": 86
+   },
+   "weightkg": 0.3,
+   "abilities": [
+    "Levitate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Rotom-Mow",
+   "id": "rotommow",
+   "num": 479,
+   "forme": "Mow",
+   "types": [
+    "Electric",
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 50,
+    "atk": 65,
+    "def": 107,
+    "spa": 105,
+    "spd": 107,
+    "spe": 86
+   },
+   "weightkg": 0.3,
+   "abilities": [
+    "Levitate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Serperior",
+   "id": "serperior",
+   "num": 497,
+   "forme": "",
+   "types": [
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 75,
+    "def": 95,
+    "spa": 75,
+    "spd": 95,
+    "spe": 113
+   },
+   "weightkg": 63,
+   "abilities": [
+    "Overgrow",
+    "Contrary"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Emboar",
+   "id": "emboar",
+   "num": 500,
+   "forme": "",
+   "types": [
+    "Fire",
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 110,
+    "atk": 123,
+    "def": 65,
+    "spa": 100,
+    "spd": 65,
+    "spe": 65
+   },
+   "weightkg": 150,
+   "abilities": [
+    "Blaze",
+    "Reckless"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Samurott",
+   "id": "samurott",
+   "num": 503,
+   "forme": "",
+   "types": [
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 100,
+    "def": 85,
+    "spa": 108,
+    "spd": 70,
+    "spe": 70
+   },
+   "weightkg": 94.6,
+   "abilities": [
+    "Torrent",
+    "Shell Armor"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Samurott-Hisui",
+   "id": "samurotthisui",
+   "num": 503,
+   "forme": "Hisui",
+   "types": [
+    "Water",
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 90,
+    "atk": 108,
+    "def": 80,
+    "spa": 100,
+    "spd": 65,
+    "spe": 85
+   },
+   "weightkg": 58.2,
+   "abilities": [
+    "Torrent",
+    "Sharpness"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Watchog",
+   "id": "watchog",
+   "num": 505,
+   "forme": "",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 85,
+    "def": 69,
+    "spa": 60,
+    "spd": 69,
+    "spe": 77
+   },
+   "weightkg": 27,
+   "abilities": [
+    "Illuminate",
+    "Keen Eye",
+    "Analytic"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Liepard",
+   "id": "liepard",
+   "num": 510,
+   "forme": "",
+   "types": [
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 64,
+    "atk": 88,
+    "def": 50,
+    "spa": 88,
+    "spd": 50,
+    "spe": 106
+   },
+   "weightkg": 37.5,
+   "abilities": [
+    "Limber",
+    "Unburden",
+    "Prankster"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Simisage",
+   "id": "simisage",
+   "num": 512,
+   "forme": "",
+   "types": [
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 98,
+    "def": 63,
+    "spa": 98,
+    "spd": 63,
+    "spe": 101
+   },
+   "weightkg": 30.5,
+   "abilities": [
+    "Gluttony",
+    "Overgrow"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Simisear",
+   "id": "simisear",
+   "num": 514,
+   "forme": "",
+   "types": [
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 98,
+    "def": 63,
+    "spa": 98,
+    "spd": 63,
+    "spe": 101
+   },
+   "weightkg": 28,
+   "abilities": [
+    "Gluttony",
+    "Blaze"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Simipour",
+   "id": "simipour",
+   "num": 516,
+   "forme": "",
+   "types": [
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 98,
+    "def": 63,
+    "spa": 98,
+    "spd": 63,
+    "spe": 101
+   },
+   "weightkg": 29,
+   "abilities": [
+    "Gluttony",
+    "Torrent"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Musharna",
+   "id": "musharna",
+   "num": 518,
+   "forme": "",
+   "types": [
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 116,
+    "atk": 55,
+    "def": 85,
+    "spa": 107,
+    "spd": 95,
+    "spe": 29
+   },
+   "weightkg": 60.5,
+   "abilities": [
+    "Forewarn",
+    "Synchronize",
+    "Telepathy"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Excadrill",
+   "id": "excadrill",
+   "num": 530,
+   "forme": "",
+   "types": [
+    "Ground",
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 110,
+    "atk": 135,
+    "def": 60,
+    "spa": 50,
+    "spd": 65,
+    "spe": 88
+   },
+   "weightkg": 40.4,
+   "abilities": [
+    "Sand Rush",
+    "Sand Force",
+    "Mold Breaker"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Audino",
+   "id": "audino",
+   "num": 531,
+   "forme": "",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 103,
+    "atk": 60,
+    "def": 86,
+    "spa": 60,
+    "spd": 86,
+    "spe": 50
+   },
+   "weightkg": 31,
+   "abilities": [
+    "Healer",
+    "Regenerator",
+    "Klutz"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Conkeldurr",
+   "id": "conkeldurr",
+   "num": 534,
+   "forme": "",
+   "types": [
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 105,
+    "atk": 140,
+    "def": 95,
+    "spa": 55,
+    "spd": 65,
+    "spe": 45
+   },
+   "weightkg": 87,
+   "abilities": [
+    "Guts",
+    "Sheer Force",
+    "Iron Fist"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Scolipede",
+   "id": "scolipede",
+   "num": 545,
+   "forme": "",
+   "types": [
+    "Bug",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 100,
+    "def": 89,
+    "spa": 55,
+    "spd": 69,
+    "spe": 112
+   },
+   "weightkg": 200.5,
+   "abilities": [
+    "Poison Point",
+    "Swarm",
+    "Speed Boost"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Whimsicott",
+   "id": "whimsicott",
+   "num": 547,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 67,
+    "def": 85,
+    "spa": 77,
+    "spd": 75,
+    "spe": 116
+   },
+   "weightkg": 6.6,
+   "abilities": [
+    "Prankster",
+    "Infiltrator",
+    "Chlorophyll"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Krookodile",
+   "id": "krookodile",
+   "num": 553,
+   "forme": "",
+   "types": [
+    "Ground",
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 117,
+    "def": 80,
+    "spa": 65,
+    "spd": 70,
+    "spe": 92
+   },
+   "weightkg": 96.3,
+   "abilities": [
+    "Intimidate",
+    "Moxie",
+    "Anger Point"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Scrafty",
+   "id": "scrafty",
+   "num": 560,
+   "forme": "",
+   "types": [
+    "Dark",
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 90,
+    "def": 115,
+    "spa": 45,
+    "spd": 115,
+    "spe": 58
+   },
+   "weightkg": 30,
+   "abilities": [
+    "Shed Skin",
+    "Moxie",
+    "Intimidate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Cofagrigus",
+   "id": "cofagrigus",
+   "num": 563,
+   "forme": "",
+   "types": [
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 58,
+    "atk": 50,
+    "def": 145,
+    "spa": 95,
+    "spd": 105,
+    "spe": 30
+   },
+   "weightkg": 76.5,
+   "abilities": [
+    "Mummy"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Garbodor",
+   "id": "garbodor",
+   "num": 569,
+   "forme": "",
+   "types": [
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 95,
+    "def": 82,
+    "spa": 60,
+    "spd": 82,
+    "spe": 75
+   },
+   "weightkg": 107.3,
+   "abilities": [
+    "Stench",
+    "Weak Armor",
+    "Aftermath"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Garbodor-Gmax",
+   "id": "garbodorgmax",
+   "num": 569,
+   "forme": "Gmax",
+   "types": [
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 95,
+    "def": 82,
+    "spa": 60,
+    "spd": 82,
+    "spe": 75
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Stench",
+    "Weak Armor",
+    "Aftermath"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Zoroark",
+   "id": "zoroark",
+   "num": 571,
+   "forme": "",
+   "types": [
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 105,
+    "def": 60,
+    "spa": 120,
+    "spd": 60,
+    "spe": 105
+   },
+   "weightkg": 81.1,
+   "abilities": [
+    "Illusion"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Zoroark-Hisui",
+   "id": "zoroarkhisui",
+   "num": 571,
+   "forme": "Hisui",
+   "types": [
+    "Normal",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 55,
+    "atk": 100,
+    "def": 60,
+    "spa": 125,
+    "spd": 60,
+    "spe": 110
+   },
+   "weightkg": 73,
+   "abilities": [
+    "Illusion"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Reuniclus",
+   "id": "reuniclus",
+   "num": 579,
+   "forme": "",
+   "types": [
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 110,
+    "atk": 65,
+    "def": 75,
+    "spa": 125,
+    "spd": 85,
+    "spe": 30
+   },
+   "weightkg": 20.1,
+   "abilities": [
+    "Overcoat",
+    "Magic Guard",
+    "Regenerator"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Vanilluxe",
+   "id": "vanilluxe",
+   "num": 584,
+   "forme": "",
+   "types": [
+    "Ice"
+   ],
+   "baseStats": {
+    "hp": 71,
+    "atk": 95,
+    "def": 85,
+    "spa": 110,
+    "spd": 95,
+    "spe": 79
+   },
+   "weightkg": 57.5,
+   "abilities": [
+    "Ice Body",
+    "Snow Warning",
+    "Weak Armor"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Emolga",
+   "id": "emolga",
+   "num": 587,
+   "forme": "",
+   "types": [
+    "Electric",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 55,
+    "atk": 75,
+    "def": 60,
+    "spa": 75,
+    "spd": 60,
+    "spe": 103
+   },
+   "weightkg": 5,
+   "abilities": [
+    "Static",
+    "Motor Drive"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Eelektross",
+   "id": "eelektross",
+   "num": 604,
+   "forme": "",
+   "types": [
+    "Electric"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 115,
+    "def": 80,
+    "spa": 105,
+    "spd": 80,
+    "spe": 50
+   },
+   "weightkg": 80.5,
+   "abilities": [
+    "Levitate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Chandelure",
+   "id": "chandelure",
+   "num": 609,
+   "forme": "",
+   "types": [
+    "Ghost",
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 55,
+    "def": 90,
+    "spa": 145,
+    "spd": 90,
+    "spe": 80
+   },
+   "weightkg": 34.3,
+   "abilities": [
+    "Flash Fire",
+    "Flame Body",
+    "Infiltrator"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Beartic",
+   "id": "beartic",
+   "num": 614,
+   "forme": "",
+   "types": [
+    "Ice"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 130,
+    "def": 80,
+    "spa": 70,
+    "spd": 80,
+    "spe": 50
+   },
+   "weightkg": 260,
+   "abilities": [
+    "Snow Cloak",
+    "Slush Rush",
+    "Swift Swim"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Stunfisk",
+   "id": "stunfisk",
+   "num": 618,
+   "forme": "",
+   "types": [
+    "Ground",
+    "Electric"
+   ],
+   "baseStats": {
+    "hp": 109,
+    "atk": 66,
+    "def": 84,
+    "spa": 81,
+    "spd": 99,
+    "spe": 32
+   },
+   "weightkg": 11,
+   "abilities": [
+    "Static",
+    "Limber",
+    "Sand Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Stunfisk-Galar",
+   "id": "stunfiskgalar",
+   "num": 618,
+   "forme": "Galar",
+   "types": [
+    "Ground",
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 109,
+    "atk": 81,
+    "def": 99,
+    "spa": 66,
+    "spd": 84,
+    "spe": 32
+   },
+   "weightkg": 20.5,
+   "abilities": [
+    "Mimicry"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Golurk",
+   "id": "golurk",
+   "num": 623,
+   "forme": "",
+   "types": [
+    "Ground",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 89,
+    "atk": 124,
+    "def": 80,
+    "spa": 55,
+    "spd": 80,
+    "spe": 55
+   },
+   "weightkg": 330,
+   "abilities": [
+    "Iron Fist",
+    "Klutz",
+    "No Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Hydreigon",
+   "id": "hydreigon",
+   "num": 635,
+   "forme": "",
+   "types": [
+    "Dark",
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 92,
+    "atk": 105,
+    "def": 90,
+    "spa": 125,
+    "spd": 90,
+    "spe": 98
+   },
+   "weightkg": 160,
+   "abilities": [
+    "Levitate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Volcarona",
+   "id": "volcarona",
+   "num": 637,
+   "forme": "",
+   "types": [
+    "Bug",
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 60,
+    "def": 65,
+    "spa": 135,
+    "spd": 105,
+    "spe": 100
+   },
+   "weightkg": 46,
+   "abilities": [
+    "Flame Body",
+    "Swarm"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Chesnaught",
+   "id": "chesnaught",
+   "num": 652,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 88,
+    "atk": 107,
+    "def": 122,
+    "spa": 74,
+    "spd": 75,
+    "spe": 64
+   },
+   "weightkg": 90,
+   "abilities": [
+    "Overgrow",
+    "Bulletproof"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Delphox",
+   "id": "delphox",
+   "num": 655,
+   "forme": "",
+   "types": [
+    "Fire",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 69,
+    "def": 72,
+    "spa": 114,
+    "spd": 100,
+    "spe": 104
+   },
+   "weightkg": 39,
+   "abilities": [
+    "Blaze",
+    "Magician"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Greninja",
+   "id": "greninja",
+   "num": 658,
+   "forme": "",
+   "types": [
+    "Water",
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 72,
+    "atk": 95,
+    "def": 67,
+    "spa": 103,
+    "spd": 71,
+    "spe": 122
+   },
+   "weightkg": 40,
+   "abilities": [
+    "Torrent",
+    "Protean",
+    "Battle Bond"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Diggersby",
+   "id": "diggersby",
+   "num": 660,
+   "forme": "",
+   "types": [
+    "Normal",
+    "Ground"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 56,
+    "def": 77,
+    "spa": 50,
+    "spd": 77,
+    "spe": 78
+   },
+   "weightkg": 42.4,
+   "abilities": [
+    "Pickup",
+    "Cheek Pouch",
+    "Huge Power"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Talonflame",
+   "id": "talonflame",
+   "num": 663,
+   "forme": "",
+   "types": [
+    "Fire",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 78,
+    "atk": 81,
+    "def": 71,
+    "spa": 74,
+    "spd": 69,
+    "spe": 126
+   },
+   "weightkg": 24.5,
+   "abilities": [
+    "Flame Body",
+    "Gale Wings"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Vivillon",
+   "id": "vivillon",
+   "num": 666,
+   "forme": "",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Vivillon-Icy Snow",
+   "id": "vivillonicysnow",
+   "num": 666,
+   "forme": "Icy Snow",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Polar",
+   "id": "vivillonpolar",
+   "num": 666,
+   "forme": "Polar",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Tundra",
+   "id": "vivillontundra",
+   "num": 666,
+   "forme": "Tundra",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Continental",
+   "id": "vivilloncontinental",
+   "num": 666,
+   "forme": "Continental",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Garden",
+   "id": "vivillongarden",
+   "num": 666,
+   "forme": "Garden",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Elegant",
+   "id": "vivillonelegant",
+   "num": 666,
+   "forme": "Elegant",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Modern",
+   "id": "vivillonmodern",
+   "num": 666,
+   "forme": "Modern",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Marine",
+   "id": "vivillonmarine",
+   "num": 666,
+   "forme": "Marine",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Archipelago",
+   "id": "vivillonarchipelago",
+   "num": 666,
+   "forme": "Archipelago",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-High Plains",
+   "id": "vivillonhighplains",
+   "num": 666,
+   "forme": "High Plains",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Sandstorm",
+   "id": "vivillonsandstorm",
+   "num": 666,
+   "forme": "Sandstorm",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-River",
+   "id": "vivillonriver",
+   "num": 666,
+   "forme": "River",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Monsoon",
+   "id": "vivillonmonsoon",
+   "num": 666,
+   "forme": "Monsoon",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Savanna",
+   "id": "vivillonsavanna",
+   "num": 666,
+   "forme": "Savanna",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Sun",
+   "id": "vivillonsun",
+   "num": 666,
+   "forme": "Sun",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Ocean",
+   "id": "vivillonocean",
+   "num": 666,
+   "forme": "Ocean",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Jungle",
+   "id": "vivillonjungle",
+   "num": 666,
+   "forme": "Jungle",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Fancy",
+   "id": "vivillonfancy",
+   "num": 666,
+   "forme": "Fancy",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Vivillon-Pokeball",
+   "id": "vivillonpokeball",
+   "num": 666,
+   "forme": "Pokeball",
+   "types": [
+    "Bug",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 52,
+    "def": 50,
+    "spa": 90,
+    "spd": 50,
+    "spe": 89
+   },
+   "weightkg": 17,
+   "abilities": [
+    "Shield Dust",
+    "Compound Eyes",
+    "Friend Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Vivillon"
+  },
+  {
+   "name": "Pyroar",
+   "id": "pyroar",
+   "num": 668,
+   "forme": "",
+   "types": [
+    "Fire",
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 86,
+    "atk": 68,
+    "def": 72,
+    "spa": 109,
+    "spd": 66,
+    "spe": 106
+   },
+   "weightkg": 81.5,
+   "abilities": [
+    "Rivalry",
+    "Unnerve",
+    "Moxie"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Floette-Eternal",
+   "id": "floetteeternal",
+   "num": 670,
+   "forme": "Eternal",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 74,
+    "atk": 65,
+    "def": 67,
+    "spa": 125,
+    "spd": 128,
+    "spe": 92
+   },
+   "weightkg": 0.9,
+   "abilities": [
+    "Flower Veil",
+    "Symbiosis"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Florges",
+   "id": "florges",
+   "num": 671,
+   "forme": "",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 78,
+    "atk": 65,
+    "def": 68,
+    "spa": 112,
+    "spd": 154,
+    "spe": 75
+   },
+   "weightkg": 10,
+   "abilities": [
+    "Flower Veil",
+    "Symbiosis"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Gogoat",
+   "id": "gogoat",
+   "num": 673,
+   "forme": "",
+   "types": [
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 123,
+    "atk": 100,
+    "def": 62,
+    "spa": 97,
+    "spd": 81,
+    "spe": 68
+   },
+   "weightkg": 91,
+   "abilities": [
+    "Sap Sipper",
+    "Grass Pelt"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Pangoro",
+   "id": "pangoro",
+   "num": 675,
+   "forme": "",
+   "types": [
+    "Fighting",
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 124,
+    "def": 78,
+    "spa": 69,
+    "spd": 71,
+    "spe": 58
+   },
+   "weightkg": 136,
+   "abilities": [
+    "Iron Fist",
+    "Mold Breaker",
+    "Scrappy"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Furfrou",
+   "id": "furfrou",
+   "num": 676,
+   "forme": "",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 80,
+    "def": 60,
+    "spa": 65,
+    "spd": 90,
+    "spe": 102
+   },
+   "weightkg": 28,
+   "abilities": [
+    "Fur Coat"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Meowstic",
+   "id": "meowstic",
+   "num": 678,
+   "forme": "",
+   "types": [
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 74,
+    "atk": 48,
+    "def": 76,
+    "spa": 83,
+    "spd": 81,
+    "spe": 104
+   },
+   "weightkg": 8.5,
+   "abilities": [
+    "Keen Eye",
+    "Infiltrator",
+    "Prankster"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Meowstic-F",
+   "id": "meowsticf",
+   "num": 678,
+   "forme": "F",
+   "types": [
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 74,
+    "atk": 48,
+    "def": 76,
+    "spa": 83,
+    "spd": 81,
+    "spe": 104
+   },
+   "weightkg": 8.5,
+   "abilities": [
+    "Keen Eye",
+    "Infiltrator",
+    "Competitive"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Aegislash",
+   "id": "aegislash",
+   "num": 681,
+   "forme": "",
+   "types": [
+    "Steel",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 50,
+    "def": 140,
+    "spa": 50,
+    "spd": 140,
+    "spe": 60
+   },
+   "weightkg": 53,
+   "abilities": [
+    "Stance Change"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Aromatisse",
+   "id": "aromatisse",
+   "num": 683,
+   "forme": "",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 101,
+    "atk": 72,
+    "def": 72,
+    "spa": 99,
+    "spd": 89,
+    "spe": 29
+   },
+   "weightkg": 15.5,
+   "abilities": [
+    "Healer",
+    "Aroma Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Slurpuff",
+   "id": "slurpuff",
+   "num": 685,
+   "forme": "",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 82,
+    "atk": 80,
+    "def": 86,
+    "spa": 85,
+    "spd": 75,
+    "spe": 72
+   },
+   "weightkg": 5,
+   "abilities": [
+    "Sweet Veil",
+    "Unburden"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Malamar",
+   "id": "malamar",
+   "num": 687,
+   "forme": "",
+   "types": [
+    "Dark",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 86,
+    "atk": 92,
+    "def": 88,
+    "spa": 68,
+    "spd": 75,
+    "spe": 73
+   },
+   "weightkg": 47,
+   "abilities": [
+    "Contrary",
+    "Suction Cups",
+    "Infiltrator"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Barbaracle",
+   "id": "barbaracle",
+   "num": 689,
+   "forme": "",
+   "types": [
+    "Rock",
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 72,
+    "atk": 105,
+    "def": 115,
+    "spa": 54,
+    "spd": 86,
+    "spe": 68
+   },
+   "weightkg": 96,
+   "abilities": [
+    "Tough Claws",
+    "Sniper",
+    "Pickpocket"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Dragalge",
+   "id": "dragalge",
+   "num": 691,
+   "forme": "",
+   "types": [
+    "Poison",
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 75,
+    "def": 90,
+    "spa": 97,
+    "spd": 123,
+    "spe": 44
+   },
+   "weightkg": 81.5,
+   "abilities": [
+    "Poison Point",
+    "Poison Touch",
+    "Adaptability"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Clawitzer",
+   "id": "clawitzer",
+   "num": 693,
+   "forme": "",
+   "types": [
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 71,
+    "atk": 73,
+    "def": 88,
+    "spa": 120,
+    "spd": 89,
+    "spe": 59
+   },
+   "weightkg": 35.3,
+   "abilities": [
+    "Mega Launcher"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Heliolisk",
+   "id": "heliolisk",
+   "num": 695,
+   "forme": "",
+   "types": [
+    "Electric",
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 62,
+    "atk": 55,
+    "def": 52,
+    "spa": 109,
+    "spd": 94,
+    "spe": 109
+   },
+   "weightkg": 21,
+   "abilities": [
+    "Dry Skin",
+    "Sand Veil",
+    "Solar Power"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Tyrantrum",
+   "id": "tyrantrum",
+   "num": 697,
+   "forme": "",
+   "types": [
+    "Rock",
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 82,
+    "atk": 121,
+    "def": 119,
+    "spa": 69,
+    "spd": 59,
+    "spe": 71
+   },
+   "weightkg": 270,
+   "abilities": [
+    "Strong Jaw",
+    "Rock Head"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Aurorus",
+   "id": "aurorus",
+   "num": 699,
+   "forme": "",
+   "types": [
+    "Rock",
+    "Ice"
+   ],
+   "baseStats": {
+    "hp": 123,
+    "atk": 77,
+    "def": 72,
+    "spa": 99,
+    "spd": 92,
+    "spe": 58
+   },
+   "weightkg": 225,
+   "abilities": [
+    "Refrigerate",
+    "Snow Warning"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Sylveon",
+   "id": "sylveon",
+   "num": 700,
+   "forme": "",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 65,
+    "def": 65,
+    "spa": 110,
+    "spd": 130,
+    "spe": 60
+   },
+   "weightkg": 23.5,
+   "abilities": [
+    "Cute Charm",
+    "Pixilate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Hawlucha",
+   "id": "hawlucha",
+   "num": 701,
+   "forme": "",
+   "types": [
+    "Fighting",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 78,
+    "atk": 92,
+    "def": 75,
+    "spa": 74,
+    "spd": 63,
+    "spe": 118
+   },
+   "weightkg": 21.5,
+   "abilities": [
+    "Limber",
+    "Unburden",
+    "Mold Breaker"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Dedenne",
+   "id": "dedenne",
+   "num": 702,
+   "forme": "",
+   "types": [
+    "Electric",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 67,
+    "atk": 58,
+    "def": 57,
+    "spa": 81,
+    "spd": 67,
+    "spe": 101
+   },
+   "weightkg": 2.2,
+   "abilities": [
+    "Cheek Pouch",
+    "Pickup",
+    "Plus"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Goodra",
+   "id": "goodra",
+   "num": 706,
+   "forme": "",
+   "types": [
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 90,
+    "atk": 100,
+    "def": 70,
+    "spa": 110,
+    "spd": 150,
+    "spe": 80
+   },
+   "weightkg": 150.5,
+   "abilities": [
+    "Sap Sipper",
+    "Hydration",
+    "Gooey"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Goodra-Hisui",
+   "id": "goodrahisui",
+   "num": 706,
+   "forme": "Hisui",
+   "types": [
+    "Steel",
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 100,
+    "def": 100,
+    "spa": 110,
+    "spd": 150,
+    "spe": 60
+   },
+   "weightkg": 334.1,
+   "abilities": [
+    "Sap Sipper",
+    "Shell Armor",
+    "Gooey"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Klefki",
+   "id": "klefki",
+   "num": 707,
+   "forme": "",
+   "types": [
+    "Steel",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 57,
+    "atk": 80,
+    "def": 91,
+    "spa": 80,
+    "spd": 87,
+    "spe": 75
+   },
+   "weightkg": 3,
+   "abilities": [
+    "Prankster",
+    "Magician"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Trevenant",
+   "id": "trevenant",
+   "num": 709,
+   "forme": "",
+   "types": [
+    "Ghost",
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 110,
+    "def": 76,
+    "spa": 65,
+    "spd": 82,
+    "spe": 56
+   },
+   "weightkg": 71,
+   "abilities": [
+    "Natural Cure",
+    "Frisk",
+    "Harvest"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Gourgeist",
+   "id": "gourgeist",
+   "num": 711,
+   "forme": "",
+   "types": [
+    "Ghost",
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 90,
+    "def": 122,
+    "spa": 58,
+    "spd": 75,
+    "spe": 84
+   },
+   "weightkg": 12.5,
+   "abilities": [
+    "Pickup",
+    "Frisk",
+    "Insomnia"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Gourgeist-Small",
+   "id": "gourgeistsmall",
+   "num": 711,
+   "forme": "Small",
+   "types": [
+    "Ghost",
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 55,
+    "atk": 85,
+    "def": 122,
+    "spa": 58,
+    "spd": 75,
+    "spe": 99
+   },
+   "weightkg": 9.5,
+   "abilities": [
+    "Pickup",
+    "Frisk",
+    "Insomnia"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Gourgeist-Large",
+   "id": "gourgeistlarge",
+   "num": 711,
+   "forme": "Large",
+   "types": [
+    "Ghost",
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 95,
+    "def": 122,
+    "spa": 58,
+    "spd": 75,
+    "spe": 69
+   },
+   "weightkg": 14,
+   "abilities": [
+    "Pickup",
+    "Frisk",
+    "Insomnia"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Gourgeist-Super",
+   "id": "gourgeistsuper",
+   "num": 711,
+   "forme": "Super",
+   "types": [
+    "Ghost",
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 100,
+    "def": 122,
+    "spa": 58,
+    "spd": 75,
+    "spe": 54
+   },
+   "weightkg": 39,
+   "abilities": [
+    "Pickup",
+    "Frisk",
+    "Insomnia"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Avalugg",
+   "id": "avalugg",
+   "num": 713,
+   "forme": "",
+   "types": [
+    "Ice"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 117,
+    "def": 184,
+    "spa": 44,
+    "spd": 46,
+    "spe": 28
+   },
+   "weightkg": 505,
+   "abilities": [
+    "Own Tempo",
+    "Ice Body",
+    "Sturdy"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Avalugg-Hisui",
+   "id": "avalugghisui",
+   "num": 713,
+   "forme": "Hisui",
+   "types": [
+    "Ice",
+    "Rock"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 127,
+    "def": 184,
+    "spa": 34,
+    "spd": 36,
+    "spe": 38
+   },
+   "weightkg": 262.4,
+   "abilities": [
+    "Strong Jaw",
+    "Ice Body",
+    "Sturdy"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Noivern",
+   "id": "noivern",
+   "num": 715,
+   "forme": "",
+   "types": [
+    "Flying",
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 70,
+    "def": 80,
+    "spa": 97,
+    "spd": 80,
+    "spe": 123
+   },
+   "weightkg": 85,
+   "abilities": [
+    "Frisk",
+    "Infiltrator",
+    "Telepathy"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Decidueye",
+   "id": "decidueye",
+   "num": 724,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 78,
+    "atk": 107,
+    "def": 75,
+    "spa": 100,
+    "spd": 100,
+    "spe": 70
+   },
+   "weightkg": 36.6,
+   "abilities": [
+    "Overgrow",
+    "Long Reach"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Decidueye-Hisui",
+   "id": "decidueyehisui",
+   "num": 724,
+   "forme": "Hisui",
+   "types": [
+    "Grass",
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 88,
+    "atk": 112,
+    "def": 80,
+    "spa": 95,
+    "spd": 95,
+    "spe": 60
+   },
+   "weightkg": 37,
+   "abilities": [
+    "Overgrow",
+    "Scrappy"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Incineroar",
+   "id": "incineroar",
+   "num": 727,
+   "forme": "",
+   "types": [
+    "Fire",
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 115,
+    "def": 90,
+    "spa": 80,
+    "spd": 90,
+    "spe": 60
+   },
+   "weightkg": 83,
+   "abilities": [
+    "Blaze",
+    "Intimidate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Primarina",
+   "id": "primarina",
+   "num": 730,
+   "forme": "",
+   "types": [
+    "Water",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 74,
+    "def": 74,
+    "spa": 126,
+    "spd": 116,
+    "spe": 60
+   },
+   "weightkg": 44,
+   "abilities": [
+    "Torrent",
+    "Liquid Voice"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Toucannon",
+   "id": "toucannon",
+   "num": 733,
+   "forme": "",
+   "types": [
+    "Normal",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 120,
+    "def": 75,
+    "spa": 75,
+    "spd": 75,
+    "spe": 60
+   },
+   "weightkg": 26,
+   "abilities": [
+    "Keen Eye",
+    "Skill Link",
+    "Sheer Force"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Crabominable",
+   "id": "crabominable",
+   "num": 740,
+   "forme": "",
+   "types": [
+    "Fighting",
+    "Ice"
+   ],
+   "baseStats": {
+    "hp": 97,
+    "atk": 132,
+    "def": 77,
+    "spa": 62,
+    "spd": 67,
+    "spe": 43
+   },
+   "weightkg": 180,
+   "abilities": [
+    "Hyper Cutter",
+    "Iron Fist",
+    "Anger Point"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Lycanroc",
+   "id": "lycanroc",
+   "num": 745,
+   "forme": "",
+   "types": [
+    "Rock"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 115,
+    "def": 65,
+    "spa": 55,
+    "spd": 65,
+    "spe": 112
+   },
+   "weightkg": 25,
+   "abilities": [
+    "Keen Eye",
+    "Sand Rush",
+    "Steadfast"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Lycanroc-Midnight",
+   "id": "lycanrocmidnight",
+   "num": 745,
+   "forme": "Midnight",
+   "types": [
+    "Rock"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 115,
+    "def": 75,
+    "spa": 55,
+    "spd": 75,
+    "spe": 82
+   },
+   "weightkg": 25,
+   "abilities": [
+    "Keen Eye",
+    "Vital Spirit",
+    "No Guard"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Lycanroc-Dusk",
+   "id": "lycanrocdusk",
+   "num": 745,
+   "forme": "Dusk",
+   "types": [
+    "Rock"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 117,
+    "def": 65,
+    "spa": 55,
+    "spd": 65,
+    "spe": 110
+   },
+   "weightkg": 25,
+   "abilities": [
+    "Tough Claws"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Toxapex",
+   "id": "toxapex",
+   "num": 748,
+   "forme": "",
+   "types": [
+    "Poison",
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 50,
+    "atk": 63,
+    "def": 152,
+    "spa": 53,
+    "spd": 142,
+    "spe": 35
+   },
+   "weightkg": 14.5,
+   "abilities": [
+    "Merciless",
+    "Limber",
+    "Regenerator"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Mudsdale",
+   "id": "mudsdale",
+   "num": 750,
+   "forme": "",
+   "types": [
+    "Ground"
+   ],
+   "baseStats": {
+    "hp": 100,
+    "atk": 125,
+    "def": 100,
+    "spa": 55,
+    "spd": 85,
+    "spe": 35
+   },
+   "weightkg": 920,
+   "abilities": [
+    "Own Tempo",
+    "Stamina",
+    "Inner Focus"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Araquanid",
+   "id": "araquanid",
+   "num": 752,
+   "forme": "",
+   "types": [
+    "Water",
+    "Bug"
+   ],
+   "baseStats": {
+    "hp": 68,
+    "atk": 70,
+    "def": 92,
+    "spa": 50,
+    "spd": 132,
+    "spe": 42
+   },
+   "weightkg": 82,
+   "abilities": [
+    "Water Bubble",
+    "Water Absorb"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Salazzle",
+   "id": "salazzle",
+   "num": 758,
+   "forme": "",
+   "types": [
+    "Poison",
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 68,
+    "atk": 64,
+    "def": 60,
+    "spa": 111,
+    "spd": 60,
+    "spe": 117
+   },
+   "weightkg": 22.2,
+   "abilities": [
+    "Corrosion",
+    "Oblivious"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Tsareena",
+   "id": "tsareena",
+   "num": 763,
+   "forme": "",
+   "types": [
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 72,
+    "atk": 120,
+    "def": 98,
+    "spa": 50,
+    "spd": 98,
+    "spe": 72
+   },
+   "weightkg": 21.4,
+   "abilities": [
+    "Leaf Guard",
+    "Queenly Majesty",
+    "Sweet Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Oranguru",
+   "id": "oranguru",
+   "num": 765,
+   "forme": "",
+   "types": [
+    "Normal",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 90,
+    "atk": 60,
+    "def": 80,
+    "spa": 90,
+    "spd": 110,
+    "spe": 60
+   },
+   "weightkg": 76,
+   "abilities": [
+    "Inner Focus",
+    "Telepathy",
+    "Symbiosis"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Passimian",
+   "id": "passimian",
+   "num": 766,
+   "forme": "",
+   "types": [
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 100,
+    "atk": 120,
+    "def": 90,
+    "spa": 40,
+    "spd": 60,
+    "spe": 80
+   },
+   "weightkg": 82.8,
+   "abilities": [
+    "Receiver",
+    "Defiant"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Golisopod",
+   "id": "golisopod",
+   "num": 768,
+   "forme": "",
+   "types": [
+    "Bug",
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 125,
+    "def": 140,
+    "spa": 60,
+    "spd": 90,
+    "spe": 40
+   },
+   "weightkg": 108,
+   "abilities": [
+    "Emergency Exit"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Mimikyu",
+   "id": "mimikyu",
+   "num": 778,
+   "forme": "",
+   "types": [
+    "Ghost",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 55,
+    "atk": 90,
+    "def": 80,
+    "spa": 50,
+    "spd": 105,
+    "spe": 96
+   },
+   "weightkg": 0.7,
+   "abilities": [
+    "Disguise"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Drampa",
+   "id": "drampa",
+   "num": 780,
+   "forme": "",
+   "types": [
+    "Normal",
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 78,
+    "atk": 60,
+    "def": 85,
+    "spa": 135,
+    "spd": 91,
+    "spe": 36
+   },
+   "weightkg": 185,
+   "abilities": [
+    "Berserk",
+    "Sap Sipper",
+    "Cloud Nine"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Kommo-o",
+   "id": "kommoo",
+   "num": 784,
+   "forme": "",
+   "types": [
+    "Dragon",
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 110,
+    "def": 125,
+    "spa": 100,
+    "spd": 105,
+    "spe": 85
+   },
+   "weightkg": 78.2,
+   "abilities": [
+    "Bulletproof",
+    "Soundproof",
+    "Overcoat"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Rillaboom",
+   "id": "rillaboom",
+   "num": 812,
+   "forme": "",
+   "types": [
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 100,
+    "atk": 125,
+    "def": 90,
+    "spa": 60,
+    "spd": 70,
+    "spe": 85
+   },
+   "weightkg": 90,
+   "abilities": [
+    "Overgrow",
+    "Grassy Surge"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Rillaboom-Gmax",
+   "id": "rillaboomgmax",
+   "num": 812,
+   "forme": "Gmax",
+   "types": [
+    "Grass"
+   ],
+   "baseStats": {
+    "hp": 100,
+    "atk": 125,
+    "def": 90,
+    "spa": 60,
+    "spd": 70,
+    "spe": 85
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Overgrow",
+    "Grassy Surge"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Cinderace",
+   "id": "cinderace",
+   "num": 815,
+   "forme": "",
+   "types": [
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 116,
+    "def": 75,
+    "spa": 65,
+    "spd": 75,
+    "spe": 119
+   },
+   "weightkg": 33,
+   "abilities": [
+    "Blaze",
+    "Libero"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Cinderace-Gmax",
+   "id": "cinderacegmax",
+   "num": 815,
+   "forme": "Gmax",
+   "types": [
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 116,
+    "def": 75,
+    "spa": 65,
+    "spd": 75,
+    "spe": 119
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Blaze",
+    "Libero"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Inteleon",
+   "id": "inteleon",
+   "num": 818,
+   "forme": "",
+   "types": [
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 85,
+    "def": 65,
+    "spa": 125,
+    "spd": 65,
+    "spe": 120
+   },
+   "weightkg": 45.2,
+   "abilities": [
+    "Torrent",
+    "Sniper"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Inteleon-Gmax",
+   "id": "inteleongmax",
+   "num": 818,
+   "forme": "Gmax",
+   "types": [
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 85,
+    "def": 65,
+    "spa": 125,
+    "spd": 65,
+    "spe": 120
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Torrent",
+    "Sniper"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Corviknight",
+   "id": "corviknight",
+   "num": 823,
+   "forme": "",
+   "types": [
+    "Flying",
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 98,
+    "atk": 87,
+    "def": 105,
+    "spa": 53,
+    "spd": 85,
+    "spe": 67
+   },
+   "weightkg": 75,
+   "abilities": [
+    "Pressure",
+    "Unnerve",
+    "Mirror Armor"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Corviknight-Gmax",
+   "id": "corviknightgmax",
+   "num": 823,
+   "forme": "Gmax",
+   "types": [
+    "Flying",
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 98,
+    "atk": 87,
+    "def": 105,
+    "spa": 53,
+    "spd": 85,
+    "spe": 67
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Pressure",
+    "Unnerve",
+    "Mirror Armor"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Thievul",
+   "id": "thievul",
+   "num": 828,
+   "forme": "",
+   "types": [
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 58,
+    "def": 58,
+    "spa": 87,
+    "spd": 92,
+    "spe": 90
+   },
+   "weightkg": 19.9,
+   "abilities": [
+    "Run Away",
+    "Unburden",
+    "Stakeout"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Flapple",
+   "id": "flapple",
+   "num": 841,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 110,
+    "def": 80,
+    "spa": 95,
+    "spd": 60,
+    "spe": 70
+   },
+   "weightkg": 1,
+   "abilities": [
+    "Ripen",
+    "Gluttony",
+    "Hustle"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Flapple-Gmax",
+   "id": "flapplegmax",
+   "num": 841,
+   "forme": "Gmax",
+   "types": [
+    "Grass",
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 110,
+    "def": 80,
+    "spa": 95,
+    "spd": 60,
+    "spe": 70
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Ripen",
+    "Gluttony",
+    "Hustle"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Appletun",
+   "id": "appletun",
+   "num": 842,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 110,
+    "atk": 85,
+    "def": 80,
+    "spa": 100,
+    "spd": 80,
+    "spe": 30
+   },
+   "weightkg": 13,
+   "abilities": [
+    "Ripen",
+    "Gluttony",
+    "Thick Fat"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Appletun-Gmax",
+   "id": "appletungmax",
+   "num": 842,
+   "forme": "Gmax",
+   "types": [
+    "Grass",
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 110,
+    "atk": 85,
+    "def": 80,
+    "spa": 100,
+    "spd": 80,
+    "spe": 30
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Ripen",
+    "Gluttony",
+    "Thick Fat"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Sandaconda",
+   "id": "sandaconda",
+   "num": 844,
+   "forme": "",
+   "types": [
+    "Ground"
+   ],
+   "baseStats": {
+    "hp": 72,
+    "atk": 107,
+    "def": 125,
+    "spa": 65,
+    "spd": 70,
+    "spe": 71
+   },
+   "weightkg": 65.5,
+   "abilities": [
+    "Sand Spit",
+    "Shed Skin",
+    "Sand Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Sandaconda-Gmax",
+   "id": "sandacondagmax",
+   "num": 844,
+   "forme": "Gmax",
+   "types": [
+    "Ground"
+   ],
+   "baseStats": {
+    "hp": 72,
+    "atk": 107,
+    "def": 125,
+    "spa": 65,
+    "spd": 70,
+    "spe": 71
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Sand Spit",
+    "Shed Skin",
+    "Sand Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Toxtricity",
+   "id": "toxtricity",
+   "num": 849,
+   "forme": "",
+   "types": [
+    "Electric",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 98,
+    "def": 70,
+    "spa": 114,
+    "spd": 70,
+    "spe": 75
+   },
+   "weightkg": 40,
+   "abilities": [
+    "Punk Rock",
+    "Plus",
+    "Technician"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Toxtricity-Low-Key",
+   "id": "toxtricitylowkey",
+   "num": 849,
+   "forme": "Low-Key",
+   "types": [
+    "Electric",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 98,
+    "def": 70,
+    "spa": 114,
+    "spd": 70,
+    "spe": 75
+   },
+   "weightkg": 40,
+   "abilities": [
+    "Punk Rock",
+    "Minus",
+    "Technician"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Toxtricity-Gmax",
+   "id": "toxtricitygmax",
+   "num": 849,
+   "forme": "Gmax",
+   "types": [
+    "Electric",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 98,
+    "def": 70,
+    "spa": 114,
+    "spd": 70,
+    "spe": 75
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Punk Rock",
+    "Plus",
+    "Technician"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Grapploct",
+   "id": "grapploct",
+   "num": 853,
+   "forme": "",
+   "types": [
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 118,
+    "def": 90,
+    "spa": 70,
+    "spd": 80,
+    "spe": 42
+   },
+   "weightkg": 39,
+   "abilities": [
+    "Limber",
+    "Technician"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Polteageist",
+   "id": "polteageist",
+   "num": 855,
+   "forme": "",
+   "types": [
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 65,
+    "def": 65,
+    "spa": 134,
+    "spd": 114,
+    "spe": 70
+   },
+   "weightkg": 0.4,
+   "abilities": [
+    "Weak Armor",
+    "Cursed Body"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Polteageist-Antique",
+   "id": "polteageistantique",
+   "num": 855,
+   "forme": "Antique",
+   "types": [
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 65,
+    "def": 65,
+    "spa": 134,
+    "spd": 114,
+    "spe": 70
+   },
+   "weightkg": 0.4,
+   "abilities": [
+    "Weak Armor",
+    "Cursed Body"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Polteageist"
+  },
+  {
+   "name": "Hatterene",
+   "id": "hatterene",
+   "num": 858,
+   "forme": "",
+   "types": [
+    "Psychic",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 57,
+    "atk": 90,
+    "def": 95,
+    "spa": 136,
+    "spd": 103,
+    "spe": 29
+   },
+   "weightkg": 5.1,
+   "abilities": [
+    "Healer",
+    "Anticipation",
+    "Magic Bounce"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Hatterene-Gmax",
+   "id": "hatterenegmax",
+   "num": 858,
+   "forme": "Gmax",
+   "types": [
+    "Psychic",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 57,
+    "atk": 90,
+    "def": 95,
+    "spa": 136,
+    "spd": 103,
+    "spe": 29
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Healer",
+    "Anticipation",
+    "Magic Bounce"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Grimmsnarl",
+   "id": "grimmsnarl",
+   "num": 861,
+   "forme": "",
+   "types": [
+    "Dark",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 120,
+    "def": 65,
+    "spa": 95,
+    "spd": 75,
+    "spe": 60
+   },
+   "weightkg": 61,
+   "abilities": [
+    "Prankster",
+    "Frisk",
+    "Pickpocket"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Grimmsnarl-Gmax",
+   "id": "grimmsnarlgmax",
+   "num": 861,
+   "forme": "Gmax",
+   "types": [
+    "Dark",
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 120,
+    "def": 65,
+    "spa": 95,
+    "spd": 75,
+    "spe": 60
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Prankster",
+    "Frisk",
+    "Pickpocket"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Perrserker",
+   "id": "perrserker",
+   "num": 863,
+   "forme": "",
+   "types": [
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 110,
+    "def": 100,
+    "spa": 50,
+    "spd": 60,
+    "spe": 50
+   },
+   "weightkg": 28,
+   "abilities": [
+    "Battle Armor",
+    "Tough Claws",
+    "Steely Spirit"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Sirfetch’d",
+   "id": "sirfetchd",
+   "num": 865,
+   "forme": "",
+   "types": [
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 62,
+    "atk": 135,
+    "def": 95,
+    "spa": 68,
+    "spd": 82,
+    "spe": 65
+   },
+   "weightkg": 117,
+   "abilities": [
+    "Steadfast",
+    "Scrappy"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Mr. Rime",
+   "id": "mrrime",
+   "num": 866,
+   "forme": "",
+   "types": [
+    "Ice",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 85,
+    "def": 75,
+    "spa": 110,
+    "spd": 100,
+    "spe": 70
+   },
+   "weightkg": 58.2,
+   "abilities": [
+    "Tangled Feet",
+    "Screen Cleaner",
+    "Ice Body"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Runerigus",
+   "id": "runerigus",
+   "num": 867,
+   "forme": "",
+   "types": [
+    "Ground",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 58,
+    "atk": 95,
+    "def": 145,
+    "spa": 50,
+    "spd": 105,
+    "spe": 30
+   },
+   "weightkg": 66.6,
+   "abilities": [
+    "Wandering Spirit"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Alcremie",
+   "id": "alcremie",
+   "num": 869,
+   "forme": "",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 60,
+    "def": 75,
+    "spa": 110,
+    "spd": 121,
+    "spe": 64
+   },
+   "weightkg": 0.5,
+   "abilities": [
+    "Sweet Veil",
+    "Aroma Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Alcremie-Ruby-Cream",
+   "id": "alcremierubycream",
+   "num": 869,
+   "forme": "Ruby-Cream",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 60,
+    "def": 75,
+    "spa": 110,
+    "spd": 121,
+    "spe": 64
+   },
+   "weightkg": 0.5,
+   "abilities": [
+    "Sweet Veil",
+    "Aroma Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Alcremie"
+  },
+  {
+   "name": "Alcremie-Matcha-Cream",
+   "id": "alcremiematchacream",
+   "num": 869,
+   "forme": "Matcha-Cream",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 60,
+    "def": 75,
+    "spa": 110,
+    "spd": 121,
+    "spe": 64
+   },
+   "weightkg": 0.5,
+   "abilities": [
+    "Sweet Veil",
+    "Aroma Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Alcremie"
+  },
+  {
+   "name": "Alcremie-Mint-Cream",
+   "id": "alcremiemintcream",
+   "num": 869,
+   "forme": "Mint-Cream",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 60,
+    "def": 75,
+    "spa": 110,
+    "spd": 121,
+    "spe": 64
+   },
+   "weightkg": 0.5,
+   "abilities": [
+    "Sweet Veil",
+    "Aroma Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Alcremie"
+  },
+  {
+   "name": "Alcremie-Lemon-Cream",
+   "id": "alcremielemoncream",
+   "num": 869,
+   "forme": "Lemon-Cream",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 60,
+    "def": 75,
+    "spa": 110,
+    "spd": 121,
+    "spe": 64
+   },
+   "weightkg": 0.5,
+   "abilities": [
+    "Sweet Veil",
+    "Aroma Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Alcremie"
+  },
+  {
+   "name": "Alcremie-Ruby-Swirl",
+   "id": "alcremierubyswirl",
+   "num": 869,
+   "forme": "Ruby-Swirl",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 60,
+    "def": 75,
+    "spa": 110,
+    "spd": 121,
+    "spe": 64
+   },
+   "weightkg": 0.5,
+   "abilities": [
+    "Sweet Veil",
+    "Aroma Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Alcremie"
+  },
+  {
+   "name": "Alcremie-Caramel-Swirl",
+   "id": "alcremiecaramelswirl",
+   "num": 869,
+   "forme": "Caramel-Swirl",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 60,
+    "def": 75,
+    "spa": 110,
+    "spd": 121,
+    "spe": 64
+   },
+   "weightkg": 0.5,
+   "abilities": [
+    "Sweet Veil",
+    "Aroma Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Alcremie"
+  },
+  {
+   "name": "Alcremie-Rainbow-Swirl",
+   "id": "alcremierainbowswirl",
+   "num": 869,
+   "forme": "Rainbow-Swirl",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 60,
+    "def": 75,
+    "spa": 110,
+    "spd": 121,
+    "spe": 64
+   },
+   "weightkg": 0.5,
+   "abilities": [
+    "Sweet Veil",
+    "Aroma Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": true,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Alcremie"
+  },
+  {
+   "name": "Alcremie-Gmax",
+   "id": "alcremiegmax",
+   "num": 869,
+   "forme": "Gmax",
+   "types": [
+    "Fairy"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 60,
+    "def": 75,
+    "spa": 110,
+    "spd": 121,
+    "spe": 64
+   },
+   "weightkg": 0,
+   "abilities": [
+    "Sweet Veil",
+    "Aroma Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": true,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Falinks",
+   "id": "falinks",
+   "num": 870,
+   "forme": "",
+   "types": [
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 100,
+    "def": 100,
+    "spa": 70,
+    "spd": 60,
+    "spe": 75
+   },
+   "weightkg": 62,
+   "abilities": [
+    "Battle Armor",
+    "Defiant"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Pincurchin",
+   "id": "pincurchin",
+   "num": 871,
+   "forme": "",
+   "types": [
+    "Electric"
+   ],
+   "baseStats": {
+    "hp": 48,
+    "atk": 101,
+    "def": 95,
+    "spa": 91,
+    "spd": 85,
+    "spe": 15
+   },
+   "weightkg": 1,
+   "abilities": [
+    "Lightning Rod",
+    "Electric Surge"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Indeedee",
+   "id": "indeedee",
+   "num": 876,
+   "forme": "",
+   "types": [
+    "Psychic",
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 60,
+    "atk": 65,
+    "def": 55,
+    "spa": 105,
+    "spd": 95,
+    "spe": 95
+   },
+   "weightkg": 28,
+   "abilities": [
+    "Inner Focus",
+    "Synchronize",
+    "Psychic Surge"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Indeedee-F",
+   "id": "indeedeef",
+   "num": 876,
+   "forme": "F",
+   "types": [
+    "Psychic",
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 55,
+    "def": 65,
+    "spa": 95,
+    "spd": 105,
+    "spe": 85
+   },
+   "weightkg": 28,
+   "abilities": [
+    "Own Tempo",
+    "Synchronize",
+    "Psychic Surge"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Morpeko",
+   "id": "morpeko",
+   "num": 877,
+   "forme": "",
+   "types": [
+    "Electric",
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 58,
+    "atk": 95,
+    "def": 58,
+    "spa": 70,
+    "spd": 58,
+    "spe": 97
+   },
+   "weightkg": 3,
+   "abilities": [
+    "Hunger Switch"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Dragapult",
+   "id": "dragapult",
+   "num": 887,
+   "forme": "",
+   "types": [
+    "Dragon",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 88,
+    "atk": 120,
+    "def": 75,
+    "spa": 100,
+    "spd": 75,
+    "spe": 142
+   },
+   "weightkg": 50,
+   "abilities": [
+    "Clear Body",
+    "Infiltrator",
+    "Cursed Body"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Wyrdeer",
+   "id": "wyrdeer",
+   "num": 899,
+   "forme": "",
+   "types": [
+    "Normal",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 103,
+    "atk": 105,
+    "def": 72,
+    "spa": 105,
+    "spd": 75,
+    "spe": 65
+   },
+   "weightkg": 95.1,
+   "abilities": [
+    "Intimidate",
+    "Frisk",
+    "Sap Sipper"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Kleavor",
+   "id": "kleavor",
+   "num": 900,
+   "forme": "",
+   "types": [
+    "Bug",
+    "Rock"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 135,
+    "def": 95,
+    "spa": 45,
+    "spd": 70,
+    "spe": 85
+   },
+   "weightkg": 89,
+   "abilities": [
+    "Swarm",
+    "Sheer Force",
+    "Sharpness"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Basculegion",
+   "id": "basculegion",
+   "num": 902,
+   "forme": "",
+   "types": [
+    "Water",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 120,
+    "atk": 112,
+    "def": 65,
+    "spa": 80,
+    "spd": 75,
+    "spe": 78
+   },
+   "weightkg": 110,
+   "abilities": [
+    "Swift Swim",
+    "Adaptability",
+    "Mold Breaker"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Basculegion-F",
+   "id": "basculegionf",
+   "num": 902,
+   "forme": "F",
+   "types": [
+    "Water",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 120,
+    "atk": 92,
+    "def": 65,
+    "spa": 100,
+    "spd": 75,
+    "spe": 78
+   },
+   "weightkg": 110,
+   "abilities": [
+    "Swift Swim",
+    "Adaptability",
+    "Mold Breaker"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Sneasler",
+   "id": "sneasler",
+   "num": 903,
+   "forme": "",
+   "types": [
+    "Fighting",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 130,
+    "def": 60,
+    "spa": 40,
+    "spd": 80,
+    "spe": 120
+   },
+   "weightkg": 43,
+   "abilities": [
+    "Pressure",
+    "Unburden",
+    "Poison Touch"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Overqwil",
+   "id": "overqwil",
+   "num": 904,
+   "forme": "",
+   "types": [
+    "Dark",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 115,
+    "def": 95,
+    "spa": 65,
+    "spd": 65,
+    "spe": 85
+   },
+   "weightkg": 60.5,
+   "abilities": [
+    "Poison Point",
+    "Swift Swim",
+    "Intimidate"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Meowscarada",
+   "id": "meowscarada",
+   "num": 908,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 76,
+    "atk": 110,
+    "def": 70,
+    "spa": 81,
+    "spd": 70,
+    "spe": 123
+   },
+   "weightkg": 31.2,
+   "abilities": [
+    "Overgrow",
+    "Protean"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Skeledirge",
+   "id": "skeledirge",
+   "num": 911,
+   "forme": "",
+   "types": [
+    "Fire",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 104,
+    "atk": 75,
+    "def": 100,
+    "spa": 110,
+    "spd": 75,
+    "spe": 66
+   },
+   "weightkg": 326.5,
+   "abilities": [
+    "Blaze",
+    "Unaware"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Quaquaval",
+   "id": "quaquaval",
+   "num": 914,
+   "forme": "",
+   "types": [
+    "Water",
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 120,
+    "def": 80,
+    "spa": 85,
+    "spd": 75,
+    "spe": 85
+   },
+   "weightkg": 61.9,
+   "abilities": [
+    "Torrent",
+    "Moxie"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Pawmot",
+   "id": "pawmot",
+   "num": 923,
+   "forme": "",
+   "types": [
+    "Electric",
+    "Fighting"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 115,
+    "def": 70,
+    "spa": 70,
+    "spd": 60,
+    "spe": 105
+   },
+   "weightkg": 41,
+   "abilities": [
+    "Volt Absorb",
+    "Natural Cure",
+    "Iron Fist"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Maushold",
+   "id": "maushold",
+   "num": 925,
+   "forme": "",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 74,
+    "atk": 75,
+    "def": 70,
+    "spa": 65,
+    "spd": 75,
+    "spe": 111
+   },
+   "weightkg": 2.3,
+   "abilities": [
+    "Friend Guard",
+    "Cheek Pouch",
+    "Technician"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Maushold-Four",
+   "id": "mausholdfour",
+   "num": 925,
+   "forme": "Four",
+   "types": [
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 74,
+    "atk": 75,
+    "def": 70,
+    "spa": 65,
+    "spd": 75,
+    "spe": 111
+   },
+   "weightkg": 2.8,
+   "abilities": [
+    "Friend Guard",
+    "Cheek Pouch",
+    "Technician"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Arboliva",
+   "id": "arboliva",
+   "num": 930,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Normal"
+   ],
+   "baseStats": {
+    "hp": 78,
+    "atk": 69,
+    "def": 90,
+    "spa": 125,
+    "spd": 109,
+    "spe": 39
+   },
+   "weightkg": 48.2,
+   "abilities": [
+    "Seed Sower",
+    "Harvest"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Squawkabilly",
+   "id": "squawkabilly",
+   "num": 931,
+   "forme": "",
+   "types": [
+    "Normal",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 82,
+    "atk": 96,
+    "def": 51,
+    "spa": 45,
+    "spd": 51,
+    "spe": 92
+   },
+   "weightkg": 2.4,
+   "abilities": [
+    "Intimidate",
+    "Hustle",
+    "Guts"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Squawkabilly-Blue",
+   "id": "squawkabillyblue",
+   "num": 931,
+   "forme": "Blue",
+   "types": [
+    "Normal",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 82,
+    "atk": 96,
+    "def": 51,
+    "spa": 45,
+    "spd": 51,
+    "spe": 92
+   },
+   "weightkg": 2.4,
+   "abilities": [
+    "Intimidate",
+    "Hustle",
+    "Guts"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Squawkabilly"
+  },
+  {
+   "name": "Squawkabilly-Yellow",
+   "id": "squawkabillyyellow",
+   "num": 931,
+   "forme": "Yellow",
+   "types": [
+    "Normal",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 82,
+    "atk": 96,
+    "def": 51,
+    "spa": 45,
+    "spd": 51,
+    "spe": 92
+   },
+   "weightkg": 2.4,
+   "abilities": [
+    "Intimidate",
+    "Hustle",
+    "Sheer Force"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Squawkabilly-White",
+   "id": "squawkabillywhite",
+   "num": 931,
+   "forme": "White",
+   "types": [
+    "Normal",
+    "Flying"
+   ],
+   "baseStats": {
+    "hp": 82,
+    "atk": 96,
+    "def": 51,
+    "spa": 45,
+    "spd": 51,
+    "spe": 92
+   },
+   "weightkg": 2.4,
+   "abilities": [
+    "Intimidate",
+    "Hustle",
+    "Sheer Force"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Squawkabilly-Yellow"
+  },
+  {
+   "name": "Garganacl",
+   "id": "garganacl",
+   "num": 934,
+   "forme": "",
+   "types": [
+    "Rock"
+   ],
+   "baseStats": {
+    "hp": 100,
+    "atk": 100,
+    "def": 130,
+    "spa": 45,
+    "spd": 90,
+    "spe": 35
+   },
+   "weightkg": 240,
+   "abilities": [
+    "Purifying Salt",
+    "Sturdy",
+    "Clear Body"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Armarouge",
+   "id": "armarouge",
+   "num": 936,
+   "forme": "",
+   "types": [
+    "Fire",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 60,
+    "def": 100,
+    "spa": 125,
+    "spd": 80,
+    "spe": 75
+   },
+   "weightkg": 85,
+   "abilities": [
+    "Flash Fire",
+    "Weak Armor"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Ceruledge",
+   "id": "ceruledge",
+   "num": 937,
+   "forme": "",
+   "types": [
+    "Fire",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 75,
+    "atk": 125,
+    "def": 80,
+    "spa": 60,
+    "spd": 100,
+    "spe": 85
+   },
+   "weightkg": 62,
+   "abilities": [
+    "Flash Fire",
+    "Weak Armor"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Bellibolt",
+   "id": "bellibolt",
+   "num": 939,
+   "forme": "",
+   "types": [
+    "Electric"
+   ],
+   "baseStats": {
+    "hp": 109,
+    "atk": 64,
+    "def": 91,
+    "spa": 103,
+    "spd": 83,
+    "spe": 45
+   },
+   "weightkg": 113,
+   "abilities": [
+    "Electromorphosis",
+    "Static",
+    "Damp"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Mabosstiff",
+   "id": "mabosstiff",
+   "num": 943,
+   "forme": "",
+   "types": [
+    "Dark"
+   ],
+   "baseStats": {
+    "hp": 80,
+    "atk": 120,
+    "def": 90,
+    "spa": 60,
+    "spd": 70,
+    "spe": 85
+   },
+   "weightkg": 61,
+   "abilities": [
+    "Intimidate",
+    "Guard Dog",
+    "Stakeout"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Scovillain",
+   "id": "scovillain",
+   "num": 952,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Fire"
+   ],
+   "baseStats": {
+    "hp": 65,
+    "atk": 108,
+    "def": 65,
+    "spa": 108,
+    "spd": 65,
+    "spe": 75
+   },
+   "weightkg": 15,
+   "abilities": [
+    "Chlorophyll",
+    "Insomnia",
+    "Moody"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Espathra",
+   "id": "espathra",
+   "num": 956,
+   "forme": "",
+   "types": [
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 95,
+    "atk": 60,
+    "def": 60,
+    "spa": 101,
+    "spd": 60,
+    "spe": 105
+   },
+   "weightkg": 90,
+   "abilities": [
+    "Opportunist",
+    "Frisk",
+    "Speed Boost"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Tinkaton",
+   "id": "tinkaton",
+   "num": 959,
+   "forme": "",
+   "types": [
+    "Fairy",
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 85,
+    "atk": 75,
+    "def": 77,
+    "spa": 70,
+    "spd": 105,
+    "spe": 94
+   },
+   "weightkg": 112.8,
+   "abilities": [
+    "Mold Breaker",
+    "Own Tempo",
+    "Pickpocket"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Palafin",
+   "id": "palafin",
+   "num": 964,
+   "forme": "",
+   "types": [
+    "Water"
+   ],
+   "baseStats": {
+    "hp": 100,
+    "atk": 70,
+    "def": 72,
+    "spa": 53,
+    "spd": 62,
+    "spe": 100
+   },
+   "weightkg": 60.2,
+   "abilities": [
+    "Zero to Hero"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Orthworm",
+   "id": "orthworm",
+   "num": 968,
+   "forme": "",
+   "types": [
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 70,
+    "atk": 85,
+    "def": 145,
+    "spa": 60,
+    "spd": 55,
+    "spe": 65
+   },
+   "weightkg": 310,
+   "abilities": [
+    "Earth Eater",
+    "Sand Veil"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Glimmora",
+   "id": "glimmora",
+   "num": 970,
+   "forme": "",
+   "types": [
+    "Rock",
+    "Poison"
+   ],
+   "baseStats": {
+    "hp": 83,
+    "atk": 55,
+    "def": 90,
+    "spa": 130,
+    "spd": 81,
+    "spe": 86
+   },
+   "weightkg": 45,
+   "abilities": [
+    "Toxic Debris",
+    "Corrosion"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Houndstone",
+   "id": "houndstone",
+   "num": 972,
+   "forme": "",
+   "types": [
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 72,
+    "atk": 101,
+    "def": 100,
+    "spa": 50,
+    "spd": 97,
+    "spe": 68
+   },
+   "weightkg": 15,
+   "abilities": [
+    "Sand Rush",
+    "Fluffy"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Annihilape",
+   "id": "annihilape",
+   "num": 979,
+   "forme": "",
+   "types": [
+    "Fighting",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 110,
+    "atk": 115,
+    "def": 80,
+    "spa": 50,
+    "spd": 90,
+    "spe": 90
+   },
+   "weightkg": 56,
+   "abilities": [
+    "Vital Spirit",
+    "Inner Focus",
+    "Defiant"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Farigiraf",
+   "id": "farigiraf",
+   "num": 981,
+   "forme": "",
+   "types": [
+    "Normal",
+    "Psychic"
+   ],
+   "baseStats": {
+    "hp": 120,
+    "atk": 90,
+    "def": 70,
+    "spa": 110,
+    "spd": 70,
+    "spe": 60
+   },
+   "weightkg": 160,
+   "abilities": [
+    "Cud Chew",
+    "Armor Tail",
+    "Sap Sipper"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Kingambit",
+   "id": "kingambit",
+   "num": 983,
+   "forme": "",
+   "types": [
+    "Dark",
+    "Steel"
+   ],
+   "baseStats": {
+    "hp": 100,
+    "atk": 135,
+    "def": 120,
+    "spa": 60,
+    "spd": 85,
+    "spe": 50
+   },
+   "weightkg": 120,
+   "abilities": [
+    "Defiant",
+    "Supreme Overlord",
+    "Pressure"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Baxcalibur",
+   "id": "baxcalibur",
+   "num": 998,
+   "forme": "",
+   "types": [
+    "Dragon",
+    "Ice"
+   ],
+   "baseStats": {
+    "hp": 115,
+    "atk": 145,
+    "def": 92,
+    "spa": 75,
+    "spd": 86,
+    "spe": 87
+   },
+   "weightkg": 210,
+   "abilities": [
+    "Thermal Exchange",
+    "Ice Body"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Gholdengo",
+   "id": "gholdengo",
+   "num": 1000,
+   "forme": "",
+   "types": [
+    "Steel",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 87,
+    "atk": 60,
+    "def": 95,
+    "spa": 133,
+    "spd": 91,
+    "spe": 84
+   },
+   "weightkg": 30,
+   "abilities": [
+    "Good as Gold"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Sinistcha",
+   "id": "sinistcha",
+   "num": 1013,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 71,
+    "atk": 60,
+    "def": 106,
+    "spa": 121,
+    "spd": 80,
+    "spe": 70
+   },
+   "weightkg": 2.2,
+   "abilities": [
+    "Hospitality",
+    "Heatproof"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Sinistcha-Masterpiece",
+   "id": "sinistchamasterpiece",
+   "num": 1013,
+   "forme": "Masterpiece",
+   "types": [
+    "Grass",
+    "Ghost"
+   ],
+   "baseStats": {
+    "hp": 71,
+    "atk": 60,
+    "def": 106,
+    "spa": 121,
+    "spd": 80,
+    "spe": 70
+   },
+   "weightkg": 2.2,
+   "abilities": [
+    "Hospitality",
+    "Heatproof"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": "Sinistcha"
+  },
+  {
+   "name": "Archaludon",
+   "id": "archaludon",
+   "num": 1018,
+   "forme": "",
+   "types": [
+    "Steel",
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 90,
+    "atk": 105,
+    "def": 130,
+    "spa": 125,
+    "spd": 65,
+    "spe": 85
+   },
+   "weightkg": 60,
+   "abilities": [
+    "Stamina",
+    "Sturdy",
+    "Stalwart"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  },
+  {
+   "name": "Hydrapple",
+   "id": "hydrapple",
+   "num": 1019,
+   "forme": "",
+   "types": [
+    "Grass",
+    "Dragon"
+   ],
+   "baseStats": {
+    "hp": 106,
+    "atk": 80,
+    "def": 110,
+    "spa": 120,
+    "spd": 80,
+    "spe": 44
+   },
+   "weightkg": 93,
+   "abilities": [
+    "Supersweet Syrup",
+    "Regenerator",
+    "Sticky Hold"
+   ],
+   "tags": [],
+   "isCosmeticForme": false,
+   "gmaxPlaceholder": false,
+   "battleDuplicateOf": null
+  }
+ ]
+}

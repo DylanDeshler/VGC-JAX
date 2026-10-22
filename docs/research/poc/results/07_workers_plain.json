@@ -1,0 +1,48 @@
+{
+ "D": 8,
+ "config": "plain",
+ "cpus": 14,
+ "model": "Apple M4 Max",
+ "runs": [
+  {
+   "W": 1,
+   "battlesPerSec": 39.4,
+   "decisionsPerSec": 1033,
+   "perWorker": 39.4,
+   "loadavgBefore": 87.2,
+   "wallSec": 8.921
+  },
+  {
+   "W": 4,
+   "battlesPerSec": 108.2,
+   "decisionsPerSec": 2866,
+   "perWorker": 27,
+   "loadavgBefore": 83.8,
+   "wallSec": 9.287
+  },
+  {
+   "W": 8,
+   "battlesPerSec": 160.7,
+   "decisionsPerSec": 4265,
+   "perWorker": 20.1,
+   "loadavgBefore": 82.5,
+   "wallSec": 9.909
+  },
+  {
+   "W": 12,
+   "battlesPerSec": 192.8,
+   "decisionsPerSec": 5123,
+   "perWorker": 16.1,
+   "loadavgBefore": 80.9,
+   "wallSec": 10.399
+  },
+  {
+   "W": 14,
+   "battlesPerSec": 201.4,
+   "decisionsPerSec": 5345,
+   "perWorker": 14.4,
+   "loadavgBefore": 80.5,
+   "wallSec": 10.828
+  }
+ ]
+}

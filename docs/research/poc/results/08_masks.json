@@ -1,0 +1,108 @@
+{
+ "N": 60,
+ "decisionPoints": 1457,
+ "jointTested": 99320,
+ "jointAccepted": 99242,
+ "rejectedInvalid": 72,
+ "rejectedUnavailable": 6,
+ "probes": 36976,
+ "probesAccepted": 0,
+ "invalidByReason": {
+  "invalid:[Invalid choice] Can't switch: The active Pokémon is trapped": 67,
+  "invalid:[Invalid choice] Can't move: Milotic's Protect is disabled": 5
+ },
+ "examples": {
+  "invalid": [
+   {
+    "battle": 8,
+    "turn": 4,
+    "side": "p1",
+    "choice": "move 1 2, switch 4",
+    "err": "invalid:[Invalid choice] Can't switch: The active Pokémon is trapped"
+   },
+   {
+    "battle": 8,
+    "turn": 4,
+    "side": "p1",
+    "choice": "move 1 -2, switch 4",
+    "err": "invalid:[Invalid choice] Can't switch: The active Pokémon is trapped"
+   },
+   {
+    "battle": 8,
+    "turn": 4,
+    "side": "p1",
+    "choice": "move 2, switch 4",
+    "err": "invalid:[Invalid choice] Can't switch: The active Pokémon is trapped"
+   },
+   {
+    "battle": 8,
+    "turn": 4,
+    "side": "p1",
+    "choice": "move 3, switch 4",
+    "err": "invalid:[Invalid choice] Can't switch: The active Pokémon is trapped"
+   },
+   {
+    "battle": 8,
+    "turn": 4,
+    "side": "p1",
+    "choice": "move 4, switch 4",
+    "err": "invalid:[Invalid choice] Can't switch: The active Pokémon is trapped"
+   },
+   {
+    "battle": 18,
+    "turn": 3,
+    "side": "p2",
+    "choice": "move 1 1, switch 4",
+    "err": "invalid:[Invalid choice] Can't switch: The active Pokémon is trapped"
+   },
+   {
+    "battle": 18,
+    "turn": 3,
+    "side": "p2",
+    "choice": "move 1 2, switch 3",
+    "err": "invalid:[Invalid choice] Can't switch: The active Pokémon is trapped"
+   },
+   {
+    "battle": 18,
+    "turn": 3,
+    "side": "p2",
+    "choice": "move 1 2, switch 4",
+    "err": "invalid:[Invalid choice] Can't switch: The active Pokémon is trapped"
+   }
+  ],
+  "unavailable": [
+   {
+    "battle": 8,
+    "turn": 4,
+    "side": "p1",
+    "choice": "move 1 1, switch 4"
+   },
+   {
+    "battle": 18,
+    "turn": 3,
+    "side": "p2",
+    "choice": "move 1 1, switch 3"
+   },
+   {
+    "battle": 18,
+    "turn": 4,
+    "side": "p2",
+    "choice": "move 1 1, switch 3"
+   },
+   {
+    "battle": 28,
+    "turn": 2,
+    "side": "p1",
+    "choice": "move 1, move 4"
+   },
+   {
+    "battle": 39,
+    "turn": 3,
+    "side": "p1",
+    "choice": "move 1, switch 3"
+   }
+  ],
+  "probeAccepted": []
+ },
+ "sampled": 22
+}

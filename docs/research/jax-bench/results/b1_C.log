@@ -1,0 +1,51 @@
+1C {'N': 8, 'loops': 'fori8/fori3', 'barrier': False, 'lower_s': 0.038689083000008395, 'compile_s': 0.10983537499998874, 'run_s': 0.0009770835000040279, 'ns_per_elem': 238.54577636817086, 'temp_bytes': 111044, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 8, 'loops': 'fori8/fori3', 'barrier': True, 'lower_s': 0.03285462500002723, 'compile_s': 0.06266016600000057, 'run_s': 0.0008779790000517096, 'ns_per_elem': 214.3503418094994, 'temp_bytes': 33220, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 8, 'loops': 'fori8/unroll3', 'barrier': False, 'lower_s': 0.06649724999999762, 'compile_s': 0.2569652079999969, 'run_s': 0.0008013540000320063, 'ns_per_elem': 195.64306641406404, 'temp_bytes': 192900, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 8, 'loops': 'fori8/unroll3', 'barrier': True, 'lower_s': 0.06148795900003279, 'compile_s': 0.14319633299999168, 'run_s': 0.0010485619999940354, 'ns_per_elem': 255.9965820297938, 'temp_bytes': 82180, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 8, 'loops': 'unroll8/unroll3', 'barrier': False, 'lower_s': 0.2346826670000155, 'compile_s': 3.8158433329999752, 'run_s': 0.0006315420000646554, 'ns_per_elem': 154.18505860953502, 'temp_bytes': 770048, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 8, 'loops': 'unroll8/unroll3', 'barrier': True, 'lower_s': 0.22997495800007073, 'compile_s': 0.7183937919999153, 'run_s': 0.0018243330000018432, 'ns_per_elem': 445.393798828575, 'temp_bytes': 65536, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 32, 'loops': 'fori8/fori3', 'barrier': False, 'lower_s': 0.10943683299990425, 'compile_s': 0.28199783400009437, 'run_s': 0.003025957999966522, 'ns_per_elem': 738.7592773355767, 'temp_bytes': 283332, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 32, 'loops': 'fori8/fori3', 'barrier': True, 'lower_s': 0.11618379199990159, 'compile_s': 0.20183945799999492, 'run_s': 0.0032359584999994695, 'ns_per_elem': 790.028930663933, 'temp_bytes': 131524, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 32, 'loops': 'fori8/unroll3', 'barrier': False, 'lower_s': 0.19091554199997063, 'compile_s': 2.6263470420000203, 'run_s': 0.006564499999967666, 'ns_per_elem': 1602.6611328046058, 'temp_bytes': 709188, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 32, 'loops': 'fori8/unroll3', 'barrier': True, 'lower_s': 0.15872462499999074, 'compile_s': 0.4413846670000794, 'run_s': 0.002621832999977869, 'ns_per_elem': 640.0959472602219, 'temp_bytes': 213124, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 32, 'loops': 'unroll8/unroll3', 'barrier': False, 'compile_s': '>90s (timeout)', 'ns_per_elem': '-'}
+1C {'N': 32, 'loops': 'unroll8/unroll3', 'barrier': True, 'lower_s': 0.778465041000004, 'compile_s': 1.8101964170000429, 'run_s': 0.0024078544999497353, 'ns_per_elem': 587.8551025267908, 'temp_bytes': 540672, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 128, 'loops': 'fori8/fori3', 'barrier': False, 'lower_s': 0.29646854199995687, 'compile_s': 1.1682799170000635, 'run_s': 0.009867375499993614, 'ns_per_elem': 2409.027221678128, 'temp_bytes': 706180, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 128, 'loops': 'fori8/fori3', 'barrier': True, 'lower_s': 0.3522371249999878, 'compile_s': 0.6483496250000371, 'run_s': 0.011018541999987974, 'ns_per_elem': 2690.073730465814, 'temp_bytes': 442756, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 128, 'loops': 'fori8/unroll3', 'barrier': False, 'lower_s': 0.550070875000074, 'compile_s': 37.79214999999999, 'run_s': 0.05446854149988667, 'ns_per_elem': 13297.983764620769, 'temp_bytes': 1706052, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 128, 'loops': 'fori8/unroll3', 'barrier': True, 'lower_s': 0.47358520900002077, 'compile_s': 1.856944040999906, 'run_s': 0.008123229000034371, 'ns_per_elem': 1983.2102050865165, 'temp_bytes': 508036, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 128, 'loops': 'unroll8/unroll3', 'barrier': False, 'compile_s': '>90s (timeout)', 'ns_per_elem': '-'}
+1C {'N': 128, 'loops': 'unroll8/unroll3', 'barrier': True, 'lower_s': 2.8261310840000533, 'compile_s': 9.227550125000107, 'run_s': 0.003916208000077859, 'ns_per_elem': 956.1054687690084, 'temp_bytes': 835584, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 512, 'loops': 'fori8/fori3', 'barrier': False, 'lower_s': 1.0708474999998998, 'compile_s': 5.098759250000057, 'run_s': 0.024270812500049033, 'ns_per_elem': 5925.491333019783, 'temp_bytes': 1251012, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 512, 'loops': 'fori8/fori3', 'barrier': True, 'lower_s': 0.9759960830001546, 'compile_s': 2.6084653749999234, 'run_s': 0.023747271000047476, 'ns_per_elem': 5797.673583995966, 'temp_bytes': 721348, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 512, 'loops': 'fori8/unroll3', 'barrier': False, 'compile_s': '>90s (timeout)', 'ns_per_elem': '-'}
+1C {'N': 512, 'loops': 'fori8/unroll3', 'barrier': True, 'lower_s': 1.7624864580000121, 'compile_s': 9.752560916999983, 'run_s': 0.02261137550010517, 'ns_per_elem': 5520.355346705363, 'temp_bytes': 802948, 'arg_bytes': 540672, 'out_bytes': 147528}
+1C {'N': 512, 'loops': 'unroll8/unroll3', 'barrier': False, 'compile_s': '>90s (timeout)', 'ns_per_elem': '-'}
+1C {'N': 512, 'loops': 'unroll8/unroll3', 'barrier': True, 'lower_s': 10.945663500000137, 'compile_s': 75.22838579199993, 'run_s': 0.009644375000107175, 'ns_per_elem': 2354.5837402605407, 'temp_bytes': 1130496, 'arg_bytes': 540672, 'out_bytes': 147528}
+| N | loops | barrier | lower_s | compile_s | ns_per_elem |
+|---|---|---|---|---|---|
+| 8 | fori8/fori3 | False | 0.04 | 0.11 | 238.5 |
+| 8 | fori8/fori3 | True | 0.03 | 0.06 | 214.4 |
+| 8 | fori8/unroll3 | False | 0.07 | 0.26 | 195.6 |
+| 8 | fori8/unroll3 | True | 0.06 | 0.14 | 256.0 |
+| 8 | unroll8/unroll3 | False | 0.23 | 3.82 | 154.2 |
+| 8 | unroll8/unroll3 | True | 0.23 | 0.72 | 445.4 |
+| 32 | fori8/fori3 | False | 0.11 | 0.28 | 738.8 |
+| 32 | fori8/fori3 | True | 0.12 | 0.20 | 790.0 |
+| 32 | fori8/unroll3 | False | 0.19 | 2.63 | 1602.7 |
+| 32 | fori8/unroll3 | True | 0.16 | 0.44 | 640.1 |
+| 32 | unroll8/unroll3 | False |  | >90s (timeout) | - |
+| 32 | unroll8/unroll3 | True | 0.78 | 1.81 | 587.9 |
+| 128 | fori8/fori3 | False | 0.30 | 1.17 | 2409.0 |
+| 128 | fori8/fori3 | True | 0.35 | 0.65 | 2690.1 |
+| 128 | fori8/unroll3 | False | 0.55 | 37.79 | 13298.0 |
+| 128 | fori8/unroll3 | True | 0.47 | 1.86 | 1983.2 |
+| 128 | unroll8/unroll3 | False |  | >90s (timeout) | - |
+| 128 | unroll8/unroll3 | True | 2.83 | 9.23 | 956.1 |
+| 512 | fori8/fori3 | False | 1.07 | 5.10 | 5925.5 |
+| 512 | fori8/fori3 | True | 0.98 | 2.61 | 5797.7 |
+| 512 | fori8/unroll3 | False |  | >90s (timeout) | - |
+| 512 | fori8/unroll3 | True | 1.76 | 9.75 | 5520.4 |
+| 512 | unroll8/unroll3 | False |  | >90s (timeout) | - |
+| 512 | unroll8/unroll3 | True | 10.95 | 75.23 | 2354.6 |
+[saved /Users/dylan.d/Documents/research/pokemon/research/jax-bench/results/b1_dispatch_C_B16384.json]

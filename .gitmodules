@@ -1,0 +1,4 @@
+[submodule "oracle/ps"]
+	path = oracle/ps
+	url = https://github.com/smogon/pokemon-showdown.git
+	ignore = untracked
