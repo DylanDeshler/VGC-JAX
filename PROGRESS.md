@@ -32,12 +32,21 @@ M1 — Core math and data (E) — done
   forced/draw-log/degenerate semantics, tie records (perm rank/unrank, SELECT winner)
 - T0 25 s, T1 46 s (local); pre-commit hook installed
 
-M2 — Harness core + core state machine (O, E) — in progress, core engine conformant
+M2 — Harness core + core state machine (O, E) — done; **G-core run complete, pending human decision (ADR-102)**
+- G-core run `gcore-2026-10-21-a` (50,000 fresh-seed core battles, random policy, --legal on 100%):
+  CBR 100%, TMR 100%, MPR 100%, DPR 100%, error rate 0 — gate report:
+  reports/conformance/gcore-2026-10-21-a/gate_report.md. Verdict FAIL only on coverage: RANDOM_TARGET 0 and
+  SPEED_TIE_FIELD_EVENT 0 (structurally near-impossible / impossible in core). ADR-102 proposes counting RANDOM_TARGET
+  from crafted Struggle scenarios (400/400 clean, 360 hits) and waiving FIELD_EVENT for G-core only.
+- M2.7 from_ps_snapshot done (10k snapshots project equal; continued replays clean)
+- M2.8 done: contract files (harness/contract/*, gates.yaml, waivers.json), gates.py (contract sha256 check),
+  streaming corpus reader, coverage counts, parallel replay (~85 battles/s on 12 workers); on-device batched diff
+  deferred to M9 (host replay is fast enough for now)
 - done: M2.1 state/init/preview, M2.2 queue (re-key, SPEED_TIE_SELECT), M2.3 blocks A/B/C + tail + faint/win + end_turn,
   M2.4 switching (batched runSwitch, SPEED_TIE_SWITCHIN, dragIn), M2.5 core move pipeline (targeting incl. Dragon Darts,
   accuracy/OHKO/multiaccuracy, crit/roll, multihit, spread, drain/recoil/heal, boosts, secondaries, pivots, drags,
   Memento, Struggle), M2.6 masks, M2.9 core teams (oracle/lib/stageteams.js), M2.10 canary (tests/harness/test_canary.py)
-- partial: M2.0/M2.8 harness — host-side single-battle replay (harness/replay_one.py) + parallel CLI
+- (superseded) M2.0/M2.8 harness — host-side single-battle replay (harness/replay_one.py) + parallel CLI
   (`python -m harness.cli replay <dir>`); still todo: on-device batched diff, triage/report/gates.py, protected
   harness/contract/* files and harness/gates.yaml (human must create docs/decisions/contract-hashes.md)
 - todo: M2.7 from_ps_snapshot
@@ -72,13 +81,18 @@ none yet (no engine)
 none
 
 ## Pending escalations
-none
+- ADR-101 (canonical QUEUE_INSERT_TIE in the oracle) — review
+- ADR-102 (G-core coverage: RANDOM_TARGET via crafted scenarios, FIELD_EVENT waiver) — approve/reject; edit
+  docs/coverage/waivers.json if approved
+- docs/decisions/contract-hashes.md must be created by the human (hashes listed in the gate report)
+- Gate checkpoint: G-core report awaiting acknowledgement; M3 content waits (infrastructure continues)
 
 ## Contract hashes (must match docs/decisions/contract-hashes.md)
 not yet created (harness/contract/* is written in M2.8)
 
 ## Next 3 tasks
-1. M2.7 from_ps_snapshot; M2.8 contract files + gates.py + report; then the G-core run (50k fresh-seed core battles,
-   --legal on 100%) and the gate checkpoint report to the human
-2. M3.1 hook framework (effects/hooks.py), M3.8 coverage counters, M3.9 shrinker/fixtures
-3. M5 can start after G-core (env API)
+1. Infrastructure while the gate checkpoint is pending: M3.9 reduction loop (shrinker), M3.8 coverage steering +
+   `--require`, M3.8b random-weighted/heuristic policies, M5.1-M5.4 env API
+2. After acknowledgement: M3.2 handler classification, then M3.3-M3.7 content (conditions, statuses, Protect, Mega,
+   mid-turn switch family) using effects/hooks.py
+3. MUL-hook tie records (hooks.py TODO) with the first MUL content

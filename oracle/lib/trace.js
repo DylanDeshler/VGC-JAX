@@ -66,6 +66,7 @@ function newBattle({ seed, formatid = FORMAT, classifier = 'markers', prngOpts =
 	const battle = new Battle({ formatid, seed, prng, strictChoices: true });
 	prng.attach(battle);
 	const ident = instrument.install(battle, prng);
+	require('./coverage').install(battle);
 	return { battle, prng, ident };
 }
 
@@ -113,6 +114,7 @@ function driveTraced({ battle, prng, ident, choose, legal = null, stopAfter = In
 	const final = battle.ended ? {
 		type: 'final', winner: battle.winner || '', turns: battle.turn, projection: projectBattle(battle),
 		diag: { droppedTies: ctx.droppedTies, unrecordedSelectTies: ctx.unrecordedSelectTies, rejected: rejected.length },
+		coverage: battle.__cov ? { handlers: battle.__cov.handlers, pairs: battle.__cov.pairs } : null,
 	} : null;
 	return { decisions, final, rejected };
 }

@@ -12,3 +12,5 @@ __pycache__/
 node_modules/
 .jax_cache/
 .DS_Store
+reports/conformance/*/results.jsonl
+reports/*.log

@@ -1,0 +1,22 @@
+{
+ "battles": 50000,
+ "clean": 50000,
+ "coverage": {
+  "ACCURACY": 589508,
+  "CRIT": 1436330,
+  "DAMAGE_ROLL": 1436330,
+  "FORCED_SWITCH_PICK": 15810,
+  "MULTIHIT_COUNT": 23496,
+  "SECONDARY": 614146,
+  "SPEED_TIE_SELECT": 20025,
+  "SPEED_TIE_SWITCHIN": 31849
+ },
+ "CBR": 1.0,
+ "TMR": 1.0,
+ "MPR": 1.0,
+ "error_rate": 0.0,
+ "draw_failures": 0,
+ "buckets": {},
+ "seconds": 590.9,
+ "trace_dir": "traces/gcore"
+}
