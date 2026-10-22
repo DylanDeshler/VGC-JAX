@@ -17,6 +17,14 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 FIXTURE_DIR = ROOT / "tests" / "fixtures" / "conformance"
 
 
+def _kind_name(k) -> str:
+    from vgcjax.data import ids
+    return ids.DRAW_KINDS[k] if isinstance(k, int) and 0 <= k < len(ids.DRAW_KINDS) else str(k)
+
+
+_INERT = set(json.loads((ROOT / "tools" / "datagen" / "core_inert.json").read_text())["abilities"])
+
+
 def signature(result: dict) -> str:
     """Triage signature: category plus the first mismatching field with mon / slot indices erased (so the same bug on a
     different mon, or after shrinking, keeps its signature), or the mismatching draw kinds."""
@@ -26,7 +34,7 @@ def signature(result: dict) -> str:
         return "STATE:" + re.sub(r"\[\d+\]", "[]", str(det[0][0]))
     if cat in ("DRAW_ARGS", "DRAW_MISMATCH") and isinstance(det, dict):
         rows = (det.get("ps_only") or []) + (det.get("engine_only") or [])
-        kinds = sorted({str(r[0].get("kind")) for r in rows if r and isinstance(r[0], dict)})
+        kinds = sorted({_kind_name(r[0].get("kind")) for r in rows if r and isinstance(r[0], dict)})
         return f"{cat}:{','.join(kinds)}"
     return str(cat)
 
@@ -46,7 +54,8 @@ def replay_fixture(fx: dict, cfg=None) -> dict:
 
 
 def entities(fx: dict) -> list[str]:
-    """Catalogue entities still present in a fixture (brought mons only): the triage hint for a shrunk fixture."""
+    """Catalogue entities still present in a fixture (brought mons only, core-inert abilities omitted): the triage hint
+    for a shrunk fixture."""
     out = set()
     for s, side in enumerate(fx["snapshot"]["ident"]):
         for e in side:
@@ -55,7 +64,7 @@ def entities(fx: dict) -> list[str]:
             out.update(f"move:{m}" for m in ts["moves"] if m and m != fx.get("neutral_move"))
             if ts["item"]:
                 out.add(f"item:{ts['item']}")
-            if ts["ability"]:
+            if ts["ability"] and ts["ability"] not in _INERT:
                 out.add(f"ability:{ts['ability']}")
     return sorted(out)
 

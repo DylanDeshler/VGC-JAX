@@ -1,9 +1,14 @@
 """Harness CLI.
 
     uv run python -m harness.cli replay <trace-dir> [--stage core] [--workers 8] [--limit N] [--out reports/conformance/<run>]
+                                    [--fixtures N [--fixture-dir DIR]] [--canary]
 
 `replay` runs the single-battle forced replay (harness/replay_one.py) over all shards with a process pool and writes
 results.jsonl + summary.json (CBR, TMR, MPR, DPR, error rate per 07 §1, and failure buckets).
+`--fixtures N` turns the first failing battle of up to N distinct signatures into shrunk, turn-isolated fixtures
+(harness/fixtures.py + harness/shrink.py, 07 §10.2) under `<out>/fixtures` (or `--fixture-dir`, e.g.
+tests/fixtures/conformance to make them merge-blocking). `--canary` replays with the ADR-029 canary bug injected
+(harness self-test only).
 """
 from __future__ import annotations
 
@@ -24,12 +29,57 @@ def _load(path):
     return [orjson.loads(l) for l in raw.splitlines() if l]
 
 
+def _cfg(stage, canary=False):
+    from vgcjax.config import EngineConfig, Flags
+    return EngineConfig(stage=stage, forced=True, draw_log=True, flags=Flags(canary_crit_2048=canary))
+
+
+def _battle_at(files, index):
+    import zstandard
+    from harness.corpus import split_frames
+    dz = zstandard.ZstdDecompressor()
+    gi = 0
+    for f in files:
+        for fr in split_frames(pathlib.Path(f).read_bytes()):
+            if gi == index:
+                return [orjson.loads(l) for l in dz.decompress(fr, max_output_size=1 << 30).splitlines() if l]
+            gi += 1
+    raise IndexError(index)
+
+
+FIXTURE_CATEGORIES = ("STATE", "DRAW_ARGS", "DRAW_MISMATCH", "ERROR")
+
+
+def emit_fixtures(files, results, n, out_dir, stage, canary=False):
+    """First failing battle per signature -> shrunk fixture (07 §10.2). Returns [(signature, path, entities)]."""
+    from harness import fixtures as FX
+    from harness.replay_one import replay_battle
+    FX.FIXTURE_DIR = pathlib.Path(out_dir)
+    cfg = _cfg(stage, canary)
+    seen, made = set(), []
+    for r in results:
+        if len(made) >= n:
+            break
+        if r["clean"] or r["category"] not in FIXTURE_CATEGORIES:
+            continue
+        b = _battle_at(files, r["index"])
+        rr = replay_battle(b, cfg)          # re-run in-process: detail keeps its structured form
+        sig = FX.signature(rr)
+        if sig in seen:
+            continue
+        seen.add(sig)
+        path = FX.emit(b, rr, shrink=True, cfg=cfg)
+        if path is not None:
+            fx = json.loads(path.read_text())
+            made.append(dict(signature=sig, path=str(path), entities=fx["entities"], kept_edits=len(fx["shrink_log"])))
+    return made
+
+
 def _worker(args):
-    files, stage, w, nw, limit, check_masks = args
+    files, stage, w, nw, limit, check_masks, canary = args
     os.environ.setdefault("JAX_PLATFORMS", "cpu")
     from harness.replay_one import replay_battle, split_battles
-    from vgcjax.config import EngineConfig
-    cfg = EngineConfig(stage=stage, forced=True, draw_log=True)
+    cfg = _cfg(stage, canary)
     out = []
     gi = 0
     import pathlib as _pl
@@ -64,6 +114,7 @@ def _worker(args):
 
 
 def summarize(results):
+    from harness import fixtures as FX
     n = len(results)
     clean = sum(r["clean"] for r in results)
     # TMR: decisions before first failure / decisions up to and including it
@@ -81,11 +132,7 @@ def summarize(results):
     buckets = collections.Counter()
     for r in results:
         if not r["clean"]:
-            det = r["detail"]
-            sig = r["category"]
-            if r["category"] == "STATE" and isinstance(det, list) and det:
-                sig += ":" + str(det[0][0]).split("[")[0].split(".")[-1]
-            buckets[sig] += 1
+            buckets[FX.signature(r)] += 1
     cov = collections.Counter()
     for r in results:
         cov.update(r.get("kinds", {}))
@@ -107,7 +154,8 @@ def cmd_replay(a):
     t0 = time.time()
     ctx = mp.get_context("spawn")
     with ctx.Pool(a.workers) as pool:
-        parts = pool.map(_worker, [(files, a.stage, w, a.workers, a.limit, not a.no_masks) for w in range(a.workers)])
+        parts = pool.map(_worker, [(files, a.stage, w, a.workers, a.limit, not a.no_masks, a.canary)
+                                    for w in range(a.workers)])
     results = sorted((r for p in parts for r in p), key=lambda r: r["index"])
     summ = summarize(results)
     summ["seconds"] = round(time.time() - t0, 1)
@@ -117,6 +165,8 @@ def cmd_replay(a):
     with open(out / "results.jsonl", "w") as f:
         for r in results:
             f.write(json.dumps(r, default=str) + "\n")
+    if a.fixtures:
+        summ["fixtures"] = emit_fixtures(files, results, a.fixtures, a.fixture_dir or out / "fixtures", a.stage, a.canary)
     (out / "summary.json").write_text(json.dumps(summ, indent=1) + "\n")
     print(json.dumps(summ, indent=1))
 
@@ -131,6 +181,9 @@ def main():
     r.add_argument("--limit", type=int, default=None)
     r.add_argument("--out", default=None)
     r.add_argument("--no-masks", action="store_true")
+    r.add_argument("--fixtures", type=int, default=0)
+    r.add_argument("--fixture-dir", default=None)
+    r.add_argument("--canary", action="store_true")
     a = ap.parse_args()
     if a.cmd == "replay":
         cmd_replay(a)
