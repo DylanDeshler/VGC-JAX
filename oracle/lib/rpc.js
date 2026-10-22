@@ -10,6 +10,7 @@ const T = require('./teams');
 const tr = require('./trace');
 const seeds = require('./seeds');
 const { getPolicy } = require('./policy');
+const support = require('./support');
 
 function unpackTeam(t) { return typeof t === 'string' ? Teams.unpack(t) : t; }
 
@@ -54,6 +55,16 @@ const METHODS = {
 			stopAfter: params.stop_after ?? (params.choices ? params.choices.length : Infinity) });
 		return { decisions: out.decisions, final: out.final, rejected: out.rejected };
 	},
+
+	// ---- test-support RPCs (M0.8)
+	fixedpoint: p => support.fixedpoint(p),
+	stats: p => support.stats(p),
+	sort_actions: p => support.sortActions(p),
+	legal: p => support.legal(p),
+	replay: p => support.replay(p),
+	craft: p => support.craft(p),
+	damage: p => support.damage(p),
+	trace_events: p => support.traceEvents(p),
 
 	validate_team(params) {
 		const team = unpackTeam(params.team);

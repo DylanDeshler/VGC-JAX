@@ -1,0 +1,6869 @@
+{
+ "adaptability": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Adaptability",
+  "gen": 4,
+  "id": "adaptability",
+  "isNonstandard": null,
+  "name": "Adaptability",
+  "noCopy": false,
+  "num": 91,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifySTAB"
+  ]
+ },
+ "aerilate": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Aerilate",
+  "gen": 6,
+  "id": "aerilate",
+  "isNonstandard": null,
+  "name": "Aerilate",
+  "noCopy": false,
+  "num": 184,
+  "onBasePowerPriority": 23,
+  "onModifyTypePriority": -1,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower",
+   "onModifyType"
+  ]
+ },
+ "aftermath": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Aftermath",
+  "gen": 4,
+  "id": "aftermath",
+  "isNonstandard": null,
+  "name": "Aftermath",
+  "noCopy": false,
+  "num": 106,
+  "onDamagingHitOrder": 1,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "airlock": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Air Lock",
+  "gen": 3,
+  "id": "airlock",
+  "isNonstandard": null,
+  "name": "Air Lock",
+  "noCopy": false,
+  "num": 76,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": true,
+  "fnKeys": [
+   "onEnd",
+   "onStart",
+   "onSwitchIn"
+  ]
+ },
+ "analytic": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Analytic",
+  "gen": 5,
+  "id": "analytic",
+  "isNonstandard": null,
+  "name": "Analytic",
+  "noCopy": false,
+  "num": 148,
+  "onBasePowerPriority": 21,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower"
+  ]
+ },
+ "angerpoint": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Anger Point",
+  "gen": 4,
+  "id": "angerpoint",
+  "isNonstandard": null,
+  "name": "Anger Point",
+  "noCopy": false,
+  "num": 83,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onHit"
+  ]
+ },
+ "angershell": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Anger Shell",
+  "gen": 9,
+  "id": "angershell",
+  "isNonstandard": null,
+  "name": "Anger Shell",
+  "noCopy": false,
+  "num": 271,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAfterMoveSecondary",
+   "onDamage",
+   "onTryEatItem"
+  ]
+ },
+ "anticipation": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Anticipation",
+  "gen": 4,
+  "id": "anticipation",
+  "isNonstandard": null,
+  "name": "Anticipation",
+  "noCopy": false,
+  "num": 107,
+  "rating": 0.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "arenatrap": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Arena Trap",
+  "gen": 3,
+  "id": "arenatrap",
+  "isNonstandard": null,
+  "name": "Arena Trap",
+  "noCopy": false,
+  "num": 71,
+  "rating": 5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onFoeMaybeTrapPokemon",
+   "onFoeTrapPokemon"
+  ]
+ },
+ "armortail": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Armor Tail",
+  "gen": 9,
+  "id": "armortail",
+  "isNonstandard": null,
+  "name": "Armor Tail",
+  "noCopy": false,
+  "num": 296,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onFoeTryMove"
+  ]
+ },
+ "aromaveil": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Aroma Veil",
+  "gen": 6,
+  "id": "aromaveil",
+  "isNonstandard": null,
+  "name": "Aroma Veil",
+  "noCopy": false,
+  "num": 165,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllyTryAddVolatile"
+  ]
+ },
+ "asoneglastrier": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: As One (Glastrier)",
+  "gen": 8,
+  "id": "asoneglastrier",
+  "isNonstandard": null,
+  "name": "As One (Glastrier)",
+  "noCopy": false,
+  "num": 266,
+  "onSwitchInPriority": 1,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onEnd",
+   "onFoeTryEatItem",
+   "onSourceAfterFaint",
+   "onStart"
+  ]
+ },
+ "asonespectrier": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: As One (Spectrier)",
+  "gen": 8,
+  "id": "asonespectrier",
+  "isNonstandard": null,
+  "name": "As One (Spectrier)",
+  "noCopy": false,
+  "num": 267,
+  "onSwitchInPriority": 1,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onEnd",
+   "onFoeTryEatItem",
+   "onSourceAfterFaint",
+   "onStart"
+  ]
+ },
+ "aurabreak": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Aura Break",
+  "gen": 6,
+  "id": "aurabreak",
+  "isNonstandard": null,
+  "name": "Aura Break",
+  "noCopy": false,
+  "num": 188,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyTryPrimaryHit",
+   "onStart"
+  ]
+ },
+ "auraguard": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Aura Guard",
+  "gen": 9,
+  "id": "auraguard",
+  "isNonstandard": null,
+  "name": "Aura Guard",
+  "noCopy": false,
+  "num": 319,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceModifyDamage"
+  ]
+ },
+ "baddreams": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Bad Dreams",
+  "gen": 4,
+  "id": "baddreams",
+  "isNonstandard": null,
+  "name": "Bad Dreams",
+  "noCopy": false,
+  "num": 123,
+  "onResidualOrder": 28,
+  "onResidualSubOrder": 2,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onResidual"
+  ]
+ },
+ "ballfetch": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Ball Fetch",
+  "gen": 8,
+  "id": "ballfetch",
+  "isNonstandard": null,
+  "name": "Ball Fetch",
+  "noCopy": false,
+  "num": 237,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "battery": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Battery",
+  "gen": 7,
+  "id": "battery",
+  "isNonstandard": null,
+  "name": "Battery",
+  "noCopy": false,
+  "num": 217,
+  "onAllyBasePowerPriority": 22,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllyBasePower"
+  ]
+ },
+ "battlearmor": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Battle Armor",
+  "gen": 3,
+  "id": "battlearmor",
+  "isNonstandard": null,
+  "name": "Battle Armor",
+  "noCopy": false,
+  "num": 4,
+  "onCriticalHit": false,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "battlebond": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Battle Bond",
+  "gen": 7,
+  "id": "battlebond",
+  "isNonstandard": null,
+  "name": "Battle Bond",
+  "noCopy": false,
+  "num": 210,
+  "onModifyMovePriority": -1,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove",
+   "onSourceAfterFaint"
+  ]
+ },
+ "beadsofruin": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Beads of Ruin",
+  "gen": 9,
+  "id": "beadsofruin",
+  "isNonstandard": null,
+  "name": "Beads of Ruin",
+  "noCopy": false,
+  "num": 284,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyModifySpD",
+   "onStart"
+  ]
+ },
+ "beastboost": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Beast Boost",
+  "gen": 7,
+  "id": "beastboost",
+  "isNonstandard": null,
+  "name": "Beast Boost",
+  "noCopy": false,
+  "num": 224,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceAfterFaint"
+  ]
+ },
+ "berserk": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Berserk",
+  "gen": 7,
+  "id": "berserk",
+  "isNonstandard": null,
+  "name": "Berserk",
+  "noCopy": false,
+  "num": 201,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAfterMoveSecondary",
+   "onDamage",
+   "onTryEatItem"
+  ]
+ },
+ "bigpecks": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Big Pecks",
+  "gen": 5,
+  "id": "bigpecks",
+  "isNonstandard": null,
+  "name": "Big Pecks",
+  "noCopy": false,
+  "num": 145,
+  "rating": 0.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryBoost"
+  ]
+ },
+ "blaze": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Blaze",
+  "gen": 3,
+  "id": "blaze",
+  "isNonstandard": null,
+  "name": "Blaze",
+  "noCopy": false,
+  "num": 66,
+  "onModifyAtkPriority": 5,
+  "onModifySpAPriority": 5,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onModifySpA"
+  ]
+ },
+ "bulletproof": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Bulletproof",
+  "gen": 6,
+  "id": "bulletproof",
+  "isNonstandard": null,
+  "name": "Bulletproof",
+  "noCopy": false,
+  "num": 171,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryHit"
+  ]
+ },
+ "cheekpouch": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Cheek Pouch",
+  "gen": 6,
+  "id": "cheekpouch",
+  "isNonstandard": null,
+  "name": "Cheek Pouch",
+  "noCopy": false,
+  "num": 167,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onEatItem"
+  ]
+ },
+ "chillingneigh": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Chilling Neigh",
+  "gen": 8,
+  "id": "chillingneigh",
+  "isNonstandard": null,
+  "name": "Chilling Neigh",
+  "noCopy": false,
+  "num": 264,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceAfterFaint"
+  ]
+ },
+ "chlorophyll": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Chlorophyll",
+  "gen": 3,
+  "id": "chlorophyll",
+  "isNonstandard": null,
+  "name": "Chlorophyll",
+  "noCopy": false,
+  "num": 34,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifySpe"
+  ]
+ },
+ "clearbody": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Clear Body",
+  "gen": 3,
+  "id": "clearbody",
+  "isNonstandard": null,
+  "name": "Clear Body",
+  "noCopy": false,
+  "num": 29,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryBoost"
+  ]
+ },
+ "cloudnine": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Cloud Nine",
+  "gen": 3,
+  "id": "cloudnine",
+  "isNonstandard": null,
+  "name": "Cloud Nine",
+  "noCopy": false,
+  "num": 13,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": true,
+  "fnKeys": [
+   "onEnd",
+   "onStart",
+   "onSwitchIn"
+  ]
+ },
+ "colorchange": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Color Change",
+  "gen": 3,
+  "id": "colorchange",
+  "isNonstandard": null,
+  "name": "Color Change",
+  "noCopy": false,
+  "num": 16,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAfterMoveSecondary"
+  ]
+ },
+ "comatose": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Comatose",
+  "gen": 7,
+  "id": "comatose",
+  "isNonstandard": null,
+  "name": "Comatose",
+  "noCopy": false,
+  "num": 213,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSetStatus",
+   "onStart"
+  ]
+ },
+ "commander": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Commander",
+  "gen": 9,
+  "id": "commander",
+  "isNonstandard": null,
+  "name": "Commander",
+  "noCopy": false,
+  "num": 279,
+  "onAnySwitchInPriority": -2,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnySwitchIn",
+   "onStart",
+   "onUpdate"
+  ]
+ },
+ "competitive": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Competitive",
+  "gen": 6,
+  "id": "competitive",
+  "isNonstandard": null,
+  "name": "Competitive",
+  "noCopy": false,
+  "num": 172,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAfterEachBoost"
+  ]
+ },
+ "compoundeyes": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Compound Eyes",
+  "gen": 3,
+  "id": "compoundeyes",
+  "isNonstandard": null,
+  "name": "Compound Eyes",
+  "noCopy": false,
+  "num": 14,
+  "onSourceModifyAccuracyPriority": -1,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceModifyAccuracy"
+  ]
+ },
+ "contrary": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Contrary",
+  "gen": 5,
+  "id": "contrary",
+  "isNonstandard": null,
+  "name": "Contrary",
+  "noCopy": false,
+  "num": 126,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onChangeBoost"
+  ]
+ },
+ "corrosion": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Corrosion",
+  "gen": 7,
+  "id": "corrosion",
+  "isNonstandard": null,
+  "name": "Corrosion",
+  "noCopy": false,
+  "num": 212,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "costar": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Costar",
+  "gen": 9,
+  "id": "costar",
+  "isNonstandard": null,
+  "name": "Costar",
+  "noCopy": false,
+  "num": 294,
+  "onSwitchInPriority": -2,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "cottondown": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Cotton Down",
+  "gen": 8,
+  "id": "cottondown",
+  "isNonstandard": null,
+  "name": "Cotton Down",
+  "noCopy": false,
+  "num": 238,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "cudchew": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Cud Chew",
+  "gen": 9,
+  "id": "cudchew",
+  "isNonstandard": null,
+  "name": "Cud Chew",
+  "noCopy": false,
+  "num": 291,
+  "onResidualOrder": 28,
+  "onResidualSubOrder": 2,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onEatItem",
+   "onResidual"
+  ]
+ },
+ "curiousmedicine": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Curious Medicine",
+  "gen": 8,
+  "id": "curiousmedicine",
+  "isNonstandard": null,
+  "name": "Curious Medicine",
+  "noCopy": false,
+  "num": 261,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "cursedbody": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Cursed Body",
+  "gen": 5,
+  "id": "cursedbody",
+  "isNonstandard": null,
+  "name": "Cursed Body",
+  "noCopy": false,
+  "num": 130,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "cutecharm": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Cute Charm",
+  "gen": 3,
+  "id": "cutecharm",
+  "isNonstandard": null,
+  "name": "Cute Charm",
+  "noCopy": false,
+  "num": 56,
+  "rating": 0.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "damp": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Damp",
+  "gen": 3,
+  "id": "damp",
+  "isNonstandard": null,
+  "name": "Damp",
+  "noCopy": false,
+  "num": 6,
+  "rating": 0.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyDamage",
+   "onAnyTryMove"
+  ]
+ },
+ "dancer": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Dancer",
+  "gen": 7,
+  "id": "dancer",
+  "isNonstandard": null,
+  "name": "Dancer",
+  "noCopy": false,
+  "num": 216,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "darkaura": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Dark Aura",
+  "gen": 6,
+  "id": "darkaura",
+  "isNonstandard": null,
+  "name": "Dark Aura",
+  "noCopy": false,
+  "num": 186,
+  "onAnyBasePowerPriority": 20,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyBasePower",
+   "onStart"
+  ]
+ },
+ "dauntlessshield": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Dauntless Shield",
+  "gen": 8,
+  "id": "dauntlessshield",
+  "isNonstandard": null,
+  "name": "Dauntless Shield",
+  "noCopy": false,
+  "num": 235,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "dazzling": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Dazzling",
+  "gen": 7,
+  "id": "dazzling",
+  "isNonstandard": null,
+  "name": "Dazzling",
+  "noCopy": false,
+  "num": 219,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onFoeTryMove"
+  ]
+ },
+ "defeatist": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Defeatist",
+  "gen": 5,
+  "id": "defeatist",
+  "isNonstandard": null,
+  "name": "Defeatist",
+  "noCopy": false,
+  "num": 129,
+  "onModifyAtkPriority": 5,
+  "onModifySpAPriority": 5,
+  "rating": -1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onModifySpA"
+  ]
+ },
+ "defiant": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Defiant",
+  "gen": 5,
+  "id": "defiant",
+  "isNonstandard": null,
+  "name": "Defiant",
+  "noCopy": false,
+  "num": 128,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAfterEachBoost"
+  ]
+ },
+ "deltastream": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Delta Stream",
+  "gen": 6,
+  "id": "deltastream",
+  "isNonstandard": null,
+  "name": "Delta Stream",
+  "noCopy": false,
+  "num": 191,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnySetWeather",
+   "onEnd",
+   "onStart"
+  ]
+ },
+ "desolateland": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Desolate Land",
+  "gen": 6,
+  "id": "desolateland",
+  "isNonstandard": null,
+  "name": "Desolate Land",
+  "noCopy": false,
+  "num": 190,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnySetWeather",
+   "onEnd",
+   "onStart"
+  ]
+ },
+ "disguise": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1,
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Disguise",
+  "gen": 7,
+  "id": "disguise",
+  "isNonstandard": null,
+  "name": "Disguise",
+  "noCopy": false,
+  "num": 209,
+  "onDamagePriority": 1,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onCriticalHit",
+   "onDamage",
+   "onEffectiveness",
+   "onUpdate"
+  ]
+ },
+ "download": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Download",
+  "gen": 4,
+  "id": "download",
+  "isNonstandard": null,
+  "name": "Download",
+  "noCopy": false,
+  "num": 88,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "dragonize": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Dragonize",
+  "gen": 9,
+  "id": "dragonize",
+  "isNonstandard": null,
+  "name": "Dragonize",
+  "noCopy": false,
+  "num": 312,
+  "onBasePowerPriority": 23,
+  "onModifyTypePriority": -1,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower",
+   "onModifyType"
+  ]
+ },
+ "dragonsmaw": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Dragon's Maw",
+  "gen": 8,
+  "id": "dragonsmaw",
+  "isNonstandard": null,
+  "name": "Dragon's Maw",
+  "noCopy": false,
+  "num": 263,
+  "onModifyAtkPriority": 5,
+  "onModifySpAPriority": 5,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onModifySpA"
+  ]
+ },
+ "drizzle": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Drizzle",
+  "gen": 3,
+  "id": "drizzle",
+  "isNonstandard": null,
+  "name": "Drizzle",
+  "noCopy": false,
+  "num": 2,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "drought": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Drought",
+  "gen": 3,
+  "id": "drought",
+  "isNonstandard": null,
+  "name": "Drought",
+  "noCopy": false,
+  "num": 70,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "dryskin": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Dry Skin",
+  "gen": 4,
+  "id": "dryskin",
+  "isNonstandard": null,
+  "name": "Dry Skin",
+  "noCopy": false,
+  "num": 87,
+  "onSourceBasePowerPriority": 17,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceBasePower",
+   "onTryHit",
+   "onWeather"
+  ]
+ },
+ "earlybird": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Early Bird",
+  "gen": 3,
+  "id": "earlybird",
+  "isNonstandard": null,
+  "name": "Early Bird",
+  "noCopy": false,
+  "num": 48,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "eartheater": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Earth Eater",
+  "gen": 9,
+  "id": "eartheater",
+  "isNonstandard": null,
+  "name": "Earth Eater",
+  "noCopy": false,
+  "num": 297,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryHit"
+  ]
+ },
+ "eelevate": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Eelevate",
+  "gen": 9,
+  "id": "eelevate",
+  "isNonstandard": null,
+  "name": "Eelevate",
+  "noCopy": false,
+  "num": 313,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceAfterFaint"
+  ]
+ },
+ "effectspore": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Effect Spore",
+  "gen": 3,
+  "id": "effectspore",
+  "isNonstandard": null,
+  "name": "Effect Spore",
+  "noCopy": false,
+  "num": 27,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "electricsurge": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Electric Surge",
+  "gen": 7,
+  "id": "electricsurge",
+  "isNonstandard": null,
+  "name": "Electric Surge",
+  "noCopy": false,
+  "num": 226,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "electromorphosis": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Electromorphosis",
+  "gen": 9,
+  "id": "electromorphosis",
+  "isNonstandard": null,
+  "name": "Electromorphosis",
+  "noCopy": false,
+  "num": 280,
+  "onDamagingHitOrder": 1,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "embodyaspectcornerstone": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Embody Aspect (Cornerstone)",
+  "gen": 9,
+  "id": "embodyaspectcornerstone",
+  "isNonstandard": null,
+  "name": "Embody Aspect (Cornerstone)",
+  "noCopy": false,
+  "num": 304,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "embodyaspecthearthflame": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Embody Aspect (Hearthflame)",
+  "gen": 9,
+  "id": "embodyaspecthearthflame",
+  "isNonstandard": null,
+  "name": "Embody Aspect (Hearthflame)",
+  "noCopy": false,
+  "num": 303,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "embodyaspectteal": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Embody Aspect (Teal)",
+  "gen": 9,
+  "id": "embodyaspectteal",
+  "isNonstandard": null,
+  "name": "Embody Aspect (Teal)",
+  "noCopy": false,
+  "num": 301,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "embodyaspectwellspring": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Embody Aspect (Wellspring)",
+  "gen": 9,
+  "id": "embodyaspectwellspring",
+  "isNonstandard": null,
+  "name": "Embody Aspect (Wellspring)",
+  "noCopy": false,
+  "num": 302,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "emergencyexit": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Emergency Exit",
+  "gen": 7,
+  "id": "emergencyexit",
+  "isNonstandard": null,
+  "name": "Emergency Exit",
+  "noCopy": false,
+  "num": 194,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onEmergencyExit"
+  ]
+ },
+ "fairyaura": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Fairy Aura",
+  "gen": 6,
+  "id": "fairyaura",
+  "isNonstandard": null,
+  "name": "Fairy Aura",
+  "noCopy": false,
+  "num": 187,
+  "onAnyBasePowerPriority": 20,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyBasePower",
+   "onStart"
+  ]
+ },
+ "filter": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Filter",
+  "gen": 4,
+  "id": "filter",
+  "isNonstandard": null,
+  "name": "Filter",
+  "noCopy": false,
+  "num": 111,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceModifyDamage"
+  ]
+ },
+ "firemane": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Fire Mane",
+  "gen": 9,
+  "id": "firemane",
+  "isNonstandard": null,
+  "name": "Fire Mane",
+  "noCopy": false,
+  "num": 316,
+  "onModifyAtkPriority": 5,
+  "onModifySpAPriority": 5,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onModifySpA"
+  ]
+ },
+ "flamebody": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Flame Body",
+  "gen": 3,
+  "id": "flamebody",
+  "isNonstandard": null,
+  "name": "Flame Body",
+  "noCopy": false,
+  "num": 49,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "flareboost": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Flare Boost",
+  "gen": 5,
+  "id": "flareboost",
+  "isNonstandard": null,
+  "name": "Flare Boost",
+  "noCopy": false,
+  "num": 138,
+  "onBasePowerPriority": 19,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower"
+  ]
+ },
+ "flashfire": {
+  "affectsFainted": false,
+  "condition": {
+   "noCopy": true,
+   "onModifyAtkPriority": 5,
+   "onModifySpAPriority": 5
+  },
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Flash Fire",
+  "gen": 3,
+  "id": "flashfire",
+  "isNonstandard": null,
+  "name": "Flash Fire",
+  "noCopy": false,
+  "num": 18,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "condition.onEnd",
+   "condition.onModifyAtk",
+   "condition.onModifySpA",
+   "condition.onStart",
+   "onEnd",
+   "onTryHit"
+  ]
+ },
+ "flowergift": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1,
+   "failroleplay": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Flower Gift",
+  "gen": 4,
+  "id": "flowergift",
+  "isNonstandard": null,
+  "name": "Flower Gift",
+  "noCopy": false,
+  "num": 122,
+  "onAllyModifyAtkPriority": 3,
+  "onAllyModifySpDPriority": 4,
+  "onSwitchInPriority": -2,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllyModifyAtk",
+   "onAllyModifySpD",
+   "onStart",
+   "onWeatherChange"
+  ]
+ },
+ "flowerveil": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Flower Veil",
+  "gen": 6,
+  "id": "flowerveil",
+  "isNonstandard": null,
+  "name": "Flower Veil",
+  "noCopy": false,
+  "num": 166,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllySetStatus",
+   "onAllyTryAddVolatile",
+   "onAllyTryBoost"
+  ]
+ },
+ "fluffy": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Fluffy",
+  "gen": 7,
+  "id": "fluffy",
+  "isNonstandard": null,
+  "name": "Fluffy",
+  "noCopy": false,
+  "num": 218,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceModifyDamage"
+  ]
+ },
+ "forecast": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Forecast",
+  "gen": 3,
+  "id": "forecast",
+  "isNonstandard": null,
+  "name": "Forecast",
+  "noCopy": false,
+  "num": 59,
+  "onSwitchInPriority": -2,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart",
+   "onWeatherChange"
+  ]
+ },
+ "forewarn": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Forewarn",
+  "gen": 4,
+  "id": "forewarn",
+  "isNonstandard": null,
+  "name": "Forewarn",
+  "noCopy": false,
+  "num": 108,
+  "rating": 0.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "friendguard": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Friend Guard",
+  "gen": 5,
+  "id": "friendguard",
+  "isNonstandard": null,
+  "name": "Friend Guard",
+  "noCopy": false,
+  "num": 132,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyModifyDamage"
+  ]
+ },
+ "frisk": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Frisk",
+  "gen": 4,
+  "id": "frisk",
+  "isNonstandard": null,
+  "name": "Frisk",
+  "noCopy": false,
+  "num": 119,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "fullmetalbody": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Full Metal Body",
+  "gen": 7,
+  "id": "fullmetalbody",
+  "isNonstandard": null,
+  "name": "Full Metal Body",
+  "noCopy": false,
+  "num": 230,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryBoost"
+  ]
+ },
+ "furcoat": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Fur Coat",
+  "gen": 6,
+  "id": "furcoat",
+  "isNonstandard": null,
+  "name": "Fur Coat",
+  "noCopy": false,
+  "num": 169,
+  "onModifyDefPriority": 6,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyDef"
+  ]
+ },
+ "galewings": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Gale Wings",
+  "gen": 6,
+  "id": "galewings",
+  "isNonstandard": null,
+  "name": "Gale Wings",
+  "noCopy": false,
+  "num": 177,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyPriority"
+  ]
+ },
+ "galvanize": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Galvanize",
+  "gen": 7,
+  "id": "galvanize",
+  "isNonstandard": null,
+  "name": "Galvanize",
+  "noCopy": false,
+  "num": 206,
+  "onBasePowerPriority": 23,
+  "onModifyTypePriority": -1,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower",
+   "onModifyType"
+  ]
+ },
+ "gluttony": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Gluttony",
+  "gen": 4,
+  "id": "gluttony",
+  "isNonstandard": null,
+  "name": "Gluttony",
+  "noCopy": false,
+  "num": 82,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamage",
+   "onStart"
+  ]
+ },
+ "goodasgold": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Good as Gold",
+  "gen": 9,
+  "id": "goodasgold",
+  "isNonstandard": null,
+  "name": "Good as Gold",
+  "noCopy": false,
+  "num": 283,
+  "rating": 5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryHit"
+  ]
+ },
+ "gooey": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Gooey",
+  "gen": 6,
+  "id": "gooey",
+  "isNonstandard": null,
+  "name": "Gooey",
+  "noCopy": false,
+  "num": 183,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "gorillatactics": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Gorilla Tactics",
+  "gen": 8,
+  "id": "gorillatactics",
+  "isNonstandard": null,
+  "name": "Gorilla Tactics",
+  "noCopy": false,
+  "num": 255,
+  "onModifyAtkPriority": 1,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBeforeMove",
+   "onDisableMove",
+   "onEnd",
+   "onModifyAtk",
+   "onModifyMove",
+   "onStart"
+  ]
+ },
+ "grasspelt": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Grass Pelt",
+  "gen": 6,
+  "id": "grasspelt",
+  "isNonstandard": null,
+  "name": "Grass Pelt",
+  "noCopy": false,
+  "num": 179,
+  "onModifyDefPriority": 6,
+  "rating": 0.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyDef"
+  ]
+ },
+ "grassysurge": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Grassy Surge",
+  "gen": 7,
+  "id": "grassysurge",
+  "isNonstandard": null,
+  "name": "Grassy Surge",
+  "noCopy": false,
+  "num": 229,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "grimneigh": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Grim Neigh",
+  "gen": 8,
+  "id": "grimneigh",
+  "isNonstandard": null,
+  "name": "Grim Neigh",
+  "noCopy": false,
+  "num": 265,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceAfterFaint"
+  ]
+ },
+ "guarddog": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Guard Dog",
+  "gen": 9,
+  "id": "guarddog",
+  "isNonstandard": null,
+  "name": "Guard Dog",
+  "noCopy": false,
+  "num": 275,
+  "onDragOutPriority": 1,
+  "onTryBoostPriority": 2,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDragOut",
+   "onTryBoost"
+  ]
+ },
+ "gulpmissile": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Gulp Missile",
+  "gen": 8,
+  "id": "gulpmissile",
+  "isNonstandard": null,
+  "name": "Gulp Missile",
+  "noCopy": false,
+  "num": 241,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit",
+   "onSourceTryPrimaryHit"
+  ]
+ },
+ "guts": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Guts",
+  "gen": 3,
+  "id": "guts",
+  "isNonstandard": null,
+  "name": "Guts",
+  "noCopy": false,
+  "num": 62,
+  "onModifyAtkPriority": 5,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk"
+  ]
+ },
+ "hadronengine": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Hadron Engine",
+  "gen": 9,
+  "id": "hadronengine",
+  "isNonstandard": null,
+  "name": "Hadron Engine",
+  "noCopy": false,
+  "num": 289,
+  "onModifySpAPriority": 5,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifySpA",
+   "onStart"
+  ]
+ },
+ "harvest": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Harvest",
+  "gen": 5,
+  "id": "harvest",
+  "isNonstandard": null,
+  "name": "Harvest",
+  "noCopy": false,
+  "num": 139,
+  "onResidualOrder": 28,
+  "onResidualSubOrder": 2,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onResidual"
+  ]
+ },
+ "healer": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Healer",
+  "gen": 5,
+  "id": "healer",
+  "isNonstandard": null,
+  "name": "Healer",
+  "noCopy": false,
+  "num": 131,
+  "onResidualOrder": 5,
+  "onResidualSubOrder": 3,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onResidual"
+  ]
+ },
+ "heatproof": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Heatproof",
+  "gen": 4,
+  "id": "heatproof",
+  "isNonstandard": null,
+  "name": "Heatproof",
+  "noCopy": false,
+  "num": 85,
+  "onSourceModifyAtkPriority": 6,
+  "onSourceModifySpAPriority": 5,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamage",
+   "onSourceModifyAtk",
+   "onSourceModifySpA"
+  ]
+ },
+ "heavymetal": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Heavy Metal",
+  "gen": 5,
+  "id": "heavymetal",
+  "isNonstandard": null,
+  "name": "Heavy Metal",
+  "noCopy": false,
+  "num": 134,
+  "onModifyWeightPriority": 1,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyWeight"
+  ]
+ },
+ "honeygather": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Honey Gather",
+  "gen": 4,
+  "id": "honeygather",
+  "isNonstandard": null,
+  "name": "Honey Gather",
+  "noCopy": false,
+  "num": 118,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "hospitality": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Hospitality",
+  "gen": 9,
+  "id": "hospitality",
+  "isNonstandard": null,
+  "name": "Hospitality",
+  "noCopy": false,
+  "num": 299,
+  "onSwitchInPriority": -2,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "hugepower": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Huge Power",
+  "gen": 3,
+  "id": "hugepower",
+  "isNonstandard": null,
+  "name": "Huge Power",
+  "noCopy": false,
+  "num": 37,
+  "onModifyAtkPriority": 5,
+  "rating": 5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk"
+  ]
+ },
+ "hungerswitch": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Hunger Switch",
+  "gen": 8,
+  "id": "hungerswitch",
+  "isNonstandard": null,
+  "name": "Hunger Switch",
+  "noCopy": false,
+  "num": 258,
+  "onResidualOrder": 29,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onResidual"
+  ]
+ },
+ "hustle": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Hustle",
+  "gen": 3,
+  "id": "hustle",
+  "isNonstandard": null,
+  "name": "Hustle",
+  "noCopy": false,
+  "num": 55,
+  "onModifyAtkPriority": 5,
+  "onSourceModifyAccuracyPriority": -1,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onSourceModifyAccuracy"
+  ]
+ },
+ "hydration": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Hydration",
+  "gen": 4,
+  "id": "hydration",
+  "isNonstandard": null,
+  "name": "Hydration",
+  "noCopy": false,
+  "num": 93,
+  "onResidualOrder": 5,
+  "onResidualSubOrder": 3,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onResidual"
+  ]
+ },
+ "hypercutter": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Hyper Cutter",
+  "gen": 3,
+  "id": "hypercutter",
+  "isNonstandard": null,
+  "name": "Hyper Cutter",
+  "noCopy": false,
+  "num": 52,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryBoost"
+  ]
+ },
+ "icebody": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Ice Body",
+  "gen": 4,
+  "id": "icebody",
+  "isNonstandard": null,
+  "name": "Ice Body",
+  "noCopy": false,
+  "num": 115,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onImmunity",
+   "onWeather"
+  ]
+ },
+ "iceface": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1,
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Ice Face",
+  "gen": 8,
+  "id": "iceface",
+  "isNonstandard": null,
+  "name": "Ice Face",
+  "noCopy": false,
+  "num": 248,
+  "onDamagePriority": 1,
+  "onSwitchInPriority": -2,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onCriticalHit",
+   "onDamage",
+   "onEffectiveness",
+   "onStart",
+   "onUpdate",
+   "onWeatherChange"
+  ]
+ },
+ "icescales": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Ice Scales",
+  "gen": 8,
+  "id": "icescales",
+  "isNonstandard": null,
+  "name": "Ice Scales",
+  "noCopy": false,
+  "num": 246,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceModifyDamage"
+  ]
+ },
+ "illuminate": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Illuminate",
+  "gen": 3,
+  "id": "illuminate",
+  "isNonstandard": null,
+  "name": "Illuminate",
+  "noCopy": false,
+  "num": 35,
+  "rating": 0.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove",
+   "onTryBoost"
+  ]
+ },
+ "illusion": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Illusion",
+  "gen": 5,
+  "id": "illusion",
+  "isNonstandard": null,
+  "name": "Illusion",
+  "noCopy": false,
+  "num": 149,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBeforeSwitchIn",
+   "onDamagingHit",
+   "onEnd",
+   "onFaint"
+  ]
+ },
+ "immunity": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Immunity",
+  "gen": 3,
+  "id": "immunity",
+  "isNonstandard": null,
+  "name": "Immunity",
+  "noCopy": false,
+  "num": 17,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSetStatus",
+   "onUpdate"
+  ]
+ },
+ "imposter": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Imposter",
+  "gen": 5,
+  "id": "imposter",
+  "isNonstandard": null,
+  "name": "Imposter",
+  "noCopy": false,
+  "num": 150,
+  "rating": 5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSwitchIn"
+  ]
+ },
+ "infiltrator": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Infiltrator",
+  "gen": 5,
+  "id": "infiltrator",
+  "isNonstandard": null,
+  "name": "Infiltrator",
+  "noCopy": false,
+  "num": 151,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove"
+  ]
+ },
+ "innardsout": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Innards Out",
+  "gen": 7,
+  "id": "innardsout",
+  "isNonstandard": null,
+  "name": "Innards Out",
+  "noCopy": false,
+  "num": 215,
+  "onDamagingHitOrder": 1,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "innerfocus": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Inner Focus",
+  "gen": 3,
+  "id": "innerfocus",
+  "isNonstandard": null,
+  "name": "Inner Focus",
+  "noCopy": false,
+  "num": 39,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryAddVolatile",
+   "onTryBoost"
+  ]
+ },
+ "insomnia": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Insomnia",
+  "gen": 3,
+  "id": "insomnia",
+  "isNonstandard": null,
+  "name": "Insomnia",
+  "noCopy": false,
+  "num": 15,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSetStatus",
+   "onTryAddVolatile",
+   "onUpdate"
+  ]
+ },
+ "intimidate": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Intimidate",
+  "gen": 3,
+  "id": "intimidate",
+  "isNonstandard": null,
+  "name": "Intimidate",
+  "noCopy": false,
+  "num": 22,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "intrepidsword": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Intrepid Sword",
+  "gen": 8,
+  "id": "intrepidsword",
+  "isNonstandard": null,
+  "name": "Intrepid Sword",
+  "noCopy": false,
+  "num": 234,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "ironbarbs": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Iron Barbs",
+  "gen": 5,
+  "id": "ironbarbs",
+  "isNonstandard": null,
+  "name": "Iron Barbs",
+  "noCopy": false,
+  "num": 160,
+  "onDamagingHitOrder": 1,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "ironfist": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Iron Fist",
+  "gen": 4,
+  "id": "ironfist",
+  "isNonstandard": null,
+  "name": "Iron Fist",
+  "noCopy": false,
+  "num": 89,
+  "onBasePowerPriority": 23,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower"
+  ]
+ },
+ "justified": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Justified",
+  "gen": 5,
+  "id": "justified",
+  "isNonstandard": null,
+  "name": "Justified",
+  "noCopy": false,
+  "num": 154,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "keeneye": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Keen Eye",
+  "gen": 3,
+  "id": "keeneye",
+  "isNonstandard": null,
+  "name": "Keen Eye",
+  "noCopy": false,
+  "num": 51,
+  "rating": 0.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove",
+   "onTryBoost"
+  ]
+ },
+ "klutz": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Klutz",
+  "gen": 4,
+  "id": "klutz",
+  "isNonstandard": null,
+  "name": "Klutz",
+  "noCopy": false,
+  "num": 103,
+  "onSwitchInPriority": 1,
+  "rating": -1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "leafguard": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Leaf Guard",
+  "gen": 4,
+  "id": "leafguard",
+  "isNonstandard": null,
+  "name": "Leaf Guard",
+  "noCopy": false,
+  "num": 102,
+  "rating": 0.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSetStatus",
+   "onTryAddVolatile"
+  ]
+ },
+ "levitate": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Levitate",
+  "gen": 3,
+  "id": "levitate",
+  "isNonstandard": null,
+  "name": "Levitate",
+  "noCopy": false,
+  "num": 26,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "libero": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Libero",
+  "gen": 8,
+  "id": "libero",
+  "isNonstandard": null,
+  "name": "Libero",
+  "noCopy": false,
+  "num": 236,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onPrepareHit"
+  ]
+ },
+ "lightmetal": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Light Metal",
+  "gen": 5,
+  "id": "lightmetal",
+  "isNonstandard": null,
+  "name": "Light Metal",
+  "noCopy": false,
+  "num": 135,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyWeight"
+  ]
+ },
+ "lightningrod": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Lightning Rod",
+  "gen": 3,
+  "id": "lightningrod",
+  "isNonstandard": null,
+  "name": "Lightning Rod",
+  "noCopy": false,
+  "num": 31,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyRedirectTarget",
+   "onTryHit"
+  ]
+ },
+ "limber": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Limber",
+  "gen": 3,
+  "id": "limber",
+  "isNonstandard": null,
+  "name": "Limber",
+  "noCopy": false,
+  "num": 7,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSetStatus",
+   "onUpdate"
+  ]
+ },
+ "lingeringaroma": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Lingering Aroma",
+  "gen": 9,
+  "id": "lingeringaroma",
+  "isNonstandard": null,
+  "name": "Lingering Aroma",
+  "noCopy": false,
+  "num": 268,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "liquidooze": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Liquid Ooze",
+  "gen": 3,
+  "id": "liquidooze",
+  "isNonstandard": null,
+  "name": "Liquid Ooze",
+  "noCopy": false,
+  "num": 64,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceTryHeal"
+  ]
+ },
+ "liquidvoice": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Liquid Voice",
+  "gen": 7,
+  "id": "liquidvoice",
+  "isNonstandard": null,
+  "name": "Liquid Voice",
+  "noCopy": false,
+  "num": 204,
+  "onModifyTypePriority": -1,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyType"
+  ]
+ },
+ "longreach": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Long Reach",
+  "gen": 7,
+  "id": "longreach",
+  "isNonstandard": null,
+  "name": "Long Reach",
+  "noCopy": false,
+  "num": 203,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove"
+  ]
+ },
+ "magicbounce": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Magic Bounce",
+  "gen": 5,
+  "id": "magicbounce",
+  "isNonstandard": null,
+  "name": "Magic Bounce",
+  "noCopy": false,
+  "num": 156,
+  "onTryHitPriority": 1,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllyTryHitSide",
+   "onTryHit"
+  ]
+ },
+ "magicguard": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Magic Guard",
+  "gen": 4,
+  "id": "magicguard",
+  "isNonstandard": null,
+  "name": "Magic Guard",
+  "noCopy": false,
+  "num": 98,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamage"
+  ]
+ },
+ "magician": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Magician",
+  "gen": 6,
+  "id": "magician",
+  "isNonstandard": null,
+  "name": "Magician",
+  "noCopy": false,
+  "num": 170,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAfterMoveSecondarySelf"
+  ]
+ },
+ "magmaarmor": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Magma Armor",
+  "gen": 3,
+  "id": "magmaarmor",
+  "isNonstandard": null,
+  "name": "Magma Armor",
+  "noCopy": false,
+  "num": 40,
+  "rating": 0.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onImmunity",
+   "onUpdate"
+  ]
+ },
+ "magnetpull": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Magnet Pull",
+  "gen": 3,
+  "id": "magnetpull",
+  "isNonstandard": null,
+  "name": "Magnet Pull",
+  "noCopy": false,
+  "num": 42,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onFoeMaybeTrapPokemon",
+   "onFoeTrapPokemon"
+  ]
+ },
+ "marvelscale": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Marvel Scale",
+  "gen": 3,
+  "id": "marvelscale",
+  "isNonstandard": null,
+  "name": "Marvel Scale",
+  "noCopy": false,
+  "num": 63,
+  "onModifyDefPriority": 6,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyDef"
+  ]
+ },
+ "megalauncher": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Mega Launcher",
+  "gen": 6,
+  "id": "megalauncher",
+  "isNonstandard": null,
+  "name": "Mega Launcher",
+  "noCopy": false,
+  "num": 178,
+  "onBasePowerPriority": 19,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower"
+  ]
+ },
+ "megasol": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Mega Sol",
+  "gen": 9,
+  "id": "megasol",
+  "isNonstandard": null,
+  "name": "Mega Sol",
+  "noCopy": false,
+  "num": 315,
+  "onWeatherModifyDamagePriority": 1,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onWeatherModifyDamage"
+  ]
+ },
+ "merciless": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Merciless",
+  "gen": 7,
+  "id": "merciless",
+  "isNonstandard": null,
+  "name": "Merciless",
+  "noCopy": false,
+  "num": 196,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyCritRatio"
+  ]
+ },
+ "mimicry": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Mimicry",
+  "gen": 8,
+  "id": "mimicry",
+  "isNonstandard": null,
+  "name": "Mimicry",
+  "noCopy": false,
+  "num": 250,
+  "onSwitchInPriority": -1,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart",
+   "onTerrainChange"
+  ]
+ },
+ "mindseye": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Mind's Eye",
+  "gen": 9,
+  "id": "mindseye",
+  "isNonstandard": null,
+  "name": "Mind's Eye",
+  "noCopy": false,
+  "num": 300,
+  "onModifyMovePriority": -5,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove",
+   "onTryBoost"
+  ]
+ },
+ "minus": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Minus",
+  "gen": 3,
+  "id": "minus",
+  "isNonstandard": null,
+  "name": "Minus",
+  "noCopy": false,
+  "num": 58,
+  "onModifySpAPriority": 5,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifySpA"
+  ]
+ },
+ "mirrorarmor": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Mirror Armor",
+  "gen": 8,
+  "id": "mirrorarmor",
+  "isNonstandard": null,
+  "name": "Mirror Armor",
+  "noCopy": false,
+  "num": 240,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryBoost"
+  ]
+ },
+ "mistysurge": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Misty Surge",
+  "gen": 7,
+  "id": "mistysurge",
+  "isNonstandard": null,
+  "name": "Misty Surge",
+  "noCopy": false,
+  "num": 228,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "moldbreaker": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Mold Breaker",
+  "gen": 4,
+  "id": "moldbreaker",
+  "isNonstandard": null,
+  "name": "Mold Breaker",
+  "noCopy": false,
+  "num": 104,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove",
+   "onStart"
+  ]
+ },
+ "moody": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Moody",
+  "gen": 5,
+  "id": "moody",
+  "isNonstandard": null,
+  "name": "Moody",
+  "noCopy": false,
+  "num": 141,
+  "onResidualOrder": 28,
+  "onResidualSubOrder": 2,
+  "rating": 5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onResidual"
+  ]
+ },
+ "motordrive": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Motor Drive",
+  "gen": 4,
+  "id": "motordrive",
+  "isNonstandard": null,
+  "name": "Motor Drive",
+  "noCopy": false,
+  "num": 78,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryHit"
+  ]
+ },
+ "mountaineer": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Mountaineer",
+  "gen": 0,
+  "id": "mountaineer",
+  "isNonstandard": "CAP",
+  "name": "Mountaineer",
+  "noCopy": false,
+  "num": -1,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamage",
+   "onTryHit"
+  ]
+ },
+ "moxie": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Moxie",
+  "gen": 5,
+  "id": "moxie",
+  "isNonstandard": null,
+  "name": "Moxie",
+  "noCopy": false,
+  "num": 153,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceAfterFaint"
+  ]
+ },
+ "multiscale": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Multiscale",
+  "gen": 5,
+  "id": "multiscale",
+  "isNonstandard": null,
+  "name": "Multiscale",
+  "noCopy": false,
+  "num": 136,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceModifyDamage"
+  ]
+ },
+ "multitype": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Multitype",
+  "gen": 4,
+  "id": "multitype",
+  "isNonstandard": null,
+  "name": "Multitype",
+  "noCopy": false,
+  "num": 121,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "mummy": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Mummy",
+  "gen": 5,
+  "id": "mummy",
+  "isNonstandard": null,
+  "name": "Mummy",
+  "noCopy": false,
+  "num": 152,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "myceliummight": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Mycelium Might",
+  "gen": 9,
+  "id": "myceliummight",
+  "isNonstandard": null,
+  "name": "Mycelium Might",
+  "noCopy": false,
+  "num": 298,
+  "onFractionalPriorityPriority": -1,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onFractionalPriority",
+   "onModifyMove"
+  ]
+ },
+ "naturalcure": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Natural Cure",
+  "gen": 3,
+  "id": "naturalcure",
+  "isNonstandard": null,
+  "name": "Natural Cure",
+  "noCopy": false,
+  "num": 30,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSwitchOut"
+  ]
+ },
+ "neuroforce": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Neuroforce",
+  "gen": 7,
+  "id": "neuroforce",
+  "isNonstandard": null,
+  "name": "Neuroforce",
+  "noCopy": false,
+  "num": 233,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyDamage"
+  ]
+ },
+ "neutralizinggas": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Neutralizing Gas",
+  "gen": 8,
+  "id": "neutralizinggas",
+  "isNonstandard": null,
+  "name": "Neutralizing Gas",
+  "noCopy": false,
+  "num": 256,
+  "onSwitchInPriority": 2,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onEnd",
+   "onSwitchIn"
+  ]
+ },
+ "noability": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: No Ability",
+  "gen": 0,
+  "id": "noability",
+  "isNonstandard": "Past",
+  "name": "No Ability",
+  "noCopy": false,
+  "num": 0,
+  "rating": 0.1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "noguard": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: No Guard",
+  "gen": 4,
+  "id": "noguard",
+  "isNonstandard": null,
+  "name": "No Guard",
+  "noCopy": false,
+  "num": 99,
+  "onAnyInvulnerabilityPriority": 1,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyAccuracy",
+   "onAnyInvulnerability"
+  ]
+ },
+ "normalize": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Normalize",
+  "gen": 4,
+  "id": "normalize",
+  "isNonstandard": null,
+  "name": "Normalize",
+  "noCopy": false,
+  "num": 96,
+  "onBasePowerPriority": 23,
+  "onModifyTypePriority": 1,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower",
+   "onModifyType"
+  ]
+ },
+ "oblivious": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Oblivious",
+  "gen": 3,
+  "id": "oblivious",
+  "isNonstandard": null,
+  "name": "Oblivious",
+  "noCopy": false,
+  "num": 12,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onImmunity",
+   "onTryBoost",
+   "onTryHit",
+   "onUpdate"
+  ]
+ },
+ "opportunist": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Opportunist",
+  "gen": 9,
+  "id": "opportunist",
+  "isNonstandard": null,
+  "name": "Opportunist",
+  "noCopy": false,
+  "num": 290,
+  "onAnySwitchInPriority": -3,
+  "onResidualOrder": 29,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyAfterMega",
+   "onAnyAfterMove",
+   "onAnyAfterTerastallization",
+   "onAnySwitchIn",
+   "onEnd",
+   "onFoeAfterBoost",
+   "onResidual"
+  ]
+ },
+ "orichalcumpulse": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Orichalcum Pulse",
+  "gen": 9,
+  "id": "orichalcumpulse",
+  "isNonstandard": null,
+  "name": "Orichalcum Pulse",
+  "noCopy": false,
+  "num": 288,
+  "onModifyAtkPriority": 5,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onStart"
+  ]
+ },
+ "overcoat": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Overcoat",
+  "gen": 5,
+  "id": "overcoat",
+  "isNonstandard": null,
+  "name": "Overcoat",
+  "noCopy": false,
+  "num": 142,
+  "onTryHitPriority": 1,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onImmunity",
+   "onTryHit"
+  ]
+ },
+ "overgrow": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Overgrow",
+  "gen": 3,
+  "id": "overgrow",
+  "isNonstandard": null,
+  "name": "Overgrow",
+  "noCopy": false,
+  "num": 65,
+  "onModifyAtkPriority": 5,
+  "onModifySpAPriority": 5,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onModifySpA"
+  ]
+ },
+ "owntempo": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Own Tempo",
+  "gen": 3,
+  "id": "owntempo",
+  "isNonstandard": null,
+  "name": "Own Tempo",
+  "noCopy": false,
+  "num": 20,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onHit",
+   "onTryAddVolatile",
+   "onTryBoost",
+   "onUpdate"
+  ]
+ },
+ "parentalbond": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Parental Bond",
+  "gen": 6,
+  "id": "parentalbond",
+  "isNonstandard": null,
+  "name": "Parental Bond",
+  "noCopy": false,
+  "num": 185,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onPrepareHit",
+   "onSourceModifySecondaries"
+  ]
+ },
+ "pastelveil": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Pastel Veil",
+  "gen": 8,
+  "id": "pastelveil",
+  "isNonstandard": null,
+  "name": "Pastel Veil",
+  "noCopy": false,
+  "num": 257,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllySetStatus",
+   "onAnySwitchIn",
+   "onSetStatus",
+   "onStart",
+   "onUpdate"
+  ]
+ },
+ "perishbody": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Perish Body",
+  "gen": 8,
+  "id": "perishbody",
+  "isNonstandard": null,
+  "name": "Perish Body",
+  "noCopy": false,
+  "num": 253,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "persistent": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Persistent",
+  "gen": 0,
+  "id": "persistent",
+  "isNonstandard": "CAP",
+  "name": "Persistent",
+  "noCopy": false,
+  "num": -3,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "pickpocket": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Pickpocket",
+  "gen": 5,
+  "id": "pickpocket",
+  "isNonstandard": null,
+  "name": "Pickpocket",
+  "noCopy": false,
+  "num": 124,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAfterMoveSecondary"
+  ]
+ },
+ "pickup": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Pickup",
+  "gen": 3,
+  "id": "pickup",
+  "isNonstandard": null,
+  "name": "Pickup",
+  "noCopy": false,
+  "num": 53,
+  "onResidualOrder": 28,
+  "onResidualSubOrder": 2,
+  "rating": 0.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onResidual"
+  ]
+ },
+ "piercingdrill": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Piercing Drill",
+  "gen": 9,
+  "id": "piercingdrill",
+  "isNonstandard": null,
+  "name": "Piercing Drill",
+  "noCopy": false,
+  "num": 311,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onHitProtect"
+  ]
+ },
+ "pixilate": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Pixilate",
+  "gen": 6,
+  "id": "pixilate",
+  "isNonstandard": null,
+  "name": "Pixilate",
+  "noCopy": false,
+  "num": 182,
+  "onBasePowerPriority": 23,
+  "onModifyTypePriority": -1,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower",
+   "onModifyType"
+  ]
+ },
+ "plus": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Plus",
+  "gen": 3,
+  "id": "plus",
+  "isNonstandard": null,
+  "name": "Plus",
+  "noCopy": false,
+  "num": 57,
+  "onModifySpAPriority": 5,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifySpA"
+  ]
+ },
+ "poisonheal": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Poison Heal",
+  "gen": 4,
+  "id": "poisonheal",
+  "isNonstandard": null,
+  "name": "Poison Heal",
+  "noCopy": false,
+  "num": 90,
+  "onDamagePriority": 1,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamage"
+  ]
+ },
+ "poisonpoint": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Poison Point",
+  "gen": 3,
+  "id": "poisonpoint",
+  "isNonstandard": null,
+  "name": "Poison Point",
+  "noCopy": false,
+  "num": 38,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "poisonpuppeteer": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Poison Puppeteer",
+  "gen": 9,
+  "id": "poisonpuppeteer",
+  "isNonstandard": null,
+  "name": "Poison Puppeteer",
+  "noCopy": false,
+  "num": 310,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyAfterSetStatus"
+  ]
+ },
+ "poisontouch": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Poison Touch",
+  "gen": 5,
+  "id": "poisontouch",
+  "isNonstandard": null,
+  "name": "Poison Touch",
+  "noCopy": false,
+  "num": 143,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceDamagingHit"
+  ]
+ },
+ "powerconstruct": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Power Construct",
+  "gen": 7,
+  "id": "powerconstruct",
+  "isNonstandard": null,
+  "name": "Power Construct",
+  "noCopy": false,
+  "num": 211,
+  "onResidualOrder": 29,
+  "rating": 5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onResidual"
+  ]
+ },
+ "powerofalchemy": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Power of Alchemy",
+  "gen": 7,
+  "id": "powerofalchemy",
+  "isNonstandard": null,
+  "name": "Power of Alchemy",
+  "noCopy": false,
+  "num": 223,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllyFaint"
+  ]
+ },
+ "powerspot": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Power Spot",
+  "gen": 8,
+  "id": "powerspot",
+  "isNonstandard": null,
+  "name": "Power Spot",
+  "noCopy": false,
+  "num": 249,
+  "onAllyBasePowerPriority": 22,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllyBasePower"
+  ]
+ },
+ "prankster": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Prankster",
+  "gen": 5,
+  "id": "prankster",
+  "isNonstandard": null,
+  "name": "Prankster",
+  "noCopy": false,
+  "num": 158,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyPriority"
+  ]
+ },
+ "pressure": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Pressure",
+  "gen": 3,
+  "id": "pressure",
+  "isNonstandard": null,
+  "name": "Pressure",
+  "noCopy": false,
+  "num": 46,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDeductPP",
+   "onStart"
+  ]
+ },
+ "primordialsea": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Primordial Sea",
+  "gen": 6,
+  "id": "primordialsea",
+  "isNonstandard": null,
+  "name": "Primordial Sea",
+  "noCopy": false,
+  "num": 189,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnySetWeather",
+   "onEnd",
+   "onStart"
+  ]
+ },
+ "prismarmor": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Prism Armor",
+  "gen": 7,
+  "id": "prismarmor",
+  "isNonstandard": null,
+  "name": "Prism Armor",
+  "noCopy": false,
+  "num": 232,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceModifyDamage"
+  ]
+ },
+ "propellertail": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Propeller Tail",
+  "gen": 8,
+  "id": "propellertail",
+  "isNonstandard": null,
+  "name": "Propeller Tail",
+  "noCopy": false,
+  "num": 239,
+  "onModifyMovePriority": 1,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove"
+  ]
+ },
+ "protean": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Protean",
+  "gen": 6,
+  "id": "protean",
+  "isNonstandard": null,
+  "name": "Protean",
+  "noCopy": false,
+  "num": 168,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onPrepareHit"
+  ]
+ },
+ "protosynthesis": {
+  "affectsFainted": false,
+  "condition": {
+   "noCopy": true,
+   "onModifyAtkPriority": 5,
+   "onModifyDefPriority": 6,
+   "onModifySpAPriority": 5,
+   "onModifySpDPriority": 6
+  },
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Protosynthesis",
+  "gen": 9,
+  "id": "protosynthesis",
+  "isNonstandard": null,
+  "name": "Protosynthesis",
+  "noCopy": false,
+  "num": 281,
+  "onSwitchInPriority": -2,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "condition.onEnd",
+   "condition.onModifyAtk",
+   "condition.onModifyDef",
+   "condition.onModifySpA",
+   "condition.onModifySpD",
+   "condition.onModifySpe",
+   "condition.onStart",
+   "onEnd",
+   "onStart",
+   "onWeatherChange"
+  ]
+ },
+ "psychicsurge": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Psychic Surge",
+  "gen": 7,
+  "id": "psychicsurge",
+  "isNonstandard": null,
+  "name": "Psychic Surge",
+  "noCopy": false,
+  "num": 227,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "punkrock": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Punk Rock",
+  "gen": 8,
+  "id": "punkrock",
+  "isNonstandard": null,
+  "name": "Punk Rock",
+  "noCopy": false,
+  "num": 244,
+  "onBasePowerPriority": 7,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower",
+   "onSourceModifyDamage"
+  ]
+ },
+ "purepower": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Pure Power",
+  "gen": 3,
+  "id": "purepower",
+  "isNonstandard": null,
+  "name": "Pure Power",
+  "noCopy": false,
+  "num": 74,
+  "onModifyAtkPriority": 5,
+  "rating": 5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk"
+  ]
+ },
+ "purifyingsalt": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Purifying Salt",
+  "gen": 9,
+  "id": "purifyingsalt",
+  "isNonstandard": null,
+  "name": "Purifying Salt",
+  "noCopy": false,
+  "num": 272,
+  "onSourceModifyAtkPriority": 6,
+  "onSourceModifySpAPriority": 5,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSetStatus",
+   "onSourceModifyAtk",
+   "onSourceModifySpA",
+   "onTryAddVolatile"
+  ]
+ },
+ "quarkdrive": {
+  "affectsFainted": false,
+  "condition": {
+   "noCopy": true,
+   "onModifyAtkPriority": 5,
+   "onModifyDefPriority": 6,
+   "onModifySpAPriority": 5,
+   "onModifySpDPriority": 6
+  },
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Quark Drive",
+  "gen": 9,
+  "id": "quarkdrive",
+  "isNonstandard": null,
+  "name": "Quark Drive",
+  "noCopy": false,
+  "num": 282,
+  "onSwitchInPriority": -2,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "condition.onEnd",
+   "condition.onModifyAtk",
+   "condition.onModifyDef",
+   "condition.onModifySpA",
+   "condition.onModifySpD",
+   "condition.onModifySpe",
+   "condition.onStart",
+   "onEnd",
+   "onStart",
+   "onTerrainChange"
+  ]
+ },
+ "queenlymajesty": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Queenly Majesty",
+  "gen": 7,
+  "id": "queenlymajesty",
+  "isNonstandard": null,
+  "name": "Queenly Majesty",
+  "noCopy": false,
+  "num": 214,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onFoeTryMove"
+  ]
+ },
+ "quickdraw": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Quick Draw",
+  "gen": 8,
+  "id": "quickdraw",
+  "isNonstandard": null,
+  "name": "Quick Draw",
+  "noCopy": false,
+  "num": 259,
+  "onFractionalPriorityPriority": -1,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onFractionalPriority"
+  ]
+ },
+ "quickfeet": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Quick Feet",
+  "gen": 4,
+  "id": "quickfeet",
+  "isNonstandard": null,
+  "name": "Quick Feet",
+  "noCopy": false,
+  "num": 95,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifySpe"
+  ]
+ },
+ "raindish": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Rain Dish",
+  "gen": 3,
+  "id": "raindish",
+  "isNonstandard": null,
+  "name": "Rain Dish",
+  "noCopy": false,
+  "num": 44,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onWeather"
+  ]
+ },
+ "rattled": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Rattled",
+  "gen": 5,
+  "id": "rattled",
+  "isNonstandard": null,
+  "name": "Rattled",
+  "noCopy": false,
+  "num": 155,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAfterBoost",
+   "onDamagingHit"
+  ]
+ },
+ "rebound": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Rebound",
+  "gen": 0,
+  "id": "rebound",
+  "isNonstandard": "CAP",
+  "name": "Rebound",
+  "noCopy": false,
+  "num": -2,
+  "onTryHitPriority": 1,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllyTryHitSide",
+   "onTryHit"
+  ]
+ },
+ "receiver": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Receiver",
+  "gen": 7,
+  "id": "receiver",
+  "isNonstandard": null,
+  "name": "Receiver",
+  "noCopy": false,
+  "num": 222,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllyFaint"
+  ]
+ },
+ "reckless": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Reckless",
+  "gen": 4,
+  "id": "reckless",
+  "isNonstandard": null,
+  "name": "Reckless",
+  "noCopy": false,
+  "num": 120,
+  "onBasePowerPriority": 23,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower"
+  ]
+ },
+ "refrigerate": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Refrigerate",
+  "gen": 6,
+  "id": "refrigerate",
+  "isNonstandard": null,
+  "name": "Refrigerate",
+  "noCopy": false,
+  "num": 174,
+  "onBasePowerPriority": 23,
+  "onModifyTypePriority": -1,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower",
+   "onModifyType"
+  ]
+ },
+ "regenerator": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Regenerator",
+  "gen": 5,
+  "id": "regenerator",
+  "isNonstandard": null,
+  "name": "Regenerator",
+  "noCopy": false,
+  "num": 144,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSwitchOut"
+  ]
+ },
+ "ripen": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Ripen",
+  "gen": 8,
+  "id": "ripen",
+  "isNonstandard": null,
+  "name": "Ripen",
+  "noCopy": false,
+  "num": 247,
+  "onSourceModifyDamagePriority": -1,
+  "onTryEatItemPriority": -1,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onChangeBoost",
+   "onEatItem",
+   "onSourceModifyDamage",
+   "onTryEatItem",
+   "onTryHeal"
+  ]
+ },
+ "rivalry": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Rivalry",
+  "gen": 4,
+  "id": "rivalry",
+  "isNonstandard": null,
+  "name": "Rivalry",
+  "noCopy": false,
+  "num": 79,
+  "onBasePowerPriority": 24,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower"
+  ]
+ },
+ "rkssystem": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: RKS System",
+  "gen": 7,
+  "id": "rkssystem",
+  "isNonstandard": null,
+  "name": "RKS System",
+  "noCopy": false,
+  "num": 225,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "rockhead": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Rock Head",
+  "gen": 3,
+  "id": "rockhead",
+  "isNonstandard": null,
+  "name": "Rock Head",
+  "noCopy": false,
+  "num": 69,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamage"
+  ]
+ },
+ "rockypayload": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Rocky Payload",
+  "gen": 9,
+  "id": "rockypayload",
+  "isNonstandard": null,
+  "name": "Rocky Payload",
+  "noCopy": false,
+  "num": 276,
+  "onModifyAtkPriority": 5,
+  "onModifySpAPriority": 5,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onModifySpA"
+  ]
+ },
+ "roughskin": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Rough Skin",
+  "gen": 3,
+  "id": "roughskin",
+  "isNonstandard": null,
+  "name": "Rough Skin",
+  "noCopy": false,
+  "num": 24,
+  "onDamagingHitOrder": 1,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "runaway": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Run Away",
+  "gen": 3,
+  "id": "runaway",
+  "isNonstandard": null,
+  "name": "Run Away",
+  "noCopy": false,
+  "num": 50,
+  "onMaybeTrapPokemonPriority": -10,
+  "onTrapPokemonPriority": -10,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onMaybeTrapPokemon",
+   "onTrapPokemon"
+  ]
+ },
+ "sandforce": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Sand Force",
+  "gen": 5,
+  "id": "sandforce",
+  "isNonstandard": null,
+  "name": "Sand Force",
+  "noCopy": false,
+  "num": 159,
+  "onBasePowerPriority": 21,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower",
+   "onImmunity"
+  ]
+ },
+ "sandrush": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Sand Rush",
+  "gen": 5,
+  "id": "sandrush",
+  "isNonstandard": null,
+  "name": "Sand Rush",
+  "noCopy": false,
+  "num": 146,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onImmunity",
+   "onModifySpe"
+  ]
+ },
+ "sandspit": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Sand Spit",
+  "gen": 8,
+  "id": "sandspit",
+  "isNonstandard": null,
+  "name": "Sand Spit",
+  "noCopy": false,
+  "num": 245,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "sandstream": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Sand Stream",
+  "gen": 3,
+  "id": "sandstream",
+  "isNonstandard": null,
+  "name": "Sand Stream",
+  "noCopy": false,
+  "num": 45,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "sandveil": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Sand Veil",
+  "gen": 3,
+  "id": "sandveil",
+  "isNonstandard": null,
+  "name": "Sand Veil",
+  "noCopy": false,
+  "num": 8,
+  "onModifyAccuracyPriority": -1,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onImmunity",
+   "onModifyAccuracy"
+  ]
+ },
+ "sapsipper": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Sap Sipper",
+  "gen": 5,
+  "id": "sapsipper",
+  "isNonstandard": null,
+  "name": "Sap Sipper",
+  "noCopy": false,
+  "num": 157,
+  "onTryHitPriority": 1,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllyTryHitSide",
+   "onTryHit"
+  ]
+ },
+ "schooling": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Schooling",
+  "gen": 7,
+  "id": "schooling",
+  "isNonstandard": null,
+  "name": "Schooling",
+  "noCopy": false,
+  "num": 208,
+  "onResidualOrder": 29,
+  "onSwitchInPriority": -1,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onResidual",
+   "onStart"
+  ]
+ },
+ "scrappy": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Scrappy",
+  "gen": 4,
+  "id": "scrappy",
+  "isNonstandard": null,
+  "name": "Scrappy",
+  "noCopy": false,
+  "num": 113,
+  "onModifyMovePriority": -5,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove",
+   "onTryBoost"
+  ]
+ },
+ "screencleaner": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Screen Cleaner",
+  "gen": 8,
+  "id": "screencleaner",
+  "isNonstandard": null,
+  "name": "Screen Cleaner",
+  "noCopy": false,
+  "num": 251,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "seedsower": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Seed Sower",
+  "gen": 9,
+  "id": "seedsower",
+  "isNonstandard": null,
+  "name": "Seed Sower",
+  "noCopy": false,
+  "num": 269,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "serenegrace": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Serene Grace",
+  "gen": 3,
+  "id": "serenegrace",
+  "isNonstandard": null,
+  "name": "Serene Grace",
+  "noCopy": false,
+  "num": 32,
+  "onModifyMovePriority": -2,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove"
+  ]
+ },
+ "shadowshield": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Shadow Shield",
+  "gen": 7,
+  "id": "shadowshield",
+  "isNonstandard": null,
+  "name": "Shadow Shield",
+  "noCopy": false,
+  "num": 231,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceModifyDamage"
+  ]
+ },
+ "shadowtag": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Shadow Tag",
+  "gen": 3,
+  "id": "shadowtag",
+  "isNonstandard": null,
+  "name": "Shadow Tag",
+  "noCopy": false,
+  "num": 23,
+  "rating": 5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onFoeMaybeTrapPokemon",
+   "onFoeTrapPokemon"
+  ]
+ },
+ "sharpness": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Sharpness",
+  "gen": 9,
+  "id": "sharpness",
+  "isNonstandard": null,
+  "name": "Sharpness",
+  "noCopy": false,
+  "num": 292,
+  "onBasePowerPriority": 19,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower"
+  ]
+ },
+ "shedskin": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Shed Skin",
+  "gen": 3,
+  "id": "shedskin",
+  "isNonstandard": null,
+  "name": "Shed Skin",
+  "noCopy": false,
+  "num": 61,
+  "onResidualOrder": 5,
+  "onResidualSubOrder": 3,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onResidual"
+  ]
+ },
+ "sheerforce": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Sheer Force",
+  "gen": 5,
+  "id": "sheerforce",
+  "isNonstandard": null,
+  "name": "Sheer Force",
+  "noCopy": false,
+  "num": 125,
+  "onBasePowerPriority": 21,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower",
+   "onModifyMove"
+  ]
+ },
+ "shellarmor": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Shell Armor",
+  "gen": 3,
+  "id": "shellarmor",
+  "isNonstandard": null,
+  "name": "Shell Armor",
+  "noCopy": false,
+  "num": 75,
+  "onCriticalHit": false,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "shielddust": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Shield Dust",
+  "gen": 3,
+  "id": "shielddust",
+  "isNonstandard": null,
+  "name": "Shield Dust",
+  "noCopy": false,
+  "num": 19,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifySecondaries"
+  ]
+ },
+ "shieldsdown": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Shields Down",
+  "gen": 7,
+  "id": "shieldsdown",
+  "isNonstandard": null,
+  "name": "Shields Down",
+  "noCopy": false,
+  "num": 197,
+  "onResidualOrder": 29,
+  "onSwitchInPriority": -1,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onResidual",
+   "onSetStatus",
+   "onStart",
+   "onTryAddVolatile"
+  ]
+ },
+ "simple": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Simple",
+  "gen": 4,
+  "id": "simple",
+  "isNonstandard": null,
+  "name": "Simple",
+  "noCopy": false,
+  "num": 86,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onChangeBoost"
+  ]
+ },
+ "skilllink": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Skill Link",
+  "gen": 4,
+  "id": "skilllink",
+  "isNonstandard": null,
+  "name": "Skill Link",
+  "noCopy": false,
+  "num": 92,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove"
+  ]
+ },
+ "slowstart": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Slow Start",
+  "gen": 4,
+  "id": "slowstart",
+  "isNonstandard": null,
+  "name": "Slow Start",
+  "noCopy": false,
+  "num": 112,
+  "onModifyAtkPriority": 5,
+  "onResidualOrder": 28,
+  "onResidualSubOrder": 2,
+  "rating": -1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onEnd",
+   "onModifyAtk",
+   "onModifySpe",
+   "onResidual",
+   "onStart"
+  ]
+ },
+ "slushrush": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Slush Rush",
+  "gen": 7,
+  "id": "slushrush",
+  "isNonstandard": null,
+  "name": "Slush Rush",
+  "noCopy": false,
+  "num": 202,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifySpe"
+  ]
+ },
+ "sniper": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Sniper",
+  "gen": 4,
+  "id": "sniper",
+  "isNonstandard": null,
+  "name": "Sniper",
+  "noCopy": false,
+  "num": 97,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyDamage"
+  ]
+ },
+ "snowcloak": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Snow Cloak",
+  "gen": 4,
+  "id": "snowcloak",
+  "isNonstandard": null,
+  "name": "Snow Cloak",
+  "noCopy": false,
+  "num": 81,
+  "onModifyAccuracyPriority": -1,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onImmunity",
+   "onModifyAccuracy"
+  ]
+ },
+ "snowwarning": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Snow Warning",
+  "gen": 4,
+  "id": "snowwarning",
+  "isNonstandard": null,
+  "name": "Snow Warning",
+  "noCopy": false,
+  "num": 117,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "solarpower": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Solar Power",
+  "gen": 4,
+  "id": "solarpower",
+  "isNonstandard": null,
+  "name": "Solar Power",
+  "noCopy": false,
+  "num": 94,
+  "onModifySpAPriority": 5,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifySpA",
+   "onWeather"
+  ]
+ },
+ "solidrock": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Solid Rock",
+  "gen": 4,
+  "id": "solidrock",
+  "isNonstandard": null,
+  "name": "Solid Rock",
+  "noCopy": false,
+  "num": 116,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceModifyDamage"
+  ]
+ },
+ "soulheart": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Soul-Heart",
+  "gen": 7,
+  "id": "soulheart",
+  "isNonstandard": null,
+  "name": "Soul-Heart",
+  "noCopy": false,
+  "num": 220,
+  "onAnyFaintPriority": 1,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyFaint"
+  ]
+ },
+ "soundproof": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Soundproof",
+  "gen": 3,
+  "id": "soundproof",
+  "isNonstandard": null,
+  "name": "Soundproof",
+  "noCopy": false,
+  "num": 43,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllyTryHitSide",
+   "onTryHit"
+  ]
+ },
+ "speedboost": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Speed Boost",
+  "gen": 3,
+  "id": "speedboost",
+  "isNonstandard": null,
+  "name": "Speed Boost",
+  "noCopy": false,
+  "num": 3,
+  "onResidualOrder": 28,
+  "onResidualSubOrder": 2,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onResidual"
+  ]
+ },
+ "spicyspray": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Spicy Spray",
+  "gen": 9,
+  "id": "spicyspray",
+  "isNonstandard": null,
+  "name": "Spicy Spray",
+  "noCopy": false,
+  "num": 318,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "stakeout": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Stakeout",
+  "gen": 7,
+  "id": "stakeout",
+  "isNonstandard": null,
+  "name": "Stakeout",
+  "noCopy": false,
+  "num": 198,
+  "onModifyAtkPriority": 5,
+  "onModifySpAPriority": 5,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onModifySpA"
+  ]
+ },
+ "stall": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Stall",
+  "gen": 4,
+  "id": "stall",
+  "isNonstandard": null,
+  "name": "Stall",
+  "noCopy": false,
+  "num": 100,
+  "onFractionalPriority": -0.1,
+  "rating": -1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "stalwart": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Stalwart",
+  "gen": 8,
+  "id": "stalwart",
+  "isNonstandard": null,
+  "name": "Stalwart",
+  "noCopy": false,
+  "num": 242,
+  "onModifyMovePriority": 1,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove"
+  ]
+ },
+ "stamina": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Stamina",
+  "gen": 7,
+  "id": "stamina",
+  "isNonstandard": null,
+  "name": "Stamina",
+  "noCopy": false,
+  "num": 192,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "stancechange": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Stance Change",
+  "gen": 6,
+  "id": "stancechange",
+  "isNonstandard": null,
+  "name": "Stance Change",
+  "noCopy": false,
+  "num": 176,
+  "onModifyMovePriority": 1,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove"
+  ]
+ },
+ "static": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Static",
+  "gen": 3,
+  "id": "static",
+  "isNonstandard": null,
+  "name": "Static",
+  "noCopy": false,
+  "num": 9,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "steadfast": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Steadfast",
+  "gen": 4,
+  "id": "steadfast",
+  "isNonstandard": null,
+  "name": "Steadfast",
+  "noCopy": false,
+  "num": 80,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onFlinch"
+  ]
+ },
+ "steamengine": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Steam Engine",
+  "gen": 8,
+  "id": "steamengine",
+  "isNonstandard": null,
+  "name": "Steam Engine",
+  "noCopy": false,
+  "num": 243,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "steelworker": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Steelworker",
+  "gen": 7,
+  "id": "steelworker",
+  "isNonstandard": null,
+  "name": "Steelworker",
+  "noCopy": false,
+  "num": 200,
+  "onModifyAtkPriority": 5,
+  "onModifySpAPriority": 5,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onModifySpA"
+  ]
+ },
+ "steelyspirit": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Steely Spirit",
+  "gen": 8,
+  "id": "steelyspirit",
+  "isNonstandard": null,
+  "name": "Steely Spirit",
+  "noCopy": false,
+  "num": 252,
+  "onAllyBasePowerPriority": 22,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllyBasePower"
+  ]
+ },
+ "stench": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Stench",
+  "gen": 3,
+  "id": "stench",
+  "isNonstandard": null,
+  "name": "Stench",
+  "noCopy": false,
+  "num": 1,
+  "onModifyMovePriority": -1,
+  "rating": 0.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove"
+  ]
+ },
+ "stickyhold": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Sticky Hold",
+  "gen": 3,
+  "id": "stickyhold",
+  "isNonstandard": null,
+  "name": "Sticky Hold",
+  "noCopy": false,
+  "num": 60,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTakeItem"
+  ]
+ },
+ "stormdrain": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Storm Drain",
+  "gen": 4,
+  "id": "stormdrain",
+  "isNonstandard": null,
+  "name": "Storm Drain",
+  "noCopy": false,
+  "num": 114,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyRedirectTarget",
+   "onTryHit"
+  ]
+ },
+ "strongjaw": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Strong Jaw",
+  "gen": 6,
+  "id": "strongjaw",
+  "isNonstandard": null,
+  "name": "Strong Jaw",
+  "noCopy": false,
+  "num": 173,
+  "onBasePowerPriority": 19,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower"
+  ]
+ },
+ "sturdy": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Sturdy",
+  "gen": 3,
+  "id": "sturdy",
+  "isNonstandard": null,
+  "name": "Sturdy",
+  "noCopy": false,
+  "num": 5,
+  "onDamagePriority": -30,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamage",
+   "onTryHit"
+  ]
+ },
+ "suctioncups": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Suction Cups",
+  "gen": 3,
+  "id": "suctioncups",
+  "isNonstandard": null,
+  "name": "Suction Cups",
+  "noCopy": false,
+  "num": 21,
+  "onDragOutPriority": 1,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDragOut"
+  ]
+ },
+ "superluck": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Super Luck",
+  "gen": 4,
+  "id": "superluck",
+  "isNonstandard": null,
+  "name": "Super Luck",
+  "noCopy": false,
+  "num": 105,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyCritRatio"
+  ]
+ },
+ "supersweetsyrup": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Supersweet Syrup",
+  "gen": 9,
+  "id": "supersweetsyrup",
+  "isNonstandard": null,
+  "name": "Supersweet Syrup",
+  "noCopy": false,
+  "num": 306,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart"
+  ]
+ },
+ "supremeoverlord": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Supreme Overlord",
+  "gen": 9,
+  "id": "supremeoverlord",
+  "isNonstandard": null,
+  "name": "Supreme Overlord",
+  "noCopy": false,
+  "num": 293,
+  "onBasePowerPriority": 21,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower",
+   "onEnd",
+   "onStart"
+  ]
+ },
+ "surgesurfer": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Surge Surfer",
+  "gen": 7,
+  "id": "surgesurfer",
+  "isNonstandard": null,
+  "name": "Surge Surfer",
+  "noCopy": false,
+  "num": 207,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifySpe"
+  ]
+ },
+ "swarm": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Swarm",
+  "gen": 3,
+  "id": "swarm",
+  "isNonstandard": null,
+  "name": "Swarm",
+  "noCopy": false,
+  "num": 68,
+  "onModifyAtkPriority": 5,
+  "onModifySpAPriority": 5,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onModifySpA"
+  ]
+ },
+ "sweetveil": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Sweet Veil",
+  "gen": 6,
+  "id": "sweetveil",
+  "isNonstandard": null,
+  "name": "Sweet Veil",
+  "noCopy": false,
+  "num": 175,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllySetStatus",
+   "onAllyTryAddVolatile"
+  ]
+ },
+ "swiftswim": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Swift Swim",
+  "gen": 3,
+  "id": "swiftswim",
+  "isNonstandard": null,
+  "name": "Swift Swim",
+  "noCopy": false,
+  "num": 33,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifySpe"
+  ]
+ },
+ "swordofruin": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Sword of Ruin",
+  "gen": 9,
+  "id": "swordofruin",
+  "isNonstandard": null,
+  "name": "Sword of Ruin",
+  "noCopy": false,
+  "num": 285,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyModifyDef",
+   "onStart"
+  ]
+ },
+ "symbiosis": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Symbiosis",
+  "gen": 6,
+  "id": "symbiosis",
+  "isNonstandard": null,
+  "name": "Symbiosis",
+  "noCopy": false,
+  "num": 180,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAllyAfterUseItem"
+  ]
+ },
+ "synchronize": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Synchronize",
+  "gen": 3,
+  "id": "synchronize",
+  "isNonstandard": null,
+  "name": "Synchronize",
+  "noCopy": false,
+  "num": 28,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAfterSetStatus"
+  ]
+ },
+ "tabletsofruin": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Tablets of Ruin",
+  "gen": 9,
+  "id": "tabletsofruin",
+  "isNonstandard": null,
+  "name": "Tablets of Ruin",
+  "noCopy": false,
+  "num": 284,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyModifyAtk",
+   "onStart"
+  ]
+ },
+ "tangledfeet": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Tangled Feet",
+  "gen": 4,
+  "id": "tangledfeet",
+  "isNonstandard": null,
+  "name": "Tangled Feet",
+  "noCopy": false,
+  "num": 77,
+  "onModifyAccuracyPriority": -1,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAccuracy"
+  ]
+ },
+ "tanglinghair": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Tangling Hair",
+  "gen": 7,
+  "id": "tanglinghair",
+  "isNonstandard": null,
+  "name": "Tangling Hair",
+  "noCopy": false,
+  "num": 221,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "technician": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Technician",
+  "gen": 4,
+  "id": "technician",
+  "isNonstandard": null,
+  "name": "Technician",
+  "noCopy": false,
+  "num": 101,
+  "onBasePowerPriority": 30,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower"
+  ]
+ },
+ "telepathy": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Telepathy",
+  "gen": 5,
+  "id": "telepathy",
+  "isNonstandard": null,
+  "name": "Telepathy",
+  "noCopy": false,
+  "num": 140,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryHit"
+  ]
+ },
+ "teraformzero": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Teraform Zero",
+  "gen": 9,
+  "id": "teraformzero",
+  "isNonstandard": null,
+  "name": "Teraform Zero",
+  "noCopy": false,
+  "num": 309,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAfterTerastallization"
+  ]
+ },
+ "terashell": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Tera Shell",
+  "gen": 9,
+  "id": "terashell",
+  "isNonstandard": null,
+  "name": "Tera Shell",
+  "noCopy": false,
+  "num": 308,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": []
+ },
+ "terashift": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Tera Shift",
+  "gen": 9,
+  "id": "terashift",
+  "isNonstandard": null,
+  "name": "Tera Shift",
+  "noCopy": false,
+  "num": 307,
+  "onSwitchInPriority": 2,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSwitchIn"
+  ]
+ },
+ "teravolt": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Teravolt",
+  "gen": 5,
+  "id": "teravolt",
+  "isNonstandard": null,
+  "name": "Teravolt",
+  "noCopy": false,
+  "num": 164,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove",
+   "onStart"
+  ]
+ },
+ "thermalexchange": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Thermal Exchange",
+  "gen": 9,
+  "id": "thermalexchange",
+  "isNonstandard": null,
+  "name": "Thermal Exchange",
+  "noCopy": false,
+  "num": 270,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit",
+   "onSetStatus",
+   "onUpdate"
+  ]
+ },
+ "thickfat": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Thick Fat",
+  "gen": 3,
+  "id": "thickfat",
+  "isNonstandard": null,
+  "name": "Thick Fat",
+  "noCopy": false,
+  "num": 47,
+  "onSourceModifyAtkPriority": 6,
+  "onSourceModifySpAPriority": 5,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceModifyAtk",
+   "onSourceModifySpA"
+  ]
+ },
+ "tintedlens": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Tinted Lens",
+  "gen": 4,
+  "id": "tintedlens",
+  "isNonstandard": null,
+  "name": "Tinted Lens",
+  "noCopy": false,
+  "num": 110,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyDamage"
+  ]
+ },
+ "torrent": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Torrent",
+  "gen": 3,
+  "id": "torrent",
+  "isNonstandard": null,
+  "name": "Torrent",
+  "noCopy": false,
+  "num": 67,
+  "onModifyAtkPriority": 5,
+  "onModifySpAPriority": 5,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onModifySpA"
+  ]
+ },
+ "toughclaws": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Tough Claws",
+  "gen": 6,
+  "id": "toughclaws",
+  "isNonstandard": null,
+  "name": "Tough Claws",
+  "noCopy": false,
+  "num": 181,
+  "onBasePowerPriority": 21,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower"
+  ]
+ },
+ "toxicboost": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Toxic Boost",
+  "gen": 5,
+  "id": "toxicboost",
+  "isNonstandard": null,
+  "name": "Toxic Boost",
+  "noCopy": false,
+  "num": 137,
+  "onBasePowerPriority": 19,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBasePower"
+  ]
+ },
+ "toxicchain": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Toxic Chain",
+  "gen": 9,
+  "id": "toxicchain",
+  "isNonstandard": null,
+  "name": "Toxic Chain",
+  "noCopy": false,
+  "num": 305,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSourceDamagingHit"
+  ]
+ },
+ "toxicdebris": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Toxic Debris",
+  "gen": 9,
+  "id": "toxicdebris",
+  "isNonstandard": null,
+  "name": "Toxic Debris",
+  "noCopy": false,
+  "num": 295,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "trace": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "failroleplay": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Trace",
+  "gen": 3,
+  "id": "trace",
+  "isNonstandard": null,
+  "name": "Trace",
+  "noCopy": false,
+  "num": 36,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onStart",
+   "onUpdate"
+  ]
+ },
+ "transistor": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Transistor",
+  "gen": 8,
+  "id": "transistor",
+  "isNonstandard": null,
+  "name": "Transistor",
+  "noCopy": false,
+  "num": 262,
+  "onModifyAtkPriority": 5,
+  "onModifySpAPriority": 5,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onModifySpA"
+  ]
+ },
+ "triage": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Triage",
+  "gen": 7,
+  "id": "triage",
+  "isNonstandard": null,
+  "name": "Triage",
+  "noCopy": false,
+  "num": 205,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyPriority"
+  ]
+ },
+ "truant": {
+  "affectsFainted": false,
+  "condition": {},
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Truant",
+  "gen": 3,
+  "id": "truant",
+  "isNonstandard": null,
+  "name": "Truant",
+  "noCopy": false,
+  "num": 54,
+  "onBeforeMovePriority": 9,
+  "rating": -1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onBeforeMove",
+   "onStart"
+  ]
+ },
+ "turboblaze": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Turboblaze",
+  "gen": 5,
+  "id": "turboblaze",
+  "isNonstandard": null,
+  "name": "Turboblaze",
+  "noCopy": false,
+  "num": 163,
+  "rating": 3,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyMove",
+   "onStart"
+  ]
+ },
+ "unaware": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Unaware",
+  "gen": 4,
+  "id": "unaware",
+  "isNonstandard": null,
+  "name": "Unaware",
+  "noCopy": false,
+  "num": 109,
+  "rating": 4,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyModifyBoost"
+  ]
+ },
+ "unburden": {
+  "affectsFainted": false,
+  "condition": {},
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Unburden",
+  "gen": 4,
+  "id": "unburden",
+  "isNonstandard": null,
+  "name": "Unburden",
+  "noCopy": false,
+  "num": 84,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "condition.onModifySpe",
+   "onAfterUseItem",
+   "onEnd",
+   "onTakeItem"
+  ]
+ },
+ "unnerve": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Unnerve",
+  "gen": 5,
+  "id": "unnerve",
+  "isNonstandard": null,
+  "name": "Unnerve",
+  "noCopy": false,
+  "num": 127,
+  "onSwitchInPriority": 1,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onEnd",
+   "onFoeTryEatItem",
+   "onStart"
+  ]
+ },
+ "unseenfist": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Unseen Fist",
+  "gen": 8,
+  "id": "unseenfist",
+  "isNonstandard": null,
+  "name": "Unseen Fist",
+  "noCopy": false,
+  "num": 260,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onHitProtect"
+  ]
+ },
+ "vesselofruin": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Vessel of Ruin",
+  "gen": 9,
+  "id": "vesselofruin",
+  "isNonstandard": null,
+  "name": "Vessel of Ruin",
+  "noCopy": false,
+  "num": 284,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyModifySpA",
+   "onStart"
+  ]
+ },
+ "victorystar": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Victory Star",
+  "gen": 5,
+  "id": "victorystar",
+  "isNonstandard": null,
+  "name": "Victory Star",
+  "noCopy": false,
+  "num": 162,
+  "onAnyModifyAccuracyPriority": -1,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onAnyModifyAccuracy"
+  ]
+ },
+ "vitalspirit": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Vital Spirit",
+  "gen": 3,
+  "id": "vitalspirit",
+  "isNonstandard": null,
+  "name": "Vital Spirit",
+  "noCopy": false,
+  "num": 72,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSetStatus",
+   "onTryAddVolatile",
+   "onUpdate"
+  ]
+ },
+ "voltabsorb": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Volt Absorb",
+  "gen": 3,
+  "id": "voltabsorb",
+  "isNonstandard": null,
+  "name": "Volt Absorb",
+  "noCopy": false,
+  "num": 10,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryHit"
+  ]
+ },
+ "wanderingspirit": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Wandering Spirit",
+  "gen": 8,
+  "id": "wanderingspirit",
+  "isNonstandard": null,
+  "name": "Wandering Spirit",
+  "noCopy": false,
+  "num": 254,
+  "rating": 2.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "waterabsorb": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Water Absorb",
+  "gen": 3,
+  "id": "waterabsorb",
+  "isNonstandard": null,
+  "name": "Water Absorb",
+  "noCopy": false,
+  "num": 11,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryHit"
+  ]
+ },
+ "waterbubble": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Water Bubble",
+  "gen": 7,
+  "id": "waterbubble",
+  "isNonstandard": null,
+  "name": "Water Bubble",
+  "noCopy": false,
+  "num": 199,
+  "onSourceModifyAtkPriority": 5,
+  "onSourceModifySpAPriority": 5,
+  "rating": 4.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAtk",
+   "onModifySpA",
+   "onSetStatus",
+   "onSourceModifyAtk",
+   "onSourceModifySpA",
+   "onUpdate"
+  ]
+ },
+ "watercompaction": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Water Compaction",
+  "gen": 7,
+  "id": "watercompaction",
+  "isNonstandard": null,
+  "name": "Water Compaction",
+  "noCopy": false,
+  "num": 195,
+  "rating": 1.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "waterveil": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Water Veil",
+  "gen": 3,
+  "id": "waterveil",
+  "isNonstandard": null,
+  "name": "Water Veil",
+  "noCopy": false,
+  "num": 41,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSetStatus",
+   "onUpdate"
+  ]
+ },
+ "weakarmor": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Weak Armor",
+  "gen": 5,
+  "id": "weakarmor",
+  "isNonstandard": null,
+  "name": "Weak Armor",
+  "noCopy": false,
+  "num": 133,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit"
+  ]
+ },
+ "wellbakedbody": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Well-Baked Body",
+  "gen": 9,
+  "id": "wellbakedbody",
+  "isNonstandard": null,
+  "name": "Well-Baked Body",
+  "noCopy": false,
+  "num": 273,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryHit"
+  ]
+ },
+ "whitesmoke": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: White Smoke",
+  "gen": 3,
+  "id": "whitesmoke",
+  "isNonstandard": null,
+  "name": "White Smoke",
+  "noCopy": false,
+  "num": 73,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryBoost"
+  ]
+ },
+ "wimpout": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Wimp Out",
+  "gen": 7,
+  "id": "wimpout",
+  "isNonstandard": null,
+  "name": "Wimp Out",
+  "noCopy": false,
+  "num": 193,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onEmergencyExit"
+  ]
+ },
+ "windpower": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {},
+  "fullname": "ability: Wind Power",
+  "gen": 9,
+  "id": "windpower",
+  "isNonstandard": null,
+  "name": "Wind Power",
+  "noCopy": false,
+  "num": 277,
+  "onDamagingHitOrder": 1,
+  "rating": 1,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onDamagingHit",
+   "onSideConditionStart"
+  ]
+ },
+ "windrider": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Wind Rider",
+  "gen": 9,
+  "id": "windrider",
+  "isNonstandard": null,
+  "name": "Wind Rider",
+  "noCopy": false,
+  "num": 274,
+  "rating": 3.5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSideConditionStart",
+   "onStart",
+   "onTryHit"
+  ]
+ },
+ "wonderguard": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1
+  },
+  "fullname": "ability: Wonder Guard",
+  "gen": 3,
+  "id": "wonderguard",
+  "isNonstandard": null,
+  "name": "Wonder Guard",
+  "noCopy": false,
+  "num": 25,
+  "rating": 5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onTryHit"
+  ]
+ },
+ "wonderskin": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "breakable": 1
+  },
+  "fullname": "ability: Wonder Skin",
+  "gen": 5,
+  "id": "wonderskin",
+  "isNonstandard": null,
+  "name": "Wonder Skin",
+  "noCopy": false,
+  "num": 147,
+  "onModifyAccuracyPriority": 10,
+  "rating": 2,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onModifyAccuracy"
+  ]
+ },
+ "zenmode": {
+  "affectsFainted": false,
+  "condition": {},
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1
+  },
+  "fullname": "ability: Zen Mode",
+  "gen": 5,
+  "id": "zenmode",
+  "isNonstandard": null,
+  "name": "Zen Mode",
+  "noCopy": false,
+  "num": 161,
+  "onResidualOrder": 29,
+  "rating": 0,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "condition.onEnd",
+   "condition.onStart",
+   "onEnd",
+   "onResidual"
+  ]
+ },
+ "zerotohero": {
+  "affectsFainted": false,
+  "effectType": "Ability",
+  "exists": true,
+  "flags": {
+   "cantsuppress": 1,
+   "failroleplay": 1,
+   "failskillswap": 1,
+   "noentrain": 1,
+   "noreceiver": 1,
+   "notrace": 1,
+   "notransform": 1
+  },
+  "fullname": "ability: Zero to Hero",
+  "gen": 9,
+  "id": "zerotohero",
+  "isNonstandard": null,
+  "name": "Zero to Hero",
+  "noCopy": false,
+  "num": 278,
+  "rating": 5,
+  "sourceEffect": "",
+  "suppressWeather": false,
+  "fnKeys": [
+   "onSwitchIn",
+   "onSwitchOut"
+  ]
+ }
+}

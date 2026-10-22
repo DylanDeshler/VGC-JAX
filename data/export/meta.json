@@ -1,0 +1,13 @@
+{
+ "ps_commit": "d601443456c795f77c6e4f2b5b459167f2b10a3c",
+ "mod": "champions",
+ "format": "gen9championsvgc2026regmc",
+ "exporter": "tools/datagen/export_dex.js",
+ "counts": {
+  "species": 1518,
+  "moves": 938,
+  "abilities": 321,
+  "items": 587,
+  "conditions": 166
+ }
+}

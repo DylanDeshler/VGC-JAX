@@ -59,7 +59,7 @@ async function gen(args) {
 	const outDir = args.out; if (!outDir) throw new Error('--out DIR required');
 	const opts = {
 		teams: args.teams || 'chaos', policy: args.policy || 'random', stage: args.stage || null,
-		classifier: args.classifier || 'markers',
+		classifier: args.classifier || 'markers', legal: args.legal || 'off',
 	};
 	fs.mkdirSync(outDir, { recursive: true });
 	const meta = {

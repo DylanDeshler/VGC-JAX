@@ -114,13 +114,21 @@ function runBattle(S, i, opts = {}) {
 	battle.setPlayer('p2', { name: 'p2', team: teams[1] });
 	const rng = new T.HarnessRNG(sd.policySeed);
 	const choose = getPolicy(policy);
+	// --legal on|off|<fraction>: acceptance-enumerated legal sets at every decision of sampled battles (07 §6)
+	let legalFn = null;
+	const frac = legal === 'on' || legal === true ? 1 : legal === 'off' || !legal ? 0 : Number(legal);
+	if (frac > 0 && (frac >= 1 || seeds.u32(seeds.sha256('legal', S, i)) / 4294967296 < frac)) {
+		const support = require('./support');
+		legalFn = b => [0, 1].map(k => support.legalForBattle(b, k));
+	}
 	const header = {
 		type: 'header', trace_version: TRACE_VERSION, contract_version: seeds.CONTRACT_VERSION,
 		ps_commit: seeds.psCommit(), oracle_git: seeds.oracleGit(), format: formatid,
 		battle_id: sd.battleId, run_seed: S, index: i, seed: sd.psSeed, stage, team_source: source,
 		teams: teams.map(t => Teams.pack(t)), scenario: null, policy, classifier,
+		canonical_dontcare: Object.keys(prng.canonical || {}).sort(),
 	};
-	const { decisions, final } = driveTraced({ battle, prng, ident, choose: req => choose(req, rng), legal });
+	const { decisions, final } = driveTraced({ battle, prng, ident, choose: req => choose(req, rng), legal: legalFn });
 	return [header, ...decisions, final];
 }
 

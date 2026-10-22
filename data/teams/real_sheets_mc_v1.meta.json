@@ -1,0 +1,29 @@
+{
+ "counts": {
+  "gender_fills": 977,
+  "invalid": 0,
+  "raw_rows": 3850,
+  "sp_fill_kinds": {
+   "nature": 19187,
+   "relabel": 79
+  },
+  "unique_sheets": 3211,
+  "valid": 3211
+ },
+ "format": "gen9championsvgc2026regmc",
+ "inputs": {
+  "data/export/legal_pool.json": "5d936757833291d1b14d8b8ab2c1a92628f03507d582997a8d52971c4a40fcc3",
+  "data/raw/ps-replays/2026-10/gen9championsvgc2026regmcbo3_teams.jsonl": "2f23ebe9ccf3ce279b4d09e845613cd3ac84ddc4cba331da21131c0a8cfb5512",
+  "data/raw/smogon-chaos/2026-09/gen9championsvgc2026regmc-0.json": "0486ba6cc0d4b220ea959aa981260ab6feab4f4a8b8297886580968cf10cd5f3",
+  "data/raw/smogon-chaos/2026-09/gen9championsvgc2026regmcbo3-1760.json": "f944e2de85ee262f20caa75b6a7b500dc8cfe6347264c142c16c1b0829813ee7"
+ },
+ "invalid": [],
+ "mod": "champions",
+ "rules": {
+  "canonical_sheet": "raw packed team string as scraped (before fills)",
+  "gender": "species fixed gender (M/F/N), else M if ratioM > 0, else F",
+  "rating_bucket": "floor(max player_rating, 100); game_rating if no player rating",
+  "sp": "chaos Spreads weighted by count, conditioned on nature, sources in order; fallback top-10 spreads relabelled; u_slot = sha256(sha256('spfill|'+canonical) || slot)[:8]/2^64"
+ },
+ "sha256": "abacca4c7ae47b00c88c5920e22657f18957b3eebff09fe90fcb0026cf87d8fb"
+}

@@ -108,6 +108,16 @@ function permRank(perm) {
 	}
 	return rank;
 }
+/** Inverse of permRank. */
+function permUnrank(rank, n) {
+	const fact = [1]; for (let i = 1; i <= n; i++) fact[i] = fact[i - 1] * i;
+	const pool = [...Array(n).keys()]; const out = [];
+	for (let i = n - 1; i >= 0; i--) {
+		const q = Math.floor(rank / fact[i]); rank %= fact[i];
+		out.push(pool.splice(q, 1)[0]);
+	}
+	return out;
+}
 function isDegenerate(method, args) {
 	if (method === 'randomChance') return args[0] >= args[1] || args[0] <= 0;
 	if (method === 'sample') return args[0] <= 1;
@@ -236,22 +246,37 @@ function install(battle, prng) {
 	battle.runAction = function (action) {
 		ensureTurn();
 		if (action.choice === 'start') { ident.captureFromParty(this); wrapPokemon(); }
-		const p = action.pokemon;
-		const passes = !ACTOR_CHECKED.has(action.choice) || (p && p.isActive && !p.fainted);
+		const passes = a => !ACTOR_CHECKED.has(a.choice) || (a.pokemon && a.pokemon.isActive && !a.pokemon.fainted);
 		const prevSelect = ctx.curSelectOrd;
 		ctx.stepSerial++;
 		ctx.curAction = action;
-		if (SELECTABLE.has(action.choice) && passes) {
+		if (SELECTABLE.has(action.choice) && passes(action)) {
 			ctx.curSelectOrd = ctx.ords.select++;
-			emitSelectTie(action, ctx.curSelectOrd);
+			const tied = selectTied(action);
+			if (ctx.tieForcer && tied) {
+				const want = ctx.tieForcer('SPEED_TIE_SELECT', selectKey(ctx.curSelectOrd));
+				const e = want === undefined ? null : tied.find(x => ident.ref(x.pokemon) === want);
+				if (e && e !== action) { // forced winner: execute e now, leave `action` in e's queue position
+					const q = battle.queue.list; q[q.indexOf(e)] = action;
+					action = e; ctx.curAction = action;
+				}
+			}
+			if (tied) pushTie('SPEED_TIE_SELECT', ctx.curSelectOrd, 0,
+				tied.map(e => ident.ref(e.pokemon)).sort((a, b) => a - b), ident.ref(action.pokemon));
 		}
-		if (action.choice === 'move' && passes) {
+		if (action.choice === 'move' && passes(action)) {
+			const p = action.pokemon;
 			ctx.curActionOrd = ctx.moveActs.get(p) || 0;
 			ctx.moveActs.set(p, ctx.curActionOrd + 1);
 		}
 		try { return runAction.call(this, action); } finally { ctx.curAction = null; ctx.curSelectOrd = prevSelect; }
 	};
-	function emitSelectTie(action, selectOrd) {
+	function selectKey(selectOrd) {
+		return { turn: battle.turn, step_tag: stepInfo().tag, sub: selectOrd, ord: 0 };
+	}
+	/** Entries tied with `action` on the full comparePriority key (same prepend class), restricted to active,
+	 * non-fainted actors (contract §4 SPEED_TIE_SELECT); null when fewer than 2. */
+	function selectTied(action) {
 		const pre = ctx.prepend.has(action);
 		const tied = [action];
 		let unrecorded = 0;
@@ -262,12 +287,10 @@ function install(battle, prng) {
 		const me = action.pokemon;
 		if (!(me && me.isActive && !me.fainted)) {
 			if (tied.length > 1) ctx.unrecordedSelectTies++;
-			return;
+			return null;
 		}
 		if (unrecorded) ctx.unrecordedSelectTies++;
-		if (tied.length < 2) return;
-		const members = tied.map(e => ident.ref(e.pokemon)).sort((a, b) => a - b);
-		pushTie('SPEED_TIE_SELECT', selectOrd, 0, members, ident.ref(me));
+		return tied.length >= 2 ? tied : null;
 	}
 
 	// ---- sort owners
@@ -308,15 +331,45 @@ function install(battle, prng) {
 		try { return dragIn.call(this, side, pos); } finally { ctx.dragOut = prev; }
 	};
 
-	// ---- speedSort: tie records (contract §4)
+	// ---- speedSort: tie records (contract §4) and tie forcing (replay mode)
 	const speedSort = battle.speedSort;
 	battle.speedSort = function (list, comparator) {
 		const top = ctx.stack[ctx.stack.length - 1] || { tag: '' };
-		const r = speedSort.call(this, list, comparator);
-		if (list.length >= 2) emitSortTies(top, list, comparator || this.comparePriority);
-		return r;
+		const spec = list.length >= 2 ? sortSpec(top, list) : null;
+		const prevSort = ctx.curSort; ctx.curSort = spec ? { ...spec, gi: 0 } : null;
+		try {
+			const r = speedSort.call(this, list, comparator);
+			if (spec && spec.kind) emitSortTies(spec, list, comparator || this.comparePriority);
+			else if (spec) countDropped(list, comparator || this.comparePriority);
+			return r;
+		} finally { ctx.curSort = prevSort; }
 	};
-	function emitSortTies(top, list, cmp) {
+	const handlerMember = h => `${holderCode(h.effectHolder, ident)}:${h.effect?.id || ''}`;
+	const handlerOrder = (a, b) => (holderRank(a.effectHolder) - holderRank(b.effectHolder)) ||
+		((a.effect?.id || '') < (b.effect?.id || '') ? -1 : (a.effect?.id || '') > (b.effect?.id || '') ? 1 : 0);
+	const monMember = p => ident.ref(p);
+	const bySlot = (a, b) => slotRank(a) - slotRank(b);
+	const byRef = (a, b) => ident.ref(a) - ident.ref(b);
+	// omit handlers fieldEvent will skip (fainted holder unless slot condition; sim/battle.ts:517-519)
+	const fieldFilter = g => g.filter(h => !(isPokemon(h.effectHolder) && h.effectHolder.fainted && !h.state?.isSlotCondition));
+	/** Which tie kind (if any) a speedSort produces, from its caller and element type. kind=null: don't-care. */
+	function sortSpec(top, list) {
+		const t = top.tag; const pokemonList = isPokemon(list[0]);
+		if (t === 'queue') return { kind: null, queue: true }; // SPEED_TIE_SELECT is handled at execution
+		if (t === 'runSwitch' && pokemonList) return { kind: 'SPEED_TIE_SWITCHIN', sub: top.ord, member: monMember, order: bySlot };
+		if (t === 'eachWeather' && pokemonList) return { kind: 'SPEED_TIE_WEATHER_EACH', sub: top.ord, member: monMember, order: bySlot };
+		if (t === 'fieldEvent' && !pokemonList) {
+			return { kind: 'SPEED_TIE_FIELD_EVENT', sub: top.ord, member: handlerMember, order: handlerOrder, filter: fieldFilter };
+		}
+		if (t === 'runEvent' && !pokemonList && top.ord >= 0) {
+			return { kind: 'SPEED_TIE_HANDLER_MUL', sub: top.ord, member: handlerMember, order: handlerOrder };
+		}
+		if (pokemonList && battle.effect?.id === 'magician') {
+			return { kind: 'SPEED_TIE_ABILITY', sub: ctx.curSelectOrd, member: monMember, order: byRef };
+		}
+		return { kind: null };
+	}
+	function tieGroups(list, cmp) {
 		const groups = [];
 		for (let i = 0; i < list.length;) {
 			let j = i + 1;
@@ -324,45 +377,38 @@ function install(battle, prng) {
 			if (j - i >= 2) groups.push(list.slice(i, j));
 			i = j;
 		}
-		if (!groups.length) return;
-		const t = top.tag;
-		const pokemonList = isPokemon(list[0]);
-		let kind = null; let sub = 0; let member; let order;
-		if (t === 'queue') return; // SPEED_TIE_SELECT is emitted at execution (emitSelectTie)
-		if (t === 'runSwitch' && pokemonList) {
-			kind = 'SPEED_TIE_SWITCHIN'; sub = top.ord;
-			member = p => ident.ref(p); order = (a, b) => slotRank(a) - slotRank(b);
-		} else if (t === 'eachWeather' && pokemonList) {
-			kind = 'SPEED_TIE_WEATHER_EACH'; sub = top.ord;
-			member = p => ident.ref(p); order = (a, b) => slotRank(a) - slotRank(b);
-		} else if (t === 'fieldEvent' && !pokemonList) {
-			kind = 'SPEED_TIE_FIELD_EVENT'; sub = top.ord;
-		} else if (t === 'runEvent' && !pokemonList && top.ord >= 0) {
-			kind = 'SPEED_TIE_HANDLER_MUL'; sub = top.ord;
-		} else if (pokemonList && battle.effect?.id === 'magician') {
-			kind = 'SPEED_TIE_ABILITY'; sub = ctx.curSelectOrd;
-			member = p => ident.ref(p); order = (a, b) => ident.ref(a) - ident.ref(b);
-		} else {
-			ctx.droppedTies += groups.length; // don't-care tie kinds (contract §6)
-			return;
-		}
-		if (!member) { // handler lists
-			member = h => `${holderCode(h.effectHolder, ident)}:${h.effect?.id || ''}`;
-			order = (a, b) => (holderRank(a.effectHolder) - holderRank(b.effectHolder)) ||
-				((a.effect?.id || '') < (b.effect?.id || '') ? -1 : (a.effect?.id || '') > (b.effect?.id || '') ? 1 : 0);
-		}
+		return groups;
+	}
+	function countDropped(list, cmp) {
+		const spec = ctx.curSort;
+		if (spec && spec.queue) return;
+		ctx.droppedTies += tieGroups(list, cmp).length; // don't-care tie kinds (contract §6)
+	}
+	function emitSortTies(spec, list, cmp) {
 		let gi = 0;
-		for (let g of groups) {
-			if (kind === 'SPEED_TIE_FIELD_EVENT') {
-				// omit handlers fieldEvent will skip (fainted holder unless slot condition; sim/battle.ts:517-519)
-				g = g.filter(h => !(isPokemon(h.effectHolder) && h.effectHolder.fainted && !h.state?.isSlotCondition));
-				if (g.length < 2) continue;
-			}
-			const canon = g.slice().sort(order);
+		for (let g of tieGroups(list, cmp)) {
+			if (spec.filter) { g = spec.filter(g); if (g.length < 2) continue; }
+			const canon = g.slice().sort(spec.order);
 			const perm = g.map(x => canon.indexOf(x));
-			pushTie(kind, sub, gi++, canon.map(member), permRank(perm), { order: g.map(member) });
+			pushTie(spec.kind, spec.sub, gi++, canon.map(spec.member), permRank(perm), { order: g.map(spec.member) });
 		}
 	}
+	/** Replay mode: permutation for a speedSort shuffle of `tied` (PS pre-shuffle order), or undefined. */
+	ctx.shuffleForcer = function (tied) {
+		const spec = ctx.curSort;
+		if (!spec || !spec.kind || !ctx.tieForcer) return undefined;
+		const g = spec.filter ? spec.filter(tied) : tied;
+		if (g.length < 2) return undefined;
+		const key = { turn: battle.turn, step_tag: stepInfo().tag, sub: spec.sub, ord: spec.gi++ };
+		const v = ctx.tieForcer(spec.kind, key);
+		if (v === undefined) return undefined;
+		const canon = g.slice().sort(spec.order);
+		const want = permUnrank(v, canon.length).map(i => canon[i]); // desired order of the members
+		const slots = tied.map((x, i) => (g.includes(x) ? i : -1)).filter(i => i >= 0);
+		const perm = tied.map((_, i) => i);
+		slots.forEach((pos, k) => { perm[pos] = tied.indexOf(want[k]); });
+		return perm;
+	};
 
 	// ---- structured DrawKeys (called by InstrumentedPRNG._begin after classification)
 	prng.onClassified = function (d, c, b, callArgs) {
@@ -482,5 +528,5 @@ function drawRecord(d, ident) {
 }
 
 module.exports = {
-	install, drawRecord, Ident, permRank, isDegenerate, STEP, CHOICE_TAG, SELECTABLE, MUL_EVENTS, KIND_MAP, DONTCARE_KINDS,
+	install, drawRecord, Ident, permRank, permUnrank, isDegenerate, STEP, CHOICE_TAG, SELECTABLE, MUL_EVENTS, KIND_MAP, DONTCARE_KINDS,
 };

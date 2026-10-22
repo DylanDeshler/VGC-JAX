@@ -1,0 +1,572 @@
+{
+ "abomasnow": [
+  {
+   "item": "abomasite",
+   "mega": "abomasnowmega"
+  }
+ ],
+ "absol": [
+  {
+   "item": "absolite",
+   "mega": "absolmega"
+  },
+  {
+   "item": "absolitez",
+   "mega": "absolmegaz"
+  }
+ ],
+ "aerodactyl": [
+  {
+   "item": "aerodactylite",
+   "mega": "aerodactylmega"
+  }
+ ],
+ "aggron": [
+  {
+   "item": "aggronite",
+   "mega": "aggronmega"
+  }
+ ],
+ "alakazam": [
+  {
+   "item": "alakazite",
+   "mega": "alakazammega"
+  }
+ ],
+ "altaria": [
+  {
+   "item": "altarianite",
+   "mega": "altariamega"
+  }
+ ],
+ "ampharos": [
+  {
+   "item": "ampharosite",
+   "mega": "ampharosmega"
+  }
+ ],
+ "audino": [
+  {
+   "item": "audinite",
+   "mega": "audinomega"
+  }
+ ],
+ "banette": [
+  {
+   "item": "banettite",
+   "mega": "banettemega"
+  }
+ ],
+ "barbaracle": [
+  {
+   "item": "barbaracite",
+   "mega": "barbaraclemega"
+  }
+ ],
+ "baxcalibur": [
+  {
+   "item": "baxcalibrite",
+   "mega": "baxcaliburmega"
+  }
+ ],
+ "beedrill": [
+  {
+   "item": "beedrillite",
+   "mega": "beedrillmega"
+  }
+ ],
+ "blastoise": [
+  {
+   "item": "blastoisinite",
+   "mega": "blastoisemega"
+  }
+ ],
+ "blaziken": [
+  {
+   "item": "blazikenite",
+   "mega": "blazikenmega"
+  }
+ ],
+ "camerupt": [
+  {
+   "item": "cameruptite",
+   "mega": "cameruptmega"
+  }
+ ],
+ "chandelure": [
+  {
+   "item": "chandelurite",
+   "mega": "chandeluremega"
+  }
+ ],
+ "charizard": [
+  {
+   "item": "charizarditex",
+   "mega": "charizardmegax"
+  },
+  {
+   "item": "charizarditey",
+   "mega": "charizardmegay"
+  }
+ ],
+ "chesnaught": [
+  {
+   "item": "chesnaughtite",
+   "mega": "chesnaughtmega"
+  }
+ ],
+ "chimecho": [
+  {
+   "item": "chimechite",
+   "mega": "chimechomega"
+  }
+ ],
+ "clefable": [
+  {
+   "item": "clefablite",
+   "mega": "clefablemega"
+  }
+ ],
+ "crabominable": [
+  {
+   "item": "crabominite",
+   "mega": "crabominablemega"
+  }
+ ],
+ "delphox": [
+  {
+   "item": "delphoxite",
+   "mega": "delphoxmega"
+  }
+ ],
+ "dragalge": [
+  {
+   "item": "dragalgite",
+   "mega": "dragalgemega"
+  }
+ ],
+ "dragonite": [
+  {
+   "item": "dragoninite",
+   "mega": "dragonitemega"
+  }
+ ],
+ "drampa": [
+  {
+   "item": "drampanite",
+   "mega": "drampamega"
+  }
+ ],
+ "eelektross": [
+  {
+   "item": "eelektrossite",
+   "mega": "eelektrossmega"
+  }
+ ],
+ "emboar": [
+  {
+   "item": "emboarite",
+   "mega": "emboarmega"
+  }
+ ],
+ "excadrill": [
+  {
+   "item": "excadrite",
+   "mega": "excadrillmega"
+  }
+ ],
+ "falinks": [
+  {
+   "item": "falinksite",
+   "mega": "falinksmega"
+  }
+ ],
+ "feraligatr": [
+  {
+   "item": "feraligite",
+   "mega": "feraligatrmega"
+  }
+ ],
+ "floetteeternal": [
+  {
+   "item": "floettite",
+   "mega": "floettemega"
+  }
+ ],
+ "froslass": [
+  {
+   "item": "froslassite",
+   "mega": "froslassmega"
+  }
+ ],
+ "gallade": [
+  {
+   "item": "galladite",
+   "mega": "gallademega"
+  }
+ ],
+ "garchomp": [
+  {
+   "item": "garchompite",
+   "mega": "garchompmega"
+  },
+  {
+   "item": "garchompitez",
+   "mega": "garchompmegaz"
+  }
+ ],
+ "gardevoir": [
+  {
+   "item": "gardevoirite",
+   "mega": "gardevoirmega"
+  }
+ ],
+ "gengar": [
+  {
+   "item": "gengarite",
+   "mega": "gengarmega"
+  }
+ ],
+ "glalie": [
+  {
+   "item": "glalitite",
+   "mega": "glaliemega"
+  }
+ ],
+ "glimmora": [
+  {
+   "item": "glimmoranite",
+   "mega": "glimmoramega"
+  }
+ ],
+ "golisopod": [
+  {
+   "item": "golisopite",
+   "mega": "golisopodmega"
+  }
+ ],
+ "golurk": [
+  {
+   "item": "golurkite",
+   "mega": "golurkmega"
+  }
+ ],
+ "greninja": [
+  {
+   "item": "greninjite",
+   "mega": "greninjamega"
+  }
+ ],
+ "gyarados": [
+  {
+   "item": "gyaradosite",
+   "mega": "gyaradosmega"
+  }
+ ],
+ "hawlucha": [
+  {
+   "item": "hawluchanite",
+   "mega": "hawluchamega"
+  }
+ ],
+ "heracross": [
+  {
+   "item": "heracronite",
+   "mega": "heracrossmega"
+  }
+ ],
+ "houndoom": [
+  {
+   "item": "houndoominite",
+   "mega": "houndoommega"
+  }
+ ],
+ "kangaskhan": [
+  {
+   "item": "kangaskhanite",
+   "mega": "kangaskhanmega"
+  }
+ ],
+ "lopunny": [
+  {
+   "item": "lopunnite",
+   "mega": "lopunnymega"
+  }
+ ],
+ "lucario": [
+  {
+   "item": "lucarionite",
+   "mega": "lucariomega"
+  },
+  {
+   "item": "lucarionitez",
+   "mega": "lucariomegaz"
+  }
+ ],
+ "malamar": [
+  {
+   "item": "malamarite",
+   "mega": "malamarmega"
+  }
+ ],
+ "manectric": [
+  {
+   "item": "manectite",
+   "mega": "manectricmega"
+  }
+ ],
+ "mawile": [
+  {
+   "item": "mawilite",
+   "mega": "mawilemega"
+  }
+ ],
+ "medicham": [
+  {
+   "item": "medichamite",
+   "mega": "medichammega"
+  }
+ ],
+ "meganium": [
+  {
+   "item": "meganiumite",
+   "mega": "meganiummega"
+  }
+ ],
+ "meowstic": [
+  {
+   "item": "meowsticite",
+   "mega": "meowsticmmega"
+  }
+ ],
+ "meowsticf": [
+  {
+   "item": "meowsticite",
+   "mega": "meowsticfmega"
+  }
+ ],
+ "metagross": [
+  {
+   "item": "metagrossite",
+   "mega": "metagrossmega"
+  }
+ ],
+ "pidgeot": [
+  {
+   "item": "pidgeotite",
+   "mega": "pidgeotmega"
+  }
+ ],
+ "pinsir": [
+  {
+   "item": "pinsirite",
+   "mega": "pinsirmega"
+  }
+ ],
+ "pyroar": [
+  {
+   "item": "pyroarite",
+   "mega": "pyroarmega"
+  }
+ ],
+ "raichu": [
+  {
+   "item": "raichunitex",
+   "mega": "raichumegax"
+  },
+  {
+   "item": "raichunitey",
+   "mega": "raichumegay"
+  }
+ ],
+ "sableye": [
+  {
+   "item": "sablenite",
+   "mega": "sableyemega"
+  }
+ ],
+ "salamence": [
+  {
+   "item": "salamencite",
+   "mega": "salamencemega"
+  }
+ ],
+ "sceptile": [
+  {
+   "item": "sceptilite",
+   "mega": "sceptilemega"
+  }
+ ],
+ "scizor": [
+  {
+   "item": "scizorite",
+   "mega": "scizormega"
+  }
+ ],
+ "scolipede": [
+  {
+   "item": "scolipite",
+   "mega": "scolipedemega"
+  }
+ ],
+ "scovillain": [
+  {
+   "item": "scovillainite",
+   "mega": "scovillainmega"
+  }
+ ],
+ "scrafty": [
+  {
+   "item": "scraftinite",
+   "mega": "scraftymega"
+  }
+ ],
+ "sharpedo": [
+  {
+   "item": "sharpedonite",
+   "mega": "sharpedomega"
+  }
+ ],
+ "skarmory": [
+  {
+   "item": "skarmorite",
+   "mega": "skarmorymega"
+  }
+ ],
+ "slowbro": [
+  {
+   "item": "slowbronite",
+   "mega": "slowbromega"
+  }
+ ],
+ "staraptor": [
+  {
+   "item": "staraptite",
+   "mega": "staraptormega"
+  }
+ ],
+ "starmie": [
+  {
+   "item": "starminite",
+   "mega": "starmiemega"
+  }
+ ],
+ "steelix": [
+  {
+   "item": "steelixite",
+   "mega": "steelixmega"
+  }
+ ],
+ "swampert": [
+  {
+   "item": "swampertite",
+   "mega": "swampertmega"
+  }
+ ],
+ "tyranitar": [
+  {
+   "item": "tyranitarite",
+   "mega": "tyranitarmega"
+  }
+ ],
+ "venusaur": [
+  {
+   "item": "venusaurite",
+   "mega": "venusaurmega"
+  }
+ ],
+ "victreebel": [
+  {
+   "item": "victreebelite",
+   "mega": "victreebelmega"
+  }
+ ],
+ "darkrai": [
+  {
+   "item": "darkranite",
+   "mega": "darkraimega"
+  }
+ ],
+ "diancie": [
+  {
+   "item": "diancite",
+   "mega": "dianciemega"
+  }
+ ],
+ "heatran": [
+  {
+   "item": "heatranite",
+   "mega": "heatranmega"
+  }
+ ],
+ "latias": [
+  {
+   "item": "latiasite",
+   "mega": "latiasmega"
+  }
+ ],
+ "latios": [
+  {
+   "item": "latiosite",
+   "mega": "latiosmega"
+  }
+ ],
+ "magearna": [
+  {
+   "item": "magearnite",
+   "mega": "magearnamega"
+  }
+ ],
+ "magearnaoriginal": [
+  {
+   "item": "magearnite",
+   "mega": "magearnaoriginalmega"
+  }
+ ],
+ "mewtwo": [
+  {
+   "item": "mewtwonitex",
+   "mega": "mewtwomegax"
+  },
+  {
+   "item": "mewtwonitey",
+   "mega": "mewtwomegay"
+  }
+ ],
+ "tatsugiri": [
+  {
+   "item": "tatsugirinite",
+   "mega": "tatsugiricurlymega"
+  }
+ ],
+ "tatsugiridroopy": [
+  {
+   "item": "tatsugirinite",
+   "mega": "tatsugiridroopymega"
+  }
+ ],
+ "tatsugiristretchy": [
+  {
+   "item": "tatsugirinite",
+   "mega": "tatsugiristretchymega"
+  }
+ ],
+ "zeraora": [
+  {
+   "item": "zeraorite",
+   "mega": "zeraoramega"
+  }
+ ],
+ "zygardecomplete": [
+  {
+   "item": "zygardite",
+   "mega": "zygardemega"
+  }
+ ],
+ "crucibelle": [
+  {
+   "item": "crucibellite",
+   "mega": "crucibellemega"
+  }
+ ]
+}

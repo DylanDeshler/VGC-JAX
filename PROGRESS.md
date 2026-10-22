@@ -8,10 +8,16 @@ M0 — Foundations (O, E) — in progress
   (chaos + randdoubles, both classifiers) with 0 unmapped draws, 0 classifier disagreements, 0 forced-key collisions;
   RPC round trips (run/snapshot/from_snapshot/validate_team) tested at every decision point. Pending: `--legal`, `--stage`
   (needs M0.5), coverage counters (M3.8).
-- M0.5 datagen — todo
+- M0.5 datagen — done: export_dex.js (lossless export, Champions PP asserted vs PS for every move, resolvePriority
+  order metadata incl. order-only residual callbacks), legal_pool.js, census.js, dex_stages.py, catalogue stage column
+  regenerated. Self-checks at d601443 reproduce exactly: v0 377/110/142 + 220 CUSTOM, v1 454/172/160 + 376,
+  v2 510/215/166 + 483, core 197 moves / 6 abilities / 20 species. 17 datagen tests (self-tests 2 and 4).
 - M0.6 Python env / Makefile — partial (pins + Makefile + lint + merge.sh; launchd agents todo)
-- M0.7 team banks — todo
-- M0.8 test-support RPCs — todo
+- M0.7 team banks — partial: frozen real-sheet corpus done (3,211 sheets, all TeamValidator-valid, sha256 abacca4c…); pool-B sampler + validator bridge todo
+- M0.8 test-support RPCs — done except `resolve_priority` (may slip to M3.1 per plan): fixedpoint, stats, sort_actions,
+  legal (+ `gen --legal on|off|<fraction>`; parity with request-derived sets on 732 side-decisions), replay forced by
+  DrawKey + tie records (600/600 battles reproduce under a different PS seed), minimal craft, damage (equal to the 4
+  verified research examples), trace_events. `bench/oracle_legal_cost.js`: 12.4 ms per decision.
 
 ## Last T2/T3 run
 none yet
@@ -25,6 +31,8 @@ none yet (no engine)
   fainted mons), it will surface as STATE buckets and needs a contract ADR.
 - Trace size ≈ 95 KB/battle uncompressed, ~7 KB zstd (requests dominate); design estimate was 35 KB.
 
+- ADR-101 (oracle answers the don't-care QUEUE_INSERT_TIE canonically) — needs human review; see docs/decisions.
+
 ## Blocked (docs/blocked/)
 none
 
@@ -35,6 +43,6 @@ none
 not yet created (harness/contract/* is written in M2.8)
 
 ## Next 3 tasks
-1. M0.5 datagen (export_dex.js, legal_pool.js, census.js, dex_stages.py)
-2. M0.8 test-support RPCs (fixedpoint, stats, sort_actions, legal, replay-by-DrawKey, craft, damage)
-3. M1.2–M1.4 fixedpoint / stats / typechart with RPC-driven tests
+1. M1.1 codegen (ids.py, tables.npz) from data/export + stages
+2. M1.2–M1.4, M1.6: fixedpoint, stats, typechart, rng with RPC-driven tests
+3. M2.0 harness core (oracle_client with cache, project.py)

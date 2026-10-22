@@ -1,0 +1,11 @@
+{
+ "abilities": [
+  "battlearmor",
+  "corrosion",
+  "earlybird",
+  "levitate",
+  "shellarmor",
+  "stall"
+ ],
+ "note": "05 §1.1: DATA_ONLY abilities allowed in the core stage. Extend only by ADR (CBR = 100% on 10k core battles with the ability present and ignored by the engine)."
+}

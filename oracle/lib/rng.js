@@ -15,11 +15,18 @@ const { captureSite } = require('./callsite');
 const context = require('./context');
 const classify = require('./classify');
 
+/**
+ * ADR-101: QUEUE_INSERT_TIE (don't-care, contract §6) is answered with the last index of PS's random range, i.e. an
+ * inserted action goes after the queued actions it ties with (sim/battle-queue.ts:396-406). Any outcome of a don't-care
+ * draw is a valid PS trajectory; fixing it keeps runSwitch batch heads (step_actor) engine-reproducible.
+ */
+const DEFAULT_CANONICAL = { QUEUE_INSERT_TIE: d => d.args[1] - 1 };
+
 class InstrumentedPRNG {
 	constructor({
 		seed = null, mode = 'record', ctx = true, stack = true, markers = true, classifier = 'stack',
 		script = null, dict = null, keyMode = 'step+ord', ignoreKinds = null, fallbackSeed = null, policy = null, keep = true,
-		onClassified = null,
+		onClassified = null, canonical = DEFAULT_CANONICAL,
 	} = {}) {
 		this.inner = new PRNG(seed);
 		this.startingSeed = this.inner.startingSeed;
@@ -28,6 +35,7 @@ class InstrumentedPRNG {
 		this.fallback = fallbackSeed ? new PRNG(fallbackSeed) : this.inner; // answers for misses / ignored kinds
 		this.keep = keep;
 		this.onClassified = onClassified; // (d, classification, battle) -> attaches structured DrawKey fields to d
+		this.canonical = canonical; // don't-care kinds answered canonically in every mode (ADR-101)
 		this.draws = []; this.n = 0;
 		this.stats = { misses: 0, desync: 0, forced: 0, ignored: 0, disagree: 0 };
 		this.ordCount = new Map();
@@ -134,6 +142,8 @@ class InstrumentedPRNG {
 	}
 
 	_answer(d) {
+		const canon = this.canonical && d.kind && this.canonical[d.kind];
+		if (canon) { this.stats.canonical = (this.stats.canonical || 0) + 1; return canon(d); }
 		switch (this.mode) {
 		case 'record': return undefined;
 		case 'replay': {
@@ -159,7 +169,7 @@ class InstrumentedPRNG {
 			return v;
 		}
 		case 'override': {
-			const v = this.policy(d, this.battle);
+			const v = this.policy ? this.policy(d, this.battle) : undefined;
 			if (v !== undefined) this.stats.forced++;
 			return v;
 		}
@@ -208,4 +218,4 @@ function buildKeyedDict(draws, { keyMode = 'step+ord' } = {}) {
 	return { dict, collisions, conflicts, conflictKinds };
 }
 
-module.exports = { InstrumentedPRNG, buildKeyedDict, keyFor };
+module.exports = { InstrumentedPRNG, buildKeyedDict, keyFor, DEFAULT_CANONICAL };
