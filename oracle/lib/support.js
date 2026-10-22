@@ -225,17 +225,22 @@ const tieKeyStr = (kind, k) => [kind, k.turn, k.step_tag, k.sub, k.ord].join('|'
  * Build a forcing policy from draw records ({kind, key, value, pick?}) and tie records ({kind, key, value}).
  * Draws are matched by full DrawKey; sample picks in the engine domain take precedence over raw indices.
  */
-function makeForcing(battle, draws = [], ties = [], freeKinds = null) {
-	const dmap = new Map();
-	for (const d of draws) if (d.key && !d.dontcare && !(freeKinds && freeKinds.has(d.kind))) dmap.set(keyStr(d.kind, d.key), d);
+function makeForcing(battle, draws = [], ties = [], freeKinds = null, forceDontcare = false) {
+	// compared draws are forced by DrawKey; with forceDontcare, don't-care draws are forced too (by DrawKey plus their
+	// occurrence index, since don't-care keys may repeat) except those whose kind is in freeKinds (re-validation).
+	const dmap = new Map(); const dc = new Map();
+	const occ = new Map();
+	for (const d of draws) {
+		if (!d.key) continue;
+		const k = keyStr(d.kind, d.key);
+		if (!d.dontcare) { dmap.set(k, d); continue; }
+		if (!forceDontcare || (freeKinds && freeKinds.has(d.kind))) continue;
+		const n = occ.get(k) || 0; occ.set(k, n + 1); dc.set(`${k}#${n}`, d);
+	}
 	const tmap = new Map(); for (const t of ties) tmap.set(tieKeyStr(t.kind, t.key), t);
 	const stats = { forced: 0, missed: [], tiesForced: 0 };
-	const policy = (d) => {
-		if (d.method === 'shuffle') return battle.__ctx.shuffleForcer(d.tiedObjs || []);
-		if (!d.dk || d.dk.dontcare) return undefined;
-		const rec = dmap.get(keyStr(d.dk.kind, d.dk.key));
-		if (!rec) { if (!d.dk.degenerate) stats.missed.push({ kind: d.dk.kind, key: d.dk.key }); return undefined; }
-		stats.forced++;
+	const seenDc = new Map();
+	const pick = (d, rec) => {
 		if (d.method === 'sample' && rec.pick !== undefined && d._items) {
 			const ident = battle.__ident;
 			const idx = d._items.findIndex(it => {
@@ -245,6 +250,21 @@ function makeForcing(battle, draws = [], ties = [], freeKinds = null) {
 			if (idx >= 0) return idx;
 		}
 		return rec.value;
+	};
+	const policy = (d) => {
+		if (d.method === 'shuffle') return battle.__ctx.shuffleForcer(d.tiedObjs || []);
+		if (!d.dk) return undefined;
+		const k = keyStr(d.dk.kind, d.dk.key);
+		if (d.dk.dontcare) {
+			if (!forceDontcare || (freeKinds && freeKinds.has(d.dk.kind))) return undefined;
+			const n = seenDc.get(k) || 0; seenDc.set(k, n + 1);
+			const rec = dc.get(`${k}#${n}`);
+			return rec ? pick(d, rec) : undefined;
+		}
+		const rec = dmap.get(k);
+		if (!rec) { if (!d.dk.degenerate) stats.missed.push({ kind: d.dk.kind, key: d.dk.key }); return undefined; }
+		stats.forced++;
+		return pick(d, rec);
 	};
 	return { policy, tmap, stats };
 }
@@ -264,7 +284,8 @@ function replay(params) {
 		b.battle.setPlayer('p1', { name: 'p1', team: unpack(params.teams[0]) });
 		b.battle.setPlayer('p2', { name: 'p2', team: unpack(params.teams[1]) });
 	}
-	const f = makeForcing(b.battle, params.draws, params.ties, params.free_kinds ? new Set(params.free_kinds) : null);
+	const f = makeForcing(b.battle, params.draws, params.ties, params.free_kinds ? new Set(params.free_kinds) : null,
+		!!params.force_dontcare);
 	b.prng.policy = f.policy;
 	b.battle.__ctx.tieForcer = (kind, key) => {
 		const t = f.tmap.get(tieKeyStr(kind, key));
@@ -400,7 +421,8 @@ function installEventTracer(battle) {
 /** params: {snapshot, choices: [[p1,p2]] (one decision), draws?, ties?} -> {events, log, decision}. */
 function traceEvents(params) {
 	const b = tr.fromSnapshot(params.snapshot, { prngOpts: { mode: 'override' } });
-	const f = makeForcing(b.battle, params.draws, params.ties, params.free_kinds ? new Set(params.free_kinds) : null);
+	const f = makeForcing(b.battle, params.draws, params.ties, params.free_kinds ? new Set(params.free_kinds) : null,
+		!!params.force_dontcare);
 	b.prng.policy = f.policy;
 	b.battle.__ctx.tieForcer = (kind, key) => { const t = f.tmap.get(tieKeyStr(kind, key)); return t ? t.value : undefined; };
 	const events = installEventTracer(b.battle);

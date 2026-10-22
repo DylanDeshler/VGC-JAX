@@ -1,0 +1,83 @@
+{
+ "teams": "randdoubles",
+ "n": 2000,
+ "seed": "reval-3",
+ "battles": 2000,
+ "all": {
+  "changed": 0,
+  "ext_changed": 9,
+  "examples": []
+ },
+ "RANDOM_TARGET_NOMINAL": {
+  "battles_with": 1485,
+  "changed": 0,
+  "examples": []
+ },
+ "RANDOM_TARGET_NOEFFECT": {
+  "battles_with": 1750,
+  "changed": 0,
+  "examples": []
+ },
+ "QUEUE_INSERT_TIE": {
+  "battles_with": 262,
+  "changed": 0,
+  "examples": []
+ },
+ "SELF_EFFECT_ROLL": {
+  "battles_with": 1327,
+  "changed": 0,
+  "examples": []
+ },
+ "SECONDARY": {
+  "battles_with": 43,
+  "changed": 17,
+  "examples": [
+   [
+    182,
+    [
+     7,
+     [
+      [
+       "sides.0.pokemon.1.boosts.def",
+       -1,
+       0
+      ]
+     ]
+    ]
+   ],
+   [
+    184,
+    "error choice rejected k=13 p2 \"move 4 -2, move 4 2\": [Invalid choice] Can't move: You sent more choices than unfainted Pokémon."
+   ],
+   [
+    224,
+    [
+     9,
+     [
+      [
+       "sides.0.pokemon.0.boosts.spd",
+       0,
+       -1
+      ]
+     ]
+    ]
+   ],
+   [
+    1469,
+    "error choice rejected k=14 p1 \"move 1 1, pass\": [Invalid choice] Can't pass: Your Vaporeon must make a move (or switch)"
+   ],
+   [
+    1586,
+    "error choice rejected k=3 p1 \"null\": Cannot read properties of null (reading 'startsWith')"
+   ],
+   [
+    1685,
+    "error choice rejected k=13 p2 \"move 2 2, pass\": [Invalid choice] Can't pass: Your Manectric must make a move (or switch)"
+   ],
+   [
+    1982,
+    "error choice rejected k=12 p1 \"switch 3, pass\": [Invalid choice] Can't pass: Your Kleavor must make a move (or switch)"
+   ]
+  ]
+ }
+}

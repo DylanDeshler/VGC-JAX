@@ -28,6 +28,9 @@ class EngineConfig:
     debug_checks: bool = False          # checkify invariants (ADR-014)
     flags: Flags = Flags()
     handlers: frozenset[str] = frozenset()  # bespoke handler ids compiled in (empty = all registered for the stage)
+    turn_cap_outcome: str = "tiebreak"  # 08 §5: tiebreak | draw | truncate
+    preview_canonical: bool = True      # 08 §3: policy sees the canonical preview subset
+    reward_01: bool = False             # 08 §5: 1/0 rewards instead of +1/-1
 
     def replace(self, **kw) -> "EngineConfig":
         return dataclasses.replace(self, **kw)

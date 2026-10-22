@@ -1,0 +1,88 @@
+{
+ "teams": "chaos",
+ "n": 2000,
+ "seed": "reval-2",
+ "battles": 2000,
+ "all": {
+  "changed": 1,
+  "ext_changed": 5,
+  "examples": [
+   [
+    969,
+    [
+     1,
+     [
+      [
+       "sides.0.pokemon.1.ability",
+       "rockhead",
+       "emergencyexit"
+      ]
+     ]
+    ]
+   ]
+  ]
+ },
+ "RANDOM_TARGET_NOMINAL": {
+  "battles_with": 1616,
+  "changed": 0,
+  "examples": []
+ },
+ "RANDOM_TARGET_NOEFFECT": {
+  "battles_with": 1699,
+  "changed": 0,
+  "examples": []
+ },
+ "QUEUE_INSERT_TIE": {
+  "battles_with": 162,
+  "changed": 1,
+  "examples": [
+   [
+    969,
+    [
+     1,
+     [
+      [
+       "sides.0.pokemon.1.ability",
+       "rockhead",
+       "emergencyexit"
+      ]
+     ]
+    ]
+   ]
+  ]
+ },
+ "SELF_EFFECT_ROLL": {
+  "battles_with": 1195,
+  "changed": 0,
+  "examples": []
+ },
+ "SECONDARY": {
+  "battles_with": 3,
+  "changed": 1,
+  "examples": [
+   [
+    1247,
+    [
+     5,
+     [
+      [
+       "sides.0.pokemon.1.hp",
+       87,
+       76
+      ],
+      [
+       "sides.0.pokemon.1.status",
+       "",
+       "brn"
+      ],
+      [
+       "sides.0.pokemon.1.statusState",
+       null,
+       {}
+      ]
+     ]
+    ]
+   ]
+  ]
+ }
+}

@@ -80,3 +80,47 @@ def parse_choice(choice: str | None, request: dict | None, ps_order_side, phase:
 
 def ps_order_np(state, side):
     return np.asarray(state.sides.ps_order[side])
+
+
+def slot_to_ps(a: int, slot: int, move_target: str | None, locked: bool, ps_order_side) -> str:
+    """Engine slot action -> PS choice part (inverse of slot_action on canonical strings)."""
+    if a == 28:
+        return "pass"
+    if a >= 24:
+        b = a - 24
+        return f"switch {list(ps_order_side).index(b) + 1}"
+    m, t, mega = a // 6, (a % 6) // 2, a % 2
+    if locked:
+        return "move 1"
+    loc = None
+    if move_target in CHOOSABLE_NAMES:
+        if move_target == "adjacentAllyOrSelf":
+            loc = -(slot + 1) if t == 0 else -(2 - slot)
+        else:
+            loc = 1 if t == 0 else 2 if t == 1 else -(2 - slot)
+    s = f"move {m + 1}" + (f" {'+' if loc > 0 else ''}{loc}" if loc is not None else "")
+    return s + (" mega" if mega else "")
+
+
+CHOOSABLE_NAMES = {"normal", "any", "adjacentAlly", "adjacentAllyOrSelf", "adjacentFoe"}
+
+
+def to_ps_choice(joint: int, request: dict, ps_order_side, phase: str) -> str:
+    """Joint engine action (or preview index) -> PS choice string (08 §3 interop)."""
+    if phase == "preview":
+        return "team " + "".join(str(int(x) + 1) for x in PREVIEW_INDEX_INV[int(joint)])
+    a = [int(joint) // 29, int(joint) % 29]
+    parts = []
+    act = request.get("active", [None, None]) if phase == "move" else [None, None]
+    for k in range(2):
+        mv_t, locked = None, False
+        if phase == "move" and a[k] < 24 and act and act[k]:
+            moves = act[k]["moves"]
+            mv = moves[a[k] // 6] if a[k] // 6 < len(moves) else {}
+            locked = len(moves) == 1 and ("target" not in mv or mv.get("id") == "struggle")
+            mv_t = mv.get("target")
+        parts.append(slot_to_ps(a[k], k, mv_t, locked, ps_order_side))
+    return ", ".join(parts)
+
+
+PREVIEW_INDEX_INV = {i: p for p, i in PREVIEW_INDEX.items()}

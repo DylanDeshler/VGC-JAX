@@ -3,7 +3,9 @@
 /**
  * Don't-care re-validation (07 §4.3, contract §6). For each battle: record PS; replay it with a different seed forcing
  * every compared draw and tie record by DrawKey while leaving the don't-care draws (and unrecorded tie shuffles)
- * free, with ADR-101's canonical answering disabled. Then per don't-care kind, replay leaving only that kind free.
+ * free, with ADR-101's canonical answering disabled. Then per don't-care kind, replay forcing every other don't-care
+ * draw from the recording (DrawKey + occurrence) and leaving only that kind's don't-care draws free. Unrecorded tie
+ * shuffles (each-event / non-MUL handler ties) are free in every run.
  * A changed projection (protected fields; ext fields reported separately) means the kind is not state-irrelevant.
  *   node oracle/tools/revalidate_dontcare.js --n 2000 --teams chaos --seed reval-1
  */
@@ -56,7 +58,9 @@ for (let i = 0; i < N; i++) {
 		if (!present.has(k)) continue;
 		stat[k].battles_with++;
 		try {
-			const out = support.replay({ ...base, free_kinds: [k], canonical: k === 'QUEUE_INSERT_TIE' ? false : undefined });
+			// force every other don't-care draw from the recording; free only kind k's don't-care draws
+			const out = support.replay({ ...base, free_kinds: [k], force_dontcare: true,
+				canonical: k === 'QUEUE_INSERT_TIE' ? false : undefined });
 			const c = check(h, decisions, final, out, k, i);
 			if (c.firstDiff) { stat[k].changed++; if (stat[k].examples.length < 3) stat[k].examples.push([i, c.firstDiff]); }
 		} catch (e) { stat[k].examples.push([i, 'error ' + e.message]); }
