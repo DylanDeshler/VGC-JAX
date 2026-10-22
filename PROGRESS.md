@@ -76,7 +76,7 @@ Comparison-quality work (2026-10-22)
   Struggle's -activate; [still] blanks the move-line target. EngineConfig.events=False compiles them out.
 - bench/hlo_kernels.py (09 §1.1a): **119,789 kernel-like ops per env step without events, 138,172 with** (budget
   10,000, enforced at G-v0). Pre-existing: loop nesting (NB 8 x hit loop 10 x target fori 3 x secondaries 6);
-  09 J5 asks for vmap over the target axis. Needs a restructuring pass before G-v0.
+  09 J5 asks for vmap over the target axis. Options in ADR-104 (needs a decision).
 
 ## Last T2/T3 run
 local conformance runs (not formal gate runs), PS d601443, contract_version 1:
@@ -115,6 +115,8 @@ none
 - ADR-103 (extend projection with hidden engine state; record SELECT ties of replacement switches) — approve/reject
 - docs/decisions/contract-hashes.md must be created by the human (hashes listed in the gate report)
 - Gate checkpoint: G-core report awaiting acknowledgement; M3 content waits (infrastructure continues)
+- ADR-104 (kernel count 12x over 09 §1.1a; options: GPU measurement now, hit-loop / target-axis restructuring,
+  micro-step rewrite, budget revision) — decide
 
 ## Contract hashes (must match docs/decisions/contract-hashes.md)
 not yet created (harness/contract/* is written in M2.8)
