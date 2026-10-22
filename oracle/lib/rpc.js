@@ -26,7 +26,7 @@ function startBattle(spec) {
 function chooser(spec) {
 	const choose = getPolicy(spec.policy || 'random');
 	const rng = new T.HarnessRNG(spec.policy_seed ?? 1);
-	return req => choose(req, rng);
+	return (req, sid, battle) => choose(req, rng, battle, sid);
 }
 
 const METHODS = {

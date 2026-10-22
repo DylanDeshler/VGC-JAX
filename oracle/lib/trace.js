@@ -95,7 +95,7 @@ function driveTraced({ battle, prng, ident, choose, legal = null, stopAfter = In
 			let tries = 0;
 			for (;;) {
 				const req = side.activeRequest;
-				const choice = script ? script[k][side.n] : choose(req, side.id);
+				const choice = script ? script[k][side.n] : choose(req, side.id, battle);
 				let ok;
 				try { ok = battle.choose(side.id, choice); } catch (e) { ok = false; side.choice.error = e.message.split('\n')[0]; }
 				if (ok) { rec.choices[side.n] = choice; break; }
@@ -147,7 +147,7 @@ function runBattle(S, i, opts = {}) {
 		classifier,
 		canonical_dontcare: Object.keys(prng.canonical || {}).sort(),
 	};
-	const { decisions, final } = driveTraced({ battle, prng, ident, choose: req => choose(req, rng), legal: legalFn });
+	const { decisions, final } = driveTraced({ battle, prng, ident, choose: (req, sid) => choose(req, rng, battle, sid), legal: legalFn });
 	return [header, ...decisions, final];
 }
 

@@ -37,7 +37,8 @@ fainted, equal stored Speed) is shuffled by PS but never recorded; the engine us
 4 of 3,000 core battles (`reports/conformance/ext2`): the two incoming mons' ability `effectOrder` values are swapped
 (e.g. 13/14 vs 14/13). effectOrder breaks Lightning Rod / Storm Drain / Follow Me RedirectTarget ties and SwitchIn
 hazard order (04 §6.4 rule 2), so it will become state-relevant in v0. `final.diag.unrecordedSelectTies` in traces
-counts these: 0.8–2% of battles.
+counts these: 0.8–2% of battles. Under the heuristic policy (more faints per game): 7 of 2,000 core battles
+(`reports/conformance/heur1`), including ties between replacements on *different* sides.
 
 ### Proposal
 In contract §4 SPEED_TIE_SELECT: for `switch` / `instaswitch` actions, do not filter tie members by actor
