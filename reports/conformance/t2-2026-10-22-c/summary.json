@@ -1,0 +1,24 @@
+{
+ "battles": 60,
+ "clean": 60,
+ "coverage": {
+  "ACCURACY": 704,
+  "CRIT": 1984,
+  "DAMAGE_ROLL": 1984,
+  "FORCED_SWITCH_PICK": 4,
+  "MULTIHIT_COUNT": 16,
+  "SECONDARY": 973,
+  "SPEED_TIE_SELECT": 10,
+  "SPEED_TIE_SWITCHIN": 11
+ },
+ "ext_mismatch_battles": 0,
+ "ext_buckets": {},
+ "CBR": 1.0,
+ "TMR": 1.0,
+ "MPR": 1.0,
+ "error_rate": 0.0,
+ "draw_failures": 0,
+ "buckets": {},
+ "seconds": 58.7,
+ "trace_dir": "traces/t2-2026-10-22/c"
+}
