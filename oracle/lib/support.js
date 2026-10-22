@@ -38,22 +38,51 @@ function fixedpoint({ ops }) {
 }
 
 // ------------------------------------------------------------------ stats
-/** sets -> [{storedStats, maxhp, maxpp:[...], speed, types, weighthg}] from constructed PS Pokemon. */
-function stats({ sets, formatid }) {
+/**
+ * sets -> [{storedStats, maxhp, maxpp:[...], speed, types, weighthg, canMegaEvo, getStat?, actionSpeed?}] from
+ * constructed PS Pokemon. Optional per-set `mods[i] = {boosts, status, trickroom}` adds getStat (all 5 stats,
+ * sim/pokemon.ts:617-660) and getActionSpeed (sim/pokemon.ts:662-670) under those conditions.
+ */
+function stats({ sets, mods = [], formatid }) {
 	const out = [];
-	for (let i = 0; i < sets.length; i += 6) {
-		const chunk = sets.slice(i, i + 6).map(unpack).map(s => (Array.isArray(s) ? s[0] : s));
+	const per = mods.length ? 2 : 6; // with mods the pair is started so both are active (status handlers need it)
+	for (let i = 0; i < sets.length; i += per) {
+		const chunk = sets.slice(i, i + per).map(unpack).map(s => (Array.isArray(s) ? s[0] : s));
 		const b = new Battle({ formatid: formatid || FORMAT, seed: ZERO_SEED });
-		b.setPlayer('p1', { name: 'a', team: chunk });
-		b.setPlayer('p2', { name: 'b', team: chunk.slice(0, 1) });
-		for (const p of b.sides[0].pokemon) {
-			out.push({
+		const team = mods.length ? [...chunk, chunk[0], chunk[0], chunk[0]].slice(0, 4) : chunk;
+		b.setPlayer('p1', { name: 'a', team });
+		b.setPlayer('p2', { name: 'b', team: team.slice(0, 4) });
+		if (mods.length) b.makeChoices('team 1234', 'team 1234');
+		const mons = mods.length ? b.sides[0].active.slice(0, chunk.length) : b.sides[0].pokemon;
+		mons.forEach((p, j) => {
+			const r = {
 				storedStats: { ...p.storedStats }, maxhp: p.maxhp, maxpp: p.baseMoveSlots.map(m => m.maxpp),
 				speed: p.speed, types: p.getTypes(true), weighthg: p.weighthg, canMegaEvo: p.canMegaEvo || null,
-			});
-		}
+			};
+			const m = mods[i + j];
+			if (m) {
+				p.boosts = { atk: 0, def: 0, spa: 0, spd: 0, spe: 0, accuracy: 0, evasion: 0, ...(m.boosts || {}) };
+				if (m.status) { p.status = m.status; p.statusState = b.initEffectState({ id: m.status, target: p }); }
+				if (m.trickroom) b.field.pseudoWeather.trickroom = b.initEffectState({ id: 'trickroom', duration: 5 });
+				r.getStat = Object.fromEntries(['atk', 'def', 'spa', 'spd', 'spe'].map(s => [s, p.getStat(s)]));
+				r.actionSpeed = p.getActionSpeed();
+				delete b.field.pseudoWeather.trickroom;
+				p.status = ''; p.statusState = b.initEffectState({ id: '', target: p });
+			}
+			out.push(r);
+		});
 	}
 	return out;
+}
+
+// ------------------------------------------------------------------ typechart
+/** cases: [[attackType | immunityKey, [defTypes...]]] -> [{eff, immune}] via PS Dex.getEffectiveness/getImmunity. */
+function typechart({ cases }) {
+	const dex = Dex.forFormat(FORMAT);
+	return cases.map(([a, types]) => ({
+		eff: dex.types.get(a).exists ? dex.getEffectiveness(a, types) : null,
+		immune: !dex.getImmunity(a, types),
+	}));
 }
 
 // ------------------------------------------------------------------ sort_actions
@@ -344,5 +373,5 @@ function traceEvents(params) {
 }
 
 module.exports = {
-	traceEvents, installEventTracer, fixedpoint, stats, sortActions, legal, legalForBattle, slotActionString, replay, makeForcing, craft,
+	traceEvents, installEventTracer, typechart, fixedpoint, stats, sortActions, legal, legalForBattle, slotActionString, replay, makeForcing, craft,
 	damage, keyStr, tieKeyStr };

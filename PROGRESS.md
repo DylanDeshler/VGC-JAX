@@ -1,6 +1,6 @@
 # PROGRESS
 ## Milestone / task
-M0 — Foundations (O, E) — in progress
+M0 — Foundations (O, E) — done except M0.6 launchd agents and M0.7 pool-B sampler (infrastructure; not blocking)
 - M0.1 repo layout — done (research/dex/raw *copied*, not moved, to data/raw/ so research/ stays reproducible)
 - M0.2 PS submodule @ d601443, `make oracle` — done
 - M0.3 POC oracle port — done (POC scripts 01–05, 08 reproduce research verdicts byte-for-byte except timings; check-callsites passes)
@@ -18,6 +18,19 @@ M0 — Foundations (O, E) — in progress
   legal (+ `gen --legal on|off|<fraction>`; parity with request-derived sets on 732 side-decisions), replay forced by
   DrawKey + tie records (600/600 battles reproduce under a different PS seed), minimal craft, damage (equal to the 4
   verified research examples), trace_events. `bench/oracle_legal_cost.js`: 12.4 ms per decision.
+
+
+M1 — Core math and data (E) — done
+- M1.1 codegen → vgcjax/data/{ids.py, tables.npz}: stage-independent ID spaces (NS 383, NM 512, NA 217, NI 167, NC 104,
+  NEFFECT 1009 < 4096), per-stage `supported_*` masks, DATA_VERSION embedded and checked; deterministic; self-test 1
+  (1,000 random legal sets: stats, maxpp, types, weight) passes
+- M1.2 fixedpoint: 10^6 cases equal PS (domain value·m4096 < 2^31, documented)
+- M1.3 stats: 1,000 random sets incl. stages, paralysis, Trick Room action speed equal PS
+- M1.4 typechart: every attacking type × pool typing, plus the 10 immunity pseudo-keys, equal PS
+- M1.5 damage core: 120k random core-subset cases + 3 verified research examples × 16 rolls equal PS
+- M1.6 rng: contract §2 hash (checked vs a Python reference), χ² on distributions incl. 10^7 draws, vmap determinism,
+  forced/draw-log/degenerate semantics, tie records (perm rank/unrank, SELECT winner)
+- T0 25 s, T1 46 s (local); pre-commit hook installed
 
 ## Last T2/T3 run
 none yet
@@ -43,6 +56,6 @@ none
 not yet created (harness/contract/* is written in M2.8)
 
 ## Next 3 tasks
-1. M1.1 codegen (ids.py, tables.npz) from data/export + stages
-2. M1.2–M1.4, M1.6: fixedpoint, stats, typechart, rng with RPC-driven tests
-3. M2.0 harness core (oracle_client with cache, project.py)
+1. M2.0 harness core: project.py (both directions), scenario runner (oracle_client with cache exists)
+2. M2.1 battle/state.py + init/init_from_order/preview
+3. M2.2 queue (selection == sort_actions RPC), then M2.3 blocks A/B/C

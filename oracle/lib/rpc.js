@@ -59,6 +59,7 @@ const METHODS = {
 	// ---- test-support RPCs (M0.8)
 	fixedpoint: p => support.fixedpoint(p),
 	stats: p => support.stats(p),
+	typechart: p => support.typechart(p),
 	sort_actions: p => support.sortActions(p),
 	legal: p => support.legal(p),
 	replay: p => support.replay(p),

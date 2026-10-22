@@ -38,7 +38,8 @@ t0:
 
 t1: t0
 	node oracle/bin/oracle.js check-callsites
-	$(PYTEST) -m "not slow" -n auto
+	node --test oracle/test/
+	$(PYTEST) -m "not slow" -n 4
 
 t2:
 	scripts/nightly.sh t2

@@ -799,7 +799,7 @@ wheels = [
 [[package]]
 name = "vgcjax"
 version = "0.0.1"
-source = { editable = "." }
+source = { virtual = "." }
 dependencies = [
     { name = "chex" },
     { name = "flax" },
@@ -822,6 +822,7 @@ dev = [
     { name = "hypothesis" },
     { name = "pytest" },
     { name = "pytest-xdist" },
+    { name = "scipy" },
 ]
 
 [package.metadata]
@@ -844,6 +845,7 @@ dev = [
     { name = "hypothesis" },
     { name = "pytest" },
     { name = "pytest-xdist" },
+    { name = "scipy", specifier = ">=1.18.1" },
 ]
 
 [[package]]
