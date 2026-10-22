@@ -30,3 +30,23 @@ canonicalised kinds in `canonical_dontcare`.
   PRNG is not consumed for that draw). Nothing depends on that property.
 - The weekly don't-care re-validation (07 §4.3) must run with this canonicalisation disabled for QUEUE_INSERT_TIE
   (`new InstrumentedPRNG({canonical: {}})`) to keep measuring its state impact.
+
+## Re-validation evidence (2026-10-22, oracle/tools/revalidate_dontcare.js, 07 §4.3)
+4,000 battles (2,000 chaos-stats teams, 2,000 random-doubles teams), replayed in PS with a different seed, forcing all
+compared draws and ties, leaving one don't-care kind free at a time (other don't-care draws forced from the
+recording):
+
+| kind | battles containing it | state changed |
+|---|---|---|
+| RANDOM_TARGET_NOMINAL | 3,101 | 0 |
+| RANDOM_TARGET_NOEFFECT | 3,449 | 0 |
+| SELF_EFFECT_ROLL (chance undefined) | 2,522 | 0 |
+| SECONDARY (chance undefined) | 46 | 0 |
+| **QUEUE_INSERT_TIE** | **424** | **1** (chaos battle 969: a different ability on a mon at decision 1) |
+
+So QUEUE_INSERT_TIE is **not** strictly state-irrelevant: the canonical answer of this ADR is required for the engine
+to reproduce the oracle at all, and PS's natural distribution (random insertion) is not reproduced by the engine in
+the rare cases where it matters. Options for the human: (a) keep this ADR (canonical insertion everywhere; real PS
+games may very rarely diverge from engine physics), or (b) promote QUEUE_INSERT_TIE to a forced kind in contract §5
+(engine keys and draws the insertion position). Recommendation: (a) for now; revisit if v0 re-validation shows a
+higher rate.

@@ -52,6 +52,18 @@ M2 — Harness core + core state machine (O, E) — done; **G-core run complete,
 - todo: M2.7 from_ps_snapshot
 - compile time of `step` (core, CPU): ~10 s after converting heavy unrolled loops to fori
 
+M5 — Env API (R) — in progress (infrastructure lane)
+- done: actions/canonical preview, to_ps_choice round trip, observations (leak + symmetry tests), api.step/StepOut,
+  TeamBank + pair sampling (data/teams/bank_core.npz, 2000 validated core teams), AutoResetEnv + EpisodeStats
+- CPU throughput (core, unoptimised): ~3,000 env-steps/s at batch 256-1024 (bench/throughput.py)
+- todo: PublicEvents (obs.events is zeros), observe_privileged/hidden_targets, M5.5 PPO smoke trainer, M5.6 export
+
+Comparison-quality work (2026-10-22)
+- extended non-gating projection: found + fixed 2 hidden engine bugs; ADR-103 for promotion + SELECT-tie gap
+- heuristic policy (M3.8b); 2000 heuristic core battles clean
+- don't-care re-validation (07 §4.3): all kinds 0 state impact in 4000 battles except QUEUE_INSERT_TIE (1/424),
+  evidence appended to ADR-101
+
 ## Last T2/T3 run
 local conformance runs (not formal gate runs), PS d601443, contract_version 1:
 | corpus | battles | CBR | TMR | MPR | DPR | errors |
