@@ -142,7 +142,11 @@ def summarize(results):
         if e:
             ext[str(e["detail"][0][0]).split("[")[-1]] += 1
     return dict(battles=n, clean=clean, coverage=dict(sorted(cov.items())),
-                ext_mismatch_battles=sum(1 for r in results if r.get("ext")), ext_buckets=dict(ext.most_common(15)), CBR=clean / max(n, 1), TMR=num / max(den, 1),
+                ext_mismatch_battles=sum(1 for r in results if r.get("ext")), ext_buckets=dict(ext.most_common(15)),
+                events_checked_battles=sum(1 for r in results if r.get("events_checked")),
+                events_mismatch_battles=sum(1 for r in results if r.get("events")),
+                events_buckets=dict(collections.Counter(r["events"]["detail"]["bucket"] for r in results
+                                                        if r.get("events")).most_common(15)), CBR=clean / max(n, 1), TMR=num / max(den, 1),
                 MPR=mask_ok / max(mask_n, 1) if mask_n else None,
                 error_rate=sum(1 for r in results if r["category"] == "ERROR") / max(n, 1),
                 draw_failures=sum(1 for r in results if r["category"] in ("DRAW_ARGS", "DRAW_MISMATCH")),

@@ -169,8 +169,9 @@ def compare_ext(engine: dict, ps: dict):
     """Non-gating comparison of the extended fields (ADR-103 proposal). lastMoveTargetLoc is skipped when the last
     move's target was resolved by a don't-care random foe pick (PS resolveAction for spread / randomNormal moves)."""
     from vgcjax.core.dex import load_tables_np
+    import copy
     t = load_tables_np()["move_target"]
-    e, p = extract_ext(engine), extract_ext(ps)
+    e, p = copy.deepcopy(extract_ext(engine)), copy.deepcopy(extract_ext(ps))   # normalise copies, not the inputs
     for se, sp, side in zip(e["sides"], p["sides"], ps.get("sides", [])):
         for me, mp, mon in zip(se["mons"], sp["mons"], side.get("pokemon", [])):
             lm = (mp or {}).get("lastMoveUsed") or mon.get("lastMove")

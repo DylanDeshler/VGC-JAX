@@ -70,6 +70,13 @@ Comparison-quality work (2026-10-22)
 - 07 §11 two-sample distribution test (harness/distribution.py, tests/distribution, slow/T3): engine natural RNG vs
   PS on 12 fresh core states x 4000 runs: 26 per-mon HP tests, Bonferroni min p 0.46; the crit canary is rejected
   (17/26 tests, p ~ 0). Chain checks (Protect, sleep, freeze, confusion) wait for v0 content.
+- PublicEvents (03 §4.7) in the engine (vgcjax/battle/events.py) + obs.events; checked against PS's protocol
+  (oracle/lib/protocol.js reduction, `gen --events`): 3,000/3,000 core battles identical except 1 ADR-103 switch-order
+  tie. Found on the way: PS boost message order = data key order (export now records boost_key_order);
+  Struggle's -activate; [still] blanks the move-line target. EngineConfig.events=False compiles them out.
+- bench/hlo_kernels.py (09 §1.1a): **119,789 kernel-like ops per env step without events, 138,172 with** (budget
+  10,000, enforced at G-v0). Pre-existing: loop nesting (NB 8 x hit loop 10 x target fori 3 x secondaries 6);
+  09 J5 asks for vmap over the target axis. Needs a restructuring pass before G-v0.
 
 ## Last T2/T3 run
 local conformance runs (not formal gate runs), PS d601443, contract_version 1:
@@ -92,6 +99,8 @@ none yet (no engine)
   ceil(); DRAW_ARGS would differ if it ever occurs (not seen yet). May need a normalisation ADR.
 - SPEED_TIE_HANDLER_MUL ordinal (`mulhook_ord`) counts every MUL-hook runEvent call; the engine will have to count
   identically once hooks exist (M3.1). Brittle; watch.
+- Kernel count 12x over the 09 §1.1a budget (see above); CPU throughput 2,930 env-steps/s at B=256 without events,
+  ~1,650 with (noisy: another user process was loading the machine during the event benchmarks).
 - Trace size ≈ 95 KB/battle uncompressed, ~7 KB zstd (requests dominate); design estimate was 35 KB.
 
 - ADR-101 (oracle answers the don't-care QUEUE_INSERT_TIE canonically) — needs human review; see docs/decisions.
@@ -112,7 +121,8 @@ not yet created (harness/contract/* is written in M2.8)
 
 ## Next 3 tasks
 1. Infrastructure while the gate checkpoint is pending: M3.8 coverage-steering deficit scores + crafted templates,
-   engine PublicEvents (obs.events), observe_privileged, M5.5 PPO smoke trainer
+   kernel-count reduction (09 §1.1a: target-axis vmap J5, hit-loop
+   restructuring), observe_privileged, M5.5 PPO smoke trainer
 2. After acknowledgement: M3.2 handler classification, then M3.3-M3.7 content (conditions, statuses, Protect, Mega,
    mid-turn switch family) using effects/hooks.py
 3. MUL-hook tie records (hooks.py TODO) with the first MUL content

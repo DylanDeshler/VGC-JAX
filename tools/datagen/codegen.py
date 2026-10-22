@@ -223,13 +223,20 @@ class Builder:
         d = d or {}
         return [int(d.get(k, 0)) for k in BOOSTS7]
 
+    @staticmethod
+    def boost_order(keys) -> list[int]:
+        """BOOSTS7 indices in PS key order (battle.boost iterates `for (k in boost)` and logs one -boost/-unboost per
+        key in that order; export_dex.js boost_key_order), then the remaining stats in canonical order."""
+        ks = [BOOSTS7.index(k) for k in keys]
+        return ks + [j for j in range(7) if j not in ks]
+
     def build_moves(self) -> None:
         n = len(self.move_ids)
         z16 = lambda *shape: np.zeros((n, *shape) if shape else n, np.int16)  # noqa: E731
         bp, mtype, cat, acc, prio, pp, crit, tgt = (z16() for _ in range(8))
         multihit, drain, recoil, heal = z16(2), z16(2), z16(2), z16(2)
         ohko, self_switch, force_switch, status, vol, side, slot, pw, weather, terrain = (z16() for _ in range(10))
-        boosts, self_boosts, self_boost2 = z16(7), z16(7), z16(7)
+        boosts, self_boosts, self_boost2, boost_order = z16(7), z16(7), z16(7), z16(7)
         self_vol, self_chance, selfdestruct, fixed_damage = z16(), z16(), z16(), z16()
         sec_chance, sec_status, sec_vol = z16(2), z16(2), z16(2)
         sec_boosts, sec_self_boosts = z16(2, 7), z16(2, 7)
@@ -273,7 +280,13 @@ class Builder:
             weather[i] = self.cond(m.get("weather"))
             terrain[i] = self.cond(m.get("terrain"))
             boosts[i] = self.boosts7(m.get("boosts"))
+            ko = m["boost_key_order"]          # PS key orders (data/export is key-sorted)
+            boost_order[i] = self.boost_order(ko["boosts"])
             selfd = m.get("self") or {}
+            # only primary boosts carry an order table: every other boosts dict must be in canonical order
+            for other in [ko["self"], ko["selfBoost"]] + [x for sec in ko["secondaries"] for x in (sec["boosts"], sec["self"])]:
+                ks = [BOOSTS7.index(k) for k in other]
+                assert ks == sorted(ks), (mid, other)
             self_boosts[i] = self.boosts7(selfd.get("boosts"))
             self_boost2[i] = self.boosts7((m.get("selfBoost") or {}).get("boosts"))  # PS move.selfBoost
             self_vol[i] = self.cond(selfd.get("volatileStatus"))
@@ -321,7 +334,7 @@ class Builder:
                         ("recoil", recoil), ("heal", heal), ("ohko", ohko), ("self_switch", self_switch),
                         ("force_switch", force_switch), ("status", status), ("volatile", vol), ("side_cond", side),
                         ("slot_cond", slot), ("pseudo_weather", pw), ("weather", weather), ("terrain", terrain),
-                        ("boosts", boosts), ("self_boosts", self_boosts), ("selfboost", self_boost2), ("self_volatile", self_vol),
+                        ("boosts", boosts), ("boost_order", boost_order), ("self_boosts", self_boosts), ("selfboost", self_boost2), ("self_volatile", self_vol),
                         ("self_chance", self_chance), ("selfdestruct", selfdestruct), ("fixed_damage", fixed_damage),
                         ("nsec", nsec), ("sec_chance", sec_chance), ("sec_status", sec_status),
                         ("sec_volatile", sec_vol), ("sec_boosts", sec_boosts), ("sec_self_boosts", sec_self_boosts),

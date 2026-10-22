@@ -4,6 +4,7 @@ from __future__ import annotations
 import jax
 import jax.numpy as jnp
 
+from vgcjax.battle import events as EV
 from vgcjax.battle import state as S
 
 
@@ -25,4 +26,11 @@ def swap_sides(st: S.State) -> S.State:
     q = q.replace(side=(1 - q.side).astype(q.side.dtype), original_target=_flip_ref(q.original_target))
     sc = st.scratch
     sc = sc.replace(move_actions=sc.move_actions[::-1], step_actor=_flip_ref(sc.step_actor))
-    return st.replace(team=team, sides=sides, mons=mons, meta=meta, queue=q, scratch=sc)
+    ev = st.events
+    b = ev.buf
+    is_move = b[:, 1] == EV.EV_MOVE
+    slots = b[:, 5].astype(jnp.int32)
+    swapped = ((slots & 3) << 2) | ((slots >> 2) & 3)
+    b = b.at[:, 2].set(_flip_ref(b[:, 2])).at[:, 3].set(_flip_ref(b[:, 3]))
+    b = b.at[:, 5].set(jnp.where(is_move, swapped, slots).astype(b.dtype))
+    return st.replace(team=team, sides=sides, mons=mons, meta=meta, queue=q, scratch=sc, events=ev.replace(buf=b))

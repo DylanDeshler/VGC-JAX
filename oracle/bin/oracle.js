@@ -3,7 +3,9 @@
 /**
  * Oracle CLI + JSON-RPC server (02 §4.1-4.2).
  *   oracle.js gen --n N --seed S [--workers W] [--teams chaos|randdoubles] [--policy random|random-weighted]
- *                 [--classifier markers|stack|both] [--shard-size 10000] [--stage core|v0|v1|v2] --out DIR
+ *                 [--classifier markers|stack|both] [--shard-size 10000] [--stage core|v0|v1|v2] [--legal on|off|f]
+ *                 [--require kind:id,...] [--events] --out DIR
+ *     --events: decision records carry `events`, the PS protocol reduced to PublicEvents (oracle/lib/protocol.js)
  *   oracle.js serve                 line-delimited JSON-RPC on stdin/stdout
  *   oracle.js check-callsites       RNG call-site drift alarm (non-zero exit on change)
  */
@@ -61,7 +63,7 @@ async function gen(args) {
 	const teamsArg = args.require ? `poold:${args.stage || 'v0'}:${String(args.require).split(',').join('+')}` : (args.teams || 'chaos');
 	const opts = {
 		teams: teamsArg, policy: args.policy || 'random', stage: args.stage || null,
-		classifier: args.classifier || 'markers', legal: args.legal || 'off',
+		classifier: args.classifier || 'markers', legal: args.legal || 'off', events: args.events === 'true',
 	};
 	fs.mkdirSync(outDir, { recursive: true });
 	const meta = {

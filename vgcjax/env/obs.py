@@ -2,7 +2,8 @@
 
 Hidden from the observer about the opponent: SP spread and exact stats, exact HP (PS Champions percentage rule only),
 unrevealed brought mons and bench order, PP, RNG. Under open team sheets the opponent's six sets are public.
-PublicEvents (03 §4.7) are not emitted by the engine yet; `events` is all zeros until they are (M5.2 follow-up).
+`events` holds the last 16 PublicEvents (03 §4.7, vgcjax/battle/events.py) in the observer's frame: refs become
+side_rel * 6 + sheet index (brought order is hidden), [spread] slot bits are side-swapped for player 1.
 """
 from __future__ import annotations
 
@@ -10,7 +11,9 @@ import jax
 import jax.numpy as jnp
 from flax import struct
 
+from vgcjax.battle import events as EV
 from vgcjax.battle import state as S
+from vgcjax.battle.events import hp_public  # noqa: F401  (re-exported)
 
 I16, I32 = jnp.int16, jnp.int32
 
@@ -23,7 +26,7 @@ class Obs:
     sheet: jax.Array       # i16[2, 6, 11]: species, item, ability, nature, gender, moves[4], brought(0 unk/1 yes/2 no), revealed
     own: jax.Array         # i16[6, 18]: (self only, by sheet idx) stats[5], sp[6], hp, maxhp, pp[4], brought_pos
     mon: jax.Array         # i16[2, 4, 22]: per brought mon of each side (opponent: zeros until revealed)
-    events: jax.Array      # i16[16, 8]: last public events (TODO: engine PublicEvents)
+    events: jax.Array      # i16[16, 8]: last public events [t, kind, actor, target, move, v1, v2, flags]
     masks_slot: jax.Array  # bool[2, 29]
     masks_pair: jax.Array  # bool[29, 29]
     masks_preview: jax.Array  # bool[360]
@@ -32,17 +35,6 @@ class Obs:
 MON_FIELDS = ("present", "sheet", "slot", "hp", "hp_colour", "maxhp_known", "status", "fainted", "species", "item",
               "ability", "last_move", "active_turns", "boosts0", "boosts1", "boosts2", "boosts3", "boosts4", "boosts5",
               "boosts6", "can_mega", "is_active")
-
-
-def hp_public(hp, maxhp):
-    """PS Champions getHealth (sim/pokemon.ts getHealth): pct = floor(100 hp / maxhp) || 1 (0 if fainted);
-    colour suffix only at 20 / 50: 1 if above the boundary ('y' at 20, 'g' at 50), else 2."""
-    hp = jnp.asarray(hp, I32)
-    maxhp = jnp.maximum(jnp.asarray(maxhp, I32), 1)
-    pct = jnp.where(hp > 0, jnp.maximum((100 * hp) // maxhp, 1), 0)
-    above = jnp.where(pct == 20, hp * 5 > maxhp, jnp.where(pct == 50, hp * 2 > maxhp, False))
-    colour = jnp.where((pct == 20) | (pct == 50), jnp.where(above, 1, 2), 0)
-    return pct, colour
 
 
 def observe(st: S.State, player, cfg, masks) -> Obs:
@@ -124,5 +116,20 @@ def observe(st: S.State, player, cfg, masks) -> Obs:
         mon_rows.append(rows)
     mon_v = jnp.stack(mon_rows).astype(I16)
     return Obs(meta=meta_v, field=field_v, side=side_v, sheet=sheet_v, own=own_v, mon=mon_v,
-               events=jnp.zeros((16, 8), I16), masks_slot=masks["slot"][p], masks_pair=masks["pair_ok"][p],
+               events=observe_events(st, p), masks_slot=masks["slot"][p], masks_pair=masks["pair_ok"][p],
                masks_preview=masks["preview"][p])
+
+
+def observe_events(st: S.State, p, k: int = 16):
+    """Last k PublicEvents in player p's frame (see module docstring)."""
+    ev = EV.last_k(st, k).astype(I32)
+
+    def conv(r):
+        side = jnp.clip(r // 4, 0, 1)
+        sheet = st.sides.brought_sheet_idx[side, jnp.clip(r % 4, 0, 3)].astype(I32)
+        return jnp.where(r >= 0, (side ^ p) * 6 + sheet, -1)
+    slots = ev[:, 5]
+    swapped = ((slots & 3) << 2) | ((slots >> 2) & 3)
+    v1 = jnp.where((ev[:, 1] == EV.EV_MOVE) & (p == 1), swapped, slots)
+    ev = ev.at[:, 2].set(conv(ev[:, 2])).at[:, 3].set(conv(ev[:, 3])).at[:, 5].set(v1)
+    return jnp.where(ev[:, 1:2] == EV.EV_NONE, 0, ev).astype(I16)

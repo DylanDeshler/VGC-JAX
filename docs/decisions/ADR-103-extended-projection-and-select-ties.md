@@ -40,6 +40,12 @@ hazard order (04 §6.4 rule 2), so it will become state-relevant in v0. `final.d
 counts these: 0.8–2% of battles. Under the heuristic policy (more faints per game): 7 of 2,000 core battles
 (`reports/conformance/heur1`), including ties between replacements on *different* sides.
 
+Further evidence (2026-10-22, PublicEvents conformance, harness/events.py): the engine's protocol events equal PS's
+on 3,000/3,000 fresh core battles except 1, where the two replacement `switch` lines of one SWITCH step are printed
+in the opposite order: both outgoing fainted mons had stored Speed 77 and PS's commitChoices `queue.sort()`
+(sim/battle.ts:3076) shuffled them. That battle's `final.diag.unrecordedSelectTies` is 0, so the counter
+**undercounts**: it sees ties at runAction selection, not ties resolved by the commit-time sort of new choices.
+
 ### Proposal
 In contract §4 SPEED_TIE_SELECT: for `switch` / `instaswitch` actions, do not filter tie members by actor
 liveness (the switch executes regardless of the outgoing mon's state, sim/battle-actions.ts:79-215). Keep the filter

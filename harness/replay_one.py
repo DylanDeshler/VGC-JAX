@@ -79,6 +79,8 @@ def replay_battle(battle_records, cfg: EngineConfig, check_masks=False, start=No
         st = jax.tree_util.tree_map(jnp.asarray, st)
     key = jax.random.PRNGKey(0)
     ext = None
+    events = None
+    events_checked = any(d.get("events") is not None for d in decisions)
     for k, dec in enumerate(decisions):
         if k < k0:
             continue
@@ -127,11 +129,18 @@ def replay_battle(battle_records, cfg: EngineConfig, check_masks=False, start=No
                                                                    err=E.describe(err)))
         if err:
             return dict(clean=False, k=k, category="ERROR", detail=E.describe(err))
+        if events is None and dec.get("events") is not None:
+            from harness import events as HE
+            got_ev, overflow = HE.engine_events(st)
+            de = None if overflow else HE.compare(got_ev, dec["events"])
+            if de:
+                events = dict(k=k, detail=de)
     if final is not None:
         d = P.compare(P.engine_to_json(st), final["projection"])
         if d:
-            return dict(clean=False, k=len(decisions), category="STATE", detail=d[:10])
-    return dict(clean=True, k=None, category=None, detail=None, ext=ext)
+            return dict(clean=False, k=len(decisions), category="STATE", detail=d[:10], events=events,
+                        events_checked=events_checked)
+    return dict(clean=True, k=None, category=None, detail=None, ext=ext, events=events, events_checked=events_checked)
 
 
 def main():

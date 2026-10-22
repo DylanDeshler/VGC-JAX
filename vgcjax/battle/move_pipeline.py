@@ -10,6 +10,7 @@ import jax.numpy as jnp
 
 from vgcjax.battle import common as C
 from vgcjax.battle import damage as D
+from vgcjax.battle import events as EV
 from vgcjax.battle import faint as F
 from vgcjax.battle import results as RS
 from vgcjax.battle import state as S
@@ -193,8 +194,10 @@ def get_move_targets(st, dex, rng, u, move, target, on):
 
 
 # ------------------------------------------------------------------ boosts (PS: sim/battle.ts:2037-2106)
-def boost(st, target, deltas7, on):
-    """battle.boost with no hooks (ChangeBoost / TryBoost / AfterEachBoost join in M3). Returns (st, result)."""
+def boost(st, target, deltas7, on, order=None, primary=False):
+    """battle.boost with no hooks (ChangeBoost / TryBoost / AfterEachBoost join in M3). Returns (st, result).
+    Messages (PS :2053-2095): per stat in the boosts dict's key order (`order`, default canonical), -boost/-unboost
+    with the applied amount; a zero change is shown only for primary effects (not isSecondary / isSelf)."""
     m = st.mons
     on = jnp.asarray(on) & (jnp.asarray(target) >= 0)
     hp = mget(m.hp, target)
@@ -206,6 +209,13 @@ def boost(st, target, deltas7, on):
     capped = jnp.where(d != 0, capped, 0)
     go = on & (hp > 0) & active & foe_left
     success = jnp.any(capped != 0)
+    order = jnp.arange(7) if order is None else jnp.asarray(order, I32)
+    for k in range(7):
+        j = order[k]
+        dj, cj = d[j], capped[j]
+        unboost = (dj < 0) | (cur[j] + cj == -6)
+        st = EV.emit(st, go & (dj != 0) & ((cj != 0) | primary), EV.EV_BOOST, actor=target, v1=j, v2=jnp.abs(cj),
+                     flags=jnp.where(unboost, EV.F_UNBOOST, 0))
     m = m.replace(boosts=mset(m.boosts, target, cur + capped, go),
                   stats_raised_this_turn=mset(m.stats_raised_this_turn, target, True, go & success & jnp.any(capped > 0)),
                   stats_lowered_this_turn=mset(m.stats_lowered_this_turn, target, True, go & success & jnp.any(capped < 0)))
@@ -216,21 +226,26 @@ def boost(st, target, deltas7, on):
     return st.replace(mons=m), r
 
 
-def battle_heal(st, target, amount, on):
-    """PS: sim/battle.ts heal(damage, target, ...): (st, result) with result tag NUM (healed) or BOOL false."""
+def battle_heal(st, target, amount, on, drain_of=None):
+    """PS: sim/battle.ts heal(damage, target, ...): (st, result) with result tag NUM (healed) or BOOL false.
+    Message (PS :2293-2305): '-heal' target hp, with '[from] drain' '[of] source' for drain."""
     m = st.mons
     amount = jnp.asarray(amount, I32)
     amount = jnp.where((amount > 0) & (amount <= 1), 1, amount)
     hp = mget(m.hp, target)
     ok = jnp.asarray(on) & (amount != 0) & (hp > 0) & mget(m.is_active, target) & (hp < mget(m.maxhp, target))
     st, healed = F.heal(st, target, amount, ok)
+    st = EV.emit_hp(st, ok, EV.EV_HEAL, target, target=-1 if drain_of is None else drain_of,
+                    flags=0 if drain_of is None else EV.F_DRAIN)
     r = RS.where(amount == 0, RS.R(RS.NUM, 0), RS.where(ok, RS.R(RS.NUM, healed), RS.R(RS.BOOL, 0)))
     return st, r
 
 
 # ------------------------------------------------------------------ accuracy (PS: sim/battle-actions.ts:752-816)
-def accuracy_step(st, dex, rng, u, move, targets, tv, on):
-    """hitStepAccuracy for each target (fori over target slots). Returns (ok[3], rng)."""
+def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=False):
+    """hitStepAccuracy for each target (fori over target slots). Returns (st, ok[3], rng).
+    Messages: '-immune' target '[ohko]' (PS :768); a miss adds '-miss' user target and marks the move line [miss] when
+    not spreadHit (PS :800-806); smartTarget misses are silent."""
     m = st.mons
     acc_base = dex.move_accuracy[move].astype(I32)        # 0 = true
     ohko = dex.move_ohko[move]
@@ -240,7 +255,7 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on):
     targets = jnp.asarray(targets, I32)
 
     def body(j, carry):
-        oks, rng = carry
+        st, oks, rng = carry
         t = targets[j]
         live = jnp.asarray(on) & (t >= 0) & tv[j]
         t_types = mget(m.types, t)
@@ -256,9 +271,14 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on):
         key = C.dkey(st, ids.DK_ACCURACY, actor=u, target=t, subject=C.eff_move(move), hit=0)
         hit, rng = R.chance(rng, key, acc, 100, active=live & ~always & ~((ohko > 0) & ohko_immune))
         ok = jnp.where(always, True, hit & ~((ohko > 0) & ohko_immune))
-        return oks.at[j].set(ok), rng
+        oimm = live & ~always & (ohko > 0) & ohko_immune
+        st = EV.emit(st, oimm, EV.EV_IMMUNE, actor=t, flags=EV.F_OHKO)
+        miss = live & ~ok & ~oimm & ~smart
+        st = EV.attr_last_move(st, miss & ~spread, EV.F_MISS)
+        st = EV.emit(st, miss, EV.EV_MISS, actor=u, target=t)
+        return st, oks.at[j].set(ok), rng
 
-    return jax.lax.fori_loop(0, NT, body, (jnp.zeros(NT, bool), rng))
+    return jax.lax.fori_loop(0, NT, body, (st, jnp.zeros(NT, bool), rng))
 
 
 # ------------------------------------------------------------------ damage for one target
@@ -271,7 +291,7 @@ def target_damage(st, dex, rng, cfg, u, move, t, spread, on):
 
 
 def get_damage(st, dex, rng, cfg, u, move, t, spread, hit_no, on):
-    """PS getDamage for target t: returns ((tag, val), rng). Struggle is typeless via its onModifyMove."""
+    """PS getDamage for target t: returns (st, (tag, val), rng). Struggle is typeless via its onModifyMove."""
     m = st.mons
     ab_t = mget(m.ability, t)
     crit_immune = _in(ab_t, (T.ABILITY_BATTLEARMOR, T.ABILITY_SHELLARMOR))   # HOOK(H13) CriticalHit
@@ -289,19 +309,25 @@ def get_damage(st, dex, rng, cfg, u, move, t, spread, hit_no, on):
     grounded = ~jnp.any(mget(m.types, t) == T.TYPE_FLYING) & (ab_t != T.ABILITY_LEVITATE)
     is_struggle = move == T.MOVE_STRUGGLE
     # Struggle: onModifyMove type '???' (data/moves.ts struggle) -> treat as typeless via a typeless attacker types
-    dmg, kind, _ = D.get_damage_core(
+    dmg, kind, crit = D.get_damage_core(
         dex, move, atk_stats5=mget(m.stats, u), atk_boosts7=mget(m.boosts, u),
         atk_types=jnp.where(is_struggle, jnp.array([-1, -1], I8), mget(m.types, u)),
         atk_burned=mget(m.status, u) == T.COND_BRN, def_stats5=mget(m.stats, t), def_boosts7=mget(m.boosts, t),
         def_types=jnp.where(is_struggle, jnp.array([-1, -1], I8), mget(m.types, t)), def_maxhp=mget(m.maxhp, t),
         def_grounded=grounded, def_crit_immune=crit_immune, crit_draw=crit_draw, roll=roll, spread=spread,
         canary_crit=cfg.flags.canary_crit_2048)
+    # [C] modifyDamage messages (data/mods/champions/scripts.ts:266-284): effectiveness then crit
+    formula = rolls_damage & (kind == D.DMG_NUMBER)
+    tm = jnp.clip(jnp.where(is_struggle, 0, TC.effectiveness(dex, dex.move_type[move], mget(m.types, t))), -6, 6)
+    st = EV.emit(st, formula & (tm > 0), EV.EV_SUPER, actor=t, v1=jnp.minimum(tm, 2))
+    st = EV.emit(st, formula & (tm < 0), EV.EV_RESIST, actor=t, v1=jnp.minimum(-tm, 2))
+    st = EV.emit(st, formula & crit, EV.EV_CRIT, actor=t)
     r = jnp.where(kind == D.DMG_NUMBER, 1, 0)
     res = RS.where(kind == D.DMG_NUMBER, RS.R(RS.NUM, dmg), RS.where(kind == D.DMG_FALSE, RS.R(RS.BOOL, 0),
                                                                      RS.where(kind == D.DMG_UNDEFINED, RS.R(RS.UNDEF),
                                                                               RS.R(RS.NUM, 0))))
     del r
-    return res, rng
+    return st, res, rng
 
 
 # ------------------------------------------------------------------ spreadMoveHit (ch/scripts.ts:314-423), core
@@ -325,7 +351,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     # 1. getSpreadDamage
     def s1(j, c):
         st, rng, tags, vals, tv = c
-        res, rng = get_damage(st, dex, rng, cfg, u, move, targets[j], spread, hit_no, tv[j])
+        st, res, rng = get_damage(st, dex, rng, cfg, u, move, targets[j], spread, hit_no, tv[j])
         tags, vals = _rset(tags, vals, j, res, tv[j])
         tv = tv.at[j].set(tv[j] & ~RS.is_false(_rget(tags, vals, j)))
         return st, rng, tags, vals, tv
@@ -347,13 +373,14 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         go = live & numeric & ~hp0 & ~inactive
         amt = jnp.where(cur[1] != 0, jnp.maximum(cur[1], 1), 0)            # HOOK(H21) Damage event
         st, dealt = F.damage(st, t, amt, go)
+        st = EV.emit_hp(st, go, EV.EV_DAMAGE, t)                             # PS: sim/battle.ts:2171
         m = st.mons
         st = st.replace(mons=m.replace(hurt_this_turn=mset(m.hurt_this_turn, t, mget(m.hp, t), go & (dealt != 0)),
                                        last_damage=mset(m.last_damage, u, dealt, go)))
         newr = RS.where(hp0, RS.R(RS.NUM, 0), RS.where(inactive, RS.R(RS.BOOL, 0), RS.R(RS.NUM, dealt)))
         tags, vals = _rset(tags, vals, j, newr, live & numeric)
         drain_amt = (2 * dealt * drain_n + drain_d) // (2 * drain_d)          # Math.round
-        st, _ = battle_heal(st, u, drain_amt, go & (dealt > 0) & (drain_n > 0))
+        st, _ = battle_heal(st, u, drain_amt, go & (dealt > 0) & (drain_n > 0), drain_of=t)
         tv = tv.at[j].set(tv[j] & ~RS.is_false(_rget(tags, vals, j)))
         return st, tags, vals, tv
     st, tags, vals, tv = jax.lax.fori_loop(0, NT, s2, (st, tags, vals, tv))
@@ -378,7 +405,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         m = st.mons
         did = RS.R(RS.UNDEF)
         not_fainted = ~mget(m.fainted, t)
-        st, br = boost(st, t, dex.move_boosts[move], live & has_boosts & not_fainted)
+        st, br = boost(st, t, dex.move_boosts[move], live & has_boosts & not_fainted, order=dex.move_boost_order[move],
+                       primary=True)
         did = RS.where(live & has_boosts & not_fainted, RS.combine(did, br), did)
         # heal
         m = st.mons
@@ -387,6 +415,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         heal_amt = (2 * mget(m.maxhp, t).astype(I32) * heal_n + heal_d) // (2 * heal_d)
         st, hr = battle_heal(st, t, heal_amt, do_heal & ~full)
         heal_fail = do_heal & (full | (~RS.truthy(hr) & ~((hr[0] == RS.NUM) & (hr[1] == 0))))
+        st = EV.emit(st, do_heal & full, EV.EV_FAIL, actor=t, flags=EV.F_HEAL)   # PS :1257-1259
+        st = EV.attr_last_move(st, do_heal & full, EV.F_STILL)
         cur = _rget(tags, vals, j)
         tags, vals = _rset(tags, vals, j, RS.combine(cur, RS.R(RS.BOOL, 0)), heal_fail)
         da = RS.where(heal_fail, RS.combine(da, RS.R(RS.NULL)), da)
@@ -408,6 +438,12 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     da = (da_t, da_v)
     m = st.mons
     has_self = jnp.any(dex.move_self_boosts[move] != 0) | (dex.move_self_volatile[move] > 0)
+    # PS :1352-1358: a primary effect that did nothing (didAnything === false) -> '-fail' source [still]
+    fail_msg = on & (da[0] == RS.BOOL) & (da[1] == 0) & ~has_self & (dex.move_self_chance[move] < 0) & \
+        (dex.move_selfdestruct[move] == 0)
+    st = EV.emit(st, fail_msg, EV.EV_FAIL, actor=u)
+    st = EV.attr_last_move(st, fail_msg, EV.F_STILL)
+    m = st.mons
     did_nothing = ~RS.truthy(da) & ~((da[0] == RS.NUM) & (da[1] == 0)) & ~has_self & (dex.move_selfdestruct[move] == 0)
     set_flag = on & ~did_nothing & self_switch & (mget(m.hp, u) > 0) & (F.can_switch(st, side_of(u)) > 0)
     st = st.replace(mons=m.replace(switch_flag=mset(m.switch_flag, u, move + 2, set_flag)))
@@ -472,9 +508,14 @@ def try_spread_move_hit(st, dex, rng, cfg, u, move, targets, smart, on):
     imm = []
     for j in range(NT):
         t = targets[j]
-        grounded = ~jnp.any(mget(m.types, t) == T.TYPE_FLYING) & (mget(m.ability, t) != T.ABILITY_LEVITATE)
+        flying = jnp.any(mget(m.types, t) == T.TYPE_FLYING)
+        grounded = ~flying & (mget(m.ability, t) != T.ABILITY_LEVITATE)
         immune = jnp.where(mtype == T.TYPE_GROUND, ~grounded, TC.immune(dex, mtype, mget(m.types, t)))
-        imm.append(~ignore & immune & (mtype != T.TYPE_TYPELESS))
+        imm_j = ~ignore & immune & (mtype != T.TYPE_TYPELESS)
+        # runImmunity(move, !smartTarget) messages (PS: sim/pokemon.ts:2276-2286): isGrounded null -> Levitate
+        lev = (mtype == T.TYPE_GROUND) & ~flying
+        st = EV.emit(st, tv[j] & imm_j & ~smart, EV.EV_IMMUNE, actor=t, flags=jnp.where(lev, EV.F_LEVITATE, 0))
+        imm.append(imm_j)
     imm = jnp.stack(imm)
     fail_any = fail_any | jnp.any(tv & imm)
     tv = tv & ~imm
@@ -485,10 +526,13 @@ def try_spread_move_hit(st, dex, rng, cfg, u, move, targets, smart, on):
         t = targets[j]
         pimm.append(powder & (t != u) & TC.status_immune(dex, ids.IMMUNITY_KEYS.index("powder"), mget(m.types, t)))
     pimm = jnp.stack(pimm)
+    for j in range(NT):
+        st = EV.emit(st, tv[j] & pimm[j], EV.EV_IMMUNE, actor=targets[j])            # PS :731
     fail_any = fail_any | jnp.any(tv & pimm)
     tv = tv & ~pimm
     # 4 accuracy
-    acc_ok, rng = accuracy_step(st, dex, rng, u, move, targets, tv, on & jnp.any(tv))
+    spread_hit = ((n_targets > 1) & ~smart) | (dex.move_spread_hit[move] == 1)        # PS :613
+    st, acc_ok, rng = accuracy_step(st, dex, rng, u, move, targets, tv, on & jnp.any(tv), smart=smart, spread=spread_hit)
     acc_ok = jnp.where(tv, acc_ok, False)
     fail_any = fail_any | jnp.any(tv & ~acc_ok)
     smart = smart & ~jnp.any(tv & ~acc_ok)
@@ -500,6 +544,12 @@ def try_spread_move_hit(st, dex, rng, cfg, u, move, targets, smart, on):
     fail_any = fail_any | jnp.any(tv & RS.is_false((dtag, dval)))
     result = jnp.any(kept)
     set_null = on & ~result & ~fail_any
+    # PS :679-680: attrLastMove('[spread] ' + hit slots)
+    slots = jnp.int32(0)
+    for j in range(NT):
+        t = targets[j]
+        slots = slots | jnp.where(kept[j], 1 << jnp.clip(side_of(t) * 2 + position(st, t), 0, 3), 0)
+    st = EV.attr_last_move(st, on & spread_hit, EV.F_SPREAD, v1=slots)
     return st, rng, result, set_null
 
 
@@ -540,6 +590,8 @@ def hit_loop(st, dex, rng, cfg, u, move, targets, tv, spread, smart, on):
         miss = need_acc & ~ahit
         stopped = stopped | miss
         go = go & ~miss
+        # [C] scripts.ts:476-482: boolean smartTarget moves retarget the move line on hit 1 (-anim for later hits)
+        st = EV.retarget_last_move(st, go & (h == 1) & (dex.move_smart_target[move] == 1) & (t0 >= 0), t0)
         st, rng, (mt, mv) = spread_move_hit(st, dex, rng, cfg, u, move, targets, cur_tv, spread, h, go)
         all_false = ~jnp.any(~RS.is_false((mt, mv)) & cur_tv)
         stopped = stopped | (go & all_false)
@@ -567,6 +619,9 @@ def hit_loop(st, dex, rng, cfg, u, move, targets, tv, spread, smart, on):
     dv = jnp.where(all_fail, 0, dv)
     run_rest = on & ~(hit_done == 1)
     st = F.resolve_faints(st, dex, run_rest, do_check_win=mget(st.mons.hp, u) <= 0, clear_volatile_fn=_cv())
+    # [C] scripts.ts:545-549: '-hitcount' for multihit moves without a boolean smartTarget
+    st = EV.emit(st, run_rest & (mh[0] > 0) & (dex.move_smart_target[move] != 1), EV.EV_HITCOUNT, actor=targets[0],
+                 v1=hit_count)
     st = apply_recoil(st, dex, u, move, total, run_rest & (total > 0))
     # gotAttacked / timesAttacked
     m = st.mons
@@ -576,6 +631,8 @@ def hit_loop(st, dex, rng, cfg, u, move, targets, tv, spread, smart, on):
         num = run_rest & tv[j] & (t != u) & (lt[j] == RS.NUM)
         ta = mset(ta, t, mget(ta, t) + jnp.where(smart, 1, hit_count), num)
     st = st.replace(mons=m.replace(times_attacked=ta))
+    # [C] scripts.ts:569
+    st = EV.emit(st, run_rest & (dex.move_ohko[move] > 0) & (mget(st.mons.hp, targets[0]) <= 0), EV.EV_OHKO)
     return st, rng, (dt, dv)
 
 
@@ -597,6 +654,7 @@ def apply_recoil(st, dex, u, move, total, on):
     # struggle: directDamage (no Damage event); recoil: battle.damage(..., 'recoil') -> spreadDamage (HOOK H21)
     on = on & mget(m.is_active, u)
     st, dealt = F.damage(st, u, rec, on)
+    st = EV.emit_hp(st, on, EV.EV_DAMAGE, u, flags=EV.F_RECOIL)        # '[from] Recoil' / '[from] recoil'
     m = st.mons
     return st.replace(mons=m.replace(hurt_this_turn=mset(m.hurt_this_turn, u, mget(m.hp, u), on & ~struggle & (dealt != 0))))
 
@@ -650,12 +708,22 @@ def use_move(st, dex, rng, cfg, u, move, target, on):
     # HOOK(H3) ModifyType / ModifyMove
     m = st.mons
     alive = ~mget(m.fainted, u)
+    # ModifyMove: Struggle adds '-activate' pokemon 'move: Struggle' (data/moves.ts:18220-18223)
+    st = EV.emit(st, jnp.asarray(on) & (move == T.MOVE_STRUGGLE), EV.EV_ACTIVATE, actor=u, move=move)
+    # PS :519-528: addMove('move', pokemon, move, target); no target -> [notarget] + '-fail'
+    st = EV.emit_move(st, jnp.asarray(on) & alive, u, target, move)
+    no_target = jnp.asarray(on) & alive & (target < 0)
+    st = EV.attr_last_move(st, no_target, EV.F_NOTARGET)
+    st = EV.emit(st, no_target, EV.EV_FAIL, actor=u)
     go = jnp.asarray(on) & alive & (target >= 0)
     targets, smart, rng = get_move_targets(st, dex, rng, u, move, target, go)
     # HOOK(H5) Pressure / DeductPP; HOOK(H6) TryMove
     side_field = _in(tt, (T.TARGET_ALL, T.TARGET_FOESIDE, T.TARGET_ALLYSIDE, T.TARGET_ALLYTEAM))
     has_t = targets[0] >= 0
     st = F.faint(st, u, go & (dex.move_selfdestruct[move] == 1))
+    empty = go & ~side_field & ~has_t                                   # PS :573-577
+    st = EV.attr_last_move(st, empty, EV.F_NOTARGET)
+    st = EV.emit(st, empty, EV.EV_FAIL, actor=u)
     st, rng, res, set_null = try_spread_move_hit(st, dex, rng, cfg, u, move, targets, smart, go & has_t & ~side_field)
     # side/field moves (tryMoveHit): M3
     result = go & ((has_t & ~side_field & res) | side_field)

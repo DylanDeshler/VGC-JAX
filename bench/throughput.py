@@ -19,8 +19,9 @@ def main():
     ap.add_argument("--batch", type=int, default=256)
     ap.add_argument("--steps", type=int, default=64)
     ap.add_argument("--bank", default="data/teams/bank_core.npz")
+    ap.add_argument("--no-events", action="store_true")
     a = ap.parse_args()
-    cfg = EngineConfig(stage=a.stage, max_turns=40)
+    cfg = EngineConfig(stage=a.stage, max_turns=40, events=not a.no_events)
     dex = load_dex(a.stage)
     env = AutoResetEnv(cfg, dex, TB.load(a.bank))
     B, T = a.batch, a.steps

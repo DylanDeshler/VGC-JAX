@@ -84,9 +84,11 @@ function newBattle({ seed, formatid = FORMAT, classifier = 'markers', prngOpts =
 
 /**
  * Drive `battle` to the end (or `stopAfter` decisions), choosing with `choose(req, sideid)`, emitting records.
- * Returns {decisions:[...], final, rejected}.
+ * Returns {decisions:[...], final, rejected}. With `log`, each decision record carries the omniscient protocol lines
+ * its choices produced (`rec.log`, |split| blocks included) and their PublicEvents reduction (`rec.events`,
+ * oracle/lib/protocol.js); log = 'events' keeps only the reduction.
  */
-function driveTraced({ battle, prng, ident, choose, legal = null, stopAfter = Infinity, script = null }) {
+function driveTraced({ battle, prng, ident, choose, legal = null, stopAfter = Infinity, script = null, log = false }) {
 	const ctx = battle.__ctx;
 	const decisions = []; const rejected = [];
 	let k = 0;
@@ -102,7 +104,7 @@ function driveTraced({ battle, prng, ident, choose, legal = null, stopAfter = In
 			legal: legal ? legal(battle) : null,
 			choices: [null, null],
 		};
-		const d0 = prng.draws.length; const t0 = ctx.ties.length;
+		const d0 = prng.draws.length; const t0 = ctx.ties.length; const l0 = battle.log.length;
 		for (const side of need) {
 			let tries = 0;
 			for (;;) {
@@ -120,6 +122,11 @@ function driveTraced({ battle, prng, ident, choose, legal = null, stopAfter = In
 		}
 		rec.draws = prng.draws.slice(d0).filter(d => d.method !== 'shuffle').map(d => instrument.drawRecord(d, ident));
 		rec.ties = ctx.ties.slice(t0);
+		if (log) {
+			const lines = battle.log.slice(l0).filter(l => !l.startsWith('|t:|'));
+			rec.events = require('./protocol').reduce(lines, battle);
+			if (log !== 'events') rec.log = lines;
+		}
 		decisions.push(rec);
 		k++;
 	}
@@ -135,7 +142,7 @@ function driveTraced({ battle, prng, ident, choose, legal = null, stopAfter = In
 function runBattle(S, i, opts = {}) {
 	const {
 		teams: teamSource = 'chaos', policy = 'random', stage = null, classifier = 'markers', legal = null,
-		formatid = FORMAT,
+		formatid = FORMAT, events = false,
 	} = opts;
 	const sd = seeds.battleSeeds(S, i);
 	const { teams, source } = makeTeams(teamSource, sd);
@@ -159,7 +166,8 @@ function runBattle(S, i, opts = {}) {
 		classifier,
 		canonical_dontcare: Object.keys(prng.canonical || {}).sort(),
 	};
-	const { decisions, final } = driveTraced({ battle, prng, ident, choose: (req, sid) => choose(req, rng, battle, sid), legal: legalFn });
+	const { decisions, final } = driveTraced({ battle, prng, ident, choose: (req, sid) => choose(req, rng, battle, sid), legal: legalFn,
+		log: events ? 'events' : false });
 	return [header, ...decisions, final];
 }
 

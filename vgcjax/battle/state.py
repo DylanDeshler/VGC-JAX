@@ -14,6 +14,7 @@ from vgcjax.data import ids
 I8, I16, I32, U32 = jnp.int8, jnp.int16, jnp.int32, jnp.uint32
 QMAX = 14            # 04 §12
 FAINTQ = 8
+NE = 32              # PublicEvents ring (03 §4.7)
 K_ATT = 8
 NV = ids.VOL_END - ids.VOL_BASE
 NSC = ids.SIDE_END - ids.SIDE_BASE
@@ -188,6 +189,16 @@ class Scratch:
 
 
 @struct.dataclass
+class Events:
+    """PublicEvents ring buffer (03 §4.7): records [t, kind, actor, target, move, v1, v2, flags] (vgcjax/battle/events.py).
+    `count` is the total ever written (slot = count % NE); `step_start` = count when the current step began."""
+    buf: jax.Array                 # i16[NE, 8]
+    count: jax.Array               # i32
+    step_start: jax.Array          # i32
+    last_move: jax.Array           # i32 absolute index of the last MOVE record (attrLastMove target), -1 = none
+
+
+@struct.dataclass
 class State:
     meta: Meta
     team: Team
@@ -196,6 +207,7 @@ class State:
     field: Field
     queue: Queue
     scratch: Scratch
+    events: Events
 
 
 def _z(shape, dt, fill=0):
@@ -251,4 +263,5 @@ def empty_state(team: Team) -> State:
     field = Field(weather=_z((), I16), weather_state=_z(3, I16), terrain=_z((), I16), terrain_state=_z(3, I16),
                   pw_bits=_z((), U32), pw_state=_z((NPW, 3), I16))
     return State(meta=meta, team=team, sides=sides, mons=empty_mons(), field=field, queue=empty_queue(),
-                 scratch=empty_scratch())
+                 scratch=empty_scratch(), events=Events(buf=_z((NE, 8), I16), count=_z((), I32), step_start=_z((), I32),
+                                                       last_move=_z((), I32, -1)))

@@ -5,6 +5,7 @@ import jax
 import jax.numpy as jnp
 
 from vgcjax.battle import common as C
+from vgcjax.battle import events as EV
 from vgcjax.battle import faint as F
 from vgcjax.battle import queue as Q
 from vgcjax.battle import state as S
@@ -99,6 +100,8 @@ def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_dr
                   ability_seq=mset(m.ability_seq, r_in, ab_seq, on), item_seq=mset(m.item_seq, r_in, it_seq, on),
                   previously_switched_in=mset(m.previously_switched_in, r_in, mget(m.previously_switched_in, r_in) + 1, on))
     st = st.replace(mons=m, sides=sides, meta=meta.replace(effect_seq=jnp.where(on, seq, meta.effect_seq)))
+    # PS :186-192: add(isDrag ? 'drag' : 'switch', pokemon, details, [from] sourceEffect)
+    st = EV.emit_hp(st, on, EV.EV_SWITCH, r_in, move=0 if is_drag else source_effect, flags=EV.F_DRAG if is_drag else 0)
     # BeforeSwitchIn hooks (M3)
     if is_drag:
         st, rng = run_switch(st, dex, rng, [r_in], on)

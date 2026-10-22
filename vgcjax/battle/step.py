@@ -10,6 +10,7 @@ import jax.numpy as jnp
 
 from vgcjax.battle import common as C
 from vgcjax.battle import errors as E
+from vgcjax.battle import events as EV
 from vgcjax.battle import faint as F
 from vgcjax.battle import init as INIT
 from vgcjax.battle import move_pipeline as MP
@@ -288,7 +289,8 @@ def end_turn(st, dex, cfg, on) -> S.State:
                     move_actions=jnp.where(on, jnp.zeros((2, 4), I8), sc.move_actions))
     q = st.queue
     q = q.replace(valid=jnp.where(on, False, q.valid))
-    return st.replace(mons=m, sides=sides, meta=meta, scratch=sc, queue=q)
+    st = st.replace(mons=m, sides=sides, meta=meta, scratch=sc, queue=q)
+    return EV.emit(st, on & ~tie, EV.EV_TURN, v1=turn)                  # PS: sim/battle.ts:1802 add('turn', turn)
 
 
 # ------------------------------------------------------------------ run until decision
@@ -356,8 +358,14 @@ def run_until_decision(st, dex, rng, cfg):
 # ------------------------------------------------------------------ step
 def step(st: S.State, actions, key, cfg, dex, forced: R.ForcedOutcomes | None = None):
     """actions: i32[2] (PREVIEW: 0..359; MOVE/SWITCH: joint index slot0*29 + slot1). Returns (st', rng)."""
+    with EV.enabled(cfg.events):
+        return _step(st, actions, key, cfg, dex, forced)
+
+
+def _step(st: S.State, actions, key, cfg, dex, forced):
     log = R.DrawLog.empty(cfg.draw_log_size) if cfg.draw_log else None
     rng = R.make_rng(key, st.meta.step_counter, forced=forced if cfg.forced else None, log=log)
+    st = st.replace(events=st.events.replace(step_start=st.events.count))
     done = st.meta.phase == S.DONE
     phase = st.meta.phase
     actions = REQ.sanitize(st, dex, jnp.asarray(actions, I32))

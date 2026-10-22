@@ -36,7 +36,7 @@ const METHODS = {
 	run(spec) {
 		const b = startBattle(spec);
 		const out = tr.driveTraced({ ...b, choose: chooser(spec), script: spec.choices || null,
-			stopAfter: spec.choices ? spec.choices.length : Infinity });
+			stopAfter: spec.choices ? spec.choices.length : Infinity, log: !!spec.log });
 		return { decisions: out.decisions, final: out.final, rejected: out.rejected };
 	},
 

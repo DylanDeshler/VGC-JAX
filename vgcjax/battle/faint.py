@@ -5,6 +5,7 @@ import jax
 import jax.numpy as jnp
 
 from vgcjax.battle import errors as E
+from vgcjax.battle import events as EV
 from vgcjax.battle import state as S
 from vgcjax.battle.util import mget, mset, or_flag, side_of
 from vgcjax.data import ids
@@ -79,6 +80,7 @@ def resolve_faints(st: S.State, dex, on, check_win_if_no_faints=False, do_check_
         ref = meta.faint_queue[k].astype(I32)
         last = jnp.where(live_k, ref, last)
         do = live_k & ~mget(m.fainted, ref)   # BeforeFaint: no handlers yet
+        st = EV.emit(st, do, EV.EV_FAINT, actor=ref)        # PS: sim/battle.ts:2598 add("faint", pokemon)
         sd = side_of(ref)
         sides = st.sides
         left = sides.pokemon_left

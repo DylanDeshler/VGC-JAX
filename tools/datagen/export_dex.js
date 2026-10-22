@@ -102,6 +102,12 @@ function exportMoves() {
 	const moves = sortedMap(all, m => {
 		const e = entity(m);
 		e.champions_maxpp = champsMaxPP(m);
+		// PS iterates boosts dicts in key order (battle.boost: for (k in boost)) and logs in that order; keys are
+		// sorted above, so record the original orders explicitly.
+		const ko = b => (b ? Object.keys(b) : []);
+		e.boost_key_order = { boosts: ko(m.boosts), self: ko(m.self && m.self.boosts),
+			selfBoost: ko(m.selfBoost && m.selfBoost.boosts),
+			secondaries: (m.secondaries || []).map(x => ({ boosts: ko(x.boosts), self: ko(x.self && x.self.boosts) })) };
 		if (ps[m.id] !== undefined) {
 			e.ps_maxpp = ps[m.id];
 			if (ps[m.id] !== e.champions_maxpp) mismatches.push([m.id, m.pp, m.noPPBoosts, ps[m.id], e.champions_maxpp]);
