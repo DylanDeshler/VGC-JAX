@@ -67,6 +67,7 @@ const METHODS = {
 	craft: p => support.craft(p),
 	edit_snapshot: p => support.editSnapshot(p),
 	shrink_candidates: p => support.shrinkCandidates(p),
+	sample_outcomes: p => support.sampleOutcomes(p),
 	damage: p => support.damage(p),
 	trace_events: p => support.traceEvents(p),
 

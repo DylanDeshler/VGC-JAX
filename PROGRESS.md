@@ -66,7 +66,10 @@ Comparison-quality work (2026-10-22)
 - M3.9 shrinker (harness/shrink.py; oracle RPCs edit_snapshot, shrink_candidates, replay project_after): greedy
   PS+engine reduction, kept iff the signature persists; canary fixtures shrink 32 -> 3-4 moves, empty bench, full HP,
   ~1.5 s each. Fixtures carry `entities` (triage hint); STATE signatures erase mon indices. Condition removal waits
-  for v0 conditions.
+  for v0 conditions. `harness.cli replay --fixtures N` auto-emits shrunk fixtures per signature.
+- 07 §11 two-sample distribution test (harness/distribution.py, tests/distribution, slow/T3): engine natural RNG vs
+  PS on 12 fresh core states x 4000 runs: 26 per-mon HP tests, Bonferroni min p 0.46; the crit canary is rejected
+  (17/26 tests, p ~ 0). Chain checks (Protect, sleep, freeze, confusion) wait for v0 content.
 
 ## Last T2/T3 run
 local conformance runs (not formal gate runs), PS d601443, contract_version 1:
@@ -109,7 +112,7 @@ not yet created (harness/contract/* is written in M2.8)
 
 ## Next 3 tasks
 1. Infrastructure while the gate checkpoint is pending: M3.8 coverage-steering deficit scores + crafted templates,
-   engine PublicEvents (obs.events), distribution tests (07 §11), `harness.cli replay --fixtures` (auto-emit + shrink)
+   engine PublicEvents (obs.events), observe_privileged, M5.5 PPO smoke trainer
 2. After acknowledgement: M3.2 handler classification, then M3.3-M3.7 content (conditions, statuses, Protect, Mega,
    mid-turn switch family) using effects/hooks.py
 3. MUL-hook tie records (hooks.py TODO) with the first MUL content

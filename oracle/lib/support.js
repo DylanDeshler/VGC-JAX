@@ -431,6 +431,27 @@ function shrinkCandidates({ snapshot, choices, stage = 'core' }) {
 	return { candidates: [...moves, ...items, ...abilities, ...bench, ...hp], neutral_move: neutral || null };
 }
 
+/**
+ * Natural-mode samples for distribution tests (07 §11): continue `snapshot` n times with PRNG seeds
+ * sha256(seed_base, i), each for one decision with the scripted `choices`, and return per run the HP of every brought
+ * mon ([side][b], ident order).
+ */
+function sampleOutcomes({ snapshot, choices, n, seed_base = 'dist' }) {
+	const crypto = require('crypto');
+	const out = [];
+	for (let i = 0; i < n; i++) {
+		const seed = 'sodium,' + crypto.createHash('sha256').update(`${seed_base}|${i}`).digest('hex');
+		const b = tr.fromSnapshot(snapshot, { prngOpts: { seed } });
+		tr.driveTraced({ ...b, choose: null, script: [choices], stopAfter: 1 });
+		const ident = b.battle.__ident;
+		out.push(ident.brought.map((row, s) => row.map(e => {
+			const p = b.battle.sides[s].pokemon.find(x => x.set.species === e.species);
+			return p ? p.hp : -1;
+		})));
+	}
+	return { hp: out };
+}
+
 // ------------------------------------------------------------------ damage
 /**
  * cases: [{attacker: set, defender: set, move: id, atkBoosts?, defBoosts?, atkStatus?, defStatus?, crit: bool,
@@ -525,5 +546,5 @@ function traceEvents(params) {
 }
 
 module.exports = {
-	traceEvents, installEventTracer, typechart, resolvePriority, editSnapshot, shrinkCandidates, fixedpoint, stats, sortActions, legal, legalForBattle, slotActionString, replay, makeForcing, craft,
+	traceEvents, installEventTracer, typechart, resolvePriority, editSnapshot, shrinkCandidates, sampleOutcomes, fixedpoint, stats, sortActions, legal, legalForBattle, slotActionString, replay, makeForcing, craft,
 	damage, keyStr, tieKeyStr };
