@@ -1,0 +1,69 @@
+"""Predicated-execution helpers: every branch is computed, then masked (04 §1.2).
+
+Mon arrays are [2, 4, ...]; `mget/mset` address them by ref = side*4 + b (flattened to [8, ...]).
+"""
+from __future__ import annotations
+
+import jax
+import jax.numpy as jnp
+
+I32 = jnp.int32
+
+
+def tree_where(c, a, b):
+    """Elementwise select over two pytrees of identical structure (scalar predicate broadcast)."""
+    c = jnp.asarray(c)
+    return jax.tree_util.tree_map(lambda x, y: jnp.where(c, x, y) if x is not None else None, a, b)
+
+
+def run_if(pred, fn, carry, *args):
+    """carry' = fn(carry, *args) if pred else carry (both computed)."""
+    return tree_where(pred, fn(carry, *args), carry)
+
+
+def mget(arr, ref):
+    """arr[side, b, ...] for ref = side*4 + b (ref < 0 reads ref 0; callers mask)."""
+    flat = arr.reshape((8,) + arr.shape[2:])
+    return flat[jnp.clip(jnp.asarray(ref, I32), 0, 7)]
+
+
+def mset(arr, ref, val, mask=True):
+    """Masked write arr[ref] = val (no-op when mask is False or ref < 0)."""
+    ref = jnp.asarray(ref, I32)
+    ok = jnp.asarray(mask) & (ref >= 0)
+    flat = arr.reshape((8,) + arr.shape[2:])
+    r = jnp.clip(ref, 0, 7)
+    new = jnp.where(ok, jnp.asarray(val, arr.dtype), flat[r])
+    return flat.at[r].set(new).reshape(arr.shape)
+
+
+def madd(arr, ref, delta, mask=True):
+    return mset(arr, ref, mget(arr, ref) + jnp.asarray(delta, arr.dtype), mask)
+
+
+def side_of(ref):
+    return jnp.asarray(ref, I32) // 4
+
+
+def b_of(ref):
+    return jnp.asarray(ref, I32) % 4
+
+
+def ref_of(side, b):
+    return jnp.asarray(side, I32) * 4 + jnp.asarray(b, I32)
+
+
+def slot_ref(st, side, slot):
+    """ref of the mon occupying (side, slot), -1 if the slot is empty."""
+    b = jnp.asarray(st.sides.active[jnp.asarray(side, I32), jnp.asarray(slot, I32)], I32)
+    return jnp.where(b >= 0, ref_of(side, b), -1)
+
+
+def or_flag(st, bit, cond):
+    """Set an error bit when cond."""
+    meta = st.meta
+    return st.replace(meta=meta.replace(error_flags=meta.error_flags | jnp.where(cond, jnp.uint32(bit), jnp.uint32(0))))
+
+
+def bit_test(word, k):
+    return ((jnp.asarray(word, jnp.uint32) >> jnp.asarray(k, jnp.uint32)) & 1) == 1

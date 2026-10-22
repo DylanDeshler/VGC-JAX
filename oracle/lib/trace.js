@@ -17,6 +17,17 @@ const { getPolicy } = require('./policy');
 const seeds = require('./seeds');
 
 const TRACE_VERSION = 1;
+
+/** Structured team sets for consumers that do not parse PS's packed format (ids are toID'd). */
+function teamSets(packedOrSets) {
+	const { toID } = require('./ps');
+	const team = typeof packedOrSets === 'string' ? Teams.unpack(packedOrSets) : packedOrSets;
+	return team.map(s => ({
+		species: toID(s.species || s.name), item: toID(s.item), ability: toID(s.ability), moves: s.moves.map(toID),
+		nature: toID(s.nature || 'serious'), evs: ['hp', 'atk', 'def', 'spa', 'spd', 'spe'].map(k => (s.evs && s.evs[k]) || 0),
+		gender: s.gender || '',
+	}));
+}
 const MAX_DECISIONS = 3000;
 
 function phaseOf(reqs) {
@@ -38,6 +49,11 @@ function makeTeams(source, sd) {
 		const b = T.randomDoubles('sodium,' + sd.teamHex.slice(32, 64));
 		for (const t of [a, b]) for (const s of t) if (!s.gender) s.gender = 'M'; // never let PS draw gender
 		return { teams: [a, b], source: ['randdoubles', 'randdoubles'] };
+	}
+	if (source.startsWith('stage:')) {
+		const { stageTeam } = require('./stageteams');
+		const stage = source.slice(6);
+		return { teams: [stageTeam(stage, rng), stageTeam(stage, rng)], source: [source, source] };
 	}
 	throw new Error(`unknown team source ${source}`);
 }
@@ -125,7 +141,8 @@ function runBattle(S, i, opts = {}) {
 		type: 'header', trace_version: TRACE_VERSION, contract_version: seeds.CONTRACT_VERSION,
 		ps_commit: seeds.psCommit(), oracle_git: seeds.oracleGit(), format: formatid,
 		battle_id: sd.battleId, run_seed: S, index: i, seed: sd.psSeed, stage, team_source: source,
-		teams: teams.map(t => Teams.pack(t)), scenario: null, policy, classifier,
+		teams: teams.map(t => Teams.pack(t)), team_sets: teams.map(t => teamSets(Teams.pack(t))), scenario: null, policy,
+		classifier,
 		canonical_dontcare: Object.keys(prng.canonical || {}).sort(),
 	};
 	const { decisions, final } = driveTraced({ battle, prng, ident, choose: req => choose(req, rng), legal: legalFn });
@@ -203,5 +220,5 @@ function readShard(file) {
 }
 
 module.exports = {
-	runBattle, driveTraced, newBattle, makeTeams, snapshotOf, fromSnapshot, ShardWriter, readShard, splitFrames, compressFrame, phaseOf, TRACE_VERSION,
+	teamSets, runBattle, driveTraced, newBattle, makeTeams, snapshotOf, fromSnapshot, ShardWriter, readShard, splitFrames, compressFrame, phaseOf, TRACE_VERSION,
 };
