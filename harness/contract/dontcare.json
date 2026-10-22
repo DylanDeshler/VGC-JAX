@@ -1,0 +1,6 @@
+{
+ "_doc": "contract/drawkey.md §6. PS-side draws of these kinds are dropped by the harness; the engine never draws them. PROTECTED (ADR-029).",
+ "kinds": ["RANDOM_TARGET_NOMINAL", "RANDOM_TARGET_NOEFFECT", "QUEUE_INSERT_TIE", "TEAM_SORT", "GENDER"],
+ "if_chance_undefined": ["SECONDARY", "SELF_EFFECT_ROLL"],
+ "tie_kinds_not_recorded": ["SPEED_TIE_EACH_EVENT (except Weather)", "SPEED_TIE_HANDLER_ORDER (non-MUL hooks)"]
+}

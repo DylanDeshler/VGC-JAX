@@ -1,0 +1,8 @@
+{
+ "_doc": "contract/drawkey.md §7. Draws with a single possible outcome are dropped on both sides. PROTECTED (ADR-029).",
+ "rules": {
+  "randomChance": "n >= d or n <= 0",
+  "sample": "n <= 1",
+  "random": "random(1) or random(a, a+1)"
+ }
+}

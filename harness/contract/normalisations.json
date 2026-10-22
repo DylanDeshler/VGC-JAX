@@ -1,0 +1,8 @@
+{
+ "_doc": "07 §5.4 projection normalisations. PROTECTED (ADR-029).",
+ "moves.disabled": "compared at decision points only; PS 'hidden' == engine 2; both count as disabled (truthiness)",
+ "trapped": "truthiness ('hidden' == true)",
+ "types": "getTypes(true) semantics incl. addedType",
+ "lastMove": "move id",
+ "weightkg": "engine weight_hg / 10"
+}

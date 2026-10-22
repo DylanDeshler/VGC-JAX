@@ -65,18 +65,25 @@ def engine_draws(log) -> list:
     return out
 
 
-def replay_battle(battle_records, cfg: EngineConfig, check_masks=False):
-    """Returns dict(clean, k (first failing decision or None), category, detail)."""
+def replay_battle(battle_records, cfg: EngineConfig, check_masks=False, start=None):
+    """Returns dict(clean, k (first failing decision or None), category, detail).
+    `start` = (engine state, k0): resume at decision k0 (e.g. from from_ps_snapshot)."""
     header = battle_records[0]
     decisions = [r for r in battle_records if r["type"] == "decision"]
     final = battle_records[-1] if battle_records[-1]["type"] == "final" else None
     step_fn, mask_fn = compiled(cfg)
     st = INIT.init(team_from_sets(header["team_sets"]))
+    k0 = 0
+    if start is not None:
+        st, k0 = start
+        st = jax.tree_util.tree_map(jnp.asarray, st)
     key = jax.random.PRNGKey(0)
     for k, dec in enumerate(decisions):
+        if k < k0:
+            continue
         if k >= 1:
             got = P.engine_to_json(st)
-            d = P.diff(got, dec["projection"])
+            d = P.compare(got, dec["projection"])
             if d:
                 return dict(clean=False, k=k, category="STATE", detail=d[:10])
         if check_masks and dec.get("legal") and k >= 1:
@@ -116,7 +123,7 @@ def replay_battle(battle_records, cfg: EngineConfig, check_masks=False):
         if err:
             return dict(clean=False, k=k, category="ERROR", detail=E.describe(err))
     if final is not None:
-        d = P.diff(P.engine_to_json(st), final["projection"])
+        d = P.compare(P.engine_to_json(st), final["projection"])
         if d:
             return dict(clean=False, k=len(decisions), category="STATE", detail=d[:10])
     return dict(clean=True, k=None, category=None, detail=None)

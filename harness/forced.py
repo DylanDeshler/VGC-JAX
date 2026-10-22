@@ -15,6 +15,33 @@ COND_KINDS = {"CONFUSION_SELFHIT_DAMAGE_ROLL", "PARALYSIS", "SLEEP_DURATION", "F
               "CONFUSION_SELFHIT", "PARTIAL_TRAP_DURATION", "LOCKEDMOVE_DURATION", "ALLY_SWITCH_STALL", "INFATUATION"}
 
 
+import json as _json
+import pathlib as _pl
+
+_CONTRACT = _pl.Path(__file__).resolve().parent / "contract"
+_DC = _json.loads((_CONTRACT / "dontcare.json").read_text())
+DONTCARE_KINDS = set(_DC["kinds"])
+DONTCARE_IF_NO_CHANCE = set(_DC["if_chance_undefined"])
+
+
+def is_dontcare(d: dict) -> bool:
+    """contract/drawkey.md §6 via the protected harness/contract/dontcare.json (oracle flags are not trusted)."""
+    k = d["kind"]
+    return k in DONTCARE_KINDS or (k in DONTCARE_IF_NO_CHANCE and d.get("chance", 0) is None)
+
+
+def is_degenerate(d: dict) -> bool:
+    """contract §7 (harness/contract/degenerate.json)."""
+    a = d["args"]
+    if d["method"] == "randomChance":
+        return a[0] >= a[1] or a[0] <= 0
+    if d["method"] == "sample":
+        return a[0] <= 1
+    if d["method"] == "random":
+        return (len(a) == 1 and a[0] <= 1) or (len(a) == 2 and a[1] - a[0] <= 1)
+    return False
+
+
 class HarnessError(Exception):
     """Trace contents the harness cannot map (category HARNESS, 07 §10.1)."""
 
@@ -75,7 +102,7 @@ def forced_rows(decision: dict) -> list[tuple[tuple[int, int, int], int]]:
     """[(packed key, value)] for every compared (non-don't-care) draw and every tie record of a decision."""
     rows = []
     for d in decision.get("draws", []):
-        if d.get("dontcare"):
+        if is_dontcare(d):
             continue
         rows.append((dk.pack(draw_key(d)), draw_value(d)))
     for t in decision.get("ties", []):
@@ -104,7 +131,7 @@ def compared_draws(decision: dict):
     """Multiset of (packed key, args) the engine must reproduce: non-don't-care, non-degenerate draws + ties."""
     out = []
     for d in decision.get("draws", []):
-        if d.get("dontcare") or d.get("degenerate"):
+        if is_dontcare(d) or is_degenerate(d):
             continue
         args = d["args"]
         a = (int(args[0]), int(args[1]) if len(args) > 1 else 0)

@@ -32,19 +32,32 @@ def _worker(args):
     cfg = EngineConfig(stage=stage, forced=True, draw_log=True)
     out = []
     gi = 0
+    import pathlib as _pl
+    import zstandard
+    from harness.corpus import split_frames
+    dz = zstandard.ZstdDecompressor()
     for f in files:
-        for b in split_battles(_load(f)):
+        for fr in split_frames(_pl.Path(f).read_bytes()):
             if limit is not None and gi >= limit:
                 return out
             if gi % nw == w:
+                b = [orjson.loads(l) for l in dz.decompress(fr, max_output_size=1 << 30).splitlines() if l]
                 h = b[0]
                 n_dec = sum(1 for r in b if r["type"] == "decision")
                 n_legal = sum(1 for r in b if r["type"] == "decision" and r.get("legal"))
+                from harness import forced as FO
+                kinds = collections.Counter()
+                for r_ in b:
+                    if r_["type"] == "decision":
+                        try:
+                            kinds.update(x[2] for x in FO.compared_draws(r_))
+                        except FO.HarnessError:
+                            pass
                 try:
                     r = replay_battle(b, cfg, check_masks=check_masks)
                 except Exception as e:  # harness/engine crash is a HARNESS bucket
                     r = dict(clean=False, k=0, category="HARNESS", detail=repr(e)[:500])
-                out.append(dict(index=gi, battle_id=h["battle_id"], decisions=n_dec, legal=n_legal, **{
+                out.append(dict(index=gi, battle_id=h["battle_id"], decisions=n_dec, legal=n_legal, kinds=dict(kinds), **{
                     k: (v if k != "detail" else json.loads(json.dumps(v, default=str))) for k, v in r.items()}))
             gi += 1
     return out
@@ -73,7 +86,10 @@ def summarize(results):
             if r["category"] == "STATE" and isinstance(det, list) and det:
                 sig += ":" + str(det[0][0]).split("[")[0].split(".")[-1]
             buckets[sig] += 1
-    return dict(battles=n, clean=clean, CBR=clean / max(n, 1), TMR=num / max(den, 1),
+    cov = collections.Counter()
+    for r in results:
+        cov.update(r.get("kinds", {}))
+    return dict(battles=n, clean=clean, coverage=dict(sorted(cov.items())), CBR=clean / max(n, 1), TMR=num / max(den, 1),
                 MPR=mask_ok / max(mask_n, 1) if mask_n else None,
                 error_rate=sum(1 for r in results if r["category"] == "ERROR") / max(n, 1),
                 draw_failures=sum(1 for r in results if r["category"] in ("DRAW_ARGS", "DRAW_MISMATCH")),

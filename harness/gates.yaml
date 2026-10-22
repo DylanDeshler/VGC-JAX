@@ -1,0 +1,19 @@
+# Milestone gates (07 §12.1, 10). PROTECTED (ADR-029): thresholds, corpus composition and sizes, coverage goals.
+G-core:
+  corpus:
+    - {source: "stage:core", policy: random, battles: 50000, legal: on}
+  thresholds: {CBR: 0.995, MPR: 1.0, DPR: 1.0, error_rate: 0.0}
+  coverage:
+    min_hits: 50
+    kinds: [ACCURACY, CRIT, DAMAGE_ROLL, MULTIHIT_COUNT, RANDOM_TARGET, SECONDARY,
+            SPEED_TIE_SELECT, SPEED_TIE_SWITCHIN, SPEED_TIE_FIELD_EVENT]
+G-v0:
+  corpus:
+    - {source: "pool-B:v0", policy: random, battles: 200000, legal: 0.1}
+    - {source: "coverage:v0", policy: random, battles: 100000, legal: 0.1}
+    - {source: "real_sheets_mc_v1:v0", policy: [random, heuristic], per_team: 10, legal: on}
+  thresholds: {CBR: 0.99, CBR_steered: 0.98, MPR: 0.9999, DPR: 0.999, error_rate: 0.0}
+G-v1:
+  thresholds: {CBR: 0.995, CBR_steered: 0.99, MPR: 0.9999, DPR: 0.999, error_rate: 0.0}
+G-v2:
+  thresholds: {CBR: 0.999, CBR_steered: 0.995, MPR: 1.0, DPR: 0.9999, error_rate: 0.0}

@@ -1,0 +1,11 @@
+{
+ "_doc": "07 §6 legal-set canonicalisation and ADR-007 state-irrelevant canonicalisations. PROTECTED (ADR-029).",
+ "legal_sets": {
+  "locked_move": "move 1, no target, no mega (engine a = 0)",
+  "non_choosable_target": "no target (engine t = 0)",
+  "mega_on_locked_or_struggle": "treated as no-mega",
+  "switch_N": "brought index via current PS party order",
+  "hidden_info": "engine forbids + PS offers under maybeTrapped/maybeDisabled counts as a match only if PS rejects with [Unavailable choice]"
+ },
+ "oracle_canonical_dontcare": {"QUEUE_INSERT_TIE": "lastIndex (ADR-101, pending human review)"}
+}

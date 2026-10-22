@@ -1,0 +1,4 @@
+{
+ "_doc": "Coverage waivers (07 §9.3). Each needs a probe under oracle/tools/probes/ and an ADR. PROTECTED (ADR-029): only added with human approval.",
+ "waivers": []
+}

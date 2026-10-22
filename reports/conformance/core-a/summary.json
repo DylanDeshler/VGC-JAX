@@ -1,12 +1,22 @@
 {
- "battles": 2000,
- "clean": 2000,
+ "battles": 300,
+ "clean": 300,
+ "coverage": {
+  "ACCURACY": 3550,
+  "CRIT": 8699,
+  "DAMAGE_ROLL": 8699,
+  "FORCED_SWITCH_PICK": 115,
+  "MULTIHIT_COUNT": 158,
+  "SECONDARY": 3723,
+  "SPEED_TIE_SELECT": 98,
+  "SPEED_TIE_SWITCHIN": 177
+ },
  "CBR": 1.0,
  "TMR": 1.0,
  "MPR": 1.0,
  "error_rate": 0.0,
  "draw_failures": 0,
  "buckets": {},
- "seconds": 218.6,
+ "seconds": 208.9,
  "trace_dir": "traces/core-a"
 }

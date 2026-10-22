@@ -1,0 +1,9 @@
+{
+ "_doc": "07 §5.1 canonical projection: compared fields. Every listed field must be equal at every decision point and at the end. PROTECTED (ADR-029).",
+ "battle": ["turn", "ended", "winner"],
+ "field": ["weather", "weatherState", "terrain", "terrainState", "pseudoWeather"],
+ "side": ["id", "pokemonLeft", "sideConditions", "slotConditions", "active", "pokemon"],
+ "pokemon": ["id", "b", "slot", "species", "types", "hp", "maxhp", "fainted", "status", "statusState", "boosts", "stats",
+             "volatiles", "item", "itemState", "lastItem", "ability", "abilityState", "moves", "canMegaEvo", "lastMove",
+             "trapped", "weightkg"]
+}

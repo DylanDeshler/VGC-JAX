@@ -100,6 +100,28 @@ def engine_to_json(st: S.State) -> dict:
     return out
 
 
+import json as _json
+import pathlib as _pl
+
+FIELDS = _json.loads((_pl.Path(__file__).resolve().parent / "contract" / "projection_fields.json").read_text())
+
+
+def restrict(proj: dict) -> dict:
+    """Keep only the protected compared fields (harness/contract/projection_fields.json)."""
+    out = {k: proj.get(k) for k in FIELDS["battle"]}
+    out["field"] = {k: (proj.get("field") or {}).get(k) for k in FIELDS["field"]}
+    out["sides"] = []
+    for s in proj.get("sides", []):
+        side = {k: s.get(k) for k in FIELDS["side"] if k != "pokemon"}
+        side["pokemon"] = [{k: p.get(k) for k in FIELDS["pokemon"]} for p in s.get("pokemon", [])]
+        out["sides"].append(side)
+    return out
+
+
+def compare(engine: dict, ps: dict):
+    return diff(restrict(engine), restrict(ps))
+
+
 def normalise_ps(proj: dict) -> dict:
     """PS-side normalisations that the comparison applies (07 §5.4): fainted-in-slot labels, monLabel quirks."""
     return proj
