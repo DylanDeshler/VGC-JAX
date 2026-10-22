@@ -6,6 +6,9 @@
 const { Battle, State, Teams, Dex, FORMAT } = require('./ps');
 const tr = require('./trace');
 const { InstrumentedPRNG } = require('./rng');
+const fs = require('fs');
+const path = require('path');
+const toID = s => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
 const ZERO_SEED = 'sodium,' + '0'.repeat(32);
 const unpack = t => (typeof t === 'string' ? Teams.unpack(t) : t);
@@ -294,8 +297,9 @@ function replay(params) {
 	};
 	const n = params.until ?? params.choices.length;
 	const out = tr.driveTraced({ ...b, choose: null, script: params.choices, stopAfter: n });
-	return { decisions: out.decisions, final: out.final, forcing: f.stats,
-		snapshot: params.return_snapshot ? tr.snapshotOf(b.battle) : undefined };
+	return { decisions: out.decisions, final: out.final, forcing: f.stats, rejected: out.rejected,
+		snapshot: params.return_snapshot ? tr.snapshotOf(b.battle) : undefined,
+		projection_after: params.project_after ? require('./project').projectBattle(b.battle) : undefined };
 }
 
 // ------------------------------------------------------------------ craft (minimal, 07 §7)
@@ -337,6 +341,94 @@ function craft(sc) {
 	nb.battle.eachEvent('Update');
 	nb.battle.makeRequest('move');
 	return { snapshot: tr.snapshotOf(nb.battle), normalisation_log: nb.battle.log.slice(logStart) };
+}
+
+// ------------------------------------------------------------------ edit_snapshot (shrinking, 07 §10.2)
+/**
+ * params: {snapshot, edits: [{side, b, op: 'hp_full' | 'no_item' | 'ability' | 'faint_bench' | 'move', value?, slot?}]}
+ * Applies edits through PS APIs on a deserialized battle (keeps derived fields consistent), normalises with one
+ * eachEvent('Update') pass and returns {snapshot}. Edits that PS rejects are skipped and reported.
+ */
+function editSnapshot({ snapshot, edits }) {
+	const b = tr.fromSnapshot(snapshot);
+	const battle = b.battle;
+	const ident = battle.__ident;
+	const skipped = [];
+	for (const e of edits) {
+		const species = ident.brought[e.side][e.b].species;
+		const p = battle.sides[e.side].pokemon.find(x => x.set.species === species);
+		if (!p) { skipped.push(e); continue; }
+		if (e.op === 'hp_full') { if (p.hp > 0) p.hp = p.maxhp; } else if (e.op === 'no_item') {
+			if (battle.dex.items.get(p.item).megaStone) { skipped.push(e); continue; }
+			p.item = ''; p.itemState = battle.initEffectState({ id: '', target: p });
+		} else if (e.op === 'ability') {
+			p.baseAbility = p.ability = battle.toID(e.value); p.set.ability = e.value;
+			p.abilityState = battle.initEffectState({ id: p.ability, target: p });
+		} else if (e.op === 'faint_bench') {
+			if (p.isActive || p.fainted) { skipped.push(e); continue; }
+			p.hp = 0; p.fainted = true; p.status = 'fnt'; battle.sides[e.side].pokemonLeft--;
+		} else if (e.op === 'move') {
+			const mv = battle.dex.moves.get(e.value);
+			const slot = { move: mv.name, id: mv.id, pp: p.moveSlots[e.slot].pp, maxpp: p.moveSlots[e.slot].maxpp,
+				target: mv.target, disabled: false, disabledSource: '', used: false };
+			p.moveSlots[e.slot] = slot; p.baseMoveSlots[e.slot] = slot; p.set.moves[e.slot] = mv.name;
+		} else { skipped.push(e); }
+	}
+	for (const side of battle.sides) side.activeRequest = null;
+	const req = battle.requestState;
+	battle.eachEvent('Update');
+	if (!battle.ended) battle.makeRequest(req);
+	return { snapshot: tr.snapshotOf(battle), skipped };
+}
+
+/**
+ * Candidate edits for the shrinker (07 §10.2), most reducing first. params: {snapshot, choices: [c1, c2], stage}.
+ * Moves chosen at this decision are protected; replaced moves become a neutral stage move ('splash' if the stage has
+ * it, else the first self-targeting Status move without boosts / volatile / side effects, else any self-targeting
+ * Status move; a replaced move is never selected at this decision, so only its presence matters). Abilities become a
+ * core-inert ability the species can legally have (tools/datagen/core_inert.json), else stay.
+ */
+function shrinkCandidates({ snapshot, choices, stage = 'core' }) {
+	const root = path.join(__dirname, '..', '..');
+	const st = JSON.parse(fs.readFileSync(path.join(root, 'data', 'export', 'stages', `${stage}.json`), 'utf8'));
+	const legal = JSON.parse(fs.readFileSync(path.join(root, 'data', 'export', 'legal_pool.json'), 'utf8'));
+	const inert = JSON.parse(fs.readFileSync(path.join(root, 'tools', 'datagen', 'core_inert.json'), 'utf8')).abilities;
+	const b = tr.fromSnapshot(snapshot);
+	const battle = b.battle;
+	const dex = battle.dex;
+	const neutral = st.moves.includes('splash') ? 'splash' : st.moves.find(id => {
+		const m = dex.moves.get(id);
+		return m.category === 'Status' && m.target === 'self' && !m.boosts && !m.volatileStatus && !m.self &&
+			!m.sideCondition && !m.weather && !m.terrain && !m.pseudoWeather && !m.heal && !m.selfSwitch && !m.flags.charge;
+	}) || st.moves.find(id => dex.moves.get(id).category === 'Status' && dex.moves.get(id).target === 'self') || st.moves[0];
+	const ident = battle.__ident;
+	const protect = new Set();
+	battle.sides.forEach((side, s) => {
+		(choices[s] || '').split(',').forEach((part, i) => {
+			const t = part.trim().split(/\s+/);
+			const p = side.active[i];
+			if (t[0] === 'move' && p) protect.add(`${s}:${p.set.species}:${Number(t[1]) - 1}`);
+		});
+	});
+	const moves = []; const items = []; const abilities = []; const bench = []; const hp = [];
+	ident.brought.forEach((row, s) => row.forEach((e, bi) => {
+		const p = battle.sides[s].pokemon.find(x => x.set.species === e.species);
+		if (!p) return;
+		const side = s; const at = bi;
+		p.moveSlots.forEach((m, slot) => {
+			if (neutral && m.id !== neutral && !protect.has(`${s}:${p.set.species}:${slot}`)) {
+				moves.push({ side, b: at, op: 'move', slot, value: neutral });
+			}
+		});
+		if (p.item && !dex.items.get(p.item).megaStone) items.push({ side, b: at, op: 'no_item' });
+		const sp = legal.species[toID(p.set.species)];
+		const legalAbs = sp ? sp.abilities.map(a => a.id) : [];
+		const a = inert.find(x => legalAbs.includes(x));
+		if (a && a !== p.baseAbility && !dex.items.get(p.item).megaStone) abilities.push({ side, b: at, op: 'ability', value: a });
+		if (!p.isActive && !p.fainted) bench.push({ side, b: at, op: 'faint_bench' });
+		if (p.hp > 0 && p.hp < p.maxhp) hp.push({ side, b: at, op: 'hp_full' });
+	}));
+	return { candidates: [...moves, ...items, ...abilities, ...bench, ...hp], neutral_move: neutral || null };
 }
 
 // ------------------------------------------------------------------ damage
@@ -433,5 +525,5 @@ function traceEvents(params) {
 }
 
 module.exports = {
-	traceEvents, installEventTracer, typechart, resolvePriority, fixedpoint, stats, sortActions, legal, legalForBattle, slotActionString, replay, makeForcing, craft,
+	traceEvents, installEventTracer, typechart, resolvePriority, editSnapshot, shrinkCandidates, fixedpoint, stats, sortActions, legal, legalForBattle, slotActionString, replay, makeForcing, craft,
 	damage, keyStr, tieKeyStr };

@@ -65,6 +65,8 @@ const METHODS = {
 	legal: p => support.legal(p),
 	replay: p => support.replay(p),
 	craft: p => support.craft(p),
+	edit_snapshot: p => support.editSnapshot(p),
+	shrink_candidates: p => support.shrinkCandidates(p),
 	damage: p => support.damage(p),
 	trace_events: p => support.traceEvents(p),
 

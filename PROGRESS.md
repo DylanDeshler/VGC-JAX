@@ -63,6 +63,10 @@ Comparison-quality work (2026-10-22)
 - heuristic policy (M3.8b); 2000 heuristic core battles clean
 - don't-care re-validation (07 §4.3): all kinds 0 state impact in 4000 battles except QUEUE_INSERT_TIE (1/424),
   evidence appended to ADR-101
+- M3.9 shrinker (harness/shrink.py; oracle RPCs edit_snapshot, shrink_candidates, replay project_after): greedy
+  PS+engine reduction, kept iff the signature persists; canary fixtures shrink 32 -> 3-4 moves, empty bench, full HP,
+  ~1.5 s each. Fixtures carry `entities` (triage hint); STATE signatures erase mon indices. Condition removal waits
+  for v0 conditions.
 
 ## Last T2/T3 run
 local conformance runs (not formal gate runs), PS d601443, contract_version 1:
@@ -104,8 +108,8 @@ none
 not yet created (harness/contract/* is written in M2.8)
 
 ## Next 3 tasks
-1. Infrastructure while the gate checkpoint is pending: M3.9 reduction loop (shrinker), M3.8 coverage steering +
-   `--require`, M3.8b random-weighted/heuristic policies, M5.1-M5.4 env API
+1. Infrastructure while the gate checkpoint is pending: M3.8 coverage-steering deficit scores + crafted templates,
+   engine PublicEvents (obs.events), distribution tests (07 §11), `harness.cli replay --fixtures` (auto-emit + shrink)
 2. After acknowledgement: M3.2 handler classification, then M3.3-M3.7 content (conditions, statuses, Protect, Mega,
    mid-turn switch family) using effects/hooks.py
 3. MUL-hook tie records (hooks.py TODO) with the first MUL content
