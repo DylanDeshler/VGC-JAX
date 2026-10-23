@@ -85,35 +85,31 @@ def check_win(st: S.State, last_ref, on) -> S.State:
 
 def resolve_faints(st: S.State, dex, on, check_win_if_no_faints=False, do_check_win=True,
                    clear_volatile_fn=None) -> S.State:
-    """PS: sim/battle.ts:2561-2657 resolveFaints (gen 9 path), fori over the faint queue."""
+    """PS: sim/battle.ts:2561-2657 resolveFaints (gen 9 path) over the whole faint queue at once: queued refs are
+    distinct, the per-side counters are additive, and 'faint' messages keep queue order."""
+    from vgcjax.battle.switching import clear_volatile_many
     on = jnp.asarray(on) & (st.meta.phase != S.DONE)
-    n0 = st.meta.faint_queue_len.astype(I32)
-
-    def body(k, c):
-        st, last = c
-        meta = st.meta
-        m = st.mons
-        live_k = on & (k < n0)
-        ref = meta.faint_queue[k].astype(I32)
-        last = jnp.where(live_k, ref, last)
-        do = live_k & ~mget(m.fainted, ref)   # BeforeFaint: no handlers yet
-        st = EV.emit(st, do, EV.EV_FAINT, actor=ref)        # PS: sim/battle.ts:2598 add("faint", pokemon)
-        sd = side_of(ref)
-        sides = st.sides
-        left = sides.pokemon_left
-        left = left.at[sd].set(jnp.where(do & (left[sd] > 0), left[sd] - 1, left[sd]))
-        tf = sides.total_fainted.at[sd].set(jnp.where(do & (sides.total_fainted[sd] < 100), sides.total_fainted[sd] + 1,
-                                                      sides.total_fainted[sd]))
-        ftt = sides.fainted_this_turn.at[sd].set(jnp.where(do, True, sides.fainted_this_turn[sd]))
-        st = st.replace(sides=sides.replace(pokemon_left=left, total_fainted=tf, fainted_this_turn=ftt))
-        # Faint event, ability/item End: hooks in M3
-        st = clear_volatile_fn(st, dex, ref, False, do)
-        m = st.mons
-        st = st.replace(mons=m.replace(fainted=mset(m.fainted, ref, True, do), is_active=mset(m.is_active, ref, False, do),
-                                       is_started=mset(m.is_started, ref, False, do)))
-        return st, last
-
-    st, last = jax.lax.fori_loop(0, S.FAINTQ, body, (st, jnp.int32(-1)))
+    meta = st.meta
+    n0 = meta.faint_queue_len.astype(I32)
+    refs = meta.faint_queue.astype(I32)
+    live = on & (jnp.arange(S.FAINTQ) < n0) & (refs >= 0)
+    do = live & ~mget(st.mons.fainted, refs)             # BeforeFaint: no handlers yet
+    for k in range(S.FAINTQ):
+        st = EV.emit(st, do[k], EV.EV_FAINT, actor=refs[k])     # PS: sim/battle.ts:2598 add("faint", pokemon)
+    side = side_of(jnp.clip(refs, 0, 7))
+    cnt = jnp.stack([jnp.sum((do & (side == s)).astype(I32)) for s in range(2)])
+    sides = st.sides
+    st = st.replace(sides=sides.replace(
+        pokemon_left=jnp.maximum(sides.pokemon_left.astype(I32) - cnt, 0).astype(sides.pokemon_left.dtype),
+        total_fainted=jnp.minimum(sides.total_fainted.astype(I32) + cnt, 100).astype(sides.total_fainted.dtype),
+        fainted_this_turn=sides.fainted_this_turn | (cnt > 0)))
+    # Faint event, ability/item End: hooks in M3
+    st = clear_volatile_many(st, dex, refs, False, do)
+    m = st.mons
+    st = st.replace(mons=m.replace(fainted=mset_many(m.fainted, refs, True, do),
+                                   is_active=mset_many(m.is_active, refs, False, do),
+                                   is_started=mset_many(m.is_started, refs, False, do)))
+    last = jnp.where(n0 > 0, refs[jnp.clip(n0 - 1, 0, S.FAINTQ - 1)], -1)
     meta = st.meta
     st = st.replace(meta=meta.replace(faint_queue=jnp.where(on, jnp.full(S.FAINTQ, -1, I8), meta.faint_queue),
                                       faint_queue_len=jnp.where(on, 0, meta.faint_queue_len).astype(I8)))

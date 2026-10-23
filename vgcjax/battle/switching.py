@@ -9,7 +9,7 @@ from vgcjax.battle import events as EV
 from vgcjax.battle import faint as F
 from vgcjax.battle import queue as Q
 from vgcjax.battle import state as S
-from vgcjax.battle.util import mget, mset
+from vgcjax.battle.util import mget, mset, mset_many
 from vgcjax.core import rng as R
 from vgcjax.core import stats as ST
 from vgcjax.data import ids
@@ -17,40 +17,50 @@ from vgcjax.data import ids
 I8, I16, I32 = jnp.int8, jnp.int16, jnp.int32
 
 
-def set_species(st: S.State, dex, ref, species, on) -> S.State:
-    """PS: sim/pokemon.ts:1408-1441 setSpecies: species, types, weight, storedStats; speed = stored Spe."""
+def set_species_many(st: S.State, dex, refs, species, on) -> S.State:
+    """PS: sim/pokemon.ts:1408-1441 setSpecies for distinct refs [T]: species, types, weight, storedStats; speed =
+    stored Spe."""
     m = st.mons
+    refs = jnp.asarray(refs, I32)
     sp = jnp.asarray(species, I32)
-    nat = mget(m.nature, ref).astype(I32)
-    _, stats = ST.calc_stats(dex.species_base_stats[sp], mget(m.sp, ref).astype(I32), dex.nature_plus[nat],
+    nat = mget(m.nature, refs).astype(I32)
+    _, stats = ST.calc_stats(dex.species_base_stats[sp], mget(m.sp, refs).astype(I32), dex.nature_plus[nat],
                              dex.nature_minus[nat])
-    m = m.replace(species=mset(m.species, ref, sp, on), types=mset(m.types, ref, dex.species_types[sp], on),
-                  added_type=mset(m.added_type, ref, 0, on), weight_hg=mset(m.weight_hg, ref, dex.species_weight_hg[sp], on),
-                  stats=mset(m.stats, ref, stats, on), speed=mset(m.speed, ref, stats[4], on))
+    m = m.replace(species=mset_many(m.species, refs, sp, on), types=mset_many(m.types, refs, dex.species_types[sp], on),
+                  added_type=mset_many(m.added_type, refs, 0, on),
+                  weight_hg=mset_many(m.weight_hg, refs, dex.species_weight_hg[sp], on),
+                  stats=mset_many(m.stats, refs, stats, on), speed=mset_many(m.speed, refs, stats[:, 4], on))
     return st.replace(mons=m)
 
 
-def clear_volatile(st: S.State, dex, ref, include_switch_flags, on) -> S.State:
-    """[C] PS: data/mods/champions/scripts.ts:123-176 clearVolatile (also resets timesAttacked)."""
+def set_species(st: S.State, dex, ref, species, on) -> S.State:
+    return set_species_many(st, dex, jnp.asarray(ref, I32)[None], jnp.asarray(species, I32)[None],
+                            jnp.asarray(on)[None])
+
+
+def clear_volatile_many(st: S.State, dex, refs, include_switch_flags, on) -> S.State:
+    """[C] PS: data/mods/champions/scripts.ts:123-176 clearVolatile (also resets timesAttacked) for distinct refs [T]."""
     m = st.mons
-    on = jnp.asarray(on) & (jnp.asarray(ref) >= 0)
+    refs = jnp.asarray(refs, I32)
+    T = refs.shape[0]
+    on = jnp.broadcast_to(jnp.asarray(on), (T,)) & (refs >= 0)
     sw = on & jnp.asarray(include_switch_flags)
+    w = lambda arr, val, mask=on: mset_many(arr, refs, val, mask)  # noqa: E731
     m = m.replace(
-        boosts=mset(m.boosts, ref, jnp.zeros(7, I8), on),
-        ability=mset(m.ability, ref, mget(m.base_ability, ref), on),
-        vol_bits=mset(m.vol_bits, ref, jnp.zeros(S.WV, jnp.uint32), on),
-        vol_state=mset(m.vol_state, ref, jnp.zeros((S.NV, 6), I16), on),
-        switch_flag=mset(m.switch_flag, ref, 0, sw), force_switch_flag=mset(m.force_switch_flag, ref, False, sw),
-        last_move=mset(m.last_move, ref, 0, on), last_move_used=mset(m.last_move_used, ref, 0, on),
-        move_this_turn=mset(m.move_this_turn, ref, 0, on),
-        move_last_turn_result=mset(m.move_last_turn_result, ref, S.MR_UNDEF, on),
-        move_this_turn_result=mset(m.move_this_turn_result, ref, S.MR_UNDEF, on),
-        last_damage=mset(m.last_damage, ref, 0, on), hurt_this_turn=mset(m.hurt_this_turn, ref, -1, on),
-        newly_switched=mset(m.newly_switched, ref, True, on), being_called_back=mset(m.being_called_back, ref, False, on),
-        times_attacked=mset(m.times_attacked, ref, 0, on),
+        boosts=w(m.boosts, 0), ability=w(m.ability, mget(m.base_ability, refs)), vol_bits=w(m.vol_bits, 0),
+        vol_state=w(m.vol_state, 0), switch_flag=w(m.switch_flag, 0, sw), force_switch_flag=w(m.force_switch_flag, False, sw),
+        last_move=w(m.last_move, 0), last_move_used=w(m.last_move_used, 0), move_this_turn=w(m.move_this_turn, 0),
+        move_last_turn_result=w(m.move_last_turn_result, S.MR_UNDEF),
+        move_this_turn_result=w(m.move_this_turn_result, S.MR_UNDEF),
+        last_damage=w(m.last_damage, 0), hurt_this_turn=w(m.hurt_this_turn, -1), newly_switched=w(m.newly_switched, True),
+        being_called_back=w(m.being_called_back, False), times_attacked=w(m.times_attacked, 0),
     )
     st = st.replace(mons=m)
-    return set_species(st, dex, ref, mget(m.base_species, ref), on)
+    return set_species_many(st, dex, refs, mget(m.base_species, refs), on)
+
+
+def clear_volatile(st: S.State, dex, ref, include_switch_flags, on) -> S.State:
+    return clear_volatile_many(st, dex, jnp.asarray(ref, I32)[None], include_switch_flags, jnp.asarray(on)[None])
 
 
 def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_drag=False):
@@ -125,14 +135,14 @@ def switchin_ties(st: S.State, rng: R.Rng, on):
     earlier_same = (spd[None, :] == spd[:, None]) & occ[None, :] & (js[None, :] < js[:, None])
     grp_first = occ & (count >= 2) & ~jnp.any(earlier_same, axis=1)
 
-    def body(k, rng):
-        higher = (spd > spd[k]) & grp_first                  # tie groups with strictly higher speed
-        ord_k = jnp.sum(higher.astype(I32))
-        mem = occ & (spd == spd[k])
-        _, rng = R.tie_order(rng, _tkey(st, ids.DK_SPEED_TIE_SWITCHIN, sub, ord_k), jnp.clip(refs, 0, 7), mem,
-                             active=jnp.asarray(on) & grp_first[k])
-        return rng
-    return jax.lax.fori_loop(0, 4, body, rng)
+    # group index = number of tie groups with strictly higher speed; 4 occupants form at most 2 groups of size >= 2
+    gord = jnp.sum(((spd[None, :] > spd[:, None]) & grp_first[None, :]).astype(I32), axis=1)
+    for g in range(2):
+        sel = grp_first & (gord == g)
+        k = jnp.argmax(sel)
+        _, rng = R.tie_order(rng, _tkey(st, ids.DK_SPEED_TIE_SWITCHIN, sub, g), jnp.clip(refs, 0, 7),
+                             occ & (spd == spd[k]), active=jnp.asarray(on) & jnp.any(sel))
+    return rng
 
 
 def _tkey(st, kind, sub, ord_):

@@ -24,6 +24,7 @@ from vgcjax.data import ids
 
 I8, I16, I32 = jnp.int8, jnp.int16, jnp.int32
 NA, NB = 10, 8
+NPHAZE = 2
 LIGHT = (S.Q_BEFORE_TURN, S.Q_START, S.Q_SWITCH, S.Q_INSTASWITCH, S.Q_RUN_SWITCH, S.Q_MEGA, S.Q_BEFORE_TURN_MOVE,
          S.Q_PRIORITY_CHARGE, S.Q_REVIVAL)
 ACTION_NAME = {S.Q_BEFORE_TURN: "beforeTurn", S.Q_START: "start", S.Q_SWITCH: "switch", S.Q_INSTASWITCH: "instaswitch",
@@ -55,7 +56,6 @@ def entry_step_ctx(st, kind, ref, move_id, is_move):
 def commit_preview(st, dex, a, on):
     """PS: commitChoices for team preview, then runAction('team') x8 and queue [start]."""
     st2 = INIT.apply_preview(st, dex, a)
-    st2 = Q.add_entry(st2, True, kind=S.Q_START, speed=1)
     meta = st2.meta
     st2 = st2.replace(meta=meta.replace(mid_turn=jnp.asarray(True), phase=jnp.asarray(S.MOVE, I8)))
     from vgcjax.battle.util import tree_where
@@ -162,15 +162,7 @@ def run_light(st, dex, rng, cfg, idx, on):
     b = q.actor_b[idx].astype(I32)
     ref = jnp.where(b >= 0, side * 4 + b, -1)
     on = jnp.asarray(on)
-    # start: leads switch in (PS :2723-2756)
-    is_start = on & (kind == S.Q_START)
-    sides = st.sides
-    st = st.replace(sides=sides.replace(pokemon_left=jnp.where(is_start & (sides.pokemon_left > 0), 4,
-                                                               sides.pokemon_left).astype(I8)))
-    def lead(i, c):
-        st, rng = c
-        return SW.switch_in(st, dex, rng, i // 2, i % 2, i % 2, is_start)
-    st, rng = jax.lax.fori_loop(0, 4, lead, (st, rng))
+    # start runs once, outside the action loops (run_start)
     # switch / instaswitch (PS :2814-2820): switchIn(target, pokemon.position, sourceEffect)
     is_sw = on & ((kind == S.Q_SWITCH) | (kind == S.Q_INSTASWITCH))
     pos = MP.position(st, ref)
@@ -185,6 +177,23 @@ def run_light(st, dex, rng, cfg, idx, on):
     return st, rng
 
 
+def run_start(st, dex, rng, on):
+    """The `start` action queued by team preview (PS: sim/battle.ts:2723-2756: leads switch in, p1a p1b p2a p2b),
+    run directly after the preview commit instead of inside the action loops (it is the queue's only entry then),
+    followed by its runAction tail. Returns (st, rng)."""
+    on = jnp.asarray(on)
+    st = C.set_step(st, STEP_TAG[S.Q_START], -1, C.eff_action("start"), 0, on)
+    sides = st.sides
+    st = st.replace(sides=sides.replace(pokemon_left=jnp.where(on & (sides.pokemon_left > 0), 4,
+                                                               sides.pokemon_left).astype(I8)))
+
+    def lead(i, c):
+        st, rng = c
+        return SW.switch_in(st, dex, rng, i // 2, i % 2, i % 2, on)
+    st, rng = jax.lax.fori_loop(0, 4, lead, (st, rng))
+    return post_action(st, dex, rng, S.Q_START, on)
+
+
 def run_move_entry(st, dex, rng, cfg, idx, on):
     q = st.queue
     return MP.run_move(st, dex, rng, cfg, q.side[idx], q.actor_b[idx], q.move_slot[idx], q.move_id[idx],
@@ -194,18 +203,21 @@ def run_move_entry(st, dex, rng, cfg, idx, on):
 def post_action(st, dex, rng, kind, on):
     """PS runAction tail (sim/battle.ts:2861-2986; 04 §7.9). Returns (st, rng)."""
     on = jnp.asarray(on) & (st.meta.phase != S.DONE)
-    # (a) phazing in p1a, p1b, p2a, p2b order
-    def phaze(i, c):
-        st, rng = c
-        side, slot = i // 2, i % 2
-        b = st.sides.active[side, slot].astype(I32)
-        r = side * 4 + jnp.maximum(b, 0)
+    # (a) phazing in p1a, p1b, p2a, p2b order. One action flags at most NPHAZE slots (forceSwitch moves are
+    #     single-target; Red Card on spread targets is the multi-flag case), so the first NPHAZE flagged slots are
+    #     dragged in order; more raise ERR_OVERFLOW_PHAZE.
+    def flagged(st):
+        act = st.sides.active.reshape(4).astype(I32)
+        refs = (jnp.arange(4) // 2) * 4 + jnp.maximum(act, 0)
+        return on & (act >= 0) & mget(st.mons.force_switch_flag, refs), refs
+    for _ in range(NPHAZE):
+        fl, refs = flagged(st)
+        i = jnp.argmax(fl)
+        go, r = jnp.any(fl), refs[i]
+        st, rng = SW.drag_in(st, dex, rng, i // 2, i % 2, go & (mget(st.mons.hp, r) > 0))
         m = st.mons
-        fl = on & (b >= 0) & mget(m.force_switch_flag, r)
-        st, rng = SW.drag_in(st, dex, rng, side, slot, fl & (mget(m.hp, r) > 0))
-        m = st.mons
-        return st.replace(mons=m.replace(force_switch_flag=mset(m.force_switch_flag, r, False, fl))), rng
-    st, rng = jax.lax.fori_loop(0, 4, phaze, (st, rng))
+        st = st.replace(mons=m.replace(force_switch_flag=mset(m.force_switch_flag, r, False, go)))
+    st = or_flag(st, E.ERR_OVERFLOW_PHAZE, jnp.any(flagged(st)[0]))
     # (b) faints + win
     st = F.resolve_faints(st, dex, on, check_win_if_no_faints=True, clear_volatile_fn=SW.clear_volatile)
     on = on & (st.meta.phase != S.DONE)
@@ -372,6 +384,7 @@ def _step(st: S.State, actions, key, cfg, dex, forced):
     st, actions = actions
     slots = [(actions[s] // 29, actions[s] % 29) for s in range(2)]
     st = commit_preview(st, dex, actions, (phase == S.PREVIEW) & ~done)
+    st, rng = run_start(st, dex, rng, (phase == S.PREVIEW) & ~done)
     st, rng = commit_move(st, dex, rng, slots, (phase == S.MOVE) & ~done)
     st = commit_switch(st, dex, slots, (phase == S.SWITCH) & ~done)
     st = st.replace(meta=st.meta.replace(phase=jnp.where((phase == S.SWITCH) & ~done, S.MOVE, st.meta.phase).astype(I8)))
