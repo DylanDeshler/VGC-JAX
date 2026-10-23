@@ -23,7 +23,7 @@ NPW = ids.PW_END - ids.PW_BASE
 WV = (NV + 31) // 32
 
 # phases (03 §4.1)
-PREVIEW, MOVE, SWITCH, DONE = 0, 1, 2, 3
+PREVIEW, MOVE, SWITCH, DONE, CONT = 0, 1, 2, 3, 4   # CONT: mid-turn work left, no decision (ADR-104 option 4)
 # queue kinds (03 §4.5)
 Q_NONE, Q_BEFORE_TURN, Q_BEFORE_TURN_MOVE, Q_REVIVAL, Q_SWITCH, Q_INSTASWITCH, Q_RUN_SWITCH, Q_MEGA, \
     Q_PRIORITY_CHARGE, Q_MOVE, Q_RESIDUAL, Q_START = range(12)
@@ -200,6 +200,47 @@ class Events:
 
 
 @struct.dataclass
+class Exec:
+    """A move in progress across micro-steps (ADR-104 option 4): what runMove / useMove / trySpreadMoveHit / the
+    Champions hit loop keep on their stacks between hits (vgcjax/battle/move_pipeline.py move_begin/hit/end)."""
+    in_move: jax.Array             # bool
+    u: jax.Array                   # i32 user ref
+    move: jax.Array                # i32 MoveId
+    targets: jax.Array             # i32[3] refs (-1 none)
+    tv: jax.Array                  # bool[3] targets left after immunity / accuracy
+    spread: jax.Array              # bool spread modifier
+    smart: jax.Array               # bool smartTarget still active
+    spread_hit: jax.Array          # bool move.spreadHit
+    on_rm: jax.Array               # bool runMove ran
+    go_rm: jax.Array               # bool useMove ran (PP ok)
+    go_um: jax.Array               # bool useMove got past the fainted / no-target checks
+    has_t: jax.Array               # bool getMoveTargets found targets
+    side_field: jax.Array          # bool side / field target (tryMoveHit path)
+    on_ts: jax.Array               # bool trySpreadMoveHit ran
+    on_hl: jax.Array               # bool the hit loop ran
+    fail_any: jax.Array            # bool atLeastOneFailure
+    hits: jax.Array                # i32 targetHits
+    multiacc: jax.Array            # bool
+    single: jax.Array              # bool one target
+    h: jax.Array                   # i32 next hit number (1-based)
+    hit_done: jax.Array            # i32 PS `hit` counter (1 + hits done)
+    stopped: jax.Array             # bool no more hits
+    null_damage: jax.Array         # bool
+    dt: jax.Array                  # i32[3] damage[] tags (results.py)
+    dv: jax.Array                  # i32[3] damage[] values
+    lt: jax.Array                  # i32[3] last moveDamage tags
+    lv: jax.Array                  # i32[3] last moveDamage values
+    total: jax.Array               # i32 move.totalDamage
+
+
+def empty_exec() -> Exec:
+    b, i, a3, b3 = _z((), bool), _z((), I32), _z(3, I32), _z(3, bool)
+    return Exec(in_move=b, u=i, move=i, targets=_z(3, I32, -1), tv=b3, spread=b, smart=b, spread_hit=b, on_rm=b,
+                go_rm=b, go_um=b, has_t=b, side_field=b, on_ts=b, on_hl=b, fail_any=b, hits=i, multiacc=b, single=b,
+                h=i, hit_done=i, stopped=_z((), bool, True), null_damage=b, dt=a3, dv=a3, lt=a3, lv=a3, total=i)
+
+
+@struct.dataclass
 class State:
     meta: Meta
     team: Team
@@ -209,6 +250,7 @@ class State:
     queue: Queue
     scratch: Scratch
     events: Events
+    exec: Exec
 
 
 def _z(shape, dt, fill=0):
@@ -265,4 +307,4 @@ def empty_state(team: Team) -> State:
                   pw_bits=_z((), U32), pw_state=_z((NPW, 3), I16))
     return State(meta=meta, team=team, sides=sides, mons=empty_mons(), field=field, queue=empty_queue(),
                  scratch=empty_scratch(), events=Events(buf=_z((NE, 8), I16), count=_z((), I32), step_start=_z((), I32),
-                                                       last_move=_z((), I32, -1)))
+                                                       last_move=_z((), I32, -1)), exec=empty_exec())

@@ -83,8 +83,7 @@ def check_win(st: S.State, last_ref, on) -> S.State:
     return st.replace(meta=meta)
 
 
-def resolve_faints(st: S.State, dex, on, check_win_if_no_faints=False, do_check_win=True,
-                   clear_volatile_fn=None) -> S.State:
+def resolve_faints(st: S.State, dex, on, check_win_if_no_faints=False, do_check_win=True) -> S.State:
     """PS: sim/battle.ts:2561-2657 resolveFaints (gen 9 path) over the whole faint queue at once: queued refs are
     distinct, the per-side counters are additive, and 'faint' messages keep queue order."""
     from vgcjax.battle.switching import clear_volatile_many

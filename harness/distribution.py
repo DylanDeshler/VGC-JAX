@@ -20,6 +20,7 @@ from scipy import stats as sstats
 
 from harness.oracle_client import default_client
 from harness.replay_one import split_battles
+from vgcjax.battle import state as S
 from vgcjax.battle import step as STEP
 from vgcjax.battle.snapshot import from_ps_snapshot
 from vgcjax.config import EngineConfig
@@ -62,7 +63,7 @@ def ps_samples(sc: dict, n: int, seed_base: str = "dist") -> np.ndarray:
 @functools.lru_cache(maxsize=None)
 def _vstep(cfg: EngineConfig):
     dex = load_dex(cfg.stage)
-    return jax.jit(jax.vmap(lambda st, a, k: STEP.step(st, a, k, cfg, dex)[0].mons.hp, in_axes=(None, None, 0)))
+    return jax.jit(jax.vmap(lambda st, a, k: STEP.step(st, a, k, cfg, dex)[0], in_axes=(0, None, 0)))
 
 
 def engine_samples(sc: dict, n: int, cfg: EngineConfig | None = None, seed: int = 0) -> np.ndarray:
@@ -72,7 +73,13 @@ def engine_samples(sc: dict, n: int, cfg: EngineConfig | None = None, seed: int 
     acts = jnp.asarray([ps_choice.parse_choice(dec["choices"][s], dec["requests"][s], np.asarray(st.sides.ps_order[s]),
                                                dec["phase"]) for s in range(2)], jnp.int32)
     keys = jax.random.split(jax.random.PRNGKey(seed), n)
-    return np.asarray(_vstep(cfg)(st, acts, keys), np.int64)   # [n, 2, 4]
+    f = _vstep(cfg)
+    sts = f(jax.tree_util.tree_map(lambda x: jnp.broadcast_to(x, (n,) + x.shape), st), acts, keys)
+    for i in range(64):                       # continuation calls (phase CONT) until the decision is reached
+        if not bool(jnp.any(sts.meta.phase == S.CONT)):
+            break
+        sts = f(sts, acts, jax.vmap(lambda k: jax.random.fold_in(k, i + 1))(keys))
+    return np.asarray(sts.mons.hp, np.int64)   # [n, 2, 4]
 
 
 def compare(ps: np.ndarray, eng: np.ndarray, min_count: int = 10) -> list[tuple[int, int, float]]:

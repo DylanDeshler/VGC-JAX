@@ -31,6 +31,7 @@ class EngineConfig:
     turn_cap_outcome: str = "tiebreak"  # 08 §5: tiebreak | draw | truncate
     preview_canonical: bool = True      # 08 §3: policy sees the canonical preview subset
     reward_01: bool = False             # 08 §5: 1/0 rewards instead of +1/-1
+    micro_steps: int = 8                # ADR-104 option 4: micro-steps per step call; longer turns continue (CONT)
     events: bool = True                 # 03 §4.7 PublicEvents (obs.events); off compiles every emit out (train
                                         # builds whose policy ignores events; ~15% fewer kernels per step)
 

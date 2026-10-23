@@ -77,3 +77,28 @@ flat (B = 65,536: 1.6 s per batched step), i.e. bound by the masked worst-case w
 8 move slots × 10 hits per step) and by loop-carried state copies. Above the 3×10⁴ minimum (stated for an H100),
 below the 10⁵ target; compile time is near the 120 s budget with core content only, and every later stage adds
 handler code inside the same loops.
+
+## Update 2026-10-23: option 4 implemented (human approved after the L40S run)
+Preparatory vectorisation (same technique as option 3): resolveFaints / clearVolatile over the whole faint queue,
+`start` run once after the preview commit instead of inside every loop pass, phazing bounded to 2 flagged slots
+(ERR_OVERFLOW_PHAZE): 76,414 → 32,243 kernel-like ops per step (events off).
+
+Then the control structure: Blocks A/B/C replaced by one `fori` of `EngineConfig.micro_steps` (P, default 8)
+micro-steps (vgcjax/battle/step.py `micro`). A micro-step selects the next queued action and runs it (light action,
+residual, or a move's preludes + first hit), or runs one more hit of the move in progress, which lives in
+`st.exec` between micro-steps (move_pipeline.py `move_begin` / `move_hit` / `move_end`); then the move tails, the
+runAction tail and end of turn. A turn that needs more than P micro-steps continues in the next `step` call with
+the new phase **CONT** (no decision for either player, legal masks pass-only, actions ignored); 08's API is
+unchanged otherwise (`has_decision` is already False there). NA / NB and their overflow flags are gone.
+
+| P | kernel-like ops per step (events off) | step calls ending at a decision | ops per decision |
+|---|---|---|---|
+| 1 | 5,356 | — | — |
+| 4 | 9,691 | 0.61 | ≈ 15,900 |
+| 6 | ≈ 12,400 | 0.81 | ≈ 15,300 |
+| 8 (default) | 15,231 | 0.99 | ≈ 15,400 |
+
+Per decision: 119,789 (original) → 32,243 (vectorised blocks) → ≈ 15,400 (micro-steps). CPU (B = 256, machine
+load 70–120 from other users' jobs, so indicative only): 5,215 decision-steps/s at P = 8 vs 2,930 before.
+Conformance: contract v2 corpus replayed at P = 1, 2 and 8: 100% CBR/TMR/MPR, events identical (spill-over is not
+observable; pinned by tests/harness/test_microsteps.py). Distribution tests pass.

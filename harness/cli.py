@@ -29,9 +29,10 @@ def _load(path):
     return [orjson.loads(l) for l in raw.splitlines() if l]
 
 
-def _cfg(stage, canary=False):
+def _cfg(stage, canary=False, micro_steps=None):
     from vgcjax.config import EngineConfig, Flags
-    return EngineConfig(stage=stage, forced=True, draw_log=True, flags=Flags(canary_crit_2048=canary))
+    cfg = EngineConfig(stage=stage, forced=True, draw_log=True, flags=Flags(canary_crit_2048=canary))
+    return cfg if micro_steps is None else cfg.replace(micro_steps=micro_steps)
 
 
 def _battle_at(files, index):
@@ -76,10 +77,10 @@ def emit_fixtures(files, results, n, out_dir, stage, canary=False):
 
 
 def _worker(args):
-    files, stage, w, nw, limit, check_masks, canary = args
+    files, stage, w, nw, limit, check_masks, canary, micro_steps = args
     os.environ.setdefault("JAX_PLATFORMS", "cpu")
     from harness.replay_one import replay_battle, split_battles
-    cfg = _cfg(stage, canary)
+    cfg = _cfg(stage, canary, micro_steps)
     out = []
     gi = 0
     import pathlib as _pl
@@ -158,7 +159,7 @@ def cmd_replay(a):
     t0 = time.time()
     ctx = mp.get_context("spawn")
     with ctx.Pool(a.workers) as pool:
-        parts = pool.map(_worker, [(files, a.stage, w, a.workers, a.limit, not a.no_masks, a.canary)
+        parts = pool.map(_worker, [(files, a.stage, w, a.workers, a.limit, not a.no_masks, a.canary, a.micro_steps)
                                     for w in range(a.workers)])
     results = sorted((r for p in parts for r in p), key=lambda r: r["index"])
     summ = summarize(results)
@@ -188,6 +189,7 @@ def main():
     r.add_argument("--fixtures", type=int, default=0)
     r.add_argument("--fixture-dir", default=None)
     r.add_argument("--canary", action="store_true")
+    r.add_argument("--micro-steps", type=int, default=None, help="EngineConfig.micro_steps (spill-over test: 1-2)")
     a = ap.parse_args()
     if a.cmd == "replay":
         cmd_replay(a)

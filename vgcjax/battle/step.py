@@ -1,7 +1,10 @@
-"""`step` (04 §2): apply both players' choices, then run until the next decision point or the end.
+"""`step` (04 §2): apply both players' choices, then run the turn until the next decision point or the end.
 
-Blocks: A = light (non-move) actions in PS order (bound NA); B = moves plus light entries that sort among them (bound
-NB), re-keyed before every move selection; C = residual + end of turn, at most once per step.
+Control structure (ADR-104 option 4): one `fori` of `cfg.micro_steps` micro-steps. A micro-step either selects the
+next queued action (light action, residual, or a move: its preludes and first hit) or runs one more hit of the move
+in progress (`st.exec`); then the move's tails if its hits are done, the runAction tail, and end of turn once the
+queue is drained. A turn that needs more micro-steps continues in the next `step` call with phase CONT (no decision
+for either player; actions are ignored).
 """
 from __future__ import annotations
 
@@ -23,12 +26,11 @@ from vgcjax.core import rng as R
 from vgcjax.data import ids
 
 I8, I16, I32 = jnp.int8, jnp.int16, jnp.int32
-NA, NB = 10, 8
 NPHAZE = 2
 LIGHT = (S.Q_BEFORE_TURN, S.Q_START, S.Q_SWITCH, S.Q_INSTASWITCH, S.Q_RUN_SWITCH, S.Q_MEGA, S.Q_BEFORE_TURN_MOVE,
          S.Q_PRIORITY_CHARGE, S.Q_REVIVAL)
 ACTION_NAME = {S.Q_BEFORE_TURN: "beforeTurn", S.Q_START: "start", S.Q_SWITCH: "switch", S.Q_INSTASWITCH: "instaswitch",
-               S.Q_RUN_SWITCH: "runSwitch", S.Q_MEGA: "megaEvo", S.Q_REVIVAL: "revivalblessing"}
+               S.Q_RUN_SWITCH: "runSwitch", S.Q_MEGA: "megaEvo", S.Q_REVIVAL: "revivalblessing", S.Q_RESIDUAL: "residual"}
 STEP_TAG = {S.Q_SWITCH: ids.STEP_A_SWITCH, S.Q_INSTASWITCH: ids.STEP_A_SWITCH, S.Q_MEGA: ids.STEP_A_MEGA,
             S.Q_BEFORE_TURN: ids.STEP_A_OTHER, S.Q_BEFORE_TURN_MOVE: ids.STEP_A_OTHER, S.Q_REVIVAL: ids.STEP_A_OTHER,
             S.Q_PRIORITY_CHARGE: ids.STEP_A_OTHER, S.Q_START: ids.STEP_A_OTHER, S.Q_MOVE: ids.STEP_B_MOVE,
@@ -170,6 +172,8 @@ def run_light(st, dex, rng, cfg, idx, on):
                            source_effect=q.source_effect[idx])
     # runSwitch (batched)
     st, rng = SW.run_switch(st, dex, rng, [ref], on & (kind == S.Q_RUN_SWITCH))
+    # residual (PS :2851-2858)
+    st, rng = residual(st, dex, rng, on & (kind == S.Q_RESIDUAL))
     # beforeTurn: eachEvent('BeforeTurn') (hooks M3); megaEvo (M3.6); others unsupported in core
     unsupported = on & ((kind == S.Q_MEGA) | (kind == S.Q_BEFORE_TURN_MOVE) | (kind == S.Q_PRIORITY_CHARGE) |
                         (kind == S.Q_REVIVAL))
@@ -194,12 +198,6 @@ def run_start(st, dex, rng, on):
     return post_action(st, dex, rng, S.Q_START, on)
 
 
-def run_move_entry(st, dex, rng, cfg, idx, on):
-    q = st.queue
-    return MP.run_move(st, dex, rng, cfg, q.side[idx], q.actor_b[idx], q.move_slot[idx], q.move_id[idx],
-                       q.target_loc[idx], q.original_target[idx], on)
-
-
 def post_action(st, dex, rng, kind, on):
     """PS runAction tail (sim/battle.ts:2861-2986; 04 §7.9). Returns (st, rng)."""
     on = jnp.asarray(on) & (st.meta.phase != S.DONE)
@@ -219,7 +217,7 @@ def post_action(st, dex, rng, kind, on):
         st = st.replace(mons=m.replace(force_switch_flag=mset(m.force_switch_flag, r, False, go)))
     st = or_flag(st, E.ERR_OVERFLOW_PHAZE, jnp.any(flagged(st)[0]))
     # (b) faints + win
-    st = F.resolve_faints(st, dex, on, check_win_if_no_faints=True, clear_volatile_fn=SW.clear_volatile)
+    st = F.resolve_faints(st, dex, on, check_win_if_no_faints=True)
     on = on & (st.meta.phase != S.DONE)
     # (c) end-of-queue faint flags
     _, nk, anyv = Q.head(st.queue)
@@ -305,19 +303,19 @@ def end_turn(st, dex, cfg, on) -> S.State:
     return EV.emit(st, on & ~tie, EV.EV_TURN, v1=turn)                  # PS: sim/battle.ts:1802 add('turn', turn)
 
 
-# ------------------------------------------------------------------ run until decision
-def running(st):
-    return (st.meta.phase != S.DONE) & (st.meta.phase != S.SWITCH) & (st.meta.phase != S.PREVIEW)
+# ------------------------------------------------------------------ micro-steps
+def active(st):
+    """Mid-turn work may remain: the MOVE phase after a commit (mid_turn); not awaiting a decision, not ended."""
+    return (st.meta.phase == S.MOVE) & st.meta.mid_turn
 
 
-def exec_entry(st, dex, rng, cfg, on, allow_moves):
-    """Select and run one entry (light, or move when allowed), then the tail. Returns (st, rng)."""
-    on = jnp.asarray(on)
+def micro(st, dex, rng, cfg):
+    """One micro-step (module docstring). Returns (st, rng)."""
+    act = active(st)
     q = st.queue
     _, hk, anyv = Q.head(q)
-    is_move_head = hk == S.Q_MOVE
-    go = on & anyv & (hk != S.Q_RESIDUAL) & (allow_moves | ~is_move_head)
-    st = Q.rekey(st, dex, go & is_move_head)
+    go = act & ~st.exec.in_move & anyv
+    st = Q.rekey(st, dex, go & (hk == S.Q_MOVE))
     # tied entries share an order class, so the head's kind gives the step_tag of the SELECT tie record
     st = C.set_step(st, _lookup(STEP_TAG, hk, ids.STEP_COMMIT), -1, -1, 0, go)
     st, rng, idx, passes = Q.select(st, dex, rng, go)
@@ -327,49 +325,32 @@ def exec_entry(st, dex, rng, cfg, on, allow_moves):
     is_move = kind == S.Q_MOVE
     tag, actor, subj, aord = entry_step_ctx(st, kind, ref, q.move_id[idx], is_move)
     st = C.set_step(st, tag, actor, subj, aord, go)
-    run = go & passes
+    run = go & passes                     # early-returning actions skip runAction's tail too
     sc = st.scratch
     st = st.replace(scratch=sc.replace(move_actions=mset(sc.move_actions, ref, mget(sc.move_actions, ref) + 1,
                                                          run & is_move)))
     st, rng = run_light(st, dex, rng, cfg, idx, run & ~is_move)
-    if allow_moves:
-        st, rng = run_move_entry(st, dex, rng, cfg, idx, run & is_move)
-    st, rng = post_action(st, dex, rng, kind, run)
-    return st, rng
+    st, rng = MP.move_begin(st, dex, rng, cfg, q.side[idx], q.actor_b[idx], q.move_slot[idx], q.move_id[idx],
+                            q.target_loc[idx], q.original_target[idx], run & is_move)
+    st, rng = MP.move_hit(st, dex, rng, cfg)
+    move_done = st.exec.in_move & st.exec.stopped
+    st, rng = MP.move_end(st, dex, rng, cfg)
+    st, rng = post_action(st, dex, rng, kind, (run & ~is_move) | move_done)
+    # end of turn when the queue is drained and no move is in progress
+    return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~jnp.any(st.queue.valid)), rng
 
 
 def run_until_decision(st, dex, rng, cfg):
-    def block_a(i, carry):
-        s, r = carry
-        return exec_entry(s, dex, r, cfg, running(s), allow_moves=False)
-
-    def block_b(i, carry):
-        s, r = carry
-        return exec_entry(s, dex, r, cfg, running(s), allow_moves=True)
-
-    st, rng = jax.lax.fori_loop(0, NA, block_a, (st, rng))
-    st, rng = jax.lax.fori_loop(0, NB, block_b, (st, rng))
-    # overflow: something other than residual still queued while running
-    q = st.queue
-    _, hk, anyv = Q.head(q)
-    st = or_flag(st, E.ERR_OVERFLOW_BLOCK_B, running(st) & anyv & (hk != S.Q_RESIDUAL))
-    # Block C: residual + tail
-    do_res = running(st) & anyv & (hk == S.Q_RESIDUAL)
-    st = C.set_step(st, ids.STEP_RESIDUAL, -1, C.eff_action("residual"), 0, do_res)
-    q = st.queue
-    idx = jnp.argmax(q.valid & (q.kind == S.Q_RESIDUAL))
-    st = st.replace(queue=q.replace(valid=q.valid.at[idx].set(jnp.where(do_res, False, q.valid[idx]))))
-    st, rng = residual(st, dex, rng, do_res)
-    st, rng = post_action(st, dex, rng, S.Q_RESIDUAL, do_res)
-    # end of turn when the queue is empty and nothing is pending
-    q = st.queue
-    st = end_turn(st, dex, cfg, running(st) & ~jnp.any(q.valid))
-    return st, rng
+    st, rng = jax.lax.fori_loop(0, cfg.micro_steps, lambda i, c: micro(c[0], dex, c[1], cfg), (st, rng))
+    # work left for the next call: continuation phase (no decision)
+    pending = active(st) & (jnp.any(st.queue.valid) | st.exec.in_move)
+    return st.replace(meta=st.meta.replace(phase=jnp.where(pending, S.CONT, st.meta.phase).astype(I8))), rng
 
 
 # ------------------------------------------------------------------ step
 def step(st: S.State, actions, key, cfg, dex, forced: R.ForcedOutcomes | None = None):
-    """actions: i32[2] (PREVIEW: 0..359; MOVE/SWITCH: joint index slot0*29 + slot1). Returns (st', rng)."""
+    """actions: i32[2] (PREVIEW: 0..359; MOVE/SWITCH: joint index slot0*29 + slot1; ignored in CONT).
+    Returns (st', rng)."""
     with EV.enabled(cfg.events):
         return _step(st, actions, key, cfg, dex, forced)
 
@@ -377,17 +358,19 @@ def step(st: S.State, actions, key, cfg, dex, forced: R.ForcedOutcomes | None = 
 def _step(st: S.State, actions, key, cfg, dex, forced):
     log = R.DrawLog.empty(cfg.draw_log_size) if cfg.draw_log else None
     rng = R.make_rng(key, st.meta.step_counter, forced=forced if cfg.forced else None, log=log)
-    st = st.replace(events=st.events.replace(step_start=st.events.count))
+    cont = st.meta.phase == S.CONT
+    # PublicEvents "new this step" span a whole decision, continuation calls included
+    st = st.replace(events=st.events.replace(step_start=jnp.where(cont, st.events.step_start, st.events.count)))
     done = st.meta.phase == S.DONE
     phase = st.meta.phase
-    actions = REQ.sanitize(st, dex, jnp.asarray(actions, I32))
-    st, actions = actions
+    st, actions = REQ.sanitize(st, dex, jnp.asarray(actions, I32))
     slots = [(actions[s] // 29, actions[s] % 29) for s in range(2)]
     st = commit_preview(st, dex, actions, (phase == S.PREVIEW) & ~done)
     st, rng = run_start(st, dex, rng, (phase == S.PREVIEW) & ~done)
     st, rng = commit_move(st, dex, rng, slots, (phase == S.MOVE) & ~done)
     st = commit_switch(st, dex, slots, (phase == S.SWITCH) & ~done)
-    st = st.replace(meta=st.meta.replace(phase=jnp.where((phase == S.SWITCH) & ~done, S.MOVE, st.meta.phase).astype(I8)))
+    st = st.replace(meta=st.meta.replace(phase=jnp.where(((phase == S.SWITCH) | cont) & ~done, S.MOVE,
+                                                         st.meta.phase).astype(I8)))
     st, rng = run_until_decision(st, dex, rng, cfg)
     meta = st.meta
     st = st.replace(meta=meta.replace(step_counter=meta.step_counter + 1, error_flags=meta.error_flags | rng.err))

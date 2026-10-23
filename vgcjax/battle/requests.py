@@ -129,7 +129,7 @@ def sanitize(st, dex, actions):
         in_preview = phase == S.PREVIEW
         ok_prev = (a >= 0) & (a < 360)
         ok_joint = (a >= 0) & (a < NA * NA) & jl[s, jnp.clip(a, 0, NA * NA - 1)]
-        ok = jnp.where(in_preview, ok_prev, jnp.where(phase == S.DONE, True, ok_joint))
+        ok = jnp.where(in_preview, ok_prev, jnp.where((phase == S.DONE) | (phase == S.CONT), True, ok_joint))
         first = jnp.argmax(jl[s])
         out.append(jnp.where(ok, a, jnp.where(in_preview, 0, first)))
         bad_any = bad_any | ~ok

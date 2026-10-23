@@ -18,12 +18,16 @@ from harness import project as P
 from vgcjax.battle import errors as E
 from vgcjax.battle import init as INIT
 from vgcjax.battle import requests as REQ
+from vgcjax.battle import state as S
 from vgcjax.battle import step as STEP
 from vgcjax.config import EngineConfig
 from vgcjax.core import rng as R
 from vgcjax.core.dex import load_dex
 from vgcjax.interop import ps_choice
 from vgcjax.interop.team import team_from_sets
+
+
+MAX_CONT = 256   # step calls per decision (a turn needs at most a few dozen micro-steps)
 
 
 @functools.lru_cache(maxsize=None)
@@ -113,9 +117,15 @@ def replay_battle(battle_records, cfg: EngineConfig, check_masks=False, start=No
             exp = FO.compared_draws(dec)
         except FO.HarnessError as e:
             return dict(clean=False, k=k, category="HARNESS", detail=str(e))
-        st, log = step_fn(st, jnp.asarray(acts, jnp.int32), key, fk[0], fv[0], fvalid[0])
+        # one decision may take several step calls (phase CONT, ADR-104 option 4): same forced table, draws pooled
+        got = []
+        a = jnp.asarray(acts, jnp.int32)
+        for _ in range(MAX_CONT):
+            st, log = step_fn(st, a, key, fk[0], fv[0], fvalid[0])
+            got += engine_draws(log)
+            if int(st.meta.phase) != S.CONT:
+                break
         err = int(st.meta.error_flags)
-        got = engine_draws(log)
         gm = collections.Counter((g[0], g[1]) for g in got)
         em = collections.Counter((e[0], e[1]) for e in exp)
         if gm != em:
