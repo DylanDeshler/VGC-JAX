@@ -1,7 +1,6 @@
 # ADR-101 — The oracle answers QUEUE_INSERT_TIE canonically
 
 - **Status:** diagnosed 2026-10-23; revised recommendation (record the tie) awaiting human approval — see end.
-  produced, though not the protected comparison contract).
 - **Supersedes:** nothing. Refines ADR-012 / `contract/drawkey.md` §6 (QUEUE_INSERT_TIE is don't-care) on the oracle side.
 
 ## Problem
