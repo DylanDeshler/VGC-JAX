@@ -102,3 +102,15 @@ Per decision: 119,789 (original) → 32,243 (vectorised blocks) → ≈ 15,400 (
 load 70–120 from other users' jobs, so indicative only): 5,215 decision-steps/s at P = 8 vs 2,930 before.
 Conformance: contract v2 corpus replayed at P = 1, 2 and 8: 100% CBR/TMR/MPR, events identical (spill-over is not
 observable; pinned by tests/harness/test_microsteps.py). Distribution tests pass.
+
+## Update 2026-10-23: L40S after option 4 (human's run of bench/gpu_check.sh)
+| batch | micro_steps | decision-steps/s, events on | events off |
+|---|---|---|---|
+| 4,096 | 8 | 408,963 | 436,029 |
+| 16,384 | 8 | 786,656 | 965,077 |
+| 65,536 | 8 | 942,405 | 1,351,429 |
+| 65,536 | 4 | 865,993 | 1,130,854 |
+
+GPU HLO 5,871 kernel-like ops per step (budget 10,000); compile 54–66 s. ≈ 20–30× the pre-option-4 L40S result
+(40–45k), ≈ 10× the 09 §1 target, core stage, random policy, short timing windows. Default micro_steps = 8.
+G-core re-run under contract v2 on this engine (`gcore-2026-10-23-v2`, 50,000 battles): PASS, contract verified.

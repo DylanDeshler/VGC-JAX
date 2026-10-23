@@ -1,0 +1,28 @@
+{
+ "battles": 50000,
+ "clean": 50000,
+ "coverage": {
+  "ACCURACY": 590046,
+  "CRIT": 1437119,
+  "DAMAGE_ROLL": 1437119,
+  "FORCED_SWITCH_PICK": 15604,
+  "MULTIHIT_COUNT": 23344,
+  "RUNSWITCH_INSERT_TIE": 3723,
+  "SECONDARY": 616293,
+  "SPEED_TIE_SELECT": 19605,
+  "SPEED_TIE_SWITCHIN": 31476
+ },
+ "ext_mismatch_battles": 0,
+ "ext_buckets": {},
+ "events_checked_battles": 0,
+ "events_mismatch_battles": 0,
+ "events_buckets": {},
+ "CBR": 1.0,
+ "TMR": 1.0,
+ "MPR": 1.0,
+ "error_rate": 0.0,
+ "draw_failures": 0,
+ "buckets": {},
+ "seconds": 1842.4,
+ "trace_dir": "traces/gcore-v2"
+}
