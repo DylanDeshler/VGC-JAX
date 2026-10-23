@@ -109,6 +109,8 @@ none yet (no engine)
 none
 
 ## Pending escalations
+- (2026-10-23) contract_version 2 implemented (ADR-101 b + ADR-103); G-core rerun under v2 in progress.
+  Next: ADR-104 option 4 (micro-step control structure), then M3 content.
 - (2026-10-23) G-core ACKNOWLEDGED by the human; ADR-102 and ADR-103 ACCEPTED. G-core re-evaluated: PASS
   M3 content unblocked. contract-hashes.md written on the human's instruction; ADR-101 option (b) accepted
   (record QUEUE_INSERT_TIE; with ADR-103 in contract_version 2).

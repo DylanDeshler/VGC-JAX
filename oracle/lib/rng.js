@@ -16,11 +16,10 @@ const context = require('./context');
 const classify = require('./classify');
 
 /**
- * ADR-101: QUEUE_INSERT_TIE (don't-care, contract §6) is answered with the last index of PS's random range, i.e. an
- * inserted action goes after the queued actions it ties with (sim/battle-queue.ts:396-406). Any outcome of a don't-care
- * draw is a valid PS trajectory; fixing it keeps runSwitch batch heads (step_actor) engine-reproducible.
+ * Don't-care kinds answered canonically in every mode (none since contract v2: ADR-101's canonical QUEUE_INSERT_TIE
+ * answer was replaced by the recorded RUNSWITCH_INSERT_TIE, oracle/lib/instrument.js).
  */
-const DEFAULT_CANONICAL = { QUEUE_INSERT_TIE: d => d.args[1] - 1 };
+const DEFAULT_CANONICAL = {};
 
 class InstrumentedPRNG {
 	constructor({
@@ -35,7 +34,8 @@ class InstrumentedPRNG {
 		this.fallback = fallbackSeed ? new PRNG(fallbackSeed) : this.inner; // answers for misses / ignored kinds
 		this.keep = keep;
 		this.onClassified = onClassified; // (d, classification, battle) -> attaches structured DrawKey fields to d
-		this.canonical = canonical; // don't-care kinds answered canonically in every mode (ADR-101)
+		this.canonical = canonical; // don't-care kinds answered canonically in every mode
+		this.answerHook = null; // (d) -> forced value | undefined, consulted first (instrument.js tie-record forcing)
 		this.draws = []; this.n = 0;
 		this.stats = { misses: 0, desync: 0, forced: 0, ignored: 0, disagree: 0 };
 		this.ordCount = new Map();
@@ -142,6 +142,10 @@ class InstrumentedPRNG {
 	}
 
 	_answer(d) {
+		if (this.answerHook) {
+			const v = this.answerHook(d);
+			if (v !== undefined) { this.stats.forced++; return v; }
+		}
 		const canon = this.canonical && d.kind && this.canonical[d.kind];
 		if (canon) { this.stats.canonical = (this.stats.canonical || 0) + 1; return canon(d); }
 		switch (this.mode) {

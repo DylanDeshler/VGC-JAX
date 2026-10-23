@@ -36,7 +36,7 @@ function oracleGit() {
 	_oracleGit = h.digest('hex').slice(0, 16);
 	return _oracleGit;
 }
-const CONTRACT_VERSION = 1; // docs/design/contract/drawkey.md `contract_version`
+const CONTRACT_VERSION = 2; // docs/design/contract/drawkey.md `contract_version`
 
 function battleSeeds(S, i) {
 	return {

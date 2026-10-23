@@ -23,7 +23,7 @@ import orjson
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ORACLE = ROOT / "oracle" / "bin" / "oracle.js"
 CACHE_DIR = ROOT / "tests" / ".oracle_cache"
-CONTRACT_VERSION = 1  # docs/design/contract/drawkey.md
+CONTRACT_VERSION = 2  # docs/design/contract/drawkey.md
 
 
 class OracleError(RuntimeError):

@@ -178,6 +178,7 @@ class Scratch:
     fieldevent_ord: jax.Array      # i16
     eachevent_ord: jax.Array       # i16
     mulhook_ord: jax.Array         # i16
+    insert_ord: jax.Array          # i16 runSwitch insertions this turn (RUNSWITCH_INSERT_TIE sub, contract v2)
     move_actions: jax.Array        # i8[2,4] move actions started this turn (action_ord source)
     queue_seq: jax.Array           # i16 next queue insertion seq
     # step context of the running action (contract §3.1)
@@ -245,7 +246,7 @@ def empty_mons() -> Mons:
 
 def empty_scratch() -> Scratch:
     return Scratch(select_ord=_z((), I16), runswitch_ord=_z((), I16), fieldevent_ord=_z((), I16),
-                   eachevent_ord=_z((), I16), mulhook_ord=_z((), I16), move_actions=_z((2, 4), I8),
+                   eachevent_ord=_z((), I16), mulhook_ord=_z((), I16), insert_ord=_z((), I16), move_actions=_z((2, 4), I8),
                    queue_seq=_z((), I16), step_tag=_z((), I8), step_actor=_z((), I8, -1),
                    step_subject=_z((), I16, -1), action_ord=_z((), I8), cur_select_ord=_z((), I16, -1))
 

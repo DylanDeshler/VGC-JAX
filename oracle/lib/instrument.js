@@ -21,6 +21,8 @@ const CHOICE_TAG = {
 };
 // actions that take part in SPEED_TIE_SELECT and advance select_ord (contract §4)
 const SELECTABLE = new Set(['switch', 'instaswitch', 'megaEvo', 'beforeTurnMove', 'priorityChargeMove', 'revivalblessing', 'move']);
+// switches execute regardless of the outgoing mon's state, so their SELECT ties keep fainted actors (ADR-103)
+const SWITCHES = new Set(['switch', 'instaswitch']);
 // runAction early-returns for these when the actor is inactive or fainted (PS sim/battle.ts:2756-2800)
 const ACTOR_CHECKED = new Set(['move', 'beforeTurnMove', 'priorityChargeMove']);
 // MUL-class hooks whose handler-sort ties are forced (contract §4 SPEED_TIE_HANDLER_MUL)
@@ -176,7 +178,7 @@ function install(battle, prng) {
 	function ensureTurn() {
 		if (ctx.ordTurn !== battle.turn) {
 			ctx.ordTurn = battle.turn;
-			ctx.ords = { select: 0, runswitch: 0, fieldevent: 0, eachevent: 0, mulhook: 0 };
+			ctx.ords = { select: 0, runswitch: 0, fieldevent: 0, eachevent: 0, mulhook: 0, insert: 0 };
 			ctx.moveActs = new Map();
 		}
 	}
@@ -241,6 +243,37 @@ function install(battle, prng) {
 		}
 	};
 
+	// ---- runSwitch insertions: RUNSWITCH_INSERT_TIE (contract §4; ADR-101 option b). insertChoice draws
+	// random(firstIndex, lastIndex + 1) among equal-key entries (sim/battle-queue.ts:396-406); for runSwitch the
+	// position decides the batch head (step_actor, head-only EmergencyExit, sim/battle.ts:2932-2934).
+	const insertWrapped = q.insertChoice; // context.js wrapper (classification)
+	q.insertChoice = function (choices, midTurn) {
+		if (!choices || Array.isArray(choices) || choices.choice !== 'runSwitch') return insertWrapped.call(this, choices, midTurn);
+		ensureTurn();
+		const ins = { ord: ctx.ords.insert++, pokemon: choices.pokemon };
+		const prev = ctx.insRS; ctx.insRS = ins;
+		try { return insertWrapped.call(this, choices, midTurn); } finally {
+			ctx.insRS = prev;
+			const list = this.list;
+			const i = list.findIndex(a => a.choice === 'runSwitch' && a.pokemon === ins.pokemon);
+			if (i >= 0) {
+				let lo = i; let hi = i;
+				while (lo > 0 && battle.comparePriority(list[i], list[lo - 1]) === 0) lo--;
+				while (hi < list.length - 1 && battle.comparePriority(list[i], list[hi + 1]) === 0) hi++;
+				if (hi > lo) {
+					pushTie('RUNSWITCH_INSERT_TIE', ins.ord, 0,
+						list.slice(lo, hi + 1).map(a => ident.ref(a.pokemon)).sort((a, b) => a - b), i - lo);
+				}
+			}
+		}
+	};
+	prng.answerHook = d => { // replay: force the insertion offset of a recorded RUNSWITCH_INSERT_TIE
+		const ins = ctx.insRS;
+		if (d.kind !== 'QUEUE_INSERT_TIE' || !ins || !ctx.tieForcer) return undefined;
+		const v = ctx.tieForcer('RUNSWITCH_INSERT_TIE', { turn: battle.turn, step_tag: stepInfo().tag, sub: ins.ord, ord: 0 });
+		return v === undefined ? undefined : d.args[0] + v;
+	};
+
 	// ---- runAction: step context, select ties, ordinals
 	const runAction = battle.runAction;
 	battle.runAction = function (action) {
@@ -275,17 +308,18 @@ function install(battle, prng) {
 		return { turn: battle.turn, step_tag: stepInfo().tag, sub: selectOrd, ord: 0 };
 	}
 	/** Entries tied with `action` on the full comparePriority key (same prepend class), restricted to active,
-	 * non-fainted actors (contract §4 SPEED_TIE_SELECT); null when fewer than 2. */
+	 * non-fainted actors except for switch / instaswitch (contract §4 SPEED_TIE_SELECT, v2); null when fewer than 2. */
 	function selectTied(action) {
 		const pre = ctx.prepend.has(action);
+		const anyState = SWITCHES.has(action.choice);
 		const tied = [action];
 		let unrecorded = 0;
 		for (const e of battle.queue.list) {
 			if (!e.pokemon || ctx.prepend.has(e) !== pre || battle.comparePriority(action, e) !== 0) continue;
-			if (e.pokemon.isActive && !e.pokemon.fainted) tied.push(e); else unrecorded++;
+			if (anyState || (e.pokemon.isActive && !e.pokemon.fainted)) tied.push(e); else unrecorded++;
 		}
 		const me = action.pokemon;
-		if (!(me && me.isActive && !me.fainted)) {
+		if (!anyState && !(me && me.isActive && !me.fainted)) {
 			if (tied.length > 1) ctx.unrecordedSelectTies++;
 			return null;
 		}

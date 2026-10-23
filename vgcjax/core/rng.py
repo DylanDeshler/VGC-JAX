@@ -248,6 +248,24 @@ def tie_order(rng: Rng, key: dk.DrawKey, members, valid, active=True, select=Fal
     return order, rng
 
 
+def tie_offset(rng: Rng, key: dk.DrawKey, count, tied_mask, active=True):
+    """RUNSWITCH_INSERT_TIE (contract §4, v2): insertion offset in [0, count) among `count` = tied entries + 1 (PS
+    random(firstIndex, lastIndex + 1)). Natural: hash % count; forced: `value`. Logged as a tie record with args
+    (count, 0) when count >= 2. -> (offset, rng)"""
+    count = jnp.asarray(count, I32)
+    c = _pack(key)
+    natural = (hash32(rng.w, c) % jnp.maximum(count, 1).astype(U32)).astype(I32)
+    live = jnp.asarray(active) & (count >= 2)
+    hit, fval = _lookup(rng, c)
+    use_forced = live & hit
+    value = jnp.where(live, jnp.where(use_forced, fval, natural), count - 1)
+    if rng.forced is not None:
+        rng = rng.replace(err=rng.err | jnp.where(live & ~hit, U32(E.ERR_FORCED_MISSING), U32(0)))
+    flags = LOG_IS_TIE | jnp.where(use_forced, LOG_USED_FORCED, 0) | (jnp.asarray(tied_mask, I32) << 8)
+    rng = _log(rng, c, count, 0, value, flags, live)
+    return value, rng
+
+
 # ------------------------------------------------------------------ vectorised draws (09 J5: the target axis)
 def _resolve_v(rng: Rng, key: dk.DrawKey, natural, degenerate, degen_value, a0, a1, active):
     """_resolve for T draws at once (key fields broadcast to [T]); log entries are appended in index order."""

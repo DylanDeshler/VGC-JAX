@@ -1,6 +1,8 @@
 # ADR-101 — The oracle answers QUEUE_INSERT_TIE canonically
 
-- **Status:** diagnosed 2026-10-23; revised recommendation (record the tie, option b) **accepted by the human 2026-10-23**; ships with contract_version 2.
+- **Status:** diagnosed 2026-10-23; revised recommendation (record the tie, option b) **accepted by the human 2026-10-23**; **implemented** in contract_version 2 as `RUNSWITCH_INSERT_TIE`, scoped to
+  runSwitch insertions (move insertions after Mega / Encore are already decided by the SPEED_TIE_SELECT record at
+  execution). 600 battles (chaos + random doubles) replay exactly under a different PS seed with 0 missed keys.
 - **Supersedes:** nothing. Refines ADR-012 / `contract/drawkey.md` §6 (QUEUE_INSERT_TIE is don't-care) on the oracle side.
 
 ## Problem

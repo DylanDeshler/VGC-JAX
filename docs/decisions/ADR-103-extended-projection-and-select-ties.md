@@ -1,6 +1,7 @@
 # ADR-103 — Extend the projection with hidden engine state; record SELECT ties of replacement switches
 
-- **Status:** **accepted by the human 2026-10-23**; implementation: contract_version 2.
+- **Status:** **accepted by the human 2026-10-23**; **implemented** in contract_version 2 (2026-10-23): 2,000 core
+  battles 100% with ext fields gating, switch-order ties recorded (events and ext mismatches 0).
 
 ## Problem 1: state outside the protected projection is unchecked
 07 §5.1 compares HP, stats, boosts, status, moves, … but not engine state that later mechanics read:

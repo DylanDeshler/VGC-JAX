@@ -106,6 +106,7 @@ def from_ps_snapshot(snap: dict, team_sets) -> S.State:
         sc.fieldevent_ord[...] = ords.get("fieldevent", 0)
         sc.eachevent_ord[...] = ords.get("eachevent", 0)
         sc.mulhook_ord[...] = ords.get("mulhook", 0)
+        sc.insert_ord[...] = ords.get("insert", 0)
         for r, n in ts.get("moveActs", []):
             if r >= 0:
                 sc.move_actions[r // 4, r % 4] = n

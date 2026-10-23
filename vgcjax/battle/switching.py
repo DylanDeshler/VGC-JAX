@@ -106,9 +106,9 @@ def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_dr
     if is_drag:
         st, rng = run_switch(st, dex, rng, [r_in], on)
     else:
-        # insertChoice({choice: 'runSwitch', pokemon}): updateSpeed then insert by key (ADR-101 order)
+        # insertChoice({choice: 'runSwitch', pokemon}): updateSpeed then insert by key (RUNSWITCH_INSERT_TIE)
         st = C.update_speed_one(st, dex, r_in, on)
-        st = Q.add_entry(st, on, kind=S.Q_RUN_SWITCH, side=side, b=b_in, speed=mget(st.mons.speed, r_in))
+        st, rng = Q.insert_run_switch(st, rng, on, side, b_in, mget(st.mons.speed, r_in))
     return st, rng
 
 

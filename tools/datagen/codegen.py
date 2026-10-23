@@ -53,7 +53,7 @@ DRAW_KINDS = ["ACCURACY", "CRIT", "DAMAGE_ROLL", "CONFUSION_SELFHIT_DAMAGE_ROLL"
               "ABILITY_MOODY_STAT", "ITEM_FOCUS_BAND", "MOVE_FICKLE_BEAM", "MOVE_SHELLSIDEARM_TIE",
               "MOVE_ACUPRESSURE_STAT", "MOVE_CALL_PICK",
               "SPEED_TIE_SELECT", "SPEED_TIE_SWITCHIN", "SPEED_TIE_FIELD_EVENT", "SPEED_TIE_WEATHER_EACH",
-              "SPEED_TIE_HANDLER_MUL", "SPEED_TIE_ABILITY"]
+              "SPEED_TIE_HANDLER_MUL", "SPEED_TIE_ABILITY", "RUNSWITCH_INSERT_TIE"]  # appended: contract v2
 STEP_TAGS = ["COMMIT", "A_SWITCH", "A_MEGA", "A_OTHER", "B_MOVE", "RESIDUAL", "SWITCHIN"]
 # handler prefixes (PS on<Prefix><Event>); bit k of handler_mask
 PREFIXES = ["", "Ally", "Foe", "Source", "Any", "Side", "Field"]

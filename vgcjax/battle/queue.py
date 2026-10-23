@@ -1,9 +1,9 @@
 """Action queue (04 §5): fixed QMAX entries, PS order classes, re-keying, selection with SPEED_TIE_SELECT.
 
 PS sorts the queue and shifts the head; the engine keeps entries unsorted and selects the argmax of
-(prepend, -order, priority10, speed). Exact key ties among live actors are resolved by the forced/natural
-SPEED_TIE_SELECT record (contract §4); other ties go to insertion order (ADR-101: inserted actions go after the
-equal-key actions already queued).
+(prepend, -order, priority10, speed). Exact key ties are resolved by the forced/natural SPEED_TIE_SELECT record
+(contract §4: members = live actors, or any actor for switch / instaswitch, v2); other ties go to insertion order
+(`seq`). runSwitch insertions draw their position among equal-key entries (RUNSWITCH_INSERT_TIE, contract v2).
 """
 from __future__ import annotations
 
@@ -19,6 +19,7 @@ from vgcjax.data import ids
 I8, I16, I32 = jnp.int8, jnp.int16, jnp.int32
 SELECTABLE = (S.Q_SWITCH, S.Q_INSTASWITCH, S.Q_MEGA, S.Q_BEFORE_TURN_MOVE, S.Q_PRIORITY_CHARGE, S.Q_REVIVAL, S.Q_MOVE)
 ACTOR_CHECKED = (S.Q_MOVE, S.Q_BEFORE_TURN_MOVE, S.Q_PRIORITY_CHARGE)  # early return if actor inactive/fainted
+SWITCHES = (S.Q_SWITCH, S.Q_INSTASWITCH)  # their SELECT ties keep fainted / inactive actors (contract v2, ADR-103)
 
 
 def is_kind(kind, kinds):
@@ -51,6 +52,36 @@ def add_entry(st: S.State, on, *, kind, side=0, b=-1, order=None, priority10=0, 
         upd[k] = arr.at[i].set(jnp.where(ok, jnp.asarray(v, arr.dtype), arr[i]))
     sc = st.scratch
     return st.replace(queue=q.replace(**upd), scratch=sc.replace(queue_seq=sc.queue_seq + ok.astype(I16)))
+
+
+def insert_run_switch(st: S.State, rng: R.Rng, on, side, b, speed):
+    """PS insertChoice({choice: 'runSwitch', pokemon}) (sim/battle-queue.ts:375-406): placed at offset
+    random(0, n + 1) among the n queued entries with an equal comparePriority key (RUNSWITCH_INSERT_TIE, key sub =
+    insert_ord). The engine queue is unsorted, so the offset becomes a `seq` slot: entries from the k-th tied one on
+    shift up by one and the new entry takes that seq. Returns (st, rng)."""
+    on = jnp.asarray(on)
+    q = st.queue
+    order = S.ORDER[S.Q_RUN_SWITCH]
+    speed = jnp.asarray(speed, I32)
+    tied = q.valid & ~q.prepend & (q.order == order) & (q.priority10 == 0) & (q.speed.astype(I32) == speed)
+    n = jnp.sum(tied.astype(I32))
+    refs = entry_ref(q)
+    mask = jnp.sum(jnp.where(tied, 1 << jnp.clip(refs, 0, 7), 0)) | (1 << (jnp.asarray(side, I32) * 4 + jnp.asarray(b, I32)))
+    sc = st.scratch
+    k, rng = tie_offset_draw(st, rng, sc.insert_ord, n + 1, mask, on)
+    seqs = jnp.where(tied, q.seq.astype(I32), 1 << 30)
+    kth = jnp.sort(seqs)[jnp.clip(k, 0, S.QMAX - 1)]                          # seq of the k-th tied entry
+    shift = on & (k < n)
+    q = q.replace(seq=jnp.where(shift & q.valid & (q.seq.astype(I32) >= kth), q.seq + 1, q.seq).astype(q.seq.dtype))
+    st = st.replace(queue=q, scratch=sc.replace(insert_ord=sc.insert_ord + on.astype(I16)))
+    i = jnp.argmax(~st.queue.valid)
+    st = add_entry(st, on, kind=S.Q_RUN_SWITCH, side=side, b=b, speed=speed)
+    q = st.queue
+    return st.replace(queue=q.replace(seq=q.seq.at[i].set(jnp.where(shift, kth, q.seq[i]).astype(q.seq.dtype)))), rng
+
+
+def tie_offset_draw(st, rng, sub, count, mask, on):
+    return R.tie_offset(rng, C.tkey(st, ids.DK_RUNSWITCH_INSERT_TIE, sub), count, mask, active=on)
 
 
 def entry_ref(q: S.Queue):
@@ -110,15 +141,15 @@ def head(q: S.Queue):
 def select(st: S.State, dex, rng: R.Rng, on):
     """Pick the next entry. Returns (st, rng, index, passes) where `passes` = the action does not early-return.
 
-    Ties among >= 2 entries whose actor is active and not fainted draw SPEED_TIE_SELECT with sub = select_ord
-    (contract §4). select_ord advances for executed selectable actions only.
+    Ties among >= 2 entries whose actor is active and not fainted (any actor for switch / instaswitch, v2) draw
+    SPEED_TIE_SELECT with sub = select_ord (contract §4). select_ord advances for executed selectable actions only.
     """
     q = st.queue
     on = jnp.asarray(on)
     m = best_mask(q)
     refs = entry_ref(q)
     lv = jnp.stack([C.live(st, r) for r in range(8)])
-    entry_live = m & (refs >= 0) & lv[jnp.clip(refs, 0, 7)]
+    entry_live = m & (refs >= 0) & (lv[jnp.clip(refs, 0, 7)] | is_kind(q.kind, SWITCHES))
     nlive = jnp.sum(entry_live.astype(I32))
     canon = jnp.argmin(jnp.where(m, q.seq.astype(I32), 1 << 30))
     # tie among live actors -> SPEED_TIE_SELECT over members = refs (sorted)

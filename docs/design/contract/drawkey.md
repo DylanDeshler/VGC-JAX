@@ -1,6 +1,6 @@
 # Contract: DrawKey, draw kinds, tie records, don't-care list (NORMATIVE; protected by ADR-029)
 
-`contract_version: 1`. Any change to this file bumps the version, needs an ADR and human approval, and invalidates traces, fixtures and the oracle cache per ADR-030.
+`contract_version: 2` (v2 2026-10-23: ADR-101 option b, ADR-103). Any change to this file bumps the version, needs an ADR and human approval, and invalidates traces, fixtures and the oracle cache per ADR-030.
 
 This file is the **only** definition of the forcing and draw-comparison contract between the oracle (PS) and the engine. 03 §5, 04 §8 and 07 §4 reference it and do not restate it. The kind inventory is derived from `research/poc/rng_callsites.json` (88 PS call sites at `d601443`; 52 reachable).
 
@@ -59,12 +59,13 @@ Inline switch-ins (drags inside a move's tail, Red Card) **inherit** the enclosi
 
 | Tie kind | Emitted when | `sub` | `ord` | Members (`tied`) | `value` |
 |---|---|---|---|---|---|
-| `SPEED_TIE_SELECT` | a selectable action (switch, instaswitch, megaEvo, beforeTurnMove, priorityChargeMove, revivalblessing, move) is executed and ≥ 2 queue entries tied it on the full comparePriority key **whose pokemon is active and not fainted** | `select_ord`: executed selectable actions this turn (early-returning actions don't advance it) | 0 | side·4+b of the tied entries' pokemon, sorted | winner (side·4+b) |
+| `SPEED_TIE_SELECT` | a selectable action (switch, instaswitch, megaEvo, beforeTurnMove, priorityChargeMove, revivalblessing, move) is executed and ≥ 2 queue entries tied it on the full comparePriority key **whose pokemon is active and not fainted** (for `switch` / `instaswitch`: **any** pokemon state, v2 / ADR-103) | `select_ord`: executed selectable actions this turn (early-returning actions don't advance it) | 0 | side·4+b of the tied entries' pokemon, sorted | winner (side·4+b) |
 | `SPEED_TIE_SWITCHIN` | every `runSwitch` sort (batched, single, drag, start) over **all slot occupants incl. fainted**, by `pokemon.speed`; one record per tie group of size ≥ 2 | `runswitch_ord`: runSwitch executions this turn | group index within that sort | members sorted by slot (p1a, p1b, p2a, p2b) | permutation index (lexicographic rank over members) |
 | `SPEED_TIE_FIELD_EVENT` | every `fieldEvent` (Residual, SwitchIn) sort; one record per tie group of size ≥ 2, **omitting handlers that will be skipped** (fainted holder unless slot condition) | `fieldevent_ord`: fieldEvent calls this turn | group index | members ordered field < side0 < side1 < p1a < p1b < p2a < p2b, then effect id | permutation index |
 | `SPEED_TIE_WEATHER_EACH` | `eachEvent('Weather')` (weather chip) ties | `eachevent_ord`: eachEvent('Weather') calls this turn | group index | slot order | permutation index |
 | `SPEED_TIE_HANDLER_MUL` | a `runEvent` handler-sort tie group of size ≥ 2 on a **MUL-class hook** (BasePower, ModifyAtk/Def/SpA/SpD/Spe, ModifyDamage, ModifyAccuracy, ModifyCritRatio, ModifySTAB) | `mulhook_ord`: MUL-hook runEvent calls this turn | group index | (holder side·4+b or field/side code, effect id) sorted | permutation index |
 | `SPEED_TIE_ABILITY` | Magician's sort of speed-tied hit targets (`data/abilities.ts:2483`) | `select_ord` of the running move | group index | side·4+b sorted | permutation index |
+| `RUNSWITCH_INSERT_TIE` (v2, ADR-101) | `insertChoice` of a `runSwitch` action (`sim/battle-actions.ts:211`) lands among ≥ 1 queued entries with an equal comparePriority key (`sim/battle-queue.ts:396-406`) | `insert_ord`: runSwitch insertions this turn | 0 | side·4+b of the tied entries' pokemon and the inserted one, sorted | insertion offset (0 = before all tied entries) |
 
 **Ordinal storage.** The ordinals live in `TurnScratch` (03 §4.6), persist across SWITCH steps within a turn, and reset in `end_turn`.
 
@@ -121,7 +122,7 @@ Inline switch-ins (drags inside a move's tail, Red Card) **inherit** the enclosi
 | SECONDARY (chance undefined) | secondary with no chance | RNG inventory note |
 | SPEED_TIE_EACH_EVENT (except Weather) | eachEvent ties, e.g. `Update` | RNG §6.3 |
 | SPEED_TIE_HANDLER_ORDER (non-MUL hooks) | runEvent ties on GATE/REPL/side-effect hooks | RNG §6.3; MV §7.2 |
-| QUEUE_INSERT_TIE | `insertChoice` random index among equal keys | RNG §6.3 |
+| QUEUE_INSERT_TIE | `insertChoice` random index among equal keys (raw draw; runSwitch insertions are compared through the `RUNSWITCH_INSERT_TIE` tie record, v2) | RNG §6.3; ADR-101 diagnosis |
 | TEAM_SORT | preview sort ties | TL §11.5 |
 | GENDER | construction gender draw (teams always set gender) | RNG §2.1 |
 

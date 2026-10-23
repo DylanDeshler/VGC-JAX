@@ -1,8 +1,9 @@
 {
- "_doc": "07 §5.4 projection normalisations. PROTECTED (ADR-029).",
+ "_doc": "07 \u00a75.4 projection normalisations. PROTECTED (ADR-029).",
  "moves.disabled": "compared at decision points only; PS 'hidden' == engine 2; both count as disabled (truthiness)",
  "trapped": "truthiness ('hidden' == true)",
  "types": "getTypes(true) semantics incl. addedType",
  "lastMove": "move id",
- "weightkg": "engine weight_hg / 10"
+ "weightkg": "engine weight_hg / 10",
+ "ext.lastMoveTargetLoc": "not compared when the mon's last move has a random-resolved target (randomNormal-free spread / side / allies / scripted targets: a don't-care foe pick, drawkey.md \u00a76) or when lastMove is null (the location survives clearVolatile; its origin is unknown). ADR-103."
 }

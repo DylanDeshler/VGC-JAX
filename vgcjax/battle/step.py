@@ -285,7 +285,7 @@ def end_turn(st, dex, cfg, on) -> S.State:
     z = jnp.zeros((), I16)
     sc = sc.replace(select_ord=jnp.where(on, z, sc.select_ord), runswitch_ord=jnp.where(on, z, sc.runswitch_ord),
                     fieldevent_ord=jnp.where(on, z, sc.fieldevent_ord), eachevent_ord=jnp.where(on, z, sc.eachevent_ord),
-                    mulhook_ord=jnp.where(on, z, sc.mulhook_ord),
+                    mulhook_ord=jnp.where(on, z, sc.mulhook_ord), insert_ord=jnp.where(on, z, sc.insert_ord),
                     move_actions=jnp.where(on, jnp.zeros((2, 4), I8), sc.move_actions))
     q = st.queue
     q = q.replace(valid=jnp.where(on, False, q.valid))

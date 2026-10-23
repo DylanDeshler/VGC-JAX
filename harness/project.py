@@ -142,7 +142,7 @@ FIELDS = _json.loads((_pl.Path(__file__).resolve().parent / "contract" / "projec
 
 
 def restrict(proj: dict) -> dict:
-    """Keep only the protected compared fields (harness/contract/projection_fields.json)."""
+    """Copy of the protected compared fields (harness/contract/projection_fields.json)."""
     out = {k: proj.get(k) for k in FIELDS["battle"]}
     out["field"] = {k: (proj.get("field") or {}).get(k) for k in FIELDS["field"]}
     out["sides"] = []
@@ -154,7 +154,25 @@ def restrict(proj: dict) -> dict:
 
 
 def compare(engine: dict, ps: dict):
-    return diff(restrict(engine), restrict(ps))
+    """Protected comparison (projection_fields.json incl. `ext`, contract v2) with the normalisations.json rules."""
+    e, p = restrict(engine), restrict(ps)
+    _normalise_target_loc(e, p, ps)
+    return diff(e, p)
+
+
+def _normalise_target_loc(e: dict, p: dict, ps_full: dict) -> None:
+    """normalisations.json `ext.lastMoveTargetLoc` (in place on the restricted copies)."""
+    from vgcjax.core.dex import load_tables_np
+    t = load_tables_np()["move_target"]
+    for se, sp, side in zip(e.get("sides", []), p.get("sides", []), ps_full.get("sides", [])):
+        for me, mp, mon in zip(se.get("pokemon", []), sp.get("pokemon", []), side.get("pokemon", [])):
+            xe, xp = (me or {}).get("ext"), (mp or {}).get("ext")
+            if xe is None or xp is None:
+                continue
+            lm = xp.get("lastMoveUsed") or mon.get("lastMove")
+            if not lm or (lm in ids.MOVES and ids.TARGETS[int(t[ids.MOVES.index(lm)])] in RANDOM_LOC_TARGETS):
+                me["ext"] = dict(xe, lastMoveTargetLoc="random")
+                mp["ext"] = dict(xp, lastMoveTargetLoc="random")
 
 
 def extract_ext(proj: dict) -> dict:
