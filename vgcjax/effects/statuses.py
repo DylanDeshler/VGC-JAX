@@ -5,13 +5,14 @@ paralysis, slp sample([2,3,3]), frz thaw cap 3 turns). setStatus / trySetStatus 
 """
 from __future__ import annotations
 
+import jax
 import jax.numpy as jnp
 
 from vgcjax.battle import common as C
 from vgcjax.battle import events as EV
 from vgcjax.battle import faint as F
 from vgcjax.battle import results as RS
-from vgcjax.battle.util import mget, mset
+from vgcjax.battle.util import mget, mset, mset_many
 from vgcjax.core import rng as R
 from vgcjax.core import typechart as TC
 from vgcjax.data import ids
@@ -282,3 +283,62 @@ def frz_damaging_hit(hc, st, dex, rng):
     fire = (dex.move_type[move] == ids.TYPE_FIRE) & (dex.move_category[move] != ids.CAT_STATUS) & (
         move != getattr(ids, "MOVE_POLARFLARE", -1))
     return hc, cure_status(st, hc.target, fire), rng
+
+
+# ------------------------------------------------------------------ vectorised trySetStatus over move targets
+def try_set_status_v(st, dex, rng, refs, status, on, source, source_effect, move_status):
+    """trySetStatus(status, source, move) on distinct `refs` [T] at once (setStatus PS :1705-1774 and the six Start
+    handlers above, which are fixed data per status). Returns (st, rng, (tag[T], val[T]), msgs); the caller emits
+    msgs[j] with emit_status_msgs in PS order (after the target's boost / heal messages)."""
+    refs = jnp.asarray(refs, I32)
+    T = refs.shape[0]
+    on = jnp.broadcast_to(jnp.asarray(on), (T,))
+    status = jnp.broadcast_to(jnp.asarray(status, I32), (T,))
+    move_status = jnp.asarray(move_status, I32)
+    m = st.mons
+    src = jnp.asarray(source, I32)
+    cur = mget(m.status, refs).astype(I32)
+    want = jnp.where(cur > 0, cur, status)                              # trySetStatus
+    go = on & (mget(m.hp, refs) > 0) & ~(~mget(m.is_active, refs) & (want > 0))
+    same = go & (cur == want)
+    corrosion = (src >= 0) & (mget(m.ability, jnp.maximum(src, 0)) == ids.ABILITY_CORROSION) & (
+        (want == ids.COND_PSN) | (want == ids.COND_TOX))
+    key = jnp.where(want == ids.COND_TOX, ids.COND_PSN, want)
+    kidx = jnp.where(key == ids.COND_BRN, 0, jnp.where(key == ids.COND_PAR, 1, jnp.where(
+        key == ids.COND_PSN, 2, jnp.where(key == ids.COND_FRZ, 4, -1))))
+    types = mget(m.types, refs)
+    immune = (kidx >= 0) & jax.vmap(lambda k, t: TC.status_immune(dex, k, t))(jnp.maximum(kidx, 0), types)
+    not_immune = ~mget(m.fainted, refs) & ~immune
+    imm = go & ~same & (want > 0) & ~corrosion & ~not_immune
+    ok = go & ~same & ~imm & (want > 0)
+    # Start: slp draws its duration (SLEEP_DURATION, keyed per target), frz 3, tox stage 0
+    is_slp, is_frz, is_tox = want == ids.COND_SLP, want == ids.COND_FRZ, want == ids.COND_TOX
+    skey = C.dkey(st, ids.DK_SLEEP_DURATION, actor=refs, subject=CO.eff("slp"))
+    si, rng = R.sample_v(rng, skey, 3, ok & is_slp)
+    t_slp = jnp.array([2, 3, 3], I32)[si]
+    s1, s2 = _status_slot("slp", "startTime"), _status_slot("slp", "time")      # == frz slots
+    ts = _status_slot("tox", "stage")
+    pres = (want << 8) | jnp.where(is_slp | is_frz, (1 << s1) | (1 << s2), 0) | jnp.where(is_tox, 1 << ts, 0)
+    val1 = jnp.where(is_slp, t_slp, jnp.where(is_frz, 3, 0))
+    state = jnp.zeros((T, 4), I32).at[:, s1].set(val1).at[:, s2].set(val1).at[:, 3].set(pres)
+    m = m.replace(status=mset_many(m.status, refs, want, ok), status_state=mset_many(m.status_state, refs, state, ok))
+    st = st.replace(mons=m)
+    st = CO.next_effect_order(st, jnp.sum(ok.astype(I32)) > 0)
+    st = st.replace(meta=st.meta.replace(effect_seq=st.meta.effect_seq + jnp.maximum(jnp.sum(ok.astype(I32)) - 1, 0)))
+    eff = jnp.asarray(source_effect, I32)
+    is_move = (eff >= ids.MOVE_BASE) & (eff < ids.MOVE_BASE + len(ids.MOVES) - 1)
+    res = RS.where(ok, RS.R(RS.BOOL, 1), RS.R(RS.BOOL, 0))
+    msgs = dict(fail_t=same & (move_status == cur) & (move_status > 0), fail_s=same & (move_status != cur) & (move_status > 0),
+                imm=imm & (move_status > 0), ok=ok, want=want, cur=cur, from_move=is_move & is_slp, eff=eff, src=src)
+    return st, rng, res, msgs
+
+
+def emit_status_msgs(st, msgs, j, ref):
+    """The protocol lines setStatus / Start produce for target j (PS :1720-1727, :1733-1736, Start handlers)."""
+    st = EV.emit(st, msgs["fail_t"][j], EV.EV_FAIL, actor=ref, move=C.eff_cond(msgs["cur"][j]), flags=EV.F_FAILSTATUS)
+    st = EV.emit(st, msgs["fail_s"][j], EV.EV_FAIL, actor=msgs["src"])
+    st = EV.attr_last_move(st, msgs["fail_s"][j], EV.F_STILL)
+    st = EV.emit(st, msgs["imm"][j], EV.EV_IMMUNE, actor=ref)
+    fm = msgs["from_move"][j]
+    return EV.emit(st, msgs["ok"][j], EV.EV_STATUS, actor=ref, move=C.eff_cond(msgs["want"][j]),
+                   v1=jnp.where(fm, msgs["eff"], -1), flags=jnp.where(fm, EV.F_FROM_MOVE, 0))

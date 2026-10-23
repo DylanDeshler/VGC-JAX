@@ -23,7 +23,8 @@ from vgcjax.effects import conditions as CO
 from vgcjax.effects import hooks as H
 
 I16, I32, U32 = jnp.int16, jnp.int32, jnp.uint32
-K_RES = 24          # listed handlers per walk (overflow -> ERR_OVERFLOW_RESIDUAL)
+K_RES = 16          # listed handlers per Residual walk (overflow -> ERR_OVERFLOW_RESIDUAL)
+K_SWITCHIN = 8      # listed handlers per SwitchIn walk
 G_TIES = 4          # tie groups per walk
 ORDER_LAST = 1 << 15
 
@@ -48,50 +49,69 @@ SUB_POKEMON_COND, SUB_SLOT, SUB_SIDE, SUB_FIELD, SUB_ABILITY, SUB_ITEM = 2, 3, 4
 
 
 def _candidates(st, dex, event: str, targets=None):
-    """Static candidate list for fieldEvent(event, targets) (PS :489-511). Returns dict of i32 arrays [N]: eff, pfx,
-    holder (0..7 ref, 8/9 side, 10 field), loc (storage code), idx (index within the storage), dur (state duration),
-    present, sub (default subOrder), eo (effectOrder, *SwitchIn only), spdh (speed holder ref or -1)."""
+    """Static candidate list for fieldEvent(event, targets) (PS :489-511), restricted at trace time to effects that
+    define the callback (or, for Residual, carry a duration; effects/static.py). Returns dict of i32 arrays [N]:
+    eff, pfx, holder (0..7 ref, 8/9 side, 10 field), loc (storage code), idx (index within the storage), dur (state
+    duration), present, sub (default subOrder), eo (effectOrder, *SwitchIn only), spdh (speed holder ref or -1)."""
+    from vgcjax.effects import static as SX
     m, sd, f = st.mons, st.sides, st.field
+    hook = getattr(ids, f"HOOK_{event.upper()}")
+    resid = event == "Residual"
     rows = []
 
     def add(eff, pfx, holder, loc, idx, dur, present, sub, eo=0, spdh=-1):
         n = jnp.shape(eff)[0] if jnp.ndim(eff) else 1
+        if n == 0:
+            return
         b = lambda x: jnp.broadcast_to(jnp.asarray(x, I32), (n,))  # noqa: E731
         rows.append((b(eff), b(pfx), b(holder), b(loc), b(idx), b(dur), jnp.broadcast_to(present, (n,)), b(sub), b(eo),
                      b(spdh)))
 
+    weather_ids = tuple(CO.cid(w) for w in CO.WEATHERS if w in ids.CONDITIONS)
+    terrain_ids = tuple(CO.cid(w) for w in CO.TERRAINS if w in ids.CONDITIONS)
+
+    def named_define(cids, pfx, with_dur):
+        return any(SX.cond_subset(hook, pfx, c, 1, with_dur) for c in cids)
+
     def field_effects(pfx, holder, spdh, on=True):
-        k = jnp.arange(S.NPW)
+        wd = resid and pfx == ids.PFX_FIELD
+        k = jnp.asarray(SX.cond_subset(hook, pfx, ids.PW_BASE, S.NPW, wd), I32)
         pw_on = ((f.pw_bits >> k.astype(U32)) & 1) == 1
-        add(ids.COND_BASE + ids.PW_BASE + k - 1, pfx, holder, CO.PSEUDO, k, f.pw_state[:, 0], pw_on & on, SUB_FIELD,
+        add(ids.COND_BASE + ids.PW_BASE + k - 1, pfx, holder, CO.PSEUDO, k, f.pw_state[k, 0], pw_on & on, SUB_FIELD,
             0, spdh)
-        add(ids.COND_BASE + f.weather.astype(I32) - 1, pfx, holder, CO.WEATHER, 0, f.weather_state[0],
-            (f.weather > 0) & on, SUB_FIELD, 0, spdh)
-        add(ids.COND_BASE + f.terrain.astype(I32) - 1, pfx, holder, CO.TERRAIN, 0, f.terrain_state[0],
-            (f.terrain > 0) & on, SUB_FIELD, 0, spdh)
+        if named_define(weather_ids, pfx, wd):
+            add(ids.COND_BASE + f.weather.astype(I32) - 1, pfx, holder, CO.WEATHER, 0, f.weather_state[0],
+                (f.weather > 0) & on, SUB_FIELD, 0, spdh)
+        if named_define(terrain_ids, pfx, wd):
+            add(ids.COND_BASE + f.terrain.astype(I32) - 1, pfx, holder, CO.TERRAIN, 0, f.terrain_state[0],
+                (f.terrain > 0) & on, SUB_FIELD, 0, spdh)
 
     def side_effects(s, pfx, holder, spdh, on=True):
-        k = jnp.arange(S.NSC)
+        k = jnp.asarray(SX.cond_subset(hook, pfx, ids.SIDE_BASE, S.NSC, resid and pfx == ids.PFX_SIDE), I32)
         son = ((sd.side_cond_bits[s] >> k.astype(U32)) & 1) == 1
-        add(ids.COND_BASE + ids.SIDE_BASE + k - 1, pfx, holder, CO.SIDE, k, sd.side_cond_state[s, :, 0], son & on,
+        add(ids.COND_BASE + ids.SIDE_BASE + k - 1, pfx, holder, CO.SIDE, k, sd.side_cond_state[s, k, 0], son & on,
             SUB_SIDE, 0, spdh)
 
     def mon_effects(s, pos, r, pfx, on):
-        status = mget(m.status, r).astype(I32)
-        add(ids.COND_BASE + status - 1, pfx, r, CO.STATUS, 0, mget(m.status_state, r)[0], on & (status > 0),
-            SUB_POKEMON_COND, 0, r)
-        kv = jnp.arange(S.NV)
+        wd = resid and pfx == ids.PFX_ON
+        if SX.statuses_define(hook, pfx):
+            status = mget(m.status, r).astype(I32)
+            add(ids.COND_BASE + status - 1, pfx, r, CO.STATUS, 0, mget(m.status_state, r)[0], on & (status > 0),
+                SUB_POKEMON_COND, 0, r)
+        kv = jnp.asarray(SX.cond_subset(hook, pfx, ids.VOL_BASE, S.NV, wd), I32)
         words = mget(m.vol_bits, r)
         von = ((words[kv // 32] >> (kv % 32).astype(U32)) & 1) == 1
-        add(ids.COND_BASE + ids.VOL_BASE + kv - 1, pfx, r, CO.VOLATILE, kv, mget(m.vol_state, r)[:, 0], on & von,
+        add(ids.COND_BASE + ids.VOL_BASE + kv - 1, pfx, r, CO.VOLATILE, kv, mget(m.vol_state, r)[kv, 0], on & von,
             SUB_POKEMON_COND, 0, r)
-        ab = mget(m.ability, r).astype(I32)
-        add(ids.ABILITY_BASE + ab - 1, pfx, r, -1, 0, 0, on & (ab > 0), SUB_ABILITY, mget(m.ability_seq, r), r)
-        it = mget(m.item, r).astype(I32)
-        add(ids.ITEM_BASE + it - 1, pfx, r, -1, 0, 0, on & (it > 0), SUB_ITEM, mget(m.item_seq, r), r)
-        ks = jnp.arange(S.NSL)
+        if SX.abilities_define(hook, pfx):
+            ab = mget(m.ability, r).astype(I32)
+            add(ids.ABILITY_BASE + ab - 1, pfx, r, -1, 0, 0, on & (ab > 0), SUB_ABILITY, mget(m.ability_seq, r), r)
+        if SX.items_define(hook, pfx):
+            it = mget(m.item, r).astype(I32)
+            add(ids.ITEM_BASE + it - 1, pfx, r, -1, 0, 0, on & (it > 0), SUB_ITEM, mget(m.item_seq, r), r)
+        ks = jnp.asarray(SX.cond_subset(hook, pfx, ids.SLOT_BASE, S.NSL, wd), I32)
         son = ((sd.slot_cond_bits[s, pos] >> ks.astype(U32)) & 1) == 1
-        add(ids.COND_BASE + ids.SLOT_BASE + ks - 1, pfx, r, CO.SLOT, ks + 8 * pos, sd.slot_cond_state[s, pos, :, 0],
+        add(ids.COND_BASE + ids.SLOT_BASE + ks - 1, pfx, r, CO.SLOT, ks + 8 * pos, sd.slot_cond_state[s, pos, ks, 0],
             on & son, SUB_SLOT, 0, r)
 
     field_effects(ids.PFX_FIELD, 10, -1)
@@ -108,6 +128,8 @@ def _candidates(st, dex, event: str, targets=None):
             mon_effects(s, pos, r, ids.PFX_ON, ok)
             side_effects(s, ids.PFX_ON, r, r, ok)          # customHolder = the active mon
             field_effects(ids.PFX_ON, r, r, ok)
+    if not rows:                                         # nothing can ever handle this event
+        return None
     cols = [jnp.concatenate([row[j] for row in rows]) for j in range(10)]
     keys = ("eff", "pfx", "holder", "loc", "idx", "dur", "present", "sub", "eo", "spdh")
     return dict(zip(keys, cols))
@@ -213,17 +235,20 @@ def field_event(st, dex, rng, event: str, on, targets=None):
     sub = sc.fieldevent_ord
     st = st.replace(scratch=sc.replace(fieldevent_ord=sc.fieldevent_ord + on.astype(I16)))
     c = _candidates(st, dex, event, targets)
+    if c is None:                                        # statically empty: fieldEvent runs no handler
+        return st, rng
     hook = getattr(ids, f"HOOK_{event.upper()}")
     has_cb = ((dex.handler_mask[jnp.maximum(c["eff"], 0), hook].astype(I32) >> c["pfx"]) & 1) == 1
     with_dur = (c["loc"] >= 0) & (c["dur"] > 0) if residual_mode else jnp.zeros_like(has_cb)
     listed = on & c["present"] & (c["eff"] >= 0) & (has_cb | with_dur)
+    K = min(K_RES if residual_mode else K_SWITCHIN, int(c["eff"].shape[0]))   # <= the static candidate count
     n = jnp.sum(listed.astype(I32))
-    sel = jnp.nonzero(listed, size=K_RES, fill_value=0)[0]
-    valid = jnp.arange(K_RES) < n
+    sel = jnp.nonzero(listed, size=K, fill_value=0)[0]
+    valid = jnp.arange(K) < n
     cc = {k: v[sel] for k, v in c.items()}
     from vgcjax.battle.util import or_flag
     from vgcjax.battle import errors as E
-    st = or_flag(st, E.ERR_OVERFLOW_RESIDUAL, n > K_RES)
+    st = or_flag(st, E.ERR_OVERFLOW_RESIDUAL, n > K)
     eff, pfx, holder = cc["eff"], cc["pfx"], cc["holder"]
     o = dex.handler_order[jnp.maximum(eff, 0), hook, pfx].astype(I32)
     has_entry = has_cb[sel]
@@ -236,8 +261,8 @@ def field_event(st, dex, rng, event: str, on, targets=None):
     # tie groups among handlers that fieldEvent will not skip (fainted holders, except slot conditions)
     fainted = (holder < 8) & mget(st.mons.fainted, jnp.clip(holder, 0, 7)) & (cc["loc"] != CO.SLOT)
     live_sorted = valid[perm] & ~fainted[perm]
-    pos = jnp.arange(K_RES)
-    gsize = jnp.zeros(K_RES, I32).at[group].add(live_sorted.astype(I32))
+    pos = jnp.arange(K)
+    gsize = jnp.zeros(K, I32).at[group].add(live_sorted.astype(I32))
     is_start = live_sorted & (group == pos) & (gsize[pos] >= 2)
     # canonical member order inside a group: holder rank, then effect-id string rank
     canon_key = holder_rank(st, holder) * 4096 + jnp.asarray(_STR_RANK)[jnp.clip(eff, 0, len(_NAMES) - 1)]
@@ -252,9 +277,10 @@ def field_event(st, dex, rng, event: str, on, targets=None):
         ck = jnp.where(mem_sorted, canon_key[cand], 1 << 30)
         canon_pos = jnp.argsort(ck, stable=True)                                 # positions in canonical order
         nm = jnp.sum(mem_sorted.astype(I32))
-        mvalid = jnp.arange(K_RES) < nm
-        torder, rng = R.tie_order(rng, H_tkey(st, sub, g), jnp.arange(8), mvalid[:8], active=on & act)
-        exec_pos = canon_pos[jnp.clip(torder, 0, K_RES - 1)]
+        mvalid = jnp.arange(K) < nm
+        torder, rng = R.tie_order(rng, H_tkey(st, sub, g), jnp.arange(8), jnp.pad(mvalid, (0, max(0, 8 - K)))[:8],
+                                  active=on & act)
+        exec_pos = canon_pos[jnp.clip(torder, 0, K - 1)]
         slots = jnp.nonzero(mem_sorted, size=8, fill_value=0)[0]
         for j in range(8):
             ok = act & (j < nm)
@@ -282,7 +308,7 @@ def field_event(st, dex, rng, event: str, on, targets=None):
         st = F.resolve_faints(st, dex, live)
         return st, rng
 
-    return jax.lax.fori_loop(0, K_RES, body, (st, rng))
+    return jax.lax.fori_loop(0, K, body, (st, rng))
 
 
 def _cur_duration(st, loc, idx, holder):

@@ -311,3 +311,12 @@ def randint_v(rng: Rng, key: dk.DrawKey, a, b, active):
     h = hash32(rng.w, _pack(key))
     natural = a + (h % jnp.maximum(b - a, 1).astype(U32)).astype(I32)
     return _resolve_v(rng, key, natural, b - a <= 1, a, a, b, active)
+
+
+def sample_v(rng: Rng, key: dk.DrawKey, n, active):
+    """sample() for T keys. -> (index[T], rng)"""
+    T = jnp.shape(active)[0]
+    n = jnp.broadcast_to(jnp.asarray(n, I32), (T,))
+    h = hash32(rng.w, _pack(key))
+    natural = (h % jnp.maximum(n, 1).astype(U32)).astype(I32)
+    return _resolve_v(rng, key, natural, n <= 1, jnp.zeros(T, I32), n, 0, active)

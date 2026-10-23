@@ -11,6 +11,15 @@ from vgcjax.core import rng as R
 from vgcjax.core.dex import load_dex
 from vgcjax.data import ids
 from vgcjax.effects import hooks as H
+from vgcjax.effects import static as SX
+
+
+def setup_module():
+    SX.DATA_MODE[0] = True        # these tests collect from PS data (handler_mask), not the registered handlers
+
+
+def teardown_module():
+    SX.DATA_MODE[0] = False
 
 
 def battle():

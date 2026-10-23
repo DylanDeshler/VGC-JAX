@@ -441,6 +441,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     mstatus = dex.move_status[move].astype(I32)
     memento = jnp.zeros((), bool)
     from vgcjax.effects import statuses as STS
+    # status for every remaining target at once (independent per target; messages emitted in the loop)
+    st, rng, sres_v, smsg = STS.try_set_status_v(st, dex, rng, targets, mstatus, cont & (mstatus > 0), u,
+                                                 C.eff_move(move), mstatus)
     # per target, in PS order (PS :1247-1345): boost / heal messages, status, (volatile / side / slot / weather /
     # terrain / pseudoWeather: M3), forceSwitch, (Hit: M3), selfdestruct ifHit, selfSwitch
     for j in range(NT):
@@ -452,8 +455,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         cj = cont[j]
         dj = (did[0][j], did[1][j])
         tj = (tags[j], vals[j])
-        st, rng, sres = STS.try_set_status(st, dex, rng, targets[j], mstatus, cj & (mstatus > 0), source=u,
-                                           source_effect=C.eff_move(move), move_status=mstatus)
+        st = STS.emit_status_msgs(st, smsg, j, targets[j])
+        sres = (sres_v[0][j], sres_v[1][j])
         sfail = cj & (mstatus > 0) & ~RS.truthy(sres)                  # `!hitResult && move.status` -> continue
         tj = RS.where(sfail, RS.combine(tj, RS.R(RS.BOOL, 0)), tj)
         da = RS.where(heal_fail[j] | sfail, RS.combine(da, RS.R(RS.NULL)), da)
@@ -521,13 +524,18 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
                   stats_raised_this_turn=mset(m.stats_raised_this_turn, u, True, up),
                   stats_lowered_this_turn=mset(m.stats_lowered_this_turn, u, True, down))
     st = st.replace(mons=m)
+    # secondary status per secondary index, every target at once (k = 0 then 1: both may hit one target)
+    sec_msgs = []
+    for k in range(2):
+        sst = dex.move_sec_status[move, k].astype(I32)
+        st, rng, _, msg = STS.try_set_status_v(st, dex, rng, targets, sst, oks[k] & (sst > 0), u, C.eff_move(move),
+                                               mstatus)
+        sec_msgs.append(msg)
     for j in range(NT):
         for k in range(2):
             # moveHit(target, source, move, secondary, isSecondary) -> runMoveEffects: boosts, status, volatile (M3)
             st = emit_boost(st, tmsgs[k], targets[j], j)
-            sst = dex.move_sec_status[move, k].astype(I32)
-            st, rng, _ = STS.try_set_status(st, dex, rng, targets[j], sst, oks[k][j] & (sst > 0), source=u,
-                                            source_effect=C.eff_move(move), move_status=mstatus)
+            st = STS.emit_status_msgs(st, sec_msgs[k], j, targets[j])
             st = emit_boost(st, smsgs[j, k], u)
 
     # 6. forceSwitch -> forceSwitchFlag (HOOK DragOut)

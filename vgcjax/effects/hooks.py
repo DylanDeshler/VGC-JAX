@@ -17,7 +17,7 @@ from vgcjax.data import ids
 
 I32 = jnp.int32
 BIG = 1 << 30
-K_H = 16
+K_H = 8
 
 
 # ------------------------------------------------------------------ keys and ordering (PS: sim/battle.ts:957-1023, 409-416)
@@ -125,7 +125,6 @@ UNPREFIXED = {"BeforeTurn", "Update", "Weather", "WeatherChange", "TerrainChange
 LEFT_TO_RIGHT = {"Invulnerability", "TryHit", "DamagingHit", "EntryHazard"}       # PS sim/battle.ts:796-802
 MUL_HOOKS = {"BasePower", "ModifyAtk", "ModifyDef", "ModifySpA", "ModifySpD", "ModifySpe", "ModifyDamage",
              "ModifyAccuracy", "ModifyCritRatio", "ModifySTAB"}                    # contract §4 HANDLER_MUL
-K_VOL = 16
 # holder codes in candidate lists: 0..7 mon ref, 8/9 side 0/1, 10 field
 HOLD_SIDE0, HOLD_FIELD = 8, 10
 
@@ -165,34 +164,15 @@ class HookCtx:
         return self.replace(ret_t=jnp.where(cond, r[0], self.ret_t), ret_v=jnp.where(cond, r[1], self.ret_v))
 
 
-def _mon_effects(st, ref):
-    """EffectIds held by a mon (PS findPokemonEventHandlers order: status, volatiles, ability, item, slot conds).
-    Returns (eff i32[24], valid bool[24])."""
-    from vgcjax.battle import common as C
-    m = st.mons
-    status = mget(m.status, ref).astype(I32)
-    words = mget(m.vol_bits, ref)
-    bits = ((words[:, None] >> jnp.arange(32, dtype=jnp.uint32)[None, :]) & 1).reshape(-1)[:S.NV] == 1
-    vidx = jnp.nonzero(bits, size=K_VOL, fill_value=-1)[0].astype(I32)
-    vol_eff = jnp.where(vidx >= 0, C.eff_cond(ids.VOL_BASE + vidx), -1)
-    ab = C.eff_ability(mget(m.ability, ref))
-    it = C.eff_item(mget(m.item, ref))
-    side = ref // 4
-    pos = jnp.where(st.sides.active[side, 0] == ref % 4, 0, jnp.where(st.sides.active[side, 1] == ref % 4, 1, -1))
-    sbits = st.sides.slot_cond_bits[side, jnp.clip(pos, 0, 1)]
-    slot_on = (((sbits >> jnp.arange(S.NSL, dtype=jnp.uint32)) & 1) == 1) & (pos >= 0)
-    slot_eff = jnp.where(slot_on, C.eff_cond(ids.SLOT_BASE + jnp.arange(S.NSL)), -1)
-    eff = jnp.concatenate([jnp.where(status > 0, C.eff_cond(status), -1)[None], vol_eff, ab[None], it[None], slot_eff])
-    return eff, eff >= 0
-
-
 def candidates(st, dex, hook_name: str, target, source):
-    """Static-size candidate list for runEvent(hook, target, source) per PS findEventHandlers (sim/battle.ts:1049-1109).
-    Returns dict of arrays [N]: eff, pfx, holder, valid. `target` = mon ref (or -1 = battle)."""
+    """Candidate list for runEvent(hook, target, source) per PS findEventHandlers (sim/battle.ts:1049-1109), built at
+    trace time only from effects that define (hook, prefix) (effects/static.py). Returns dict of arrays [N]: eff, pfx,
+    holder, valid. `target` = mon ref (or -1 = battle)."""
     from vgcjax.battle import common as C
+    from vgcjax.effects import static as SX
     hook = getattr(ids, f"HOOK_{hook_name.upper()}")
     prefixed = hook_name not in UNPREFIXED
-    m = st.mons
+    m, sd, f = st.mons, st.sides, st.field
     target = jnp.asarray(target, I32)
     source = jnp.asarray(source, I32)
     t_ok = target >= 0
@@ -200,42 +180,78 @@ def candidates(st, dex, hook_name: str, target, source):
     s_active = (source >= 0) & mget(m.is_active, source)
     mon_level = t_ok & (t_active | s_active)
     effs, pfxs, holders = [], [], []
+
+    def add(eff, pfx, holder):
+        eff = jnp.atleast_1d(jnp.asarray(eff, I32))
+        if eff.shape[0] == 0:
+            return
+        effs.append(eff)
+        pfxs.append(jnp.full(eff.shape, pfx, I32))
+        holders.append(jnp.broadcast_to(jnp.asarray(holder, I32), eff.shape))
+
+    def mon_rows(ref, pfx, cond):
+        """status, volatiles, ability, item, slot conditions of `ref` that define (hook, pfx)."""
+        r = jnp.maximum(ref, 0)
+        side = r // 4
+        h = jnp.where(cond, ref, -1)
+        if SX.statuses_define(hook, pfx):
+            status = mget(m.status, r).astype(I32)
+            add(jnp.where(status > 0, C.eff_cond(status), -1), pfx, h)
+        kv = SX.cond_subset(hook, pfx, ids.VOL_BASE, S.NV)
+        if kv:
+            kv = jnp.asarray(kv, I32)
+            words = mget(m.vol_bits, r)
+            on = ((words[kv // 32] >> (kv % 32).astype(jnp.uint32)) & 1) == 1
+            add(jnp.where(on, C.eff_cond(ids.VOL_BASE + kv), -1), pfx, h)
+        if SX.abilities_define(hook, pfx):
+            add(C.eff_ability(mget(m.ability, r)), pfx, h)
+        if SX.items_define(hook, pfx):
+            add(C.eff_item(mget(m.item, r)), pfx, h)
+        ks = SX.cond_subset(hook, pfx, ids.SLOT_BASE, S.NSL)
+        if ks:
+            ks = jnp.asarray(ks, I32)
+            pos = jnp.where(sd.active[side, 0] == r % 4, 0, jnp.where(sd.active[side, 1] == r % 4, 1, -1))
+            bits = sd.slot_cond_bits[side, jnp.clip(pos, 0, 1)]
+            on = (((bits >> ks.astype(jnp.uint32)) & 1) == 1) & (pos >= 0)
+            add(jnp.where(on, C.eff_cond(ids.SLOT_BASE + ks), -1), pfx, h)
+
     tside = jnp.where(t_ok, target // 4, 0)
     for side in range(2):
         for slot in range(2):
-            b = st.sides.active[side, slot].astype(I32)
+            b = sd.active[side, slot].astype(I32)
             ref = jnp.where(b >= 0, side * 4 + b, -1)
             alive = (ref >= 0) & (mget(m.hp, jnp.maximum(ref, 0)) > 0)
-            eff, ok = _mon_effects(st, jnp.maximum(ref, 0))
-            ok = ok & (ref >= 0)
-            ally = alive & (side == tside)
-            roles = [(ids.PFX_ON, ref == target),
-                     (ids.PFX_ALLY, ally & prefixed), (ids.PFX_ANY, alive & prefixed),
-                     (ids.PFX_FOE, alive & (side != tside) & prefixed), (ids.PFX_SOURCE, (ref == source) & prefixed)]
+            ok = (ref >= 0) & mon_level
+            roles = [(ids.PFX_ON, ref == target)]
+            if prefixed:
+                roles += [(ids.PFX_ALLY, alive & (side == tside)), (ids.PFX_ANY, alive),
+                          (ids.PFX_FOE, alive & (side != tside)), (ids.PFX_SOURCE, ref == source)]
             for pfx, cond in roles:
-                effs.append(eff)
-                pfxs.append(jnp.full(eff.shape, pfx, I32))
-                holders.append(jnp.where(ok & cond & mon_level, ref, -1))
-    # source may be off the field (onSource regardless of activity, PS :1081-1083)
+                mon_rows(ref, pfx, ok & cond)
     # side conditions: on (target side), Foe (other side), Any (both)
     for side in range(2):
-        bits = st.sides.side_cond_bits[side]
-        on = ((bits >> jnp.arange(S.NSC, dtype=jnp.uint32)) & 1) == 1
-        eff = jnp.where(on, C.eff_cond(ids.SIDE_BASE + jnp.arange(S.NSC)), -1)
         for pfx, cond in ((ids.PFX_ON, side == tside), (ids.PFX_FOE, (side != tside) & prefixed),
                           (ids.PFX_ANY, jnp.asarray(prefixed))):
-            effs.append(eff)
-            pfxs.append(jnp.full(eff.shape, pfx, I32))
-            holders.append(jnp.where(on & cond & mon_level, HOLD_SIDE0 + side, -1))
+            k = SX.cond_subset(hook, pfx, ids.SIDE_BASE, S.NSC)
+            if not k:
+                continue
+            k = jnp.asarray(k, I32)
+            on = ((sd.side_cond_bits[side] >> k.astype(jnp.uint32)) & 1) == 1
+            add(jnp.where(on, C.eff_cond(ids.SIDE_BASE + k), -1), pfx, jnp.where(cond & mon_level, HOLD_SIDE0 + side, -1))
     # field: pseudo-weathers, weather, terrain (on)
-    f = st.field
-    pw_on = ((f.pw_bits >> jnp.arange(S.NPW, dtype=jnp.uint32)) & 1) == 1
-    feff = jnp.concatenate([jnp.where(pw_on, C.eff_cond(ids.PW_BASE + jnp.arange(S.NPW)), -1),
-                            jnp.where(f.weather > 0, C.eff_cond(f.weather), -1)[None],
-                            jnp.where(f.terrain > 0, C.eff_cond(f.terrain), -1)[None]])
-    effs.append(feff)
-    pfxs.append(jnp.full(feff.shape, ids.PFX_ON, I32))
-    holders.append(jnp.where(feff >= 0, HOLD_FIELD, -1))
+    k = SX.cond_subset(hook, ids.PFX_ON, ids.PW_BASE, S.NPW)
+    if k:
+        k = jnp.asarray(k, I32)
+        on = ((f.pw_bits >> k.astype(jnp.uint32)) & 1) == 1
+        add(jnp.where(on, C.eff_cond(ids.PW_BASE + k), -1), ids.PFX_ON, HOLD_FIELD)
+    reg_on = SX.registered_effects(hook, ids.PFX_ON)
+    from vgcjax.effects import conditions as CO
+    if any(CO.eff(w) in reg_on for w in CO.WEATHERS if w in ids.CONDITIONS):
+        add(jnp.where(f.weather > 0, C.eff_cond(f.weather), -1), ids.PFX_ON, HOLD_FIELD)
+    if any(CO.eff(w) in reg_on for w in CO.TERRAINS if w in ids.CONDITIONS):
+        add(jnp.where(f.terrain > 0, C.eff_cond(f.terrain), -1), ids.PFX_ON, HOLD_FIELD)
+    if not effs:
+        add(-1, 0, -1)
     eff = jnp.concatenate(effs)
     pfx = jnp.concatenate(pfxs)
     holder = jnp.concatenate(holders)
@@ -271,7 +287,8 @@ def run_event(hook_name: str, st, dex, rng, hc: HookCtx, branches=None, fast_exi
     from vgcjax.core import rng as R
     on = jnp.asarray(on)
     c = candidates(st, dex, hook_name, hc.target, hc.source)
-    c, overflow = compact(c)
+    k = min(K_H, int(c["eff"].shape[0]))                    # loop bound <= the static candidate count
+    c, overflow = compact(c, k)
     hook = c["hook"]
     spd = holder_speed(st, c["holder"])
     uses_eo = hook_name.endswith("SwitchIn") or hook_name.endswith("RedirectTarget")
@@ -286,7 +303,7 @@ def run_event(hook_name: str, st, dex, rng, hc: HookCtx, branches=None, fast_exi
         # then PS id string order, as oracle/lib/instrument.js) and fold in the drawn order. Until then an exact
         # tie group of size >= 2 raises ERR_UNSUPPORTED_EFFECT instead of silently using a canonical order.
         valid_sorted = c["valid"][perm]
-        size = jnp.bincount(jnp.where(valid_sorted, group, K_H), length=K_H + 1)[:K_H]
+        size = jnp.bincount(jnp.where(valid_sorted, group, k), length=k + 1)[:k]
         mul_tie = jnp.any(size >= 2)
         sc = st.scratch
         st = st.replace(scratch=sc.replace(mulhook_ord=sc.mulhook_ord + on.astype(sc.mulhook_ord.dtype)))
@@ -313,7 +330,7 @@ def run_event(hook_name: str, st, dex, rng, hc: HookCtx, branches=None, fast_exi
         hc, st, rng = jax.tree_util.tree_map(lambda a, b: jax.lax.optimization_barrier(a), (hc, st, rng), (hc, st, rng))
         return hc, st, rng
 
-    hc, st, rng = jax.lax.fori_loop(0, K_H, body, (hc, st, rng))
+    hc, st, rng = jax.lax.fori_loop(0, k, body, (hc, st, rng))
     # final modify for non-negative integer relays (PS :936-940)
     numeric = (hc.relay_t == RS.NUM) & (hc.relay_v >= 0)
     hc = hc.replace(relay_v=jnp.where(on & numeric, fp.modify_raw(hc.relay_v, hc.modifier), hc.relay_v))
