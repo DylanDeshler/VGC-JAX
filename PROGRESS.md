@@ -109,12 +109,10 @@ none yet (no engine)
 none
 
 ## Pending escalations
+- (2026-10-23) G-core ACKNOWLEDGED by the human; ADR-102 and ADR-103 ACCEPTED. G-core re-evaluated: PASS
+  (unverified contract until contract-hashes.md exists). M3 content unblocked.
 - ADR-101 (canonical QUEUE_INSERT_TIE in the oracle) — review
-- ADR-102 (G-core coverage: RANDOM_TARGET via crafted scenarios, FIELD_EVENT waiver) — approve/reject; edit
-  docs/coverage/waivers.json if approved
-- ADR-103 (extend projection with hidden engine state; record SELECT ties of replacement switches) — approve/reject
 - docs/decisions/contract-hashes.md must be created by the human (hashes listed in the gate report)
-- Gate checkpoint: G-core report awaiting acknowledgement; M3 content waits (infrastructure continues)
 - ADR-104 (kernel count 12x over 09 §1.1a; options: GPU measurement now, hit-loop / target-axis restructuring,
   micro-step rewrite, budget revision) — decide
 

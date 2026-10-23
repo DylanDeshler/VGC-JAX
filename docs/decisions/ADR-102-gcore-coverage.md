@@ -1,7 +1,6 @@
 # ADR-102 — G-core coverage: RANDOM_TARGET from crafted scenarios; waive SPEED_TIE_FIELD_EVENT
 
-- **Status:** proposed 2026-10-22 — **needs human approval** (changes a protected file: `docs/coverage/waivers.json`,
-  and how G-core coverage is counted; ADR-029).
+- **Status:** **accepted by the human 2026-10-23**; waiver entries added to `docs/coverage/waivers.json`.
 - **Affects:** `harness/gates.yaml` G-core coverage, `docs/coverage/waivers.json`.
 
 ## Problem

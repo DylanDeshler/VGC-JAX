@@ -1,4 +1,12 @@
 {
- "_doc": "Coverage waivers (07 §9.3). Each needs a probe under oracle/tools/probes/ and an ADR. PROTECTED (ADR-029): only added with human approval.",
- "waivers": []
+ "_doc": "Coverage waivers (07 §9.3). Each needs a probe under oracle/tools/probes/ and an ADR. PROTECTED (ADR-029): only added with human approval. `covered_by` = the target is covered by a crafted-scenario corpus instead of the gate corpus (with its hit count).",
+ "waivers": [
+  {"gate": "G-core", "target": "SPEED_TIE_FIELD_EVENT", "adr": "ADR-102",
+   "probe": "oracle/tools/probes/core_field_event_handlers.js",
+   "reason": "no core-stage entity can create a fieldEvent handler", "approved": "2026-10-23"},
+  {"gate": "G-core", "target": "RANDOM_TARGET", "adr": "ADR-102",
+   "covered_by": "tests/scenarios/core/test_struggle_random_target.py", "hits": 360,
+   "reason": "non-degenerate random targets need a 0-PP Struggle with two living foes; crafted corpus 400/400 clean",
+   "approved": "2026-10-23"}
+ ]
 }

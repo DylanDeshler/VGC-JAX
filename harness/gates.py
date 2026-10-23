@@ -54,13 +54,19 @@ def evaluate(gate: str, summary: dict) -> dict:
         elif got is not None or k in ("CBR", "MPR"):
             checks.append((k, got, f">= {v}", got is not None and got >= v))
     waivers = json.loads((ROOT / "docs" / "coverage" / "waivers.json").read_text())["waivers"]
-    waived = {w.get("target") for w in waivers}
+    mine = {w["target"]: w for w in waivers if w.get("gate") == gate}
     cov = summary.get("coverage", {})
+    need = cfg.get("coverage", {}).get("min_hits", 0)
     for kind in cfg.get("coverage", {}).get("kinds", []):
         n = cov.get(kind, 0)
-        ok = n >= cfg["coverage"]["min_hits"] or kind in waived
-        checks.append((f"coverage:{kind}", n, f">= {cfg['coverage']['min_hits']}" + (" (waived)" if kind in waived else ""),
-                       ok))
+        w = mine.get(kind)
+        if w and "covered_by" in w:            # crafted-scenario corpus counts instead (ADR-102)
+            ok, note = n >= need or w.get("hits", 0) >= need, f" (crafted: {w.get('hits', 0)} hits, {w['covered_by']})"
+        elif w:
+            ok, note = True, " (waived)"
+        else:
+            ok, note = n >= need, ""
+        checks.append((f"coverage:{kind}", n, f">= {need}{note}", ok))
     hashes = contract_hashes()
     rec = recorded_hashes()
     verified = rec is not None and all(rec.get(k) == v for k, v in hashes.items())

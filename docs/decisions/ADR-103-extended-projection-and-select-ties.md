@@ -1,7 +1,6 @@
 # ADR-103 — Extend the projection with hidden engine state; record SELECT ties of replacement switches
 
-- **Status:** proposed 2026-10-22 — **needs human approval** (changes protected `harness/contract/projection_fields.json`,
-  `normalisations.json` and `docs/design/contract/drawkey.md` §4; ADR-029). Bumps `contract_version` to 2.
+- **Status:** **accepted by the human 2026-10-23**; implementation: contract_version 2.
 
 ## Problem 1: state outside the protected projection is unchecked
 07 §5.1 compares HP, stats, boosts, status, moves, … but not engine state that later mechanics read:
