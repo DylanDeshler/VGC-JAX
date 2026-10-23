@@ -103,3 +103,31 @@ def add_side_condition(st, dex, rng, side, c, on, source=-1, source_effect=-1):
     st = CO.set_side(st, side, c, False, jnp.zeros(4, I16), add & ~started)
     res = RS.where(restart, r_restart, RS.where(add & started, RS.R(RS.BOOL, 1), RS.R(RS.BOOL, 0)))
     return st, rng, res
+
+
+def add_pseudo_weather(st, dex, rng, c, on, source=-1, source_effect=-1):
+    """PS: sim/field.ts:186-216 addPseudoWeather: FieldRestart if present (false without a handler), else new state
+    (duration, durationCallback; no target, so no effectOrder), FieldStart (falsy cancels), PseudoWeatherChange (M4).
+    Returns (st, rng, result)."""
+    from vgcjax.battle import results as RS
+    on = jnp.asarray(on)
+    c = jnp.asarray(c, I32)
+    e = ids.COND_BASE + c - 1
+    present = CO.has_pseudo(st, c)
+    restart = on & present
+    hc = HookCtx.make(-1, source, source_effect).replace(holder=10)
+    hc, st, rng = CO.single_event(ids.HOOK_RESTART, e, st, dex, rng, hc, restart, prefix=ids.PFX_FIELD)
+    has_restart = CO.handler_present(dex, e, ids.HOOK_RESTART, ids.PFX_FIELD)
+    r_restart = RS.where(has_restart, CO.event_result(hc), RS.R(RS.BOOL, 0))
+    add = on & ~present
+    dur = dex.cond_duration[c].astype(I32)
+    hc2 = HookCtx.make(-1, source, source_effect).replace(holder=10)
+    hc2, st, rng = CO.single_event(CO.DURATION_CALLBACK, e, st, dex, rng, hc2, add)
+    dur = jnp.where(hc2.ret_t == RS.NUM, hc2.ret_v, dur)
+    st = CO.set_pseudo(st, c, True, jnp.zeros(3, I16).at[0].set(dur.astype(I16)), add)
+    hc3 = HookCtx.make(-1, source, source_effect).replace(holder=10)
+    hc3, st, rng = CO.single_event(ids.HOOK_START, e, st, dex, rng, hc3, add, prefix=ids.PFX_FIELD)
+    started = (hc3.ret_t == RS.UNDEF) | RS.truthy((hc3.ret_t, hc3.ret_v))
+    st = CO.set_pseudo(st, c, False, jnp.zeros(3, I16), add & ~started)
+    res = RS.where(restart, r_restart, RS.where(add & started, RS.R(RS.BOOL, 1), RS.R(RS.BOOL, 0)))
+    return st, rng, res

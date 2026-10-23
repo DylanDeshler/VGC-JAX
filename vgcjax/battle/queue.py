@@ -107,6 +107,7 @@ def rekey(st: S.State, dex, on) -> S.State:
     q = st.queue
     refs = entry_ref(q)
     has = q.valid & (refs >= 0)
+    st = C.mul_tick(st, jnp.sum(has.astype(I32)), on)               # getActionSpeed per queued action with a pokemon
     speeds = jnp.stack([C.action_speed(st, dex, r) for r in range(8)])
     new_speed = speeds[jnp.clip(refs, 0, 7)]
     prio = 10 * move_priority(st, dex, refs, q.move_id) + q.frac10.astype(I32)

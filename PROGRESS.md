@@ -95,6 +95,10 @@ M3 content (2026-10-23)
   move onHit / onHitSide, addSideCondition. Targeted corpora (oracle `--teams stagereq:impl:<req>`): 400 battles
   each Protect+Fake Out / Wide Guard+Feint / Detect: 100%. Quick Guard implemented but unverified (no learner in
   the 20-species impl pool).
+- Speed control + screens: Tailwind (ModifySpe chain), Trick Room (addPseudoWeather, restart toggle), Reflect /
+  Light Screen (ModifyDamage chain), side/field start-end events; contract MUL tie records reproduced via exact
+  mulhook_ord counting (every PS MUL runEvent: getStat('spe') sites, damage calc, accuracy) + rekey at the end of a
+  completed runAction (PS skips it after early returns). Targeted corpora 100%.
 - Kernel-like ops/step (impl): 76,818 (15,231 core-only). Planned: a hook-machinery optimisation pass once more
   of v0 lands (centralised in effects/hooks.py, fieldevent.py, conditions.py).
 

@@ -25,6 +25,8 @@ fields (PS protocol line -> record):
   CANT       |cant| X|reason               actor, move = reason EffectId (status / condition / move)
   START/END  |-start| / |-end| X|effect    actor, move = effect EffectId, v1 = [from] EffectId, flags
   SINGLETURN |-singleturn| X|effect        actor, move = effect EffectId (Protect, Wide Guard, ...)
+  SIDESTART/SIDEEND |-sidestart| side|eff  actor = side (0 / 1), move = effect EffectId
+  FIELDSTART/FIELDEND |-fieldstart| eff   move = effect EffectId, target = [of] ref (-1 none)
 """
 from __future__ import annotations
 
@@ -37,12 +39,14 @@ from vgcjax.battle.util import mget
 
 I16, I32 = jnp.int16, jnp.int32
 KINDS = ("NONE", "SWITCH", "MOVE", "DAMAGE", "HEAL", "CRIT", "SUPEREFFECTIVE", "RESISTED", "IMMUNE", "MISS", "FAIL",
-         "BOOST", "FAINT", "HITCOUNT", "OHKO", "TURN", "ACTIVATE", "STATUS", "CURESTATUS", "CANT", "START", "END", "SINGLETURN")
+         "BOOST", "FAINT", "HITCOUNT", "OHKO", "TURN", "ACTIVATE", "STATUS", "CURESTATUS", "CANT", "START", "END", "SINGLETURN", "SIDESTART", "SIDEEND",
+         "FIELDSTART", "FIELDEND")
 (EV_NONE, EV_SWITCH, EV_MOVE, EV_DAMAGE, EV_HEAL, EV_CRIT, EV_SUPER, EV_RESIST, EV_IMMUNE, EV_MISS, EV_FAIL, EV_BOOST,
  EV_FAINT, EV_HITCOUNT, EV_OHKO, EV_TURN, EV_ACTIVATE, EV_STATUS, EV_CURESTATUS, EV_CANT, EV_START,
- EV_END, EV_SINGLETURN) = range(len(KINDS))
+ EV_END, EV_SINGLETURN, EV_SIDESTART, EV_SIDEEND, EV_FIELDSTART, EV_FIELDEND) = range(len(KINDS))
 # kinds whose `move` field holds an EffectId (move / ability / item / condition) rather than a MoveId
-EFFECT_KINDS = ("DAMAGE", "HEAL", "STATUS", "CURESTATUS", "CANT", "FAIL", "ACTIVATE", "START", "END", "SINGLETURN")
+EFFECT_KINDS = ("DAMAGE", "HEAL", "STATUS", "CURESTATUS", "CANT", "FAIL", "ACTIVATE", "START", "END", "SINGLETURN", "SIDESTART", "SIDEEND",
+         "FIELDSTART", "FIELDEND")
 F_DRAG = 1
 F_MISS, F_NOTARGET, F_SPREAD, F_STILL = 1, 2, 4, 8
 F_RECOIL = 1

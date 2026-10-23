@@ -111,6 +111,13 @@ function reduce(lines, battle) {
 			ev('OHKO');
 		} else if (type === '-activate') {
 			ev('ACTIVATE', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1] });
+		} else if (type === '-sidestart' || type === '-sideend') {
+			const m = /^p([12])/.exec(parts[1] || '');
+			ev(type === '-sidestart' ? 'SIDESTART' : 'SIDEEND', { actor: m ? Number(m[1]) - 1 : -1,
+				move: fromEffect(parts[2])[1] });
+		} else if (type === '-fieldstart' || type === '-fieldend') {
+			const of = (tags.find(x => x.startsWith('[of]')) || '').slice(5);
+			ev(type === '-fieldstart' ? 'FIELDSTART' : 'FIELDEND', { move: fromEffect(parts[1])[1], target: of ? refOf(of) : -1 });
 		} else if (type === '-singleturn') {
 			ev('SINGLETURN', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1] });
 		} else if (type === '-start' || type === '-end') {

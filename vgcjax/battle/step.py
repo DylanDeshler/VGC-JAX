@@ -60,6 +60,7 @@ def entry_step_ctx(st, kind, ref, move_id, is_move):
 def commit_preview(st, dex, a, on):
     """PS: commitChoices for team preview, then runAction('team') x8 and queue [start]."""
     st2 = INIT.apply_preview(st, dex, a)
+    st2 = C.mul_tick(st2, 8, True)          # resolveAction getActionSpeed for the 8 'team' actions (4 per side)
     meta = st2.meta
     st2 = st2.replace(meta=meta.replace(mid_turn=jnp.asarray(True), phase=jnp.asarray(S.MOVE, I8)))
     from vgcjax.battle.util import tree_where
@@ -122,6 +123,7 @@ def commit_move(st, dex, rng, actions, on):
             spd = C.action_speed(st, dex, u)
             # megaEvo satellite (order 104), then the move (order 200)
             st = Q.add_entry(st, occ & is_move & mega, kind=S.Q_MEGA, side=side, b=b, speed=spd)
+            st = C.mul_tick(st, (occ & is_move & mega).astype(I32) + (occ & (is_move | is_switch)).astype(I32))
             loc = resolve_loc(st, dex, u, mid, loc)
             frac, rng = Q.frac_priority(st, dex, rng, u, mid, occ & is_move)
             prio = 10 * Q.move_priority(st, dex, u, mid) + frac
@@ -152,6 +154,7 @@ def commit_switch(st, dex, actions, on):
             src = jnp.where(flag >= 2, flag - 2, 0)
             st = Q.add_entry(st, go, kind=S.Q_INSTASWITCH, side=side, b=b, speed=C.action_speed(st, dex, u),
                              switch_target_b=a - 24, source_effect=src, prepend=True)
+            st = C.mul_tick(st, 1, go)
             m = st.mons
             st = st.replace(mons=m.replace(switch_flag=mset(m.switch_flag, u, 0, go)))
     return st
@@ -330,7 +333,6 @@ def micro(st, dex, rng, cfg):
     q = st.queue
     _, hk, anyv = Q.head(q)
     go = act & ~st.exec.in_move & anyv & (hk != S.Q_RESIDUAL)      # residual runs once per call (run_until_decision)
-    st = Q.rekey(st, dex, go & (hk == S.Q_MOVE))
     # tied entries share an order class, so the head's kind gives the step_tag of the SELECT tie record
     st = C.set_step(st, _lookup(STEP_TAG, hk, ids.STEP_COMMIT), -1, -1, 0, go)
     st, rng, idx, passes = Q.select(st, dex, rng, go)
@@ -350,7 +352,12 @@ def micro(st, dex, rng, cfg):
     st, rng = MP.move_hit(st, dex, rng, cfg)
     move_done = st.exec.in_move & st.exec.stopped
     st, rng = MP.move_end(st, dex, rng, cfg)
-    st, rng = post_action(st, dex, rng, kind, (run & ~is_move) | move_done)
+    finished = (run & ~is_move) | move_done
+    st, rng = post_action(st, dex, rng, kind, finished)
+    # end of runAction (PS: sim/battle.ts:2974-2982): when the action reached its tail (no early return, no switch
+    # request) and the next action is a move, updateSpeed + getActionSpeed for every queued action, then re-sort
+    _, nk, nany = Q.head(st.queue)
+    st = Q.rekey(st, dex, finished & active(st) & nany & (nk == S.Q_MOVE))
     # end of turn when the queue is drained and no move is in progress
     return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~jnp.any(st.queue.valid)), rng
 

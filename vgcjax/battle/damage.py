@@ -56,7 +56,7 @@ def modify_damage(base, *, spread, pbond_hit2, crit, roll, stab_m4096, type_mod,
 
 def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned, def_stats5, def_boosts7, def_types,
                     def_maxhp, def_grounded, def_crit_immune, crit_draw, roll, spread, pbond_hit2=False,
-                    canary_crit=False):
+                    canary_crit=False, final_m4096=4096):
     """Hook-free getDamage for move `move` (MoveId). PS: sim/battle-actions.ts:1639-1776.
 
     `crit_draw` is the CRIT draw outcome (ignored when crit_ratio == 0 or the move has willCrit);
@@ -101,7 +101,7 @@ def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned
     burn = jnp.asarray(atk_burned) & is_phys                 # Guts / Facade handled with hooks later
     crit_num, crit_den = (5, 4) if canary_crit else (3, 2)
     dmg = modify_damage(base, spread=spread, pbond_hit2=pbond_hit2, crit=crit, roll=roll, stab_m4096=stab_m,
-                        type_mod=type_mod, burn=burn, final_m4096=4096, crit_num=crit_num, crit_den=crit_den)
+                        type_mod=type_mod, burn=burn, final_m4096=final_m4096, crit_num=crit_num, crit_den=crit_den)
     kind = jnp.where(type_immune, DMG_FALSE,
                      jnp.where(ohko | (fixed != 0), DMG_NUMBER, jnp.where(bp == 0, DMG_UNDEFINED, DMG_NUMBER)))
     dmg = jnp.where(ohko, I(def_maxhp), jnp.where(fixed == -1, LEVEL, jnp.where(fixed > 0, fixed, dmg)))

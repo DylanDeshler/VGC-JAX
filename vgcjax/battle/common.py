@@ -83,9 +83,27 @@ def get_stat(st: S.State, dex, ref, stat_idx):
     m = st.mons
     stats = mget(m.stats, ref)
     boosts = mget(m.boosts, ref)
+    s = ST.boosted(jnp.take(stats, stat_idx, axis=-1), jnp.take(boosts, stat_idx, axis=-1))
+    return jnp.where(jnp.asarray(stat_idx) == 4, ST.cap_speed(spe_chain(st, ref, s)), s)
+
+
+def spe_chain(st: S.State, ref, spe):
+    """runEvent('ModifySpe', pokemon, null, null, spe) (PS: sim/pokemon.ts:617-660) as an explicit chain in PS
+    handler order: Tailwind onModifySpe (priority 0) chainModify(2); paralysis onModifySpePriority -101:
+    finalModify(spe) then floor(spe * 50 / 100) (Quick Feet: M4); the final modify. Status handlers only run for an
+    active holder (runEvent gathers only field handlers for an inactive target, sim/battle.ts:1067)."""
+    from vgcjax.core import fixedpoint as fp
+    m = st.mons
     active = mget(m.is_active, ref)
+    side = jnp.asarray(ref, I32) // 4
+    k = ids.COND_TAILWIND - ids.SIDE_BASE
+    tail = active & (((st.sides.side_cond_bits[jnp.clip(side, 0, 1)] >> k) & 1) == 1)
+    mod = jnp.where(tail, fp.chain_modify(jnp.int32(4096), 2, 1), 4096)
     par = active & (mget(m.status, ref) == ids.COND_PAR)
-    return ST.get_stat_hookless(stats, boosts, stat_idx, par)
+    spe = jnp.where(par, fp.modify_raw(spe, mod), spe)
+    mod = jnp.where(par, 4096, mod)
+    spe = jnp.where(par, (spe * 50) // 100, spe)
+    return fp.modify_raw(spe, mod)
 
 
 def action_speed(st: S.State, dex, ref):
@@ -93,14 +111,26 @@ def action_speed(st: S.State, dex, ref):
     return ST.action_speed(get_stat(st, dex, ref, 4), trick_room(st))
 
 
+def mul_tick(st: S.State, n, on=True) -> S.State:
+    """mulhook_ord += n (contract §4 SPEED_TIE_HANDLER_MUL `sub`): one per runEvent call PS makes on a MUL-class hook
+    (BasePower, ModifyAtk/Def/SpA/SpD/Spe, ModifyDamage, ModifyAccuracy, ModifyCritRatio, ModifySTAB), whether or
+    not any handler exists. getStat('spe') = one ModifySpe call."""
+    sc = st.scratch
+    inc = jnp.where(jnp.asarray(on), jnp.asarray(n, I32), 0).astype(sc.mulhook_ord.dtype)
+    return st.replace(scratch=sc.replace(mulhook_ord=sc.mulhook_ord + inc))
+
+
 def update_speed(st: S.State, dex, on=True) -> S.State:
-    """PS: sim/battle.ts:392-396 updateSpeed: every non-fainted active gets speed = getActionSpeed()."""
+    """PS: sim/battle.ts:392-396 updateSpeed: every non-fainted active gets speed = getActionSpeed() (one ModifySpe
+    runEvent each)."""
     m = st.mons
     sp = m.speed
+    n = jnp.int32(0)
     for r in range(8):
         live = mget(m.is_active, r) & ~mget(m.fainted, r)
         sp = mset(sp, r, action_speed(st, dex, r), jnp.asarray(on) & live)
-    return st.replace(mons=m.replace(speed=sp))
+        n = n + live.astype(I32)
+    return mul_tick(st.replace(mons=m.replace(speed=sp)), n, on)
 
 
 def update_speed_one(st: S.State, dex, ref, on=True) -> S.State:

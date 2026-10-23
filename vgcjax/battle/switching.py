@@ -118,6 +118,7 @@ def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_dr
     else:
         # insertChoice({choice: 'runSwitch', pokemon}): updateSpeed then insert by key (RUNSWITCH_INSERT_TIE)
         st = C.update_speed_one(st, dex, r_in, on)
+        st = C.mul_tick(st, 2, on)          # pokemon.updateSpeed() + resolveAction getActionSpeed
         st, rng = Q.insert_run_switch(st, rng, on, side, b_in, mget(st.mons.speed, r_in))
     return st, rng
 

@@ -22,9 +22,10 @@ SUPPORTED_REFS = {
 }
 # entities implemented beyond the data-only rule, by kind (filled in as handlers land)
 EXTRA: dict[str, set[str]] = {
-    "moves": {"protect", "detect", "wideguard", "fakeout", "feint"},   # effects/protect.py (Quick Guard: no impl-pool learner yet)
+    "moves": {"protect", "detect", "wideguard", "fakeout", "feint",     # effects/protect.py (Quick Guard: no learner yet)
+              "tailwind", "trickroom", "reflect", "lightscreen"},        # effects/field.py
     "abilities": set(), "items": set(),
-    "conditions": {"protect", "stall", "wideguard", "quickguard"},
+    "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen"},
 }
 
 
