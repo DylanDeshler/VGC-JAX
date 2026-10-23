@@ -14,7 +14,7 @@ from flax import struct
 from vgcjax.data import ids
 
 DATA_DIR = pathlib.Path(__file__).resolve().parent.parent / "data"
-STAGES = ("core", "v0", "v1", "v2")
+STAGES = ("core", "v0", "v1", "v2", "impl")
 
 
 @struct.dataclass

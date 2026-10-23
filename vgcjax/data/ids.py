@@ -4,7 +4,7 @@ ID spaces (03 §1) are stage-independent; stage support lives in tables.npz `sup
 """
 # ruff: noqa
 
-DATA_VERSION = "4fc755866a5f13d5"
+DATA_VERSION = "adb4df8793687d4f"
 PS_COMMIT = "d601443456c795f77c6e4f2b5b459167f2b10a3c"
 FORMAT = "gen9championsvgc2026regmc"
 

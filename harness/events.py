@@ -16,6 +16,15 @@ RANDOM_LOC_TARGETS = {"allAdjacentFoes", "allAdjacent", "foeSide", "allySide", "
 FIELDS = ("actor", "target", "move", "v1", "v2", "flags")
 
 
+def effect_name(e: int) -> str:
+    """EffectId -> PS id string ('' for none)."""
+    for base, lst in ((ids.COND_BASE, ids.CONDITIONS), (ids.ITEM_BASE, ids.ITEMS), (ids.ABILITY_BASE, ids.ABILITIES),
+                      (ids.MOVE_BASE, ids.MOVES)):
+        if base <= e < base + len(lst) - 1:
+            return lst[e - base + 1]
+    return ""
+
+
 def engine_events(st) -> tuple[list[dict], bool]:
     """Records written during the last step (oldest first) and whether the ring overflowed."""
     ev = st.events
@@ -25,8 +34,11 @@ def engine_events(st) -> tuple[list[dict], bool]:
     out = []
     for a in range(max(start, count - S.NE), count):
         t, kind, actor, target, move, v1, v2, flags = (int(x) for x in buf[a % S.NE])
-        out.append(dict(kind=EV.KINDS[kind], actor=actor, target=target,
-                        move=ids.MOVES[move] if 0 < move < len(ids.MOVES) else "", v1=v1, v2=v2, flags=flags))
+        name = EV.KINDS[kind]
+        mv = effect_name(move) if name in EV.EFFECT_KINDS else (ids.MOVES[move] if 0 < move < len(ids.MOVES) else "")
+        if name in ("STATUS", "CURESTATUS"):
+            v1 = effect_name(v1) if v1 >= 0 else ""
+        out.append(dict(kind=name, actor=actor, target=target, move=mv, v1=v1, v2=v2, flags=flags))
     return out, n > S.NE
 
 

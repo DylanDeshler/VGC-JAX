@@ -103,6 +103,17 @@ def branch_table(hook: int, effect_ids, prefix: int | None = None):
     return local, [h.fn for h in hs]
 
 
+def dispatch(hook: int, prefix: int | None = None):
+    """(eff -> local branch index fn, [fn]) of every registered handler for `hook` (run_event `branches`)."""
+    hs = registered(hook, prefix)
+    effs = jnp.asarray([h.effect for h in hs] or [-10**6], I32)
+
+    def local(e):
+        hit = jnp.asarray(e, I32) == effs
+        return jnp.where(jnp.any(hit), jnp.argmax(hit) + 1, 0)
+    return local, [h.fn for h in hs]
+
+
 # ------------------------------------------------------------------ event context and dispatch
 from flax import struct  # noqa: E402
 

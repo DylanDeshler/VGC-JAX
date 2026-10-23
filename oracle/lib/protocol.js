@@ -11,8 +11,13 @@ const toID = s => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 const IGNORE = new Set(['', 'upkeep', 'teamsize', 'start', 'gametype', 'player', 'gen', 'tier', 'rule', 'clearpoke',
 	'poke', 'teampreview', 'j', 'l', 'win', 'tie', '-anim', 'uhtmlchange', 'uhtml', 't:', 'debug', 'html', 'raw',
 	'inactive', 'inactiveoff', 'hint', 'message', 'bigerror', 'error', 'c', 'chat', 'done', 'request', 'sideupdate']);
-const F = { DRAG: 1, MISS: 1, NOTARGET: 2, SPREAD: 4, STILL: 8, RECOIL: 1, DRAIN: 1, LEVITATE: 1, OHKO: 2, HEAL: 1,
-	UNBOOST: 1 };
+const F = { DRAG: 1, MISS: 1, NOTARGET: 2, SPREAD: 4, STILL: 8, RECOIL: 1, FROM: 2, DRAIN: 1, LEVITATE: 1, OHKO: 2,
+	HEAL: 1, FAILSTATUS: 2, UNBOOST: 1, FROM_MOVE: 1, FROM_ABILITY: 2, FROM_ITEM: 4, MSG: 1, SILENT: 2, FROM_MOVE_CURE: 4 };
+/** "[from] move: X" / "ability: X" / "item: X" / "X" -> [kind, id] */
+const fromEffect = s => {
+	const m = /^(move|ability|item): (.*)$/.exec(s || '');
+	return m ? [m[1], toID(m[2])] : ['', toID(s)];
+};
 
 function publicLines(lines) {
 	const out = [];
@@ -67,12 +72,12 @@ function reduce(lines, battle) {
 		} else if (type === '-damage' || type === '-heal') {
 			const [pct, colour] = hp(parts[2]);
 			const of = (tags.find(x => x.startsWith('[of]')) || '').slice(5);
-			let flags = 0;
+			let flags = 0; let move = '';
 			if (type === '-damage' && /^recoil$/i.test(from)) flags = F.RECOIL;
 			else if (type === '-heal' && from === 'drain') flags = F.DRAIN;
-			else if (from) flags = 64;  // unexpected source: never produced by the engine yet
-			ev(type === '-damage' ? 'DAMAGE' : 'HEAL', { actor: refOf(parts[1]), target: of ? refOf(of) : -1, v1: pct,
-				v2: colour, flags });
+			else if (from) { flags = F.FROM; move = fromEffect(from)[1]; }
+			ev(type === '-damage' ? 'DAMAGE' : 'HEAL', { actor: refOf(parts[1]), target: of && flags !== F.FROM ? refOf(of) : -1,
+				move, v1: pct, v2: colour, flags });
 		} else if (type === '-crit') {
 			ev('CRIT', { actor: refOf(parts[1]) });
 		} else if (type === '-supereffective' || type === '-resisted') {
@@ -82,7 +87,19 @@ function reduce(lines, battle) {
 		} else if (type === '-miss') {
 			ev('MISS', { actor: refOf(parts[1]), target: refOf(parts[2]) });
 		} else if (type === '-fail') {
-			ev('FAIL', { actor: refOf(parts[1]), flags: parts[2] === 'heal' ? F.HEAL : 0 });
+			const why = parts[2] && !parts[2].startsWith('[') ? parts[2] : '';
+			ev('FAIL', { actor: refOf(parts[1]), move: why && why !== 'heal' ? toID(why) : '',
+				flags: why === 'heal' ? F.HEAL : why ? F.FAILSTATUS : 0 });
+		} else if (type === '-status') {
+			const [k, id] = fromEffect(from);
+			ev('STATUS', { actor: refOf(parts[1]), move: parts[2], v1: from ? id : '',
+				flags: k === 'move' ? F.FROM_MOVE : k === 'ability' ? F.FROM_ABILITY : k === 'item' ? F.FROM_ITEM : 0 });
+		} else if (type === '-curestatus') {
+			const [, id] = fromEffect(from);
+			ev('CURESTATUS', { actor: refOf(parts[1]), move: parts[2], v1: from ? id : '',
+				flags: from ? F.FROM_MOVE_CURE : tags.includes('[silent]') ? F.SILENT : tags.includes('[msg]') ? F.MSG : 0 });
+		} else if (type === 'cant') {
+			ev('CANT', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1] });
 		} else if (type === '-boost' || type === '-unboost') {
 			ev('BOOST', { actor: refOf(parts[1]), v1: STATS.indexOf(parts[2]), v2: Number(parts[3]),
 				flags: type === '-unboost' ? F.UNBOOST : 0 });

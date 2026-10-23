@@ -20,6 +20,22 @@ def _np(tree):
     return jax.tree_util.tree_map(np.asarray, tree)
 
 
+def _eff_state(cond: str, state, presence_slot: int) -> dict:
+    """oracle/lib/project.js effState of an engine condition state vector: `duration` (slot 0, when > 0) plus the
+    declared fields (vgcjax/effects/conditions.py FIELDS) whose presence bit is set."""
+    from vgcjax.effects import conditions as CO
+    from vgcjax.effects import registry  # noqa: F401  (field declarations)
+    s = [int(x) for x in state]
+    out = {}
+    if s[0] > 0:
+        out["duration"] = s[0]
+    for key, slot, kind in CO.FIELDS.get(cond, []):
+        if (s[presence_slot] & 0xFF) >> slot & 1:
+            v = s[slot]
+            out[key] = bool(v) if kind == "bool" else (ids.MOVES[v] if kind == "move" else v)
+    return dict(sorted(out.items()))
+
+
 def _pokemon(st, side: int, b: int) -> dict:
     m = st.mons
     g = lambda arr: arr[side, b]  # noqa: E731
@@ -49,7 +65,8 @@ def _pokemon(st, side: int, b: int) -> dict:
         "types": types,
         "hp": int(g(m.hp)), "maxhp": int(g(m.maxhp)), "fainted": bool(g(m.fainted)),
         "status": ids.CONDITIONS[status] if status else "",
-        "statusState": None if not status else {},
+        "statusState": None if not status else _eff_state(
+            ids.CONDITIONS[(int(g(m.status_state)[3]) >> 8) or status], g(m.status_state), 3),
         "boosts": {k: int(v) for k, v in zip(BOOST7, g(m.boosts))},
         "stats": {k: int(v) for k, v in zip(STAT5, g(m.stats))},
         "volatiles": {},

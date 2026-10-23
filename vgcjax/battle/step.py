@@ -21,6 +21,8 @@ from vgcjax.battle import queue as Q
 from vgcjax.battle import requests as REQ
 from vgcjax.battle import state as S
 from vgcjax.battle import switching as SW
+from vgcjax.effects import fieldevent as FE
+from vgcjax.effects import registry  # noqa: F401  (handler registration)
 from vgcjax.battle.util import mget, mset, or_flag
 from vgcjax.core import rng as R
 from vgcjax.data import ids
@@ -172,8 +174,6 @@ def run_light(st, dex, rng, cfg, idx, on):
                            source_effect=q.source_effect[idx])
     # runSwitch (batched)
     st, rng = SW.run_switch(st, dex, rng, [ref], on & (kind == S.Q_RUN_SWITCH))
-    # residual (PS :2851-2858)
-    st, rng = residual(st, dex, rng, on & (kind == S.Q_RESIDUAL))
     # beforeTurn: eachEvent('BeforeTurn') (hooks M3); megaEvo (M3.6); others unsupported in core
     unsupported = on & ((kind == S.Q_MEGA) | (kind == S.Q_BEFORE_TURN_MOVE) | (kind == S.Q_PRIORITY_CHARGE) |
                         (kind == S.Q_REVIVAL))
@@ -246,12 +246,10 @@ def post_action(st, dex, rng, kind, on):
 
 
 def residual(st, dex, rng, on):
-    """PS residual action (sim/battle.ts:2851-2858): updateSpeed, fieldEvent('Residual') (handlers M3)."""
+    """PS residual action (sim/battle.ts:2851-2858): updateSpeed, fieldEvent('Residual') (effects/fieldevent.py)."""
     on = jnp.asarray(on)
     st = C.update_speed(st, dex, on)
-    sc = st.scratch
-    st = st.replace(scratch=sc.replace(fieldevent_ord=sc.fieldevent_ord + on.astype(I16)))
-    return st, rng
+    return FE.residual(st, dex, rng, on)
 
 
 def end_turn(st, dex, cfg, on) -> S.State:
@@ -314,7 +312,7 @@ def micro(st, dex, rng, cfg):
     act = active(st)
     q = st.queue
     _, hk, anyv = Q.head(q)
-    go = act & ~st.exec.in_move & anyv
+    go = act & ~st.exec.in_move & anyv & (hk != S.Q_RESIDUAL)      # residual runs once per call (run_until_decision)
     st = Q.rekey(st, dex, go & (hk == S.Q_MOVE))
     # tied entries share an order class, so the head's kind gives the step_tag of the SELECT tie record
     st = C.set_step(st, _lookup(STEP_TAG, hk, ids.STEP_COMMIT), -1, -1, 0, go)
@@ -340,8 +338,23 @@ def micro(st, dex, rng, cfg):
     return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~jnp.any(st.queue.valid)), rng
 
 
+def block_residual(st, dex, rng, cfg):
+    """The residual action once everything before it ran (it is the last queue entry of a turn): selected outside the
+    micro-steps so the residual walk is traced once per step call, then the runAction tail and end of turn."""
+    q = st.queue
+    _, hk, anyv = Q.head(q)
+    go = active(st) & ~st.exec.in_move & anyv & (hk == S.Q_RESIDUAL)
+    st = C.set_step(st, ids.STEP_RESIDUAL, -1, C.eff_action("residual"), 0, go)
+    idx = jnp.argmax(q.valid & (q.kind == S.Q_RESIDUAL))
+    st = st.replace(queue=q.replace(valid=q.valid.at[idx].set(jnp.where(go, False, q.valid[idx]))))
+    st, rng = residual(st, dex, rng, go)
+    st, rng = post_action(st, dex, rng, S.Q_RESIDUAL, go)
+    return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~jnp.any(st.queue.valid)), rng
+
+
 def run_until_decision(st, dex, rng, cfg):
     st, rng = jax.lax.fori_loop(0, cfg.micro_steps, lambda i, c: micro(c[0], dex, c[1], cfg), (st, rng))
+    st, rng = block_residual(st, dex, rng, cfg)
     # work left for the next call: continuation phase (no decision)
     pending = active(st) & (jnp.any(st.queue.valid) | st.exec.in_move)
     return st.replace(meta=st.meta.replace(phase=jnp.where(pending, S.CONT, st.meta.phase).astype(I8))), rng

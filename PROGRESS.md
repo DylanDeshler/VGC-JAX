@@ -78,6 +78,18 @@ Comparison-quality work (2026-10-22)
   10,000, enforced at G-v0). Pre-existing: loop nesting (NB 8 x hit loop 10 x target fori 3 x secondaries 6);
   09 J5 asks for vmap over the target axis. Options in ADR-104 (needs a decision).
 
+M3 content (2026-10-23)
+- Conditions framework (vgcjax/effects/conditions.py: storage, add/remove/restart, singleEvent, field schema +
+  presence bits for the projection, effectOrder), fieldEvent walk for Residual and SwitchIn
+  (effects/fieldevent.py: getKey duration, speedOrder-adjusted SwitchIn speeds, effectOrder, FIELD_EVENT tie
+  records), BeforeMove / ModifyMove / DamagingHit / AfterMoveSecondary event sites, residual moved out of the
+  micro-steps (once per step call), battle.speedOrder state.
+- Statuses (Champions): brn/par/psn/tox/slp/frz incl. par 1/8, sleep [2,3,3], freeze cap 3, thaw paths, toxic
+  switch-in reset, Corrosion, Early Bird; move status + secondary status. Found: exported ignoreImmunity is already
+  resolved (Thunder Wave false), clampIntRange floors (toxic), checkFainted keeps the status state.
+- `impl` stage (tools/datagen/impl_stage.py): core + 36 status moves. 2,500 impl battles 100% (CBR/TMR/MPR,
+  events). docs/catalogue.csv: 260 v0 entities impl (tools/catalogue_mark.py).
+
 ## Last T2/T3 run
 local conformance runs (not formal gate runs), PS d601443, contract_version 1:
 | corpus | battles | CBR | TMR | MPR | DPR | errors |
@@ -111,7 +123,7 @@ none
 ## Pending escalations
 - (2026-10-23) contract_version 2 implemented (ADR-101 b + ADR-103). ADR-104 option 4 (micro-steps) implemented:
   ≈15.4k kernel-like ops per decision (from 119.8k); new phase CONT. G-core re-run under v2 on the micro-step engine:
-  PASS (50,000 battles, 100%, contract verified). L40S: ~0.94M decision-steps/s at B=65k (events on). Next: M3 content.
+  PASS (50,000 battles, 100%, contract verified). L40S: ~0.94M decision-steps/s at B=65k (events on). M3 content started (see below).
 - (2026-10-23) G-core ACKNOWLEDGED by the human; ADR-102 and ADR-103 ACCEPTED. G-core re-evaluated: PASS
   M3 content unblocked. contract-hashes.md written on the human's instruction; ADR-101 option (b) accepted
   (record QUEUE_INSERT_TIE; with ADR-103 in contract_version 2).
@@ -122,7 +134,9 @@ none
 not yet created (harness/contract/* is written in M2.8)
 
 ## Next 3 tasks
-1. Infrastructure while the gate checkpoint is pending: M3.8 coverage-steering deficit scores + crafted templates,
+1. M3 content in 05 §4 order: core volatiles (confusion, flinch, partial trap, lockedmove, mustrecharge,
+   twoturnmove, choicelock), Protect family + Fake Out, field (weather / terrain), speed control, switching...
+   Previously listed infrastructure: M3.8 coverage-steering deficit scores + crafted templates,
    kernel-count reduction (09 §1.1a: target-axis vmap J5, hit-loop
    restructuring), observe_privileged, M5.5 PPO smoke trainer
 2. After acknowledgement: M3.2 handler classification, then M3.3-M3.7 content (conditions, statuses, Protect, Mega,

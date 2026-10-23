@@ -18,7 +18,7 @@ import zipfile
 import numpy as np
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-STAGES = ("core", "v0", "v1", "v2")
+STAGES = ("core", "v0", "v1", "v2", "impl")
 
 TYPES = ["Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic",
          "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"]  # TypeId 1..18; 19 = '???'; 0 = none

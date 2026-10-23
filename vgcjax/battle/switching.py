@@ -137,12 +137,22 @@ def switchin_ties(st: S.State, rng: R.Rng, on):
 
     # group index = number of tie groups with strictly higher speed; 4 occupants form at most 2 groups of size >= 2
     gord = jnp.sum(((spd[None, :] > spd[:, None]) & grp_first[None, :]).astype(I32), axis=1)
+    rank_in_group = jnp.zeros(4, I32)
     for g in range(2):
         sel = grp_first & (gord == g)
         k = jnp.argmax(sel)
-        _, rng = R.tie_order(rng, _tkey(st, ids.DK_SPEED_TIE_SWITCHIN, sub, g), jnp.clip(refs, 0, 7),
-                             occ & (spd == spd[k]), active=jnp.asarray(on) & jnp.any(sel))
-    return rng
+        mem = occ & (spd == spd[k])
+        torder, rng = R.tie_order(rng, _tkey(st, ids.DK_SPEED_TIE_SWITCHIN, sub, g), jnp.clip(refs, 0, 7), mem,
+                                  active=jnp.asarray(on) & jnp.any(sel))
+        pos_of = jnp.argsort(torder)                       # position of member k in the drawn order
+        rank_in_group = jnp.where(jnp.any(sel) & mem, pos_of, rank_in_group)
+    # battle.speedOrder = getAllActive(true) sorted (PS: sim/battle-actions.ts:234-236): field position values
+    # (side + 2 * pos) of the occupied slots by speed, ties in the drawn order; -1 pads empty slots
+    key = jnp.where(occ, -spd * 8 + rank_in_group, 1 << 28)
+    order = jnp.argsort(key, stable=True)
+    fieldpos = (order // 2) + 2 * (order % 2)
+    so = jnp.where(occ[order], fieldpos, -1).astype(st.meta.speed_order.dtype)
+    return rng, so
 
 
 def _tkey(st, kind, sub, ord_):
@@ -165,11 +175,13 @@ def run_switch(st: S.State, dex, rng, refs, on):
             r = jnp.where(take, Q.entry_ref(q)[idx], -1)
             switchers = switchers.at[i].set(r)
             st = st.replace(queue=q.replace(valid=q.valid.at[idx].set(jnp.where(take, False, q.valid[idx]))))
-    rng = switchin_ties(st, rng, on)
+    rng, so = switchin_ties(st, rng, on)
+    st = st.replace(meta=st.meta.replace(speed_order=jnp.where(on, so, st.meta.speed_order)))
     sc = st.scratch
-    st = st.replace(scratch=sc.replace(runswitch_ord=sc.runswitch_ord + on.astype(I16),
-                                       fieldevent_ord=sc.fieldevent_ord + on.astype(I16)))
-    # fieldEvent('SwitchIn', switchers): hazards / abilities / items (M3)
+    st = st.replace(scratch=sc.replace(runswitch_ord=sc.runswitch_ord + on.astype(I16)))
+    # fieldEvent('SwitchIn', switchers): status / volatiles / abilities / items / hazards (effects/fieldevent.py)
+    from vgcjax.effects import fieldevent as FE
+    st, rng = FE.switch_in(st, dex, rng, switchers, on)
     m = st.mons
     started = m.is_started
     for i in range(4):

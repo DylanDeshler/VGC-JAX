@@ -18,6 +18,7 @@ from vgcjax.battle.util import mget, mset, mset_many, side_of
 from vgcjax.core import rng as R
 from vgcjax.core import typechart as TC
 from vgcjax.data import ids
+from vgcjax.effects import hooks as H
 
 I8, I16, I32 = jnp.int8, jnp.int16, jnp.int32
 T = ids
@@ -434,24 +435,38 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     tags, vals = RS.where(heal_fail, RS.combine((tags, vals), RS.R(RS.BOOL, 0)), (tags, vals))
     cont = tv & ~heal_fail
     did = RS.where(do_heal & ~heal_fail, RS.R(RS.BOOL, 1), did)
-    # status / volatile / side / slot / weather / terrain / pseudoWeather: M3+
     cs_side = jnp.stack([F.can_switch(st, 0) > 0, F.can_switch(st, 1) > 0])
     cs = cs_side[side_of(jnp.clip(targets, 0, 7))]
-    did = RS.where(cont & force_sw, RS.combine(did, RS.R(RS.BOOL, cs.astype(I32))), did)
-    # HOOK(H22) onHit / Hit
-    st = F.faint(st, u, jnp.any(cont & selfdestruct_ifhit & ~RS.is_false((tags, vals))))   # selfdestruct 'ifHit'
-    css = cs_side[side_of(u)]                     # faint() only queues: canSwitch is unchanged
-    did = RS.where(cont & self_switch, RS.where(css, RS.R(RS.BOOL, 1), RS.combine(did, RS.R(RS.BOOL, 0))), did)
-    did = RS.where(did[0] == RS.UNDEF, RS.R(RS.BOOL, 1), did)
-    tags, vals = RS.where(cont, RS.combine((tags, vals), RS.null_to_false(did)), (tags, vals))
+    css = cs_side[side_of(u)]                     # faint() only queues: canSwitch is unchanged within the loop
+    mstatus = dex.move_status[move].astype(I32)
+    memento = jnp.zeros((), bool)
+    from vgcjax.effects import statuses as STS
+    # per target, in PS order (PS :1247-1345): boost / heal messages, status, (volatile / side / slot / weather /
+    # terrain / pseudoWeather: M3), forceSwitch, (Hit: M3), selfdestruct ifHit, selfSwitch
     for j in range(NT):
-        da = RS.where(heal_fail[j], RS.combine(da, RS.R(RS.NULL)), da)
-        da = RS.where(cont[j], RS.combine(da, (did[0][j], did[1][j])), da)
         st = emit_boost(st, bmsg, targets[j], j)
         ph, chh = EV.hp_public(new_h[j], mx2[j])
         st = EV.emit(st, hok[j], EV.EV_HEAL, actor=targets[j], v1=ph, v2=chh)
         st = EV.emit(st, fail_full[j], EV.EV_FAIL, actor=targets[j], flags=EV.F_HEAL)
         st = EV.attr_last_move(st, fail_full[j], EV.F_STILL)
+        cj = cont[j]
+        dj = (did[0][j], did[1][j])
+        tj = (tags[j], vals[j])
+        st, rng, sres = STS.try_set_status(st, dex, rng, targets[j], mstatus, cj & (mstatus > 0), source=u,
+                                           source_effect=C.eff_move(move), move_status=mstatus)
+        sfail = cj & (mstatus > 0) & ~RS.truthy(sres)                  # `!hitResult && move.status` -> continue
+        tj = RS.where(sfail, RS.combine(tj, RS.R(RS.BOOL, 0)), tj)
+        da = RS.where(heal_fail[j] | sfail, RS.combine(da, RS.R(RS.NULL)), da)
+        cj = cj & ~sfail
+        dj = RS.where(cj & (mstatus > 0), RS.combine(dj, sres), dj)
+        dj = RS.where(cj & force_sw, RS.combine(dj, RS.R(RS.BOOL, cs[j].astype(I32))), dj)
+        memento = memento | (cj & selfdestruct_ifhit & ~RS.is_false(tj))
+        dj = RS.where(cj & self_switch, RS.where(css, RS.R(RS.BOOL, 1), RS.combine(dj, RS.R(RS.BOOL, 0))), dj)
+        dj = RS.where(dj[0] == RS.UNDEF, RS.R(RS.BOOL, 1), dj)
+        tj = RS.where(cj, RS.combine(tj, RS.null_to_false(dj)), tj)
+        da = RS.where(cj, RS.combine(da, dj), da)
+        tags, vals = tags.at[j].set(tj[0]), vals.at[j].set(tj[1])
+    st = F.faint(st, u, memento)                                       # selfdestruct 'ifHit' (Memento)
     m = st.mons
     has_self = jnp.any(dex.move_self_boosts[move] != 0) | (dex.move_self_volatile[move] > 0)
     # PS :1352-1358: a primary effect that did nothing (didAnything === false) -> '-fail' source [still]
@@ -508,15 +523,24 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     st = st.replace(mons=m)
     for j in range(NT):
         for k in range(2):
+            # moveHit(target, source, move, secondary, isSecondary) -> runMoveEffects: boosts, status, volatile (M3)
             st = emit_boost(st, tmsgs[k], targets[j], j)
+            sst = dex.move_sec_status[move, k].astype(I32)
+            st, rng, _ = STS.try_set_status(st, dex, rng, targets[j], sst, oks[k][j] & (sst > 0), source=u,
+                                            source_effect=C.eff_move(move), move_status=mstatus)
             st = emit_boost(st, smsgs[j, k], u)
-        # secondary status / volatile: M3
 
     # 6. forceSwitch -> forceSwitchFlag (HOOK DragOut)
     m = st.mons
     go6 = tv & force_sw & (mget(m.hp, targets) > 0) & (mget(m.hp, u) > 0) & cs
     st = st.replace(mons=m.replace(force_switch_flag=mset_many(m.force_switch_flag, targets, True, go6)))
-    # DamagingHit / AfterHit / EmergencyExit: M3
+    # runEvent('DamagingHit', damagedTargets, pokemon, move, damage) ([C] scripts.ts:403-411): targets with numeric
+    # damage, left to right. AfterHit / EmergencyExit: M3
+    damaged = tv & RS.is_num((tags, vals))
+    for j in range(NT):
+        hc = H.HookCtx.make(targets[j], u, C.eff_move(move), relay=(RS.NUM, vals[j]))
+        hc, st, rng = H.run_event("DamagingHit", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_DAMAGINGHIT),
+                                  on=damaged[j])
     return st, rng, (tags, vals)
 
 
@@ -538,7 +562,17 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     m = st.mons
     st = st.replace(mons=m.replace(active_move_actions=mset(m.active_move_actions, u, mget(m.active_move_actions, u) + 1, on)))
     target, rng = get_target(st, dex, rng, u, move, target_loc, orig, on)
-    # HOOK(H2) OverrideAction / LockMove; HOOK(H1) BeforeMove gates; beforeMoveCallback
+    # HOOK(H2) OverrideAction (M3 Encore); BeforeMove (PS :311-321): a falsy result aborts with
+    # moveThisTurnResult = that result (false / null), before PP and lastDamage
+    hc = H.HookCtx.make(u, target, C.eff_move(move), relay=RS.R(RS.BOOL, 1))
+    hc, st, rng = H.run_event("BeforeMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_BEFOREMOVE), on=on)
+    will = RS.truthy((hc.relay_t, hc.relay_v))
+    abort = on & ~will
+    m = st.mons
+    st = st.replace(mons=m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, jnp.where(
+        hc.relay_t == RS.NULL, S.MR_NULL, S.MR_FALSE), abort)))
+    on = on & will
+    # beforeMoveCallback (M3: Focus Punch etc.)
     m = st.mons
     m = m.replace(last_damage=mset(m.last_damage, u, 0, on))
     slot = jnp.asarray(move_slot, I32)
@@ -565,6 +599,9 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     alive = ~mget(m.fainted, u)
     # ModifyMove: Struggle adds '-activate' pokemon 'move: Struggle' (data/moves.ts:18220-18223)
     st = EV.emit(st, go_rm & is_struggle, EV.EV_ACTIVATE, actor=u, move=move)
+    # runEvent('ModifyType') (M3+), runEvent('ModifyMove', pokemon, target, move) (PS :494-495): frz defrost
+    hc = H.HookCtx.make(u, target, C.eff_move(move))
+    hc, st, rng = H.run_event("ModifyMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_MODIFYMOVE), on=go_rm)
     # PS :519-528: addMove('move', pokemon, move, target); no target -> [notarget] + '-fail'
     st = EV.emit_move(st, go_rm & alive, u, target, move)
     no_target = go_rm & alive & (target < 0)
@@ -587,8 +624,10 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     spread = (n_targets > 1) & ~smart
     # 0 Invulnerability / 1 TryHit: hooks (M3)
     # 2 type immunity
+    # move.ignoreImmunity as exported is already resolved by PS's Move constructor (data value, else category ===
+    # 'Status'; sim/dex-moves.ts:505): Thunder Wave keeps an explicit false
     ign = dex.move_ignore_immunity[move]
-    ignore = (ign == 1) | ((ign == 0) & (dex.move_category[move] == T.CAT_STATUS))
+    ignore = ign == 1
     mtype = jnp.where(is_struggle, T.TYPE_TYPELESS, dex.move_type[move])
     t_types = mget(m.types, targets)                                              # [3, 2]
     flying = jnp.any(t_types == T.TYPE_FLYING, axis=-1)
@@ -627,12 +666,12 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     hits = jnp.where(is_range, MULTIHIT_TABLE[idx], jnp.where(mh[0] > 0, mh[0], 1)).astype(I32)
     full = lambda v: jnp.full(NT, v, I32)  # noqa: E731
     new = S.Exec(in_move=jnp.asarray(True), u=u, move=move, targets=targets.astype(I32), tv=tv, spread=spread,
-                 smart=smart, spread_hit=spread_hit, on_rm=jnp.asarray(True), go_rm=go_rm, go_um=go_um, has_t=has_t,
+                 smart=smart, spread_hit=spread_hit, on_rm=on, go_rm=go_rm, go_um=go_um, has_t=has_t,
                  side_field=side_field, on_ts=on_ts, on_hl=on_hl, fail_any=fail_any, hits=hits,
                  multiacc=dex.move_multiaccuracy[move] == 1, single=jnp.sum(tv.astype(I32)) == 1, h=jnp.int32(1),
                  hit_done=jnp.int32(1), stopped=~on_hl, null_damage=jnp.asarray(True), dt=full(RS.NUM), dv=full(0),
                  lt=full(RS.UNDEF), lv=full(0), total=jnp.int32(0))
-    return st.replace(exec=_exec_where(on, new, st.exec)), rng
+    return st.replace(exec=_exec_where(on | abort, new, st.exec)), rng
 
 
 def move_hit(st, dex, rng, cfg):
@@ -706,6 +745,15 @@ def move_end(st, dex, rng, cfg):
     st = st.replace(mons=m.replace(times_attacked=ta))
     # [C] scripts.ts:569
     st = EV.emit(st, run_rest & (dex.move_ohko[move] > 0) & (mget(st.mons.hp, targets[0]) <= 0), EV.EV_OHKO)
+    # [C] scripts.ts:571-577: afterMoveSecondaryEvent(targets) when some damage[i] is truthy or 0
+    #   (singleEvent on the move: M3; runEvent('AfterMoveSecondary', targets, pokemon, move))
+    some = run_rest & jnp.any(RS.hit_or_zero((dt, dv)) & tv)
+    still = tv & ~RS.is_false((ex.lt, ex.lv))                  # targetsCopy entries not set to false by the last hit
+    for j in range(NT):
+        hc = H.HookCtx.make(targets[j], u, C.eff_move(move))
+        hc, st, rng = H.run_event("AfterMoveSecondary", st, dex, rng, hc,
+                                  branches=H.dispatch(ids.HOOK_AFTERMOVESECONDARY),
+                                  on=some & still[j] & (targets[j] >= 0))
     # ---- trySpreadMoveHit tail
     on_ts = end & ex.on_ts
     kept = RS.hit_or_zero((dt, dv)) & tv
