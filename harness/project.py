@@ -36,6 +36,16 @@ def _eff_state(cond: str, state, presence_slot: int) -> dict:
     return dict(sorted(out.items()))
 
 
+def _side_conditions(st, side: int) -> dict:
+    bits = int(st.sides.side_cond_bits[side])
+    out = {}
+    for k in range(S.NSC):
+        if bits >> k & 1:
+            name = ids.CONDITIONS[ids.SIDE_BASE + k]
+            out[name] = _eff_state(name, st.sides.side_cond_state[side, k], 3)
+    return dict(sorted(out.items()))
+
+
 def _volatiles(st, side: int, b: int) -> dict:
     """PS pokemon.volatiles (effMap): every set volatile bit with its effState."""
     words = [int(w) for w in st.mons.vol_bits[side, b]]
@@ -155,7 +165,7 @@ def engine_to_json(st: S.State) -> dict:
             "ext": {"totalFainted": int(st.sides.total_fainted[side]),
                     "faintedThisTurn": bool(st.sides.fainted_this_turn[side]),
                     "faintedLastTurn": bool(st.sides.fainted_last_turn[side])},
-            "sideConditions": {},
+            "sideConditions": _side_conditions(st, side),
             "slotConditions": [{}, {}],
             "active": active,
             "pokemon": [_pokemon(st, side, b) for b in order],

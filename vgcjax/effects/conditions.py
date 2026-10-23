@@ -191,6 +191,24 @@ def single_event(hook: int, effect, st, dex, rng, hc: H.HookCtx, on, prefix=ids.
     return jax.lax.optimization_barrier((hc, st, rng))
 
 
+def registered_for(hook: int, effect, prefix: int = ids.PFX_ON, effect_range=None):
+    """Does a registered handler exist for (hook, prefix, traced effect)? (PS `if (moveData.onHit)` style guards.)"""
+    hs = [h for h in H.registered(hook, prefix) if effect_range is None or effect_range[0] <= h.effect < effect_range[1]]
+    e = jnp.asarray(effect, I32)
+    out = jnp.zeros((), bool)
+    for h in hs:
+        out = out | (e == h.effect)
+    return out
+
+
+def event_result(hc):
+    """singleEvent's return: the handler's value, or the relay (true) when it returned undefined / none ran."""
+    return RS.where(hc.ret_t == RS.UNDEF, RS.R(RS.BOOL, 1), (hc.ret_t, hc.ret_v))
+
+
+MOVE_RANGE = (ids.MOVE_BASE, ids.MOVE_BASE + len(ids.MOVES) - 1)
+
+
 def handler_present(dex, effect, hook: int, prefix: int = ids.PFX_ON):
     """Does `effect` define the callback (PS getCallback !== undefined)? From the generated handler mask."""
     return ((dex.handler_mask[jnp.maximum(jnp.asarray(effect, I32), 0), hook].astype(I32) >> prefix) & 1) == 1

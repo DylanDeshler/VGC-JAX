@@ -220,6 +220,9 @@ class Exec:
     on_ts: jax.Array               # bool trySpreadMoveHit ran
     on_hl: jax.Array               # bool the hit loop ran
     fail_any: jax.Array            # bool atLeastOneFailure
+    pre_ok: jax.Array              # bool the Try / PrepareHit preamble passed
+    pre_notfail: jax.Array         # bool the preamble's falsy result was NOT_FAIL
+    side: jax.Array                # bool a side / field move (tryMoveHit: one moveHit, no hit-loop tails)
     hits: jax.Array                # i32 targetHits
     multiacc: jax.Array            # bool
     single: jax.Array              # bool one target
@@ -237,7 +240,8 @@ class Exec:
 def empty_exec() -> Exec:
     b, i, a3, b3 = _z((), bool), _z((), I32), _z(3, I32), _z(3, bool)
     return Exec(in_move=b, u=i, move=i, targets=_z(3, I32, -1), tv=b3, spread=b, smart=b, spread_hit=b, on_rm=b,
-                go_rm=b, go_um=b, has_t=b, side_field=b, on_ts=b, on_hl=b, fail_any=b, hits=i, multiacc=b, single=b,
+                go_rm=b, go_um=b, has_t=b, side_field=b, on_ts=b, on_hl=b, fail_any=b, pre_ok=b, pre_notfail=b,
+                side=b, hits=i, multiacc=b, single=b,
                 h=i, hit_done=i, stopped=_z((), bool, True), null_damage=b, dt=a3, dv=a3, lt=a3, lv=a3, total=i)
 
 

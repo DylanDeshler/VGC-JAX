@@ -21,7 +21,11 @@ SUPPORTED_REFS = {
     "volatile": {"flinch", "confusion"},
 }
 # entities implemented beyond the data-only rule, by kind (filled in as handlers land)
-EXTRA: dict[str, set[str]] = {"moves": set(), "abilities": set(), "items": set(), "conditions": set()}
+EXTRA: dict[str, set[str]] = {
+    "moves": {"protect", "detect", "wideguard", "fakeout", "feint"},   # effects/protect.py (Quick Guard: no impl-pool learner yet)
+    "abilities": set(), "items": set(),
+    "conditions": {"protect", "stall", "wideguard", "quickguard"},
+}
 
 
 def supported_move(rec: dict) -> bool:

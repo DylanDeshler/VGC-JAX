@@ -339,3 +339,52 @@ def run_event(hook_name: str, st, dex, rng, hc: HookCtx, branches=None, fast_exi
     st = or_flag(st, E.ERR_OVERFLOW_HOOK, on & overflow)
     st = or_flag(st, E.ERR_UNSUPPORTED_EFFECT, on & mul_tie)
     return hc, st, rng
+
+
+def run_event_multi(hook_name: str, st, dex, rng, targets, valid, source, effect, branches, relay=None):
+    """PS runEvent with an array target (sim/battle.ts:765-944) for left-to-right events (TryHit, DamagingHit,
+    Invulnerability): handlers of every target, sorted by (order, priority, target index) (compareLeftToRightOrder);
+    each handler sees its own target and relay and is skipped once that target's relay is falsy. Returns
+    (relay_t[T], relay_v[T], st, rng)."""
+    targets = jnp.asarray(targets, I32)
+    T = targets.shape[0]
+    valid = jnp.asarray(valid)
+    rows = [candidates(st, dex, hook_name, targets[j], source) for j in range(T)]
+    hook = rows[0]["hook"]
+    eff = jnp.concatenate([r["eff"] for r in rows])
+    pfx = jnp.concatenate([r["pfx"] for r in rows])
+    holder = jnp.concatenate([r["holder"] for r in rows])
+    index = jnp.concatenate([jnp.full(r["eff"].shape, j, I32) for j, r in enumerate(rows)])
+    ok = jnp.concatenate([r["valid"] & valid[j] for j, r in enumerate(rows)])
+    k = min(K_H, int(eff.shape[0]))
+    sel = jnp.nonzero(ok, size=k, fill_value=0)[0]
+    n = jnp.sum(ok.astype(I32))
+    cv = jnp.arange(k) < n
+    eff, pfx, holder, index = eff[sel], pfx[sel], holder[sel], index[sel]
+    o = dex.handler_order[jnp.maximum(eff, 0), hook, pfx].astype(I32)
+    keys = (o[:, 0], o[:, 1], -index, jnp.zeros_like(index), jnp.zeros_like(index))   # -(-index): ascending index
+    perm, _ = sort_order(keys, cv)
+    rt = jnp.full(T, RS.BOOL if relay is None else relay[0], I32)
+    rv = jnp.ones(T, I32) if relay is None else jnp.broadcast_to(jnp.asarray(relay[1], I32), (T,))
+    local_fn, fns = branches
+
+    def body(i, carry):
+        rt, rv, st, rng = carry
+        j = perm[i]
+        t = index[j]
+        live = cv[j] & RS.truthy((rt[t], rv[t]))
+        hc = HookCtx.make(targets[t], source, effect, relay=(rt[t], rv[t])).replace(holder=holder[j], cur_effect=eff[j])
+        hc = hc.replace(ret_t=jnp.asarray(RS.UNDEF, I32), ret_v=jnp.zeros((), I32))
+        if fns:
+            idx = jnp.where(live, local_fn(eff[j]), 0)
+            bound = [lambda h, s, r: (h, s, r)] + [(lambda h, s, r, f=f: f(h, s, dex, r)) for f in fns]
+            hc, st, rng = jax.lax.switch(idx, bound, hc, st, rng)
+        has_ret = live & (hc.ret_t != RS.UNDEF)
+        rt = rt.at[t].set(jnp.where(has_ret, hc.ret_t, rt[t]))
+        rv = rv.at[t].set(jnp.where(has_ret, hc.ret_v, rv[t]))
+        return jax.lax.optimization_barrier((rt, rv, st, rng))
+
+    rt, rv, st, rng = jax.lax.fori_loop(0, k, body, (rt, rv, st, rng))
+    from vgcjax.battle import errors as E
+    from vgcjax.battle.util import or_flag
+    return rt, rv, or_flag(st, E.ERR_OVERFLOW_HOOK, n > k), rng

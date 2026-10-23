@@ -168,4 +168,4 @@ function poolDTeam(stage, rng, requires, opts = {}) {
 	throw new Error(`poolDTeam(${stage}, ${requires}): cannot place the required entities`);
 }
 
-module.exports = { poolBTeam, poolDTeam, info, satisfies };
+module.exports = { poolBTeam, poolDTeam, info, satisfies, forceInto };

@@ -24,6 +24,7 @@ fields (PS protocol line -> record):
   CURESTATUS |-curestatus| X|s [msg]       actor, move = status EffectId, flags F_MSG / F_SILENT
   CANT       |cant| X|reason               actor, move = reason EffectId (status / condition / move)
   START/END  |-start| / |-end| X|effect    actor, move = effect EffectId, v1 = [from] EffectId, flags
+  SINGLETURN |-singleturn| X|effect        actor, move = effect EffectId (Protect, Wide Guard, ...)
 """
 from __future__ import annotations
 
@@ -36,12 +37,12 @@ from vgcjax.battle.util import mget
 
 I16, I32 = jnp.int16, jnp.int32
 KINDS = ("NONE", "SWITCH", "MOVE", "DAMAGE", "HEAL", "CRIT", "SUPEREFFECTIVE", "RESISTED", "IMMUNE", "MISS", "FAIL",
-         "BOOST", "FAINT", "HITCOUNT", "OHKO", "TURN", "ACTIVATE", "STATUS", "CURESTATUS", "CANT", "START", "END")
+         "BOOST", "FAINT", "HITCOUNT", "OHKO", "TURN", "ACTIVATE", "STATUS", "CURESTATUS", "CANT", "START", "END", "SINGLETURN")
 (EV_NONE, EV_SWITCH, EV_MOVE, EV_DAMAGE, EV_HEAL, EV_CRIT, EV_SUPER, EV_RESIST, EV_IMMUNE, EV_MISS, EV_FAIL, EV_BOOST,
  EV_FAINT, EV_HITCOUNT, EV_OHKO, EV_TURN, EV_ACTIVATE, EV_STATUS, EV_CURESTATUS, EV_CANT, EV_START,
- EV_END) = range(len(KINDS))
+ EV_END, EV_SINGLETURN) = range(len(KINDS))
 # kinds whose `move` field holds an EffectId (move / ability / item / condition) rather than a MoveId
-EFFECT_KINDS = ("DAMAGE", "HEAL", "STATUS", "CURESTATUS", "CANT", "FAIL", "ACTIVATE", "START", "END")
+EFFECT_KINDS = ("DAMAGE", "HEAL", "STATUS", "CURESTATUS", "CANT", "FAIL", "ACTIVATE", "START", "END", "SINGLETURN")
 F_DRAG = 1
 F_MISS, F_NOTARGET, F_SPREAD, F_STILL = 1, 2, 4, 8
 F_RECOIL = 1
@@ -53,6 +54,7 @@ F_FAILSTATUS = 2                 # FAIL: ('-fail', target, <status>) (status in 
 F_UNBOOST = 1
 F_FROM_MOVE, F_FROM_ABILITY, F_FROM_ITEM = 1, 2, 4   # STATUS: '[from] move: / ability: / item:' (effect in v1)
 F_FATIGUE = 8                    # START: '[fatigue]'
+F_BROKEN = 16                    # ACTIVATE: '[broken]' (protection broken by a breaksProtect move other than Feint)
 F_MSG, F_SILENT, F_FROM_MOVE_CURE = 1, 2, 4   # CURESTATUS: '[msg]' / '[silent]' / '[from] move: X' (move in v1)
 
 

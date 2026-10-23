@@ -7,6 +7,7 @@
  * `projection` is the state they produced.
  */
 const fs = require('fs');
+const path = require('path');
 const zlib = require('zlib');
 const { Battle, Teams, State, FORMAT } = require('./ps');
 const T = require('./teams');
@@ -61,6 +62,24 @@ function makeTeams(source, sd) {
 		const { poolBTeam } = require('./poolb');
 		const stage = source.slice(6);
 		return { teams: [poolBTeam(stage, rng), poolBTeam(stage, rng)], source: [source, source] };
+	}
+	if (source.startsWith('stagereq:')) { // stagereq:<stage>:<kind:id>[+...]: random stage teams with the entities forced in
+		const { stageTeam } = require('./stageteams');
+		const { info, satisfies, forceInto } = require('./poolb');
+		const rest = source.slice(9);
+		const stage = rest.slice(0, rest.indexOf(':'));
+		const req = rest.slice(rest.indexOf(':') + 1).split('+');
+		const I = info(stage, process.env.CHAOS_STATS ||
+			path.join(__dirname, '..', '..', 'data/raw/smogon-chaos/2026-09/gen9championsvgc2026regmcbo3-1760.json'));
+		const one = () => {
+			for (let i = 0; i < 60; i++) {
+				let t = stageTeam(stage, rng);
+				for (const r of req) if (t && !satisfies(t, r)) t = forceInto(I, t, r, rng);
+				if (t && req.every(r => satisfies(t, r))) return t;
+			}
+			throw new Error(`${source}: cannot place the required entities`);
+		};
+		return { teams: [one(), one()], source: [source, source] };
 	}
 	if (source.startsWith('stage:')) {
 		const { stageTeam } = require('./stageteams');

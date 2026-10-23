@@ -74,3 +74,32 @@ def clear_terrain(st, dex, rng, on):
     f = st.field
     return st.replace(field=f.replace(terrain=jnp.where(on, 0, f.terrain).astype(f.terrain.dtype),
                                       terrain_state=jnp.where(on, jnp.zeros(3, I16), f.terrain_state))), rng
+
+
+def add_side_condition(st, dex, rng, side, c, on, source=-1, source_effect=-1):
+    """PS: sim/side.ts:413-443 addSideCondition: SideRestart if present (false without a handler), else new state
+    (duration, durationCallback), SideStart (falsy cancels), SideConditionStart (M4). Returns (st, rng, result)."""
+    from vgcjax.battle import results as RS
+    on = jnp.asarray(on)
+    side = jnp.asarray(side, I32)
+    c = jnp.asarray(c, I32)
+    e = ids.COND_BASE + c - 1
+    present = CO.has_side(st, side, c)
+    hc = HookCtx.make(-1, source, source_effect).replace(holder=8 + side)
+    restart = on & present
+    hc, st, rng = CO.single_event(ids.HOOK_RESTART, e, st, dex, rng, hc, restart, prefix=ids.PFX_SIDE)
+    has_restart = CO.handler_present(dex, e, ids.HOOK_RESTART, ids.PFX_SIDE)
+    r_restart = RS.where(has_restart, (hc.ret_t, hc.ret_v), RS.R(RS.BOOL, 0))
+    add = on & ~present
+    dur = dex.cond_duration[c].astype(I32)
+    hc2 = HookCtx.make(-1, source, source_effect).replace(holder=8 + side)
+    hc2, st, rng = CO.single_event(CO.DURATION_CALLBACK, e, st, dex, rng, hc2, add)
+    dur = jnp.where(hc2.ret_t == RS.NUM, hc2.ret_v, dur)
+    st = CO.set_side(st, side, c, True, jnp.zeros(4, I16).at[0].set(dur.astype(I16)), add)
+    st = CO.next_effect_order(st, add)
+    hc3 = HookCtx.make(-1, source, source_effect).replace(holder=8 + side)
+    hc3, st, rng = CO.single_event(ids.HOOK_START, e, st, dex, rng, hc3, add, prefix=ids.PFX_SIDE)
+    started = (hc3.ret_t == RS.UNDEF) | RS.truthy((hc3.ret_t, hc3.ret_v))
+    st = CO.set_side(st, side, c, False, jnp.zeros(4, I16), add & ~started)
+    res = RS.where(restart, r_restart, RS.where(add & started, RS.R(RS.BOOL, 1), RS.R(RS.BOOL, 0)))
+    return st, rng, res

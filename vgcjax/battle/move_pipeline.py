@@ -20,6 +20,7 @@ from vgcjax.core import typechart as TC
 from vgcjax.data import ids
 from vgcjax.effects import conditions as CO
 from vgcjax.effects import hooks as H
+from vgcjax.effects import sideconds as SC
 
 I8, I16, I32 = jnp.int8, jnp.int16, jnp.int32
 T = ids
@@ -350,7 +351,7 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on):
 
 
 # ------------------------------------------------------------------ spreadMoveHit (ch/scripts.ts:314-423), core
-def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no, on):
+def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no, on, side_mode=False):
     """One hit on the current targets (ch/scripts.ts:314-423, core), vectorised over the target slots (09 J5): reads
     are batched gathers, writes one masked select per field (targets are distinct mons), and PS's per-target message
     order is reproduced by emitting afterwards. Returns (st, rng, (tags[3], vals[3]))."""
@@ -468,7 +469,21 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         st, rng, vres = CO.add_volatile(st, dex, rng, targets[j], mvol, cj & (mvol > 0), source=u,
                                         source_effect=C.eff_move(move))
         dj = RS.where(cj & (mvol > 0), RS.combine(dj, vres), dj)
+        # sideCondition (PS :1295-1298): target.side.addSideCondition(id, source, move)
+        if j == 0:                       # moves with a sideCondition are side moves: one target
+            msc = dex.move_side_cond[move].astype(I32)
+            st, rng, scres = SC.add_side_condition(st, dex, rng, side_of(jnp.clip(targets[j], 0, 7)), msc,
+                                                   cj & (msc > 0), source=u, source_effect=C.eff_move(move))
+            dj = RS.where(cj & (msc > 0), RS.combine(dj, scres), dj)
         dj = RS.where(cj & force_sw, RS.combine(dj, RS.R(RS.BOOL, cs[j].astype(I32))), dj)
+        # Hit events (PS :1314-1335): onHitSide for side moves, else the move's onHit (runEvent('Hit'): M4)
+        em_ = C.eff_move(move)
+        side_mode_ = jnp.asarray(side_mode)
+        for hook_, on_ in (((ids.HOOK_HITSIDE, side_mode_),) if j == 0 else ()) + ((ids.HOOK_HIT, ~side_mode_),):
+            has_ = on_ & CO.registered_for(hook_, em_, effect_range=CO.MOVE_RANGE)
+            hch = H.HookCtx.make(targets[j], u, em_)
+            hch, st, rng = CO.single_event(hook_, em_, st, dex, rng, hch, cj & has_, effect_range=CO.MOVE_RANGE)
+            dj = RS.where(cj & has_, RS.combine(dj, CO.event_result(hch)), dj)
         memento = memento | (cj & selfdestruct_ifhit & ~RS.is_false(tj))
         dj = RS.where(cj & self_switch, RS.where(css, RS.R(RS.BOOL, 1), RS.combine(dj, RS.R(RS.BOOL, 0))), dj)
         dj = RS.where(dj[0] == RS.UNDEF, RS.R(RS.BOOL, 1), dj)
@@ -561,6 +576,42 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     return st, rng, (tags, vals)
 
 
+# ------------------------------------------------------------------ hitStepBreakProtect (PS: sim/battle-actions.ts:817-841)
+PROTECT_VOLATILES = ("banefulbunker", "burningbulwark", "kingsshield", "obstruct", "protect", "silktrap", "spikyshield")
+GUARD_SIDECONDS = ("craftyshield", "matblock", "quickguard", "wideguard")
+
+
+def break_protect(st, dex, rng, u, move, targets, on):
+    """Remove each protection volatile and guard side condition from targets on[j]; '-activate' X 'move: Feint' (or
+    'move: <move>' [broken]) and delete stall when one broke."""
+    from vgcjax.effects import conditions as CO_
+    from vgcjax.effects import sideconds as SC_
+    from vgcjax.effects import hooks as H_
+    # only conditions the engine can create (a registered handler); the others never exist in a battle
+    impl = {h.effect for (_, _, _), h in H_._REGISTRY.items()}
+    vols = [v for v in PROTECT_VOLATILES if v in ids.CONDITIONS and CO_.eff(v) in impl]
+    guards = [g for g in GUARD_SIDECONDS if g in ids.CONDITIONS and CO_.eff(g) in impl]
+    for j in range(NT):
+        t = targets[j]
+        broke = jnp.zeros((), bool)
+        for v in vols:
+            if v in ids.CONDITIONS:
+                st, rng, r = CO_.remove_volatile(st, dex, rng, t, CO_.cid(v), on[j])
+                broke = broke | r
+        for g in guards:
+            if g in ids.CONDITIONS:
+                s_ = side_of(jnp.clip(t, 0, 7))
+                had = CO_.has_side(st, s_, CO_.cid(g))
+                st, rng = SC_.remove_side_condition(st, dex, rng, s_, CO_.cid(g), on[j])
+                broke = broke | (on[j] & had)
+        st = EV.emit(st, broke, EV.EV_ACTIVATE, actor=t, move=C.eff_move(move),
+                     flags=jnp.where(move == opt_id("MOVE_FEINT"), 0, EV.F_BROKEN))
+        c = CO_.cid("stall")
+        st = CO_._set_vol_bit(st, t, c, False, broke)
+        st = CO_.set_vol_state(st, t, c, jnp.zeros(6, I16), broke)
+    return st, rng
+
+
 # ------------------------------------------------------------------ resumable move execution (ADR-104 option 4)
 # runMove -> useMove -> trySpreadMoveHit -> Champions hit loop, split at the hits: move_begin runs every prelude and
 # stores what the PS call stack keeps (st.exec); move_hit runs one hit per micro-step; move_end runs every tail in
@@ -633,12 +684,40 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     empty = go_um & ~side_field & ~has_t                                # PS :573-577
     st = EV.attr_last_move(st, empty, EV.F_NOTARGET)
     st = EV.emit(st, empty, EV.EV_FAIL, actor=u)
-    on_ts = go_um & has_t & ~side_field
-    # ---- trySpreadMoveHit steps 0-4 (side/field moves: tryMoveHit, M3)
+    # ---- trySpreadMoveHit / tryMoveHit preamble (PS :640-650, :885-894): singleEvent('Try', move, null, pokemon,
+    #      target), singleEvent('PrepareHit', move, {}, target, pokemon), runEvent('PrepareHit') (M4 handlers)
+    pre_on = go_um & has_t
+    em = C.eff_move(move)
+    hc = H.HookCtx.make(u, targets[0], em)
+    hc, st, rng = CO.single_event(ids.HOOK_TRY, em, st, dex, rng, hc, pre_on, effect_range=CO.MOVE_RANGE)
+    r_try = CO.event_result(hc)
+    hc = H.HookCtx.make(targets[0], u, em)
+    hc, st, rng = CO.single_event(ids.HOOK_PREPAREHIT, em, st, dex, rng, hc, pre_on & RS.truthy(r_try),
+                                  effect_range=CO.MOVE_RANGE)
+    r_pre = RS.where(RS.truthy(r_try), CO.event_result(hc), r_try)
+    pre_ok = RS.truthy(r_pre)
+    pre_fail_msg = pre_on & RS.is_false(r_pre)
+    st = EV.emit(st, pre_fail_msg, EV.EV_FAIL, actor=u)
+    st = EV.attr_last_move(st, pre_fail_msg, EV.F_STILL)
+    pre_notfail = r_pre[0] == RS.NOTFAIL
+    # ---- side / field moves: tryMoveHit -> TryHitSide / TryHitField (M4 handlers) -> moveHit(target): run below as
+    #      one hit on targets[0] without the trySpreadMoveHit steps and the hit-loop tails (Exec.side)
+    side_on = pre_on & pre_ok & side_field
+    on_ts = go_um & has_t & ~side_field & pre_ok
+    # ---- trySpreadMoveHit steps 0-4
     m = st.mons
     tv = (targets >= 0) & on_ts
     n_targets = jnp.sum(tv.astype(I32))
     spread = (n_targets > 1) & ~smart
+    # 1 TryHit (PS :698-711): runEvent('TryHit', targets, pokemon, move), left to right; NOT_FAIL drops a target
+    #   silently, false fails it; '-fail' when no target kept true and one returned false
+    th_t, th_v, st, rng = H.run_event_multi("TryHit", st, dex, rng, targets, tv, u, em, H.dispatch(ids.HOOK_TRYHIT))
+    th = (th_t, th_v)
+    th_msg = on_ts & ~jnp.any(tv & RS.truthy(th)) & jnp.any(tv & RS.is_false(th))
+    st = EV.emit(st, th_msg, EV.EV_FAIL, actor=u)
+    st = EV.attr_last_move(st, th_msg, EV.F_STILL)
+    th_fail = tv & ~RS.hit_or_zero(th) & (th[0] != RS.NOTFAIL)
+    tv = tv & RS.hit_or_zero(th)
     # 0 Invulnerability / 1 TryHit: hooks (M3)
     # 2 type immunity
     # move.ignoreImmunity as exported is already resolved by PS's Move constructor (data value, else category ===
@@ -656,7 +735,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     for j in range(NT):
         st = EV.emit(st, tv[j] & imm[j] & ~smart, EV.EV_IMMUNE, actor=targets[j],
                      flags=jnp.where(lev[j], EV.F_LEVITATE, 0))
-    fail_any = jnp.any(tv & imm)
+    fail_any = jnp.any(th_fail) | jnp.any(tv & imm)
     tv = tv & ~imm
     # 3 TryImmunity: powder vs Grass (getImmunity('powder')), move onTryImmunity (M3), Prankster vs Dark (M3)
     powder = mflag(dex, move, T.MF_POWDER)
@@ -674,17 +753,24 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     fail_any = fail_any | jnp.any(tv & ~acc_ok)
     smart = smart & ~jnp.any(tv & ~acc_ok)
     tv = tv & acc_ok
+    # 5 BreakProtect (PS :817-841): breaksProtect removes protections from each remaining target
+    st, rng = break_protect(st, dex, rng, u, move, targets, tv & (dex.move_breaks_protect[move] == 1))
     on_hl = on_ts & jnp.any(tv)
+    # side / field move: a single moveHit on targets[0]
+    tv = jnp.where(side_on, jnp.arange(NT) == 0, tv)
+    on_hl = on_hl | side_on
     # ---- hit-loop setup (ch/scripts.ts:432-449)
     mh = dex.move_multihit[move]
     is_range = (mh[0] == 2) & (mh[1] == 5)
     mkey = C.dkey(st, ids.DK_MULTIHIT_COUNT, actor=u, subject=C.eff_move(move))
     idx, rng = R.sample(rng, mkey, 20, active=on_hl & is_range)
     hits = jnp.where(is_range, MULTIHIT_TABLE[idx], jnp.where(mh[0] > 0, mh[0], 1)).astype(I32)
+    hits = jnp.where(side_on, 1, hits)
     full = lambda v: jnp.full(NT, v, I32)  # noqa: E731
     new = S.Exec(in_move=jnp.asarray(True), u=u, move=move, targets=targets.astype(I32), tv=tv, spread=spread,
                  smart=smart, spread_hit=spread_hit, on_rm=on, go_rm=go_rm, go_um=go_um, has_t=has_t,
-                 side_field=side_field, on_ts=on_ts, on_hl=on_hl, fail_any=fail_any, hits=hits,
+                 side_field=side_field, on_ts=on_ts, on_hl=on_hl, fail_any=fail_any, hits=hits, pre_ok=pre_ok,
+                 pre_notfail=pre_notfail, side=side_on,
                  multiacc=dex.move_multiaccuracy[move] == 1, single=jnp.sum(tv.astype(I32)) == 1, h=jnp.int32(1),
                  hit_done=jnp.int32(1), stopped=~on_hl, null_damage=jnp.asarray(True), dt=full(RS.NUM), dv=full(0),
                  lt=full(RS.UNDEF), lv=full(0), total=jnp.int32(0))
@@ -721,7 +807,8 @@ def move_hit(st, dex, rng, cfg):
     go = go & ~miss
     # [C] scripts.ts:476-482: boolean smartTarget moves retarget the move line on hit 1 (-anim for later hits)
     st = EV.retarget_last_move(st, go & (h == 1) & (dex.move_smart_target[move] == 1) & (t0 >= 0), t0)
-    st, rng, (mt, mv) = spread_move_hit(st, dex, rng, cfg, u, move, targets, cur_tv, ex.spread, h, go)
+    st, rng, (mt, mv) = spread_move_hit(st, dex, rng, cfg, u, move, targets, cur_tv, ex.spread & ~ex.side,
+                                        jnp.where(ex.side, 0, h), go, side_mode=ex.side)
     all_false = ~jnp.any(~RS.is_false((mt, mv)) & cur_tv)
     stopped = stopped | (go & all_false)
     go = go & ~all_false
@@ -743,7 +830,7 @@ def move_end(st, dex, rng, cfg):
     end = ex.in_move & ex.stopped
     u, move, targets, tv = ex.u, ex.move, ex.targets, ex.tv
     # ---- hit loop tail
-    on = end & ex.on_hl
+    on = end & ex.on_hl & ~ex.side
     hit_count = ex.hit_done - 1
     all_fail = on & ((ex.hit_done == 1) | ex.null_damage)
     dt = jnp.where(all_fail, RS.BOOL, ex.dt)
@@ -771,11 +858,11 @@ def move_end(st, dex, rng, cfg):
         hc, st, rng = H.run_event("AfterMoveSecondary", st, dex, rng, hc,
                                   branches=H.dispatch(ids.HOOK_AFTERMOVESECONDARY),
                                   on=some & still[j] & (targets[j] >= 0))
-    # ---- trySpreadMoveHit tail
+    # ---- trySpreadMoveHit tail (a failed preamble returns `hitResult === NOT_FAIL`, PS :645-650)
     on_ts = end & ex.on_ts
     kept = RS.hit_or_zero((dt, dv)) & tv
     fail_any = ex.fail_any | jnp.any(tv & RS.is_false((dt, dv)))
-    res = jnp.any(kept)
+    res = jnp.where(ex.pre_ok, jnp.any(kept), ex.pre_notfail)
     set_null = on_ts & ~res & ~fail_any
     # PS :679-680: attrLastMove('[spread] ' + hit slots)
     slots = jnp.int32(0)
@@ -785,7 +872,11 @@ def move_end(st, dex, rng, cfg):
     st = EV.attr_last_move(st, on_ts & ex.spread_hit, EV.F_SPREAD, v1=slots)
     # ---- useMoveInner tail (side/field moves: tryMoveHit, M3)
     go = end & ex.go_um
-    result = go & ((ex.has_t & ~ex.side_field & res) | ex.side_field)
+    # tryMoveHit: moveHit's damage[0] (true -> undefined): truthy, 0 or undefined is a success (PS :569-572)
+    sd_r = (ex.lt[0], ex.lv[0])
+    side_result = ex.side & (ex.hit_done > 1) & (RS.truthy(sd_r) | ((sd_r[0] == RS.NUM) & (sd_r[1] == 0)) |
+                                                 (sd_r[0] == RS.UNDEF))
+    result = go & ((ex.has_t & ~ex.side_field & res) | (ex.side_field & side_result))
     # selfBoost (Scale Shot) on success
     st, _ = boost(st, u, dex.move_selfboost[move], result & jnp.any(dex.move_selfboost[move] != 0))
     st = F.faint(st, u, go & (mget(st.mons.hp, u) <= 0))

@@ -8,7 +8,7 @@
  */
 const STATS = ['atk', 'def', 'spa', 'spd', 'spe', 'accuracy', 'evasion'];
 const toID = s => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-const IGNORE = new Set(['', 'upkeep', 'teamsize', 'start', 'gametype', 'player', 'gen', 'tier', 'rule', 'clearpoke',
+const IGNORE = new Set(['', 'upkeep', '-hint', 'teamsize', 'start', 'gametype', 'player', 'gen', 'tier', 'rule', 'clearpoke',
 	'poke', 'teampreview', 'j', 'l', 'win', 'tie', '-anim', 'uhtmlchange', 'uhtml', 't:', 'debug', 'html', 'raw',
 	'inactive', 'inactiveoff', 'hint', 'message', 'bigerror', 'error', 'c', 'chat', 'done', 'request', 'sideupdate']);
 const F = { DRAG: 1, MISS: 1, NOTARGET: 2, SPREAD: 4, STILL: 8, RECOIL: 1, FROM: 2, DRAIN: 1, LEVITATE: 1, OHKO: 2,
@@ -111,6 +111,8 @@ function reduce(lines, battle) {
 			ev('OHKO');
 		} else if (type === '-activate') {
 			ev('ACTIVATE', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1] });
+		} else if (type === '-singleturn') {
+			ev('SINGLETURN', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1] });
 		} else if (type === '-start' || type === '-end') {
 			const [k, id] = fromEffect(from);
 			ev(type === '-start' ? 'START' : 'END', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1],

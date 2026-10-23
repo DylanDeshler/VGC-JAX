@@ -277,6 +277,23 @@ def end_turn(st, dex, cfg, on) -> S.State:
                 trapped=mset(m.trapped, r, 0, go),                              # TrapPokemon hooks (M3)
                 active_turns=mset(m.active_turns, r, mget(m.active_turns, r) + 1, go & ~mget(m.fainted, r)),
             )
+    st = st.replace(mons=m)
+    # DisableMove (PS :1702-1714): runEvent('DisableMove', pokemon) (volatile / ability / item handlers: M3+), then
+    # singleEvent('DisableMove', move) per move slot ([C] Fake Out)
+    from vgcjax.effects import conditions as CO
+    from vgcjax.effects import hooks as H
+    move_handlers = [h for h in H.registered(ids.HOOK_DISABLEMOVE) if CO.MOVE_RANGE[0] <= h.effect < CO.MOVE_RANGE[1]]
+    for side in range(2):
+        for slot in range(2):
+            b = st.sides.active[side, slot].astype(I32)
+            r = side * 4 + jnp.maximum(b, 0)
+            go = on & (b >= 0)
+            for h in move_handlers:          # each registered move handler once per active mon that knows the move
+                knows = jnp.any(C.eff_move(mget(st.mons.move_ids, r)) == h.effect)
+                hc = H.HookCtx.make(r, -1, h.effect)
+                hc2, st2, _ = h.fn(hc, st, dex, None)
+                st = jax.tree_util.tree_map(lambda a, b_: jnp.where(go & knows, a, b_), st2, st)
+    m = st.mons
     sides = st.sides
     sides = sides.replace(fainted_last_turn=jnp.where(on, sides.fainted_this_turn, sides.fainted_last_turn),
                           fainted_this_turn=jnp.where(on, False, sides.fainted_this_turn))

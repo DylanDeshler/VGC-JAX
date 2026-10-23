@@ -89,6 +89,14 @@ M3 content (2026-10-23)
   resolved (Thunder Wave false), clampIntRange floors (toxic), checkFainted keeps the status state.
 - `impl` stage (tools/datagen/impl_stage.py): core + 36 status moves. 2,500 impl battles 100% (CBR/TMR/MPR,
   events). docs/catalogue.csv: 260 v0 entities impl (tools/catalogue_mark.py).
+- Flinch + confusion (22 more moves; oracle fix CONFUSION_SELFHIT_DAMAGE_ROLL subject), 1,000 impl battles 100%.
+- Protect family: Protect, Detect, stall counter, Wide Guard, Feint (breaksProtect), Fake Out ([C] DisableMove),
+  Try / PrepareHit preamble, multi-target TryHit (left-to-right), BreakProtect, side-move path (tryMoveHit),
+  move onHit / onHitSide, addSideCondition. Targeted corpora (oracle `--teams stagereq:impl:<req>`): 400 battles
+  each Protect+Fake Out / Wide Guard+Feint / Detect: 100%. Quick Guard implemented but unverified (no learner in
+  the 20-species impl pool).
+- Kernel-like ops/step (impl): 76,818 (15,231 core-only). Planned: a hook-machinery optimisation pass once more
+  of v0 lands (centralised in effects/hooks.py, fieldevent.py, conditions.py).
 
 ## Last T2/T3 run
 local conformance runs (not formal gate runs), PS d601443, contract_version 1:
