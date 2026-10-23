@@ -63,3 +63,17 @@ except the ADR-103 tie); distribution tests pass.
 |---|---|---|
 | events off | 119,789 | **74,684** (−38%) |
 | events on | 138,172 | **86,317** (−38%) |
+
+## Update 2026-10-23: GPU measurement (human's NVIDIA L40S, 46 GB; core stage, after option 3)
+| batch | env-steps/s (events on) | events off | compile |
+|---|---|---|---|
+| 4,096 | 49,724 | 53,344 | 63–72 s |
+| 16,384 | 40,026 | 42,533 | 71–82 s |
+| 65,536 | 40,685 | 45,517 | 103–118 s |
+
+GPU HLO: 55,553 kernel-like ops per step (29,624 fusions, 25,929 copies).
+Reading: at B = 4,096 a batched step takes ≈ 82 ms ≈ 1.5 µs per kernel, i.e. launch-bound; from 16k up throughput is
+flat (B = 65,536: 1.6 s per batched step), i.e. bound by the masked worst-case work itself (every battle pays for
+8 move slots × 10 hits per step) and by loop-carried state copies. Above the 3×10⁴ minimum (stated for an H100),
+below the 10⁵ target; compile time is near the 120 s budget with core content only, and every later stage adds
+handler code inside the same loops.
