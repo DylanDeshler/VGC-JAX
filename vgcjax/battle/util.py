@@ -67,3 +67,22 @@ def or_flag(st, bit, cond):
 
 def bit_test(word, k):
     return ((jnp.asarray(word, jnp.uint32) >> jnp.asarray(k, jnp.uint32)) & 1) == 1
+
+
+def mset_many(arr, refs, vals, mask=True):
+    """arr[refs[j]] = vals[j] where mask[j] (refs pairwise distinct where masked) as one masked select over the 8 mons:
+    elementwise, so it fuses (one batched write instead of len(refs) scatters; 09 J5)."""
+    refs = jnp.asarray(refs, I32)
+    T = refs.shape[0]
+    flat = arr.reshape((8,) + arr.shape[2:])
+    tail = flat.ndim - 1
+    ok = jnp.broadcast_to(jnp.asarray(mask), (T,)) & (refs >= 0)
+    hot = (jnp.clip(refs, 0, 7)[:, None] == jnp.arange(8)[None, :]) & ok[:, None]          # [T, 8]
+    vals = jnp.broadcast_to(jnp.asarray(vals, arr.dtype), (T,) + flat.shape[1:])   # scalar or [T, *tail]
+    h = hot.reshape(hot.shape + (1,) * tail)
+    if arr.dtype == jnp.bool_:
+        new = jnp.any(h & vals[:, None], axis=0)
+    else:
+        new = jnp.sum(jnp.where(h, vals[:, None], jnp.zeros((), arr.dtype)), axis=0, dtype=arr.dtype)
+    anyh = jnp.any(hot, axis=0).reshape((8,) + (1,) * tail)
+    return jnp.where(anyh, new, flat).reshape(arr.shape)

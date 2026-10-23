@@ -112,8 +112,8 @@ none
 - (2026-10-23) G-core ACKNOWLEDGED by the human; ADR-102 and ADR-103 ACCEPTED. G-core re-evaluated: PASS
   M3 content unblocked. contract-hashes.md written on the human's instruction; ADR-101 option (b) accepted
   (record QUEUE_INSERT_TIE; with ADR-103 in contract_version 2).
-- ADR-104 (kernel count 12x over 09 §1.1a; options: GPU measurement now, hit-loop / target-axis restructuring,
-  micro-step rewrite, budget revision) — decide
+- ADR-104: option 3 (target-axis vectorisation) done: 119,789 -> 74,684 kernels/step (events off). Waiting for the
+  human's L40S run of bench/gpu_check.sh before deciding option 4 (micro-step rewrite).
 
 ## Contract hashes (must match docs/decisions/contract-hashes.md)
 not yet created (harness/contract/* is written in M2.8)

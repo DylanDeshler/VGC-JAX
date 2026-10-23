@@ -1,6 +1,7 @@
 # ADR-104 — The engine is 12× over the 09 §1.1a kernel-count budget: options
 
-- **Status:** proposed 2026-10-22 — **needs a human decision** (the levers change 04 §12 bounds / the 04 §2 control
+- **Status:** option 3 approved and implemented 2026-10-23 (see Update); GPU measurement pending (human, L40S);
+  option 4 decided after that. Originally: proposed 2026-10-22 — **needs a human decision** (the levers change 04 §12 bounds / the 04 §2 control
   structure, or the budget itself). No engine change made yet.
 - **Affects:** 09 §1.1a (CPU proxy budget (a), enforced at G-v0 and G-v1 without a GPU measurement), 04 §2, 04 §12.
 
@@ -50,3 +51,15 @@ it slower on CPU).
 Option 1 now (it decides whether anything else is needed), and options 2 + 3 as infrastructure work before G-v0,
 since both stay within the existing 04 semantics and are verified by the conformance harness. Option 4 only if the
 GPU measurement demands it.
+
+## Update 2026-10-23: option 3 implemented
+Target axis vectorised in the move body (accuracy, getDamage, spreadDamage, runMoveEffects, secondaries, forceSwitch,
+immunity, timesAttacked): batched gathers, batched draws (`rng.chance_v` / `randint_v`), one masked select per field
+(`util.mset_many`, `faint.faint_many`), PS message order kept by emitting afterwards; drain and secondary
+self-boosts on the user are scalar recurrences. Conformance unchanged (2,000 core battles 100%, events identical
+except the ADR-103 tie); distribution tests pass.
+
+| build | before | after |
+|---|---|---|
+| events off | 119,789 | **74,684** (−38%) |
+| events on | 138,172 | **86,317** (−38%) |

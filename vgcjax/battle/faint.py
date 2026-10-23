@@ -7,7 +7,7 @@ import jax.numpy as jnp
 from vgcjax.battle import errors as E
 from vgcjax.battle import events as EV
 from vgcjax.battle import state as S
-from vgcjax.battle.util import mget, mset, or_flag, side_of
+from vgcjax.battle.util import mget, mset, mset_many, or_flag, side_of
 from vgcjax.data import ids
 
 I8, I16, I32 = jnp.int8, jnp.int16, jnp.int32
@@ -26,6 +26,23 @@ def faint(st: S.State, ref, on) -> S.State:
     fq = meta.faint_queue.at[i].set(jnp.where(on & ~full, jnp.asarray(ref, I8), meta.faint_queue[i]))
     st = st.replace(mons=m, meta=meta.replace(faint_queue=fq, faint_queue_len=(n + (on & ~full)).astype(I8)))
     return or_flag(st, E.ERR_OVERFLOW_FAINT_QUEUE, on & full)
+
+
+def faint_many(st: S.State, refs, on) -> S.State:
+    """faint() for distinct refs in index order (queue appends keep that order), as one batched write."""
+    m = st.mons
+    refs = jnp.asarray(refs, I32)
+    on = jnp.asarray(on) & (refs >= 0) & ~mget(m.fainted, refs) & ~mget(m.faint_queued, refs)
+    m = m.replace(hp=mset_many(m.hp, refs, 0, on), switch_flag=mset_many(m.switch_flag, refs, 0, on),
+                  faint_queued=mset_many(m.faint_queued, refs, True, on))
+    meta = st.meta
+    n = meta.faint_queue_len.astype(I32)
+    pos = n + jnp.cumsum(on.astype(I32)) - 1
+    put = on & (pos < S.FAINTQ)
+    hot = (pos[:, None] == jnp.arange(S.FAINTQ)[None, :]) & put[:, None]
+    fq = jnp.where(jnp.any(hot, axis=0), jnp.sum(jnp.where(hot, refs[:, None], 0), axis=0).astype(I8), meta.faint_queue)
+    st = st.replace(mons=m, meta=meta.replace(faint_queue=fq, faint_queue_len=(n + jnp.sum(put.astype(I32))).astype(I8)))
+    return or_flag(st, E.ERR_OVERFLOW_FAINT_QUEUE, jnp.any(on & ~put))
 
 
 def damage(st: S.State, ref, d, on):

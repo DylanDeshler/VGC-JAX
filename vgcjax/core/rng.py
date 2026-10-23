@@ -246,3 +246,50 @@ def tie_order(rng: Rng, key: dk.DrawKey, members, valid, active=True, select=Fal
     flags = LOG_IS_TIE | jnp.where(use_forced, LOG_USED_FORCED, 0) | (tied_mask << 8)
     rng = _log(rng, c, nvalid, 0, value, flags, live)
     return order, rng
+
+
+# ------------------------------------------------------------------ vectorised draws (09 J5: the target axis)
+def _resolve_v(rng: Rng, key: dk.DrawKey, natural, degenerate, degen_value, a0, a1, active):
+    """_resolve for T draws at once (key fields broadcast to [T]); log entries are appended in index order."""
+    c = _pack(key)
+    T = natural.shape[0]
+    c = tuple(jnp.broadcast_to(x, (T,)) for x in c)
+    bc = lambda x: jnp.broadcast_to(jnp.asarray(x, I32), (T,))  # noqa: E731
+    live = bc(active).astype(bool) & ~jnp.broadcast_to(degenerate, (T,))
+    f = rng.forced
+    if f is None:
+        hit, fval = jnp.zeros(T, bool), jnp.zeros(T, I32)
+    else:
+        m = f.valid[None, :] & (f.keys[None, :, 0] == c[0][:, None]) & (f.keys[None, :, 1] == c[1][:, None]) & \
+            (f.keys[None, :, 2] == c[2][:, None])
+        hit, fval = jnp.any(m, axis=1), f.value[jnp.argmax(m, axis=1)]
+        rng = rng.replace(err=rng.err | jnp.where(jnp.any(live & ~hit), U32(E.ERR_FORCED_MISSING), U32(0)))
+    use = live & hit
+    value = jnp.where(degenerate, bc(degen_value), jnp.where(use, fval, natural))
+    if rng.log is not None:
+        a0, a1 = bc(a0), bc(a1)
+        flags = jnp.where(use, LOG_USED_FORCED, 0)
+        for j in range(T):
+            rng = _log(rng, (c[0][j], c[1][j], c[2][j]), a0[j], a1[j], value[j], flags[j], live[j])
+    return value, rng
+
+
+def chance_v(rng: Rng, key: dk.DrawKey, n, d, active):
+    """chance() for T keys (T = len(active)). -> (bool[T], rng)"""
+    T = jnp.shape(active)[0]
+    n = jnp.broadcast_to(jnp.asarray(n, I32), (T,))
+    d = jnp.broadcast_to(jnp.asarray(d, I32), (T,))
+    h = hash32(rng.w, _pack(key))
+    natural = (h % jnp.maximum(d, 1).astype(U32)).astype(I32) < n
+    v, rng = _resolve_v(rng, key, natural.astype(I32), (n >= d) | (n <= 0), (n >= d).astype(I32), n, d, active)
+    return v.astype(bool), rng
+
+
+def randint_v(rng: Rng, key: dk.DrawKey, a, b, active):
+    """randint() for T keys. -> (int[T], rng)"""
+    T = jnp.shape(active)[0]
+    a = jnp.broadcast_to(jnp.asarray(a, I32), (T,))
+    b = jnp.broadcast_to(jnp.asarray(b, I32), (T,))
+    h = hash32(rng.w, _pack(key))
+    natural = a + (h % jnp.maximum(b - a, 1).astype(U32)).astype(I32)
+    return _resolve_v(rng, key, natural, b - a <= 1, a, a, b, active)

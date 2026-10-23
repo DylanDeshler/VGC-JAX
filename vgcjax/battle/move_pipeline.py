@@ -14,7 +14,7 @@ from vgcjax.battle import events as EV
 from vgcjax.battle import faint as F
 from vgcjax.battle import results as RS
 from vgcjax.battle import state as S
-from vgcjax.battle.util import mget, mset, side_of
+from vgcjax.battle.util import mget, mset, mset_many, side_of
 from vgcjax.core import rng as R
 from vgcjax.core import typechart as TC
 from vgcjax.data import ids
@@ -194,36 +194,57 @@ def get_move_targets(st, dex, rng, u, move, target, on):
 
 
 # ------------------------------------------------------------------ boosts (PS: sim/battle.ts:2037-2106)
-def boost(st, target, deltas7, on, order=None, primary=False):
-    """battle.boost with no hooks (ChangeBoost / TryBoost / AfterEachBoost join in M3). Returns (st, result).
-    Messages (PS :2053-2095): per stat in the boosts dict's key order (`order`, default canonical), -boost/-unboost
-    with the applied amount; a zero change is shown only for primary effects (not isSecondary / isSelf)."""
-    m = st.mons
-    on = jnp.asarray(on) & (jnp.asarray(target) >= 0)
-    hp = mget(m.hp, target)
-    active = mget(m.is_active, target)
-    foe_left = st.sides.pokemon_left[1 - side_of(target)] > 0
-    cur = mget(m.boosts, target).astype(I32)
-    d = jnp.asarray(deltas7, I32)
-    capped = jnp.clip(cur + d, -6, 6) - cur
-    capped = jnp.where(d != 0, capped, 0)
-    go = on & (hp > 0) & active & foe_left
-    success = jnp.any(capped != 0)
+def boost_math(cur, d, go, order=None, primary=False):
+    """Pure core of battle.boost over leading dims: cur, d i32[..., 7], go bool[...]. Returns (new [..., 7],
+    capped [..., 7] (zero where not go), msgs). msgs = (on, stat, amount, flags) [..., 7] in the boosts dict's key order (`order`, default
+    canonical): one -boost/-unboost per key with the applied amount; a zero change is shown only for primary effects
+    (not isSecondary / isSelf). PS :2053-2095."""
+    capped = jnp.where((d != 0) & jnp.asarray(go)[..., None], jnp.clip(cur + d, -6, 6) - cur, 0)   # 0 when not go
     order = jnp.arange(7) if order is None else jnp.asarray(order, I32)
+    d_o, c_o, cur_o = (jnp.take(x, order, axis=-1) for x in (d, capped, cur))
+    on = jnp.asarray(go)[..., None] & (d_o != 0) & ((c_o != 0) | primary)
+    flags = jnp.where((d_o < 0) | (cur_o + c_o == -6), EV.F_UNBOOST, 0)
+    return cur + capped, capped, (on, jnp.broadcast_to(order, on.shape), jnp.abs(c_o), flags)
+
+
+def emit_boost(st, msgs, actor, idx=()):
+    """Emit the -boost/-unboost records of one boost application (msgs from boost_math, indexed by `idx`)."""
+    on, stat, amt, flags = (x[idx] for x in msgs)
     for k in range(7):
-        j = order[k]
-        dj, cj = d[j], capped[j]
-        unboost = (dj < 0) | (cur[j] + cj == -6)
-        st = EV.emit(st, go & (dj != 0) & ((cj != 0) | primary), EV.EV_BOOST, actor=target, v1=j, v2=jnp.abs(cj),
-                     flags=jnp.where(unboost, EV.F_UNBOOST, 0))
-    m = m.replace(boosts=mset(m.boosts, target, cur + capped, go),
-                  stats_raised_this_turn=mset(m.stats_raised_this_turn, target, True, go & success & jnp.any(capped > 0)),
-                  stats_lowered_this_turn=mset(m.stats_lowered_this_turn, target, True, go & success & jnp.any(capped < 0)))
-    res = jnp.where(hp <= 0, 0, 0)
+        st = EV.emit(st, on[k], EV.EV_BOOST, actor=actor, v1=stat[k], v2=amt[k], flags=flags[k])
+    return st
+
+
+def boost_v(st, targets, deltas7, on, order=None, primary=False):
+    """battle.boost (no hooks yet: ChangeBoost / TryBoost / AfterEachBoost join in M3) on distinct refs targets [T]
+    at once. Returns (st, result (tags [T], vals [T]), msgs); messages are not emitted (callers interleave them)."""
+    m = st.mons
+    targets = jnp.asarray(targets, I32)
+    T = targets.shape[0]
+    hp = mget(m.hp, targets)
+    active = mget(m.is_active, targets)
+    foe_left = st.sides.pokemon_left[1 - side_of(jnp.clip(targets, 0, 7))] > 0
+    cur = mget(m.boosts, targets).astype(I32)
+    d = jnp.broadcast_to(jnp.asarray(deltas7, I32), (T, 7))
+    go = jnp.asarray(on) & (targets >= 0) & (hp > 0) & active & foe_left
+    new, capped, msgs = boost_math(cur, d, go, order, primary)
+    success = jnp.any(capped != 0, axis=-1)
+    m = m.replace(boosts=mset_many(m.boosts, targets, new, go),
+                  stats_raised_this_turn=mset_many(m.stats_raised_this_turn, targets, True,
+                                                   go & success & jnp.any(capped > 0, axis=-1)),
+                  stats_lowered_this_turn=mset_many(m.stats_lowered_this_turn, targets, True,
+                                                    go & success & jnp.any(capped < 0, axis=-1)))
     r = RS.where(hp <= 0, RS.R(RS.NUM, 0), RS.where(~active | ~foe_left, RS.R(RS.BOOL, 0),
                                                     RS.where(success, RS.R(RS.BOOL, 1), RS.R(RS.NULL))))
-    del res
-    return st.replace(mons=m), r
+    return st.replace(mons=m), r, msgs
+
+
+def boost(st, target, deltas7, on, order=None, primary=False):
+    """battle.boost on one target, messages emitted. Returns (st, result)."""
+    t = jnp.asarray(target, I32)[None]
+    st, r, msgs = boost_v(st, t, jnp.asarray(deltas7)[None], jnp.asarray(on)[None], order, primary)
+    st = emit_boost(st, msgs, t[0], 0)
+    return st, (r[0][0], r[1][0])
 
 
 def battle_heal(st, target, amount, on, drain_of=None):
@@ -243,9 +264,9 @@ def battle_heal(st, target, amount, on, drain_of=None):
 
 # ------------------------------------------------------------------ accuracy (PS: sim/battle-actions.ts:752-816)
 def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=False):
-    """hitStepAccuracy for each target (fori over target slots). Returns (st, ok[3], rng).
-    Messages: '-immune' target '[ohko]' (PS :768); a miss adds '-miss' user target and marks the move line [miss] when
-    not spreadHit (PS :800-806); smartTarget misses are silent."""
+    """hitStepAccuracy for all target slots at once (09 J5). Returns (st, ok[3], rng).
+    Messages, per target in order: '-immune' target '[ohko]' (PS :768); a miss adds '-miss' user target and marks the
+    move line [miss] when not spreadHit (PS :800-806); smartTarget misses are silent."""
     m = st.mons
     acc_base = dex.move_accuracy[move].astype(I32)        # 0 = true
     ohko = dex.move_ohko[move]
@@ -253,94 +274,84 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=Fa
     tt = dex.move_target[move]
     u_types = mget(m.types, u)
     targets = jnp.asarray(targets, I32)
-
-    def body(j, carry):
-        st, oks, rng = carry
-        t = targets[j]
-        live = jnp.asarray(on) & (t >= 0) & tv[j]
-        t_types = mget(m.types, t)
-        # OHKO: 30 (Sheer Cold 20 for non-Ice users), Sheer Cold fails on Ice targets
-        ohko_acc = jnp.where((ohko == 2) & ~jnp.any(u_types == T.TYPE_ICE), 20, 30)
-        ohko_immune = (ohko == 2) & jnp.any(t_types == T.TYPE_ICE)
-        # stages (HOOK H11 ModifyAccuracy / ModifyBoost = identity)
-        b = jnp.clip(mget(m.boosts, u)[5].astype(I32), -6, 6)
-        b = jnp.where(dex.move_ignore_evasion[move] == 1, b, jnp.clip(b - mget(m.boosts, t)[6].astype(I32), -6, 6))
-        staged = jnp.where(b > 0, acc_base * (3 + b) // 3, jnp.where(b < 0, acc_base * 3 // (3 - b), acc_base))
-        acc = jnp.where(ohko > 0, ohko_acc, staged)
-        always = ((acc_base == 0) & (ohko == 0)) | ((tt == T.TARGET_SELF) & (cat == T.CAT_STATUS))
-        key = C.dkey(st, ids.DK_ACCURACY, actor=u, target=t, subject=C.eff_move(move), hit=0)
-        hit, rng = R.chance(rng, key, acc, 100, active=live & ~always & ~((ohko > 0) & ohko_immune))
-        ok = jnp.where(always, True, hit & ~((ohko > 0) & ohko_immune))
-        oimm = live & ~always & (ohko > 0) & ohko_immune
-        st = EV.emit(st, oimm, EV.EV_IMMUNE, actor=t, flags=EV.F_OHKO)
-        miss = live & ~ok & ~oimm & ~smart
-        st = EV.attr_last_move(st, miss & ~spread, EV.F_MISS)
-        st = EV.emit(st, miss, EV.EV_MISS, actor=u, target=t)
-        return st, oks.at[j].set(ok), rng
-
-    return jax.lax.fori_loop(0, NT, body, (st, jnp.zeros(NT, bool), rng))
+    live = jnp.asarray(on) & (targets >= 0) & jnp.asarray(tv)
+    t_types = mget(m.types, targets)                                              # [3, 2]
+    # OHKO: 30 (Sheer Cold 20 for non-Ice users), Sheer Cold fails on Ice targets
+    ohko_acc = jnp.where((ohko == 2) & ~jnp.any(u_types == T.TYPE_ICE), 20, 30)
+    ohko_immune = (ohko > 0) & (ohko == 2) & jnp.any(t_types == T.TYPE_ICE, axis=-1)
+    # stages (HOOK H11 ModifyAccuracy / ModifyBoost = identity)
+    b = jnp.clip(mget(m.boosts, u)[5].astype(I32), -6, 6)
+    b = jnp.where(dex.move_ignore_evasion[move] == 1, b,
+                  jnp.clip(b - mget(m.boosts, targets)[:, 6].astype(I32), -6, 6))
+    staged = jnp.where(b > 0, acc_base * (3 + b) // 3, jnp.where(b < 0, acc_base * 3 // (3 - b), acc_base))
+    acc = jnp.where(ohko > 0, ohko_acc, staged)
+    always = ((acc_base == 0) & (ohko == 0)) | ((tt == T.TARGET_SELF) & (cat == T.CAT_STATUS))
+    key = C.dkey(st, ids.DK_ACCURACY, actor=u, target=targets, subject=C.eff_move(move), hit=0)
+    hit, rng = R.chance_v(rng, key, acc, 100, active=live & ~always & ~ohko_immune)
+    ok = jnp.where(always, True, hit & ~ohko_immune)
+    oimm = live & ~always & ohko_immune
+    miss = live & ~ok & ~oimm & ~smart
+    for j in range(NT):
+        st = EV.emit(st, oimm[j], EV.EV_IMMUNE, actor=targets[j], flags=EV.F_OHKO)
+        st = EV.attr_last_move(st, miss[j] & ~spread, EV.F_MISS)
+        st = EV.emit(st, miss[j], EV.EV_MISS, actor=u, target=targets[j])
+    return st, ok, rng
 
 
-# ------------------------------------------------------------------ damage for one target
-def target_damage(st, dex, rng, cfg, u, move, t, spread, on):
-    """getDamage(source, target, move) with CRIT and DAMAGE_ROLL draws. Returns (rs-result, rng)."""
+# ------------------------------------------------------------------ getDamage for all targets
+def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on):
+    """PS getDamage for each target slot at once (09 J5): returns (st, (tags[3], vals[3]), rng). Struggle is typeless
+    via its onModifyMove."""
     m = st.mons
-    hit = jnp.int32(1)  # set by caller via key fields; see spread_move_hit
-    del hit
-    return None, rng
-
-
-def get_damage(st, dex, rng, cfg, u, move, t, spread, hit_no, on):
-    """PS getDamage for target t: returns (st, (tag, val), rng). Struggle is typeless via its onModifyMove."""
-    m = st.mons
-    ab_t = mget(m.ability, t)
+    targets = jnp.asarray(targets, I32)
+    on = jnp.asarray(on)
+    ab_t = mget(m.ability, targets)
     crit_immune = _in(ab_t, (T.ABILITY_BATTLEARMOR, T.ABILITY_SHELLARMOR))   # HOOK(H13) CriticalHit
     crit_ratio = jnp.clip(dex.move_crit_ratio[move].astype(I32), 0, 4)
     will_crit = dex.move_will_crit[move] == 1
-    ckey = C.dkey(st, ids.DK_CRIT, actor=u, target=t, subject=C.eff_move(move), hit=hit_no)
     bp = dex.move_bp[move].astype(I32)
     fixed = dex.move_fixed_damage[move]
     ohko = dex.move_ohko[move] > 0
-    rolls_damage = jnp.asarray(on) & (bp > 0) & ~ohko & (fixed == 0)
-    crit_draw, rng = R.chance(rng, ckey, 1, D.crit_denominator(crit_ratio),
-                              active=rolls_damage & ~will_crit & (crit_ratio > 0))
-    rkey = C.dkey(st, ids.DK_DAMAGE_ROLL, actor=u, target=t, subject=C.eff_move(move), hit=hit_no)
-    roll, rng = R.randint(rng, rkey, 0, 16, active=rolls_damage)
-    grounded = ~jnp.any(mget(m.types, t) == T.TYPE_FLYING) & (ab_t != T.ABILITY_LEVITATE)
+    rolls_damage = on & (bp > 0) & ~ohko & (fixed == 0)
+    ckey = C.dkey(st, ids.DK_CRIT, actor=u, target=targets, subject=C.eff_move(move), hit=hit_no)
+    crit_draw, rng = R.chance_v(rng, ckey, 1, D.crit_denominator(crit_ratio),
+                                active=rolls_damage & ~will_crit & (crit_ratio > 0))
+    rkey = C.dkey(st, ids.DK_DAMAGE_ROLL, actor=u, target=targets, subject=C.eff_move(move), hit=hit_no)
+    roll, rng = R.randint_v(rng, rkey, 0, 16, active=rolls_damage)
+    t_types = mget(m.types, targets)
+    grounded = ~jnp.any(t_types == T.TYPE_FLYING, axis=-1) & (ab_t != T.ABILITY_LEVITATE)
     is_struggle = move == T.MOVE_STRUGGLE
     # Struggle: onModifyMove type '???' (data/moves.ts struggle) -> treat as typeless via a typeless attacker types
-    dmg, kind, crit = D.get_damage_core(
-        dex, move, atk_stats5=mget(m.stats, u), atk_boosts7=mget(m.boosts, u),
-        atk_types=jnp.where(is_struggle, jnp.array([-1, -1], I8), mget(m.types, u)),
-        atk_burned=mget(m.status, u) == T.COND_BRN, def_stats5=mget(m.stats, t), def_boosts7=mget(m.boosts, t),
-        def_types=jnp.where(is_struggle, jnp.array([-1, -1], I8), mget(m.types, t)), def_maxhp=mget(m.maxhp, t),
-        def_grounded=grounded, def_crit_immune=crit_immune, crit_draw=crit_draw, roll=roll, spread=spread,
-        canary_crit=cfg.flags.canary_crit_2048)
-    # [C] modifyDamage messages (data/mods/champions/scripts.ts:266-284): effectiveness then crit
+    typeless = jnp.array([-1, -1], I8)
+    def_types = jnp.where(is_struggle, typeless[None, :], t_types)
+    atk = dict(atk_stats5=mget(m.stats, u), atk_boosts7=mget(m.boosts, u),
+               atk_types=jnp.where(is_struggle, typeless, mget(m.types, u)), atk_burned=mget(m.status, u) == T.COND_BRN)
+
+    def one(ds, db, dt, dmx, dg, dci, cd, r):
+        return D.get_damage_core(dex, move, **atk, def_stats5=ds, def_boosts7=db, def_types=dt, def_maxhp=dmx,
+                                 def_grounded=dg, def_crit_immune=dci, crit_draw=cd, roll=r, spread=spread,
+                                 canary_crit=cfg.flags.canary_crit_2048)
+    dmg, kind, crit = jax.vmap(one)(mget(m.stats, targets), mget(m.boosts, targets), def_types, mget(m.maxhp, targets),
+                                    grounded, crit_immune, crit_draw, roll)
+    # [C] modifyDamage messages (data/mods/champions/scripts.ts:266-284): effectiveness then crit, per target
     formula = rolls_damage & (kind == D.DMG_NUMBER)
-    tm = jnp.clip(jnp.where(is_struggle, 0, TC.effectiveness(dex, dex.move_type[move], mget(m.types, t))), -6, 6)
-    st = EV.emit(st, formula & (tm > 0), EV.EV_SUPER, actor=t, v1=jnp.minimum(tm, 2))
-    st = EV.emit(st, formula & (tm < 0), EV.EV_RESIST, actor=t, v1=jnp.minimum(-tm, 2))
-    st = EV.emit(st, formula & crit, EV.EV_CRIT, actor=t)
-    r = jnp.where(kind == D.DMG_NUMBER, 1, 0)
+    eff = jax.vmap(lambda tt: TC.effectiveness(dex, dex.move_type[move], tt))(t_types)
+    tm = jnp.clip(jnp.where(is_struggle, 0, eff), -6, 6)
+    for j in range(NT):
+        st = EV.emit(st, formula[j] & (tm[j] > 0), EV.EV_SUPER, actor=targets[j], v1=jnp.minimum(tm[j], 2))
+        st = EV.emit(st, formula[j] & (tm[j] < 0), EV.EV_RESIST, actor=targets[j], v1=jnp.minimum(-tm[j], 2))
+        st = EV.emit(st, formula[j] & crit[j], EV.EV_CRIT, actor=targets[j])
     res = RS.where(kind == D.DMG_NUMBER, RS.R(RS.NUM, dmg), RS.where(kind == D.DMG_FALSE, RS.R(RS.BOOL, 0),
                                                                      RS.where(kind == D.DMG_UNDEFINED, RS.R(RS.UNDEF),
                                                                               RS.R(RS.NUM, 0))))
-    del r
     return st, res, rng
 
 
 # ------------------------------------------------------------------ spreadMoveHit (ch/scripts.ts:314-423), core
-def _rget(tags, vals, j):
-    return (tags[j], vals[j])
-
-
-def _rset(tags, vals, j, r, cond=True):
-    return tags.at[j].set(jnp.where(cond, r[0], tags[j])), vals.at[j].set(jnp.where(cond, r[1], vals[j]))
-
-
 def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no, on):
-    """One hit on the current targets (ch/scripts.ts:314-423, core). Returns (st, rng, (tags[3], vals[3]))."""
+    """One hit on the current targets (ch/scripts.ts:314-423, core), vectorised over the target slots (09 J5): reads
+    are batched gathers, writes one masked select per field (targets are distinct mons), and PS's per-target message
+    order is reproduced by emitting afterwards. Returns (st, rng, (tags[3], vals[3]))."""
     on = jnp.asarray(on)
     targets = jnp.asarray(targets, I32)
     tags = jnp.full(NT, RS.BOOL, I32)
@@ -349,43 +360,49 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     # TryHit (move onTryHit; none in core) / TryPrimaryHit (Substitute; HOOK H12) -> true
 
     # 1. getSpreadDamage
-    def s1(j, c):
-        st, rng, tags, vals, tv = c
-        st, res, rng = get_damage(st, dex, rng, cfg, u, move, targets[j], spread, hit_no, tv[j])
-        tags, vals = _rset(tags, vals, j, res, tv[j])
-        tv = tv.at[j].set(tv[j] & ~RS.is_false(_rget(tags, vals, j)))
-        return st, rng, tags, vals, tv
-    st, rng, tags, vals, tv = jax.lax.fori_loop(0, NT, s1, (st, rng, tags, vals, tv))
+    st, res, rng = get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, tv)
+    tags, vals = RS.where(tv, res, (tags, vals))
+    tv = tv & ~RS.is_false((tags, vals))
 
-    # 2. spreadDamage (PS: sim/battle.ts:2108-2210) + drain
+    # 2. spreadDamage (PS: sim/battle.ts:2108-2210) + drain (PS :2181-2186, sequential on the user)
+    m = st.mons
+    hp_t = mget(m.hp, targets).astype(I32)
+    mx_t = mget(m.maxhp, targets).astype(I32)
+    numeric = RS.is_num((tags, vals))
+    hp0 = hp_t <= 0
+    inactive = ~mget(m.is_active, targets)
+    go = tv & numeric & ~hp0 & ~inactive
+    amt = jnp.where(vals != 0, jnp.maximum(vals, 1), 0)                     # HOOK(H21) Damage event
+    hit_t = go & (amt > 0)
+    dealt = jnp.where(hit_t, jnp.minimum(amt, hp_t), 0)
+    new_hp = hp_t - dealt
+    last_j = NT - 1 - jnp.argmax(go[::-1])                                  # source.lastDamage: last target
+    m = m.replace(hp=mset_many(m.hp, targets, new_hp, hit_t),
+                  hurt_this_turn=mset_many(m.hurt_this_turn, targets, new_hp, go & (dealt != 0)),
+                  last_damage=mset(m.last_damage, u, dealt[last_j], jnp.any(go)))
+    st = F.faint_many(st.replace(mons=m), targets, hit_t & (hp_t - amt <= 0))
+    tags, vals = RS.where(tv & numeric, RS.where(hp0, RS.R(RS.NUM, 0), RS.where(inactive, RS.R(RS.BOOL, 0),
+                                                                                 RS.R(RS.NUM, dealt))), (tags, vals))
     drain_n = dex.move_drain[move, 0].astype(I32)
     drain_d = jnp.maximum(dex.move_drain[move, 1].astype(I32), 1)
+    m = st.mons
+    hp_u = mget(m.hp, u).astype(I32)
+    mx_u = mget(m.maxhp, u).astype(I32)
+    act_u = mget(m.is_active, u)
+    healed = jnp.zeros((), bool)
+    for j in range(NT):
+        pct, col = EV.hp_public(new_hp[j], mx_t[j])
+        st = EV.emit(st, go[j], EV.EV_DAMAGE, actor=targets[j], v1=pct, v2=col)  # PS: sim/battle.ts:2171
+        a = (2 * dealt[j] * drain_n + drain_d) // (2 * drain_d)                    # Math.round
+        ok = go[j] & (dealt[j] > 0) & (drain_n > 0) & (a != 0) & (hp_u > 0) & act_u & (hp_u < mx_u)
+        hp_u = jnp.where(ok, jnp.minimum(mx_u, hp_u + a), hp_u)
+        pu, cu = EV.hp_public(hp_u, mx_u)
+        st = EV.emit(st, ok, EV.EV_HEAL, actor=u, target=targets[j], v1=pu, v2=cu, flags=EV.F_DRAIN)
+        healed = healed | ok
+    st = st.replace(mons=st.mons.replace(hp=mset(st.mons.hp, u, hp_u, healed)))
+    tv = tv & ~RS.is_false((tags, vals))
 
-    def s2(j, c):
-        st, tags, vals, tv = c
-        t = targets[j]
-        m = st.mons
-        live = tv[j]
-        cur = _rget(tags, vals, j)
-        numeric = RS.is_num(cur)
-        hp0 = mget(m.hp, t) <= 0
-        inactive = ~mget(m.is_active, t)
-        go = live & numeric & ~hp0 & ~inactive
-        amt = jnp.where(cur[1] != 0, jnp.maximum(cur[1], 1), 0)            # HOOK(H21) Damage event
-        st, dealt = F.damage(st, t, amt, go)
-        st = EV.emit_hp(st, go, EV.EV_DAMAGE, t)                             # PS: sim/battle.ts:2171
-        m = st.mons
-        st = st.replace(mons=m.replace(hurt_this_turn=mset(m.hurt_this_turn, t, mget(m.hp, t), go & (dealt != 0)),
-                                       last_damage=mset(m.last_damage, u, dealt, go)))
-        newr = RS.where(hp0, RS.R(RS.NUM, 0), RS.where(inactive, RS.R(RS.BOOL, 0), RS.R(RS.NUM, dealt)))
-        tags, vals = _rset(tags, vals, j, newr, live & numeric)
-        drain_amt = (2 * dealt * drain_n + drain_d) // (2 * drain_d)          # Math.round
-        st, _ = battle_heal(st, u, drain_amt, go & (dealt > 0) & (drain_n > 0), drain_of=t)
-        tv = tv.at[j].set(tv[j] & ~RS.is_false(_rget(tags, vals, j)))
-        return st, tags, vals, tv
-    st, tags, vals, tv = jax.lax.fori_loop(0, NT, s2, (st, tags, vals, tv))
-
-    # 3. runMoveEffects (PS: sim/battle-actions.ts:1241-1372)
+    # 3. runMoveEffects (PS: sim/battle-actions.ts:1241-1372), per-target work batched
     tv_in = jnp.asarray(tvalid) & on
     da = (tags[0], vals[0])
     for j in range(1, NT):
@@ -396,46 +413,45 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     force_sw = dex.move_force_switch[move] == 1
     self_switch = dex.move_self_switch[move] > 0
     selfdestruct_ifhit = dex.move_selfdestruct[move] == 2
-
-    def s3(j, c):
-        st, tags, vals, da_t, da_v = c
-        da = (da_t, da_v)
-        t = targets[j]
-        live = tv[j]
-        m = st.mons
-        did = RS.R(RS.UNDEF)
-        not_fainted = ~mget(m.fainted, t)
-        st, br = boost(st, t, dex.move_boosts[move], live & has_boosts & not_fainted, order=dex.move_boost_order[move],
-                       primary=True)
-        did = RS.where(live & has_boosts & not_fainted, RS.combine(did, br), did)
-        # heal
-        m = st.mons
-        do_heal = live & (heal_n > 0) & not_fainted
-        full = mget(m.hp, t) >= mget(m.maxhp, t)
-        heal_amt = (2 * mget(m.maxhp, t).astype(I32) * heal_n + heal_d) // (2 * heal_d)
-        st, hr = battle_heal(st, t, heal_amt, do_heal & ~full)
-        heal_fail = do_heal & (full | (~RS.truthy(hr) & ~((hr[0] == RS.NUM) & (hr[1] == 0))))
-        st = EV.emit(st, do_heal & full, EV.EV_FAIL, actor=t, flags=EV.F_HEAL)   # PS :1257-1259
-        st = EV.attr_last_move(st, do_heal & full, EV.F_STILL)
-        cur = _rget(tags, vals, j)
-        tags, vals = _rset(tags, vals, j, RS.combine(cur, RS.R(RS.BOOL, 0)), heal_fail)
-        da = RS.where(heal_fail, RS.combine(da, RS.R(RS.NULL)), da)
-        cont = live & ~heal_fail
-        did = RS.where(do_heal & ~heal_fail, RS.R(RS.BOOL, 1), did)
-        # status / volatile / side / slot / weather / terrain / pseudoWeather: M3+
-        cs = F.can_switch(st, side_of(t)) > 0
-        did = RS.where(cont & force_sw, RS.combine(did, RS.R(RS.BOOL, cs.astype(I32))), did)
-        # HOOK(H22) onHit / Hit
-        cur = _rget(tags, vals, j)
-        st = F.faint(st, u, cont & selfdestruct_ifhit & ~RS.is_false(cur))   # selfdestruct 'ifHit' (Memento)
-        css = F.can_switch(st, side_of(u)) > 0
-        did = RS.where(cont & self_switch, RS.where(css, RS.R(RS.BOOL, 1), RS.combine(did, RS.R(RS.BOOL, 0))), did)
-        did = RS.where(did[0] == RS.UNDEF, RS.R(RS.BOOL, 1), did)
-        tags, vals = _rset(tags, vals, j, RS.combine(cur, RS.null_to_false(did)), cont)
-        da = RS.where(cont, RS.combine(da, did), da)
-        return st, tags, vals, da[0], da[1]
-    st, tags, vals, da_t, da_v = jax.lax.fori_loop(0, NT, s3, (st, tags, vals, da[0], da[1]))
-    da = (da_t, da_v)
+    m = st.mons
+    not_fainted = ~mget(m.fainted, targets)
+    on_b = tv & has_boosts & not_fainted
+    st, br, bmsg = boost_v(st, targets, dex.move_boosts[move], on_b, order=dex.move_boost_order[move], primary=True)
+    did = RS.where(on_b, RS.combine(RS.R(RS.UNDEF), br), RS.R(jnp.full(NT, RS.UNDEF, I32)))
+    m = st.mons
+    do_heal = tv & (heal_n > 0) & not_fainted
+    hp2 = mget(m.hp, targets).astype(I32)
+    mx2 = mget(m.maxhp, targets).astype(I32)
+    full = hp2 >= mx2
+    heal_amt = (2 * mx2 * heal_n + heal_d) // (2 * heal_d)
+    heal_amt = jnp.where((heal_amt > 0) & (heal_amt <= 1), 1, heal_amt)
+    hok = do_heal & ~full & (heal_amt != 0) & (hp2 > 0) & mget(m.is_active, targets) & (hp2 < mx2)
+    new_h = jnp.minimum(mx2, hp2 + heal_amt)
+    st = st.replace(mons=m.replace(hp=mset_many(m.hp, targets, new_h, hok)))
+    hr = RS.where(heal_amt == 0, RS.R(RS.NUM, 0), RS.where(hok, RS.R(RS.NUM, new_h - hp2), RS.R(RS.BOOL, 0)))
+    heal_fail = do_heal & (full | (~RS.truthy(hr) & ~((hr[0] == RS.NUM) & (hr[1] == 0))))
+    fail_full = do_heal & full                                                    # PS :1257-1259
+    tags, vals = RS.where(heal_fail, RS.combine((tags, vals), RS.R(RS.BOOL, 0)), (tags, vals))
+    cont = tv & ~heal_fail
+    did = RS.where(do_heal & ~heal_fail, RS.R(RS.BOOL, 1), did)
+    # status / volatile / side / slot / weather / terrain / pseudoWeather: M3+
+    cs_side = jnp.stack([F.can_switch(st, 0) > 0, F.can_switch(st, 1) > 0])
+    cs = cs_side[side_of(jnp.clip(targets, 0, 7))]
+    did = RS.where(cont & force_sw, RS.combine(did, RS.R(RS.BOOL, cs.astype(I32))), did)
+    # HOOK(H22) onHit / Hit
+    st = F.faint(st, u, jnp.any(cont & selfdestruct_ifhit & ~RS.is_false((tags, vals))))   # selfdestruct 'ifHit'
+    css = cs_side[side_of(u)]                     # faint() only queues: canSwitch is unchanged
+    did = RS.where(cont & self_switch, RS.where(css, RS.R(RS.BOOL, 1), RS.combine(did, RS.R(RS.BOOL, 0))), did)
+    did = RS.where(did[0] == RS.UNDEF, RS.R(RS.BOOL, 1), did)
+    tags, vals = RS.where(cont, RS.combine((tags, vals), RS.null_to_false(did)), (tags, vals))
+    for j in range(NT):
+        da = RS.where(heal_fail[j], RS.combine(da, RS.R(RS.NULL)), da)
+        da = RS.where(cont[j], RS.combine(da, (did[0][j], did[1][j])), da)
+        st = emit_boost(st, bmsg, targets[j], j)
+        ph, chh = EV.hp_public(new_h[j], mx2[j])
+        st = EV.emit(st, hok[j], EV.EV_HEAL, actor=targets[j], v1=ph, v2=chh)
+        st = EV.emit(st, fail_full[j], EV.EV_FAIL, actor=targets[j], flags=EV.F_HEAL)
+        st = EV.attr_last_move(st, fail_full[j], EV.F_STILL)
     m = st.mons
     has_self = jnp.any(dex.move_self_boosts[move] != 0) | (dex.move_self_volatile[move] > 0)
     # PS :1352-1358: a primary effect that did nothing (didAnything === false) -> '-fail' source [still]
@@ -443,11 +459,10 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         (dex.move_selfdestruct[move] == 0)
     st = EV.emit(st, fail_msg, EV.EV_FAIL, actor=u)
     st = EV.attr_last_move(st, fail_msg, EV.F_STILL)
-    m = st.mons
     did_nothing = ~RS.truthy(da) & ~((da[0] == RS.NUM) & (da[1] == 0)) & ~has_self & (dex.move_selfdestruct[move] == 0)
-    set_flag = on & ~did_nothing & self_switch & (mget(m.hp, u) > 0) & (F.can_switch(st, side_of(u)) > 0)
+    set_flag = on & ~did_nothing & self_switch & (mget(m.hp, u) > 0) & css
     st = st.replace(mons=m.replace(switch_flag=mset(m.switch_flag, u, move + 2, set_flag)))
-    tv = tv & jnp.stack([RS.hit_or_zero((tags[j], vals[j])) for j in range(NT)])
+    tv = tv & RS.hit_or_zero((tags, vals))
 
     # 4. selfDrops (self.boosts): SELF_EFFECT_ROLL only when self.chance is defined (contract §6)
     self_b = dex.move_self_boosts[move]
@@ -459,34 +474,48 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     apply_self = any_target & has_self_boosts & ((self_chance < 0) | (sroll < self_chance))
     st, _ = boost(st, u, self_b, apply_self)
 
-    # 5. secondaries (per target, per secondary): SECONDARY draws only for numeric chance
+    # 5. secondaries, PS order per target then per secondary; SECONDARY draws only for numeric chance. Target boosts
+    #    touch only that target (batched per secondary); the user's self-boosts run as a scalar recurrence.
     nsec = dex.move_nsec[move]
-
-    def s5(i, c):
-        st, rng = c
-        j = i // 2
-        k = i % 2
-        t = targets[j]
-        live = tv[j] & (k < nsec)
+    oks = []
+    for k in range(2):
+        live = tv & (k < nsec)
         chance = dex.move_sec_chance[move, k].astype(I32)
-        key = C.dkey(st, ids.DK_SECONDARY, actor=u, target=t, subject=C.eff_move(move), hit=hit_no, ord=k)
-        roll, rng = R.randint(rng, key, 0, 100, active=live & (chance >= 0))
-        ok = live & ((chance < 0) | (roll < chance))
+        key = C.dkey(st, ids.DK_SECONDARY, actor=u, target=targets, subject=C.eff_move(move), hit=hit_no, ord=k)
+        roll, rng = R.randint_v(rng, key, 0, 100, active=live & (chance >= 0))
+        oks.append(live & ((chance < 0) | (roll < chance)))
+    tmsgs = []
+    for k in range(2):
         sb = dex.move_sec_boosts[move, k]
-        st, _ = boost(st, t, sb, ok & jnp.any(sb != 0) & ~mget(st.mons.fainted, t))
-        ssb = dex.move_sec_self_boosts[move, k]
-        st, _ = boost(st, u, ssb, ok & jnp.any(ssb != 0))
+        st, _, msg = boost_v(st, targets, sb, oks[k] & jnp.any(sb != 0) & ~mget(st.mons.fainted, targets))
+        tmsgs.append(msg)
+    m = st.mons
+    cur_u = mget(m.boosts, u).astype(I32)
+    base_u = (mget(m.hp, u) > 0) & mget(m.is_active, u) & (st.sides.pokemon_left[1 - side_of(u)] > 0)
+    up = down = applied = jnp.zeros((), bool)
+    smsgs = {}
+    for j in range(NT):
+        for k in range(2):
+            ssb = dex.move_sec_self_boosts[move, k].astype(I32)
+            g = oks[k][j] & jnp.any(ssb != 0) & base_u
+            cur_u, capped, smsgs[j, k] = boost_math(cur_u, ssb, g)
+            succ = g & jnp.any(capped != 0)
+            up, down = up | (succ & jnp.any(capped > 0)), down | (succ & jnp.any(capped < 0))
+            applied = applied | g
+    m = m.replace(boosts=mset(m.boosts, u, cur_u, applied),
+                  stats_raised_this_turn=mset(m.stats_raised_this_turn, u, True, up),
+                  stats_lowered_this_turn=mset(m.stats_lowered_this_turn, u, True, down))
+    st = st.replace(mons=m)
+    for j in range(NT):
+        for k in range(2):
+            st = emit_boost(st, tmsgs[k], targets[j], j)
+            st = emit_boost(st, smsgs[j, k], u)
         # secondary status / volatile: M3
-        return st, rng
-    st, rng = jax.lax.fori_loop(0, 2 * NT, s5, (st, rng))
 
     # 6. forceSwitch -> forceSwitchFlag (HOOK DragOut)
-    def s6(j, st):
-        t = targets[j]
-        m = st.mons
-        go = tv[j] & force_sw & (mget(m.hp, t) > 0) & (mget(m.hp, u) > 0) & (F.can_switch(st, side_of(t)) > 0)
-        return st.replace(mons=m.replace(force_switch_flag=mset(m.force_switch_flag, t, True, go)))
-    st = jax.lax.fori_loop(0, NT, s6, st)
+    m = st.mons
+    go6 = tv & force_sw & (mget(m.hp, targets) > 0) & (mget(m.hp, u) > 0) & cs
+    st = st.replace(mons=m.replace(force_switch_flag=mset_many(m.force_switch_flag, targets, True, go6)))
     # DamagingHit / AfterHit / EmergencyExit: M3
     return st, rng, (tags, vals)
 
@@ -505,27 +534,21 @@ def try_spread_move_hit(st, dex, rng, cfg, u, move, targets, smart, on):
     ign = dex.move_ignore_immunity[move]
     ignore = (ign == 1) | ((ign == 0) & (dex.move_category[move] == T.CAT_STATUS))
     mtype = jnp.where(move == T.MOVE_STRUGGLE, T.TYPE_TYPELESS, dex.move_type[move])
-    imm = []
+    t_types = mget(m.types, targets)                                              # [3, 2]
+    flying = jnp.any(t_types == T.TYPE_FLYING, axis=-1)
+    grounded = ~flying & (mget(m.ability, targets) != T.ABILITY_LEVITATE)
+    typed = jax.vmap(lambda tt: TC.immune(dex, mtype, tt))(t_types)
+    imm = ~ignore & jnp.where(mtype == T.TYPE_GROUND, ~grounded, typed) & (mtype != T.TYPE_TYPELESS)
+    # runImmunity(move, !smartTarget) messages (PS: sim/pokemon.ts:2276-2286): isGrounded null -> Levitate
+    lev = (mtype == T.TYPE_GROUND) & ~flying
     for j in range(NT):
-        t = targets[j]
-        flying = jnp.any(mget(m.types, t) == T.TYPE_FLYING)
-        grounded = ~flying & (mget(m.ability, t) != T.ABILITY_LEVITATE)
-        immune = jnp.where(mtype == T.TYPE_GROUND, ~grounded, TC.immune(dex, mtype, mget(m.types, t)))
-        imm_j = ~ignore & immune & (mtype != T.TYPE_TYPELESS)
-        # runImmunity(move, !smartTarget) messages (PS: sim/pokemon.ts:2276-2286): isGrounded null -> Levitate
-        lev = (mtype == T.TYPE_GROUND) & ~flying
-        st = EV.emit(st, tv[j] & imm_j & ~smart, EV.EV_IMMUNE, actor=t, flags=jnp.where(lev, EV.F_LEVITATE, 0))
-        imm.append(imm_j)
-    imm = jnp.stack(imm)
+        st = EV.emit(st, tv[j] & imm[j] & ~smart, EV.EV_IMMUNE, actor=targets[j], flags=jnp.where(lev[j], EV.F_LEVITATE, 0))
     fail_any = fail_any | jnp.any(tv & imm)
     tv = tv & ~imm
     # 3 TryImmunity: powder vs Grass (getImmunity('powder')), move onTryImmunity (M3), Prankster vs Dark (M3)
     powder = mflag(dex, move, T.MF_POWDER)
-    pimm = []
-    for j in range(NT):
-        t = targets[j]
-        pimm.append(powder & (t != u) & TC.status_immune(dex, ids.IMMUNITY_KEYS.index("powder"), mget(m.types, t)))
-    pimm = jnp.stack(pimm)
+    pimm = powder & (targets != u) & jax.vmap(
+        lambda tt: TC.status_immune(dex, ids.IMMUNITY_KEYS.index("powder"), tt))(t_types)
     for j in range(NT):
         st = EV.emit(st, tv[j] & pimm[j], EV.EV_IMMUNE, actor=targets[j])            # PS :731
     fail_any = fail_any | jnp.any(tv & pimm)
@@ -625,11 +648,8 @@ def hit_loop(st, dex, rng, cfg, u, move, targets, tv, spread, smart, on):
     st = apply_recoil(st, dex, u, move, total, run_rest & (total > 0))
     # gotAttacked / timesAttacked
     m = st.mons
-    ta = m.times_attacked
-    for j in range(NT):
-        t = targets[j]
-        num = run_rest & tv[j] & (t != u) & (lt[j] == RS.NUM)
-        ta = mset(ta, t, mget(ta, t) + jnp.where(smart, 1, hit_count), num)
+    num = run_rest & tv & (targets != u) & (lt == RS.NUM)
+    ta = mset_many(m.times_attacked, targets, mget(m.times_attacked, targets) + jnp.where(smart, 1, hit_count), num)
     st = st.replace(mons=m.replace(times_attacked=ta))
     # [C] scripts.ts:569
     st = EV.emit(st, run_rest & (dex.move_ohko[move] > 0) & (mget(st.mons.hp, targets[0]) <= 0), EV.EV_OHKO)
