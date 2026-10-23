@@ -18,6 +18,7 @@ EXPORT = ROOT / "data" / "export"
 # census data_refs kind -> condition ids the engine implements (vgcjax/effects)
 SUPPORTED_REFS = {
     "status": {"brn", "par", "psn", "tox", "slp", "frz"},
+    "volatile": {"flinch", "confusion"},
 }
 # entities implemented beyond the data-only rule, by kind (filled in as handlers land)
 EXTRA: dict[str, set[str]] = {"moves": set(), "abilities": set(), "items": set(), "conditions": set()}

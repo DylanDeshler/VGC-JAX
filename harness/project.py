@@ -36,6 +36,17 @@ def _eff_state(cond: str, state, presence_slot: int) -> dict:
     return dict(sorted(out.items()))
 
 
+def _volatiles(st, side: int, b: int) -> dict:
+    """PS pokemon.volatiles (effMap): every set volatile bit with its effState."""
+    words = [int(w) for w in st.mons.vol_bits[side, b]]
+    out = {}
+    for k in range(S.NV):
+        if words[k // 32] >> (k % 32) & 1:
+            name = ids.CONDITIONS[ids.VOL_BASE + k]
+            out[name] = _eff_state(name, st.mons.vol_state[side, b, k], 5)
+    return dict(sorted(out.items()))
+
+
 def _pokemon(st, side: int, b: int) -> dict:
     m = st.mons
     g = lambda arr: arr[side, b]  # noqa: E731
@@ -69,7 +80,7 @@ def _pokemon(st, side: int, b: int) -> dict:
             ids.CONDITIONS[(int(g(m.status_state)[3]) >> 8) or status], g(m.status_state), 3),
         "boosts": {k: int(v) for k, v in zip(BOOST7, g(m.boosts))},
         "stats": {k: int(v) for k, v in zip(STAT5, g(m.stats))},
-        "volatiles": {},
+        "volatiles": _volatiles(st, side, b),
         "item": ids.ITEMS[item] if item else "",
         "itemState": {} if item else None,
         "lastItem": ids.ITEMS[int(g(m.last_item))] if int(g(m.last_item)) else "",

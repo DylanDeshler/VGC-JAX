@@ -12,7 +12,7 @@ const IGNORE = new Set(['', 'upkeep', 'teamsize', 'start', 'gametype', 'player',
 	'poke', 'teampreview', 'j', 'l', 'win', 'tie', '-anim', 'uhtmlchange', 'uhtml', 't:', 'debug', 'html', 'raw',
 	'inactive', 'inactiveoff', 'hint', 'message', 'bigerror', 'error', 'c', 'chat', 'done', 'request', 'sideupdate']);
 const F = { DRAG: 1, MISS: 1, NOTARGET: 2, SPREAD: 4, STILL: 8, RECOIL: 1, FROM: 2, DRAIN: 1, LEVITATE: 1, OHKO: 2,
-	HEAL: 1, FAILSTATUS: 2, UNBOOST: 1, FROM_MOVE: 1, FROM_ABILITY: 2, FROM_ITEM: 4, MSG: 1, SILENT: 2, FROM_MOVE_CURE: 4 };
+	HEAL: 1, FAILSTATUS: 2, UNBOOST: 1, FATIGUE: 8, FROM_MOVE: 1, FROM_ABILITY: 2, FROM_ITEM: 4, MSG: 1, SILENT: 2, FROM_MOVE_CURE: 4 };
 /** "[from] move: X" / "ability: X" / "item: X" / "X" -> [kind, id] */
 const fromEffect = s => {
 	const m = /^(move|ability|item): (.*)$/.exec(s || '');
@@ -109,8 +109,12 @@ function reduce(lines, battle) {
 			ev('HITCOUNT', { actor: refOf(parts[1]), v1: Number(parts[2]) });
 		} else if (type === '-ohko') {
 			ev('OHKO');
-		} else if (type === '-activate' && /^move: /.test(parts[2] || '')) {
-			ev('ACTIVATE', { actor: refOf(parts[1]), move: toID(parts[2].slice(6)) });
+		} else if (type === '-activate') {
+			ev('ACTIVATE', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1] });
+		} else if (type === '-start' || type === '-end') {
+			const [k, id] = fromEffect(from);
+			ev(type === '-start' ? 'START' : 'END', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1],
+				v1: from ? id : '', flags: tags.includes('[fatigue]') ? F.FATIGUE : k === 'ability' ? F.FROM_ABILITY : 0 });
 		} else if (type === 'turn') {
 			ev('TURN', { v1: Number(parts[1]) });
 		} else if (!IGNORE.has(type)) {

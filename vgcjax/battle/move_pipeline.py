@@ -18,6 +18,7 @@ from vgcjax.battle.util import mget, mset, mset_many, side_of
 from vgcjax.core import rng as R
 from vgcjax.core import typechart as TC
 from vgcjax.data import ids
+from vgcjax.effects import conditions as CO
 from vgcjax.effects import hooks as H
 
 I8, I16, I32 = jnp.int8, jnp.int16, jnp.int32
@@ -462,6 +463,11 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         da = RS.where(heal_fail[j] | sfail, RS.combine(da, RS.R(RS.NULL)), da)
         cj = cj & ~sfail
         dj = RS.where(cj & (mstatus > 0), RS.combine(dj, sres), dj)
+        # volatileStatus (PS :1291-1294): addVolatile; the result joins didSomething
+        mvol = dex.move_volatile[move].astype(I32)
+        st, rng, vres = CO.add_volatile(st, dex, rng, targets[j], mvol, cj & (mvol > 0), source=u,
+                                        source_effect=C.eff_move(move))
+        dj = RS.where(cj & (mvol > 0), RS.combine(dj, vres), dj)
         dj = RS.where(cj & force_sw, RS.combine(dj, RS.R(RS.BOOL, cs[j].astype(I32))), dj)
         memento = memento | (cj & selfdestruct_ifhit & ~RS.is_false(tj))
         dj = RS.where(cj & self_switch, RS.where(css, RS.R(RS.BOOL, 1), RS.combine(dj, RS.R(RS.BOOL, 0))), dj)
@@ -536,6 +542,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
             # moveHit(target, source, move, secondary, isSecondary) -> runMoveEffects: boosts, status, volatile (M3)
             st = emit_boost(st, tmsgs[k], targets[j], j)
             st = STS.emit_status_msgs(st, sec_msgs[k], j, targets[j])
+            svol = dex.move_sec_volatile[move, k].astype(I32)
+            st, rng, _ = CO.add_volatile(st, dex, rng, targets[j], svol, oks[k][j] & (svol > 0), source=u,
+                                         source_effect=C.eff_move(move))
             st = emit_boost(st, smsgs[j, k], u)
 
     # 6. forceSwitch -> forceSwitchFlag (HOOK DragOut)
@@ -606,7 +615,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # HOOK(H3) ModifyType / ModifyMove
     alive = ~mget(m.fainted, u)
     # ModifyMove: Struggle adds '-activate' pokemon 'move: Struggle' (data/moves.ts:18220-18223)
-    st = EV.emit(st, go_rm & is_struggle, EV.EV_ACTIVATE, actor=u, move=move)
+    st = EV.emit(st, go_rm & is_struggle, EV.EV_ACTIVATE, actor=u, move=C.eff_move(move))
     # runEvent('ModifyType') (M3+), runEvent('ModifyMove', pokemon, target, move) (PS :494-495): frz defrost
     hc = H.HookCtx.make(u, target, C.eff_move(move))
     hc, st, rng = H.run_event("ModifyMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_MODIFYMOVE), on=go_rm)

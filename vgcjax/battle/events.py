@@ -19,10 +19,11 @@ fields (PS protocol line -> record):
   HITCOUNT   |-hitcount|                actor = targets[0], v1 = hits
   OHKO       |-ohko|
   TURN       |turn|                     v1 = turn
-  ACTIVATE   |-activate| X|move: M        actor, move (Struggle's onModifyMove, data/moves.ts:18222)
+  ACTIVATE   |-activate| X|effect         actor, move = effect EffectId (Struggle, confusion, ...)
   STATUS     |-status| X|s [from]          actor, move = status EffectId, v1 = [from] EffectId, flags F_FROM_*
   CURESTATUS |-curestatus| X|s [msg]       actor, move = status EffectId, flags F_MSG / F_SILENT
   CANT       |cant| X|reason               actor, move = reason EffectId (status / condition / move)
+  START/END  |-start| / |-end| X|effect    actor, move = effect EffectId, v1 = [from] EffectId, flags
 """
 from __future__ import annotations
 
@@ -35,11 +36,12 @@ from vgcjax.battle.util import mget
 
 I16, I32 = jnp.int16, jnp.int32
 KINDS = ("NONE", "SWITCH", "MOVE", "DAMAGE", "HEAL", "CRIT", "SUPEREFFECTIVE", "RESISTED", "IMMUNE", "MISS", "FAIL",
-         "BOOST", "FAINT", "HITCOUNT", "OHKO", "TURN", "ACTIVATE", "STATUS", "CURESTATUS", "CANT")
+         "BOOST", "FAINT", "HITCOUNT", "OHKO", "TURN", "ACTIVATE", "STATUS", "CURESTATUS", "CANT", "START", "END")
 (EV_NONE, EV_SWITCH, EV_MOVE, EV_DAMAGE, EV_HEAL, EV_CRIT, EV_SUPER, EV_RESIST, EV_IMMUNE, EV_MISS, EV_FAIL, EV_BOOST,
- EV_FAINT, EV_HITCOUNT, EV_OHKO, EV_TURN, EV_ACTIVATE, EV_STATUS, EV_CURESTATUS, EV_CANT) = range(len(KINDS))
+ EV_FAINT, EV_HITCOUNT, EV_OHKO, EV_TURN, EV_ACTIVATE, EV_STATUS, EV_CURESTATUS, EV_CANT, EV_START,
+ EV_END) = range(len(KINDS))
 # kinds whose `move` field holds an EffectId (move / ability / item / condition) rather than a MoveId
-EFFECT_KINDS = ("DAMAGE", "HEAL", "STATUS", "CURESTATUS", "CANT", "FAIL")
+EFFECT_KINDS = ("DAMAGE", "HEAL", "STATUS", "CURESTATUS", "CANT", "FAIL", "ACTIVATE", "START", "END")
 F_DRAG = 1
 F_MISS, F_NOTARGET, F_SPREAD, F_STILL = 1, 2, 4, 8
 F_RECOIL = 1
@@ -50,6 +52,7 @@ F_HEAL = 1                       # FAIL: ('-fail', target, 'heal')
 F_FAILSTATUS = 2                 # FAIL: ('-fail', target, <status>) (status in `move`)
 F_UNBOOST = 1
 F_FROM_MOVE, F_FROM_ABILITY, F_FROM_ITEM = 1, 2, 4   # STATUS: '[from] move: / ability: / item:' (effect in v1)
+F_FATIGUE = 8                    # START: '[fatigue]'
 F_MSG, F_SILENT, F_FROM_MOVE_CURE = 1, 2, 4   # CURESTATUS: '[msg]' / '[silent]' / '[from] move: X' (move in v1)
 
 

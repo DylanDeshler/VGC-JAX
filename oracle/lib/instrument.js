@@ -461,8 +461,8 @@ function install(battle, prng) {
 		switch (kind) {
 		case 'ACCURACY': case 'CRIT': case 'DAMAGE_ROLL':
 			actor = ref(c.actorObj); target = ref(c.targetObj); subject = am?.id ?? null; h = hit; break;
-		case 'CONFUSION_SELFHIT_DAMAGE_ROLL':
-			actor = target = ref(c.actorObj); break;
+		case 'CONFUSION_SELFHIT_DAMAGE_ROLL':                  // contract §5: subject `confusion`
+			actor = target = ref(c.actorObj); subject = 'confusion'; break;
 		case 'SECONDARY': {
 			actor = ref(c.actorObj); target = ref(c.targetObj); subject = am?.id ?? null; h = hit;
 			const k = occurrence(`SECONDARY|${actor}|${target}|${subject}|${h}`);
