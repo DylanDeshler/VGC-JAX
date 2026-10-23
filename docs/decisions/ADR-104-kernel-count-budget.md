@@ -2,7 +2,7 @@
 
 - **Status:** option 3 approved and implemented 2026-10-23 (see Update); GPU measurement pending (human, L40S);
   option 4 decided after that. Originally: proposed 2026-10-22 — **needs a human decision** (the levers change 04 §12 bounds / the 04 §2 control
-  structure, or the budget itself). No engine change made yet.
+  structure, or the budget itself).
 - **Affects:** 09 §1.1a (CPU proxy budget (a), enforced at G-v0 and G-v1 without a GPU measurement), 04 §2, 04 §12.
 
 ## Measurement

@@ -1,4 +1,4 @@
-# Gate report: G-core — PASS (UNVERIFIED CONTRACT)
+# Gate report: G-core — PASS
 
 - run seed: `gcore-2026-10-21-a`
 - trace dir: `traces/gcore`
@@ -30,7 +30,7 @@
 [{"gate": "G-core", "target": "SPEED_TIE_FIELD_EVENT", "adr": "ADR-102", "probe": "oracle/tools/probes/core_field_event_handlers.js", "reason": "no core-stage entity can create a fieldEvent handler", "approved": "2026-10-23"}, {"gate": "G-core", "target": "RANDOM_TARGET", "adr": "ADR-102", "covered_by": "tests/scenarios/core/test_struggle_random_target.py", "hits": 360, "reason": "non-degenerate random targets need a 0-PP Struggle with two living foes; crafted corpus 400/400 clean", "approved": "2026-10-23"}]
 
 ## Contract hashes (sha256)
-verified against docs/decisions/contract-hashes.md: False
+verified against docs/decisions/contract-hashes.md: True
 
 - `docs/coverage/waivers.json`: `124659a06bb87f7fdb6e23e9da3657b5d5b6d1ec9e8084252b044d6e6498e055`
 - `docs/design/contract/drawkey.md`: `96e87a45e7f7c31af6404a9b3e580d7a6cc90d976aa9864732ce79d0c7375c46`
