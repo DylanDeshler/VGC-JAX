@@ -311,7 +311,15 @@ def field_event(st, dex, rng, event: str, on, targets=None):
             st, rng = end_effect(st, dex, rng, loc, idx, h, e, ending)
         run = live & ~ending & _still_present(st, loc, idx, h, e) & cbs[j]
         hc = H.HookCtx.make(jnp.where(h < 8, h, -1), -1, -1).replace(holder=h)
-        hc, st, rng = CO.single_event(hook, e, st, dex, rng, hc, run, prefix=pfx[j])
+        ar = (ids.ABILITY_BASE, ids.ABILITY_BASE + len(ids.ABILITIES) - 1)
+        hc, st, rng = CO.single_event(hook, e, st, dex, rng, hc, run, prefix=pfx[j],
+                                      exclude_range=ar if event == "SwitchIn" else None)
+        if event == "SwitchIn":                 # abilities' SwitchIn handlers, undispatched (effects/abilities.py)
+            from vgcjax.effects import abilities as AB
+            st, rng = AB.switch_in_vec(st, dex, rng, h, run & (e >= ar[0]) & (e < ar[1]))
+        if residual_mode:                       # the weathers' onFieldResidual eachEvent('Weather'), undispatched
+            from vgcjax.effects import weather as WE
+            st, rng = WE.residual_each(st, dex, rng, e - ids.COND_BASE + 1, run & (loc == CO.WEATHER))
         st = F.resolve_faints(st, dex, live)
         return st, rng
 

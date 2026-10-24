@@ -103,16 +103,8 @@ def resolve_faints(st: S.State, dex, on, check_win_if_no_faints=False, do_check_
         total_fainted=jnp.minimum(sides.total_fainted.astype(I32) + cnt, 100).astype(sides.total_fainted.dtype),
         fainted_this_turn=sides.fainted_this_turn | (cnt > 0)))
     # Faint event (M4), singleEvent('End', ability) (PS :2604; no messages yet, so after all 'faint' lines), item End
-    from vgcjax.effects import conditions as CO
-    from vgcjax.effects.hooks import HookCtx
-    ar = (ids.ABILITY_BASE, ids.ABILITY_BASE + len(ids.ABILITIES) - 1)
-    if CO.H.registered(ids.HOOK_END) and any(ar[0] <= h.effect < ar[1] for h in CO.H.registered(ids.HOOK_END)):
-        for k in range(S.FAINTQ):
-            r = jnp.clip(refs[k], 0, 7)
-            ab = mget(st.mons.ability, r).astype(I32)
-            hc = HookCtx.make(r, -1, -1).replace(holder=r)
-            _, st, _ = CO.single_event(ids.HOOK_END, ids.ABILITY_BASE + ab - 1, st, dex, None, hc, do[k] & (ab > 0),
-                                       effect_range=ar)
+    from vgcjax.effects import abilities as AB
+    st = AB.end_vec(st, refs, do)
     st = clear_volatile_many(st, dex, refs, False, do)
     m = st.mons
     st = st.replace(mons=m.replace(fainted=mset_many(m.fainted, refs, True, do),

@@ -137,9 +137,12 @@ def set_weather(st, dex, rng, c, on, source=-1, source_effect=-1):
 def each_weather(st, dex, rng, on):
     """PS: sim/battle.ts:470-480 eachEvent('Weather'): the unfainted actives speed-sorted (SPEED_TIE_WEATHER_EACH,
     sub = eachevent_ord), runEvent('Weather', pokemon, null, weather) on each; eachEvent('Update') follows (no Reg
-    M-C handler yet: items / abilities M4). Returns (st, rng)."""
+    M-C handler yet). The Reg M-C Weather handlers are fixed data, applied without dispatch (at most one applies to a
+    mon, so their order cannot matter; every Weather handler is skipped while weather is suppressed, :895-900):
+    sandstorm onWeather (baseMaxhp / 16 unless weather-immune: runStatusImmunity('sandstorm'), Sand Force) and Solar
+    Power onWeather (Sun: baseMaxhp / 8, '[from] ability: Solar Power' '[of] target'). Returns (st, rng)."""
     from vgcjax.battle import switching as SW
-    from vgcjax.effects import hooks as H
+    from vgcjax.effects import statuses as STS
     on = jnp.asarray(on)
     act = st.sides.active.reshape(4).astype(I32)
     refs = jnp.clip((jnp.arange(4) // 2) * 4 + act, 0, 7)
@@ -147,17 +150,27 @@ def each_weather(st, dex, rng, on):
     sc = st.scratch
     rng, order, refs = SW.slot_speed_sort(st, rng, alive, ids.DK_SPEED_TIE_WEATHER_EACH, sc.eachevent_ord, on)
     st = st.replace(scratch=sc.replace(eachevent_ord=sc.eachevent_ord + on.astype(sc.eachevent_ord.dtype)))
-    weff = ids.COND_BASE + st.field.weather.astype(I32) - 1
-
-    def body(i, carry):
-        st, rng = carry
+    w = st.field.weather.astype(I32)
+    run = on & ~suppressing(st)
+    solar = getattr(ids, "ABILITY_SOLARPOWER", -1)
+    sun_eff = ids.ABILITY_BASE + solar - 1
+    for i in range(4):
         k = order[i]
-        hc = HookCtx.make(refs[k], -1, weff)
-        hc, st, rng = H.run_event("Weather", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_WEATHER),
-                                  on=on & alive[k])
-        return st, rng
+        r = refs[k]
+        ok = run & alive[k]
+        sand = ok & (w == wid("sandstorm")) & STS.run_status_immunity(st, dex, r, wid("sandstorm"))
+        st, rng = STS.effect_damage(st, dex, rng, r, mget(st.mons.maxhp, r) // 16, CO.eff("sandstorm"), sand)
+        if solar > 0:
+            sp = ok & (w == wid("sunnyday")) & (mon_weather(st, r) == w) & (mget(st.mons.ability, r) == solar)
+            st, rng = STS.effect_damage(st, dex, rng, r, mget(st.mons.maxhp, r) // 8, sun_eff, sp, source=r)
+    return st, rng
 
-    return jax.lax.fori_loop(0, 4, body, (st, rng))
+
+def residual_each(st, dex, rng, c, on):
+    """The eachEvent('Weather') part of each weather's onFieldResidual, run by the fieldEvent walk right after the
+    handler (outside its dispatch): Sun / Rain always, Sandstorm / Snowscape only if isWeather (data/conditions.ts)."""
+    gated = (c == wid("sandstorm")) | (c == wid("snowscape"))
+    return each_weather(st, dex, rng, jnp.asarray(on) & (~gated | (field_weather(st) == c)))
 
 
 # ------------------------------------------------------------------ the weather conditions
@@ -183,10 +196,8 @@ def _field_start(name):
 
 def _field_residual(name, gated):
     def fn(hc, st, dex, rng):
-        """'-weather' Name '[upkeep]', then eachEvent('Weather') (Sandstorm / Snowscape: only if isWeather)."""
-        st = EV.emit(st, True, EV.EV_WEATHER, move=CO.eff(name), v1=-1, flags=EV.F_UPKEEP)
-        st, rng = each_weather(st, dex, rng, is_weather(st, name) if gated else True)
-        return hc, st, rng
+        """'-weather' Name '[upkeep]'; eachEvent('Weather') follows in the walk (residual_each)."""
+        return hc, EV.emit(st, True, EV.EV_WEATHER, move=CO.eff(name), v1=-1, flags=EV.F_UPKEEP), rng
     return fn
 
 
@@ -204,17 +215,6 @@ for _w in WEATHERS:
     handler(ids.HOOK_RESIDUAL, _e, ps=f"data/conditions.ts {_w}.onFieldResidual", prefix=ids.PFX_FIELD)(
         _field_residual(_w, _w in ("sandstorm", "snowscape")))
     handler(ids.HOOK_END, _e, ps=f"data/conditions.ts {_w}.onFieldEnd", prefix=ids.PFX_FIELD)(_field_end)
-
-
-@handler(ids.HOOK_WEATHER, CO.eff("sandstorm"), ps="data/conditions.ts sandstorm.onWeather")
-def sandstorm_weather(hc, st, dex, rng):
-    """this.damage(target.baseMaxhp / 16): spreadDamage floors it (min 1) and skips weather-immune targets
-    (runStatusImmunity('sandstorm'): Rock / Ground / Steel; Overcoat: M4) (sim/battle.ts:2130-2136)."""
-    from vgcjax.effects import statuses as STS
-    r = hc.target
-    ok = STS.run_status_immunity(st, dex, r, CO.cid("sandstorm"))
-    st, rng = STS.effect_damage(st, dex, rng, r, mget(st.mons.maxhp, r) // 16, CO.eff("sandstorm"), ok)
-    return hc, st, rng
 
 
 def _def_boost(name, ty):

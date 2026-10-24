@@ -170,17 +170,4 @@ def adaptability(ctx, h):
     return stab, None, (lambda v: jnp.where(v == X2, 9216, X2))
 
 
-# ------------------------------------------------------------------ Solar Power onWeather
-if aid("solarpower") > 0:
-    from vgcjax.effects.hooks import handler
-
-    @handler(ids.HOOK_WEATHER, aeff("solarpower"), ps="data/abilities.ts solarpower.onWeather")
-    def solarpower_weather(hc, st, dex, rng):
-        """Sun (the holder's effectiveWeather) -> this.damage(baseMaxhp / 8, target, target): '-damage' X hp
-        '[from] ability: Solar Power' '[of] X'."""
-        from vgcjax.effects import statuses as STS
-        from vgcjax.effects import weather as WE
-        r = hc.target
-        sun = (WE.mon_weather(st, r) == WE.wid("sunnyday")) & (hc.effect == ids.COND_BASE + WE.wid("sunnyday") - 1)
-        st, rng = STS.effect_damage(st, dex, rng, r, mget(st.mons.maxhp, r) // 8, aeff("solarpower"), sun, source=r)
-        return hc, st, rng
+# Solar Power onWeather: effects/weather.py each_weather

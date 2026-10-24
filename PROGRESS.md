@@ -128,7 +128,13 @@ M3 content (2026-10-23)
 - fieldEvent tie fix: a tie group is detected at its first *live* member (a fainted holder sorted first hid it).
 - Replays use a persistent XLA cache (.jax_cache, keyed by HLO): repeated corpora skip recompilation.
 - harness/debug.py: per-decision PS vs engine projection / events side by side for one battle.
-- Kernel-like ops/step (impl): 76,818 (15,231 core-only). Planned: a hook-machinery optimisation pass once more
+- Kernel budget (impl stage, bench/hlo_kernels.py): 82.6k after Protect, 102.7k after weather/terrain, 315k after
+  ability batches 1-2, now 135.8k. Cause found by ablation: a lax.switch under vmap runs every branch on the
+  whole state, so handlers dispatched inside other dispatches (Weather event inside the weather residual inside
+  the fieldEvent switch; ability SwitchIn branches; ability End per faint slot) multiply. Fixed by running fixed-
+  data handler families undispatched as masked passes (weather.each_weather / residual_each, abilities.switch_in_vec
+  / end_vec) and compacting the modifier fold. Rule going forward: no new dispatch inside a dispatched handler.
+- Kernel-like ops/step (impl, before weather): 76,818 (15,231 core-only). Planned: a hook-machinery optimisation pass once more
   of v0 lands (centralised in effects/hooks.py, fieldevent.py, conditions.py).
 
 ## Last T2/T3 run

@@ -51,89 +51,109 @@ def set_state_field(st, ref, name, key, value, on):
     return st.replace(mons=m.replace(ability_state=mset(m.ability_state, ref, s, on)))
 
 
-def switch_in(name, ps):
-    """Register fn as ability `name`'s onStart, run as its SwitchIn handler (fieldEvent('SwitchIn'))."""
-    def deco(fn):
-        if aid(name) > 0:
-            handler(ids.HOOK_SWITCHIN, aeff(name), ps=ps)(fn)
-        return fn
-    return deco
+SWITCH_IN = ("drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
+             "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk")
+WEATHER_SETTERS = {"drought": "sunnyday", "drizzle": "raindance", "sandstream": "sandstorm", "snowwarning": "snowscape"}
+TERRAIN_SETTERS = {"electricsurge": "electricterrain", "grassysurge": "grassyterrain", "psychicsurge": "psychicterrain",
+                   "mistysurge": "mistyterrain"}
+fields("cloudnine", ("ending", "bool"))
+fields("unnerve", ("unnerved", "bool"))
+
+
+def _noop(hc, st, dex, rng):
+    return hc, st, rng
+
+
+# the SwitchIn / End handlers are registered for the static candidate lists (effects/static.py) but run undispatched
+# through switch_in_vec / end_vec: one masked pass instead of a lax.switch whose every branch carries the whole state
+for _a in SWITCH_IN:
+    if aid(_a) > 0:
+        handler(ids.HOOK_SWITCHIN, aeff(_a), ps=f"data/abilities.ts {_a}.onStart (switch_in_vec)")(_noop)
 
 
 def _ability_msg(st, on, ref, name, boost=False):
     return EV.emit(st, on, EV.EV_ABILITY, actor=ref, move=aeff(name), flags=EV.F_BOOST if boost else 0)
 
 
-# ------------------------------------------------------------------ weather / terrain setters
-def _weather_setter(name, weather):
-    def fn(hc, st, dex, rng):
-        """onStart(source): this.field.setWeather(weather) (source = the holder, sourceEffect = the ability)."""
-        from vgcjax.effects import weather as WE
-        st, rng, _ = WE.set_weather(st, dex, rng, CO.cid(weather), True, source=hc.target, source_effect=aeff(name))
-        return hc, st, rng
-    return fn
+def _table(mapping, value_fn):
+    t = [0] * (len(ids.ABILITIES) + 1)
+    for a, v in mapping.items():
+        if aid(a) > 0 and v in ids.CONDITIONS:
+            t[aid(a)] = value_fn(v)
+    return jnp.array(t, I32)
 
 
-def _terrain_setter(name, terrain):
-    def fn(hc, st, dex, rng):
-        """onStart(source): this.field.setTerrain(terrain)."""
-        from vgcjax.effects import terrain as TR
-        st, rng, _ = TR.set_terrain(st, dex, rng, CO.cid(terrain), True, source=hc.target, source_effect=aeff(name))
-        return hc, st, rng
-    return fn
-
-
-for _a, _w in (("drought", "sunnyday"), ("drizzle", "raindance"), ("sandstream", "sandstorm"),
-               ("snowwarning", "snowscape")):
-    # Drought / Drizzle: the Groudon / Kyogre primal-orb exception cannot occur in Reg M-C
-    switch_in(_a, f"data/abilities.ts {_a}.onStart")(_weather_setter(_a, _w))
-for _a, _t in (("electricsurge", "electricterrain"), ("grassysurge", "grassyterrain"),
-               ("psychicsurge", "psychicterrain"), ("mistysurge", "mistyterrain")):
-    switch_in(_a, f"data/abilities.ts {_a}.onStart")(_terrain_setter(_a, _t))
-
-
-# ------------------------------------------------------------------ Cloud Nine (suppressWeather: effects/weather.py)
-fields("cloudnine", ("ending", "bool"))
-
-
-@switch_in("cloudnine", "data/abilities.ts cloudnine.onSwitchIn")
-def cloudnine_switch_in(hc, st, dex, rng):
-    """'-ability' pokemon 'Cloud Nine'; onStart: abilityState.ending = false, eachEvent('WeatherChange') (no Reg M-C
-    handler yet)."""
-    st = _ability_msg(st, True, hc.target, "cloudnine")
-    return hc, set_state_field(st, hc.target, "cloudnine", "ending", 0, True), rng
-
-
-if aid("cloudnine") > 0:
-    @handler(ids.HOOK_END, aeff("cloudnine"), ps="data/abilities.ts cloudnine.onEnd")
-    def cloudnine_end(hc, st, dex, rng):
-        """abilityState.ending = true; eachEvent('WeatherChange')."""
-        return hc, set_state_field(st, hc.target, "cloudnine", "ending", 1, True), rng
-
-
-# ------------------------------------------------------------------ Intimidate
-@switch_in("intimidate", "data/abilities.ts intimidate.onStart")
-def intimidate_start(hc, st, dex, rng):
-    """For each unfainted adjacent foe (slot order): '-ability' pokemon 'Intimidate' 'boost' once, then
-    boost({atk: -1}, target, pokemon, null, isSecondary) (Substitute: '-immune', M3)."""
+def switch_in_vec(st, dex, rng, u, on):
+    """The SwitchIn handler (onStart, or onSwitchIn when defined) of holder u's ability, for the abilities of
+    SWITCH_IN (data/abilities.ts):
+      Drought / Drizzle / Sand Stream / Snow Warning: this.field.setWeather(w) (source = holder, sourceEffect = the
+        ability; the Groudon / Kyogre primal-orb exception cannot occur in Reg M-C);
+      Electric / Grassy / Psychic / Misty Surge: this.field.setTerrain(t);
+      Cloud Nine onSwitchIn: '-ability' X 'Cloud Nine', onStart: abilityState.ending = false, eachEvent('WeatherChange')
+        (no Reg M-C handler);
+      Intimidate: '-ability' X 'Intimidate' 'boost' once, then per unfainted adjacent foe (slot order)
+        boost({atk: -1}, target, pokemon, null, isSecondary) (Substitute: '-immune', M3);
+      Pressure: '-ability' X 'Pressure';
+      Unnerve: unless effectState.unnerved, '-ability' X 'Unnerve' and unnerved = true;
+      Frisk: per unfainted foe holding an item, '-item' target item '[from] ability: Frisk' '[of] pokemon'.
+    Returns (st, rng)."""
     from vgcjax.battle import move_pipeline as MP
-    u = hc.target
-    fs = 1 - jnp.clip(u, 0, 7) // 4
+    from vgcjax.effects import terrain as TR
+    from vgcjax.effects import weather as WE
+    on = jnp.asarray(on)
+    u = jnp.asarray(u, I32)
+    r = jnp.clip(u, 0, 7)
+    ab = mget(st.mons.ability, r).astype(I32)
+    is_ = lambda name: on & (ab == aid(name)) if aid(name) > 0 else jnp.zeros((), bool)  # noqa: E731
+    src_eff = ids.ABILITY_BASE + ab - 1
+    wc = _table(WEATHER_SETTERS, CO.cid)[ab]
+    st, rng, _ = WE.set_weather(st, dex, rng, wc, on & (wc > 0), source=u, source_effect=src_eff)
+    tc = _table(TERRAIN_SETTERS, CO.cid)[ab]
+    st, rng, _ = TR.set_terrain(st, dex, rng, tc, on & (tc > 0), source=u, source_effect=src_eff)
+    c9 = is_("cloudnine")
+    st = _ability_msg(st, c9, u, "cloudnine")
+    if aid("cloudnine") > 0:
+        st = set_state_field(st, r, "cloudnine", "ending", 0, c9)
+    st = _ability_msg(st, is_("pressure"), u, "pressure")
+    if aid("unnerve") > 0:
+        un = is_("unnerve")
+        done = (state_field(st, r, "unnerve", "unnerved") != 0) & ((mget(st.mons.ability_state, r)[3] & 1) == 1)
+        st = _ability_msg(st, un & ~done, u, "unnerve")
+        st = set_state_field(st, r, "unnerve", "unnerved", 1, un & ~done)
+    fs = 1 - r // 4
     act = st.sides.active[fs].astype(I32)
-    refs = fs * 4 + jnp.maximum(act, 0)
-    alive = (act >= 0) & ~mget(st.mons.fainted, refs) & (mget(st.mons.hp, refs) > 0)
+    frefs = fs * 4 + jnp.maximum(act, 0)
+    foe_up = (act >= 0) & ~mget(st.mons.fainted, frefs)
+    intim = is_("intimidate")
+    alive = foe_up & (mget(st.mons.hp, frefs) > 0) & intim
     st = _ability_msg(st, jnp.any(alive), u, "intimidate", boost=True)
     d = jnp.zeros(7, I32).at[0].set(-1)
     for j in range(2):
-        st, _ = MP.boost(st, refs[j], d, alive[j], primary=True)
-    return hc, st, rng
+        st, _ = MP.boost(st, frefs[j], d, alive[j], primary=True)
+    frisk = is_("frisk")
+    for j in range(2):
+        it = mget(st.mons.item, frefs[j]).astype(I32)
+        st = EV.emit(st, frisk & foe_up[j] & (it > 0), EV.EV_ITEM, actor=frefs[j], target=u,
+                     move=ids.ITEM_BASE + it - 1, v1=aeff("frisk"), flags=EV.F_FROM_ABILITY)
+    return st, rng
 
 
-# ------------------------------------------------------------------ Pressure
-@switch_in("pressure", "data/abilities.ts pressure.onStart")
-def pressure_start(hc, st, dex, rng):
-    """'-ability' pokemon 'Pressure'."""
-    return hc, _ability_msg(st, True, hc.target, "pressure"), rng
+def end_vec(st, refs, on):
+    """singleEvent('End', ability) for refs [N] at once: Cloud Nine onEnd (abilityState.ending = true;
+    eachEvent('WeatherChange'): no Reg M-C handler), Unnerve onEnd (unnerved = false). State only."""
+    refs = jnp.clip(jnp.asarray(refs, I32), 0, 7)
+    on = jnp.asarray(on)
+    m = st.mons
+    ab = mget(m.ability, refs)
+    s = mget(m.ability_state, refs)                                   # [N, 4]
+    for name, key, val in (("cloudnine", "ending", 1), ("unnerve", "unnerved", 0)):
+        if aid(name) <= 0:
+            continue
+        slot = [sl for k, sl, _ in FIELDS[name] if k == key][0]
+        hit = (on & (ab == aid(name)))[:, None]
+        s = jnp.where(hit, s.at[:, slot].set(val).at[:, 3].set(s[:, 3] | (1 << slot)), s)
+    from vgcjax.battle.util import mset_many
+    return st.replace(mons=m.replace(ability_state=mset_many(m.ability_state, refs, s, on)))
 
 
 def pressure_extra_pp(st, dex, u, move, targets, on):
@@ -164,38 +184,3 @@ def pressure_extra_pp(st, dex, u, move, targets, on):
     return jnp.where(on, n, 0)
 
 
-# ------------------------------------------------------------------ Unnerve (berries: items, M4)
-fields("unnerve", ("unnerved", "bool"))
-
-
-@switch_in("unnerve", "data/abilities.ts unnerve.onStart")
-def unnerve_start(hc, st, dex, rng):
-    """if (effectState.unnerved) return; '-ability' pokemon 'Unnerve'; effectState.unnerved = true."""
-    r = hc.target
-    done = (state_field(st, r, "unnerve", "unnerved") != 0) & ((mget(st.mons.ability_state, r)[3] & 1) == 1)
-    st = _ability_msg(st, ~done, r, "unnerve")
-    st = set_state_field(st, r, "unnerve", "unnerved", 1, ~done)
-    return hc, st, rng
-
-
-if aid("unnerve") > 0:
-    @handler(ids.HOOK_END, aeff("unnerve"), ps="data/abilities.ts unnerve.onEnd")
-    def unnerve_end(hc, st, dex, rng):
-        """effectState.unnerved = false."""
-        return hc, set_state_field(st, hc.target, "unnerve", "unnerved", 0, True), rng
-
-
-# ------------------------------------------------------------------ Frisk
-@switch_in("frisk", "data/abilities.ts frisk.onStart")
-def frisk_start(hc, st, dex, rng):
-    """For each unfainted foe holding an item: '-item' target item '[from] ability: Frisk' '[of] pokemon'."""
-    u = hc.target
-    fs = 1 - jnp.clip(u, 0, 7) // 4
-    for slot in range(2):
-        b = st.sides.active[fs, slot].astype(I32)
-        r = fs * 4 + jnp.maximum(b, 0)
-        it = mget(st.mons.item, r).astype(I32)
-        on = (b >= 0) & ~mget(st.mons.fainted, r) & (it > 0)
-        st = EV.emit(st, on, EV.EV_ITEM, actor=r, target=u, move=ids.ITEM_BASE + it - 1, v1=aeff("frisk"),
-                     flags=EV.F_FROM_ABILITY)
-    return hc, st, rng

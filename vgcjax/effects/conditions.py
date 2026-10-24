@@ -166,7 +166,8 @@ def set_pseudo(st, c, present, state3, on):
 
 
 # ------------------------------------------------------------------ singleEvent dispatch
-def single_event(hook: int, effect, st, dex, rng, hc: H.HookCtx, on, prefix=ids.PFX_ON, effect_range=None):
+def single_event(hook: int, effect, st, dex, rng, hc: H.HookCtx, on, prefix=ids.PFX_ON, effect_range=None,
+                 exclude_range=None):
     """PS singleEvent(eventid, effect, state, target, source, sourceEffect) for a traced `effect`: runs the bespoke
     handler registered for (hook, prefix, effect) if any. Returns (hc, st, rng); hc.ret_* holds the handler's return
     (tag UNDEF when none ran)."""
@@ -175,6 +176,8 @@ def single_event(hook: int, effect, st, dex, rng, hc: H.HookCtx, on, prefix=ids.
     hs = H.registered(hook, prefix if static_prefix else None)
     if effect_range is not None:                         # static restriction (e.g. volatiles only)
         hs = [h for h in hs if effect_range[0] <= h.effect < effect_range[1]]
+    if exclude_range is not None:                        # handled undispatched by the caller
+        hs = [h for h in hs if not exclude_range[0] <= h.effect < exclude_range[1]]
     hc = hc.replace(cur_effect=jnp.asarray(effect, I32), ret_t=jnp.asarray(RS.UNDEF, I32), ret_v=jnp.zeros((), I32))
     if not hs:
         return hc, st, rng
