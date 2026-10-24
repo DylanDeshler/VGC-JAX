@@ -30,15 +30,17 @@ def wid(name):
 
 
 def suppressing(st):
-    """PS: sim/field.ts:106-116 suppressingWeather: an active, unfainted Cloud Nine / Air Lock holder (ignoringAbility
-    and abilityState.ending: M4)."""
+    """PS: sim/field.ts:106-116 suppressingWeather: an active, unfainted Cloud Nine / Air Lock holder whose
+    abilityState.ending is not set (ignoringAbility: M4)."""
     act = st.sides.active.reshape(4).astype(I32)
     refs = jnp.clip((jnp.arange(4) // 2) * 4 + act, 0, 7)
     ab = mget(st.mons.ability, refs)
     sup = jnp.zeros(4, bool)
     for a in SUPPRESSORS:
         sup = sup | (ab == a)
-    return jnp.any((act >= 0) & ~mget(st.mons.fainted, refs) & sup)
+    s = mget(st.mons.ability_state, refs)
+    ending = ((s[:, 3] & 1) == 1) & (s[:, 0] != 0)              # abilityState.ending (effects/abilities.py slot 0)
+    return jnp.any((act >= 0) & ~mget(st.mons.fainted, refs) & sup & ~ending)
 
 
 def field_weather(st):
@@ -181,8 +183,10 @@ def _rock_duration(name):
 
 def _field_start(name):
     def fn(hc, st, dex, rng):
-        """'-weather' Name (abilities: '[from] ability: X' '[of] source', M4)."""
-        return hc, EV.emit(st, True, EV.EV_WEATHER, move=CO.eff(name), v1=-1), rng
+        """'-weather' Name, with '[from] ability: X' '[of] source' for an ability source."""
+        ab = (hc.effect >= ids.ABILITY_BASE) & (hc.effect < ids.ABILITY_BASE + len(ids.ABILITIES) - 1)
+        return hc, EV.emit(st, True, EV.EV_WEATHER, actor=jnp.where(ab, hc.source, -1), move=CO.eff(name),
+                           v1=jnp.where(ab, hc.effect, -1), flags=jnp.where(ab, EV.F_FROM_ABILITY, 0)), rng
     return fn
 
 

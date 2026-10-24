@@ -751,6 +751,14 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     st = EV.emit(st, no_target, EV.EV_FAIL, actor=u)
     go_um = go_rm & alive & (target >= 0)
     targets, smart, rng = get_move_targets(st, dex, rng, u, move, target, go_um)
+    # PS :533-548: runEvent('DeductPP') over pressureTargets (Pressure), then deductPP(move, extraPP)
+    from vgcjax.effects import abilities as AB
+    extra = AB.pressure_extra_pp(st, dex, u, move, targets, go_um & has_slot)
+    m = st.mons
+    pp_cur = mget(m.pp, u)[jnp.clip(slot, 0, 3)].astype(I32)
+    m = m.replace(pp=mset(m.pp, u, mget(m.pp, u).at[jnp.clip(slot, 0, 3)].set(
+        jnp.maximum(pp_cur - extra, 0).astype(I8)), (extra > 0) & (pp_cur > 0)))
+    st = st.replace(mons=m)
     # HOOK(H5) Pressure / DeductPP; HOOK(H6) TryMove
     side_field = _in(tt, (T.TARGET_ALL, T.TARGET_FOESIDE, T.TARGET_ALLYSIDE, T.TARGET_ALLYTEAM))
     has_t = targets[0] >= 0

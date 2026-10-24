@@ -29,6 +29,13 @@ from vgcjax.interop.team import team_from_sets
 
 MAX_CONT = 256   # step calls per decision (a turn needs at most a few dozen micro-steps)
 
+# persistent XLA cache shared by the replay workers and runs (keyed by the HLO, so engine edits miss it)
+import os  # noqa: E402
+import pathlib  # noqa: E402
+jax.config.update("jax_compilation_cache_dir", os.environ.get(
+    "VGC_JAX_CACHE", str(pathlib.Path(__file__).resolve().parents[1] / ".jax_cache")))
+jax.config.update("jax_persistent_cache_min_compile_time_secs", 1.0)
+
 
 @functools.lru_cache(maxsize=None)
 def compiled(cfg: EngineConfig):

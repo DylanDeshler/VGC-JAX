@@ -36,6 +36,17 @@ def _eff_state(cond: str, state, presence_slot: int) -> dict:
     return dict(sorted(out.items()))
 
 
+def _ability_state(ability: int, state) -> dict:
+    """abilityState keys declared in vgcjax/effects/abilities.py FIELDS (presence bits in slot 3)."""
+    from vgcjax.effects import abilities as AB
+    s = [int(x) for x in state]
+    out = {}
+    for key, slot, kind in AB.FIELDS.get(ids.ABILITIES[ability], []):
+        if s[3] >> slot & 1:
+            out[key] = bool(s[slot]) if kind == "bool" else s[slot]
+    return dict(sorted(out.items()))
+
+
 def _named_field(st, key: str) -> dict:
     """field.weather / terrain (ConditionId) and its state (presence slot 2)."""
     c = int(getattr(st.field, key))
@@ -114,7 +125,7 @@ def _pokemon(st, side: int, b: int) -> dict:
         "itemState": {} if item else None,
         "lastItem": ids.ITEMS[int(g(m.last_item))] if int(g(m.last_item)) else "",
         "ability": ids.ABILITIES[int(g(m.ability))],
-        "abilityState": {},
+        "abilityState": _ability_state(int(g(m.ability)), g(m.ability_state)),
         "moves": moves,
         "canMegaEvo": bool(g(m.can_mega)),
         "lastMove": ids.MOVES[last_move] if last_move else None,

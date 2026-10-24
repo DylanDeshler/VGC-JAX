@@ -111,6 +111,13 @@ M3 content (2026-10-23)
   Terrain, Hurricane and Quick Guard have no learner in the 20-species impl pool (implemented, unverified) —
   widening the pool needs abilities (next).
 - codegen: an ability / item without onSwitchIn gets its onStart as the SwitchIn handler (PS getCallback).
+- Abilities batch 1 (effects/abilities.py): Drought / Drizzle / Sand Stream / Snow Warning, Electric / Grassy /
+  Psychic / Misty Surge, Cloud Nine (abilityState.ending), Intimidate, Pressure (DeductPP), Unnerve, Frisk;
+  abilityState projection (declared fields), ability End at live switch-out and at faint, '-ability' / '-item'
+  events. impl species = core + every v0 species with an implemented ability (90). 300 random impl battles and
+  targeted corpora (each ability, Psychic / Misty Terrain, Hurricane, Quick Guard) 100%.
+- fieldEvent tie fix: a tie group is detected at its first *live* member (a fainted holder sorted first hid it).
+- Replays use a persistent XLA cache (.jax_cache, keyed by HLO): repeated corpora skip recompilation.
 - harness/debug.py: per-decision PS vs engine projection / events side by side for one battle.
 - Kernel-like ops/step (impl): 76,818 (15,231 core-only). Planned: a hook-machinery optimisation pass once more
   of v0 lands (centralised in effects/hooks.py, fieldevent.py, conditions.py).

@@ -127,8 +127,11 @@ def _extender(hc, st, dex, rng):
 
 def _msg(kind, name):
     def fn(hc, st, dex, rng):
-        """'-fieldstart' / '-fieldend' 'move: <Terrain>' (abilities: '[from] ability: X' '[of] source', M4)."""
-        return hc, EV.emit(st, True, kind, move=CO.eff(name)), rng
+        """'-fieldstart' / '-fieldend' 'move: <Terrain>', '-fieldstart' with '[from] ability: X' '[of] source' for an
+        ability source."""
+        ab = (hc.effect >= ids.ABILITY_BASE) & (hc.effect < ids.ABILITY_BASE + len(ids.ABILITIES) - 1)
+        of = jnp.where(ab & (kind == EV.EV_FIELDSTART), hc.source, -1)
+        return hc, EV.emit(st, True, kind, move=CO.eff(name), target=of), rng
     return fn
 
 

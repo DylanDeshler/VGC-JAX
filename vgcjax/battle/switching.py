@@ -78,6 +78,14 @@ def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_dr
     # switch-out of a live occupant: SwitchOut / ability & item End hooks (M3), cancelAction, clearVolatile
     m = m.replace(being_called_back=mset(m.being_called_back, r_old, True, unfainted))
     st = st.replace(mons=m)
+    # PS :120-121: singleEvent('End', ability) (item End: M4)
+    from vgcjax.effects import conditions as CO
+    from vgcjax.effects.hooks import HookCtx
+    ab_old = mget(st.mons.ability, jnp.maximum(r_old, 0)).astype(I32)
+    hc = HookCtx.make(r_old, -1, -1).replace(holder=r_old)
+    ar = (ids.ABILITY_BASE, ids.ABILITY_BASE + len(ids.ABILITIES) - 1)
+    _, st, rng = CO.single_event(ids.HOOK_END, ids.ABILITY_BASE + ab_old - 1, st, dex, rng, hc,
+                                 unfainted & (ab_old > 0), effect_range=ar)
     st = Q.cancel_action(st, r_old, unfainted)
     st = clear_volatile(st, dex, r_old, True, unfainted)
     m = st.mons

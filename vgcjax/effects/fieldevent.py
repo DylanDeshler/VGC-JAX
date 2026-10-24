@@ -268,7 +268,9 @@ def field_event(st, dex, rng, event: str, on, targets=None):
     live_sorted = valid[perm] & ~fainted[perm]
     pos = jnp.arange(K)
     gsize = jnp.zeros(K, I32).at[group].add(live_sorted.astype(I32))
-    is_start = live_sorted & (group == pos) & (gsize[pos] >= 2)
+    # a group is marked at its first live member (the run may start with a skipped handler)
+    first_live = jnp.full(K, K, I32).at[group].min(jnp.where(live_sorted, pos, K))
+    is_start = live_sorted & (pos == first_live[group]) & (gsize[group] >= 2)
     # canonical member order inside a group: holder rank, then effect-id string rank
     canon_key = holder_rank(st, holder) * 4096 + jnp.asarray(_STR_RANK)[jnp.clip(eff, 0, len(_NAMES) - 1)]
     new_perm = perm
@@ -277,7 +279,7 @@ def field_event(st, dex, rng, event: str, on, targets=None):
     for g in range(G_TIES):
         start = starts[g]
         act = start >= 0
-        mem_sorted = act & (group == start) & live_sorted                       # sorted positions in the group
+        mem_sorted = act & (group == group[jnp.maximum(start, 0)]) & live_sorted   # sorted positions in the group
         cand = perm
         ck = jnp.where(mem_sorted, canon_key[cand], 1 << 30)
         canon_pos = jnp.argsort(ck, stable=True)                                 # positions in canonical order

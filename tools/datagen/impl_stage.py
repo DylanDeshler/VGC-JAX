@@ -29,7 +29,9 @@ EXTRA: dict[str, set[str]] = {
               "sunnyday", "raindance", "sandstorm", "snowscape",         # effects/weather.py
               "weatherball", "thunder", "hurricane", "blizzard",
               "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain"},   # effects/terrain.py
-    "abilities": set(), "items": set(),
+    "abilities": {"drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
+                  "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk"},   # effects/abilities.py
+    "items": set(),
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",
                    "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain"},
@@ -49,13 +51,18 @@ def main() -> None:
     core = json.loads((EXPORT / "stages" / "core.json").read_text())
     v0 = json.loads((EXPORT / "stages" / "v0.json").read_text())
     census = json.loads((EXPORT / "handler_census.json").read_text())["records"]
+    species_data = json.loads((EXPORT / "species.json").read_text())
+    abilities = set(core["abilities"]) | EXTRA["abilities"]
+    toid = lambda s: "".join(ch for ch in s.lower() if ch.isalnum())  # noqa: E731
+    species = set(core["species"]) | {s for s in v0["species"] if any(
+        toid(a) in abilities for a in species_data[s]["abilities"].values())}
     moves = set(core["moves"]) | {m for m in v0["moves"] if supported_move(census["move"].get(m, {}))} | EXTRA["moves"]
     conds = set(core["conditions"]) | set().union(*SUPPORTED_REFS.values()) | EXTRA["conditions"]
     out = {
         "stage": "impl",
-        "species": sorted(core["species"]),
+        "species": sorted(species),
         "moves": sorted(moves),
-        "abilities": sorted(set(core["abilities"]) | EXTRA["abilities"]),
+        "abilities": sorted(abilities),
         "items": sorted(set(core["items"]) | EXTRA["items"]),
         "conditions": sorted(conds),
         "implemented_conditions": sorted(set().union(*SUPPORTED_REFS.values()) | EXTRA["conditions"]),
