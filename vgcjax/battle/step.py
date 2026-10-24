@@ -296,6 +296,15 @@ def end_turn(st, dex, cfg, on) -> S.State:
                 hc = H.HookCtx.make(r, -1, h.effect)
                 hc2, st2, _ = h.fn(hc, st, dex, None)
                 st = jax.tree_util.tree_map(lambda a, b_: jnp.where(go & knows, a, b_), st2, st)
+            # flags.cantusetwice and pokemon.lastMove is this slot's move -> disableMove (Gigaton Hammer)
+            m = st.mons
+            mids = mget(m.move_ids, r).astype(I32)
+            w, bit = ids.MF_CANTUSETWICE
+            ctw = ((dex.move_flags[mids, w] >> bit) & 1) == 1
+            hit = go & ctw & (mids == mget(m.last_move, r).astype(I32)) & (mids > 0)
+            dis = mget(m.move_disabled, r)
+            st = st.replace(mons=m.replace(move_disabled=mset(m.move_disabled, r, jnp.where(hit, 1, dis).astype(
+                dis.dtype), go)))
     m = st.mons
     sides = st.sides
     sides = sides.replace(fainted_last_turn=jnp.where(on, sides.fainted_this_turn, sides.fainted_last_turn),

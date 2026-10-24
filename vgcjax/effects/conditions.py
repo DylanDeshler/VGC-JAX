@@ -241,10 +241,13 @@ def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1):
     # runEvent('TryAddVolatile'): the terrains (abilities: M4); a falsy (null) result returns it
     from vgcjax.effects import terrain as TR
     from vgcjax.battle import events as EV
+    from vgcjax.effects import ability_blocks as AXB
+    ab_block = add & AXB.add_volatile_block(st, ref, c)             # ability holders sort before the field
     blocked, tmsg = TR.blocks_volatile(st, dex, ref, c, source_effect)
-    blocked = add & blocked
+    blocked = add & ~ab_block & blocked
     st = EV.emit(st, blocked & tmsg, EV.EV_ACTIVATE, actor=ref, move=ids.COND_BASE + TR.terrain(st) - 1)
-    add = add & ~blocked
+    add = add & ~blocked & ~ab_block
+    blocked = blocked | ab_block
     dur = dex.cond_duration[c].astype(I32)
     hc2 = H.HookCtx.make(ref, src, source_effect)
     hc2, st, rng = single_event(DURATION_CALLBACK, e, st, dex, rng, hc2, add, effect_range=vr)

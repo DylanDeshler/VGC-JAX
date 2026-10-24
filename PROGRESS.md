@@ -125,6 +125,18 @@ M3 content (2026-10-23)
   Strong Jaw, Reckless, Punk Rock, Sand Force, Huge / Pure Power, Hustle, Guts (+ no burn halving), Blaze /
   Torrent / Overgrow / Swarm, Thick Fat, Solar Power, Multiscale, Filter, Solid Rock, Friend Guard, Sniper,
   Adaptability, Compound Eyes. impl pool 203 species. 300 random + 26 targeted + regression corpora 100%.
+- Abilities batch 3 (effects/ability_blocks.py, 21, undispatched masked passes): TryBoost (Clear Body, White Smoke,
+  Hyper Cutter, Keen Eye (+ignoreEvasion), Big Pecks, Flower Veil, Intimidate blockers Inner Focus / Own Tempo /
+  Oblivious / Scrappy, Guard Dog's inverted boost + DragOut), SetStatus (Limber, Insomnia, Vital Spirit, Immunity,
+  Water Veil, Water Bubble, Purifying Salt, Leaf Guard, Sweet / Flower Veil; speed-ordered with each other, before
+  the terrains), TryAddVolatile (Inner Focus, Own Tempo), Immunity (Magma Armor), Own Tempo's Hit message, Scrappy
+  ignoreImmunity. impl pool 254 species. Water Veil unverified (no placeable species).
+- Found via the wider pool: Gigaton Hammer's cantusetwice disable; Dragon Darts — any step failure and Protect's
+  TryHit clear smartTarget, a single remaining target takes every hit, spreadHit is fixed before the steps.
+- Regression suite regenerated with the current reducer (/tmp/wx/mkreg.sh pattern: same seeds, current stage).
+  Empty zstd frames are skipped by the trace reader.
+- ADR-105 (proposed, needs human approval): Population Bomb's fractional accuracy numerator (67.5) is truncated by
+  the harness (67) while the engine logs the equivalent integer bound (68) -> 1 DRAW_ARGS bucket in 300 battles.
 - fieldEvent tie fix: a tie group is detected at its first *live* member (a fainted holder sorted first hid it).
 - Replays use a persistent XLA cache (.jax_cache, keyed by HLO): repeated corpora skip recompilation.
 - harness/debug.py: per-decision PS vs engine projection / events side by side for one battle.
@@ -168,6 +180,7 @@ none yet (no engine)
 none
 
 ## Pending escalations
+- (2026-10-24) ADR-105 proposed: canonicalise fractional randomChance numerators to ceil in draw-arg comparison.
 - (2026-10-23) contract_version 2 implemented (ADR-101 b + ADR-103). ADR-104 option 4 (micro-steps) implemented:
   ≈15.4k kernel-like ops per decision (from 119.8k); new phase CONT. G-core re-run under v2 on the micro-step engine:
   PASS (50,000 battles, 100%, contract verified). L40S: ~0.94M decision-steps/s at B=65k (events on). M3 content started (see below).

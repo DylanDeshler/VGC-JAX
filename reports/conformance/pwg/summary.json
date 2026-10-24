@@ -1,0 +1,32 @@
+{
+ "battles": 5,
+ "clean": 5,
+ "coverage": {
+  "ACCURACY": 56,
+  "CONFUSION_DURATION": 5,
+  "CONFUSION_SELFHIT": 6,
+  "CONFUSION_SELFHIT_DAMAGE_ROLL": 2,
+  "CRIT": 172,
+  "DAMAGE_ROLL": 175,
+  "MULTIHIT_COUNT": 3,
+  "PARALYSIS": 14,
+  "RUNSWITCH_INSERT_TIE": 1,
+  "SECONDARY": 57,
+  "SPEED_TIE_FIELD_EVENT": 6,
+  "SPEED_TIE_SELECT": 1,
+  "SPEED_TIE_SWITCHIN": 4
+ },
+ "ext_mismatch_battles": 0,
+ "ext_buckets": {},
+ "events_checked_battles": 5,
+ "events_mismatch_battles": 0,
+ "events_buckets": {},
+ "CBR": 1.0,
+ "TMR": 1.0,
+ "MPR": null,
+ "error_rate": 0.0,
+ "draw_failures": 0,
+ "buckets": {},
+ "seconds": 46.8,
+ "trace_dir": "/tmp/wx/pwg"
+}

@@ -28,16 +28,19 @@ def split_frames(buf: bytes):
             pos += 1
         pos += (0, 1, 2, 4)[did]
         pos += ((1 if single else 0), 2, 4, 8)[fcs]
+        payload = 0
         while True:
             bh = buf[pos] | (buf[pos + 1] << 8) | (buf[pos + 2] << 16)
             pos += 3
             last, btype, size = bh & 1, (bh >> 1) & 3, bh >> 3
             pos += 1 if btype == 1 else size
+            payload += size
             if last:
                 break
         if checksum:
             pos += 4
-        yield buf[start:pos]
+        if payload:                      # an empty frame holds no battle (skipped consistently by every reader)
+            yield buf[start:pos]
 
 
 def iter_battles(path):

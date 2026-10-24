@@ -16,6 +16,7 @@ from vgcjax.battle.util import mget, mset, mset_many
 from vgcjax.core import rng as R
 from vgcjax.core import typechart as TC
 from vgcjax.data import ids
+from vgcjax.effects import ability_blocks as AXB
 from vgcjax.effects import conditions as CO
 from vgcjax.effects import terrain as TR
 from vgcjax.effects import weather as WE
@@ -53,8 +54,7 @@ def run_status_immunity(st, dex, ref, status):
                      jnp.where(key == ids.COND_FRZ, 4, jnp.where(key == sand, 5, -1)))))
     immune = (kidx >= 0) & TC.status_immune(dex, jnp.maximum(kidx, 0), mget(st.mons.types, ref))
     immune = immune | ((key == ids.COND_FRZ) & WE.frz_immune(st, ref))       # runEvent('Immunity'): Sun
-    # runEvent('Immunity'): Sand Force onImmunity('sandstorm') (data/abilities.ts)
-    immune = immune | ((key == sand) & (mget(st.mons.ability, ref) == getattr(ids, "ABILITY_SANDFORCE", -1)))
+    immune = immune | AXB.status_immunity(st, ref, key)                    # runEvent('Immunity'): abilities
     return ~mget(st.mons.fainted, ref) & ~immune
 
 
@@ -83,7 +83,12 @@ def set_status(st, dex, rng, ref, status, on, source=-1, source_effect=-1, move_
     imm = go & (status > 0) & ~corrosion & ~run_status_immunity(st, dex, ref, status)
     st = EV.emit(st, imm & (move_status > 0), EV.EV_IMMUNE, actor=ref)
     go = go & ~imm
-    # runEvent('SetStatus'): the terrains (Safeguard / abilities: M4); a falsy result returns it
+    # runEvent('SetStatus'): abilities (mon holders) before the terrains (field); a falsy result returns it
+    ab_b, imm_m, blk_m, blk_e, blk_o = AXB.set_status_block(st, jnp.asarray(ref, I32)[None], status[None], source,
+                                                            source_effect, move_status, (go & (status > 0))[None])
+    st = AXB.emit_set_status_block(st, ref, imm_m[0], blk_m[0], blk_e[0], blk_o[0],
+                                   ids.ABILITY_BASE + mget(st.mons.ability, ref) - 1)
+    go = go & ~ab_b[0]
     blocked, tmsg = TR.blocks_status(st, dex, ref, status, source_effect, move_status)
     blocked = go & (status > 0) & blocked
     st = EV.emit(st, blocked & tmsg, EV.EV_ACTIVATE, actor=ref, move=C.eff_cond(TR.terrain(st)))
@@ -331,12 +336,15 @@ def try_set_status_v(st, dex, rng, refs, status, on, source, source_effect, move
     types = mget(m.types, refs)
     immune = (kidx >= 0) & jax.vmap(lambda k, t: TC.status_immune(dex, k, t))(jnp.maximum(kidx, 0), types)
     immune = immune | ((key == ids.COND_FRZ) & WE.frz_immune(st, refs))     # runEvent('Immunity'): Sun
+    immune = immune | AXB.status_immunity(st, refs, key)                    # runEvent('Immunity'): abilities
     not_immune = ~mget(m.fainted, refs) & ~immune
     imm = go & ~same & (want > 0) & ~corrosion & ~not_immune
-    # runEvent('SetStatus'): the terrains (Safeguard / abilities: M4)
+    # runEvent('SetStatus'): abilities (mon holders) before the terrains (field)
+    pre_ok = go & ~same & ~imm & (want > 0)
+    ab_b, imm_m, blk_m, blk_e, blk_o = AXB.set_status_block(st, refs, want, source, source_effect, move_status, pre_ok)
     blocked, tmsg = TR.blocks_status(st, dex, refs, want, source_effect, move_status)
-    blocked = go & ~same & ~imm & (want > 0) & blocked
-    ok = go & ~same & ~imm & (want > 0) & ~blocked
+    blocked = pre_ok & ~ab_b & blocked
+    ok = pre_ok & ~ab_b & ~blocked
     # Start: slp draws its duration (SLEEP_DURATION, keyed per target), frz 3, tox stage 0
     is_slp, is_frz, is_tox = want == ids.COND_SLP, want == ids.COND_FRZ, want == ids.COND_TOX
     skey = C.dkey(st, ids.DK_SLEEP_DURATION, actor=refs, subject=CO.eff("slp"))
@@ -355,7 +363,8 @@ def try_set_status_v(st, dex, rng, refs, status, on, source, source_effect, move
     is_move = (eff >= ids.MOVE_BASE) & (eff < ids.MOVE_BASE + len(ids.MOVES) - 1)
     res = RS.where(ok, RS.R(RS.BOOL, 1), RS.R(RS.BOOL, 0))
     msgs = dict(fail_t=same & (move_status == cur) & (move_status > 0), fail_s=same & (move_status != cur) & (move_status > 0),
-                imm=imm & (move_status > 0), tblock=blocked & tmsg, terrain=C.eff_cond(TR.terrain(st)), ok=ok, want=want, cur=cur, from_move=is_move & is_slp, eff=eff, src=src)
+                imm=imm & (move_status > 0), tblock=blocked & tmsg, ab_imm=imm_m, ab_blk=blk_m, ab_blk_e=blk_e, ab_blk_o=blk_o,
+                ab_eff=ids.ABILITY_BASE + mget(m.ability, refs) - 1, terrain=C.eff_cond(TR.terrain(st)), ok=ok, want=want, cur=cur, from_move=is_move & is_slp, eff=eff, src=src)
     return st, rng, res, msgs
 
 
@@ -365,6 +374,8 @@ def emit_status_msgs(st, msgs, j, ref):
     st = EV.emit(st, msgs["fail_s"][j], EV.EV_FAIL, actor=msgs["src"])
     st = EV.attr_last_move(st, msgs["fail_s"][j], EV.F_STILL)
     st = EV.emit(st, msgs["imm"][j], EV.EV_IMMUNE, actor=ref)
+    st = AXB.emit_set_status_block(st, ref, msgs["ab_imm"][j], msgs["ab_blk"][j], msgs["ab_blk_e"][j],
+                                   msgs["ab_blk_o"][j], msgs["ab_eff"][j])
     st = EV.emit(st, msgs["tblock"][j], EV.EV_ACTIVATE, actor=ref, move=msgs["terrain"])
     fm = msgs["from_move"][j]
     return EV.emit(st, msgs["ok"][j], EV.EV_STATUS, actor=ref, move=C.eff_cond(msgs["want"][j]),

@@ -129,7 +129,7 @@ def switch_in_vec(st, dex, rng, u, on):
     st = _ability_msg(st, jnp.any(alive), u, "intimidate", boost=True)
     d = jnp.zeros(7, I32).at[0].set(-1)
     for j in range(2):
-        st, _ = MP.boost(st, frefs[j], d, alive[j], primary=True)
+        st, _ = MP.boost(st, frefs[j], d, alive[j], primary=True, source=u, effect=aeff("intimidate"))
     frisk = is_("frisk")
     for j in range(2):
         it = mget(st.mons.item, frefs[j]).astype(I32)

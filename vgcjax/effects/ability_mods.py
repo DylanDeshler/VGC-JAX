@@ -171,3 +171,14 @@ def adaptability(ctx, h):
 
 
 # Solar Power onWeather: effects/weather.py each_weather
+
+
+# ------------------------------------------------------------------ Water Bubble / Purifying Salt (status parts:
+# effects/ability_blocks.py)
+for _hook in ("ModifyAtk", "ModifySpA"):
+    _reg(_hook, "waterbubble", prefix=ids.PFX_SOURCE)(
+        lambda ctx, h: (jnp.broadcast_to(ctx.mtype == ids.TYPE_FIRE, h.shape), _const(X05), None))
+    _reg(_hook, "waterbubble")(
+        lambda ctx, h: (jnp.broadcast_to(ctx.mtype == ids.TYPE_WATER, h.shape), _const(X2), None))
+    _reg(_hook, "purifyingsalt", prefix=ids.PFX_SOURCE)(
+        lambda ctx, h: (jnp.broadcast_to(ctx.mtype == ids.TYPE_GHOST, h.shape), _const(X05), None))

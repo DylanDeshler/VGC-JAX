@@ -34,7 +34,11 @@ EXTRA: dict[str, set[str]] = {
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
                   "punkrock", "sandforce", "hugepower", "purepower", "hustle", "guts", "blaze", "torrent",
                   "overgrow", "swarm", "thickfat", "solarpower", "multiscale", "filter", "solidrock", "friendguard",
-                  "sniper", "adaptability", "compoundeyes"},                                  # effects/ability_mods.py
+                  "sniper", "adaptability", "compoundeyes",                                   # effects/ability_mods.py
+                  "limber", "insomnia", "vitalspirit", "immunity", "waterveil", "waterbubble", "magmaarmor",
+                  "leafguard", "purifyingsalt", "innerfocus", "owntempo", "oblivious", "clearbody", "whitesmoke",
+                  "hypercutter", "keeneye", "bigpecks", "scrappy", "guarddog", "sweetveil", "flowerveil"},
+                                                                                              # effects/ability_blocks.py
     "items": set(),
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",
