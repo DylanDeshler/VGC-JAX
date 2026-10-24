@@ -123,34 +123,41 @@ def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_dr
     return st, rng
 
 
-def switchin_ties(st: S.State, rng: R.Rng, on):
-    """runSwitch's speedSort of all slot occupants (incl. fainted) by cached speed: one SPEED_TIE_SWITCHIN record per
-    tie group (contract §4; members in slot order p1a, p1b, p2a, p2b; sub = runswitch_ord; ord = group index)."""
-    act = st.sides.active.reshape(4).astype(I32)          # slot k = side*2 + pos
-    occ = act >= 0
-    refs = jnp.where(occ, (jnp.arange(4) // 2) * 4 + act, -1)
+def slot_speed_sort(st: S.State, rng: R.Rng, occ, kind, sub, on):
+    """speedSort of the slot occupants `occ` [4] (slot k = side*2 + pos) by cached pokemon.speed, ties drawn as one
+    record of `kind` per tie group (contract §4: sub, ord = group index, members in slot order p1a, p1b, p2a, p2b; 4
+    occupants form at most 2 groups of size >= 2). Returns (rng, order [4] slots in execution order (unoccupied last),
+    refs [4])."""
+    act = st.sides.active.reshape(4).astype(I32)
+    occ = jnp.asarray(occ) & (act >= 0)
+    refs = jnp.where(act >= 0, (jnp.arange(4) // 2) * 4 + act, -1)
     spd = jnp.where(occ, mget(st.mons.speed, jnp.clip(refs, 0, 7)).astype(I32), -(1 << 20))
-    sub = st.scratch.runswitch_ord
     count = jnp.sum((spd[:, None] == spd[None, :]) & occ[None, :] & occ[:, None], axis=1)  # same-speed occupants
     js = jnp.arange(4)
     earlier_same = (spd[None, :] == spd[:, None]) & occ[None, :] & (js[None, :] < js[:, None])
     grp_first = occ & (count >= 2) & ~jnp.any(earlier_same, axis=1)
-
-    # group index = number of tie groups with strictly higher speed; 4 occupants form at most 2 groups of size >= 2
+    # group index = number of tie groups with strictly higher speed
     gord = jnp.sum(((spd[None, :] > spd[:, None]) & grp_first[None, :]).astype(I32), axis=1)
     rank_in_group = jnp.zeros(4, I32)
     for g in range(2):
         sel = grp_first & (gord == g)
         k = jnp.argmax(sel)
         mem = occ & (spd == spd[k])
-        torder, rng = R.tie_order(rng, _tkey(st, ids.DK_SPEED_TIE_SWITCHIN, sub, g), jnp.clip(refs, 0, 7), mem,
+        torder, rng = R.tie_order(rng, _tkey(st, kind, sub, g), jnp.clip(refs, 0, 7), mem,
                                   active=jnp.asarray(on) & jnp.any(sel))
         pos_of = jnp.argsort(torder)                       # position of member k in the drawn order
         rank_in_group = jnp.where(jnp.any(sel) & mem, pos_of, rank_in_group)
+    key = jnp.where(occ, -spd * 8 + rank_in_group, 1 << 28)
+    return rng, jnp.argsort(key, stable=True), refs
+
+
+def switchin_ties(st: S.State, rng: R.Rng, on):
+    """runSwitch's speedSort of all slot occupants (incl. fainted) by cached speed: one SPEED_TIE_SWITCHIN record per
+    tie group (contract §4; sub = runswitch_ord)."""
+    occ = st.sides.active.reshape(4) >= 0
+    rng, order, _ = slot_speed_sort(st, rng, occ, ids.DK_SPEED_TIE_SWITCHIN, st.scratch.runswitch_ord, on)
     # battle.speedOrder = getAllActive(true) sorted (PS: sim/battle-actions.ts:234-236): field position values
     # (side + 2 * pos) of the occupied slots by speed, ties in the drawn order; -1 pads empty slots
-    key = jnp.where(occ, -spd * 8 + rank_in_group, 1 << 28)
-    order = jnp.argsort(key, stable=True)
     fieldpos = (order // 2) + 2 * (order % 2)
     so = jnp.where(occ[order], fieldpos, -1).astype(st.meta.speed_order.dtype)
     return rng, so

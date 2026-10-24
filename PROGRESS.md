@@ -99,6 +99,19 @@ M3 content (2026-10-23)
   Light Screen (ModifyDamage chain), side/field start-end events; contract MUL tie records reproduced via exact
   mulhook_ord counting (every PS MUL runEvent: getStat('spe') sites, damage calc, accuracy) + rekey at the end of a
   completed runAction (PS skips it after early returns). Targeted corpora 100%.
+- Weather (effects/weather.py): Sun / Rain / Sand / Snow from moves (setWeather, rocks, FieldStart/Residual/End,
+  eachEvent('Weather') with SPEED_TIE_WEATHER_EACH records, sandstorm chip + typed immunity, WeatherModifyDamage,
+  sand SpD / snow Def x1.5, frz immunity in Sun, Cloud Nine suppression), ActiveMove type / basePower / accuracy
+  after ModifyType / ModifyMove (Exec.mtype / bp / acc: Weather Ball, Thunder, Hurricane, Blizzard). Targeted
+  corpora (200 each: Sun+Weather Ball, Rain+Thunder, Sand, Snow+Blizzard) 100% incl. events.
+- Terrain (effects/terrain.py): Electric / Grassy / Psychic / Misty from moves (setTerrain, Terrain Extender,
+  BasePower x5325/4096 and halvings, Grassy heal residual, SetStatus / TryAddVolatile blocks, Psychic Terrain
+  TryHit), full isGrounded. fieldEvent fix: customHolder rows (field / side effects listed per active mon) are
+  callback-only and never tick durations (PS :507-508). Electric / Grassy corpora 100%; Psychic / Misty
+  Terrain, Hurricane and Quick Guard have no learner in the 20-species impl pool (implemented, unverified) —
+  widening the pool needs abilities (next).
+- codegen: an ability / item without onSwitchIn gets its onStart as the SwitchIn handler (PS getCallback).
+- harness/debug.py: per-decision PS vs engine projection / events side by side for one battle.
 - Kernel-like ops/step (impl): 76,818 (15,231 core-only). Planned: a hook-machinery optimisation pass once more
   of v0 lands (centralised in effects/hooks.py, fieldevent.py, conditions.py).
 

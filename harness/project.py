@@ -36,6 +36,15 @@ def _eff_state(cond: str, state, presence_slot: int) -> dict:
     return dict(sorted(out.items()))
 
 
+def _named_field(st, key: str) -> dict:
+    """field.weather / terrain (ConditionId) and its state (presence slot 2)."""
+    c = int(getattr(st.field, key))
+    if c <= 0:
+        return {key: "", f"{key}State": None}
+    name = ids.CONDITIONS[c]
+    return {key: name, f"{key}State": _eff_state(name, getattr(st.field, f"{key}_state"), 2)}
+
+
 def _pseudo_weather(st) -> dict:
     bits = int(st.field.pw_bits)
     out = {}
@@ -154,8 +163,7 @@ def engine_to_json(st: S.State) -> dict:
                 "lastSuccessfulMove": _mid(meta.last_successful_move)},
         "ended": bool(int(meta.phase) == S.DONE),
         "winner": None if winner < 0 else ("" if winner == 2 else f"p{winner + 1}"),
-        "field": {"weather": "", "weatherState": None, "terrain": "", "terrainState": None,
-                  "pseudoWeather": _pseudo_weather(st)},
+        "field": {**_named_field(st, "weather"), **_named_field(st, "terrain"), "pseudoWeather": _pseudo_weather(st)},
         "sides": [],
     }
     for side in range(2):

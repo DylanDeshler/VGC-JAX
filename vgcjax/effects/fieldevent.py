@@ -52,20 +52,21 @@ def _candidates(st, dex, event: str, targets=None):
     """Static candidate list for fieldEvent(event, targets) (PS :489-511), restricted at trace time to effects that
     define the callback (or, for Residual, carry a duration; effects/static.py). Returns dict of i32 arrays [N]:
     eff, pfx, holder (0..7 ref, 8/9 side, 10 field), loc (storage code), idx (index within the storage), dur (state
-    duration), present, sub (default subOrder), eo (effectOrder, *SwitchIn only), spdh (speed holder ref or -1)."""
+    duration), present, sub (default subOrder), eo (effectOrder, *SwitchIn only), spdh (speed holder ref or -1), cust
+    (1 = customHolder row)."""
     from vgcjax.effects import static as SX
     m, sd, f = st.mons, st.sides, st.field
     hook = getattr(ids, f"HOOK_{event.upper()}")
     resid = event == "Residual"
     rows = []
 
-    def add(eff, pfx, holder, loc, idx, dur, present, sub, eo=0, spdh=-1):
+    def add(eff, pfx, holder, loc, idx, dur, present, sub, eo=0, spdh=-1, cust=False):
         n = jnp.shape(eff)[0] if jnp.ndim(eff) else 1
         if n == 0:
             return
         b = lambda x: jnp.broadcast_to(jnp.asarray(x, I32), (n,))  # noqa: E731
         rows.append((b(eff), b(pfx), b(holder), b(loc), b(idx), b(dur), jnp.broadcast_to(present, (n,)), b(sub), b(eo),
-                     b(spdh)))
+                     b(spdh), b(int(cust))))
 
     weather_ids = tuple(CO.cid(w) for w in CO.WEATHERS if w in ids.CONDITIONS)
     terrain_ids = tuple(CO.cid(w) for w in CO.TERRAINS if w in ids.CONDITIONS)
@@ -73,24 +74,28 @@ def _candidates(st, dex, event: str, targets=None):
     def named_define(cids, pfx, with_dur):
         return any(SX.cond_subset(hook, pfx, c, 1, with_dur) for c in cids)
 
+    # customHolder rows (a field / side effect's on<Event> listed for an active mon, PS :507-508): getKey undefined
+    # (callback only) and no `end` (no duration handling)
     def field_effects(pfx, holder, spdh, on=True):
+        cust = pfx == ids.PFX_ON
         wd = resid and pfx == ids.PFX_FIELD
         k = jnp.asarray(SX.cond_subset(hook, pfx, ids.PW_BASE, S.NPW, wd), I32)
         pw_on = ((f.pw_bits >> k.astype(U32)) & 1) == 1
         add(ids.COND_BASE + ids.PW_BASE + k - 1, pfx, holder, CO.PSEUDO, k, f.pw_state[k, 0], pw_on & on, SUB_FIELD,
-            0, spdh)
+            0, spdh, cust)
         if named_define(weather_ids, pfx, wd):
             add(ids.COND_BASE + f.weather.astype(I32) - 1, pfx, holder, CO.WEATHER, 0, f.weather_state[0],
-                (f.weather > 0) & on, SUB_FIELD, 0, spdh)
+                (f.weather > 0) & on, SUB_FIELD, 0, spdh, cust)
         if named_define(terrain_ids, pfx, wd):
             add(ids.COND_BASE + f.terrain.astype(I32) - 1, pfx, holder, CO.TERRAIN, 0, f.terrain_state[0],
-                (f.terrain > 0) & on, SUB_FIELD, 0, spdh)
+                (f.terrain > 0) & on, SUB_FIELD, 0, spdh, cust)
 
     def side_effects(s, pfx, holder, spdh, on=True):
+        cust = pfx == ids.PFX_ON
         k = jnp.asarray(SX.cond_subset(hook, pfx, ids.SIDE_BASE, S.NSC, resid and pfx == ids.PFX_SIDE), I32)
         son = ((sd.side_cond_bits[s] >> k.astype(U32)) & 1) == 1
         add(ids.COND_BASE + ids.SIDE_BASE + k - 1, pfx, holder, CO.SIDE, k, sd.side_cond_state[s, k, 0], son & on,
-            SUB_SIDE, 0, spdh)
+            SUB_SIDE, 0, spdh, cust)
 
     def mon_effects(s, pos, r, pfx, on):
         wd = resid and pfx == ids.PFX_ON
@@ -130,8 +135,8 @@ def _candidates(st, dex, event: str, targets=None):
             field_effects(ids.PFX_ON, r, r, ok)
     if not rows:                                         # nothing can ever handle this event
         return None
-    cols = [jnp.concatenate([row[j] for row in rows]) for j in range(10)]
-    keys = ("eff", "pfx", "holder", "loc", "idx", "dur", "present", "sub", "eo", "spdh")
+    cols = [jnp.concatenate([row[j] for row in rows]) for j in range(11)]
+    keys = ("eff", "pfx", "holder", "loc", "idx", "dur", "present", "sub", "eo", "spdh", "cust")
     return dict(zip(keys, cols))
 
 
@@ -239,7 +244,7 @@ def field_event(st, dex, rng, event: str, on, targets=None):
         return st, rng
     hook = getattr(ids, f"HOOK_{event.upper()}")
     has_cb = ((dex.handler_mask[jnp.maximum(c["eff"], 0), hook].astype(I32) >> c["pfx"]) & 1) == 1
-    with_dur = (c["loc"] >= 0) & (c["dur"] > 0) if residual_mode else jnp.zeros_like(has_cb)
+    with_dur = (c["loc"] >= 0) & (c["dur"] > 0) & (c["cust"] == 0) if residual_mode else jnp.zeros_like(has_cb)
     listed = on & c["present"] & (c["eff"] >= 0) & (has_cb | with_dur)
     K = min(K_RES if residual_mode else K_SWITCHIN, int(c["eff"].shape[0]))   # <= the static candidate count
     n = jnp.sum(listed.astype(I32))
@@ -297,7 +302,7 @@ def field_event(st, dex, rng, event: str, on, targets=None):
         ending = jnp.zeros((), bool)
         if residual_mode:
             dur = _cur_duration(st, loc, idx, h)
-            has_dur = live & (loc >= 0) & (dur > 0) & _still_present(st, loc, idx, h, e)
+            has_dur = live & (loc >= 0) & (dur > 0) & (cc["cust"][j] == 0) & _still_present(st, loc, idx, h, e)
             nd = dur - 1
             st = _set_duration(st, loc, idx, h, nd, has_dur)
             ending = has_dur & (nd <= 0)

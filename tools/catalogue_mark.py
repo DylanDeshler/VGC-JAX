@@ -1,6 +1,6 @@
 """Set docs/catalogue.csv `status` for implemented entities (11 §3: the catalogue moves with the code).
 
-Every entity of data/export/stages/impl.json that the catalogue lists (moves, abilities, items) plus the given
+Every entity of data/export/stages/impl.json that the catalogue lists (moves, abilities, items, conditions) plus the given
 SYSTEM / ENGINE_DELTA ids becomes `impl` (never downgrades `done`). Usage:
     python -I tools/catalogue_mark.py [--system id ...] [--tests tests/...]
 """
@@ -21,7 +21,8 @@ def main() -> None:
     a = ap.parse_args()
     impl = json.loads((ROOT / "data/export/stages/impl.json").read_text())
     want = {("MOVE", x) for x in impl["moves"]} | {("ABILITY", x) for x in impl["abilities"]} | {
-        ("ITEM", x) for x in impl["items"]} | {(k, x) for x in a.system for k in ("SYSTEM", "ENGINE_DELTA")}
+        ("ITEM", x) for x in impl["items"]} | {("CONDITION", x) for x in impl["implemented_conditions"]} | {
+        (k, x) for x in a.system for k in ("SYSTEM", "ENGINE_DELTA")}
     path = ROOT / "docs/catalogue.csv"
     rows = list(csv.DictReader(path.open()))
     n = 0

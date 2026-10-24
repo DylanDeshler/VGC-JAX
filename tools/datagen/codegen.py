@@ -471,6 +471,11 @@ class Builder:
                         sub = sub[holder_kind.get(self.cond_kind.get(eid, "VOL"), "pokemon")]
                     order = ORDER_LAST if meta["order"] is None else meta["order"]
                     entries.append((base + i - 1, ev, pfx, order, meta["priority"], sub))
+                # PS getCallback (sim/battle.ts:1025-1036): an ability / item without onSwitchIn runs its onStart as
+                # the SwitchIn handler (order / priority from the onSwitchIn* fields, absent here)
+                if kind in ("ability", "item") and "onStart" in cbs and "onSwitchIn" not in cbs:
+                    meta = cbs["onStart"]
+                    entries.append((base + i - 1, "SwitchIn", 0, ORDER_LAST, 0, meta["subOrder"]))
         self.events = sorted(events)
         nh = len(self.events) + 1
         hid = {e: i + 1 for i, e in enumerate(self.events)}

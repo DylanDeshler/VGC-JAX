@@ -19,13 +19,20 @@ EXPORT = ROOT / "data" / "export"
 SUPPORTED_REFS = {
     "status": {"brn", "par", "psn", "tox", "slp", "frz"},
     "volatile": {"flinch", "confusion"},
+    "weather": {"sunnyday", "raindance", "sandstorm", "snowscape"},
+    "terrain": {"electricterrain", "grassyterrain", "psychicterrain", "mistyterrain"},
 }
 # entities implemented beyond the data-only rule, by kind (filled in as handlers land)
 EXTRA: dict[str, set[str]] = {
     "moves": {"protect", "detect", "wideguard", "fakeout", "feint",     # effects/protect.py (Quick Guard: no learner yet)
-              "tailwind", "trickroom", "reflect", "lightscreen"},        # effects/field.py
+              "tailwind", "trickroom", "reflect", "lightscreen",         # effects/field.py
+              "sunnyday", "raindance", "sandstorm", "snowscape",         # effects/weather.py
+              "weatherball", "thunder", "hurricane", "blizzard",
+              "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain"},   # effects/terrain.py
     "abilities": set(), "items": set(),
-    "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen"},
+    "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
+                   "sunnyday", "raindance", "sandstorm", "snowscape",
+                   "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain"},
 }
 
 
@@ -51,6 +58,7 @@ def main() -> None:
         "abilities": sorted(set(core["abilities"]) | EXTRA["abilities"]),
         "items": sorted(set(core["items"]) | EXTRA["items"]),
         "conditions": sorted(conds),
+        "implemented_conditions": sorted(set().union(*SUPPORTED_REFS.values()) | EXTRA["conditions"]),
         "meta": {"rule": "core + DATA_ONLY v0 moves whose data_refs are implemented (tools/datagen/impl_stage.py "
                          "SUPPORTED_REFS) + EXTRA", "supported_refs": {k: sorted(v) for k, v in SUPPORTED_REFS.items()}},
     }

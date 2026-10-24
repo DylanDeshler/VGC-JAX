@@ -143,3 +143,9 @@ def live(st: S.State, ref):
     """isActive and not fainted (getAllActive membership)."""
     m = st.mons
     return (jnp.asarray(ref) >= 0) & mget(m.is_active, ref) & ~mget(m.fainted, ref)
+
+
+def active_move_type(st, dex, move):
+    """move.type of the ActiveMove: the running move's type after ModifyType (st.exec.mtype), else the data type."""
+    ex = st.exec
+    return jnp.where(ex.in_move & (ex.move == move), ex.mtype, dex.move_type[move].astype(jnp.int32))

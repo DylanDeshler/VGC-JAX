@@ -217,7 +217,7 @@ def handler_present(dex, effect, hook: int, prefix: int = ids.PFX_ON):
 # ------------------------------------------------------------------ volatiles: add / remove (PS: sim/pokemon.ts)
 def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1):
     """PS: sim/pokemon.ts:1990-2054 addVolatile (no linkedStatus): hp gate, Restart if present, status immunity
-    (runStatusImmunity: none for core volatiles), TryAddVolatile (M3: hooks), duration + durationCallback, Start
+    (runStatusImmunity: none for core volatiles), TryAddVolatile (terrains), duration + durationCallback, Start
     (falsy cancels). Returns (st, rng, result (tag, val)). Handlers dispatched: volatile conditions only."""
     on = jnp.asarray(on)
     ref = jnp.asarray(ref, I32)
@@ -235,6 +235,13 @@ def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1):
     r_restart = jnp.where(handler_present(dex, e, ids.HOOK_RESTART), hc.ret_t, RS.BOOL), \
         jnp.where(handler_present(dex, e, ids.HOOK_RESTART), hc.ret_v, 0)
     add = on & alive & ~present
+    # runEvent('TryAddVolatile'): the terrains (abilities: M4); a falsy (null) result returns it
+    from vgcjax.effects import terrain as TR
+    from vgcjax.battle import events as EV
+    blocked, tmsg = TR.blocks_volatile(st, dex, ref, c, source_effect)
+    blocked = add & blocked
+    st = EV.emit(st, blocked & tmsg, EV.EV_ACTIVATE, actor=ref, move=ids.COND_BASE + TR.terrain(st) - 1)
+    add = add & ~blocked
     dur = dex.cond_duration[c].astype(I32)
     hc2 = H.HookCtx.make(ref, src, source_effect)
     hc2, st, rng = single_event(DURATION_CALLBACK, e, st, dex, rng, hc2, add, effect_range=vr)
@@ -247,7 +254,7 @@ def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1):
     started = (hc3.ret_t == RS.UNDEF) | RS.truthy((hc3.ret_t, hc3.ret_v))
     st = _set_vol_bit(st, ref, c, False, add & ~started)
     r_add = RS.where(started, RS.R(RS.BOOL, 1), (hc3.ret_t, hc3.ret_v))
-    res = RS.where(restart, r_restart, RS.where(add, r_add, RS.R(RS.BOOL, 0)))
+    res = RS.where(restart, r_restart, RS.where(add, r_add, RS.where(blocked, RS.R(RS.NULL), RS.R(RS.BOOL, 0))))
     return st, rng, res
 
 
@@ -262,3 +269,19 @@ def remove_volatile(st, dex, rng, ref, c, on):
     st = _set_vol_bit(st, ref, c, False, go)
     st = set_vol_state(st, ref, c, jnp.zeros(6, I16), go)
     return st, rng, go
+
+
+def is_grounded(st, refs):
+    """PS: sim/pokemon.ts isGrounded (negateImmunity false) for refs [...]: Gravity, Ingrain, Smack Down, Iron Ball ->
+    true; Flying type -> false; Levitate / Eelevate -> null (falsy); Magnet Rise, Air Balloon -> false
+    (ignoringItem / suppressingAbility: M4). Returns bool."""
+    refs = jnp.clip(jnp.asarray(refs, I32), 0, 7)
+    m = st.mons
+    vol = lambda n: has_volatile(st, refs, cid(n)) if n in ids.CONDITIONS else jnp.zeros(refs.shape, bool)  # noqa: E731
+    item, ab = mget(m.item, refs), mget(m.ability, refs)
+    gravity = has_pseudo(st, cid("gravity")) if "gravity" in ids.CONDITIONS else False
+    forced = gravity | vol("ingrain") | vol("smackdown") | (item == getattr(ids, "ITEM_IRONBALL", -1))
+    flying = jnp.any(mget(m.types, refs) == ids.TYPE_FLYING, axis=-1)
+    lev = (ab == getattr(ids, "ABILITY_LEVITATE", -1)) | (ab == getattr(ids, "ABILITY_EELEVATE", -1))
+    air = vol("magnetrise") | vol("telekinesis") | (item == getattr(ids, "ITEM_AIRBALLOON", -1))
+    return forced | (~flying & ~lev & ~air)

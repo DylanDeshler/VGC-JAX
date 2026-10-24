@@ -17,6 +17,8 @@ from vgcjax.core import rng as R
 from vgcjax.core import typechart as TC
 from vgcjax.data import ids
 from vgcjax.effects import conditions as CO
+from vgcjax.effects import terrain as TR
+from vgcjax.effects import weather as WE
 from vgcjax.effects.hooks import HookCtx, handler
 
 I16, I32 = jnp.int16, jnp.int32
@@ -46,9 +48,11 @@ def run_status_immunity(st, dex, ref, status):
     runEvent('Immunity') joins with the abilities (M4). True = not immune."""
     key = jnp.where(status == ids.COND_TOX, ids.COND_PSN, status)
     # IMMUNITY_KEYS order: brn par psn tox frz ... -> map ConditionId to key index
+    sand = CO.cid("sandstorm") if "sandstorm" in ids.CONDITIONS else -2
     kidx = jnp.where(key == ids.COND_BRN, 0, jnp.where(key == ids.COND_PAR, 1, jnp.where(key == ids.COND_PSN, 2,
-                     jnp.where(key == ids.COND_FRZ, 4, -1))))
+                     jnp.where(key == ids.COND_FRZ, 4, jnp.where(key == sand, 5, -1)))))
     immune = (kidx >= 0) & TC.status_immune(dex, jnp.maximum(kidx, 0), mget(st.mons.types, ref))
+    immune = immune | ((key == ids.COND_FRZ) & WE.frz_immune(st, ref))       # runEvent('Immunity'): Sun
     return ~mget(st.mons.fainted, ref) & ~immune
 
 
@@ -77,7 +81,11 @@ def set_status(st, dex, rng, ref, status, on, source=-1, source_effect=-1, move_
     imm = go & (status > 0) & ~corrosion & ~run_status_immunity(st, dex, ref, status)
     st = EV.emit(st, imm & (move_status > 0), EV.EV_IMMUNE, actor=ref)
     go = go & ~imm
-    # SetStatus event: Safeguard / Misty Terrain / abilities (M3.3+)
+    # runEvent('SetStatus'): the terrains (Safeguard / abilities: M4); a falsy result returns it
+    blocked, tmsg = TR.blocks_status(st, dex, ref, status, source_effect, move_status)
+    blocked = go & (status > 0) & blocked
+    st = EV.emit(st, blocked & tmsg, EV.EV_ACTIVATE, actor=ref, move=C.eff_cond(TR.terrain(st)))
+    go = go & ~blocked
     m = st.mons
     # status_state[3]: presence bits 0..7 + the owning status << 8 (checkFainted sets status 'fnt' but keeps the
     # state, whose keys the projection still shows)
@@ -128,6 +136,18 @@ def effect_damage(st, dex, rng, target, amount, effect, on, source=-1):
     st = st.replace(mons=m.replace(hurt_this_turn=mset(m.hurt_this_turn, target, mget(m.hp, target), on & (dealt != 0))))
     shown = jnp.where(jnp.asarray(effect) == CO.eff("tox"), CO.eff("psn"), effect)   # PS :2158 'tox' -> 'psn'
     return EV.emit_hp(st, on, EV.EV_DAMAGE, target, move=shown, flags=EV.F_FROM), rng
+
+
+def effect_heal(st, dex, rng, target, amount, effect, on):
+    """PS battle.heal(d, target, target, effect) for a non-move effect (sim/battle.ts heal): d <= 1 -> 1, TryHeal
+    (Heal Block: M4), hp / active / full gates, target.heal, '-heal' X hp '[from] effect'."""
+    m = st.mons
+    amount = jnp.asarray(amount, I32)
+    amount = jnp.where((amount > 0) & (amount <= 1), 1, amount)
+    hp = mget(m.hp, target)
+    on = jnp.asarray(on) & (amount > 0) & (hp > 0) & mget(m.is_active, target) & (hp < mget(m.maxhp, target))
+    st, _ = F.heal(st, target, amount, on)
+    return EV.emit_hp(st, on, EV.EV_HEAL, target, move=effect, flags=EV.F_FROM), rng
 
 
 def _start_msg(hc, st, name):
@@ -280,7 +300,7 @@ def frz_after_move_secondary(hc, st, dex, rng):
 @handler(ids.HOOK_DAMAGINGHIT, CO.eff("frz"), ps="data/conditions.ts:273-277")
 def frz_damaging_hit(hc, st, dex, rng):
     move = jnp.maximum(hc.effect - ids.MOVE_BASE + 1, 0)
-    fire = (dex.move_type[move] == ids.TYPE_FIRE) & (dex.move_category[move] != ids.CAT_STATUS) & (
+    fire = (C.active_move_type(st, dex, move) == ids.TYPE_FIRE) & (dex.move_category[move] != ids.CAT_STATUS) & (
         move != getattr(ids, "MOVE_POLARFLARE", -1))
     return hc, cure_status(st, hc.target, fire), rng
 
@@ -308,9 +328,13 @@ def try_set_status_v(st, dex, rng, refs, status, on, source, source_effect, move
         key == ids.COND_PSN, 2, jnp.where(key == ids.COND_FRZ, 4, -1))))
     types = mget(m.types, refs)
     immune = (kidx >= 0) & jax.vmap(lambda k, t: TC.status_immune(dex, k, t))(jnp.maximum(kidx, 0), types)
+    immune = immune | ((key == ids.COND_FRZ) & WE.frz_immune(st, refs))     # runEvent('Immunity'): Sun
     not_immune = ~mget(m.fainted, refs) & ~immune
     imm = go & ~same & (want > 0) & ~corrosion & ~not_immune
-    ok = go & ~same & ~imm & (want > 0)
+    # runEvent('SetStatus'): the terrains (Safeguard / abilities: M4)
+    blocked, tmsg = TR.blocks_status(st, dex, refs, want, source_effect, move_status)
+    blocked = go & ~same & ~imm & (want > 0) & blocked
+    ok = go & ~same & ~imm & (want > 0) & ~blocked
     # Start: slp draws its duration (SLEEP_DURATION, keyed per target), frz 3, tox stage 0
     is_slp, is_frz, is_tox = want == ids.COND_SLP, want == ids.COND_FRZ, want == ids.COND_TOX
     skey = C.dkey(st, ids.DK_SLEEP_DURATION, actor=refs, subject=CO.eff("slp"))
@@ -329,7 +353,7 @@ def try_set_status_v(st, dex, rng, refs, status, on, source, source_effect, move
     is_move = (eff >= ids.MOVE_BASE) & (eff < ids.MOVE_BASE + len(ids.MOVES) - 1)
     res = RS.where(ok, RS.R(RS.BOOL, 1), RS.R(RS.BOOL, 0))
     msgs = dict(fail_t=same & (move_status == cur) & (move_status > 0), fail_s=same & (move_status != cur) & (move_status > 0),
-                imm=imm & (move_status > 0), ok=ok, want=want, cur=cur, from_move=is_move & is_slp, eff=eff, src=src)
+                imm=imm & (move_status > 0), tblock=blocked & tmsg, terrain=C.eff_cond(TR.terrain(st)), ok=ok, want=want, cur=cur, from_move=is_move & is_slp, eff=eff, src=src)
     return st, rng, res, msgs
 
 
@@ -339,6 +363,7 @@ def emit_status_msgs(st, msgs, j, ref):
     st = EV.emit(st, msgs["fail_s"][j], EV.EV_FAIL, actor=msgs["src"])
     st = EV.attr_last_move(st, msgs["fail_s"][j], EV.F_STILL)
     st = EV.emit(st, msgs["imm"][j], EV.EV_IMMUNE, actor=ref)
+    st = EV.emit(st, msgs["tblock"][j], EV.EV_ACTIVATE, actor=ref, move=msgs["terrain"])
     fm = msgs["from_move"][j]
     return EV.emit(st, msgs["ok"][j], EV.EV_STATUS, actor=ref, move=C.eff_cond(msgs["want"][j]),
                    v1=jnp.where(fm, msgs["eff"], -1), flags=jnp.where(fm, EV.F_FROM_MOVE, 0))

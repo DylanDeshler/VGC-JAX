@@ -56,7 +56,8 @@ def modify_damage(base, *, spread, pbond_hit2, crit, roll, stab_m4096, type_mod,
 
 def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned, def_stats5, def_boosts7, def_types,
                     def_maxhp, def_grounded, def_crit_immune, crit_draw, roll, spread, pbond_hit2=False,
-                    canary_crit=False, final_m4096=4096):
+                    canary_crit=False, final_m4096=4096, mtype=None, bp=None, weather_m4096=4096, def_boost_15=False,
+                    bp_m4096=4096):
     """Hook-free getDamage for move `move` (MoveId). PS: sim/battle-actions.ts:1639-1776.
 
     `crit_draw` is the CRIT draw outcome (ignored when crit_ratio == 0 or the move has willCrit);
@@ -64,7 +65,7 @@ def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned
     (Levitate / Flying). Returns (damage i32, kind i32, crit bool).
     """
     I = lambda x: jnp.asarray(x, I32)  # noqa: E731
-    mtype = dex.move_type[move]
+    mtype = dex.move_type[move] if mtype is None else mtype     # ActiveMove type / basePower after ModifyMove
     cat = dex.move_category[move]
     is_phys = cat == ids.CAT_PHYSICAL
     # runImmunity (PS: sim/pokemon.ts:2257-2285): typed immunity, Ground via isGrounded; ignoreImmunity === true
@@ -72,12 +73,15 @@ def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned
     type_immune = type_immune & (dex.move_ignore_immunity[move] != 1) & (mtype != ids.TYPE_TYPELESS)
     ohko = dex.move_ohko[move] > 0
     fixed = dex.move_fixed_damage[move]
-    bp = I(dex.move_bp[move])
+    bp = I(dex.move_bp[move] if bp is None else bp)
     # crit (PS :1678-1700): ModifyCritRatio HOOK(H13) = identity; willCrit; CriticalHit veto
     crit_ratio = jnp.clip(I(dex.move_crit_ratio[move]), 0, 4)
     crit = jnp.where(dex.move_will_crit[move] == 1, True, (crit_ratio > 0) & jnp.asarray(crit_draw))
     crit = crit & ~jnp.asarray(def_crit_immune)
-    # BasePower HOOK(H14) = identity
+    # BasePower (PS :1715-1722): runEvent('BasePower') modifier (terrain), 0 -> return 0, clamp to >= 1
+    bp_ev = fp.modify_raw(jnp.maximum(bp, 1), bp_m4096)
+    bp_zero = (bp > 0) & (bp_ev == 0)
+    bp = jnp.where(bp > 0, jnp.maximum(bp_ev, 1), bp)
     # stats (PS :1725-1760): crit ignores negative offensive / positive defensive boosts
     off_idx = jnp.where(dex.move_override_off_stat[move] > 0, dex.move_override_off_stat[move] - 1,
                         jnp.where(is_phys, 0, 2))
@@ -93,7 +97,8 @@ def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned
     ab = jnp.where((dex.move_ignore_offensive[move] == 1) | (ign_neg_off & (ab < 0)), 0, ab)
     db = jnp.where((dex.move_ignore_defensive[move] == 1) | (ign_pos_def & (db > 0)), 0, db)
     attack = S.boosted(jnp.take(off_stats, off_idx), ab)      # HOOK(H15) ModifyAtk/SpA = identity
-    defense = S.boosted(jnp.take(I(def_stats5), def_idx), db)  # HOOK(H16) ModifyDef/SpD = identity
+    defense = S.boosted(jnp.take(I(def_stats5), def_idx), db)  # HOOK(H16) ModifyDef/SpD
+    defense = jnp.where(def_boost_15, fp.modify(defense, 3, 2), defense)   # sandstorm / snowscape (priority 10)
     base = base_damage(LEVEL, jnp.maximum(bp, 1), attack, defense)
     stab = (mtype != ids.TYPE_TYPELESS) & (jnp.any(I(atk_types) == mtype) | (dex.move_force_stab[move] == 1))
     stab_m = jnp.where(stab, 6144, 4096)
@@ -101,9 +106,11 @@ def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned
     burn = jnp.asarray(atk_burned) & is_phys                 # Guts / Facade handled with hooks later
     crit_num, crit_den = (5, 4) if canary_crit else (3, 2)
     dmg = modify_damage(base, spread=spread, pbond_hit2=pbond_hit2, crit=crit, roll=roll, stab_m4096=stab_m,
-                        type_mod=type_mod, burn=burn, final_m4096=final_m4096, crit_num=crit_num, crit_den=crit_den)
+                        type_mod=type_mod, burn=burn, final_m4096=final_m4096, crit_num=crit_num, crit_den=crit_den,
+                        weather_m4096=weather_m4096)
     kind = jnp.where(type_immune, DMG_FALSE,
-                     jnp.where(ohko | (fixed != 0), DMG_NUMBER, jnp.where(bp == 0, DMG_UNDEFINED, DMG_NUMBER)))
+                     jnp.where(ohko | (fixed != 0), DMG_NUMBER, jnp.where(bp == 0, DMG_UNDEFINED,
+                                                                         jnp.where(bp_zero, DMG_ZERO, DMG_NUMBER))))
     dmg = jnp.where(ohko, I(def_maxhp), jnp.where(fixed == -1, LEVEL, jnp.where(fixed > 0, fixed, dmg)))
     dmg = jnp.where(kind == DMG_NUMBER, dmg, 0)
     crit = crit & (kind == DMG_NUMBER) & ~ohko & (fixed == 0)

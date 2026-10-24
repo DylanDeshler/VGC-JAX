@@ -21,6 +21,8 @@ from vgcjax.data import ids
 from vgcjax.effects import conditions as CO
 from vgcjax.effects import hooks as H
 from vgcjax.effects import sideconds as SC
+from vgcjax.effects import terrain as TR
+from vgcjax.effects import weather as WE
 
 I8, I16, I32 = jnp.int8, jnp.int16, jnp.int32
 T = ids
@@ -266,12 +268,12 @@ def battle_heal(st, target, amount, on, drain_of=None):
 
 
 # ------------------------------------------------------------------ accuracy (PS: sim/battle-actions.ts:752-816)
-def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=False):
+def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=False, acc_base=None):
     """hitStepAccuracy for all target slots at once (09 J5). Returns (st, ok[3], rng).
     Messages, per target in order: '-immune' target '[ohko]' (PS :768); a miss adds '-miss' user target and marks the
     move line [miss] when not spreadHit (PS :800-806); smartTarget misses are silent."""
     m = st.mons
-    acc_base = dex.move_accuracy[move].astype(I32)        # 0 = true
+    acc_base = dex.move_accuracy[move].astype(I32) if acc_base is None else acc_base   # 0 = true
     ohko = dex.move_ohko[move]
     cat = dex.move_category[move]
     tt = dex.move_target[move]
@@ -303,7 +305,7 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=Fa
 
 
 # ------------------------------------------------------------------ getDamage for all targets
-def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on):
+def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=None, bp=None):
     """PS getDamage for each target slot at once (09 J5): returns (st, (tags[3], vals[3]), rng). Struggle is typeless
     via its onModifyMove."""
     m = st.mons
@@ -313,7 +315,8 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on):
     crit_immune = _in(ab_t, (T.ABILITY_BATTLEARMOR, T.ABILITY_SHELLARMOR))   # HOOK(H13) CriticalHit
     crit_ratio = jnp.clip(dex.move_crit_ratio[move].astype(I32), 0, 4)
     will_crit = dex.move_will_crit[move] == 1
-    bp = dex.move_bp[move].astype(I32)
+    mtype = dex.move_type[move].astype(I32) if mtype is None else mtype
+    bp = dex.move_bp[move].astype(I32) if bp is None else bp
     fixed = dex.move_fixed_damage[move]
     ohko = dex.move_ohko[move] > 0
     rolls_damage = on & (bp > 0) & ~ohko & (fixed == 0)
@@ -323,7 +326,7 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on):
     rkey = C.dkey(st, ids.DK_DAMAGE_ROLL, actor=u, target=targets, subject=C.eff_move(move), hit=hit_no)
     roll, rng = R.randint_v(rng, rkey, 0, 16, active=rolls_damage)
     t_types = mget(m.types, targets)
-    grounded = ~jnp.any(t_types == T.TYPE_FLYING, axis=-1) & (ab_t != T.ABILITY_LEVITATE)
+    grounded = CO.is_grounded(st, targets)
     is_struggle = move == T.MOVE_STRUGGLE
     # Struggle: onModifyMove type '???' (data/moves.ts struggle) -> treat as typeless via a typeless attacker types
     typeless = jnp.array([-1, -1], I8)
@@ -336,9 +339,8 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on):
     will_crit_t = jnp.where(will_crit, True, (crit_ratio > 0) & crit_draw) & ~crit_immune
     # MUL runEvents per target reaching the formula: ModifyCritRatio, BasePower, ModifyAtk/SpA, ModifyDef/SpD,
     # ModifySTAB (not for '???'), ModifyDamage (PS :1678-1775, [C] scripts.ts:232-288)
-    immune_t = jnp.where(jnp.asarray(dex.move_type[move]) == ids.TYPE_GROUND, ~grounded,
-                         jax.vmap(lambda tt: TC.immune(dex, dex.move_type[move], tt))(t_types))
-    immune_t = immune_t & (dex.move_ignore_immunity[move] != 1) & (dex.move_type[move] != ids.TYPE_TYPELESS) & ~is_struggle
+    immune_t = jnp.where(mtype == ids.TYPE_GROUND, ~grounded, jax.vmap(lambda tt: TC.immune(dex, mtype, tt))(t_types))
+    immune_t = immune_t & (dex.move_ignore_immunity[move] != 1) & (mtype != ids.TYPE_TYPELESS) & ~is_struggle
     reach = rolls_damage & ~immune_t
     per = jnp.where(reach, jnp.where(is_struggle, 5, 6), 0)
     base = st.scratch.mulhook_ord.astype(I32) + jnp.cumsum(per) - per
@@ -346,16 +348,22 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on):
     st = C.mul_tick(st, jnp.sum(per))
     st, rng = screen_ties(st, rng, dmg_ord, reach)
     final = screen_modifier(st, dex, u, move, targets, will_crit_t)
+    wmod = WE.weather_damage_mod(st, dex, u, move, mtype, targets)
+    bpmod = TR.bp_modifier(st, dex, u, move, mtype, targets)                  # runEvent('BasePower'): terrain
+    def_idx = jnp.where(dex.move_override_def_stat[move] > 0, dex.move_override_def_stat[move] - 1,
+                        jnp.where(dex.move_category[move] == T.CAT_PHYSICAL, 1, 3))
+    dboost = WE.defense_boost(st, targets, def_idx)
 
-    def one(ds, db, dt, dmx, dg, dci, cd, r, fm):
+    def one(ds, db, dt, dmx, dg, dci, cd, r, fm, wm, dbo, bm):
         return D.get_damage_core(dex, move, **atk, def_stats5=ds, def_boosts7=db, def_types=dt, def_maxhp=dmx,
                                  def_grounded=dg, def_crit_immune=dci, crit_draw=cd, roll=r, spread=spread,
-                                 canary_crit=cfg.flags.canary_crit_2048, final_m4096=fm)
+                                 canary_crit=cfg.flags.canary_crit_2048, final_m4096=fm, mtype=mtype, bp=bp,
+                                 weather_m4096=wm, def_boost_15=dbo, bp_m4096=bm)
     dmg, kind, crit = jax.vmap(one)(mget(m.stats, targets), mget(m.boosts, targets), def_types, mget(m.maxhp, targets),
-                                    grounded, crit_immune, crit_draw, roll, final)
+                                    grounded, crit_immune, crit_draw, roll, final, wmod, dboost, bpmod)
     # [C] modifyDamage messages (data/mods/champions/scripts.ts:266-284): effectiveness then crit, per target
     formula = rolls_damage & (kind == D.DMG_NUMBER)
-    eff = jax.vmap(lambda tt: TC.effectiveness(dex, dex.move_type[move], tt))(t_types)
+    eff = jax.vmap(lambda tt: TC.effectiveness(dex, mtype, tt))(t_types)
     tm = jnp.clip(jnp.where(is_struggle, 0, eff), -6, 6)
     for j in range(NT):
         st = EV.emit(st, formula[j] & (tm[j] > 0), EV.EV_SUPER, actor=targets[j], v1=jnp.minimum(tm[j], 2))
@@ -414,7 +422,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     # TryHit (move onTryHit; none in core) / TryPrimaryHit (Substitute; HOOK H12) -> true
 
     # 1. getSpreadDamage
-    st, res, rng = get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, tv)
+    st, res, rng = get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, tv, mtype=st.exec.mtype,
+                              bp=st.exec.bp)
     tags, vals = RS.where(tv, res, (tags, vals))
     tv = tv & ~RS.is_false((tags, vals))
 
@@ -526,6 +535,13 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
             st, rng, scres = SC.add_side_condition(st, dex, rng, side_of(jnp.clip(targets[j], 0, 7)), msc,
                                                    cj & (msc > 0), source=u, source_effect=C.eff_move(move))
             dj = RS.where(cj & (msc > 0), RS.combine(dj, scres), dj)
+            # weather / terrain (PS :1303-1310): field.setWeather / setTerrain(id, source, move)
+            mw = dex.move_weather[move].astype(I32)
+            st, rng, wres = WE.set_weather(st, dex, rng, mw, cj & (mw > 0), source=u, source_effect=C.eff_move(move))
+            dj = RS.where(cj & (mw > 0), RS.combine(dj, wres), dj)
+            mtr = dex.move_terrain[move].astype(I32)
+            st, rng, tres = TR.set_terrain(st, dex, rng, mtr, cj & (mtr > 0), source=u, source_effect=C.eff_move(move))
+            dj = RS.where(cj & (mtr > 0), RS.combine(dj, tres), dj)
             # pseudoWeather (PS :1307-1310): field.addPseudoWeather(id, source, move)
             mpw = dex.move_pseudo_weather[move].astype(I32)
             st, rng, pwres = SC.add_pseudo_weather(st, dex, rng, mpw, cj & (mpw > 0), source=u,
@@ -726,6 +742,8 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # runEvent('ModifyType') (M3+), runEvent('ModifyMove', pokemon, target, move) (PS :494-495): frz defrost
     hc = H.HookCtx.make(u, target, C.eff_move(move))
     hc, st, rng = H.run_event("ModifyMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_MODIFYMOVE), on=go_rm)
+    # the move's own weather-dependent onModifyType / onModifyMove (singleEvents, PS :494-495)
+    a_type, a_bp, a_acc = WE.modify_move(st, dex, u, target, move)
     # PS :519-528: addMove('move', pokemon, move, target); no target -> [notarget] + '-fail'
     st = EV.emit_move(st, go_rm & alive, u, target, move)
     no_target = go_rm & alive & (target < 0)
@@ -780,14 +798,15 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # 'Status'; sim/dex-moves.ts:505): Thunder Wave keeps an explicit false
     ign = dex.move_ignore_immunity[move]
     ignore = ign == 1
-    mtype = jnp.where(is_struggle, T.TYPE_TYPELESS, dex.move_type[move])
+    mtype = jnp.where(is_struggle, T.TYPE_TYPELESS, a_type)
     t_types = mget(m.types, targets)                                              # [3, 2]
     flying = jnp.any(t_types == T.TYPE_FLYING, axis=-1)
-    grounded = ~flying & (mget(m.ability, targets) != T.ABILITY_LEVITATE)
+    grounded = CO.is_grounded(st, targets)
     typed = jax.vmap(lambda tt_: TC.immune(dex, mtype, tt_))(t_types)
     imm = ~ignore & jnp.where(mtype == T.TYPE_GROUND, ~grounded, typed) & (mtype != T.TYPE_TYPELESS)
     # runImmunity(move, !smartTarget) messages (PS: sim/pokemon.ts:2276-2286): isGrounded null -> Levitate
-    lev = (mtype == T.TYPE_GROUND) & ~flying
+    lev = (mtype == T.TYPE_GROUND) & ~flying & ~grounded & _in(mget(m.ability, targets), (
+        T.ABILITY_LEVITATE, opt_id("ABILITY_EELEVATE")))                       # isGrounded() === null
     for j in range(NT):
         st = EV.emit(st, tv[j] & imm[j] & ~smart, EV.EV_IMMUNE, actor=targets[j],
                      flags=jnp.where(lev[j], EV.F_LEVITATE, 0))
@@ -804,7 +823,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # 4 accuracy
     spread_hit = ((n_targets > 1) & ~smart) | (dex.move_spread_hit[move] == 1)        # PS :613
     st, acc_ok, rng = accuracy_step(st, dex, rng, u, move, targets, tv, on_ts & jnp.any(tv), smart=smart,
-                                    spread=spread_hit)
+                                    spread=spread_hit, acc_base=a_acc)
     acc_ok = jnp.where(tv, acc_ok, False)
     fail_any = fail_any | jnp.any(tv & ~acc_ok)
     smart = smart & ~jnp.any(tv & ~acc_ok)
@@ -829,7 +848,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
                  pre_notfail=pre_notfail, side=side_on,
                  multiacc=dex.move_multiaccuracy[move] == 1, single=jnp.sum(tv.astype(I32)) == 1, h=jnp.int32(1),
                  hit_done=jnp.int32(1), stopped=~on_hl, null_damage=jnp.asarray(True), dt=full(RS.NUM), dv=full(0),
-                 lt=full(RS.UNDEF), lv=full(0), total=jnp.int32(0))
+                 lt=full(RS.UNDEF), lv=full(0), total=jnp.int32(0), mtype=a_type, bp=a_bp, acc=a_acc)
     return st.replace(exec=_exec_where(on | abort, new, st.exec)), rng
 
 
@@ -848,7 +867,7 @@ def move_hit(st, dex, rng, cfg):
     cur_tv = jnp.where(smart, (js == h - 1) & tv, tv)            # smartTarget: hit h uses targets[h-1]
     # multiaccuracy re-roll for hits >= 2: float stage table -> exact rational bound
     t0 = jnp.where(smart, targets[jnp.clip(h - 1, 0, NT - 1)], targets[0])
-    a = dex.move_accuracy[move].astype(I32)
+    a = ex.acc
     bu = jnp.clip(mget(m.boosts, u)[5].astype(I32), -6, 6)
     be = jnp.clip(mget(m.boosts, t0)[6].astype(I32), -6, 6)
     be = jnp.where(dex.move_ignore_evasion[move] == 1, 0, be)
