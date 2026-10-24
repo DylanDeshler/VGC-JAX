@@ -54,15 +54,38 @@ def modify_damage(base, *, spread, pbond_hit2, crit, roll, stab_m4096, type_mod,
     return jnp.where(d == 0, 1, fp.trunc16(d))
 
 
+def raw_stats(dex, move, crit, atk_stats5, atk_boosts7, def_stats5, def_boosts7):
+    """PS :1725-1760: the attacking / defending stats after boosts (crit ignores negative offensive / positive
+    defensive boosts), before the ModifyAtk / ModifyDef-family events. Returns (attack, defense, off_idx, def_idx)."""
+    I = lambda x: jnp.asarray(x, I32)  # noqa: E731
+    is_phys = dex.move_category[move] == ids.CAT_PHYSICAL
+    off_idx = jnp.where(dex.move_override_off_stat[move] > 0, dex.move_override_off_stat[move] - 1,
+                        jnp.where(is_phys, 0, 2))
+    def_idx = jnp.where(dex.move_override_def_stat[move] > 0, dex.move_override_def_stat[move] - 1,
+                        jnp.where(is_phys, 1, 3))
+    use_target_off = dex.move_override_off_pokemon[move] == 1  # Foul Play
+    off_stats = jnp.where(use_target_off, I(def_stats5), I(atk_stats5))
+    off_boosts = jnp.where(use_target_off, I(def_boosts7), I(atk_boosts7))
+    ab = jnp.take(off_boosts, off_idx)
+    db = jnp.take(I(def_boosts7), def_idx)
+    ign_neg_off = crit | (dex.move_ignore_negative_offensive[move] == 1)
+    ign_pos_def = crit | (dex.move_ignore_positive_defensive[move] == 1)
+    ab = jnp.where((dex.move_ignore_offensive[move] == 1) | (ign_neg_off & (ab < 0)), 0, ab)
+    db = jnp.where((dex.move_ignore_defensive[move] == 1) | (ign_pos_def & (db > 0)), 0, db)
+    return S.boosted(jnp.take(off_stats, off_idx), ab), S.boosted(jnp.take(I(def_stats5), def_idx), db), off_idx, \
+        def_idx
+
+
 def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned, def_stats5, def_boosts7, def_types,
                     def_maxhp, def_grounded, def_crit_immune, crit_draw, roll, spread, pbond_hit2=False,
-                    canary_crit=False, final_m4096=4096, mtype=None, bp=None, weather_m4096=4096, def_boost_15=False,
-                    bp_m4096=4096):
+                    canary_crit=False, final_m4096=4096, mtype=None, bp=None, weather_m4096=4096, bp_post=None,
+                    atk_post=None, def_post=None, stab_post=None, no_burn=False):
     """Hook-free getDamage for move `move` (MoveId). PS: sim/battle-actions.ts:1639-1776.
 
     `crit_draw` is the CRIT draw outcome (ignored when crit_ratio == 0 or the move has willCrit);
     `def_crit_immune` the CriticalHit veto (Battle Armor / Shell Armor, H13); `def_grounded` from isGrounded
-    (Levitate / Flying). Returns (damage i32, kind i32, crit bool).
+    (Levitate / Flying). `*_post`: the BasePower / ModifyAtk-family / ModifyDef-family / ModifySTAB event results
+    (effects/modifiers.py; None = no handler). Returns (damage i32, kind i32, crit bool).
     """
     I = lambda x: jnp.asarray(x, I32)  # noqa: E731
     mtype = dex.move_type[move] if mtype is None else mtype     # ActiveMove type / basePower after ModifyMove
@@ -78,32 +101,18 @@ def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned
     crit_ratio = jnp.clip(I(dex.move_crit_ratio[move]), 0, 4)
     crit = jnp.where(dex.move_will_crit[move] == 1, True, (crit_ratio > 0) & jnp.asarray(crit_draw))
     crit = crit & ~jnp.asarray(def_crit_immune)
-    # BasePower (PS :1715-1722): runEvent('BasePower') modifier (terrain), 0 -> return 0, clamp to >= 1
-    bp_ev = fp.modify_raw(jnp.maximum(bp, 1), bp_m4096)
+    # BasePower (PS :1715-1722): runEvent('BasePower'), 0 -> return 0, clamp to >= 1
+    bp_ev = jnp.maximum(bp, 1) if bp_post is None else I(bp_post)
     bp_zero = (bp > 0) & (bp_ev == 0)
     bp = jnp.where(bp > 0, jnp.maximum(bp_ev, 1), bp)
-    # stats (PS :1725-1760): crit ignores negative offensive / positive defensive boosts
-    off_idx = jnp.where(dex.move_override_off_stat[move] > 0, dex.move_override_off_stat[move] - 1,
-                        jnp.where(is_phys, 0, 2))
-    def_idx = jnp.where(dex.move_override_def_stat[move] > 0, dex.move_override_def_stat[move] - 1,
-                        jnp.where(is_phys, 1, 3))
-    use_target_off = dex.move_override_off_pokemon[move] == 1  # Foul Play
-    off_stats = jnp.where(use_target_off, I(def_stats5), I(atk_stats5))
-    off_boosts = jnp.where(use_target_off, I(def_boosts7), I(atk_boosts7))
-    ab = jnp.take(off_boosts, off_idx)
-    db = jnp.take(I(def_boosts7), def_idx)
-    ign_neg_off = crit | (dex.move_ignore_negative_offensive[move] == 1)
-    ign_pos_def = crit | (dex.move_ignore_positive_defensive[move] == 1)
-    ab = jnp.where((dex.move_ignore_offensive[move] == 1) | (ign_neg_off & (ab < 0)), 0, ab)
-    db = jnp.where((dex.move_ignore_defensive[move] == 1) | (ign_pos_def & (db > 0)), 0, db)
-    attack = S.boosted(jnp.take(off_stats, off_idx), ab)      # HOOK(H15) ModifyAtk/SpA = identity
-    defense = S.boosted(jnp.take(I(def_stats5), def_idx), db)  # HOOK(H16) ModifyDef/SpD
-    defense = jnp.where(def_boost_15, fp.modify(defense, 3, 2), defense)   # sandstorm / snowscape (priority 10)
+    attack, defense, _, _ = raw_stats(dex, move, crit, atk_stats5, atk_boosts7, def_stats5, def_boosts7)
+    attack = attack if atk_post is None else I(atk_post)        # runEvent('ModifyAtk' / 'ModifySpA')
+    defense = defense if def_post is None else I(def_post)      # runEvent('ModifyDef' / 'ModifySpD')
     base = base_damage(LEVEL, jnp.maximum(bp, 1), attack, defense)
     stab = (mtype != ids.TYPE_TYPELESS) & (jnp.any(I(atk_types) == mtype) | (dex.move_force_stab[move] == 1))
-    stab_m = jnp.where(stab, 6144, 4096)
+    stab_m = jnp.where(stab, 6144, 4096) if stab_post is None else I(stab_post)   # runEvent('ModifySTAB')
     type_mod = tc.effectiveness(dex, mtype, def_types)       # HOOK(H19) Effectiveness = identity
-    burn = jnp.asarray(atk_burned) & is_phys                 # Guts / Facade handled with hooks later
+    burn = jnp.asarray(atk_burned) & is_phys & ~jnp.asarray(no_burn)   # [C] scripts.ts: not Facade / Guts
     crit_num, crit_den = (5, 4) if canary_crit else (3, 2)
     dmg = modify_damage(base, spread=spread, pbond_hit2=pbond_hit2, crit=crit, roll=roll, stab_m4096=stab_m,
                         type_mod=type_mod, burn=burn, final_m4096=final_m4096, crit_num=crit_num, crit_den=crit_den,

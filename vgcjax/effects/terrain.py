@@ -3,7 +3,7 @@
 PS: data/moves.ts electricterrain / grassyterrain / psychicterrain / mistyterrain `condition` (no Champions
 overrides), sim/field.ts setTerrain / clearTerrain. Semi-invulnerability (Fly / Dig / ...) is not in the engine yet,
 so `!isSemiInvulnerable()` always holds. The terrains' callbacks inside formulas are explicit and called from the
-formula sites: onBasePower (bp_modifier), onSetStatus (blocks_status), onTryAddVolatile (blocks_volatile).
+formula sites: onSetStatus (blocks_status), onTryAddVolatile (blocks_volatile); onBasePower is a modifiers.py mod.
 """
 from __future__ import annotations
 
@@ -15,6 +15,7 @@ from vgcjax.battle.util import mget
 from vgcjax.core import fixedpoint as fp
 from vgcjax.data import ids
 from vgcjax.effects import conditions as CO
+from vgcjax.effects import modifiers as MOD
 from vgcjax.effects.hooks import HookCtx, handler
 
 I16, I32 = jnp.int16, jnp.int32
@@ -31,24 +32,6 @@ def terrain(st):
 
 
 # ------------------------------------------------------------------ formula-site callbacks
-def bp_modifier(st, dex, u, move, mtype, targets):
-    """The terrain's onBasePower (priority 6) in runEvent('BasePower', source, target, move): Electric / Psychic /
-    Grassy x5325/4096 for a grounded user's Electric / Psychic / Grass move; Grassy halves Earthquake / Bulldoze and
-    Misty halves Dragon moves against a grounded target. Returns the 4096-scale modifier per target slot."""
-    t = terrain(st)
-    ug = CO.is_grounded(st, u)
-    tg = CO.is_grounded(st, targets)
-    boost = ug & (((t == tid("electricterrain")) & (mtype == ids.TYPE_ELECTRIC)) |
-                  ((t == tid("psychicterrain")) & (mtype == ids.TYPE_PSYCHIC)))
-    quake = (move == getattr(ids, "MOVE_EARTHQUAKE", -1)) | (move == getattr(ids, "MOVE_BULLDOZE", -1)) | (
-        move == getattr(ids, "MOVE_MAGNITUDE", -1))
-    grassy = t == tid("grassyterrain")
-    half = (grassy & quake & tg) | ((t == tid("mistyterrain")) & (mtype == ids.TYPE_DRAGON) & tg)
-    boost = boost | (grassy & ~(quake & tg) & (mtype == ids.TYPE_GRASS) & ug)
-    m = jnp.where(half, fp.chain_modify(4096, 1, 2), jnp.where(boost, fp.chain_modify(4096, 5325, 4096), 4096))
-    return jnp.broadcast_to(m, jnp.shape(targets)).astype(I32)
-
-
 def blocks_status(st, dex, refs, status, source_effect, move_status):
     """runEvent('SetStatus', target, source, effect, status): Electric Terrain onSetStatus (slp; '-activate' for Yawn
     or a move without secondaries) and Misty Terrain onSetStatus (any status; '-activate' when the effect has a
@@ -170,3 +153,28 @@ if "psychicterrain" in ids.CONDITIONS:
         block = (prio > 0) & (dex.move_target[move] != ids.TARGET_SELF) & ~ally & CO.is_grounded(st, tgt)
         st = EV.emit(st, block, EV.EV_ACTIVATE, actor=tgt, move=CO.eff("psychicterrain"))
         return hc.ret(RS.R(RS.NULL), block), st, rng
+
+
+# ------------------------------------------------------------------ onBasePower (priority 6; attacker = event target)
+def _bp(name):
+    def fn(ctx, h):
+        """Electric / Psychic: grounded attacker's Electric / Psychic move x5325/4096; Grassy: Earthquake / Bulldoze
+        (/ Magnitude) vs a grounded target x0.5, else a grounded attacker's Grass move x5325/4096; Misty: Dragon moves
+        vs a grounded target x0.5."""
+        a, d, t = ctx.tgt, ctx.src, ctx.mtype
+        ag, dg = CO.is_grounded(ctx.st, a), CO.is_grounded(ctx.st, d)
+        if name in ("electricterrain", "psychicterrain"):
+            ty = ids.TYPE_ELECTRIC if name == "electricterrain" else ids.TYPE_PSYCHIC
+            return ag & (t == ty), jnp.asarray(5325, I32), None
+        if name == "mistyterrain":
+            return dg & (t == ids.TYPE_DRAGON), jnp.asarray(2048, I32), None
+        quake = (ctx.move == getattr(ids, "MOVE_EARTHQUAKE", -1)) | (ctx.move == getattr(ids, "MOVE_BULLDOZE", -1)) | (
+            ctx.move == getattr(ids, "MOVE_MAGNITUDE", -1))
+        half = quake & dg
+        return half | (ag & (t == ids.TYPE_GRASS)), jnp.where(half, 2048, 5325).astype(I32), None
+    return fn
+
+
+for _t in TERRAINS:
+    if _t in ids.CONDITIONS:
+        MOD.mod("BasePower", CO.eff(_t), ps=f"data/moves.ts {_t}.condition.onBasePower")(_bp(_t))

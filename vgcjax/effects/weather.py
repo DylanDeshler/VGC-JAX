@@ -3,9 +3,9 @@
 PS: data/conditions.ts sunnyday / raindance / sandstorm / snowscape (no Champions overrides), sim/field.ts:39-125
 setWeather / clearWeather / effectiveWeather / suppressingWeather, sim/pokemon.ts:2209-2227 effectiveWeather,
 sim/battle.ts:470-480 eachEvent. The weathers' damage / stat / immunity / move callbacks that sit inside formulas
-are explicit here and called from the formula sites: WeatherModifyDamage (weather_damage_mod), sandstorm onModifySpD /
-snowscape onModifyDef (defense_boost), sunnyday onImmunity (frz_immune), and the weather-dependent onModifyType /
-onModifyMove of Weather Ball, Thunder, Hurricane, Blizzard (modify_move).
+are explicit here and called from the formula sites: WeatherModifyDamage (weather_damage_mod), sunnyday onImmunity
+(frz_immune), and the weather-dependent onModifyType / onModifyMove of Weather Ball, Thunder, Hurricane, Blizzard
+(modify_move); sandstorm onModifySpD / snowscape onModifyDef are effects/modifiers.py mods.
 """
 from __future__ import annotations
 
@@ -15,8 +15,10 @@ import jax.numpy as jnp
 from vgcjax.battle import events as EV
 from vgcjax.battle import results as RS
 from vgcjax.battle.util import mget
+from vgcjax.core import fixedpoint as fp
 from vgcjax.data import ids
 from vgcjax.effects import conditions as CO
+from vgcjax.effects import modifiers as MOD
 from vgcjax.effects.hooks import HookCtx, handler
 
 I16, I32 = jnp.int16, jnp.int32
@@ -72,17 +74,6 @@ def weather_damage_mod(st, dex, u, move, mtype, targets):
     hs = getattr(ids, "MOVE_HYDROSTEAM", -1)
     steam = (move == hs) & (mon_weather(st, u) == wid("sunnyday"))
     return jnp.where(steam | up, 6144, jnp.where(down, 2048, 4096)).astype(I32)
-
-
-def defense_boost(st, targets, def_idx):
-    """sandstorm onModifySpD (Rock) / snowscape onModifyDef (Ice), priority 10: `this.modify(stat, 1.5)` applied to
-    the stat before the other ModifyDef / ModifySpD handlers (data/conditions.ts). Returns bool per target slot."""
-    t = jnp.clip(targets, 0, 7)
-    types = mget(st.mons.types, t)
-    wt = jax.vmap(lambda r: mon_weather(st, r))(t)
-    rock = jnp.any(types == ids.TYPE_ROCK, axis=-1) & (wt == wid("sandstorm")) & (def_idx == 3)
-    ice = jnp.any(types == ids.TYPE_ICE, axis=-1) & (wt == wid("snowscape")) & (def_idx == 1)
-    return rock | ice
 
 
 def frz_immune(st, refs):
@@ -224,3 +215,21 @@ def sandstorm_weather(hc, st, dex, rng):
     ok = STS.run_status_immunity(st, dex, r, CO.cid("sandstorm"))
     st, rng = STS.effect_damage(st, dex, rng, r, mget(st.mons.maxhp, r) // 16, CO.eff("sandstorm"), ok)
     return hc, st, rng
+
+
+def _def_boost(name, ty):
+    def fn(ctx, h):
+        """onModifySpD (sandstorm, Rock) / onModifyDef (snowscape, Ice), priority 10: this.modify(stat, 1.5) (a new
+        relay, applied before the chained modifiers); skipped while weather is suppressed (sim/battle.ts:895-900)."""
+        d = ctx.tgt
+        ok = jnp.any(mget(ctx.st.mons.types, jnp.clip(d, 0, 7)) == ty, axis=-1) & (mon_weather(ctx.st, d) == wid(name))
+        return ok & ~suppressing(ctx.st), None, (lambda v: fp.modify(v, 3, 2))
+    return fn
+
+
+if "sandstorm" in ids.CONDITIONS:
+    MOD.mod("ModifySpD", CO.eff("sandstorm"), ps="data/conditions.ts sandstorm.onModifySpD")(
+        _def_boost("sandstorm", ids.TYPE_ROCK))
+if "snowscape" in ids.CONDITIONS:
+    MOD.mod("ModifyDef", CO.eff("snowscape"), ps="data/conditions.ts snowscape.onModifyDef")(
+        _def_boost("snowscape", ids.TYPE_ICE))

@@ -2,8 +2,8 @@
 
 PS: data/moves.ts tailwind / trickroom / reflect / lightscreen conditions (no Champions overrides). Trick Room's
 speed effect is getActionSpeed's negation ([C] scripts.ts:46-54, battle/common.py action_speed); Tailwind's
-onModifySpe and the screens' onAnyModifyDamage are the explicit chains in battle/common.py spe_chain and
-battle/move_pipeline.py screen_modifier.
+onModifySpe is the explicit chain in battle/common.py spe_chain; the screens' onAnyModifyDamage are
+effects/modifiers.py mods.
 """
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ from vgcjax.battle import results as RS
 from vgcjax.battle.util import mget
 from vgcjax.data import ids
 from vgcjax.effects import conditions as CO
+from vgcjax.effects import modifiers as MOD
 from vgcjax.effects.hooks import handler
 
 I32 = jnp.int32
@@ -53,6 +54,21 @@ for _n in ("reflect", "lightscreen"):
             prefix=ids.PFX_SIDE)(_side_msg(EV.EV_SIDESTART, _n))
     handler(ids.HOOK_END, CO.eff(_n), ps=f"data/moves.ts {_n}.condition.onSideEnd",
             prefix=ids.PFX_SIDE)(_side_msg(EV.EV_SIDEEND, _n))
+
+def _screen(cat):
+    def fn(ctx, h):
+        """onAnyModifyDamage(damage, source, target, move): target !== source, target on the screen's side, the
+        category, not a crit (Infiltrator: M4) -> chainModify([2732, 4096]) (activePerHalf 2)."""
+        d, a = ctx.src, ctx.tgt
+        ok = (d >= 0) & (d != a) & ((jnp.clip(d, 0, 7) // 4) == (h - 8)) & (ctx.dex.move_category[ctx.move] == cat) & \
+            ~ctx.extra["crit"]
+        return ok, jnp.asarray(2732, I32), None
+    return fn
+
+
+for _n, _cat in (("reflect", ids.CAT_PHYSICAL), ("lightscreen", ids.CAT_SPECIAL)):
+    MOD.mod("ModifyDamage", CO.eff(_n), ps=f"data/moves.ts {_n}.condition.onAnyModifyDamage", prefix=ids.PFX_ANY)(
+        _screen(_cat))
 
 # Trick Room
 handler(CO.DURATION_CALLBACK, CO.eff("trickroom"), ps="data/moves.ts trickroom.condition.durationCallback")(

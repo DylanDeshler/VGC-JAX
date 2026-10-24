@@ -20,6 +20,7 @@ from vgcjax.core import typechart as TC
 from vgcjax.data import ids
 from vgcjax.effects import conditions as CO
 from vgcjax.effects import hooks as H
+from vgcjax.effects import modifiers as MOD
 from vgcjax.effects import sideconds as SC
 from vgcjax.effects import terrain as TR
 from vgcjax.effects import weather as WE
@@ -284,11 +285,21 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=Fa
     # OHKO: 30 (Sheer Cold 20 for non-Ice users), Sheer Cold fails on Ice targets
     ohko_acc = jnp.where((ohko == 2) & ~jnp.any(u_types == T.TYPE_ICE), 20, 30)
     ohko_immune = (ohko > 0) & (ohko == 2) & jnp.any(t_types == T.TYPE_ICE, axis=-1)
-    # stages (HOOK H11 ModifyAccuracy / ModifyBoost = identity)
+    # runEvent('ModifyAccuracy', target, pokemon, move, accuracy) per non-OHKO target (effects/modifiers.py); a
+    # `true` accuracy is not a number, so handlers and the final modify leave it
+    numeric = acc_base > 0
+    live_acc = live & (ohko == 0)
+    per = live_acc.astype(I32)
+    ords = st.scratch.mulhook_ord.astype(I32) + jnp.cumsum(per) - per
+    ctx = MOD.Ctx(st, dex, tgt=targets, src=jnp.full(NT, u, I32), move=move, mtype=dex.move_type[move].astype(I32),
+                  extra=dict(numeric=jnp.broadcast_to(numeric, (NT,))))
+    acc_mod, _, rng = MOD.run("ModifyAccuracy", ctx, rng, jnp.full(NT, acc_base, I32), ords, live_acc)
+    acc_t = jnp.where(numeric, acc_mod, acc_base)
+    # stages (ModifyBoost: Unaware etc., M4)
     b = jnp.clip(mget(m.boosts, u)[5].astype(I32), -6, 6)
     b = jnp.where(dex.move_ignore_evasion[move] == 1, b,
                   jnp.clip(b - mget(m.boosts, targets)[:, 6].astype(I32), -6, 6))
-    staged = jnp.where(b > 0, acc_base * (3 + b) // 3, jnp.where(b < 0, acc_base * 3 // (3 - b), acc_base))
+    staged = jnp.where(b > 0, acc_t * (3 + b) // 3, jnp.where(b < 0, acc_t * 3 // (3 - b), acc_t))
     acc = jnp.where(ohko > 0, ohko_acc, staged)
     always = ((acc_base == 0) & (ohko == 0)) | ((tt == T.TARGET_SELF) & (cat == T.CAT_STATUS))
     key = C.dkey(st, ids.DK_ACCURACY, actor=u, target=targets, subject=C.eff_move(move), hit=0)
@@ -346,24 +357,48 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     base = st.scratch.mulhook_ord.astype(I32) + jnp.cumsum(per) - per
     dmg_ord = base + jnp.where(is_struggle, 4, 5)                 # ordinal of each target's ModifyDamage call
     st = C.mul_tick(st, jnp.sum(per))
-    st, rng = screen_ties(st, rng, dmg_ord, reach)
-    final = screen_modifier(st, dex, u, move, targets, will_crit_t)
     wmod = WE.weather_damage_mod(st, dex, u, move, mtype, targets)
-    bpmod = TR.bp_modifier(st, dex, u, move, mtype, targets)                  # runEvent('BasePower'): terrain
-    def_idx = jnp.where(dex.move_override_def_stat[move] > 0, dex.move_override_def_stat[move] - 1,
-                        jnp.where(dex.move_category[move] == T.CAT_PHYSICAL, 1, 3))
-    dboost = WE.defense_boost(st, targets, def_idx)
+    # the MUL events (effects/modifiers.py) in getDamage order (PS :1757-1762): 'Modify' + Atk / SpA by category
+    # on the user, 'Modify' + the defensive stat on the target (Foul Play / Body Press only change the stat read)
+    uu = jnp.full(NT, u, I32)
+    stats_t, boosts_t = mget(m.stats, targets), mget(m.boosts, targets)
+    att, dfn, off_idx, def_idx = jax.vmap(lambda ds, db, cr: D.raw_stats(dex, move, cr, atk["atk_stats5"],
+                                                                          atk["atk_boosts7"], ds, db))(
+        stats_t, boosts_t, will_crit_t)
+    eff = jax.vmap(lambda tt: TC.effectiveness(dex, mtype, tt))(t_types)
+    ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype,
+                  extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff)))
+    bp_post, _, rng = MOD.run("BasePower", ctx, rng, jnp.full(NT, jnp.maximum(bp, 1), I32), base + 1, reach)
+    atk_ev = jnp.where(dex.move_category[move] == T.CAT_PHYSICAL, 0, 2)
+    for k, hook in ((0, "ModifyAtk"), (2, "ModifySpA")):
+        ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype, extra={})
+        v, _, rng = MOD.run(hook, ctx, rng, att, base + 2, reach & (atk_ev == k))
+        att = jnp.where(atk_ev == k, v, att)
+    for k, hook in enumerate(STAT_HOOKS):
+        ctx = MOD.Ctx(st, dex, tgt=targets, src=uu, move=move, mtype=mtype, extra={})
+        v, _, rng = MOD.run(hook, ctx, rng, dfn, base + 3, reach & (def_idx == k))
+        dfn = jnp.where(def_idx == k, v, dfn)
+    u_types = mget(m.types, u)
+    stab0 = jnp.where(jnp.any(u_types == mtype) | (dex.move_force_stab[move] == 1), 6144, 4096)
+    ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype, extra={})
+    stab_post, _, rng = MOD.run("ModifySTAB", ctx, rng, jnp.full(NT, stab0, I32), base + 4, reach & ~is_struggle,
+                                final=False)
+    ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype,
+                  extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff)))
+    _, final, rng = MOD.run("ModifyDamage", ctx, rng, jnp.ones(NT, I32), dmg_ord, reach)
+    guts = mget(m.ability, u) == opt_id("ABILITY_GUTS")
+    no_burn = guts | (move == opt_id("MOVE_FACADE"))
 
-    def one(ds, db, dt, dmx, dg, dci, cd, r, fm, wm, dbo, bm):
+    def one(ds, db, dt, dmx, dg, dci, cd, r, fm, wm, bpp, ap, dp, sp):
         return D.get_damage_core(dex, move, **atk, def_stats5=ds, def_boosts7=db, def_types=dt, def_maxhp=dmx,
                                  def_grounded=dg, def_crit_immune=dci, crit_draw=cd, roll=r, spread=spread,
                                  canary_crit=cfg.flags.canary_crit_2048, final_m4096=fm, mtype=mtype, bp=bp,
-                                 weather_m4096=wm, def_boost_15=dbo, bp_m4096=bm)
-    dmg, kind, crit = jax.vmap(one)(mget(m.stats, targets), mget(m.boosts, targets), def_types, mget(m.maxhp, targets),
-                                    grounded, crit_immune, crit_draw, roll, final, wmod, dboost, bpmod)
+                                 weather_m4096=wm, bp_post=bpp, atk_post=ap, def_post=dp,
+                                 stab_post=jnp.where(is_struggle, 4096, sp), no_burn=no_burn)
+    dmg, kind, crit = jax.vmap(one)(stats_t, boosts_t, def_types, mget(m.maxhp, targets), grounded, crit_immune,
+                                    crit_draw, roll, final, wmod, bp_post, att, dfn, stab_post)
     # [C] modifyDamage messages (data/mods/champions/scripts.ts:266-284): effectiveness then crit, per target
     formula = rolls_damage & (kind == D.DMG_NUMBER)
-    eff = jax.vmap(lambda tt: TC.effectiveness(dex, mtype, tt))(t_types)
     tm = jnp.clip(jnp.where(is_struggle, 0, eff), -6, 6)
     for j in range(NT):
         st = EV.emit(st, formula[j] & (tm[j] > 0), EV.EV_SUPER, actor=targets[j], v1=jnp.minimum(tm[j], 2))
@@ -375,38 +410,7 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     return st, res, rng
 
 
-SCREENS = ("lightscreen", "reflect")          # onAnyModifyDamage side conditions, canonical (effect-id) order
-
-
-def screen_ties(st, rng, dmg_ord, reach):
-    """SPEED_TIE_HANDLER_MUL for runEvent('ModifyDamage'): every screen present on either side is a handler with the
-    same (order, priority, speed 0, subOrder 4) key, so >= 2 of them tie (contract §4: sub = mulhook_ord of the
-    call, ord 0, members s0 < s1 then effect id). The fold order cannot change the result (at most one screen
-    applies to a given move), so only the record is produced."""
-    from vgcjax.effects import conditions as CO_
-    names = [n for n in SCREENS if n in ids.CONDITIONS]
-    present = jnp.stack([CO_.has_side(st, s, CO_.cid(n)) for s in range(2) for n in names])
-    tied = jnp.sum(present.astype(I32)) >= 2
-    m = present.shape[0]
-    for j in range(NT):
-        key = C.tkey(st, ids.DK_SPEED_TIE_HANDLER_MUL, dmg_ord[j], 0)
-        _, rng = R.tie_order(rng, key, jnp.arange(m), present, active=reach[j] & tied)
-    return st, rng
-
-
-def screen_modifier(st, dex, u, move, targets, crit):
-    """Reflect / Light Screen onAnyModifyDamage (data/moves.ts): target !== source, the screen on the target's side,
-    physical / special category, not a crit (Infiltrator: M4) -> chainModify([2732, 4096]) (activePerHalf 2).
-    Returns the 4096-scale ModifyDamage modifier per target slot."""
-    from vgcjax.core import fixedpoint as fp
-    from vgcjax.effects import conditions as CO_
-    cat = dex.move_category[move]
-    s = side_of(jnp.clip(targets, 0, 7))
-    mod = jnp.full(NT, 4096, I32)
-    for name, want in (("reflect", T.CAT_PHYSICAL), ("lightscreen", T.CAT_SPECIAL)):
-        on = jax.vmap(lambda ss: CO_.has_side(st, ss, CO_.cid(name)))(s) & (cat == want) & (targets != u) & ~crit
-        mod = jnp.where(on, fp.chain_modify(mod, 2732, 4096), mod)
-    return mod
+STAT_HOOKS = ("ModifyAtk", "ModifyDef", "ModifySpA", "ModifySpD")   # statTable order (atk def spa spd)
 
 
 # ------------------------------------------------------------------ spreadMoveHit (ch/scripts.ts:314-423), core
@@ -883,7 +887,15 @@ def move_hit(st, dex, rng, cfg):
     den = jnp.where(bu > 0, 3, 3 - bu) * jnp.where(be > 0, 3 + be, 3)
     akey = C.dkey(st, ids.DK_ACCURACY, actor=u, target=t0, subject=C.eff_move(move), hit=h)
     bound = (num + den - 1) // den   # r < num/den  <=>  r < ceil(num/den) for integer r
-    st = C.mul_tick(st, 1, go & ex.multiacc & (h > 1))           # ModifyAccuracy for hits >= 2 ([C] scripts.ts:500)
+    # runEvent('ModifyAccuracy') after the stages ([C] scripts.ts:500): its final modify only applies to an integer
+    # accuracy (a fractional one keeps the stage value)
+    acc_on = go & ex.multiacc & (h > 1)
+    ctx = MOD.Ctx(st, dex, tgt=t0[None], src=u[None], move=move, mtype=ex.mtype,
+                  extra=dict(numeric=(a > 0)[None]))
+    av, _, rng = MOD.run("ModifyAccuracy", ctx, rng, (num // den)[None], st.scratch.mulhook_ord.astype(I32)[None],
+                         acc_on[None])
+    bound = jnp.where((num % den == 0) & (a > 0), av[0], bound)
+    st = C.mul_tick(st, 1, acc_on)
     need_acc = go & ex.multiacc & (a > 0) & (h > 1)
     ahit, rng = R.chance(rng, akey, bound, 100, active=need_acc)
     miss = need_acc & ~ahit

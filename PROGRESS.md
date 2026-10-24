@@ -116,6 +116,15 @@ M3 content (2026-10-23)
   abilityState projection (declared fields), ability End at live switch-out and at faint, '-ability' / '-item'
   events. impl species = core + every v0 species with an implemented ability (90). 300 random impl battles and
   targeted corpora (each ability, Psychic / Misty Terrain, Hurricane, Quick Guard) 100%.
+- MUL-hook framework (effects/modifiers.py): BasePower / ModifyAtk / SpA / Def / SpD / STAB / Damage / Accuracy
+  as pure registered mods over a static candidate list (findEventHandlers prefixes, sides, field), comparePriority
+  sort, SPEED_TIE_HANDLER_MUL records + drawn fold order, chain vs replace handlers, final modify. Screens, terrain
+  BasePower and sand/snow defence migrated onto it. Found: getDamage's attack event is always ModifyAtk/SpA by
+  category on the user (Body Press / Foul Play only change the stat read, PS :1757-1762).
+- Abilities batch 2 (effects/ability_mods.py, 26): Technician, Tough Claws, Iron Fist, Sharpness, Mega Launcher,
+  Strong Jaw, Reckless, Punk Rock, Sand Force, Huge / Pure Power, Hustle, Guts (+ no burn halving), Blaze /
+  Torrent / Overgrow / Swarm, Thick Fat, Solar Power, Multiscale, Filter, Solid Rock, Friend Guard, Sniper,
+  Adaptability, Compound Eyes. impl pool 203 species. 300 random + 26 targeted + regression corpora 100%.
 - fieldEvent tie fix: a tie group is detected at its first *live* member (a fainted holder sorted first hid it).
 - Replays use a persistent XLA cache (.jax_cache, keyed by HLO): repeated corpora skip recompilation.
 - harness/debug.py: per-decision PS vs engine projection / events side by side for one battle.

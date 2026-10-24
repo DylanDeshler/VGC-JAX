@@ -53,6 +53,8 @@ def run_status_immunity(st, dex, ref, status):
                      jnp.where(key == ids.COND_FRZ, 4, jnp.where(key == sand, 5, -1)))))
     immune = (kidx >= 0) & TC.status_immune(dex, jnp.maximum(kidx, 0), mget(st.mons.types, ref))
     immune = immune | ((key == ids.COND_FRZ) & WE.frz_immune(st, ref))       # runEvent('Immunity'): Sun
+    # runEvent('Immunity'): Sand Force onImmunity('sandstorm') (data/abilities.ts)
+    immune = immune | ((key == sand) & (mget(st.mons.ability, ref) == getattr(ids, "ABILITY_SANDFORCE", -1)))
     return ~mget(st.mons.fainted, ref) & ~immune
 
 

@@ -30,7 +30,11 @@ EXTRA: dict[str, set[str]] = {
               "weatherball", "thunder", "hurricane", "blizzard",
               "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain"},   # effects/terrain.py
     "abilities": {"drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
-                  "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk"},   # effects/abilities.py
+                  "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
+                  "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
+                  "punkrock", "sandforce", "hugepower", "purepower", "hustle", "guts", "blaze", "torrent",
+                  "overgrow", "swarm", "thickfat", "solarpower", "multiscale", "filter", "solidrock", "friendguard",
+                  "sniper", "adaptability", "compoundeyes"},                                  # effects/ability_mods.py
     "items": set(),
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",
