@@ -78,7 +78,11 @@ def protect_start(hc, st, dex, rng):
 def _block_activate(hc, st, dex, eff_name, cond):
     """'-activate' target 'move: X' and NOT_FAIL when `cond` (smartTarget moves: silent; lockedmove reset: M3)."""
     move = move_of(hc.effect)
-    smart = dex.move_smart_target[move] == 1
+    # move.smartTarget is still set only if getSmartTargets found a second (adjacent, live, not-the-user) target
+    from vgcjax.battle.move_pipeline import living_ally
+    tgt = jnp.clip(hc.target, 0, 7)
+    ally = living_ally(st, tgt)
+    smart = (dex.move_smart_target[move] == 1) & (ally >= 0) & (ally != hc.source)
     st = EV.emit(st, cond & ~smart, EV.EV_ACTIVATE, actor=hc.target, move=C.eff_move(getattr(ids, f"MOVE_{eff_name}")))
     return hc.ret(RS.R(RS.NOTFAIL), cond), st
 

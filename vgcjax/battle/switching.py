@@ -80,6 +80,8 @@ def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_dr
     st = st.replace(mons=m)
     # PS :120-121: singleEvent('End', ability) (item End: M4)
     from vgcjax.effects import abilities as AB
+    from vgcjax.effects import ability_reactions as AR
+    st, rng = AR.switch_out(st, dex, rng, r_old, unfainted)              # runEvent('SwitchOut') (PS :113)
     st = AB.end_vec(st, r_old[None], unfainted[None])
     st = Q.cancel_action(st, r_old, unfainted)
     st = clear_volatile(st, dex, r_old, True, unfainted)

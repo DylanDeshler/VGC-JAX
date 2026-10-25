@@ -91,8 +91,11 @@ def next_effect_order(st, on):
 
 # ------------------------------------------------------------------ volatile storage
 def has_volatile(st, ref, c):
+    """Volatile c on ref (scalar or vector refs; c broadcasts)."""
     k = jnp.asarray(c, I32) - ids.VOL_BASE
-    word = mget(st.mons.vol_bits, ref)[jnp.clip(k // 32, 0, S.WV - 1)]
+    words = mget(st.mons.vol_bits, ref)                                 # [..., WV]
+    w = jnp.broadcast_to(jnp.clip(k // 32, 0, S.WV - 1), words.shape[:-1])
+    word = jnp.take_along_axis(words, w[..., None], axis=-1)[..., 0]
     return ((word >> (k % 32).astype(U32)) & 1) == 1
 
 
@@ -242,9 +245,12 @@ def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1):
     from vgcjax.effects import terrain as TR
     from vgcjax.battle import events as EV
     from vgcjax.effects import ability_blocks as AXB
-    ab_block = add & AXB.add_volatile_block(st, ref, c)             # ability holders sort before the field
-    blocked, tmsg = TR.blocks_volatile(st, dex, ref, c, source_effect)
-    blocked = add & ~ab_block & blocked
+    a_b = add & AXB.add_volatile_block(st, ref, c)
+    t_b, tmsg = TR.blocks_volatile(st, dex, ref, c, source_effect)
+    t_b = add & t_b
+    # the field's handlers (subOrder 5, speed 0) run first unless the holder's cached speed is > 0
+    ab_block = a_b & ((mget(st.mons.speed, ref) > 0) | ~t_b)
+    blocked = t_b & ~ab_block
     st = EV.emit(st, blocked & tmsg, EV.EV_ACTIVATE, actor=ref, move=ids.COND_BASE + TR.terrain(st) - 1)
     add = add & ~blocked & ~ab_block
     blocked = blocked | ab_block

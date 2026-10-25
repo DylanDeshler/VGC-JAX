@@ -37,7 +37,11 @@ EXTRA: dict[str, set[str]] = {
                   "sniper", "adaptability", "compoundeyes",                                   # effects/ability_mods.py
                   "limber", "insomnia", "vitalspirit", "immunity", "waterveil", "waterbubble", "magmaarmor",
                   "leafguard", "purifyingsalt", "innerfocus", "owntempo", "oblivious", "clearbody", "whitesmoke",
-                  "hypercutter", "keeneye", "bigpecks", "scrappy", "guarddog", "sweetveil", "flowerveil"},
+                  "hypercutter", "keeneye", "bigpecks", "scrappy", "guarddog", "sweetveil", "flowerveil",
+                  "voltabsorb", "waterabsorb", "eartheater", "sapsipper", "motordrive", "flashfire", "soundproof",
+                  "bulletproof", "telepathy", "goodasgold", "static", "flamebody", "poisonpoint", "roughskin",
+                  "stamina", "weakarmor", "gooey", "effectspore", "poisontouch", "spicyspray", "justified", "rattled",
+                  "defiant", "competitive", "speedboost", "regenerator", "naturalcure", "angerpoint", "steadfast"},
                                                                                               # effects/ability_blocks.py
     "items": set(),
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",

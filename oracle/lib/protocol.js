@@ -99,6 +99,9 @@ function reduce(lines, battle) {
 				ev('FAIL', { actor: refOf(parts[1]), move: why && why !== 'heal' ? toID(why) : '', v1: '',
 					flags: why === 'heal' ? F.HEAL : why ? F.FAILSTATUS : 0 });
 			}
+		} else if (type === '-setboost') {
+			ev('SETBOOST', { actor: refOf(parts[1]), v1: STATS.indexOf(parts[2]), v2: Number(parts[3]),
+				move: fromEffect(from)[1] });
 		} else if (type === '-block') {
 			const of = (tags.find(x => x.startsWith('[of]')) || '').slice(5);
 			ev('BLOCK', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1], target: of ? refOf(of) : -1 });

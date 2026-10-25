@@ -232,12 +232,31 @@ def emit_boost(st, msgs, actor, idx=()):
         st = EV.emit(st, g & (ga > 0), EV.EV_ABILITY, actor=actor, move=aeff("guarddog"), flags=EV.F_BOOST)
         st = EV.emit(st, g, EV.EV_BOOST, actor=actor, v1=0, v2=ga)
     on, stat, amt, flags = (x[idx] for x in msgs[:4])
+    if len(msgs) < 5:
+        for k in range(7):
+            st = EV.emit(st, on[k], EV.EV_BOOST, actor=actor, v1=stat[k], v2=amt[k], flags=flags[k])
+        return st
+    shown = jnp.zeros((), bool)
+    ab_on, ab_eff = pre["ab_on"][idx], pre["ab_eff"]
+    r_on, r_amt, r_stat, r_eff = pre["react_on"][idx], pre["react_amt"][idx], pre["react_stat"][idx], pre["react_eff"][idx]
     for k in range(7):
+        # an ability effect (not isSecondary): '-ability' X Name 'boost' before its first actual change (PS :2085)
+        line = ab_on & on[k] & (amt[k] > 0) & ~shown
+        st = EV.emit(st, line, EV.EV_ABILITY, actor=actor, move=ab_eff, flags=EV.F_BOOST)
+        shown = shown | line
         st = EV.emit(st, on[k], EV.EV_BOOST, actor=actor, v1=stat[k], v2=amt[k], flags=flags[k])
+        # AfterEachBoost: Defiant / Competitive's nested isSelf boost
+        st = EV.emit(st, r_on[k] & (r_amt[k] > 0), EV.EV_ABILITY, actor=actor, move=r_eff, flags=EV.F_BOOST)
+        st = EV.emit(st, r_on[k], EV.EV_BOOST, actor=actor, v1=r_stat, v2=r_amt[k])
+    # AfterBoost: Rattled after Intimidate
+    ra, rn = pre["rattle_amt"][idx], pre["rattle_on"][idx]
+    st = EV.emit(st, rn & (ra > 0), EV.EV_ABILITY, actor=actor, move=pre["rattle_eff"], flags=EV.F_BOOST)
+    st = EV.emit(st, rn & (ra > 0), EV.EV_BOOST, actor=actor, v1=4, v2=ra)
     return st
 
 
-def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effect=-1, has_secondaries=False):
+def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effect=-1, has_secondaries=False,
+            ab_msg=None):
     """battle.boost on distinct refs targets [T] at once, with TryBoost (effects/ability_blocks.py; ChangeBoost /
     AfterEachBoost: M4). Returns (st, result (tags [T], vals [T]), msgs); messages are not emitted (callers interleave
     them)."""
@@ -259,11 +278,45 @@ def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effe
     g_amt = jnp.where(pre["guard"], jnp.clip(new[:, 0] + 1, -6, 6) - new[:, 0], 0)
     new = new.at[:, 0].add(g_amt)
     pre["guard_amt"] = g_amt
+    pre["ab_on"] = jnp.full(T, ab_msg is not None)
+    pre["ab_eff"] = jnp.asarray(-1 if ab_msg is None else ab_msg, I32)
+    # AfterEachBoost (Defiant +2 Atk / Competitive +2 SpA) after each lowered stat from a non-ally source, in key order
+    from vgcjax.effects.abilities import aeff, aid
+    ab_t = mget(m.ability, jnp.clip(targets, 0, 7))
+    src = jnp.asarray(source, I32)
+    foe_src = (src >= 0) & (side_of(jnp.clip(src, 0, 7)) != side_of(jnp.clip(targets, 0, 7)))
+    dfn = (ab_t == aid("defiant")) if aid("defiant") > 0 else jnp.zeros(T, bool)
+    cmp = (ab_t == aid("competitive")) if aid("competitive") > 0 else jnp.zeros(T, bool)
+    react = go & foe_src & (dfn | cmp)
+    rstat = jnp.where(cmp, 2, 0)
+    on_m, stat_m, amt_m, _ = msgs[:4]
+    val = jnp.take_along_axis(cur, rstat[:, None], 1)[:, 0]
+    r_on, r_amt = [], []
+    for k in range(7):
+        sk = stat_m[:, k]
+        ck = jnp.take_along_axis(capped, sk[:, None], 1)[:, 0]
+        val = jnp.where(sk == rstat, jnp.clip(val + ck, -6, 6), val)
+        trig = react & on_m[:, k] & (ck < 0)
+        a = jnp.where(trig, jnp.clip(val + 2, -6, 6) - val, 0)
+        val = val + a
+        r_on.append(trig)
+        r_amt.append(a)
+    pre["react_on"], pre["react_amt"], pre["react_stat"] = jnp.stack(r_on, 1), jnp.stack(r_amt, 1), rstat
+    pre["react_eff"] = jnp.where(cmp, aeff("competitive"), aeff("defiant"))
+    any_r = jnp.any(pre["react_on"], axis=1)
+    new = jnp.where(any_r[:, None], new.at[jnp.arange(T), rstat].set(val), new)
+    # AfterBoost: Rattled (Intimidate lowered Atk -> +1 Spe)
+    intim = jnp.asarray(effect, I32) == aeff("intimidate") if aid("intimidate") > 0 else jnp.zeros((), bool)
+    rat = go & intim & (capped[:, 0] != 0) & ((ab_t == aid("rattled")) if aid("rattled") > 0 else False)
+    ra = jnp.where(rat, jnp.clip(new[:, 4] + 1, -6, 6) - new[:, 4], 0)
+    new = new.at[:, 4].add(ra)
+    pre["rattle_on"], pre["rattle_amt"], pre["rattle_eff"] = rat, ra, aeff("rattled")
     msgs = tuple(msgs) + (pre,)
     success = jnp.any(capped != 0, axis=-1)
     m = m.replace(boosts=mset_many(m.boosts, targets, new, go),
                   stats_raised_this_turn=mset_many(m.stats_raised_this_turn, targets, True,
-                                                   go & ((success & jnp.any(capped > 0, axis=-1)) | (g_amt > 0))),
+                                                   go & ((success & jnp.any(capped > 0, axis=-1)) | (g_amt > 0) |
+                                                         jnp.any(pre["react_amt"] > 0, axis=1) | (ra > 0))),
                   stats_lowered_this_turn=mset_many(m.stats_lowered_this_turn, targets, True,
                                                     go & success & jnp.any(capped < 0, axis=-1)))
     r = RS.where(hp <= 0, RS.R(RS.NUM, 0), RS.where(~active | ~foe_left, RS.R(RS.BOOL, 0),
@@ -271,11 +324,13 @@ def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effe
     return st.replace(mons=m), r, msgs
 
 
-def boost(st, target, deltas7, on, order=None, primary=False, source=-1, effect=-1, has_secondaries=False):
-    """battle.boost on one target, messages emitted. Returns (st, result)."""
+def boost(st, target, deltas7, on, order=None, primary=False, source=-1, effect=-1, has_secondaries=False,
+          ab_msg=None):
+    """battle.boost on one target, messages emitted. `ab_msg`: the ability effect of a non-secondary boost (its
+    '-ability' X Name 'boost' line). Returns (st, result)."""
     t = jnp.asarray(target, I32)[None]
     st, r, msgs = boost_v(st, t, jnp.asarray(deltas7)[None], jnp.asarray(on)[None], order, primary, source, effect,
-                          has_secondaries)
+                          has_secondaries, ab_msg)
     st = emit_boost(st, msgs, t[0], 0)
     return st, (r[0][0], r[1][0])
 
@@ -436,7 +491,7 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     res = RS.where(kind == D.DMG_NUMBER, RS.R(RS.NUM, dmg), RS.where(kind == D.DMG_FALSE, RS.R(RS.BOOL, 0),
                                                                      RS.where(kind == D.DMG_UNDEFINED, RS.R(RS.UNDEF),
                                                                               RS.R(RS.NUM, 0))))
-    return st, res, rng
+    return st, res, rng, crit
 
 
 STAT_HOOKS = ("ModifyAtk", "ModifyDef", "ModifySpA", "ModifySpD")   # statTable order (atk def spa spd)
@@ -455,7 +510,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     # TryHit (move onTryHit; none in core) / TryPrimaryHit (Substitute; HOOK H12) -> true
 
     # 1. getSpreadDamage
-    st, res, rng = get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, tv, mtype=st.exec.mtype,
+    st, res, rng, crit_t = get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, tv, mtype=st.exec.mtype,
                               bp=st.exec.bp)
     tags, vals = RS.where(tv, res, (tags, vals))
     tv = tv & ~RS.is_false((tags, vals))
@@ -597,6 +652,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
                 mvol == CO.cid("confusion"))
             st = EV.emit(st, ot, EV.EV_IMMUNE, actor=targets[j], move=CO.eff("confusion"),
                          v1=T.ABILITY_BASE + T.ABILITY_OWNTEMPO - 1)
+        from vgcjax.effects import ability_reactions as AR
+        st = AR.anger_point(st, targets[j], crit_t[j], cj & ~side_mode_)        # Anger Point onHit
         memento = memento | (cj & selfdestruct_ifhit & ~RS.is_false(tj))
         dj = RS.where(cj & self_switch, RS.where(css, RS.R(RS.BOOL, 1), RS.combine(dj, RS.R(RS.BOOL, 0))), dj)
         dj = RS.where(dj[0] == RS.UNDEF, RS.R(RS.BOOL, 1), dj)
@@ -689,10 +746,13 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     # runEvent('DamagingHit', damagedTargets, pokemon, move, damage) ([C] scripts.ts:403-411): targets with numeric
     # damage, left to right. AfterHit / EmergencyExit: M3
     damaged = tv & RS.is_num((tags, vals))
+    from vgcjax.effects import ability_reactions as AR
+    st, rng = AR.damaging_hit_first(st, dex, rng, targets, damaged, u, move, hit_no)
     for j in range(NT):
         hc = H.HookCtx.make(targets[j], u, C.eff_move(move), relay=(RS.NUM, vals[j]))
         hc, st, rng = H.run_event("DamagingHit", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_DAMAGINGHIT),
                                   on=damaged[j])
+        st, rng = AR.damaging_hit(st, dex, rng, j, targets[j], damaged[j], u, move, st.exec.mtype, hit_no)
     return st, rng, (tags, vals)
 
 
@@ -845,6 +905,11 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     tv_th = tv
     th_t, th_v, st, rng = H.run_event_multi("TryHit", st, dex, rng, targets, tv, u, em, H.dispatch(ids.HOOK_TRYHIT))
     th = (th_t, th_v)
+    # the abilities' TryHit (priority <= 1, after the dispatched protections), undispatched
+    from vgcjax.effects import ability_reactions as AR
+    th, st, rng, ff_acc = AR.try_hit(st, dex, rng, targets, tv, th, u, move,
+                                     jnp.where(is_struggle, T.TYPE_TYPELESS, a_type))
+    a_acc = jnp.where(ff_acc, 0, a_acc)                       # Flash Fire: move.accuracy = true
     th_msg = on_ts & ~jnp.any(tv & RS.truthy(th)) & jnp.any(tv & RS.is_false(th))
     st = EV.emit(st, th_msg, EV.EV_FAIL, actor=u)
     st = EV.attr_last_move(st, th_msg, EV.F_STILL)

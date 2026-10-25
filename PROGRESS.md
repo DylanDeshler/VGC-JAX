@@ -131,6 +131,16 @@ M3 content (2026-10-23)
   Water Veil, Water Bubble, Purifying Salt, Leaf Guard, Sweet / Flower Veil; speed-ordered with each other, before
   the terrains), TryAddVolatile (Inner Focus, Own Tempo), Immunity (Magma Armor), Own Tempo's Hit message, Scrappy
   ignoreImmunity. impl pool 254 species. Water Veil unverified (no placeable species).
+- Abilities batch 4 (effects/ability_reactions.py, 29, undispatched): TryHit immunities (Volt / Water Absorb, Earth
+  Eater, Sap Sipper, Motor Drive, Flash Fire (+volatile, mods, accuracy = true), Soundproof, Bulletproof,
+  Telepathy, Good as Gold), DamagingHit (Rough Skin first; Static, Flame Body, Poison Point, Effect Spore, Spicy
+  Spray, Stamina, Weak Armor, Gooey, Justified, Rattled, the attacker's Poison Touch; ABILITY_ONHIT_PROC draws),
+  AfterEachBoost (Defiant, Competitive), AfterBoost (Rattled), Speed Boost, [C] Regenerator / Natural Cure
+  (SwitchOut), Anger Point (-setboost), Steadfast. impl pool 294 species. Spicy Spray / Water Veil unverified
+  (no placeable species). Found: has_volatile was not vectorised over refs (latent); field handlers run before an
+  ability holder whose cached speed is <= 0 (Trick Room negative speeds); Protect's '-activate' vs Dragon Darts
+  depends on getSmartTargets.
+- Kernel count 199k after batches 3-4 (was 136k): repeated full boost_v calls in the reaction passes (to batch).
 - Found via the wider pool: Gigaton Hammer's cantusetwice disable; Dragon Darts — any step failure and Protect's
   TryHit clear smartTarget, a single remaining target takes every hit, spreadHit is fixed before the steps.
 - Regression suite regenerated with the current reducer (/tmp/wx/mkreg.sh pattern: same seeds, current stage).

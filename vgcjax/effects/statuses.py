@@ -84,15 +84,16 @@ def set_status(st, dex, rng, ref, status, on, source=-1, source_effect=-1, move_
     st = EV.emit(st, imm & (move_status > 0), EV.EV_IMMUNE, actor=ref)
     go = go & ~imm
     # runEvent('SetStatus'): abilities (mon holders) before the terrains (field); a falsy result returns it
-    ab_b, imm_m, blk_m, blk_e, blk_o = AXB.set_status_block(st, jnp.asarray(ref, I32)[None], status[None], source,
-                                                            source_effect, move_status, (go & (status > 0))[None])
-    st = AXB.emit_set_status_block(st, ref, imm_m[0], blk_m[0], blk_e[0], blk_o[0],
+    ab_b, imm_m, blk_m, blk_e, blk_o, w_spd = AXB.set_status_block(
+        st, jnp.asarray(ref, I32)[None], status[None], source, source_effect, move_status, (go & (status > 0))[None])
+    t_b, tmsg = TR.blocks_status(st, dex, ref, status, source_effect, move_status)
+    t_b = go & (status > 0) & t_b
+    ab_wins = ab_b[0] & ((w_spd[0] > 0) | ~t_b)             # field handlers first unless the holder is faster than 0
+    blocked = t_b & ~ab_wins
+    st = AXB.emit_set_status_block(st, ref, imm_m[0] & ab_wins, blk_m[0] & ab_wins, blk_e[0], blk_o[0],
                                    ids.ABILITY_BASE + mget(st.mons.ability, ref) - 1)
-    go = go & ~ab_b[0]
-    blocked, tmsg = TR.blocks_status(st, dex, ref, status, source_effect, move_status)
-    blocked = go & (status > 0) & blocked
     st = EV.emit(st, blocked & tmsg, EV.EV_ACTIVATE, actor=ref, move=C.eff_cond(TR.terrain(st)))
-    go = go & ~blocked
+    go = go & ~blocked & ~ab_wins
     m = st.mons
     # status_state[3]: presence bits 0..7 + the owning status << 8 (checkFainted sets status 'fnt' but keeps the
     # state, whose keys the projection still shows)
@@ -341,10 +342,14 @@ def try_set_status_v(st, dex, rng, refs, status, on, source, source_effect, move
     imm = go & ~same & (want > 0) & ~corrosion & ~not_immune
     # runEvent('SetStatus'): abilities (mon holders) before the terrains (field)
     pre_ok = go & ~same & ~imm & (want > 0)
-    ab_b, imm_m, blk_m, blk_e, blk_o = AXB.set_status_block(st, refs, want, source, source_effect, move_status, pre_ok)
-    blocked, tmsg = TR.blocks_status(st, dex, refs, want, source_effect, move_status)
-    blocked = pre_ok & ~ab_b & blocked
-    ok = pre_ok & ~ab_b & ~blocked
+    ab_b, imm_m, blk_m, blk_e, blk_o, w_spd = AXB.set_status_block(st, refs, want, source, source_effect,
+                                                                   move_status, pre_ok)
+    t_b, tmsg = TR.blocks_status(st, dex, refs, want, source_effect, move_status)
+    t_b = pre_ok & t_b
+    ab_wins = ab_b & ((w_spd > 0) | ~t_b)                  # field handlers first unless the holder is faster than 0
+    blocked = t_b & ~ab_wins
+    imm_m, blk_m = imm_m & ab_wins, blk_m & ab_wins
+    ok = pre_ok & ~ab_wins & ~blocked
     # Start: slp draws its duration (SLEEP_DURATION, keyed per target), frz 3, tox stage 0
     is_slp, is_frz, is_tox = want == ids.COND_SLP, want == ids.COND_FRZ, want == ids.COND_TOX
     skey = C.dkey(st, ids.DK_SLEEP_DURATION, actor=refs, subject=CO.eff("slp"))
@@ -378,5 +383,8 @@ def emit_status_msgs(st, msgs, j, ref):
                                    msgs["ab_blk_o"][j], msgs["ab_eff"][j])
     st = EV.emit(st, msgs["tblock"][j], EV.EV_ACTIVATE, actor=ref, move=msgs["terrain"])
     fm = msgs["from_move"][j]
+    eff = msgs["eff"]
+    fa = (eff >= ids.ABILITY_BASE) & (eff < ids.ABILITY_BASE + len(ids.ABILITIES) - 1)   # '[from] ability: X'
     return EV.emit(st, msgs["ok"][j], EV.EV_STATUS, actor=ref, move=C.eff_cond(msgs["want"][j]),
-                   v1=jnp.where(fm, msgs["eff"], -1), flags=jnp.where(fm, EV.F_FROM_MOVE, 0))
+                   v1=jnp.where(fm | fa, eff, -1),
+                   flags=jnp.where(fa, EV.F_FROM_ABILITY, jnp.where(fm, EV.F_FROM_MOVE, 0)))

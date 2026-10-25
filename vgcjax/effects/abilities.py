@@ -153,7 +153,15 @@ def end_vec(st, refs, on):
         hit = (on & (ab == aid(name)))[:, None]
         s = jnp.where(hit, s.at[:, slot].set(val).at[:, 3].set(s[:, 3] | (1 << slot)), s)
     from vgcjax.battle.util import mset_many
-    return st.replace(mons=m.replace(ability_state=mset_many(m.ability_state, refs, s, on)))
+    st = st.replace(mons=m.replace(ability_state=mset_many(m.ability_state, refs, s, on)))
+    # Flash Fire onEnd: removeVolatile('flashfire') -> '-end' X 'ability: Flash Fire' '[silent]'
+    if aid("flashfire") > 0 and "flashfire" in ids.CONDITIONS:
+        c = CO.cid("flashfire")
+        for k in range(refs.shape[0]):
+            hit = on[k] & (ab[k] == aid("flashfire")) & CO.has_volatile(st, refs[k], c) & (mget(st.mons.hp, refs[k]) > 0)
+            st = EV.emit(st, hit, EV.EV_END, actor=refs[k], move=CO.eff("flashfire"), v1=-1)
+            st = CO._set_vol_bit(st, refs[k], c, False, hit)
+    return st
 
 
 def pressure_extra_pp(st, dex, u, move, targets, on):

@@ -312,8 +312,10 @@ def field_event(st, dex, rng, event: str, on, targets=None):
         run = live & ~ending & _still_present(st, loc, idx, h, e) & cbs[j]
         hc = H.HookCtx.make(jnp.where(h < 8, h, -1), -1, -1).replace(holder=h)
         ar = (ids.ABILITY_BASE, ids.ABILITY_BASE + len(ids.ABILITIES) - 1)
-        hc, st, rng = CO.single_event(hook, e, st, dex, rng, hc, run, prefix=pfx[j],
-                                      exclude_range=ar if event == "SwitchIn" else None)
+        hc, st, rng = CO.single_event(hook, e, st, dex, rng, hc, run, prefix=pfx[j], exclude_range=ar)
+        if residual_mode:                       # abilities' onResidual, undispatched (effects/ability_reactions.py)
+            from vgcjax.effects import ability_reactions as AR
+            st, rng = AR.residual(st, dex, rng, h, run & (e >= ar[0]) & (e < ar[1]))
         if event == "SwitchIn":                 # abilities' SwitchIn handlers, undispatched (effects/abilities.py)
             from vgcjax.effects import abilities as AB
             st, rng = AB.switch_in_vec(st, dex, rng, h, run & (e >= ar[0]) & (e < ar[1]))

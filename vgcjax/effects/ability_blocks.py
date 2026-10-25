@@ -115,7 +115,8 @@ def set_status_block(st, refs, status, source, source_effect, move_status, go):
     Salt / Leaf Guard (Sun) ('-immune' target '[from] ability: X' when the effect is a move with a primary status),
     and an ally-or-self Sweet Veil (slp, '-block' target 'ability: Sweet Veil' '[of] holder', null) / Flower Veil
     (Grass target, from another source, not Yawn; '-block' for a move without secondaries). Returns (blocked,
-    immune_msg, block_msg, block_eff, block_of) per ref."""
+    immune_msg, block_msg, block_eff, block_of, winner speed) per ref. The field's handlers (terrains: speed 0,
+    subOrder 5) run before a mon holder whose cached speed is <= 0 (Trick Room stores negative speeds)."""
     from vgcjax.effects import weather as WE
     m = st.mons
     refs = jnp.asarray(refs, I32)
@@ -136,7 +137,7 @@ def set_status_block(st, refs, status, source, source_effect, move_status, go):
     own = go & own & (status > 0)
     # ally / self veils (onAllySetStatus); all mon holders sort together by speed (desc), the first veto wins
     own_spd = mget(m.speed, r).astype(I32)
-    best = jnp.where(own, own_spd, -1)                      # speed of the winning row so far
+    best = jnp.where(own, own_spd, -(1 << 20))              # speed of the winning row so far
     win_own = own
     blk = jnp.zeros(T, bool)
     blk_eff = jnp.full(T, -1, I32)
@@ -166,7 +167,8 @@ def set_status_block(st, refs, status, source, source_effect, move_status, go):
     blk = blk & ~win_own
     imm_msg = win_own & (jnp.asarray(move_status, I32) > 0)
     blk_msg = blk_msg & blk
-    return own | blk, imm_msg, blk_msg, blk_eff, blk_of
+    win_spd = jnp.where(win_own, own_spd, best)
+    return own | blk, imm_msg, blk_msg, blk_eff, blk_of, win_spd
 
 
 _NSEC = [None]

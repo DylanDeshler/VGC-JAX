@@ -21,8 +21,9 @@ LEVEL = 50
 # ------------------------------------------------------------------ flinch
 @handler(ids.HOOK_BEFOREMOVE, CO.eff("flinch"), ps="data/conditions.ts:211-216")
 def flinch_before_move(hc, st, dex, rng):
-    # runEvent('Flinch'): Steadfast (M4)
     st = EV.emit(st, True, EV.EV_CANT, actor=hc.target, move=CO.eff("flinch"))
+    from vgcjax.effects import ability_reactions as AR
+    st = AR.steadfast(st, hc.target, True)                    # runEvent('Flinch', pokemon): Steadfast
     return hc.ret(RS.R(RS.BOOL, 0)), st, rng
 
 
