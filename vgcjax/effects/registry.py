@@ -1,2 +1,2 @@
 """Imports every content module so their handlers are registered (effects.hooks registry) before any tracing."""
-from vgcjax.effects import abilities, ability_mods, ability_reactions, berries, conditions, disables, field, items, mega, move_callbacks, fieldevent, protect, sideconds, statuses, terrain, volatiles, weather  # noqa: F401
+from vgcjax.effects import abilities, ability_mods, ability_reactions, berries, conditions, disables, field, items, mega, move_callbacks, moves_b1, fieldevent, protect, sideconds, statuses, terrain, volatiles, weather  # noqa: F401

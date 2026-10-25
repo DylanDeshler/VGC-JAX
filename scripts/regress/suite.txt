@@ -156,3 +156,13 @@ c_suckerpunch | --n 100 --seed 141 --teams stagereq:impl:move:suckerpunch --stag
 c_psychicfangs | --n 100 --seed 141 --teams stagereq:impl:move:psychicfangs --stage impl
 c_brickbreak | --n 100 --seed 141 --teams stagereq:impl:move:brickbreak --stage impl
 c_terrainpulse | --n 100 --seed 141 --teams stagereq:impl:move:terrainpulse --stage impl
+d_spikyshield | --n 100 --seed 151 --teams stagereq:impl:move:spikyshield --stage impl
+d_banefulbunker | --n 100 --seed 151 --teams stagereq:impl:move:banefulbunker --stage impl
+d_auroraveil | --n 100 --seed 151 --teams stagereq:impl:move:auroraveil+move:snowscape --stage impl
+d_knockoff | --n 100 --seed 151 --teams stagereq:impl:move:knockoff --stage impl
+d_throatchop | --n 100 --seed 151 --teams stagereq:impl:move:throatchop --stage impl
+d_direclaw | --n 100 --seed 151 --teams stagereq:impl:move:direclaw --stage impl
+d_triattack | --n 100 --seed 151 --teams stagereq:impl:move:triattack --stage impl
+d_alluringvoice | --n 100 --seed 151 --teams stagereq:impl:move:alluringvoice --stage impl
+d_freezedry | --n 100 --seed 151 --teams stagereq:impl:move:freezedry --stage impl
+d_haze | --n 100 --seed 151 --teams stagereq:impl:move:haze --stage impl

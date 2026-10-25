@@ -99,6 +99,8 @@ function reduce(lines, battle) {
 				ev('FAIL', { actor: refOf(parts[1]), move: why && why !== 'heal' ? toID(why) : '', v1: '',
 					flags: why === 'heal' ? F.HEAL : why ? F.FAILSTATUS : 0 });
 			}
+		} else if (type === '-clearallboost') {
+			ev('CLEARALLBOOST');
 		} else if (type === '-mega') {
 			ev('MEGA', { actor: refOf(parts[1]), move: toID(parts[3]) });
 		} else if (type === 'detailschange') {

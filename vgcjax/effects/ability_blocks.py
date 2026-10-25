@@ -178,8 +178,8 @@ def st_dex_nsec(mv):
     """move.secondaries is set (static table, host side to avoid threading dex)."""
     if _NSEC[0] is None:
         from vgcjax.core.dex import load_tables_np
-        _NSEC[0] = jnp.asarray(load_tables_np()["move_nsec"])
-    return _NSEC[0][mv]
+        _NSEC[0] = load_tables_np()["move_nsec"]              # numpy: a cached jnp array would leak a tracer
+    return jnp.asarray(_NSEC[0])[mv]
 
 
 def jax_sun(st, r):

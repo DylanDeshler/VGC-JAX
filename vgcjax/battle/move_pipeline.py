@@ -464,7 +464,7 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     att, dfn, off_idx, def_idx = jax.vmap(lambda ds, db, cr: D.raw_stats(dex, move, cr, atk["atk_stats5"],
                                                                           atk["atk_boosts7"], ds, db))(
         stats_t, boosts_t, will_crit_t)
-    eff = jax.vmap(lambda tt: TC.effectiveness(dex, mtype, tt))(t_types)
+    eff = jax.vmap(lambda tt: TC.effectiveness(dex, mtype, tt, freeze_dry=move == opt_id("MOVE_FREEZEDRY")))(t_types)
     ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev,
                   extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff)))
     bp_post, _, rng = MOD.run("BasePower", ctx, rng, jnp.maximum(bp, 1).astype(I32), base + 1, reach)
@@ -490,14 +490,16 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     guts = mget(m.ability, u) == opt_id("ABILITY_GUTS")
     no_burn = guts | (move == opt_id("MOVE_FACADE"))
 
-    def one(ds, db, dt, dmx, dg, dci, cd, r, fm, wm, bpp, ap, dp, sp, bp1, fx1):
+    def one(ds, db, dt, dmx, dg, dci, cd, r, fm, wm, bpp, ap, dp, sp, bp1, fx1, em):
         return D.get_damage_core(dex, move, **atk, def_stats5=ds, def_boosts7=db, def_types=dt, def_maxhp=dmx,
                                  def_grounded=dg, def_crit_immune=dci, crit_draw=cd, roll=r, spread=spread,
                                  canary_crit=cfg.flags.canary_crit_2048, final_m4096=fm, mtype=mtype, bp=bp1, fixed=fx1,
                                  weather_m4096=wm, bp_post=bpp, atk_post=ap, def_post=dp,
-                                 stab_post=jnp.where(is_struggle, 4096, sp), no_burn=no_burn, ignore_immunity=scr)
+                                 stab_post=jnp.where(is_struggle, 4096, sp), no_burn=no_burn, ignore_immunity=scr,
+                                 type_mod=em)
     dmg, kind, crit = jax.vmap(one)(stats_t, boosts_t, def_types, mget(m.maxhp, targets), grounded, crit_immune,
-                                    crit_draw, roll, final, wmod, bp_post, att, dfn, stab_post, bp, fixed)
+                                    crit_draw, roll, final, wmod, bp_post, att, dfn, stab_post, bp, fixed,
+                                    jnp.where(is_struggle, 0, eff))
     # [C] modifyDamage messages (data/mods/champions/scripts.ts:266-284): effectiveness then crit, per target
     formula = rolls_damage & (kind == D.DMG_NUMBER)
     tm = jnp.clip(jnp.where(is_struggle, 0, eff), -6, 6)
@@ -678,7 +680,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         # Hit events (PS :1314-1335): onHitSide for side moves, else the move's onHit (runEvent('Hit'): M4)
         em_ = C.eff_move(move)
         side_mode_ = jnp.asarray(side_mode)
-        for hook_, on_ in (((ids.HOOK_HITSIDE, side_mode_),) if j == 0 else ()) + ((ids.HOOK_HIT, ~side_mode_),):
+        all_t = dex.move_target[move] == T.TARGET_ALL
+        for hook_, on_ in (((ids.HOOK_HITFIELD, side_mode_ & all_t), (ids.HOOK_HITSIDE, side_mode_ & ~all_t))
+                           if j == 0 else ()) + ((ids.HOOK_HIT, ~side_mode_),):
             has_ = on_ & CO.registered_for(hook_, em_, effect_range=CO.MOVE_RANGE)
             hch = H.HookCtx.make(targets[j], u, em_)
             hch, st, rng = CO.single_event(hook_, em_, st, dex, rng, hch, cj & has_, effect_range=CO.MOVE_RANGE)
@@ -778,6 +782,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
             svol = dex.move_sec_volatile[move, k].astype(I32)
             st, rng, _ = CO.add_volatile(st, dex, rng, targets[j], svol, oks[k][j] & (svol > 0), source=u,
                                          source_effect=C.eff_move(move))
+            from vgcjax.effects import moves_b1 as MB1                # secondary.onHit callbacks
+            st, rng = MB1.secondary_special(st, dex, rng, u, move, targets[j], k, oks[k][j], hit_no)
             st = emit_boost(st, smsgs[j, k], u)
 
     # 6. forceSwitch -> forceSwitchFlag (HOOK DragOut)
@@ -804,6 +810,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
                                   on=damaged[j])
         st, rng = AR.damaging_hit(st, dex, rng, j, targets[j], damaged[j], u, move, st.exec.mtype, hit_no, dh_msgs,
                                   dh_on)
+    from vgcjax.effects import moves_b1 as MB1                       # singleEvent('AfterHit', move) per target
+    for j in range(NT):
+        st = MB1.knock_off(st, dex, targets[j], u, move, damaged[j])
     return st, rng, (tags, vals)
 
 

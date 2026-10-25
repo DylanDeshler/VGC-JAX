@@ -33,7 +33,9 @@ EXTRA: dict[str, set[str]] = {
               "quickguard", "ironhead", "toxic", "lowkick", "grassknot", "heavyslam", "heatcrash", "lastrespects",
               "stompingtantrum", "temperflare", "eruption", "waterspout", "acrobatics", "powertrip", "storedpower",
               "ragefist", "risingvoltage", "superfang", "grassyglide", "suckerpunch", "psychicfangs", "brickbreak",
-              "terrainpulse"},                                                         # effects/move_callbacks.py
+              "terrainpulse",                                                          # effects/move_callbacks.py
+              "spikyshield", "banefulbunker", "kingsshield", "auroraveil", "knockoff", "throatchop", "direclaw",
+              "triattack", "alluringvoice", "freezedry", "haze"},                      # effects/moves_b1.py
     "abilities": {"drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
@@ -59,7 +61,8 @@ EXTRA: dict[str, set[str]] = {
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",
                    "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain",
-                   "taunt", "choicelock", "followme", "ragepowder", "helpinghand"},
+                   "taunt", "choicelock", "followme", "ragepowder", "helpinghand",
+                   "spikyshield", "banefulbunker", "kingsshield", "auroraveil", "throatchop"},
 }
 
 

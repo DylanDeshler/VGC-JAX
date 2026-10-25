@@ -79,7 +79,7 @@ def raw_stats(dex, move, crit, atk_stats5, atk_boosts7, def_stats5, def_boosts7)
 def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned, def_stats5, def_boosts7, def_types,
                     def_maxhp, def_grounded, def_crit_immune, crit_draw, roll, spread, pbond_hit2=False,
                     canary_crit=False, final_m4096=4096, mtype=None, bp=None, weather_m4096=4096, bp_post=None,
-                    atk_post=None, def_post=None, stab_post=None, no_burn=False, ignore_immunity=False, fixed=None):
+                    atk_post=None, def_post=None, stab_post=None, no_burn=False, ignore_immunity=False, fixed=None, type_mod=None):
     """Hook-free getDamage for move `move` (MoveId). PS: sim/battle-actions.ts:1639-1776.
 
     `crit_draw` is the CRIT draw outcome (ignored when crit_ratio == 0 or the move has willCrit);
@@ -112,7 +112,7 @@ def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned
     base = base_damage(LEVEL, jnp.maximum(bp, 1), attack, defense)
     stab = (mtype != ids.TYPE_TYPELESS) & (jnp.any(I(atk_types) == mtype) | (dex.move_force_stab[move] == 1))
     stab_m = jnp.where(stab, 6144, 4096) if stab_post is None else I(stab_post)   # runEvent('ModifySTAB')
-    type_mod = tc.effectiveness(dex, mtype, def_types)       # HOOK(H19) Effectiveness = identity
+    type_mod = tc.effectiveness(dex, mtype, def_types) if type_mod is None else type_mod   # Freeze-Dry: caller
     burn = jnp.asarray(atk_burned) & is_phys & ~jnp.asarray(no_burn)   # [C] scripts.ts: not Facade / Guts
     crit_num, crit_den = (5, 4) if canary_crit else (3, 2)
     dmg = modify_damage(base, spread=spread, pbond_hit2=pbond_hit2, crit=crit, roll=roll, stab_m4096=stab_m,

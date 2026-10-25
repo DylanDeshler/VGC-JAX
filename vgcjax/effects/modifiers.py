@@ -79,6 +79,8 @@ class Ctx:
 
 
 def _kind(effect):
+    if ids.MOVE_BASE <= effect < ids.MOVE_BASE + len(ids.MOVES) - 1:
+        return "move"
     if ids.ABILITY_BASE <= effect < ids.ABILITY_BASE + len(ids.ABILITIES) - 1:
         return "ability"
     if ids.ITEM_BASE <= effect < ids.ITEM_BASE + len(ids.ITEMS) - 1:
@@ -157,6 +159,10 @@ def _rows(ctx: Ctx, mods):
                 if md.prefix not in (ids.PFX_ON, ids.PFX_SOURCE):
                     ok = ok & (mget(m.hp, jnp.clip(h, 0, 7)) > 0)
                 rows.append((i, h, ok, (kind, md.prefix, n) if kind in ("ability", "item", "status") else None, eff_t))
+        elif kind == "move":
+            # the active move's own handler (runEvent onEffect: holder = the event target)
+            mv = md.effect - ids.MOVE_BASE + 1
+            rows.append((i, tgt, t_ok & (jnp.asarray(ctx.move) == mv), ("move",), None))
         elif kind == "side":
             c = md.effect - ids.COND_BASE + 1
             sides = [t_side] if md.prefix == ids.PFX_ON else [1 - t_side] if md.prefix == ids.PFX_FOE else [

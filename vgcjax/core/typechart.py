@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import jax.numpy as jnp
 
+from vgcjax.data import ids
+
 I32 = jnp.int32
 _CODE_TO_MOD = jnp.array([0, 1, -1, 0], I32)
 
@@ -19,10 +21,13 @@ def _codes(table, def_types, col):
     return jnp.where(valid, codes, 0)
 
 
-def effectiveness(dex, atk_type, def_types):
-    """Sum of per-type log2 multipliers. PS: sim/dex.ts getEffectiveness (immunity not included)."""
+def effectiveness(dex, atk_type, def_types, freeze_dry=False):
+    """Sum of per-type log2 multipliers. PS: sim/dex.ts getEffectiveness (immunity not included); freeze_dry: the
+    move's onEffectiveness makes Water 1 (data/moves.ts freezedry)."""
     c = _codes(dex.type_damage_taken, def_types, jnp.asarray(atk_type, I32)[..., None])
-    return jnp.sum(_CODE_TO_MOD[c], axis=-1)
+    mods = _CODE_TO_MOD[c]
+    mods = jnp.where(jnp.asarray(freeze_dry) & (jnp.asarray(def_types) == ids.TYPE_WATER), 1, mods)
+    return jnp.sum(mods, axis=-1)
 
 
 def immune(dex, atk_type, def_types):
