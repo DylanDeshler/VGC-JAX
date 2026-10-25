@@ -14,3 +14,4 @@ node_modules/
 .DS_Store
 reports/conformance/*/results.jsonl
 reports/*.log
+reports/regress/

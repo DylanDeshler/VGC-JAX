@@ -145,6 +145,12 @@ M3 content (2026-10-23)
   Focus Sash (Damage event + useItem, '-enditem' before '-damage'), weather rocks / Light Clay / Terrain Extender.
   useItem resets itemState.effectOrder; Struggle is '???' for the modifier events. 300 random + 10 targeted +
   76 regression corpora 100% (except the ADR-105 cases).
+- Berries (effects/berries.py): Sitrus Berry via eachEvent('Update') at PS's call sites (runAction tail, each hit,
+  after the hit loop, runPursuitActivation, after eachEvent('Weather')), the 17 resist berries (one family; eatItem
+  '[eat]' + '[weaken]' inside ModifyDamage), foe Unnerve blocks eating. Found: a user put to sleep mid-move stops a
+  multi-hit move ([C] scripts.ts:462); switch-flag clears must persist across sides.
+- scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
+  runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows
   ~0.6-1.2k ops per implemented entity with masked per-entity code. ADR-106 (proposed): table-driven handler
   families (O(1) per family). Reaction boosts / on-hit statuses already batched into one call per target set.

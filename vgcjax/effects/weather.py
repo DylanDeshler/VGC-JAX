@@ -163,7 +163,8 @@ def each_weather(st, dex, rng, on):
         if solar > 0:
             sp = ok & (w == wid("sunnyday")) & (mon_weather(st, r) == w) & (mget(st.mons.ability, r) == solar)
             st, rng = STS.effect_damage(st, dex, rng, r, mget(st.mons.maxhp, r) // 8, sun_eff, sp, source=r)
-    return st, rng
+    from vgcjax.effects import berries as B
+    return B.update(st, dex, rng, on)                                   # gen >= 7: eachEvent('Update')
 
 
 def residual_each(st, dex, rng, c, on):

@@ -46,7 +46,10 @@ EXTRA: dict[str, set[str]] = {
     "items": {"blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
               "miracleseed", "mysticwater", "nevermeltice", "poisonbarb", "sharpbeak", "silkscarf", "silverpowder",
               "softsand", "spelltag", "twistedspoon", "lifeorb", "expertbelt", "leftovers", "rockyhelmet",
-              "focussash", "lightclay", "heatrock", "damprock", "smoothrock", "icyrock", "terrainextender"},
+              "focussash", "lightclay", "heatrock", "damprock", "smoothrock", "icyrock", "terrainextender",
+              "sitrusberry", "babiriberry", "chartiberry", "chopleberry", "cobaberry", "colburberry", "habanberry",
+              "kasibberry", "kebiaberry", "occaberry", "passhoberry", "payapaberry", "rindoberry", "roseliberry",
+              "shucaberry", "tangaberry", "wacanberry", "yacheberry"},                         # + effects/berries.py
                                                                                               # effects/items.py
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",

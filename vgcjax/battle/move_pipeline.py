@@ -473,6 +473,8 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
                                 final=False)
     ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev,
                   extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff)))
+    from vgcjax.effects import berries as B
+    berry_eat = B.resist_berry_applies(st, targets, mtype_ev, jnp.where(is_struggle, 0, eff), reach)
     _, final, rng = MOD.run("ModifyDamage", ctx, rng, jnp.ones(NT, I32), dmg_ord, reach)
     guts = mget(m.ability, u) == opt_id("ABILITY_GUTS")
     no_burn = guts | (move == opt_id("MOVE_FACADE"))
@@ -492,6 +494,7 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
         st = EV.emit(st, formula[j] & (tm[j] > 0), EV.EV_SUPER, actor=targets[j], v1=jnp.minimum(tm[j], 2))
         st = EV.emit(st, formula[j] & (tm[j] < 0), EV.EV_RESIST, actor=targets[j], v1=jnp.minimum(-tm[j], 2))
         st = EV.emit(st, formula[j] & crit[j], EV.EV_CRIT, actor=targets[j])
+        st = B.resist_berry_eat(st, targets[j], berry_eat[j])          # within runEvent('ModifyDamage')
     res = RS.where(kind == D.DMG_NUMBER, RS.R(RS.NUM, dmg), RS.where(kind == D.DMG_FALSE, RS.R(RS.BOOL, 0),
                                                                      RS.where(kind == D.DMG_UNDEFINED, RS.R(RS.UNDEF),
                                                                               RS.R(RS.NUM, 0))))
@@ -1002,6 +1005,9 @@ def move_hit(st, dex, rng, cfg):
     any_false = jnp.any(RS.is_false((ex.dt, ex.dv)))
     alive = (targets >= 0) & (mget(m.hp, jnp.clip(targets, 0, 7)) > 0) & tv
     go = go & ~any_false & jnp.any(alive)
+    # [C] scripts.ts:462: a user put to sleep mid-move stops before hit 2+ (unless sleepUsable)
+    asleep = (mget(m.status, u) == T.COND_SLP) & (dex.move_sleep_usable[move] != 1)
+    go = go & ~((h > 1) & asleep)
     stopped = ex.stopped | (live & ~go)
     js = jnp.arange(NT)
     # [C] scripts.ts:465-470: smartTarget with > 1 target left: hit h uses targets[h-1]; else every hit takes them all
@@ -1036,6 +1042,8 @@ def move_hit(st, dex, rng, cfg):
     st, rng, (mt, mv) = spread_move_hit(st, dex, rng, cfg, u, move, targets, cur_tv, ex.spread & ~ex.side,
                                         jnp.where(ex.side, 0, h), go, side_mode=ex.side)
     all_false = ~jnp.any(~RS.is_false((mt, mv)) & cur_tv)
+    from vgcjax.effects import berries as B
+    st, rng = B.update(st, dex, rng, go & ~all_false)                   # [C] scripts.ts:536 eachEvent('Update')
     stopped = stopped | (go & all_false)
     go = go & ~all_false
     cnt = go & cur_tv
@@ -1078,6 +1086,8 @@ def move_end(st, dex, rng, cfg):
     # [C] scripts.ts:571-577: afterMoveSecondaryEvent(targets) when some damage[i] is truthy or 0
     #   (singleEvent on the move: M3; runEvent('AfterMoveSecondary', targets, pokemon, move))
     some = run_rest & jnp.any(RS.hit_or_zero((dt, dv)) & tv)
+    from vgcjax.effects import berries as B
+    st, rng = B.update(st, dex, rng, some)                              # [C] scripts.ts:573 eachEvent('Update')
     still = tv & ~RS.is_false((ex.lt, ex.lv))                  # targetsCopy entries not set to false by the last hit
     for j in range(NT):
         hc = H.HookCtx.make(targets[j], u, C.eff_move(move))

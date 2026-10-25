@@ -62,6 +62,7 @@ F_FATIGUE = 8                    # START: '[fatigue]'
 F_BROKEN = 16                    # ACTIVATE: '[broken]' (protection broken by a breaksProtect move other than Feint)
 F_MSG, F_SILENT, F_FROM_MOVE_CURE = 1, 2, 4   # CURESTATUS: '[msg]' / '[silent]' / '[from] move: X' (move in v1)
 F_BOOST = 1                      # ABILITY: '-ability' pokemon X 'boost' (ability in `move`)
+F_EAT, F_WEAKEN = 1, 2           # ENDITEM: '[eat]' / '[weaken]' (item in `move`)
 F_UPKEEP = 1                     # WEATHER: '[upkeep]' (weather in `move`, -1 = 'none'; '[from] ability:' -> F_FROM_ABILITY)
 
 

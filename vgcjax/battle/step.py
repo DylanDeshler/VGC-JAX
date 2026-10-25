@@ -225,7 +225,10 @@ def post_action(st, dex, rng, kind, on):
     # (c) end-of-queue faint flags
     _, nk, anyv = Q.head(st.queue)
     st = F.check_fainted(st, on & ~anyv)
-    # (d) Update / EmergencyExit: hooks (M3)
+    # (d) eachEvent('Update') unless the action was `start` or the next one is an instaswitch (PS :2924-2929);
+    #     EmergencyExit: M4
+    from vgcjax.effects import berries as B
+    st, rng = B.update(st, dex, rng, on & (kind != S.Q_START) & ~(anyv & (nk == S.Q_INSTASWITCH)))
     # (e) switch requests
     m = st.mons
     want = []
@@ -239,10 +242,15 @@ def post_action(st, dex, rng, kind, on):
             flagged = flagged | ((b >= 0) & (mget(m.switch_flag, r) != 0))
         cs = F.can_switch(st, side) > 0
         clear = on & flagged & ~cs
+        # runPursuitActivation per live flagged mon (PS :2950-2955, sim/battle-actions.ts:62-68): eachEvent('Update')
+        for r, ok in refs:
+            st, rng = B.update(st, dex, rng, on & cs & ok & (mget(st.mons.switch_flag, r) != 0) &
+                               (mget(st.mons.hp, r) > 0))
+        m = st.mons
         for r, ok in refs:   # (Revival Blessing slots keep their flag: v1)
             m = m.replace(switch_flag=mset(m.switch_flag, r, 0, clear & ok))
+        st = st.replace(mons=m)
         want.append(on & flagged & cs)
-    st = st.replace(mons=m)
     pause = want[0] | want[1]
     meta = st.meta
     return st.replace(meta=meta.replace(phase=jnp.where(pause, S.SWITCH, meta.phase).astype(I8))), rng
