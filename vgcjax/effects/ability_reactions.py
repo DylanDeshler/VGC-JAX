@@ -46,6 +46,18 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
     m = st.mons
     cat = dex.move_category[move]
     acc_true = jnp.zeros((), bool)
+    # the two boost reactions (Sap Sipper +1 Atk, Motor Drive +1 Spe) for every target in one boost (one ability
+    # per mon, distinct targets); their messages are emitted in each target's turn below
+    T = targets.shape[0]
+    tcl = jnp.clip(targets, 0, 7)
+    ab_all = mget(st.mons.ability, tcl)
+    live0 = tv & RS.truthy((tt, tvv)) & (targets != u)
+    sap_all = live0 & _is(ab_all, "sapsipper") & (mtype == ids.TYPE_GRASS)
+    md_all = live0 & _is(ab_all, "motordrive") & (mtype == ids.TYPE_ELECTRIC)
+    z = jnp.zeros((T, 7), I32)
+    dlt = jnp.where(sap_all[:, None], z.at[:, 0].set(1), z.at[:, 4].set(1))
+    st, br_all, bmsgs = MP.boost_v(st, targets, dlt, sap_all | md_all, source=u,
+                                   ab_msg=jnp.where(sap_all, aeff("sapsipper"), aeff("motordrive")))
     for prio in (1, 0):
         for j in range(targets.shape[0]):
             t = jnp.clip(targets[j], 0, 7)
@@ -53,9 +65,10 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
             ab = mget(st.mons.ability, t)
             other = targets[j] != u
             if prio == 1:
-                sap = live & other & _is(ab, "sapsipper") & (mtype == ids.TYPE_GRASS)
-                st, br = MP.boost(st, t, jnp.zeros(7, I32).at[0].set(1), sap, source=u, ab_msg=aeff("sapsipper"))
-                st = EV.emit(st, sap & ~RS.truthy(br), EV.EV_IMMUNE, actor=t, v1=aeff("sapsipper"))
+                sap = sap_all[j]
+                st = MP.emit_boost(st, bmsgs, t, j, mask=sap)
+                st = EV.emit(st, sap & ~RS.truthy((br_all[0][j], br_all[1][j])), EV.EV_IMMUNE, actor=t,
+                             v1=aeff("sapsipper"))
                 hit = sap
             else:
                 hit = jnp.zeros((), bool)
@@ -66,9 +79,10 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
                     st, rng = STS.effect_heal(st, dex, rng, t, mx // 4, aeff(name), healed)
                     st = EV.emit(st, a & ~healed, EV.EV_IMMUNE, actor=t, v1=aeff(name))
                     hit = hit | a
-                md = live & other & _is(ab, "motordrive") & (mtype == ids.TYPE_ELECTRIC)
-                st, br = MP.boost(st, t, jnp.zeros(7, I32).at[4].set(1), md, source=u, ab_msg=aeff("motordrive"))
-                st = EV.emit(st, md & ~RS.truthy(br), EV.EV_IMMUNE, actor=t, v1=aeff("motordrive"))
+                md = md_all[j]
+                st = MP.emit_boost(st, bmsgs, t, j, mask=md)
+                st = EV.emit(st, md & ~RS.truthy((br_all[0][j], br_all[1][j])), EV.EV_IMMUNE, actor=t,
+                             v1=aeff("motordrive"))
                 hit = hit | md
                 if aid("flashfire") > 0 and "flashfire" in ids.CONDITIONS:
                     ff = live & other & _is(ab, "flashfire") & (mtype == ids.TYPE_FIRE)
@@ -105,7 +119,28 @@ def damaging_hit_first(st, dex, rng, targets, damaged, u, move, hit_no):
     return st, rng
 
 
-def damaging_hit(st, dex, rng, j, t, damaged, u, move, mtype, hit_no):
+def damaging_hit_boosts(st, dex, targets, damaged, u, move, mtype):
+    """The holders' self-boost DamagingHit abilities for every target in one boost (one ability per mon, distinct
+    targets): Stamina (+1 Def, source = attacker), Weak Armor (physical: -1 Def +2 Spe, self), Justified (Dark: +1
+    Atk), Rattled (Dark / Bug / Ghost: +1 Spe). Returns (st, msgs, on[T]); damaging_hit emits target j's messages."""
+    from vgcjax.battle import move_pipeline as MP
+    tcl = jnp.clip(targets, 0, 7)
+    ab = mget(st.mons.ability, tcl)
+    cat = dex.move_category[move]
+    sta = damaged & _is(ab, "stamina")
+    wa = damaged & _is(ab, "weakarmor") & (cat == ids.CAT_PHYSICAL)
+    jus = damaged & _is(ab, "justified") & (mtype == ids.TYPE_DARK)
+    rat = damaged & _is(ab, "rattled") & ((mtype == ids.TYPE_DARK) | (mtype == ids.TYPE_BUG) | (mtype == ids.TYPE_GHOST))
+    z = jnp.zeros((targets.shape[0], 7), I32)
+    d = jnp.where(sta[:, None], z.at[:, 1].set(1), jnp.where(wa[:, None], z.at[:, 1].set(-1).at[:, 4].set(2),
+                  jnp.where(jus[:, None], z.at[:, 0].set(1), z.at[:, 4].set(1))))
+    on = sta | wa | jus | rat
+    src = jnp.where(wa, tcl, u)
+    st, _, msgs = MP.boost_v(st, targets, d, on, source=src, ab_msg=ids.ABILITY_BASE + ab - 1)
+    return st, msgs, on
+
+
+def damaging_hit(st, dex, rng, j, t, damaged, u, move, mtype, hit_no, bmsgs, b_on):
     """The remaining DamagingHit ability handlers of target t (after its status's): Static / Flame Body / Poison
     Point (contact, 3/10 -> source.trySetStatus), Effect Spore (contact, powder-immunity, random(100) < 11 slp / 21
     par / 30 psn), Spicy Spray (brn), Stamina (+1 Def), Weak Armor (physical: -1 Def +2 Spe, self), Gooey
@@ -119,30 +154,32 @@ def damaging_hit(st, dex, rng, j, t, damaged, u, move, mtype, hit_no):
     ab = mget(st.mons.ability, tr)
     contact = _flag(dex, move, ids.MF_CONTACT)
     cat = dex.move_category[move]
+    # one trySetStatus on the source for the holder's status ability (one ability per mon); draws stay per ability
+    any_on = jnp.zeros((), bool)
+    s_val = jnp.zeros((), I32)
     for name, status in (("static", ids.COND_PAR), ("flamebody", ids.COND_BRN), ("poisonpoint", ids.COND_PSN)):
         on = damaged & contact & _is(ab, name)
         key = C.dkey(st, ids.DK_ABILITY_ONHIT_PROC, actor=tr, target=u, subject=aeff(name), hit=hit_no)
         ok, rng = R.chance(rng, key, 3, 10, active=on)
-        st, rng = _set_status(st, dex, rng, u, status, on & ok, tr, aeff(name))
+        any_on = any_on | (on & ok)
+        s_val = jnp.where(on & ok, status, s_val)
     if aid("effectspore") > 0:
         powder_ok = ~TC.status_immune(dex, ids.IMMUNITY_KEYS.index("powder"), mget(st.mons.types, u))
         on = damaged & contact & _is(ab, "effectspore") & powder_ok & ~mget(st.mons.fainted, u)
         key = C.dkey(st, ids.DK_ABILITY_ONHIT_PROC, actor=tr, target=u, subject=aeff("effectspore"), hit=hit_no)
         r, rng = R.randint(rng, key, 0, 100, active=on)
         status = jnp.where(r < 11, ids.COND_SLP, jnp.where(r < 21, ids.COND_PAR, ids.COND_PSN))
-        st, rng = _set_status(st, dex, rng, u, status, on & (r < 30), tr, aeff("effectspore"))
-    st, rng = _set_status(st, dex, rng, u, ids.COND_BRN, damaged & _is(ab, "spicyspray"), tr, aeff("spicyspray"))
+        any_on = any_on | (on & (r < 30))
+        s_val = jnp.where(on & (r < 30), status, s_val)
+    sp = damaged & _is(ab, "spicyspray")
+    any_on = any_on | sp
+    s_val = jnp.where(sp, ids.COND_BRN, s_val)
+    st, rng = _set_status(st, dex, rng, u, s_val, any_on, tr, ids.ABILITY_BASE + ab - 1)
     z = jnp.zeros(7, I32)
-    st, _ = MP.boost(st, tr, z.at[1].set(1), damaged & _is(ab, "stamina"), source=u, ab_msg=aeff("stamina"))
-    st, _ = MP.boost(st, tr, z.at[1].set(-1).at[4].set(2), damaged & _is(ab, "weakarmor") & (cat == ids.CAT_PHYSICAL),
-                     source=tr, ab_msg=aeff("weakarmor"))
+    st = MP.emit_boost(st, bmsgs, tr, j, mask=b_on[j])          # Stamina / Weak Armor / Justified / Rattled
     goo = damaged & contact & _is(ab, "gooey")
     st = EV.emit(st, goo, EV.EV_ABILITY, actor=tr, move=aeff("gooey"))
     st, _ = MP.boost(st, u, z.at[4].set(-1), goo, primary=True, source=tr, effect=aeff("gooey"))
-    st, _ = MP.boost(st, tr, z.at[0].set(1), damaged & _is(ab, "justified") & (mtype == ids.TYPE_DARK), source=u,
-                     ab_msg=aeff("justified"))
-    rat = damaged & _is(ab, "rattled") & ((mtype == ids.TYPE_DARK) | (mtype == ids.TYPE_BUG) | (mtype == ids.TYPE_GHOST))
-    st, _ = MP.boost(st, tr, z.at[4].set(1), rat, source=u, ab_msg=aeff("rattled"))
     # the attacker's Poison Touch (Source prefix: after the target's own handlers)
     pt = damaged & contact & _is(mget(st.mons.ability, u), "poisontouch") & ~_is(ab, "shielddust")
     key = C.dkey(st, ids.DK_ABILITY_ONHIT_PROC, actor=u, target=tr, subject=aeff("poisontouch"), hit=hit_no)

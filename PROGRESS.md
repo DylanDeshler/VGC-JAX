@@ -140,7 +140,9 @@ M3 content (2026-10-23)
   (no placeable species). Found: has_volatile was not vectorised over refs (latent); field handlers run before an
   ability holder whose cached speed is <= 0 (Trick Room negative speeds); Protect's '-activate' vs Dragon Darts
   depends on getSmartTargets.
-- Kernel count 199k after batches 3-4 (was 136k): repeated full boost_v calls in the reaction passes (to batch).
+- Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows
+  ~0.6-1.2k ops per implemented entity with masked per-entity code. ADR-106 (proposed): table-driven handler
+  families (O(1) per family). Reaction boosts / on-hit statuses already batched into one call per target set.
 - Found via the wider pool: Gigaton Hammer's cantusetwice disable; Dragon Darts — any step failure and Protect's
   TryHit clear smartTarget, a single remaining target takes every hit, spreadHit is fixed before the steps.
 - Regression suite regenerated with the current reducer (/tmp/wx/mkreg.sh pattern: same seeds, current stage).
@@ -190,6 +192,8 @@ none yet (no engine)
 none
 
 ## Pending escalations
+- (2026-10-24) ADR-106 proposed: kernel count grows linearly with content (~192k now, budget 10k); table-driven
+  handler families recommended; the ADR-104 budget needs revisiting with the human.
 - (2026-10-24) ADR-105 proposed: canonicalise fractional randomChance numerators to ceil in draw-arg comparison.
 - (2026-10-23) contract_version 2 implemented (ADR-101 b + ADR-103). ADR-104 option 4 (micro-steps) implemented:
   ≈15.4k kernel-like ops per decision (from 119.8k); new phase CONT. G-core re-run under v2 on the micro-step engine:

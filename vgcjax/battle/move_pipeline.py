@@ -219,9 +219,12 @@ def boost_math(cur, d, go, order=None, primary=False):
     return cur + capped, capped, (on, jnp.broadcast_to(order, on.shape), jnp.abs(c_o), flags)
 
 
-def emit_boost(st, msgs, actor, idx=()):
+def emit_boost(st, msgs, actor, idx=(), mask=True):
     """Emit the -boost/-unboost records of one boost application (msgs from boost_math / boost_v, indexed by `idx`);
-    boost_v's TryBoost messages and Guard Dog's nested boost come first."""
+    boost_v's TryBoost messages and Guard Dog's nested boost come first. `mask` gates every record (a caller emitting
+    one shared boost's messages in several places)."""
+    mask = jnp.asarray(mask)
+    st0 = st
     if len(msgs) == 5:
         from vgcjax.effects import ability_blocks as AXB
         pre = msgs[4]
@@ -237,7 +240,7 @@ def emit_boost(st, msgs, actor, idx=()):
             st = EV.emit(st, on[k], EV.EV_BOOST, actor=actor, v1=stat[k], v2=amt[k], flags=flags[k])
         return st
     shown = jnp.zeros((), bool)
-    ab_on, ab_eff = pre["ab_on"][idx], pre["ab_eff"]
+    ab_on, ab_eff = pre["ab_on"][idx], pre["ab_eff"][idx]
     r_on, r_amt, r_stat, r_eff = pre["react_on"][idx], pre["react_amt"][idx], pre["react_stat"][idx], pre["react_eff"][idx]
     for k in range(7):
         # an ability effect (not isSecondary): '-ability' X Name 'boost' before its first actual change (PS :2085)
@@ -252,7 +255,7 @@ def emit_boost(st, msgs, actor, idx=()):
     ra, rn = pre["rattle_amt"][idx], pre["rattle_on"][idx]
     st = EV.emit(st, rn & (ra > 0), EV.EV_ABILITY, actor=actor, move=pre["rattle_eff"], flags=EV.F_BOOST)
     st = EV.emit(st, rn & (ra > 0), EV.EV_BOOST, actor=actor, v1=4, v2=ra)
-    return st
+    return st.replace(events=jax.tree_util.tree_map(lambda a, b: jnp.where(mask, a, b), st.events, st0.events))
 
 
 def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effect=-1, has_secondaries=False,
@@ -279,7 +282,7 @@ def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effe
     new = new.at[:, 0].add(g_amt)
     pre["guard_amt"] = g_amt
     pre["ab_on"] = jnp.full(T, ab_msg is not None)
-    pre["ab_eff"] = jnp.asarray(-1 if ab_msg is None else ab_msg, I32)
+    pre["ab_eff"] = jnp.broadcast_to(jnp.asarray(-1 if ab_msg is None else ab_msg, I32), (T,))
     # AfterEachBoost (Defiant +2 Atk / Competitive +2 SpA) after each lowered stat from a non-ally source, in key order
     from vgcjax.effects.abilities import aeff, aid
     ab_t = mget(m.ability, jnp.clip(targets, 0, 7))
@@ -748,11 +751,13 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     damaged = tv & RS.is_num((tags, vals))
     from vgcjax.effects import ability_reactions as AR
     st, rng = AR.damaging_hit_first(st, dex, rng, targets, damaged, u, move, hit_no)
+    st, dh_msgs, dh_on = AR.damaging_hit_boosts(st, dex, targets, damaged, u, move, st.exec.mtype)
     for j in range(NT):
         hc = H.HookCtx.make(targets[j], u, C.eff_move(move), relay=(RS.NUM, vals[j]))
         hc, st, rng = H.run_event("DamagingHit", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_DAMAGINGHIT),
                                   on=damaged[j])
-        st, rng = AR.damaging_hit(st, dex, rng, j, targets[j], damaged[j], u, move, st.exec.mtype, hit_no)
+        st, rng = AR.damaging_hit(st, dex, rng, j, targets[j], damaged[j], u, move, st.exec.mtype, hit_no, dh_msgs,
+                                  dh_on)
     return st, rng, (tags, vals)
 
 
