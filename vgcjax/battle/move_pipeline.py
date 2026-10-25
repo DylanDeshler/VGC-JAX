@@ -394,7 +394,9 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=Fa
                   jnp.clip(b - mget(m.boosts, targets)[:, 6].astype(I32), -6, 6))
     staged = jnp.where(b > 0, acc_t * (3 + b) // 3, jnp.where(b < 0, acc_t * 3 // (3 - b), acc_t))
     acc = jnp.where(ohko > 0, ohko_acc, staged)
-    always = ((acc_base == 0) & (ohko == 0)) | ((tt == T.TARGET_SELF) & (cat == T.CAT_STATUS))
+    from vgcjax.effects import move_callbacks as MC
+    always = ((acc_base == 0) & (ohko == 0)) | ((tt == T.TARGET_SELF) & (cat == T.CAT_STATUS)) | \
+        MC.always_hits(st, u, move)
     key = C.dkey(st, ids.DK_ACCURACY, actor=u, target=targets, subject=C.eff_move(move), hit=0)
     hit, rng = R.chance_v(rng, key, acc, 100, active=live & ~always & ~ohko_immune)
     st = C.mul_tick(st, jnp.sum((live & (ohko == 0)).astype(I32)))   # runEvent('ModifyAccuracy') per non-OHKO target
@@ -421,7 +423,9 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     will_crit = dex.move_will_crit[move] == 1
     mtype = dex.move_type[move].astype(I32) if mtype is None else mtype
     bp = dex.move_bp[move].astype(I32) if bp is None else bp
-    fixed = dex.move_fixed_damage[move]
+    from vgcjax.effects import move_callbacks as MC
+    bp = MC.base_power(st, dex, u, move, targets, bp)                # basePowerCallback, per target
+    fixed = MC.fixed_damage(st, dex, u, move, targets, dex.move_fixed_damage[move].astype(I32))   # damageCallback
     ohko = dex.move_ohko[move] > 0
     rolls_damage = on & (bp > 0) & ~ohko & (fixed == 0)
     ckey = C.dkey(st, ids.DK_CRIT, actor=u, target=targets, subject=C.eff_move(move), hit=hit_no)
@@ -463,7 +467,7 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     eff = jax.vmap(lambda tt: TC.effectiveness(dex, mtype, tt))(t_types)
     ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev,
                   extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff)))
-    bp_post, _, rng = MOD.run("BasePower", ctx, rng, jnp.full(NT, jnp.maximum(bp, 1), I32), base + 1, reach)
+    bp_post, _, rng = MOD.run("BasePower", ctx, rng, jnp.maximum(bp, 1).astype(I32), base + 1, reach)
     atk_ev = jnp.where(dex.move_category[move] == T.CAT_PHYSICAL, 0, 2)
     for k, hook in ((0, "ModifyAtk"), (2, "ModifySpA")):
         ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev, extra={})
@@ -486,14 +490,14 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     guts = mget(m.ability, u) == opt_id("ABILITY_GUTS")
     no_burn = guts | (move == opt_id("MOVE_FACADE"))
 
-    def one(ds, db, dt, dmx, dg, dci, cd, r, fm, wm, bpp, ap, dp, sp):
+    def one(ds, db, dt, dmx, dg, dci, cd, r, fm, wm, bpp, ap, dp, sp, bp1, fx1):
         return D.get_damage_core(dex, move, **atk, def_stats5=ds, def_boosts7=db, def_types=dt, def_maxhp=dmx,
                                  def_grounded=dg, def_crit_immune=dci, crit_draw=cd, roll=r, spread=spread,
-                                 canary_crit=cfg.flags.canary_crit_2048, final_m4096=fm, mtype=mtype, bp=bp,
+                                 canary_crit=cfg.flags.canary_crit_2048, final_m4096=fm, mtype=mtype, bp=bp1, fixed=fx1,
                                  weather_m4096=wm, bp_post=bpp, atk_post=ap, def_post=dp,
                                  stab_post=jnp.where(is_struggle, 4096, sp), no_burn=no_burn, ignore_immunity=scr)
     dmg, kind, crit = jax.vmap(one)(stats_t, boosts_t, def_types, mget(m.maxhp, targets), grounded, crit_immune,
-                                    crit_draw, roll, final, wmod, bp_post, att, dfn, stab_post)
+                                    crit_draw, roll, final, wmod, bp_post, att, dfn, stab_post, bp, fixed)
     # [C] modifyDamage messages (data/mods/champions/scripts.ts:266-284): effectiveness then crit, per target
     formula = rolls_damage & (kind == D.DMG_NUMBER)
     tm = jnp.clip(jnp.where(is_struggle, 0, eff), -6, 6)
@@ -902,6 +906,8 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     st, rng = DS.choice_lock(st, dex, rng, u, move, go_rm & ~is_struggle)
     # the move's own weather-dependent onModifyType / onModifyMove (singleEvents, PS :494-495)
     a_type, a_bp, a_acc = WE.modify_move(st, dex, u, target, move)
+    from vgcjax.effects import move_callbacks as MC
+    a_type, a_bp = MC.terrain_pulse(st, dex, u, move, a_type, a_bp)
     # PS :519-528: addMove('move', pokemon, move, target); no target -> [notarget] + '-fail'
     st = EV.emit_move(st, go_rm & alive, u, target, move)
     no_target = go_rm & alive & (target < 0)

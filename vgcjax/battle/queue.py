@@ -90,7 +90,9 @@ def entry_ref(q: S.Queue):
 
 def move_priority(st: S.State, dex, ref, move_id):
     """Base priority + ModifyPriority (hooks in M3). PS: sim/battle.ts:2695-2702 getActionSpeed for moves."""
-    return dex.move_priority[jnp.asarray(move_id, I32)].astype(I32)
+    from vgcjax.effects import move_callbacks as MC
+    mv = jnp.asarray(move_id, I32)
+    return dex.move_priority[mv].astype(I32) + MC.priority_bonus(st, dex, ref, mv)   # onModifyPriority
 
 
 def frac_priority(st: S.State, dex, rng, ref, move_id, on):

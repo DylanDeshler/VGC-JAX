@@ -79,7 +79,7 @@ def raw_stats(dex, move, crit, atk_stats5, atk_boosts7, def_stats5, def_boosts7)
 def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned, def_stats5, def_boosts7, def_types,
                     def_maxhp, def_grounded, def_crit_immune, crit_draw, roll, spread, pbond_hit2=False,
                     canary_crit=False, final_m4096=4096, mtype=None, bp=None, weather_m4096=4096, bp_post=None,
-                    atk_post=None, def_post=None, stab_post=None, no_burn=False, ignore_immunity=False):
+                    atk_post=None, def_post=None, stab_post=None, no_burn=False, ignore_immunity=False, fixed=None):
     """Hook-free getDamage for move `move` (MoveId). PS: sim/battle-actions.ts:1639-1776.
 
     `crit_draw` is the CRIT draw outcome (ignored when crit_ratio == 0 or the move has willCrit);
@@ -96,7 +96,7 @@ def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned
     type_immune = type_immune & (dex.move_ignore_immunity[move] != 1) & ~jnp.asarray(ignore_immunity) & (
         mtype != ids.TYPE_TYPELESS)
     ohko = dex.move_ohko[move] > 0
-    fixed = dex.move_fixed_damage[move]
+    fixed = dex.move_fixed_damage[move] if fixed is None else fixed    # damageCallback result (Super Fang)
     bp = I(dex.move_bp[move] if bp is None else bp)
     # crit (PS :1678-1700): ModifyCritRatio HOOK(H13) = identity; willCrit; CriticalHit veto
     crit_ratio = jnp.clip(I(dex.move_crit_ratio[move]), 0, 4)

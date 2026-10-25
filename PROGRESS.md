@@ -157,6 +157,10 @@ M3 content (2026-10-23)
   Choice Scarf (ModifySpe x1.5 in spe_chain), Follow Me / Rage Powder (RedirectTarget in getMoveTargets: clears
   smartTarget, retargets the move line), Helping Hand (x1.5 / x2.25 BasePower), Parting Shot (selfSwitch cancelled
   if nothing lowered). The move's own onTryHit now runs per hit ([C] spreadMoveHit). Targeted + regression 100%.
+- Formula-callback moves (effects/move_callbacks.py, 23): basePowerCallback (weight, Eruption / Water Spout, Stomping
+  Tantrum / Temper Flare, Last Respects, Rage Fist, Acrobatics, Power Trip / Stored Power, Rising Voltage),
+  damageCallback (Super Fang), Grassy Glide priority, Sucker Punch onTry, Psychic Fangs / Brick Break screen break,
+  Terrain Pulse, Toxic's Poison-type accuracy, Quick Guard / Iron Head. Targeted corpora 100%.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

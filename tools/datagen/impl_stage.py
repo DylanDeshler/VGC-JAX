@@ -29,7 +29,11 @@ EXTRA: dict[str, set[str]] = {
               "sunnyday", "raindance", "sandstorm", "snowscape",         # effects/weather.py
               "weatherball", "thunder", "hurricane", "blizzard",
               "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain",    # effects/terrain.py
-              "taunt", "followme", "ragepowder", "helpinghand", "partingshot"},        # effects/disables.py
+              "taunt", "followme", "ragepowder", "helpinghand", "partingshot",         # effects/disables.py
+              "quickguard", "ironhead", "toxic", "lowkick", "grassknot", "heavyslam", "heatcrash", "lastrespects",
+              "stompingtantrum", "temperflare", "eruption", "waterspout", "acrobatics", "powertrip", "storedpower",
+              "ragefist", "risingvoltage", "superfang", "grassyglide", "suckerpunch", "psychicfangs", "brickbreak",
+              "terrainpulse"},                                                         # effects/move_callbacks.py
     "abilities": {"drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
