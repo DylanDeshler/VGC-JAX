@@ -43,7 +43,11 @@ EXTRA: dict[str, set[str]] = {
                   "stamina", "weakarmor", "gooey", "effectspore", "poisontouch", "spicyspray", "justified", "rattled",
                   "defiant", "competitive", "speedboost", "regenerator", "naturalcure", "angerpoint", "steadfast"},
                                                                                               # effects/ability_blocks.py
-    "items": set(),
+    "items": {"blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
+              "miracleseed", "mysticwater", "nevermeltice", "poisonbarb", "sharpbeak", "silkscarf", "silverpowder",
+              "softsand", "spelltag", "twistedspoon", "lifeorb", "expertbelt", "leftovers", "rockyhelmet",
+              "focussash", "lightclay", "heatrock", "damprock", "smoothrock", "icyrock", "terrainextender"},
+                                                                                              # effects/items.py
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",
                    "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain"},

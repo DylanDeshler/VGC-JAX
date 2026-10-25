@@ -38,9 +38,22 @@ class Mod:
     prefix: int
     fn: Callable         # fn(ctx, holder [T]) -> (applies bool[T], chain m4096 i32[T] | None, replace | None)
     ps: str
+    members: tuple = ()  # a table-driven family (ADR-106): effect ids sharing fn and handler order; one row
 
 
 MODS: dict[str, list[Mod]] = {}
+
+
+def mod_family(hook: str, effects, ps: str, prefix: int = ids.PFX_ON):
+    """Register one pure handler for a family of same-kind effects with identical handler order (ADR-106): a single
+    candidate row per holder whose effect is the holder's own member (fn reads the held entity itself)."""
+    effects = tuple(int(e) for e in effects)
+
+    def deco(fn):
+        if effects:
+            MODS.setdefault(hook, []).append(Mod(hook, effects[0], prefix, fn, ps, effects))
+        return fn
+    return deco
 
 
 def mod(hook: str, effect: int, ps: str, prefix: int = ids.PFX_ON):
@@ -87,6 +100,19 @@ def _held(st, ref, effect, kind):
     return CO.has_volatile(st, r, c)
 
 
+def _held_family(st, ref, members, kind):
+    """(holder's effect is a family member, that EffectId [T]) for ability / item families."""
+    m = st.mons
+    r = jnp.clip(ref, 0, 7)
+    base = ids.ABILITY_BASE if kind == "ability" else ids.ITEM_BASE
+    held = (mget(m.ability, r) if kind == "ability" else mget(m.item, r)).astype(I32)
+    n = len(ids.ABILITIES) if kind == "ability" else len(ids.ITEMS)
+    table = [False] * (n + 1)
+    for e in members:
+        table[e - base + 1] = True
+    return jnp.asarray(table)[jnp.clip(held, 0, n)], base + held - 1
+
+
 def _field_has(st, effect):
     c = effect - ids.COND_BASE + 1
     k = CO.kind_of(ids.CONDITIONS[c])
@@ -123,21 +149,25 @@ def _rows(ctx: Ctx, mods):
                         b = act[s, slot]
                         hs.append(jnp.where(b >= 0, s * 4 + b, -1))
             for n, h in enumerate(hs):
-                ok = (h >= 0) & mon_level & _held(st, h, md.effect, kind)
+                if md.members:
+                    held, eff_t = _held_family(st, h, md.members, kind)
+                else:
+                    held, eff_t = _held(st, h, md.effect, kind), None
+                ok = (h >= 0) & mon_level & held
                 if md.prefix not in (ids.PFX_ON, ids.PFX_SOURCE):
                     ok = ok & (mget(m.hp, jnp.clip(h, 0, 7)) > 0)
-                rows.append((i, h, ok, (kind, md.prefix, n) if kind in ("ability", "item", "status") else None))
+                rows.append((i, h, ok, (kind, md.prefix, n) if kind in ("ability", "item", "status") else None, eff_t))
         elif kind == "side":
             c = md.effect - ids.COND_BASE + 1
             sides = [t_side] if md.prefix == ids.PFX_ON else [1 - t_side] if md.prefix == ids.PFX_FOE else [
                 jnp.zeros(T, I32), jnp.ones(T, I32)]
             for s in sides:
-                rows.append((i, 8 + s, mon_level & jax.vmap(lambda ss: CO.has_side(st, ss, c))(s), None))
+                rows.append((i, 8 + s, mon_level & jax.vmap(lambda ss: CO.has_side(st, ss, c))(s), None, None))
         else:
             rows.append((i, jnp.full(T, 10, I32), jnp.broadcast_to(_field_has(st, md.effect), (T,)) & t_ok,
                          ("weather" if CO.kind_of(ids.CONDITIONS[md.effect - ids.COND_BASE + 1]) == CO.WEATHER else
-                          "terrain" if CO.kind_of(ids.CONDITIONS[md.effect - ids.COND_BASE + 1]) == CO.TERRAIN else None)
-                         ))
+                          "terrain" if CO.kind_of(ids.CONDITIONS[md.effect - ids.COND_BASE + 1]) == CO.TERRAIN else None),
+                         None))
     return rows
 
 
@@ -162,6 +192,8 @@ def run(hook: str, ctx: Ctx, rng, relay, ords, on, final=True):
     eff_l = [mods[r[0]].effect for r in rows]
     pfx_l = [mods[r[0]].prefix for r in rows]
     effs, pfxs = jnp.array(eff_l, I32), jnp.array(pfx_l, I32)
+    effs_t = jnp.stack([jnp.broadcast_to(jnp.asarray(r[4] if r[4] is not None else e, I32), (T,))
+                        for r, e in zip(rows, eff_l)], axis=1)          # [T, K] (families: the held member)
     results = [mods[r[0]].fn(ctx, r[1]) for r in rows]
     applies = jnp.stack([a for a, _, _ in results], axis=1) & present   # [T, K]
     mv = jnp.stack([jnp.broadcast_to(jnp.asarray(m if (m is not None and not callable(m)) else 4096, I32), (T,))
@@ -177,14 +209,14 @@ def run(hook: str, ctx: Ctx, rng, relay, ords, on, final=True):
     tie_possible = any(skey[a] == skey[b] and not (rows[a][3] is not None and rows[a][3] == rows[b][3])
                        for a in range(K) for b in range(a + 1, K))
     KP = min(K, KMAX)
-    o = dex.handler_order[effs, hook_id, pfxs].astype(I32)            # [K, 3]
+    o = dex.handler_order[jnp.maximum(effs_t, 0), hook_id, pfxs[None, :]].astype(I32)   # [T, K, 3]
     spd = jnp.where(holder < 8, mget(st.mons.speed, jnp.clip(holder, 0, 7)).astype(I32), 0)
-    canon = holder_rank(st, holder) * 4096 + jnp.asarray(_STR_RANK)[effs][None, :]
+    canon = holder_rank(st, holder) * 4096 + jnp.asarray(_STR_RANK)[jnp.clip(effs_t, 0, len(_STR_RANK) - 1)]
     out, mods_t = [], []
     for t in range(T):
         sel = jnp.nonzero(present[t], size=KP, fill_value=0)[0]          # present rows (collection order)
         cv = jnp.arange(KP) < jnp.sum(present[t].astype(I32))
-        keys = (o[sel, 0], o[sel, 1], spd[t][sel], o[sel, 2], jnp.zeros(KP, I32))
+        keys = (o[t, sel, 0], o[t, sel, 1], spd[t][sel], o[t, sel, 2], jnp.zeros(KP, I32))
         perm, group = H.sort_order(keys, cv)
         if tie_possible and KP >= 2:
             perm, rng = _draw_ties(st, rng, perm, group, cv, canon[t][sel], ords[t], on[t])

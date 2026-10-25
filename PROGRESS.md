@@ -140,6 +140,11 @@ M3 content (2026-10-23)
   (no placeable species). Found: has_volatile was not vectorised over refs (latent); field handlers run before an
   ability holder whose cached speed is <= 0 (Trick Room negative speeds); Protect's '-activate' vs Dragon Darts
   depends on getSmartTargets.
+- Items batch 1 (effects/items.py): the 18 type-boost items (one table-driven family, modifiers.mod_family,
+  ADR-106), Life Orb (ModifyDamage + AfterMoveSecondarySelf recoil), Expert Belt, Leftovers, Rocky Helmet,
+  Focus Sash (Damage event + useItem, '-enditem' before '-damage'), weather rocks / Light Clay / Terrain Extender.
+  useItem resets itemState.effectOrder; Struggle is '???' for the modifier events. 300 random + 10 targeted +
+  76 regression corpora 100% (except the ADR-105 cases).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows
   ~0.6-1.2k ops per implemented entity with masked per-entity code. ADR-106 (proposed): table-driven handler
   families (O(1) per family). Reaction boosts / on-hit statuses already batched into one call per target set.

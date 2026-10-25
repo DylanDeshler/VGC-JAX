@@ -448,29 +448,30 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     # the MUL events (effects/modifiers.py) in getDamage order (PS :1757-1762): 'Modify' + Atk / SpA by category
     # on the user, 'Modify' + the defensive stat on the target (Foul Play / Body Press only change the stat read)
     uu = jnp.full(NT, u, I32)
+    mtype_ev = jnp.where(is_struggle, T.TYPE_TYPELESS, mtype)       # Struggle's onModifyMove type '???'
     stats_t, boosts_t = mget(m.stats, targets), mget(m.boosts, targets)
     att, dfn, off_idx, def_idx = jax.vmap(lambda ds, db, cr: D.raw_stats(dex, move, cr, atk["atk_stats5"],
                                                                           atk["atk_boosts7"], ds, db))(
         stats_t, boosts_t, will_crit_t)
     eff = jax.vmap(lambda tt: TC.effectiveness(dex, mtype, tt))(t_types)
-    ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype,
+    ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev,
                   extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff)))
     bp_post, _, rng = MOD.run("BasePower", ctx, rng, jnp.full(NT, jnp.maximum(bp, 1), I32), base + 1, reach)
     atk_ev = jnp.where(dex.move_category[move] == T.CAT_PHYSICAL, 0, 2)
     for k, hook in ((0, "ModifyAtk"), (2, "ModifySpA")):
-        ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype, extra={})
+        ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev, extra={})
         v, _, rng = MOD.run(hook, ctx, rng, att, base + 2, reach & (atk_ev == k))
         att = jnp.where(atk_ev == k, v, att)
     for k, hook in enumerate(STAT_HOOKS):
-        ctx = MOD.Ctx(st, dex, tgt=targets, src=uu, move=move, mtype=mtype, extra={})
+        ctx = MOD.Ctx(st, dex, tgt=targets, src=uu, move=move, mtype=mtype_ev, extra={})
         v, _, rng = MOD.run(hook, ctx, rng, dfn, base + 3, reach & (def_idx == k))
         dfn = jnp.where(def_idx == k, v, dfn)
     u_types = mget(m.types, u)
     stab0 = jnp.where(jnp.any(u_types == mtype) | (dex.move_force_stab[move] == 1), 6144, 4096)
-    ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype, extra={})
+    ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev, extra={})
     stab_post, _, rng = MOD.run("ModifySTAB", ctx, rng, jnp.full(NT, stab0, I32), base + 4, reach & ~is_struggle,
                                 final=False)
-    ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype,
+    ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev,
                   extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff)))
     _, final, rng = MOD.run("ModifyDamage", ctx, rng, jnp.ones(NT, I32), dmg_ord, reach)
     guts = mget(m.ability, u) == opt_id("ABILITY_GUTS")
@@ -526,7 +527,10 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     hp0 = hp_t <= 0
     inactive = ~mget(m.is_active, targets)
     go = tv & numeric & ~hp0 & ~inactive
-    amt = jnp.where(vals != 0, jnp.maximum(vals, 1), 0)                     # HOOK(H21) Damage event
+    amt = jnp.where(vals != 0, jnp.maximum(vals, 1), 0)
+    # runEvent('Damage', target, source, move): Focus Sash (Sturdy etc.: M4)
+    from vgcjax.effects import items as IT
+    amt, sash = IT.focus_sash(st, targets, amt, go & (amt > 0))
     hit_t = go & (amt > 0)
     dealt = jnp.where(hit_t, jnp.minimum(amt, hp_t), 0)
     new_hp = hp_t - dealt
@@ -545,6 +549,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     act_u = mget(m.is_active, u)
     healed = jnp.zeros((), bool)
     for j in range(NT):
+        st = IT.use_item(st, targets[j], sash[j])                 # '-enditem' X Focus Sash (inside the Damage event)
         pct, col = EV.hp_public(new_hp[j], mx_t[j])
         st = EV.emit(st, go[j], EV.EV_DAMAGE, actor=targets[j], v1=pct, v2=col)  # PS: sim/battle.ts:2171
         a = (2 * dealt[j] * drain_n + drain_d) // (2 * drain_d)                    # Math.round
@@ -751,6 +756,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     damaged = tv & RS.is_num((tags, vals))
     from vgcjax.effects import ability_reactions as AR
     st, rng = AR.damaging_hit_first(st, dex, rng, targets, damaged, u, move, hit_no)
+    from vgcjax.effects import items as IT
+    st, rng = IT.rocky_helmet(st, dex, rng, targets, damaged, u, move)        # onDamagingHitOrder 2
     st, dh_msgs, dh_on = AR.damaging_hit_boosts(st, dex, targets, damaged, u, move, st.exec.mtype)
     for j in range(NT):
         hc = H.HookCtx.make(targets[j], u, C.eff_move(move), relay=(RS.NUM, vals[j]))
@@ -1099,7 +1106,10 @@ def move_end(st, dex, rng, cfg):
     # selfBoost (Scale Shot) on success
     st, _ = boost(st, u, dex.move_selfboost[move], result & jnp.any(dex.move_selfboost[move] != 0), source=u)
     st = F.faint(st, u, go & (mget(st.mons.hp, u) <= 0))
-    # MoveFail / AfterMoveSecondarySelf / EmergencyExit: M3
+    # runEvent('AfterMoveSecondarySelf', pokemon, target, move) on success (PS :600-603): Life Orb (MoveFail,
+    # EmergencyExit: M4)
+    from vgcjax.effects import items as IT
+    st, rng = IT.life_orb_recoil(st, dex, rng, u, -1, move, result)
     set_null = set_null & go & ex.has_t
     # ---- runMove tail
     go_rm = end & ex.go_rm
