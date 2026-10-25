@@ -75,6 +75,14 @@ def main() -> None:
     toid = lambda s: "".join(ch for ch in s.lower() if ch.isalnum())  # noqa: E731
     species = set(core["species"]) | {s for s in v0["species"] if any(
         toid(a) in abilities for a in species_data[s]["abilities"].values())}
+    # Mega Stones (effects/mega.py) whose base species is in the pool and whose Mega's ability is implemented
+    items_data = json.loads((EXPORT / "items.json").read_text())
+    megas = set()
+    for it in v0["items"]:
+        for base, mega in (items_data.get(it, {}).get("megaStone") or {}).items():
+            md = species_data.get(toid(mega), {})
+            if toid(base) in species and toid(md.get("abilities", {}).get("0", "")) in abilities:
+                megas.add(it)
     moves = set(core["moves"]) | {m for m in v0["moves"] if supported_move(census["move"].get(m, {}))} | EXTRA["moves"]
     conds = set(core["conditions"]) | set().union(*SUPPORTED_REFS.values()) | EXTRA["conditions"]
     out = {
@@ -82,7 +90,7 @@ def main() -> None:
         "species": sorted(species),
         "moves": sorted(moves),
         "abilities": sorted(abilities),
-        "items": sorted(set(core["items"]) | EXTRA["items"]),
+        "items": sorted(set(core["items"]) | EXTRA["items"] | megas),
         "conditions": sorted(conds),
         "implemented_conditions": sorted(set().union(*SUPPORTED_REFS.values()) | EXTRA["conditions"]),
         "meta": {"rule": "core + DATA_ONLY v0 moves whose data_refs are implemented (tools/datagen/impl_stage.py "

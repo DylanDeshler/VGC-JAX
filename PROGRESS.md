@@ -149,6 +149,10 @@ M3 content (2026-10-23)
   after the hit loop, runPursuitActivation, after eachEvent('Weather')), the 17 resist berries (one family; eatItem
   '[eat]' + '[weaken]' inside ModifyDamage), foe Unnerve blocks eating. Found: a user put to sleep mid-move stops a
   multi-hit move ([C] scripts.ts:462); switch-flag clears must persist across sides.
+- Mega Evolution (effects/mega.py, M3.6): megaEvo action -> formeChange (setSpecies, baseSpecies, updateMaxHp,
+  'detailschange' / '-mega'), setAbility (End old, Start new: Drought / Intimidate etc. fire), one per side.
+  impl gets the 37 Mega Stones whose Mega's ability is implemented; corpora use --policy random-weighted
+  (megaProb 0.6). 37 per-stone corpora + 200 random 100%.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

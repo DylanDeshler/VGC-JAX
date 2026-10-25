@@ -89,3 +89,41 @@ i_chopleberry | --n 150 --seed 110 --teams stagereq:impl:item:chopleberry --stag
 i_passhoberry | --n 150 --seed 110 --teams stagereq:impl:item:passhoberry --stage impl
 i_sitrus_unnerve | --n 150 --seed 110 --teams stagereq:impl:item:sitrusberry+ability:unnerve --stage impl
 i_sitrus_uturn | --n 150 --seed 110 --teams stagereq:impl:item:sitrusberry+move:uturn --stage impl
+m_abomasite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:abomasite --stage impl
+m_absolitez | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:absolitez --stage impl
+m_aerodactylite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:aerodactylite --stage impl
+m_barbaracite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:barbaracite --stage impl
+m_beedrillite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:beedrillite --stage impl
+m_blastoisinite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:blastoisinite --stage impl
+m_blazikenite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:blazikenite --stage impl
+m_charizarditex | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:charizarditex --stage impl
+m_charizarditey | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:charizarditey --stage impl
+m_chesnaughtite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:chesnaughtite --stage impl
+m_chimechite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:chimechite --stage impl
+m_crabominite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:crabominite --stage impl
+m_delphoxite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:delphoxite --stage impl
+m_dragalgite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:dragalgite --stage impl
+m_dragoninite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:dragoninite --stage impl
+m_falinksite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:falinksite --stage impl
+m_galladite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:galladite --stage impl
+m_garchompite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:garchompite --stage impl
+m_garchompitez | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:garchompitez --stage impl
+m_glimmoranite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:glimmoranite --stage impl
+m_houndoominite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:houndoominite --stage impl
+m_lopunnite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:lopunnite --stage impl
+m_lucarionite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:lucarionite --stage impl
+m_manectite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:manectite --stage impl
+m_mawilite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:mawilite --stage impl
+m_medichamite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:medichamite --stage impl
+m_metagrossite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:metagrossite --stage impl
+m_raichunitex | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:raichunitex --stage impl
+m_scizorite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:scizorite --stage impl
+m_scolipite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:scolipite --stage impl
+m_scovillainite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:scovillainite --stage impl
+m_scraftinite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:scraftinite --stage impl
+m_sharpedonite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:sharpedonite --stage impl
+m_slowbronite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:slowbronite --stage impl
+m_starminite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:starminite --stage impl
+m_tyranitarite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:tyranitarite --stage impl
+m_venusaurite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:venusaurite --stage impl
+impl_random_mega | --n 300 --seed 120 --policy random-weighted --teams stage:impl --stage impl --legal on

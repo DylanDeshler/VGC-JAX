@@ -178,7 +178,10 @@ def run_light(st, dex, rng, cfg, idx, on):
     # runSwitch (batched)
     st, rng = SW.run_switch(st, dex, rng, [ref], on & (kind == S.Q_RUN_SWITCH))
     # beforeTurn: eachEvent('BeforeTurn') (hooks M3); megaEvo (M3.6); others unsupported in core
-    unsupported = on & ((kind == S.Q_MEGA) | (kind == S.Q_BEFORE_TURN_MOVE) | (kind == S.Q_PRIORITY_CHARGE) |
+    # megaEvo (PS :2766-2768): runMegaEvo
+    from vgcjax.effects import mega as MG
+    st, rng = MG.mega_evolve(st, dex, rng, ref, on & (kind == S.Q_MEGA))
+    unsupported = on & ((kind == S.Q_BEFORE_TURN_MOVE) | (kind == S.Q_PRIORITY_CHARGE) |
                         (kind == S.Q_REVIVAL))
     st = or_flag(st, E.ERR_UNSUPPORTED_EFFECT, unsupported)
     return st, rng

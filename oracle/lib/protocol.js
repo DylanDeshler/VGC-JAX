@@ -99,6 +99,10 @@ function reduce(lines, battle) {
 				ev('FAIL', { actor: refOf(parts[1]), move: why && why !== 'heal' ? toID(why) : '', v1: '',
 					flags: why === 'heal' ? F.HEAL : why ? F.FAILSTATUS : 0 });
 			}
+		} else if (type === '-mega') {
+			ev('MEGA', { actor: refOf(parts[1]), move: toID(parts[3]) });
+		} else if (type === 'detailschange') {
+			ev('DETAILSCHANGE', { actor: refOf(parts[1]), v1: toID(String(parts[2]).split(',')[0]) });
 		} else if (type === '-enditem') {
 			ev('ENDITEM', { actor: refOf(parts[1]), move: toID(parts[2]),
 				flags: (tags.includes('[eat]') ? 1 : 0) | (tags.includes('[weaken]') ? 2 : 0) });

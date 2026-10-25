@@ -36,6 +36,8 @@ def engine_events(st) -> tuple[list[dict], bool]:
         t, kind, actor, target, move, v1, v2, flags = (int(x) for x in buf[a % S.NE])
         name = EV.KINDS[kind]
         mv = effect_name(move) if name in EV.EFFECT_KINDS else (ids.MOVES[move] if 0 < move < len(ids.MOVES) else "")
+        if name == "DETAILSCHANGE":
+            v1 = ids.SPECIES[v1] if 0 < v1 < len(ids.SPECIES) else ""
         if name in ("STATUS", "CURESTATUS", "START", "END", "WEATHER", "ITEM", "IMMUNE", "FAIL"):
             v1 = effect_name(v1) if v1 >= 0 else ""
         out.append(dict(kind=name, actor=actor, target=target, move=mv, v1=v1, v2=v2, flags=flags))

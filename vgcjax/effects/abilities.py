@@ -83,7 +83,7 @@ def _table(mapping, value_fn):
     return jnp.array(t, I32)
 
 
-def switch_in_vec(st, dex, rng, u, on):
+def switch_in_vec(st, dex, rng, u, on, start=False):
     """The SwitchIn handler (onStart, or onSwitchIn when defined) of holder u's ability, for the abilities of
     SWITCH_IN (data/abilities.ts):
       Drought / Drizzle / Sand Stream / Snow Warning: this.field.setWeather(w) (source = holder, sourceEffect = the
@@ -96,7 +96,8 @@ def switch_in_vec(st, dex, rng, u, on):
       Pressure: '-ability' X 'Pressure';
       Unnerve: unless effectState.unnerved, '-ability' X 'Unnerve' and unnerved = true;
       Frisk: per unfainted foe holding an item, '-item' target item '[from] ability: Frisk' '[of] pokemon'.
-    Returns (st, rng)."""
+    start=True: singleEvent('Start', ability) (setAbility after a forme change) runs onStart instead of onSwitchIn,
+    which differs only for Cloud Nine (no '-ability' line). Returns (st, rng)."""
     from vgcjax.battle import move_pipeline as MP
     from vgcjax.effects import terrain as TR
     from vgcjax.effects import weather as WE
@@ -111,7 +112,7 @@ def switch_in_vec(st, dex, rng, u, on):
     tc = _table(TERRAIN_SETTERS, CO.cid)[ab]
     st, rng, _ = TR.set_terrain(st, dex, rng, tc, on & (tc > 0), source=u, source_effect=src_eff)
     c9 = is_("cloudnine")
-    st = _ability_msg(st, c9, u, "cloudnine")
+    st = _ability_msg(st, c9 & (not start), u, "cloudnine")
     if aid("cloudnine") > 0:
         st = set_state_field(st, r, "cloudnine", "ending", 0, c9)
     st = _ability_msg(st, is_("pressure"), u, "pressure")
