@@ -189,8 +189,15 @@ def get_move_targets(st, dex, rng, u, move, target, on):
     rnd, rng = get_random_target(st, dex, rng, u, move, 2, jnp.asarray(on) & retarget & _in(tt, SINGLE_TARGET + (
         T.TARGET_SCRIPTED,)))
     t2 = jnp.where(retarget, rnd, t)
-    # HOOK(H4) RedirectTarget (not for tracksTarget)
-    smart = dex.move_smart_target[move] == 1
+    # priorityEvent('RedirectTarget') (activePerHalf > 1, not tracksTarget): Follow Me / Rage Powder; a redirect clears
+    # smartTarget and retargets the move line (effects/disables.py)
+    from vgcjax.effects import disables as DS
+    single_tt = _in(tt, SINGLE_TARGET)
+    t_red, red = DS.redirect_target(st, dex, u, move, t2, jnp.asarray(on) & single_tt & (t2 >= 0) &
+                                    (dex.move_tracks_target[move] != 1))
+    red = red & (t_red != t2)
+    t2 = t_red
+    smart = (dex.move_smart_target[move] == 1) & ~red
     tally = jnp.where(t2 >= 0, living_ally(st, t2), -1)
     smart_two = smart & (tally >= 0) & (tally != u) & (mget(m.hp, t2) > 0)
     smart_ally_only = smart & ~smart_two & (tally >= 0) & (tally != u) & (mget(m.hp, t2) <= 0)
@@ -202,7 +209,7 @@ def get_move_targets(st, dex, rng, u, move, target, on):
     out = jnp.where(tt == T.TARGET_ALLADJACENT, t_adj,
           jnp.where(tt == T.TARGET_ALLADJACENTFOES, t_adjfoes,
           jnp.where(tt == T.TARGET_ALLIES, t_allies, single)))
-    return out, smart_two, rng
+    return out, smart_two, rng, jnp.where(red, t2, -1)
 
 
 # ------------------------------------------------------------------ boosts (PS: sim/battle.ts:2037-2106)
@@ -514,7 +521,22 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     tags = jnp.full(NT, RS.BOOL, I32)
     vals = jnp.ones(NT, I32)
     tv = jnp.asarray(tvalid) & on
-    # TryHit (move onTryHit; none in core) / TryPrimaryHit (Substitute; HOOK H12) -> true
+    # [C] scripts.ts:327-339: singleEvent('TryHit', move, {}, targets[0], pokemon, move) (TryHitField / TryHitSide
+    # for side / field moves: no Reg M-C handler); falsy -> damage [false] (false: '-fail' pokemon, [still])
+    em_ = C.eff_move(move)
+    th_on = on & ~jnp.asarray(side_mode) & (targets[0] >= 0) & CO.registered_for(ids.HOOK_TRYHIT, em_,
+                                                                                  effect_range=CO.MOVE_RANGE)
+    hct = H.HookCtx.make(targets[0], u, em_)
+    hct, st, rng = CO.single_event(ids.HOOK_TRYHIT, em_, st, dex, rng, hct, th_on, effect_range=CO.MOVE_RANGE)
+    th_r = CO.event_result(hct)
+    th_bad = th_on & ~RS.truthy(th_r)
+    st = EV.emit(st, th_bad & RS.is_false(th_r), EV.EV_FAIL, actor=u)
+    st = EV.attr_last_move(st, th_bad & RS.is_false(th_r), EV.F_STILL)
+    tags = jnp.where(th_bad, RS.BOOL, tags)
+    vals = jnp.where(th_bad, 0, vals)
+    tv = tv & ~th_bad
+    on = on & ~th_bad                                                  # returns [[false], targets]
+    # TryPrimaryHit (Substitute; HOOK H12) -> true
 
     # 1. getSpreadDamage
     st, res, rng, crit_t = get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, tv, mtype=st.exec.mtype,
@@ -602,6 +624,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     css = cs_side[side_of(u)]                     # faint() only queues: canSwitch is unchanged within the loop
     mstatus = dex.move_status[move].astype(I32)
     memento = jnp.zeros((), bool)
+    ps_fail = jnp.zeros((), bool)
     from vgcjax.effects import statuses as STS
     # status for every remaining target at once (independent per target; messages emitted in the loop)
     st, rng, sres_v, smsg = STS.try_set_status_v(st, dex, rng, targets, mstatus, cont & (mstatus > 0), u,
@@ -666,7 +689,16 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         from vgcjax.effects import ability_reactions as AR
         st = AR.anger_point(st, targets[j], crit_t[j], cj & ~side_mode_)        # Anger Point onHit
         memento = memento | (cj & selfdestruct_ifhit & ~RS.is_false(tj))
-        dj = RS.where(cj & self_switch, RS.where(css, RS.R(RS.BOOL, 1), RS.combine(dj, RS.R(RS.BOOL, 0))), dj)
+        # Parting Shot onHit: boost({atk: -1, spa: -1}, target, source); no change (and no Mirror Armor) -> delete
+        # move.selfSwitch (data/moves.ts partingshot)
+        if opt_id("MOVE_PARTINGSHOT") > 0:
+            ps_on = cj & ~side_mode_ & (move == T.MOVE_PARTINGSHOT)
+            st, ps_r = boost(st, targets[j], jnp.zeros(7, I32).at[0].set(-1).at[2].set(-1), ps_on, primary=True,
+                             source=u, effect=C.eff_move(move))
+            ps_fail = ps_fail | (ps_on & ~RS.truthy(ps_r))
+            dj = RS.where(ps_on, RS.combine(dj, RS.R(RS.BOOL, 1)), dj)   # singleEvent('Hit') -> true (no return)
+        self_switch_j = self_switch & ~ps_fail
+        dj = RS.where(cj & self_switch_j, RS.where(css, RS.R(RS.BOOL, 1), RS.combine(dj, RS.R(RS.BOOL, 0))), dj)
         dj = RS.where(dj[0] == RS.UNDEF, RS.R(RS.BOOL, 1), dj)
         tj = RS.where(cj, RS.combine(tj, RS.null_to_false(dj)), tj)
         da = RS.where(cj, RS.combine(da, dj), da)
@@ -680,7 +712,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     st = EV.emit(st, fail_msg, EV.EV_FAIL, actor=u)
     st = EV.attr_last_move(st, fail_msg, EV.F_STILL)
     did_nothing = ~RS.truthy(da) & ~((da[0] == RS.NUM) & (da[1] == 0)) & ~has_self & (dex.move_selfdestruct[move] == 0)
-    set_flag = on & ~did_nothing & self_switch & (mget(m.hp, u) > 0) & css
+    set_flag = on & ~did_nothing & self_switch & ~ps_fail & (mget(m.hp, u) > 0) & css
     st = st.replace(mons=m.replace(switch_flag=mset(m.switch_flag, u, move + 2, set_flag)))
     tv = tv & RS.hit_or_zero((tags, vals))
 
@@ -865,6 +897,9 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # runEvent('ModifyType') (M3+), runEvent('ModifyMove', pokemon, target, move) (PS :494-495): frz defrost
     hc = H.HookCtx.make(u, target, C.eff_move(move))
     hc, st, rng = H.run_event("ModifyMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_MODIFYMOVE), on=go_rm)
+    # the choice items' onModifyMove: addVolatile('choicelock')
+    from vgcjax.effects import disables as DS
+    st, rng = DS.choice_lock(st, dex, rng, u, move, go_rm & ~is_struggle)
     # the move's own weather-dependent onModifyType / onModifyMove (singleEvents, PS :494-495)
     a_type, a_bp, a_acc = WE.modify_move(st, dex, u, target, move)
     # PS :519-528: addMove('move', pokemon, move, target); no target -> [notarget] + '-fail'
@@ -873,7 +908,8 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     st = EV.attr_last_move(st, no_target, EV.F_NOTARGET)
     st = EV.emit(st, no_target, EV.EV_FAIL, actor=u)
     go_um = go_rm & alive & (target >= 0)
-    targets, smart, rng = get_move_targets(st, dex, rng, u, move, target, go_um)
+    targets, smart, rng, retgt = get_move_targets(st, dex, rng, u, move, target, go_um)
+    st = EV.retarget_last_move(st, go_um & (retgt >= 0) & (targets[0] == retgt), retgt)  # PS getMoveTargets
     # PS :533-548: runEvent('DeductPP') over pressureTargets (Pressure), then deductPP(move, extraPP)
     from vgcjax.effects import abilities as AB
     extra = AB.pressure_extra_pp(st, dex, u, move, targets, go_um & has_slot)

@@ -127,3 +127,10 @@ m_starminite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:
 m_tyranitarite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:tyranitarite --stage impl
 m_venusaurite | --n 60 --seed 121 --policy random-weighted --teams stagereq:impl:item:venusaurite --stage impl
 impl_random_mega | --n 300 --seed 120 --policy random-weighted --teams stage:impl --stage impl --legal on
+s_taunt | --n 150 --seed 131 --teams stagereq:impl:move:taunt --stage impl
+s_taunt_obl | --n 150 --seed 131 --teams stagereq:impl:move:taunt+ability:oblivious --stage impl
+s_followme | --n 150 --seed 131 --teams stagereq:impl:move:followme --stage impl
+s_ragepowder | --n 150 --seed 131 --teams stagereq:impl:move:ragepowder --stage impl
+s_helpinghand | --n 150 --seed 131 --teams stagereq:impl:move:helpinghand --stage impl
+s_partingshot | --n 150 --seed 131 --teams stagereq:impl:move:partingshot --stage impl
+s_scarf | --n 150 --seed 131 --teams stagereq:impl:item:choicescarf --stage impl

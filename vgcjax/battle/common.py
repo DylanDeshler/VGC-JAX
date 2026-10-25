@@ -99,6 +99,9 @@ def spe_chain(st: S.State, ref, spe):
     k = ids.COND_TAILWIND - ids.SIDE_BASE
     tail = active & (((st.sides.side_cond_bits[jnp.clip(side, 0, 1)] >> k) & 1) == 1)
     mod = jnp.where(tail, fp.chain_modify(jnp.int32(4096), 2, 1), 4096)
+    # Choice Scarf onModifySpe (priority 0): chainModify(1.5) (two factors: order-free)
+    scarf = active & (mget(m.item, ref) == getattr(ids, "ITEM_CHOICESCARF", -1))
+    mod = jnp.where(scarf, fp.chain_modify(mod, 3, 2), mod)
     par = active & (mget(m.status, ref) == ids.COND_PAR)
     spe = jnp.where(par, fp.modify_raw(spe, mod), spe)
     mod = jnp.where(par, 4096, mod)

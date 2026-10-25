@@ -91,7 +91,8 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
                     st = EV.emit(st, ff & ~RS.truthy(fr), EV.EV_IMMUNE, actor=t, v1=aeff("flashfire"))
                     hit = hit | ff
                     acc_true = acc_true | ff
-                for name, cond in (("soundproof", other & _flag(dex, move, ids.MF_SOUND)),
+                tnt = (move == getattr(ids, "MOVE_TAUNT", -1)) | (move == getattr(ids, "MOVE_ATTRACT", -1))
+                for name, cond in (("oblivious", tnt), ("soundproof", other & _flag(dex, move, ids.MF_SOUND)),
                                    ("bulletproof", _flag(dex, move, ids.MF_BULLET)),
                                    ("goodasgold", other & (cat == ids.CAT_STATUS))):
                     a = live & _is(ab, name) & cond

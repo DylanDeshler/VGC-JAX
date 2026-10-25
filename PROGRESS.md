@@ -153,6 +153,10 @@ M3 content (2026-10-23)
   'detailschange' / '-mega'), setAbility (End old, Start new: Drought / Intimidate etc. fire), one per side.
   impl gets the 37 Mega Stones whose Mega's ability is implemented; corpora use --policy random-weighted
   (megaProb 0.6). 37 per-stone corpora + 200 random 100%.
+- Support-move batch (effects/disables.py): Taunt (DisableMove / BeforeMove, Oblivious immunity), choicelock +
+  Choice Scarf (ModifySpe x1.5 in spe_chain), Follow Me / Rage Powder (RedirectTarget in getMoveTargets: clears
+  smartTarget, retargets the move line), Helping Hand (x1.5 / x2.25 BasePower), Parting Shot (selfSwitch cancelled
+  if nothing lowered). The move's own onTryHit now runs per hit ([C] spreadMoveHit). Targeted + regression 100%.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

@@ -28,7 +28,8 @@ EXTRA: dict[str, set[str]] = {
               "tailwind", "trickroom", "reflect", "lightscreen",         # effects/field.py
               "sunnyday", "raindance", "sandstorm", "snowscape",         # effects/weather.py
               "weatherball", "thunder", "hurricane", "blizzard",
-              "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain"},   # effects/terrain.py
+              "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain",    # effects/terrain.py
+              "taunt", "followme", "ragepowder", "helpinghand", "partingshot"},        # effects/disables.py
     "abilities": {"drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
@@ -49,11 +50,12 @@ EXTRA: dict[str, set[str]] = {
               "focussash", "lightclay", "heatrock", "damprock", "smoothrock", "icyrock", "terrainextender",
               "sitrusberry", "babiriberry", "chartiberry", "chopleberry", "cobaberry", "colburberry", "habanberry",
               "kasibberry", "kebiaberry", "occaberry", "passhoberry", "payapaberry", "rindoberry", "roseliberry",
-              "shucaberry", "tangaberry", "wacanberry", "yacheberry"},                         # + effects/berries.py
+              "shucaberry", "tangaberry", "wacanberry", "yacheberry", "choicescarf"},                         # + effects/berries.py
                                                                                               # effects/items.py
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",
-                   "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain"},
+                   "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain",
+                   "taunt", "choicelock", "followme", "ragepowder", "helpinghand"},
 }
 
 
