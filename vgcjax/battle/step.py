@@ -78,16 +78,21 @@ def decode_move_slot(st, dex, side, slot, a):
     mi = a // 6
     t = (a % 6) // 2
     mega = (a % 2) == 1
-    move_id = jnp.where(struggle, ids.MOVE_STRUGGLE, mget(m.move_ids, u)[jnp.clip(mi, 0, 3)])
-    move_slot = jnp.where(struggle, -1, mi)
+    # a locked Pokemon's single option is its locked move at the locked target (sim/side.ts:675-690)
+    from vgcjax.effects import locked as LK
+    lk, _, lk_move, lk_loc = LK.locked(st, u)
+    lk_slot = jnp.argmax(mget(m.move_ids, u) == lk_move).astype(I32)
+    struggle = struggle & ~lk
+    move_id = jnp.where(lk, lk_move, jnp.where(struggle, ids.MOVE_STRUGGLE, mget(m.move_ids, u)[jnp.clip(mi, 0, 3)]))
+    move_slot = jnp.where(lk, lk_slot, jnp.where(struggle, -1, mi))
     tt = dex.move_target[move_id]
     choosable = REQ.choosable(tt)
     ally_loc = -(2 - slot)
     self_loc = -(slot + 1)
     loc = jnp.where(tt == ids.TARGET_ADJACENTALLYORSELF, jnp.where(t == 0, self_loc, ally_loc),
                     jnp.where(t == 0, 1, jnp.where(t == 1, 2, ally_loc)))
-    loc = jnp.where(choosable & ~struggle, loc, 0)
-    return (a < 24), (a >= 24) & (a < 28), move_slot, move_id, loc, mega & ~struggle, a - 24
+    loc = jnp.where(lk, lk_loc, jnp.where(choosable & ~struggle, loc, 0))
+    return (a < 24), (a >= 24) & (a < 28), move_slot, move_id, loc, mega & ~struggle & ~lk, a - 24
 
 
 def resolve_loc(st, dex, u, move_id, loc):
@@ -320,6 +325,10 @@ def end_turn(st, dex, cfg, on) -> S.State:
             dis = mget(m.move_disabled, r)
             st = st.replace(mons=m.replace(move_disabled=mset(m.move_disabled, r, jnp.where(hit, 1, dis).astype(
                 dis.dtype), go)))
+            # getMoveRequestData (sim/pokemon.ts:1105-1108): a locked move sets pokemon.trapped = true
+            from vgcjax.effects import locked as LK
+            m = st.mons
+            st = st.replace(mons=m.replace(trapped=mset(m.trapped, r, 1, go & LK.locked(st, r)[0])))
     m = st.mons
     sides = st.sides
     sides = sides.replace(fainted_last_turn=jnp.where(on, sides.fainted_this_turn, sides.fainted_last_turn),

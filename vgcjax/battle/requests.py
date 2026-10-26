@@ -53,9 +53,12 @@ def move_slot_mask(st, dex, side, slot):
                 ok = usable[mi] & tm[t] & ((mega == 0) | can_mega)
                 acts.append(ok)
     acts = jnp.stack(acts)
-    acts = jnp.where(struggle, jnp.zeros(24, bool).at[0].set(True), acts)
+    # a locked move (getMoveRequestData, sim/pokemon.ts:1104-1110): one option, trapped, no Mega
+    from vgcjax.effects import locked as LK
+    lk = LK.locked(st, u)[0]
+    acts = jnp.where(struggle | lk, jnp.zeros(24, bool).at[0].set(True), acts)
     poss = F.possible_switches(st, side)
-    trapped = mget(m.trapped, u) != 0
+    trapped = (mget(m.trapped, u) != 0) | lk
     sw = poss & ~trapped
     out = jnp.concatenate([acts, sw, jnp.zeros(1, bool)])
     return jnp.where(present, out, jnp.zeros(NA, bool).at[28].set(True))

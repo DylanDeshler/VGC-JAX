@@ -166,3 +166,12 @@ d_triattack | --n 100 --seed 151 --teams stagereq:impl:move:triattack --stage im
 d_alluringvoice | --n 100 --seed 151 --teams stagereq:impl:move:alluringvoice --stage impl
 d_freezedry | --n 100 --seed 151 --teams stagereq:impl:move:freezedry --stage impl
 d_haze | --n 100 --seed 151 --teams stagereq:impl:move:haze --stage impl
+l_hyperbeam | --n 80 --seed 131 --teams stagereq:impl:move:hyperbeam --stage impl
+l_gigaimpact | --n 80 --seed 131 --teams stagereq:impl:move:gigaimpact --stage impl
+l_electroshot | --n 80 --seed 131 --teams stagereq:impl:move:electroshot --stage impl
+l_solarbeam | --n 80 --seed 131 --teams stagereq:impl:move:solarbeam --stage impl
+l_solarblade | --n 80 --seed 131 --teams stagereq:impl:move:solarblade --stage impl
+l_skyattack | --n 80 --seed 131 --teams stagereq:impl:move:skyattack --stage impl
+l_meteorbeam | --n 80 --seed 131 --teams stagereq:impl:move:meteorbeam --stage impl
+l_es_rain | --n 80 --seed 131 --teams stagereq:impl:move:electroshot+move:raindance --stage impl
+l_sb_sun | --n 80 --seed 131 --teams stagereq:impl:move:solarbeam+move:sunnyday --stage impl

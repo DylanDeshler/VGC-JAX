@@ -238,6 +238,7 @@ class Builder:
         ohko, self_switch, force_switch, status, vol, side, slot, pw, weather, terrain = (z16() for _ in range(10))
         boosts, self_boosts, self_boost2, boost_order = z16(7), z16(7), z16(7), z16(7)
         self_vol, self_chance, selfdestruct, fixed_damage = z16(), z16(), z16(), z16()
+        cond_dur = z16()                      # the move's own condition.duration (move volatiles, e.g. phantomforce)
         sec_chance, sec_status, sec_vol = z16(2), z16(2), z16(2)
         sec_boosts, sec_self_boosts = z16(2, 7), z16(2, 7)
         sec_flags = np.zeros((n, 2), np.uint32)
@@ -290,6 +291,7 @@ class Builder:
             self_boosts[i] = self.boosts7(selfd.get("boosts"))
             self_boost2[i] = self.boosts7((m.get("selfBoost") or {}).get("boosts"))  # PS move.selfBoost
             self_vol[i] = self.cond(selfd.get("volatileStatus"))
+            cond_dur[i] = (m.get("condition") or {}).get("duration") or 0
             self_chance[i] = selfd.get("chance", -1) if selfd else -1
             selfdestruct[i] = {None: 0, "always": 1, "ifHit": 2}[m.get("selfdestruct")]
             dmg = m.get("damage")
@@ -334,7 +336,7 @@ class Builder:
                         ("recoil", recoil), ("heal", heal), ("ohko", ohko), ("self_switch", self_switch),
                         ("force_switch", force_switch), ("status", status), ("volatile", vol), ("side_cond", side),
                         ("slot_cond", slot), ("pseudo_weather", pw), ("weather", weather), ("terrain", terrain),
-                        ("boosts", boosts), ("boost_order", boost_order), ("self_boosts", self_boosts), ("selfboost", self_boost2), ("self_volatile", self_vol),
+                        ("boosts", boosts), ("boost_order", boost_order), ("self_boosts", self_boosts), ("selfboost", self_boost2), ("self_volatile", self_vol), ("cond_duration", cond_dur),
                         ("self_chance", self_chance), ("selfdestruct", selfdestruct), ("fixed_damage", fixed_damage),
                         ("nsec", nsec), ("sec_chance", sec_chance), ("sec_status", sec_status),
                         ("sec_volatile", sec_vol), ("sec_boosts", sec_boosts), ("sec_self_boosts", sec_self_boosts),

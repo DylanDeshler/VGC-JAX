@@ -85,7 +85,25 @@ def _volatiles(st, side: int, b: int) -> dict:
         if words[k // 32] >> (k % 32) & 1:
             name = ids.CONDITIONS[ids.VOL_BASE + k]
             out[name] = _eff_state(name, st.mons.vol_state[side, b, k], 5)
+            if name == "twoturnmove":
+                out.update(_twoturn_move_volatile(st.mons.vol_state[side, b, k]))
     return dict(sorted(out.items()))
+
+
+def _twoturn_move_volatile(s) -> dict:
+    """The move volatile twoturnmove.onStart adds (attacker.addVolatile(move.id), effects/locked.py): {targetLoc} plus
+    the move's condition duration (exists-false conditions have none). Kept in twoturnmove's raw slots 2 / 3."""
+    from vgcjax.effects import locked as LK
+    s = [int(x) for x in s]
+    if not s[LK.TT_PRESENT]:
+        return {}
+    from vgcjax.core.dex import load_tables_np
+    mv = ids.MOVES[s[1]]
+    out = {"targetLoc": s[LK.TT_LOC]}
+    dur = int(load_tables_np()["move_cond_duration"][s[1]])
+    if dur > 0:
+        out["duration"] = s[0]
+    return {mv: dict(sorted(out.items()))}
 
 
 def _pokemon(st, side: int, b: int) -> dict:

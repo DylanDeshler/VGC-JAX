@@ -27,6 +27,8 @@ fields (PS protocol line -> record):
   SINGLETURN |-singleturn| X|effect        actor, move = effect EffectId (Protect, Wide Guard, ...)
   SIDESTART/SIDEEND |-sidestart| side|eff  actor = side (0 / 1), move = effect EffectId
   FIELDSTART/FIELDEND |-fieldstart| eff   move = effect EffectId, target = [of] ref (-1 none)
+  PREPARE    |-prepare| X|move             actor, move = MoveId (a charge move's first turn)
+  MUSTRECHARGE |-mustrecharge| X         actor
 """
 from __future__ import annotations
 
@@ -40,10 +42,12 @@ from vgcjax.battle.util import mget
 I16, I32 = jnp.int16, jnp.int32
 KINDS = ("NONE", "SWITCH", "MOVE", "DAMAGE", "HEAL", "CRIT", "SUPEREFFECTIVE", "RESISTED", "IMMUNE", "MISS", "FAIL",
          "BOOST", "FAINT", "HITCOUNT", "OHKO", "TURN", "ACTIVATE", "STATUS", "CURESTATUS", "CANT", "START", "END", "SINGLETURN", "SIDESTART", "SIDEEND",
-         "FIELDSTART", "FIELDEND", "WEATHER", "ABILITY", "ITEM", "BLOCK", "SETBOOST", "ENDITEM", "MEGA", "DETAILSCHANGE", "CLEARALLBOOST")
+         "FIELDSTART", "FIELDEND", "WEATHER", "ABILITY", "ITEM", "BLOCK", "SETBOOST", "ENDITEM", "MEGA", "DETAILSCHANGE", "CLEARALLBOOST",
+         "PREPARE", "MUSTRECHARGE")
 (EV_NONE, EV_SWITCH, EV_MOVE, EV_DAMAGE, EV_HEAL, EV_CRIT, EV_SUPER, EV_RESIST, EV_IMMUNE, EV_MISS, EV_FAIL, EV_BOOST,
  EV_FAINT, EV_HITCOUNT, EV_OHKO, EV_TURN, EV_ACTIVATE, EV_STATUS, EV_CURESTATUS, EV_CANT, EV_START,
- EV_END, EV_SINGLETURN, EV_SIDESTART, EV_SIDEEND, EV_FIELDSTART, EV_FIELDEND, EV_WEATHER, EV_ABILITY, EV_ITEM, EV_BLOCK, EV_SETBOOST, EV_ENDITEM, EV_MEGA, EV_DETAILSCHANGE, EV_CLEARALLBOOST) = range(len(KINDS))
+ EV_END, EV_SINGLETURN, EV_SIDESTART, EV_SIDEEND, EV_FIELDSTART, EV_FIELDEND, EV_WEATHER, EV_ABILITY, EV_ITEM, EV_BLOCK, EV_SETBOOST, EV_ENDITEM, EV_MEGA, EV_DETAILSCHANGE, EV_CLEARALLBOOST,
+ EV_PREPARE, EV_MUSTRECHARGE) = range(len(KINDS))
 # kinds whose `move` field holds an EffectId (move / ability / item / condition) rather than a MoveId
 EFFECT_KINDS = ("DAMAGE", "HEAL", "STATUS", "CURESTATUS", "CANT", "FAIL", "ACTIVATE", "START", "END", "SINGLETURN", "SIDESTART", "SIDEEND",
          "FIELDSTART", "FIELDEND", "WEATHER", "ABILITY", "ITEM", "IMMUNE", "BLOCK", "SETBOOST", "ENDITEM", "MEGA")
@@ -121,6 +125,15 @@ def emit_move(st: S.State, on, actor, target, move) -> S.State:
 def attr_last_move(st: S.State, on, or_flags=0, v1=None) -> S.State:
     """PS: sim/battle.ts:3181-3197 attrLastMove: annotate the last MOVE record; [still] also blanks its target."""
     return patch(st, st.events.last_move, on, or_flags, v1, target=-1 if or_flags & F_STILL else None)
+
+
+def anim_last_move(st: S.State, on) -> S.State:
+    """PS addMove('-anim', ...): an unrecorded line becomes battle.lastMoveLine, so later attrLastMove calls no
+    longer reach the MOVE record."""
+    if not _ENABLED[0]:
+        return st
+    ev = st.events
+    return st.replace(events=ev.replace(last_move=jnp.where(jnp.asarray(on), -1, ev.last_move)))
 
 
 def retarget_last_move(st: S.State, on, target) -> S.State:

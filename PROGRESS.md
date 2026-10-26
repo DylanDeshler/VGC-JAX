@@ -165,6 +165,13 @@ M3 content (2026-10-23)
   learner), Aurora Veil, Knock Off (move-effect BasePower row; Mega Stones can't be taken), Throat Chop, Dire Claw /
   Tri Attack (SECONDARY_STATUS_PICK), Alluring Voice, Freeze-Dry, Haze (HitField dispatch). Found: a cached jnp table
   created inside a trace leaked a tracer (ability_blocks, latent); secondary onHit statuses carry no '[from] move'.
+- Locked moves B2a (effects/locked.py): mustrecharge (Hyper Beam, Giga Impact, Meteor Assault, Blast Burn, Frenzy
+  Plant, Hydro Cannon, Rock Wrecker; self.volatileStatus now applied in selfDrops) and twoturnmove (Electro Shot,
+  Solar Beam / Blade, Meteor Beam, Sky Attack: onTryMove, '-prepare', weather skip, MoveAborted). Locked request:
+  one option, trapped, no Mega; forced choice at the locked target; no PP / Pressure. New events PREPARE,
+  MUSTRECHARGE. Found: after a skipped charge turn's addMove('-anim'), later attrLastMove ([notarget] / [miss])
+  lands on the -anim line, not the MOVE record. Phantom Force deferred: its move volatile has a duration, so the
+  charge turn's residual has a 2-handler tie on one holder that a projection-only volatile can't reproduce.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

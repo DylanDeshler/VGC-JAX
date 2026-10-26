@@ -35,7 +35,9 @@ EXTRA: dict[str, set[str]] = {
               "ragefist", "risingvoltage", "superfang", "grassyglide", "suckerpunch", "psychicfangs", "brickbreak",
               "terrainpulse",                                                          # effects/move_callbacks.py
               "spikyshield", "banefulbunker", "kingsshield", "auroraveil", "knockoff", "throatchop", "direclaw",
-              "triattack", "alluringvoice", "freezedry", "haze"},                      # effects/moves_b1.py
+              "triattack", "alluringvoice", "freezedry", "haze",                       # effects/moves_b1.py
+              "hyperbeam", "gigaimpact", "meteorassault", "blastburn", "frenzyplant", "hydrocannon", "rockwrecker",
+              "electroshot", "solarbeam", "solarblade", "meteorbeam", "skyattack"},    # effects/locked.py
     "abilities": {"drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
@@ -62,7 +64,8 @@ EXTRA: dict[str, set[str]] = {
                    "sunnyday", "raindance", "sandstorm", "snowscape",
                    "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain",
                    "taunt", "choicelock", "followme", "ragepowder", "helpinghand",
-                   "spikyshield", "banefulbunker", "kingsshield", "auroraveil", "throatchop"},
+                   "spikyshield", "banefulbunker", "kingsshield", "auroraveil", "throatchop",
+                   "mustrecharge", "twoturnmove"},
 }
 
 

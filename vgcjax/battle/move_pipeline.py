@@ -733,6 +733,11 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     sroll, rng = R.randint(rng, skey, 0, 100, active=any_target & has_self_boosts & (self_chance >= 0))
     apply_self = any_target & has_self_boosts & ((self_chance < 0) | (sroll < self_chance))
     st, _ = boost(st, u, self_b, apply_self, source=u)
+    # self.volatileStatus (no self.boosts): moveHit(source, source, move, move.self) per target -> addVolatile
+    # (Hyper Beam family: mustrecharge; a second target finds it present: no onRestart, false)
+    self_vol = dex.move_self_volatile[move].astype(I32)
+    st, rng, _ = CO.add_volatile(st, dex, rng, u, jnp.maximum(self_vol, 1), any_target & (self_vol > 0) & ~has_self_boosts,
+                                 source=u, source_effect=C.eff_move(move))
 
     # 5. secondaries, PS order per target then per secondary; SECONDARY draws only for numeric chance. Target boosts
     #    touch only that target (batched per secondary); the user's self-boosts run as a scalar recurrence.
@@ -869,13 +874,17 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # ---- runMove
     m = st.mons
     st = st.replace(mons=m.replace(active_move_actions=mset(m.active_move_actions, u, mget(m.active_move_actions, u) + 1, on)))
-    target, rng = get_target(st, dex, rng, u, move, target_loc, orig, on)
+    from vgcjax.effects import locked as LK
+    locked, recharge, _, _ = LK.locked(st, u)
+    # Recharge (target undefined): getTarget's draw is side.randomFoe, a don't-care draw (effects/locked.py)
+    target, rng = get_target(st, dex, rng, u, move, target_loc, orig, on & ~recharge)
     # HOOK(H2) OverrideAction (M3 Encore); BeforeMove (PS :311-321): a falsy result aborts with
     # moveThisTurnResult = that result (false / null), before PP and lastDamage
     hc = H.HookCtx.make(u, target, C.eff_move(move), relay=RS.R(RS.BOOL, 1))
     hc, st, rng = H.run_event("BeforeMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_BEFOREMOVE), on=on)
     will = RS.truthy((hc.relay_t, hc.relay_v))
     abort = on & ~will
+    st, rng = LK.move_aborted(st, dex, rng, u, abort)                    # runEvent('MoveAborted') (PS :314)
     m = st.mons
     st = st.replace(mons=m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, jnp.where(
         hc.relay_t == RS.NULL, S.MR_NULL, S.MR_FALSE), abort)))
@@ -887,11 +896,11 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     is_struggle = move == T.MOVE_STRUGGLE
     has_slot = (slot >= 0) & ~is_struggle
     pp_now = mget(m.pp, u)[jnp.clip(slot, 0, 3)].astype(I32)
-    deduct = on & has_slot
+    deduct = on & has_slot & ~locked                    # a locked move deducts no PP (PS :336-347)
     pp_new = mget(m.pp, u).at[jnp.clip(slot, 0, 3)].set(jnp.maximum(pp_now - 1, 0).astype(I8))
     used_new = mget(m.move_used, u).at[jnp.clip(slot, 0, 3)].set(True)
     m = m.replace(pp=mset(m.pp, u, pp_new, deduct & (pp_now > 0)), move_used=mset(m.move_used, u, used_new, deduct))
-    nopp = on & ~is_struggle & ~(has_slot & (pp_now > 0))
+    nopp = on & ~is_struggle & ~locked & ~(has_slot & (pp_now > 0))
     go_rm = on & ~nopp
     m = m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, S.MR_FALSE, nopp),
                   last_move=mset(m.last_move, u, move, go_rm),
@@ -927,13 +936,16 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     st = EV.retarget_last_move(st, go_um & (retgt >= 0) & (targets[0] == retgt), retgt)  # PS getMoveTargets
     # PS :533-548: runEvent('DeductPP') over pressureTargets (Pressure), then deductPP(move, extraPP)
     from vgcjax.effects import abilities as AB
-    extra = AB.pressure_extra_pp(st, dex, u, move, targets, go_um & has_slot)
+    extra = AB.pressure_extra_pp(st, dex, u, move, targets, go_um & has_slot & ~locked)   # sourceEffect lockedmove
     m = st.mons
     pp_cur = mget(m.pp, u)[jnp.clip(slot, 0, 3)].astype(I32)
     m = m.replace(pp=mset(m.pp, u, mget(m.pp, u).at[jnp.clip(slot, 0, 3)].set(
         jnp.maximum(pp_cur - extra, 0).astype(I8)), (extra > 0) & (pp_cur > 0)))
     st = st.replace(mons=m)
-    # HOOK(H5) Pressure / DeductPP; HOOK(H6) TryMove
+    # PS :550-556: singleEvent('TryMove', move) (the charge moves' onTryMove; runEvent('TryMove'): no Reg M-C
+    # handler); a falsy result returns it from useMoveInner (null: moveThisTurnResult null)
+    st, rng, tm_null = LK.try_move(st, dex, rng, u, jnp.where(targets[0] >= 0, targets[0], target), move, go_um)
+    go_um = go_um & ~tm_null
     side_field = _in(tt, (T.TARGET_ALL, T.TARGET_FOESIDE, T.TARGET_ALLYSIDE, T.TARGET_ALLYTEAM))
     has_t = targets[0] >= 0
     st = F.faint(st, u, go_um & (dex.move_selfdestruct[move] == 1))
@@ -1039,7 +1051,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     new = S.Exec(in_move=jnp.asarray(True), u=u, move=move, targets=targets.astype(I32), tv=tv, spread=spread,
                  smart=smart, spread_hit=spread_hit, on_rm=on, go_rm=go_rm, go_um=go_um, has_t=has_t,
                  side_field=side_field, on_ts=on_ts, on_hl=on_hl, fail_any=fail_any, hits=hits, pre_ok=pre_ok,
-                 pre_notfail=pre_notfail, side=side_on,
+                 pre_notfail=pre_notfail, side=side_on, tm_null=tm_null,
                  multiacc=dex.move_multiaccuracy[move] == 1, single=jnp.sum(tv.astype(I32)) == 1, h=jnp.int32(1),
                  hit_done=jnp.int32(1), stopped=~on_hl, null_damage=jnp.asarray(True), dt=full(RS.NUM), dv=full(0),
                  lt=full(RS.UNDEF), lv=full(0), total=jnp.int32(0), mtype=a_type, bp=a_bp, acc=a_acc)
@@ -1175,7 +1187,7 @@ def move_end(st, dex, rng, cfg):
     # ---- runMove tail
     go_rm = end & ex.go_rm
     m = st.mons
-    mr = jnp.where(set_null, S.MR_NULL, jnp.where(result, S.MR_TRUE, S.MR_FALSE))
+    mr = jnp.where(set_null | ex.tm_null, S.MR_NULL, jnp.where(result, S.MR_TRUE, S.MR_FALSE))
     st = st.replace(mons=m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, mr, go_rm)),
                     meta=st.meta.replace(last_successful_move=jnp.where(
                         go_rm, jnp.where(result, move, 0), st.meta.last_successful_move).astype(I16)))

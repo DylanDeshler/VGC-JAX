@@ -160,6 +160,10 @@ function reduce(lines, battle) {
 			const [k, id] = fromEffect(from);
 			ev(type === '-start' ? 'START' : 'END', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1],
 				v1: from ? id : '', flags: tags.includes('[fatigue]') ? F.FATIGUE : k === 'ability' ? F.FROM_ABILITY : 0 });
+		} else if (type === '-prepare') {
+			ev('PREPARE', { actor: refOf(parts[1]), move: toID(parts[2]) });
+		} else if (type === '-mustrecharge') {
+			ev('MUSTRECHARGE', { actor: refOf(parts[1]) });
 		} else if (type === 'turn') {
 			ev('TURN', { v1: Number(parts[1]) });
 		} else if (!IGNORE.has(type)) {
