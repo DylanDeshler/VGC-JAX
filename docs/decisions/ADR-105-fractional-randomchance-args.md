@@ -1,6 +1,6 @@
 # ADR-105: fractional randomChance numerators in draw-argument comparison
 
-Status: **Proposed — needs human approval** (touches the draw comparison of contract §5/§9).
+Status: **Accepted** (human-approved 2026-10-26; touches the draw comparison of contract §5/§9).
 
 ## Context
 Multi-accuracy moves (Population Bomb, Triple Axel) re-roll accuracy on hits ≥ 2 with PS's float stage table
@@ -16,4 +16,7 @@ logged argument differs, giving a `DRAW_ARGS:ACCURACY` bucket (first seen: 1 of 
 3. Leave as a known bucket.
 
 ## Decision
-Pending.
+Option 1, approved by the human on 2026-10-26. PS's `randomChance(n, d)` is `random(d) < n` with integer rolls
+(`sim/prng.ts:91-117`), so `n = 67.5` succeeds for rolls 0-67, exactly `< ceil(n) = 68`; `floor` (67) would differ
+at roll 67. `harness/forced.py compared_draws` now compares `randomChance` numerators as `ceil(n)`; the engine
+already draws with that bound. `random` / `sample` arguments are unchanged (PS floors them itself).

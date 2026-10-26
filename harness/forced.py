@@ -1,6 +1,8 @@
 """Trace draw/tie records -> engine ForcedOutcomes and comparable keys (07 §4.2, contract §5, §9)."""
 from __future__ import annotations
 
+import math
+
 import numpy as np
 
 from vgcjax.core import drawkey as dk
@@ -135,6 +137,10 @@ def compared_draws(decision: dict):
             continue
         args = d["args"]
         a = (int(args[0]), int(args[1]) if len(args) > 1 else 0)
+        if d["method"] == "randomChance":
+            # ADR-105: random(d) < n with integer rolls, so a fractional n (multi-accuracy stage table: 67.5)
+            # is exactly "< ceil(n)", the bound the engine draws with (sim/prng.ts:91-117)
+            a = (math.ceil(args[0]), a[1])
         if d["method"] == "random" and len(args) == 1:
             a = (0, int(args[0]))  # random(n) == random(0, n)
         out.append((dk.pack(draw_key(d)), a, d["kind"]))

@@ -191,6 +191,9 @@ M3 content (2026-10-23)
 - Steel Roller (onTry terrain, clearTerrain), Double Shock (onTryMove '-fail' null; self.onHit typechange to
   '???'), Glaive Rush (unverified: no learner in the impl pool; Accuracy true, x2 onSourceModifyDamage, removed at
   BeforeMove). New event SINGLEMOVE; the reducer reads '-fail' reasons through fromEffect ('move: X' -> x).
+- ADR-105 accepted (human, 2026-10-26): randomChance numerators compared as ceil(n) (PS rolls are integers, so
+  random(d) < 67.5 is exactly < 68). The Population Bomb DRAW_ARGS:ACCURACY bucket is gone (s_followme,
+  s_ragepowder 100%).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows
