@@ -178,6 +178,11 @@ M3 content (2026-10-23)
   terrains; End -> trySetStatus slp), Clangorous Soul. Found: PS's residual loop does not resolveFaints after a
   duration-end End (perish0 lines all print before the faints); a static removeVolatile now dispatches only its
   own End handler. Targeted 100%; regression 34/34.
+- Roost (types rewritten at Start / restored at End; Flying-only -> Normal) and Encore (Champions onStart:
+  queue.changeAction — cancel + re-resolve with a RANDOM_TARGET phase-0 draw tagged COMMIT, two ModifySpe ticks;
+  DisableMove; residual PP check). Found: Encore on a recharging Pokemon replaces its 'recharge' action with the
+  encored move (queue entries for Recharge now carry move_slot -2); charge-turn / Clangorous Soul boosts are
+  non-self, non-secondary: a capped stat still prints '-boost' 0. Targeted 100%; regression 14/16 (2 = ADR-105).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

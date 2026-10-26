@@ -120,6 +120,8 @@ def disable_moves(st, dex, rng, r, on):
         keep = is_choice(mget(m.item, r)) & jnp.any(mids == locked)
         st, rng, _ = CO.remove_volatile(st, dex, rng, r, c, cl & ~keep)
         dis = jnp.where(cl & keep & (mids != locked) & (mids > 0), 1, dis)
+    from vgcjax.effects import moves_b2 as MB2
+    dis = MB2.encore_disable(st, dex, r, dis, on)
     m = st.mons
     return st.replace(mons=m.replace(move_disabled=mset(m.move_disabled, r, dis.astype(m.move_disabled.dtype), on))), rng
 

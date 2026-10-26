@@ -877,7 +877,8 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     m = st.mons
     st = st.replace(mons=m.replace(active_move_actions=mset(m.active_move_actions, u, mget(m.active_move_actions, u) + 1, on)))
     from vgcjax.effects import locked as LK
-    locked, recharge, _, _ = LK.locked(st, u)
+    locked = LK.locked(st, u)[0]
+    recharge = jnp.asarray(move_slot, I32) == LK.RECHARGE_SLOT
     # Recharge (target undefined): getTarget's draw is side.randomFoe, a don't-care draw (effects/locked.py)
     target, rng = get_target(st, dex, rng, u, move, target_loc, orig, on & ~recharge)
     # HOOK(H2) OverrideAction (M3 Encore); BeforeMove (PS :311-321): a falsy result aborts with

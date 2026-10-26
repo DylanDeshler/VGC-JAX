@@ -186,3 +186,7 @@ y_yawn_eterr | --n 80 --seed 137 --teams stagereq:impl:move:yawn+move:electricte
 y_yawn_veil | --n 80 --seed 137 --teams stagereq:impl:move:yawn+ability:sweetveil --stage impl
 y_yawn_ins | --n 80 --seed 137 --teams stagereq:impl:move:yawn+ability:insomnia --stage impl
 cs_clang | --n 80 --seed 139 --teams stagereq:impl:move:clangoroussoul --stage impl
+impl_random_e | --n 300 --seed 161 --teams stage:impl --stage impl --legal on
+r_roost | --n 80 --seed 141 --teams stagereq:impl:move:roost --stage impl
+e_encore | --n 80 --seed 141 --teams stagereq:impl:move:encore --stage impl
+e_encore_tw | --n 80 --seed 141 --teams stagereq:impl:move:encore+move:tailwind --stage impl

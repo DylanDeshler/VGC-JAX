@@ -80,8 +80,9 @@ def decode_move_slot(st, dex, side, slot, a):
     mega = (a % 2) == 1
     # a locked Pokemon's single option is its locked move at the locked target (sim/side.ts:675-690)
     from vgcjax.effects import locked as LK
-    lk, _, lk_move, lk_loc = LK.locked(st, u)
-    lk_slot = jnp.argmax(mget(m.move_ids, u) == lk_move).astype(I32)
+    lk, lk_rc, lk_move, lk_loc = LK.locked(st, u)
+    # a Recharge action keeps move_slot -2 (its PS moveid is 'recharge', not the queued recharge move)
+    lk_slot = jnp.where(lk_rc, LK.RECHARGE_SLOT, jnp.argmax(mget(m.move_ids, u) == lk_move).astype(I32))
     struggle = struggle & ~lk
     move_id = jnp.where(lk, lk_move, jnp.where(struggle, ids.MOVE_STRUGGLE, mget(m.move_ids, u)[jnp.clip(mi, 0, 3)]))
     move_slot = jnp.where(lk, lk_slot, jnp.where(struggle, -1, mi))

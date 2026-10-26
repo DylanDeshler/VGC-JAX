@@ -29,7 +29,8 @@ from vgcjax.effects.modifiers import mod
 
 I16, I32 = jnp.int16, jnp.int32
 CO.fields("twoturnmove", ("move", "move"))
-TT_LOC, TT_PRESENT = 2, 3                    # raw twoturnmove slots of the move volatile (no presence bits)
+TT_LOC, TT_PRESENT = 2, 3
+RECHARGE_SLOT = -2                           # queue move_slot of a forced 'recharge' action                    # raw twoturnmove slots of the move volatile (no presence bits)
 
 
 def mid(name):
@@ -122,7 +123,9 @@ def try_move(st, dex, rng, u, target, move, on):
     st = CO.set_vol_state(st, u, c, s.at[TT_PRESENT].set(0).at[TT_LOC].set(0), second)
     first = on & ~second
     st = EV.emit(st, first, EV.EV_PREPARE, actor=u, move=move)
-    st, _ = MP.boost(st, u, jnp.zeros(7, I32).at[2].set(1), first & boosts, source=u, effect=C.eff_move(move))
+    # boost({spa: 1}, attacker, attacker, move): not isSecondary / isSelf -> a capped boost still prints '-boost' 0
+    st, _ = MP.boost(st, u, jnp.zeros(7, I32).at[2].set(1), first & boosts, primary=True, source=u,
+                     effect=C.eff_move(move))
     st = EV.attr_last_move(st, first & skip, EV.F_STILL)
     st = EV.anim_last_move(st, first & skip)                # addMove('-anim', attacker, move.name, defender)
     charge = first & ~skip
