@@ -157,7 +157,8 @@ handler(ids.HOOK_START, CO.eff("quickguard"), ps="data/moves.ts quickguard.condi
 @handler(ids.HOOK_TRYHIT, CO.eff("wideguard"), ps="data/moves.ts wideguard.condition.onTryHit")
 def wideguard_try_hit(hc, st, dex, rng):
     move = move_of(hc.effect)
-    tt = dex.move_target[move]
+    from vgcjax.effects import move_callbacks as MC
+    tt = MC.move_target(st, dex, hc.source, move)
     spread = (tt == ids.TARGET_ALLADJACENT) | (tt == ids.TARGET_ALLADJACENTFOES)
     block = spread & ~bypasses_protect(dex, move)
     st = EV.emit(st, block, EV.EV_ACTIVATE, actor=hc.target, move=C.eff_move(ids.MOVE_WIDEGUARD))

@@ -88,10 +88,33 @@ def terrain_pulse(st, dex, u, move, mtype, bp):
     return ty, jnp.where(tp, bp * 2, bp)
 
 
+def expanding_force(st, u, move):
+    """Expanding Force onModifyMove / onBasePower condition: Psychic Terrain and a grounded user."""
+    if mid("expandingforce") < 0 or "psychicterrain" not in ids.CONDITIONS:
+        return jnp.zeros((), bool)
+    return (move == mid("expandingforce")) & (st.field.terrain.astype(I32) == CO.cid("psychicterrain")) & \
+        CO.is_grounded(st, u)
+
+
+def move_target(st, dex, u, move):
+    """The ActiveMove's target after onModifyMove: Expanding Force -> 'allAdjacentFoes'."""
+    tt = dex.move_target[move].astype(I32)
+    return jnp.where(expanding_force(st, u, move), ids.TARGET_ALLADJACENTFOES, tt)
+
+
 # ------------------------------------------------------------------ dispatched single-effect handlers
 from vgcjax.battle import common as C  # noqa: E402
 from vgcjax.battle import results as RS  # noqa: E402
 from vgcjax.effects.hooks import handler  # noqa: E402
+from vgcjax.effects.modifiers import mod  # noqa: E402
+
+if mid("expandingforce") > 0:
+    @mod("BasePower", int(C.eff_move(mid("expandingforce"))), ps="data/moves.ts expandingforce.onBasePower")
+    def expandingforce_bp(ctx, h):
+        """Psychic Terrain and a grounded user -> chainModify(1.5)."""
+        import jax
+        ok = jax.vmap(lambda r: expanding_force(ctx.st, r, ctx.move))(jnp.clip(ctx.tgt, 0, 7))
+        return ok & (ctx.tgt >= 0), jnp.asarray(6144, I32), None
 
 if mid("suckerpunch") > 0:
     @handler(ids.HOOK_TRY, int(C.eff_move(mid("suckerpunch"))), ps="data/moves.ts suckerpunch.onTry")

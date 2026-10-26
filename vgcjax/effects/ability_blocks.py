@@ -204,6 +204,45 @@ def add_volatile_block(st, ref, c):
     return out
 
 
+def yawn_block(st, ref):
+    """runEvent('TryAddVolatile', target) for 'yawn': the target's Insomnia / Vital Spirit / Purifying Salt / Leaf
+    Guard (its effective Sun) ('-immune' target '[from] ability: X') and an ally's or its own Sweet Veil, Flower Veil
+    (Grass target) ('-block' target 'ability: X' '[of] holder'); every handler returns null. The holders sort by
+    speed (desc; ties: the target first, then allies in slot order). Returns (blocked, winner speed, is_block
+    message, ability EffectId, holder)."""
+    m = st.mons
+    r = jnp.clip(jnp.asarray(ref, I32), 0, 7)
+    ab = mget(m.ability, r)
+    own = jnp.zeros((), bool)
+    for name in ("insomnia", "vitalspirit", "purifyingsalt"):
+        if aid(name) > 0:
+            own = own | (ab == aid(name))
+    if aid("leafguard") > 0:
+        own = own | ((ab == aid("leafguard")) & jax_sun(st, r))
+    spd = mget(m.speed, r).astype(I32)
+    best = jnp.where(own, spd, -(1 << 20))
+    blocked, is_blk = own, jnp.zeros((), bool)
+    eff = jnp.where(own, ids.ABILITY_BASE + ab - 1, -1)
+    of = jnp.asarray(-1, I32)
+    if aid("sweetveil") > 0 or aid("flowerveil") > 0:
+        grass = jnp.any(mget(m.types, r) == ids.TYPE_GRASS)
+        side = r // 4
+        for b in range(2):
+            a = st.sides.active[side, b].astype(I32)
+            h = side * 4 + jnp.maximum(a, 0)
+            hab = mget(m.ability, h)
+            ok = (a >= 0) & ~mget(m.fainted, h) & (((hab == aid("sweetveil")) & (aid("sweetveil") > 0)) |
+                                                     ((hab == aid("flowerveil")) & (aid("flowerveil") > 0) & grass))
+            hs = mget(m.speed, h).astype(I32)
+            win = ok & (hs > best)
+            best = jnp.where(win, hs, best)
+            is_blk = jnp.where(win, True, is_blk)
+            eff = jnp.where(win, ids.ABILITY_BASE + hab - 1, eff)
+            of = jnp.where(win, h, of)
+            blocked = blocked | ok
+    return blocked, best, is_blk, eff, of
+
+
 def status_immunity(st, refs, key):
     """runEvent('Immunity', pokemon, null, null, type): Magma Armor (frz) and Sand Force (sandstorm) return false."""
     ab = mget(st.mons.ability, jnp.clip(refs, 0, 7))

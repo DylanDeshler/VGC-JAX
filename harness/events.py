@@ -36,6 +36,8 @@ def engine_events(st) -> tuple[list[dict], bool]:
         t, kind, actor, target, move, v1, v2, flags = (int(x) for x in buf[a % S.NE])
         name = EV.KINDS[kind]
         mv = effect_name(move) if name in EV.EFFECT_KINDS else (ids.MOVES[move] if 0 < move < len(ids.MOVES) else "")
+        if name == "START" and mv == "perishsong":
+            mv, v2 = f"perish{v2}", 0           # '-start' X 'perishN' (effects/moves_b2.py)
         if name == "CANT" and mv == "mustrecharge":
             mv = "recharge"                     # mustrecharge.onBeforeMove: ('cant', pokemon, 'recharge')
         if name == "DETAILSCHANGE":
@@ -48,7 +50,9 @@ def engine_events(st) -> tuple[list[dict], bool]:
 
 def _norm(e: dict) -> tuple:
     e = dict(e)
-    if e["kind"] == "MOVE" and e["move"] in ids.MOVES:
+    if e["kind"] == "MOVE" and e["flags"] & EV.F_SPREAD:
+        e["target"] = "random"                  # spread hit: a nominal target (incl. ModifyMove target changes)
+    elif e["kind"] == "MOVE" and e["move"] in ids.MOVES:
         from vgcjax.core.dex import load_tables_np
         tt = ids.TARGETS[int(load_tables_np()["move_target"][ids.MOVES.index(e["move"])])]
         if tt in RANDOM_LOC_TARGETS:

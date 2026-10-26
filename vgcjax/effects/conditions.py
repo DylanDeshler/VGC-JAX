@@ -246,10 +246,20 @@ def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1):
     from vgcjax.battle import events as EV
     from vgcjax.effects import ability_blocks as AXB
     a_b = add & AXB.add_volatile_block(st, ref, c)
+    a_spd = mget(st.mons.speed, ref).astype(I32)
+    if "yawn" in ids.CONDITIONS:                        # Yawn's ability blocks (messages, ally veils)
+        y_b, y_spd, y_blk, y_eff, y_of = AXB.yawn_block(st, ref)
+        is_y = c == ids.CONDITIONS.index("yawn")
+        a_b = a_b | (add & is_y & y_b)
+        a_spd = jnp.where(is_y & y_b, y_spd, a_spd)
     t_b, tmsg = TR.blocks_volatile(st, dex, ref, c, source_effect)
     t_b = add & t_b
-    # the field's handlers (subOrder 5, speed 0) run first unless the holder's cached speed is > 0
-    ab_block = a_b & ((mget(st.mons.speed, ref) > 0) | ~t_b)
+    # the field's handlers (subOrder 5, speed 0) run first unless the winning holder's cached speed is > 0
+    ab_block = a_b & ((a_spd > 0) | ~t_b)
+    if "yawn" in ids.CONDITIONS:
+        y_on = ab_block & is_y
+        st = EV.emit(st, y_on & ~y_blk, EV.EV_IMMUNE, actor=ref, v1=y_eff)
+        st = EV.emit(st, y_on & y_blk, EV.EV_BLOCK, actor=ref, target=y_of, move=y_eff)
     blocked = t_b & ~ab_block
     st = EV.emit(st, blocked & tmsg, EV.EV_ACTIVATE, actor=ref, move=ids.COND_BASE + TR.terrain(st) - 1)
     add = add & ~blocked & ~ab_block
@@ -273,10 +283,12 @@ def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1):
 def remove_volatile(st, dex, rng, ref, c, on):
     """PS: sim/pokemon.ts:2056-2067 removeVolatile: hp gate, End, delete. Returns (st, rng, removed)."""
     on = jnp.asarray(on)
+    # a static condition dispatches only its own End handler (no other volatile's End is traced)
+    vr = (ids.COND_BASE + c - 1, ids.COND_BASE + c) if isinstance(c, int) else \
+        (ids.COND_BASE + ids.VOL_BASE - 1, ids.COND_BASE + ids.VOL_END - 1)
     c = jnp.asarray(c, I32)
     go = on & (mget(st.mons.hp, ref) > 0) & has_volatile(st, ref, c)
     hc = H.HookCtx.make(ref, -1, -1)
-    vr = (ids.COND_BASE + ids.VOL_BASE - 1, ids.COND_BASE + ids.VOL_END - 1)
     hc, st, rng = single_event(ids.HOOK_END, ids.COND_BASE + c - 1, st, dex, rng, hc, go, effect_range=vr)
     st = _set_vol_bit(st, ref, c, False, go)
     st = set_vol_state(st, ref, c, jnp.zeros(6, I16), go)

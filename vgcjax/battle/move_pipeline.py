@@ -161,7 +161,8 @@ def get_target(st, dex, rng, u, move, loc, orig, on):
 
 def get_move_targets(st, dex, rng, u, move, target, on):
     """PS: sim/pokemon.ts:812-877 getMoveTargets. Returns (refs[3], smart_still, rng); refs -1 = no target."""
-    tt = dex.move_target[move]
+    from vgcjax.effects import move_callbacks as MC
+    tt = MC.move_target(st, dex, u, move)                       # after ModifyMove (Expanding Force)
     m = st.mons
     foes, fok = living_foes(st, u)
     ally = living_ally(st, u)
@@ -597,7 +598,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     da = (tags[0], vals[0])
     for j in range(1, NT):
         da = RS.where(tv_in[j], RS.combine(da, (tags[j], vals[j])), da)
-    has_boosts = jnp.any(dex.move_boosts[move] != 0)
+    # Clangorous Soul's onTryHit applied (and deleted) move.boosts
+    has_boosts = jnp.any(dex.move_boosts[move] != 0) & (move != opt_id("MOVE_CLANGOROUSSOUL"))
     heal_n = dex.move_heal[move, 0].astype(I32)
     heal_d = jnp.maximum(dex.move_heal[move, 1].astype(I32), 1)
     force_sw = dex.move_force_switch[move] == 1
@@ -926,6 +928,13 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     a_type, a_bp, a_acc = WE.modify_move(st, dex, u, target, move)
     from vgcjax.effects import move_callbacks as MC
     a_type, a_bp = MC.terrain_pulse(st, dex, u, move, a_type, a_bp)
+    # PS :500-503: ModifyMove changed move.target (Expanding Force) -> getRandomTarget: side.randomFoe, a
+    # RANDOM_TARGET_NOMINAL don't-care draw (the printed target is not compared: harness/events.py); the engine takes
+    # the first living foe, else foe.active[0]
+    ef = go_rm & MC.expanding_force(st, u, move)
+    foes_, fok_ = living_foes(st, u)
+    foe0 = (1 - side_of(u)) * 4 + jnp.maximum(st.sides.active[1 - side_of(u), 0].astype(I32), 0)
+    target = jnp.where(ef, jnp.where(fok_[0], foes_[0], jnp.where(fok_[1], foes_[1], foe0)), target)
     # PS :519-528: addMove('move', pokemon, move, target); no target -> [notarget] + '-fail'
     st = EV.emit_move(st, go_rm & alive, u, target, move)
     no_target = go_rm & alive & (target < 0)

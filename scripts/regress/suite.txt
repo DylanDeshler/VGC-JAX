@@ -175,3 +175,14 @@ l_skyattack | --n 80 --seed 131 --teams stagereq:impl:move:skyattack --stage imp
 l_meteorbeam | --n 80 --seed 131 --teams stagereq:impl:move:meteorbeam --stage impl
 l_es_rain | --n 80 --seed 131 --teams stagereq:impl:move:electroshot+move:raindance --stage impl
 l_sb_sun | --n 80 --seed 131 --teams stagereq:impl:move:solarbeam+move:sunnyday --stage impl
+impl_random_d | --n 300 --seed 151 --teams stage:impl --stage impl --legal on
+x_expandingforce | --n 80 --seed 133 --teams stagereq:impl:move:expandingforce --stage impl
+x_ef_pterrain | --n 80 --seed 133 --teams stagereq:impl:move:expandingforce+move:psychicterrain --stage impl
+x_ef_wg | --n 80 --seed 133 --teams stagereq:impl:move:expandingforce+move:psychicterrain+move:wideguard --stage impl
+p_perishsong | --n 80 --seed 135 --teams stagereq:impl:move:perishsong --stage impl
+p_ps_soundproof | --n 80 --seed 135 --teams stagereq:impl:move:perishsong+ability:soundproof --stage impl
+y_yawn | --n 80 --seed 137 --teams stagereq:impl:move:yawn --stage impl
+y_yawn_eterr | --n 80 --seed 137 --teams stagereq:impl:move:yawn+move:electricterrain --stage impl
+y_yawn_veil | --n 80 --seed 137 --teams stagereq:impl:move:yawn+ability:sweetveil --stage impl
+y_yawn_ins | --n 80 --seed 137 --teams stagereq:impl:move:yawn+ability:insomnia --stage impl
+cs_clang | --n 80 --seed 139 --teams stagereq:impl:move:clangoroussoul --stage impl

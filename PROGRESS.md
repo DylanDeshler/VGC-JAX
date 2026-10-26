@@ -172,6 +172,12 @@ M3 content (2026-10-23)
   MUSTRECHARGE. Found: after a skipped charge turn's addMove('-anim'), later attrLastMove ([notarget] / [miss])
   lands on the -anim line, not the MOVE record. Phantom Force deferred: its move volatile has a duration, so the
   charge turn's residual has a 2-handler tie on one holder that a projection-only volatile can't reproduce.
+- Move batch B2b (effects/moves_b2.py, move_callbacks.py): Expanding Force (ModifyMove target change to
+  allAdjacentFoes threaded through getMoveTargets / Wide Guard / redirection; x1.5), Perish Song (HitField,
+  per-mon TryHit, '-start perishN', FIELDACTIVATE), Yawn (TryAddVolatile ability blocks speed-ordered against the
+  terrains; End -> trySetStatus slp), Clangorous Soul. Found: PS's residual loop does not resolveFaints after a
+  duration-end End (perish0 lines all print before the faints); a static removeVolatile now dispatches only its
+  own End handler. Targeted 100%; regression 34/34.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

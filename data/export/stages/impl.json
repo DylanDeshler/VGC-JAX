@@ -344,6 +344,7 @@
   "chillingwater",
   "circlethrow",
   "clangingscales",
+  "clangoroussoul",
   "closecombat",
   "coaching",
   "coil",
@@ -388,6 +389,7 @@
   "electroweb",
   "energyball",
   "eruption",
+  "expandingforce",
   "extrasensory",
   "extremespeed",
   "fakeout",
@@ -497,6 +499,7 @@
   "overheat",
   "paraboliccharge",
   "partingshot",
+  "perishsong",
   "petalblizzard",
   "pinmissile",
   "playrough",
@@ -621,6 +624,7 @@
   "willowisp",
   "woodhammer",
   "xscissor",
+  "yawn",
   "zapcannon",
   "zenheadbutt",
   "zingzap"
@@ -830,6 +834,7 @@
   "mustrecharge",
   "par",
   "partiallytrapped",
+  "perishsong",
   "protect",
   "psn",
   "psychicterrain",
@@ -850,7 +855,8 @@
   "trapped",
   "trickroom",
   "twoturnmove",
-  "wideguard"
+  "wideguard",
+  "yawn"
  ],
  "implemented_conditions": [
   "auroraveil",
@@ -869,6 +875,7 @@
   "mistyterrain",
   "mustrecharge",
   "par",
+  "perishsong",
   "protect",
   "psn",
   "psychicterrain",
@@ -888,7 +895,8 @@
   "tox",
   "trickroom",
   "twoturnmove",
-  "wideguard"
+  "wideguard",
+  "yawn"
  ],
  "meta": {
   "rule": "core + DATA_ONLY v0 moves whose data_refs are implemented (tools/datagen/impl_stage.py SUPPORTED_REFS) + EXTRA",

@@ -309,7 +309,8 @@ def field_event(st, dex, rng, event: str, on, targets=None):
             st = _set_duration(st, loc, idx, h, nd, has_dur)
             ending = has_dur & (nd <= 0)
             st, rng = end_effect(st, dex, rng, loc, idx, h, e, ending)
-        run = live & ~ending & _still_present(st, loc, idx, h, e) & cbs[j]
+        reach = live & ~ending & _still_present(st, loc, idx, h, e)
+        run = reach & cbs[j]
         hc = H.HookCtx.make(jnp.where(h < 8, h, -1), -1, -1).replace(holder=h)
         ar = (ids.ABILITY_BASE, ids.ABILITY_BASE + len(ids.ABILITIES) - 1)
         ir = (ids.ITEM_BASE, ids.ITEM_BASE + len(ids.ITEMS) - 1)
@@ -326,7 +327,8 @@ def field_event(st, dex, rng, event: str, on, targets=None):
         if residual_mode:                       # the weathers' onFieldResidual eachEvent('Weather'), undispatched
             from vgcjax.effects import weather as WE
             st, rng = WE.residual_each(st, dex, rng, e - ids.COND_BASE + 1, run & (loc == CO.WEATHER))
-        st = F.resolve_faints(st, dex, live)
+        # PS :569: resolveFaints() after a handler that got past the duration-end / removed-state `continue`s
+        st = F.resolve_faints(st, dex, reach)
         return st, rng
 
     return jax.lax.fori_loop(0, K, body, (st, rng))

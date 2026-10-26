@@ -145,7 +145,8 @@ def redirect_target(st, dex, u, move, target, on):
     act = st.sides.active.astype(I32)[fs]
     refs = fs * 4 + jnp.maximum(act, 0)
     alive = (act >= 0) & ~mget(m.fainted, refs) & (mget(m.hp, refs) > 0)
-    tt = dex.move_target[move]
+    from vgcjax.effects import move_callbacks as MC
+    tt = MC.move_target(st, dex, u, move)
     valid_t = (tt == ids.TARGET_NORMAL) | (tt == ids.TARGET_ANY) | (tt == ids.TARGET_ADJACENTFOE) | \
         (tt == ids.TARGET_RANDOMNORMAL)
     powder_ok = ~TC.status_immune(dex, ids.IMMUNITY_KEYS.index("powder"), mget(m.types, jnp.clip(u, 0, 7)))
