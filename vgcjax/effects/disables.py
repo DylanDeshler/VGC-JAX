@@ -122,6 +122,7 @@ def disable_moves(st, dex, rng, r, on):
         dis = jnp.where(cl & keep & (mids != locked) & (mids > 0), 1, dis)
     from vgcjax.effects import moves_b2 as MB2
     dis = MB2.encore_disable(st, dex, r, dis, on)
+    dis = MB2.imprison_disable(st, r, dis, on)
     m = st.mons
     return st.replace(mons=m.replace(move_disabled=mset(m.move_disabled, r, dis.astype(m.move_disabled.dtype), on))), rng
 

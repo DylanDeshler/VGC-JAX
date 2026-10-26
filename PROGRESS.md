@@ -183,6 +183,11 @@ M3 content (2026-10-23)
   DisableMove; residual PP check). Found: Encore on a recharging Pokemon replaces its 'recharge' action with the
   encored move (queue entries for Recharge now carry move_slot -2); charge-turn / Clangorous Soul boosts are
   non-self, non-secondary: a capped stat still prints '-boost' 0. Targeted 100%; regression 14/16 (2 = ADR-105).
+- Imprison (onFoeBeforeMove 'cant'; onFoeDisableMove 'hidden' disables = move_disabled 2) and Trick (takeItem /
+  onTakeItem for the new holder, setItem effectOrder, '-item' / '-enditem' [silent]). Found: a fainted active gets
+  no runEvent('DisableMove') handlers (isActive false) but its moves' singleEvents still run; a 'hidden' disable
+  shows as enabled in the last active Pokemon's request yet chooseMove (getMoves without restrictData) rejects it;
+  PS projects roost.typeWas (its own getTypes() call sets it). Targeted 100%; regression 13/13.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

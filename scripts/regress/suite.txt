@@ -190,3 +190,6 @@ impl_random_e | --n 300 --seed 161 --teams stage:impl --stage impl --legal on
 r_roost | --n 80 --seed 141 --teams stagereq:impl:move:roost --stage impl
 e_encore | --n 80 --seed 141 --teams stagereq:impl:move:encore --stage impl
 e_encore_tw | --n 80 --seed 141 --teams stagereq:impl:move:encore+move:tailwind --stage impl
+impl_random_f | --n 300 --seed 171 --teams stage:impl --stage impl --legal on
+im_imprison | --n 120 --seed 143 --teams stagereq:impl:move:imprison --stage impl
+t_trick | --n 120 --seed 145 --teams stagereq:impl:move:trick --stage impl

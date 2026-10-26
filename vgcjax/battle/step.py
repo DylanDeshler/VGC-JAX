@@ -73,7 +73,7 @@ def decode_move_slot(st, dex, side, slot, a):
     b = st.sides.active[side, slot].astype(I32)
     u = side * 4 + jnp.maximum(b, 0)
     m = st.mons
-    usable = (mget(m.pp, u) > 0) & (mget(m.move_disabled, u) == 0) & (mget(m.move_ids, u) > 0)
+    usable = REQ.usable_slots(st, u)
     struggle = ~jnp.any(usable)
     mi = a // 6
     t = (a % 6) // 2
@@ -309,9 +309,12 @@ def end_turn(st, dex, cfg, on) -> S.State:
             r = side * 4 + jnp.maximum(b, 0)
             go = on & (b >= 0)
             from vgcjax.effects import disables as DS     # the volatiles' DisableMove (Taunt, choicelock)
-            st, _ = DS.disable_moves(st, dex, None, r, go)
+            # runEvent('DisableMove', pokemon) finds no handlers for a fainted active (isActive false since
+            # faintMessages); the moves' singleEvents below still run
+            ev_on = go & ~mget(st.mons.fainted, r)
+            st, _ = DS.disable_moves(st, dex, None, r, ev_on)
             from vgcjax.effects import moves_b1 as MB1
-            st = MB1.disable_moves(st, dex, r, go)                       # Throat Chop
+            st = MB1.disable_moves(st, dex, r, ev_on)                    # Throat Chop
             for h in move_handlers:          # each registered move handler once per active mon that knows the move
                 knows = jnp.any(C.eff_move(mget(st.mons.move_ids, r)) == h.effect)
                 hc = H.HookCtx.make(r, -1, h.effect)

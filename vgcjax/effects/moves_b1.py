@@ -112,6 +112,15 @@ def _snow(st):
 
 
 # ------------------------------------------------------------------ Knock Off
+def takeable(st, item, holder):
+    """<item>.onTakeItem(item, holder): a Mega Stone of the holder's base species -> false."""
+    item = jnp.asarray(item, I32)
+    sp = mget(st.mons.base_species, jnp.clip(holder, 0, 7)).astype(I32)
+    base = jnp.asarray(_base_species_table(), I32)[sp]
+    stone = jnp.asarray(_stone_table(), I32)
+    return ~jnp.any(stone[jnp.clip(item, 0, stone.shape[0] - 1)] == base)
+
+
 def can_take(st, ref):
     """runEvent('TakeItem') / singleEvent('TakeItem', item): a Mega Stone matching its holder's species can't be
     removed (data/items.ts <stone>.onTakeItem); Sticky Hold: M4."""

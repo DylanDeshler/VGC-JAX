@@ -242,3 +242,82 @@ def encore_disable(st, dex, r, dis, on):
     mids = mget(st.mons.move_ids, r).astype(I32)
     act = jnp.asarray(on) & CO.has_volatile(st, r, c) & (move > 0) & jnp.any(mids == move)
     return jnp.where(act & (mids != move) & (mids > 0), 1, dis)
+
+
+# ------------------------------------------------------------------ Imprison
+if mid("imprison") > 0 and has("imprison"):
+    @handler(ids.HOOK_START, CO.eff("imprison"), ps="data/moves.ts imprison.condition.onStart")
+    def imprison_start(hc, st, dex, rng):
+        """'-start' target 'move: Imprison'."""
+        return hc, EV.emit(st, True, EV.EV_START, actor=hc.target, move=CO.eff("imprison"), v1=-1), rng
+
+    @handler(ids.HOOK_BEFOREMOVE, CO.eff("imprison"), prefix=ids.PFX_FOE,
+             ps="data/moves.ts imprison.condition.onFoeBeforeMove")
+    def imprison_foe_before_move(hc, st, dex, rng):
+        """priority 4: not Struggle and the Imprison user knows the move -> 'cant' attacker 'move: Imprison' move;
+        false."""
+        move = jnp.maximum(hc.effect - ids.MOVE_BASE + 1, 0)
+        src = jnp.clip(hc.holder, 0, 7)
+        block = (move != ids.MOVE_STRUGGLE) & jnp.any(mget(st.mons.move_ids, src).astype(I32) == move)
+        st = EV.emit(st, block, EV.EV_CANT, actor=hc.target, move=CO.eff("imprison"))
+        return hc.ret(RS.R(RS.BOOL, 0), block), st, rng
+
+
+def imprison_disable(st, r, dis, on):
+    """imprison.condition.onFoeDisableMove: each move the Imprison user knows -> disableMove(id, true) ('hidden'; a
+    flag already true stays true)."""
+    if not (mid("imprison") > 0 and has("imprison")):
+        return dis
+    m = st.mons
+    mids = mget(m.move_ids, r).astype(I32)
+    fs = 1 - jnp.clip(r, 0, 7) // 4
+    hit = jnp.zeros(4, bool)
+    for b in range(2):
+        a = st.sides.active[fs, b].astype(I32)
+        h = fs * 4 + jnp.maximum(a, 0)
+        held = jnp.asarray(on) & (a >= 0) & (mget(m.hp, h) > 0) & CO.has_volatile(st, h, CO.cid("imprison"))
+        known = jnp.any(mids[:, None] == mget(m.move_ids, h).astype(I32)[None, :], axis=1)
+        hit = hit | (held & known & (mids > 0))
+    return jnp.where(hit & (dis == 0), 2, dis)
+
+
+# ------------------------------------------------------------------ Trick (Sticky Hold onTryImmunity: not in Reg M-C)
+if mid("trick") > 0:
+    @handler(ids.HOOK_HIT, int(C.eff_move(mid("trick"))), ps="data/moves.ts trick.onHit")
+    def trick_hit(hc, st, dex, rng):
+        """yourItem = target.takeItem(source), myItem = source.takeItem() (no item: undefined; a Mega Stone of its
+        holder's species: false); either false or neither item -> items put back (itemState stays cleared), false.
+        Then each item must pass singleEvent('TakeItem') for its new holder, else the same. Else '-activate' source
+        'move: Trick' '[of] target'; each side setItem (new itemState: effectOrder) + '-item' X item '[from] move:
+        Trick', or '-enditem' X oldItem '[silent]' '[from] move: Trick' when it receives nothing."""
+        from vgcjax.battle.util import mset
+        from vgcjax.effects import moves_b1 as MB1
+        t, u = jnp.clip(hc.target, 0, 7), jnp.clip(hc.source, 0, 7)
+        m = st.mons
+        yi, mi = mget(m.item, t).astype(I32), mget(m.item, u).astype(I32)
+        y_false = (yi > 0) & ~MB1.takeable(st, yi, t)
+        m_false = (mi > 0) & ~MB1.takeable(st, mi, u)
+        taken_y = (yi > 0) & ~y_false                # takeItem cleared the item and its state
+        taken_m = (mi > 0) & ~m_false
+        fail1 = y_false | m_false | ((yi == 0) & (mi == 0))
+        fail2 = ~fail1 & (((mi > 0) & ~MB1.takeable(st, mi, t)) | ((yi > 0) & ~MB1.takeable(st, yi, u)))
+        ok = ~fail1 & ~fail2
+        zs = jnp.zeros_like(mget(m.item_state, t))
+        # takeItem: itemState cleared (effectOrder 0) for each taken item, kept cleared when put back
+        m = m.replace(item_state=mset(mset(m.item_state, t, zs, taken_y), u, zs, taken_m),
+                      item_seq=mset(mset(m.item_seq, t, 0, taken_y), u, 0, taken_m))
+        st = st.replace(mons=m)
+        st = EV.emit(st, ok, EV.EV_ACTIVATE, actor=u, move=C.eff_move(mid("trick")))
+        seq = st.meta.effect_seq
+        for holder, new, old in ((t, mi, yi), (u, yi, mi)):
+            m = st.mons
+            gets = ok & (new > 0)
+            empties = ok & (new == 0)
+            m = m.replace(item=mset(m.item, holder, new.astype(m.item.dtype), ok),
+                          item_seq=mset(m.item_seq, holder, seq, gets))
+            seq = seq + gets.astype(seq.dtype)
+            st = st.replace(mons=m)
+            st = EV.emit(st, gets, EV.EV_ITEM, actor=holder, move=ids.ITEM_BASE + new - 1, v1=-1)
+            st = EV.emit(st, empties, EV.EV_ENDITEM, actor=holder, move=ids.ITEM_BASE + old - 1)
+        st = st.replace(meta=st.meta.replace(effect_seq=seq))
+        return hc.ret(RS.R(RS.BOOL, 0), ~ok), st, rng

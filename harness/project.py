@@ -87,6 +87,13 @@ def _volatiles(st, side: int, b: int) -> dict:
             out[name] = _eff_state(name, st.mons.vol_state[side, b, k], 5)
             if name == "twoturnmove":
                 out.update(_twoturn_move_volatile(st.mons.vol_state[side, b, k]))
+            if name == "roost":
+                # roost.onType sets effectState.typeWas = pokemon.types on every getTypes() call, and
+                # oracle/lib/project.js calls getTypes() before projecting volatiles: the species' types
+                from vgcjax.core.dex import load_tables_np
+                sp = int(st.mons.species[side, b])
+                out[name]["typeWas"] = [TYPE_NAMES[int(t)] for t in load_tables_np()["species_types"][sp] if int(t) > 0]
+                out[name] = dict(sorted(out[name].items()))
     return dict(sorted(out.items()))
 
 

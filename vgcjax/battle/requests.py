@@ -35,6 +35,14 @@ def target_mask(tt):
     return jnp.stack([t0, t1, t2])
 
 
+def usable_slots(st, u):
+    """A choosable slot: PP and no disable. Side.chooseMove checks pokemon.getMoves() without restrictData
+    (sim/side.ts:627, :730-741), so an Imprison 'hidden' disable rejects the choice even when the last active
+    Pokemon's request shows the move enabled (sim/pokemon.ts:1046-1048)."""
+    m = st.mons
+    return (mget(m.pp, u) > 0) & (mget(m.move_disabled, u) == 0) & (mget(m.move_ids, u) > 0)
+
+
 def move_slot_mask(st, dex, side, slot):
     """bool[29] for one slot in a MOVE request."""
     b = st.sides.active[side, slot].astype(I32)
@@ -42,7 +50,7 @@ def move_slot_mask(st, dex, side, slot):
     m = st.mons
     present = (b >= 0) & ~mget(m.fainted, u)
     moves = mget(m.move_ids, u)
-    usable = (mget(m.pp, u) > 0) & (mget(m.move_disabled, u) == 0) & (moves > 0)
+    usable = usable_slots(st, u)
     struggle = ~jnp.any(usable)
     can_mega = mget(m.can_mega, u) & ~st.sides.mega_used[side] & ~struggle
     acts = []
