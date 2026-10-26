@@ -39,7 +39,7 @@ EXTRA: dict[str, set[str]] = {
               "hyperbeam", "gigaimpact", "meteorassault", "blastburn", "frenzyplant", "hydrocannon", "rockwrecker",
               "electroshot", "solarbeam", "solarblade", "meteorbeam", "skyattack",     # effects/locked.py
               "expandingforce",                                                        # effects/move_callbacks.py
-              "perishsong", "yawn", "clangoroussoul", "roost", "encore", "imprison", "trick"},                                                           # effects/moves_b2.py
+              "perishsong", "yawn", "clangoroussoul", "roost", "encore", "imprison", "trick", "steelroller", "doubleshock", "glaiverush"},                                                           # effects/moves_b2.py
     "abilities": {"drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
@@ -67,7 +67,7 @@ EXTRA: dict[str, set[str]] = {
                    "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain",
                    "taunt", "choicelock", "followme", "ragepowder", "helpinghand",
                    "spikyshield", "banefulbunker", "kingsshield", "auroraveil", "throatchop",
-                   "mustrecharge", "twoturnmove", "perishsong", "yawn", "roost", "encore", "imprison"},
+                   "mustrecharge", "twoturnmove", "perishsong", "yawn", "roost", "encore", "imprison", "glaiverush"},
 }
 
 

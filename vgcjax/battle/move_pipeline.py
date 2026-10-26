@@ -396,8 +396,9 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=Fa
     staged = jnp.where(b > 0, acc_t * (3 + b) // 3, jnp.where(b < 0, acc_t * 3 // (3 - b), acc_t))
     acc = jnp.where(ohko > 0, ohko_acc, staged)
     from vgcjax.effects import move_callbacks as MC
+    from vgcjax.effects import moves_b2 as MB2
     always = ((acc_base == 0) & (ohko == 0)) | ((tt == T.TARGET_SELF) & (cat == T.CAT_STATUS)) | \
-        MC.always_hits(st, u, move)
+        MC.always_hits(st, u, move) | MB2.glaive_rush_target(st, targets)      # runEvent('Accuracy')
     key = C.dkey(st, ids.DK_ACCURACY, actor=u, target=targets, subject=C.eff_move(move), hit=0)
     hit, rng = R.chance_v(rng, key, acc, 100, active=live & ~always & ~ohko_immune)
     st = C.mul_tick(st, jnp.sum((live & (ohko == 0)).astype(I32)))   # runEvent('ModifyAccuracy') per non-OHKO target
@@ -740,6 +741,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     self_vol = dex.move_self_volatile[move].astype(I32)
     st, rng, _ = CO.add_volatile(st, dex, rng, u, jnp.maximum(self_vol, 1), any_target & (self_vol > 0) & ~has_self_boosts,
                                  source=u, source_effect=C.eff_move(move))
+    from vgcjax.effects import moves_b2 as MB2
+    st = MB2.double_shock_self(st, u, move, any_target)                 # self.onHit
 
     # 5. secondaries, PS order per target then per secondary; SECONDARY draws only for numeric chance. Target boosts
     #    touch only that target (batched per secondary); the user's self-boosts run as a scalar recurrence.
@@ -955,6 +958,9 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # PS :550-556: singleEvent('TryMove', move) (the charge moves' onTryMove; runEvent('TryMove'): no Reg M-C
     # handler); a falsy result returns it from useMoveInner (null: moveThisTurnResult null)
     st, rng, tm_null = LK.try_move(st, dex, rng, u, jnp.where(targets[0] >= 0, targets[0], target), move, go_um)
+    from vgcjax.effects import moves_b2 as MB2
+    st, ds_null = MB2.double_shock_try(st, u, move, go_um)
+    tm_null = tm_null | ds_null
     go_um = go_um & ~tm_null
     side_field = _in(tt, (T.TARGET_ALL, T.TARGET_FOESIDE, T.TARGET_ALLYSIDE, T.TARGET_ALLYTEAM))
     has_t = targets[0] >= 0

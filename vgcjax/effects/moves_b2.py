@@ -321,3 +321,78 @@ if mid("trick") > 0:
             st = EV.emit(st, empties, EV.EV_ENDITEM, actor=holder, move=ids.ITEM_BASE + old - 1)
         st = st.replace(meta=st.meta.replace(effect_seq=seq))
         return hc.ret(RS.R(RS.BOOL, 0), ~ok), st, rng
+
+
+# ------------------------------------------------------------------ Steel Roller
+if mid("steelroller") > 0:
+    _sr = int(C.eff_move(mid("steelroller")))
+
+    @handler(ids.HOOK_TRY, _sr, ps="data/moves.ts steelroller.onTry")
+    def steelroller_try(hc, st, dex, rng):
+        """No terrain -> false."""
+        return hc.ret(RS.R(RS.BOOL, 0), st.field.terrain == 0), st, rng
+
+    @handler(ids.HOOK_HIT, _sr, ps="data/moves.ts steelroller.onHit")
+    def steelroller_hit(hc, st, dex, rng):
+        """field.clearTerrain() (FieldEnd: '-fieldend'; TerrainChange: no Reg M-C handler)."""
+        from vgcjax.effects import sideconds as SC
+        st, rng = SC.clear_terrain(st, dex, rng, True)
+        return hc, st, rng
+
+
+# ------------------------------------------------------------------ Double Shock (Champions: punch flag)
+def double_shock_try(st, u, move, on):
+    """Double Shock onTryMove: a user without the Electric type -> '-fail' pokemon 'move: Double Shock',
+    attrLastMove('[still]'), null. Returns (st, null)."""
+    if mid("doubleshock") < 0:
+        return st, jnp.zeros((), bool)
+    fail = jnp.asarray(on) & (move == mid("doubleshock")) & ~jnp.any(mget(st.mons.types, u) == ids.TYPE_ELECTRIC)
+    st = EV.emit(st, fail, EV.EV_FAIL, actor=u, move=C.eff_move(mid("doubleshock")), flags=EV.F_FAILSTATUS)
+    st = EV.attr_last_move(st, fail, EV.F_STILL)
+    return st, fail
+
+
+def double_shock_self(st, u, move, on):
+    """self.onHit (selfDrops -> moveHit(source, source, move.self)): setType(types with Electric -> '???'); '-start'
+    pokemon 'typechange' <types> '[from] move: Double Shock' (START move/v1 = Double Shock, v2 = 1:
+    harness/events.py prints 'typechange')."""
+    if mid("doubleshock") < 0:
+        return st
+    from vgcjax.battle.util import mset
+    go = jnp.asarray(on) & (move == mid("doubleshock")) & (mget(st.mons.hp, u) > 0)
+    m = st.mons
+    t = mget(m.types, u)
+    new = jnp.where(t == ids.TYPE_ELECTRIC, ids.TYPE_TYPELESS, t).astype(t.dtype)
+    m = m.replace(types=mset(m.types, u, new, go), added_type=mset(m.added_type, u, 0, go))
+    st = st.replace(mons=m)
+    e = C.eff_move(mid("doubleshock"))
+    return EV.emit(st, go, EV.EV_START, actor=u, move=e, v1=e, v2=1)
+
+
+# ------------------------------------------------------------------ Glaive Rush
+if mid("glaiverush") > 0 and has("glaiverush"):
+    from vgcjax.effects.modifiers import mod
+
+    @handler(ids.HOOK_START, CO.eff("glaiverush"), ps="data/moves.ts glaiverush.condition.onStart")
+    def glaiverush_start(hc, st, dex, rng):
+        """'-singlemove' pokemon 'Glaive Rush' '[silent]'."""
+        return hc, EV.emit(st, True, EV.EV_SINGLEMOVE, actor=hc.target, move=CO.eff("glaiverush")), rng
+
+    @handler(ids.HOOK_BEFOREMOVE, CO.eff("glaiverush"), ps="data/moves.ts glaiverush.condition.onBeforeMove")
+    def glaiverush_before_move(hc, st, dex, rng):
+        """priority 100: removeVolatile('glaiverush')."""
+        st, rng, _ = CO.remove_volatile(st, dex, rng, hc.target, CO.cid("glaiverush"), True)
+        return hc, st, rng
+
+    @mod("ModifyDamage", CO.eff("glaiverush"), prefix=ids.PFX_SOURCE,
+         ps="data/moves.ts glaiverush.condition.onSourceModifyDamage")
+    def glaiverush_damage(ctx, h):
+        """The holder takes chainModify(2)."""
+        return jnp.ones(h.shape, bool), jnp.asarray(8192, I32), None
+
+
+def glaive_rush_target(st, targets):
+    """glaiverush.condition.onAccuracy (the holder is the target): accuracy true."""
+    if not (mid("glaiverush") > 0 and has("glaiverush")):
+        return jnp.zeros(jnp.shape(targets), bool)
+    return CO.has_volatile(st, jnp.clip(targets, 0, 7), CO.cid("glaiverush")) & (jnp.asarray(targets) >= 0)

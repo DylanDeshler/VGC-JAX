@@ -188,6 +188,9 @@ M3 content (2026-10-23)
   no runEvent('DisableMove') handlers (isActive false) but its moves' singleEvents still run; a 'hidden' disable
   shows as enabled in the last active Pokemon's request yet chooseMove (getMoves without restrictData) rejects it;
   PS projects roost.typeWas (its own getTypes() call sets it). Targeted 100%; regression 13/13.
+- Steel Roller (onTry terrain, clearTerrain), Double Shock (onTryMove '-fail' null; self.onHit typechange to
+  '???'), Glaive Rush (unverified: no learner in the impl pool; Accuracy true, x2 onSourceModifyDamage, removed at
+  BeforeMove). New event SINGLEMOVE; the reducer reads '-fail' reasons through fromEffect ('move: X' -> x).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

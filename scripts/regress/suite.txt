@@ -193,3 +193,6 @@ e_encore_tw | --n 80 --seed 141 --teams stagereq:impl:move:encore+move:tailwind 
 impl_random_f | --n 300 --seed 171 --teams stage:impl --stage impl --legal on
 im_imprison | --n 120 --seed 143 --teams stagereq:impl:move:imprison --stage impl
 t_trick | --n 120 --seed 145 --teams stagereq:impl:move:trick --stage impl
+n_steelroller | --n 80 --seed 147 --teams stagereq:impl:move:steelroller --stage impl
+n_sr_terrain | --n 80 --seed 147 --teams stagereq:impl:move:steelroller+move:grassyterrain --stage impl
+n_doubleshock | --n 80 --seed 147 --teams stagereq:impl:move:doubleshock --stage impl

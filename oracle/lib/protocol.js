@@ -96,7 +96,7 @@ function reduce(lines, battle) {
 				const stat = parts[3] && !parts[3].startsWith('[') ? STATS.indexOf(parts[3]) : -1;
 				ev('FAIL', { actor: refOf(parts[1]), v1: fk === 'ability' ? fid : '', v2: stat, flags: F.FAIL_UNBOOST });
 			} else {
-				ev('FAIL', { actor: refOf(parts[1]), move: why && why !== 'heal' ? toID(why) : '', v1: '',
+				ev('FAIL', { actor: refOf(parts[1]), move: why && why !== 'heal' ? fromEffect(why)[1] : '', v1: '',
 					flags: why === 'heal' ? F.HEAL : why ? F.FAILSTATUS : 0 });
 			}
 		} else if (type === '-clearallboost') {
@@ -162,6 +162,8 @@ function reduce(lines, battle) {
 				v1: from ? id : '', flags: tags.includes('[fatigue]') ? F.FATIGUE : k === 'ability' ? F.FROM_ABILITY : 0 });
 		} else if (type === '-prepare') {
 			ev('PREPARE', { actor: refOf(parts[1]), move: toID(parts[2]) });
+		} else if (type === '-singlemove') {
+			ev('SINGLEMOVE', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1] });
 		} else if (type === '-fieldactivate') {
 			ev('FIELDACTIVATE', { move: fromEffect(parts[1])[1] });
 		} else if (type === '-mustrecharge') {
