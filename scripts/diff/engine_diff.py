@@ -138,8 +138,9 @@ def record(a):
 
 def compare(a):
     x, y = np.load(a.a), np.load(a.b)
+    norm = lambda k, v: pathlib.Path(str(v)).name if k == "teams" else str(v)  # noqa: E731
     for k in ("seed", "stage", "battles", "decisions", "teams"):
-        if str(x[k]) != str(y[k]):
+        if norm(k, x[k]) != norm(k, y[k]):
             print(f"run parameters differ: {k} {x[k]} vs {y[k]}")
             return 2
     nx, ny = list(x["names"]), list(y["names"])
