@@ -194,6 +194,10 @@ M3 content (2026-10-23)
 - ADR-105 accepted (human, 2026-10-26): randomChance numerators compared as ceil(n) (PS rolls are integers, so
   random(d) < 67.5 is exactly < 68). The Population Bomb DRAW_ARGS:ACCURACY bucket is gone (s_followme,
   s_ragepowder 100%).
+- Fidelity fix (found by a regenerated a_sapsipper corpus): a last active Pokemon whose only non-disabled moves are
+  Imprison-hidden still gets a request listing its moves (restrictData); Side.chooseMove accepts any listed move
+  index with a valid target (and Mega) and turns it into Struggle because getMoves() is empty. Engine masks and
+  decode now do the same (requests.struggle_state).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

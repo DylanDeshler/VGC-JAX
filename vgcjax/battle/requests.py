@@ -43,6 +43,26 @@ def usable_slots(st, u):
     return (mget(m.pp, u) > 0) & (mget(m.move_disabled, u) == 0) & (mget(m.move_ids, u) > 0)
 
 
+def is_last_active(st, u):
+    """PS: sim/pokemon.ts isLastActive: no unfainted ally in a later active position."""
+    side = jnp.clip(u, 0, 7) // 4
+    act = st.sides.active[side].astype(I32)
+    second = (act[1] >= 0) & ~mget(st.mons.fainted, side * 4 + jnp.maximum(act[1], 0))
+    return (act[1] == u % 4) | ~second
+
+
+def struggle_state(st, u):
+    """(struggle, shown): no usable move (getMoves() is empty: the chosen move becomes Struggle, sim/side.ts:689-700);
+    `shown` = the request still lists the moves, because restrictData shows the last active Pokemon's 'hidden'
+    (Imprison) disables as enabled (sim/pokemon.ts:1046-1048, 1121-1128). Then any listed move index with a valid
+    target is accepted (and Mega Evolution, as the request is not locked) and turned into Struggle."""
+    m = st.mons
+    struggle = ~jnp.any(usable_slots(st, u))
+    dis = mget(m.move_disabled, u)
+    listed_ok = (mget(m.pp, u) > 0) & ((dis == 0) | ((dis == 2) & is_last_active(st, u))) & (mget(m.move_ids, u) > 0)
+    return struggle, struggle & jnp.any(listed_ok)
+
+
 def move_slot_mask(st, dex, side, slot):
     """bool[29] for one slot in a MOVE request."""
     b = st.sides.active[side, slot].astype(I32)
@@ -51,20 +71,21 @@ def move_slot_mask(st, dex, side, slot):
     present = (b >= 0) & ~mget(m.fainted, u)
     moves = mget(m.move_ids, u)
     usable = usable_slots(st, u)
-    struggle = ~jnp.any(usable)
-    can_mega = mget(m.can_mega, u) & ~st.sides.mega_used[side] & ~struggle
+    struggle, shown = struggle_state(st, u)
+    can_mega = mget(m.can_mega, u) & ~st.sides.mega_used[side] & (~struggle | shown)
     acts = []
     for mi in range(4):
         tm = target_mask(dex.move_target[moves[mi]])
+        pick = usable[mi] | (shown & (moves[mi] > 0))        # shown: any listed move (it becomes Struggle)
         for t in range(3):
             for mega in range(2):
-                ok = usable[mi] & tm[t] & ((mega == 0) | can_mega)
+                ok = pick & tm[t] & ((mega == 0) | can_mega)
                 acts.append(ok)
     acts = jnp.stack(acts)
     # a locked move (getMoveRequestData, sim/pokemon.ts:1104-1110): one option, trapped, no Mega
     from vgcjax.effects import locked as LK
     lk = LK.locked(st, u)[0]
-    acts = jnp.where(struggle | lk, jnp.zeros(24, bool).at[0].set(True), acts)
+    acts = jnp.where((struggle & ~shown) | lk, jnp.zeros(24, bool).at[0].set(True), acts)
     poss = F.possible_switches(st, side)
     trapped = (mget(m.trapped, u) != 0) | lk
     sw = poss & ~trapped

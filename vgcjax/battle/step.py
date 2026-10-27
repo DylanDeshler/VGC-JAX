@@ -72,8 +72,7 @@ def decode_move_slot(st, dex, side, slot, a):
     b = st.sides.active[side, slot].astype(I32)
     u = side * 4 + jnp.maximum(b, 0)
     m = st.mons
-    usable = REQ.usable_slots(st, u)
-    struggle = ~jnp.any(usable)
+    struggle, shown = REQ.struggle_state(st, u)
     mi = a // 6
     t = (a % 6) // 2
     mega = (a % 2) == 1
@@ -92,7 +91,7 @@ def decode_move_slot(st, dex, side, slot, a):
     loc = jnp.where(tt == ids.TARGET_ADJACENTALLYORSELF, jnp.where(t == 0, self_loc, ally_loc),
                     jnp.where(t == 0, 1, jnp.where(t == 1, 2, ally_loc)))
     loc = jnp.where(lk, lk_loc, jnp.where(choosable & ~struggle, loc, 0))
-    return (a < 24), (a >= 24) & (a < 28), move_slot, move_id, loc, mega & ~struggle & ~lk, a - 24
+    return (a < 24), (a >= 24) & (a < 28), move_slot, move_id, loc, mega & (~struggle | shown) & ~lk, a - 24
 
 
 def resolve_loc(st, dex, u, move_id, loc):
