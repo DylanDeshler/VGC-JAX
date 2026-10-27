@@ -21,6 +21,7 @@ the battles use implemented content); default data/teams/bank_core.npz.
 from __future__ import annotations
 
 import argparse
+import glob
 import pathlib
 import sys
 import time
@@ -36,7 +37,11 @@ def _bank_from_traces(d):
     from vgcjax.env import teambank as TB
     from harness import corpus
     rows = []
-    for f in corpus.shard_files(d):
+    dirs = []
+    for part in str(d).split(","):                     # comma-separated dirs; a trailing /* globs subdirs
+        dirs += [pathlib.Path(x) for x in sorted(glob.glob(part))] if "*" in part else [pathlib.Path(part)]
+    files = [f for dd in dirs for f in corpus.shard_files(dd)]
+    for f in files:
         for recs in corpus.iter_battles(f):
             for s in recs[0]["team_sets"]:
                 rows.append({"sets": s})
@@ -173,7 +178,8 @@ def main():
     r.add_argument("--seed", type=int, default=0)
     r.add_argument("--stage", default="impl")
     r.add_argument("--bank", default="data/teams/bank_core.npz")
-    r.add_argument("--teams", default=None, help="trace dir: build the bank from its corpora's team sets")
+    r.add_argument("--teams", default=None, help="trace dir(s), comma-separated, globs allowed (e.g. "
+                   "'traces/regress/*'): build the bank from their corpora's team sets")
     r.add_argument("--max-turns", type=int, default=60)
     r.add_argument("--max-cont", type=int, default=8)
     r.add_argument("--micro-steps", type=int, default=None, help="engine micro-steps per call (must not matter)")
