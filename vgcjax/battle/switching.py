@@ -64,7 +64,9 @@ def clear_volatile(st: S.State, dex, ref, include_switch_flags, on) -> S.State:
 
 
 def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_drag=False):
-    """PS: sim/battle-actions.ts:79-215 switchIn(pokemon, pos, sourceEffect, isDrag). Returns (st, rng)."""
+    """PS: sim/battle-actions.ts:79-215 switchIn(pokemon, pos, sourceEffect, isDrag). Returns (st, rng). `is_drag` may
+    be traced; a drag's inline runSwitch (PS :208-210) is run by the caller through the single run_switch site."""
+    is_drag = jnp.asarray(is_drag)
     side = jnp.asarray(side, I32)
     pos = jnp.asarray(pos, I32)
     b_in = jnp.asarray(b_in, I32)
@@ -116,15 +118,14 @@ def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_dr
                   previously_switched_in=mset(m.previously_switched_in, r_in, mget(m.previously_switched_in, r_in) + 1, on))
     st = st.replace(mons=m, sides=sides, meta=meta.replace(effect_seq=jnp.where(on, seq, meta.effect_seq)))
     # PS :186-192: add(isDrag ? 'drag' : 'switch', pokemon, details, [from] sourceEffect)
-    st = EV.emit_hp(st, on, EV.EV_SWITCH, r_in, move=0 if is_drag else source_effect, flags=EV.F_DRAG if is_drag else 0)
-    # BeforeSwitchIn hooks (M3)
-    if is_drag:
-        st, rng = run_switch(st, dex, rng, [r_in], on)
-    else:
-        # insertChoice({choice: 'runSwitch', pokemon}): updateSpeed then insert by key (RUNSWITCH_INSERT_TIE)
-        st = C.update_speed_one(st, dex, r_in, on)
-        st = C.mul_tick(st, 2, on)          # pokemon.updateSpeed() + resolveAction getActionSpeed
-        st, rng = Q.insert_run_switch(st, rng, on, side, b_in, mget(st.mons.speed, r_in))
+    st = EV.emit_hp(st, on, EV.EV_SWITCH, r_in, move=jnp.where(is_drag, 0, source_effect),
+                    flags=jnp.where(is_drag, EV.F_DRAG, 0))
+    # BeforeSwitchIn hooks (M3); a drag runs runSwitch inline (caller), a switch inserts it:
+    # insertChoice({choice: 'runSwitch', pokemon}): updateSpeed then insert by key (RUNSWITCH_INSERT_TIE)
+    ins = on & ~is_drag
+    st = C.update_speed_one(st, dex, r_in, ins)
+    st = C.mul_tick(st, 2, ins)             # pokemon.updateSpeed() + resolveAction getActionSpeed
+    st, rng = Q.insert_run_switch(st, rng, ins, side, b_in, mget(st.mons.speed, r_in))
     return st, rng
 
 
@@ -203,9 +204,9 @@ def run_switch(st: S.State, dex, rng, refs, on):
     return st.replace(mons=m.replace(is_started=started)), rng
 
 
-def drag_in(st: S.State, dex, rng, side, pos, on):
-    """PS: sim/battle-actions.ts:216-227 dragIn: FORCED_SWITCH_PICK over possible switches (party order), then
-    switchIn(isDrag) with an inline runSwitch. Returns (st, rng)."""
+def drag_pick(st: S.State, rng, side, pos, on):
+    """PS: sim/battle-actions.ts:216-227 dragIn up to switchIn: FORCED_SWITCH_PICK over possible switches (party
+    order); no candidate or a fainted occupant -> no switch. Returns (brought index, ok, rng)."""
     side = jnp.asarray(side, I32)
     poss = F.possible_switches(st, side)                     # bool[4] by brought index
     order = st.sides.ps_order[side].astype(I32)
@@ -217,4 +218,4 @@ def drag_in(st: S.State, dex, rng, side, pos, on):
     pick, rng = R.sample_ref(rng, key, cand_b, cand_ok, active=jnp.asarray(on) & jnp.any(cand_ok))
     ok = jnp.asarray(on) & jnp.any(cand_ok) & (mget(st.mons.hp, r_old) > 0)
     # DragOut hooks (M3)
-    return switch_in(st, dex, rng, side, pos, pick, ok, is_drag=True)
+    return pick, ok, rng

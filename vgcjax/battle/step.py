@@ -28,7 +28,6 @@ from vgcjax.core import rng as R
 from vgcjax.data import ids
 
 I8, I16, I32 = jnp.int8, jnp.int16, jnp.int32
-NPHAZE = 2
 LIGHT = (S.Q_BEFORE_TURN, S.Q_START, S.Q_SWITCH, S.Q_INSTASWITCH, S.Q_RUN_SWITCH, S.Q_MEGA, S.Q_BEFORE_TURN_MOVE,
          S.Q_PRIORITY_CHARGE, S.Q_REVIVAL)
 ACTION_NAME = {S.Q_BEFORE_TURN: "beforeTurn", S.Q_START: "start", S.Q_SWITCH: "switch", S.Q_INSTASWITCH: "instaswitch",
@@ -167,22 +166,45 @@ def commit_switch(st, dex, actions, on):
 
 
 # ------------------------------------------------------------------ actions
-def run_light(st, dex, rng, cfg, idx, on):
-    """Execute a light (non-move) queue entry. PS: sim/battle.ts:2718-2859 runAction per choice."""
+def _flagged(st, cursor, on):
+    """forceSwitchFlag on active positions >= cursor (p1a p1b p2a p2b = 0..3). Returns (bool[4], refs[4])."""
+    act = st.sides.active.reshape(4).astype(I32)
+    refs = (jnp.arange(4) // 2) * 4 + jnp.maximum(act, 0)
+    fl = jnp.asarray(on) & (act >= 0) & mget(st.mons.force_switch_flag, refs) & (jnp.arange(4) >= cursor)
+    return fl, refs
+
+
+def run_light(st, dex, rng, cfg, idx, on, tail=False):
+    """Execute a light (non-move) queue entry (PS: sim/battle.ts:2718-2859 runAction per choice), or, for `tail`, the
+    next forced switch of a pending runAction tail (PS :2867-2875: dragIn for the first flagged position from the
+    cursor). Every switch-in and runSwitch of a micro-step goes through the single sites below (ADR-107 §3.2)."""
     q = st.queue
     kind = q.kind[idx]
     side = q.side[idx].astype(I32)
     b = q.actor_b[idx].astype(I32)
     ref = jnp.where(b >= 0, side * 4 + b, -1)
     on = jnp.asarray(on)
+    tail = jnp.asarray(tail)
     # start runs once, outside the action loops (run_start)
+    # forced switch of a pending tail: FORCED_SWITCH_PICK, then switchIn(isDrag) with an inline runSwitch
+    sc = st.scratch
+    fl, frefs = _flagged(st, sc.tail_pos.astype(I32), tail)
+    di = jnp.argmax(fl)
+    dgo = jnp.any(fl)
+    d_side, d_pos = di // 2, di % 2
+    d_b, d_ok, rng = SW.drag_pick(st, rng, d_side, d_pos, dgo & (mget(st.mons.hp, frefs[di]) > 0))
+    m = st.mons
+    st = st.replace(mons=m.replace(force_switch_flag=mset(m.force_switch_flag, frefs[di], False, dgo)),
+                    scratch=sc.replace(tail_pos=jnp.where(dgo, di + 1, sc.tail_pos).astype(I8)))
     # switch / instaswitch (PS :2814-2820): switchIn(target, pokemon.position, sourceEffect)
     is_sw = on & ((kind == S.Q_SWITCH) | (kind == S.Q_INSTASWITCH))
     pos = MP.position(st, ref)
-    st, rng = SW.switch_in(st, dex, rng, side, jnp.maximum(pos, 0), q.switch_target_b[idx], is_sw & (pos >= 0),
-                           source_effect=q.source_effect[idx])
-    # runSwitch (batched)
-    st, rng = SW.run_switch(st, dex, rng, [ref], on & (kind == S.Q_RUN_SWITCH))
+    st, rng = SW.switch_in(st, dex, rng, jnp.where(d_ok, d_side, side), jnp.where(d_ok, d_pos, jnp.maximum(pos, 0)),
+                           jnp.where(d_ok, d_b, q.switch_target_b[idx]), (is_sw & (pos >= 0)) | d_ok,
+                           source_effect=jnp.where(d_ok, 0, q.source_effect[idx]), is_drag=d_ok)
+    # runSwitch (batched): a queued runSwitch entry, or a drag's inline runSwitch (also drains queued ones)
+    st, rng = SW.run_switch(st, dex, rng, [jnp.where(d_ok, d_side * 4 + d_b, ref)],
+                            (on & (kind == S.Q_RUN_SWITCH)) | d_ok)
     # beforeTurn: eachEvent('BeforeTurn') (hooks M3); megaEvo (M3.6); others unsupported in core
     # megaEvo (PS :2766-2768): runMegaEvo
     from vgcjax.effects import mega as MG
@@ -210,24 +232,23 @@ def run_start(st, dex, rng, on):
     return post_action(st, dex, rng, S.Q_START, on)
 
 
-def post_action(st, dex, rng, kind, on):
-    """PS runAction tail (sim/battle.ts:2861-2986; 04 §7.9). Returns (st, rng)."""
+def post_action(st, dex, rng, kind, on, cursor=0):
+    """PS runAction tail (sim/battle.ts:2861-2986; 04 §7.9). Returns (st, rng).
+
+    (a) phazing: one pass over p1a p1b p2a p2b; a flagged position is dragged in (dragIn + inline runSwitch) before
+    the rest of the tail. The tail stops here when a flagged position remains at or after `cursor` (0 for a fresh
+    action), recording a continuation; the forced switch runs through the single switch-in site of the next
+    micro-step (run_light `tail`), which advances the cursor and calls this again (ADR-107 §3.2). The order of
+    work is PS's; only its position in the compiled step changes."""
     on = jnp.asarray(on) & (st.meta.phase != S.DONE)
-    # (a) phazing in p1a, p1b, p2a, p2b order. One action flags at most NPHAZE slots (forceSwitch moves are
-    #     single-target; Red Card on spread targets is the multi-flag case), so the first NPHAZE flagged slots are
-    #     dragged in order; more raise ERR_OVERFLOW_PHAZE.
-    def flagged(st):
-        act = st.sides.active.reshape(4).astype(I32)
-        refs = (jnp.arange(4) // 2) * 4 + jnp.maximum(act, 0)
-        return on & (act >= 0) & mget(st.mons.force_switch_flag, refs), refs
-    for _ in range(NPHAZE):
-        fl, refs = flagged(st)
-        i = jnp.argmax(fl)
-        go, r = jnp.any(fl), refs[i]
-        st, rng = SW.drag_in(st, dex, rng, i // 2, i % 2, go & (mget(st.mons.hp, r) > 0))
-        m = st.mons
-        st = st.replace(mons=m.replace(force_switch_flag=mset(m.force_switch_flag, r, False, go)))
-    st = or_flag(st, E.ERR_OVERFLOW_PHAZE, jnp.any(flagged(st)[0]))
+    fl, _ = _flagged(st, jnp.asarray(cursor, I32), on)
+    defer = jnp.any(fl)
+    sc = st.scratch
+    st = st.replace(scratch=sc.replace(
+        tail_pending=jnp.where(on, defer, sc.tail_pending),
+        tail_kind=jnp.where(on & defer, kind, sc.tail_kind).astype(I8),
+        tail_pos=jnp.where(on, jnp.where(defer, cursor, 0), sc.tail_pos).astype(I8)))
+    on = on & ~defer
     # (b) faints + win
     st = F.resolve_faints(st, dex, on, check_win_if_no_faints=True)
     on = on & (st.meta.phase != S.DONE)
@@ -369,7 +390,10 @@ def micro(st, dex, rng, cfg):
     act = active(st)
     q = st.queue
     _, hk, anyv = Q.head(q)
-    go = act & ~st.exec.in_move & anyv & (hk != S.Q_RESIDUAL)      # residual runs once per call (run_until_decision)
+    # a pending runAction tail (forced switch) resumes before any new action is selected
+    tail = act & st.scratch.tail_pending & ~st.exec.in_move
+    tail_kind, tail_pos = st.scratch.tail_kind.astype(I32), st.scratch.tail_pos.astype(I32)
+    go = act & ~st.exec.in_move & anyv & (hk != S.Q_RESIDUAL) & ~tail  # residual runs once per call (run_until_decision)
     # tied entries share an order class, so the head's kind gives the step_tag of the SELECT tie record
     st = C.set_step(st, _lookup(STEP_TAG, hk, ids.STEP_COMMIT), -1, -1, 0, go)
     st, rng, idx, passes = Q.select(st, dex, rng, go)
@@ -383,20 +407,23 @@ def micro(st, dex, rng, cfg):
     sc = st.scratch
     st = st.replace(scratch=sc.replace(move_actions=mset(sc.move_actions, ref, mget(sc.move_actions, ref) + 1,
                                                          run & is_move)))
-    st, rng = run_light(st, dex, rng, cfg, idx, run & ~is_move)
+    st, rng = run_light(st, dex, rng, cfg, idx, run & ~is_move, tail=tail)
     st, rng = MP.move_begin(st, dex, rng, cfg, q.side[idx], q.actor_b[idx], q.move_slot[idx], q.move_id[idx],
                             q.target_loc[idx], q.original_target[idx], run & is_move)
     st, rng = MP.move_hit(st, dex, rng, cfg)
     move_done = st.exec.in_move & st.exec.stopped
     st, rng = MP.move_end(st, dex, rng, cfg)
     finished = (run & ~is_move) | move_done
-    st, rng = post_action(st, dex, rng, kind, finished)
+    st, rng = post_action(st, dex, rng, jnp.where(tail, tail_kind, kind), finished | tail,
+                          cursor=jnp.where(tail, st.scratch.tail_pos.astype(I32), 0))
+    done = (finished | tail) & ~st.scratch.tail_pending                 # the tail reached its end
     # end of runAction (PS: sim/battle.ts:2974-2982): when the action reached its tail (no early return, no switch
     # request) and the next action is a move, updateSpeed + getActionSpeed for every queued action, then re-sort
     _, nk, nany = Q.head(st.queue)
-    st = Q.rekey(st, dex, finished & active(st) & nany & (nk == S.Q_MOVE))
-    # end of turn when the queue is drained and no move is in progress
-    return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~jnp.any(st.queue.valid)), rng
+    st = Q.rekey(st, dex, done & active(st) & nany & (nk == S.Q_MOVE))
+    # end of turn when the queue is drained and no move or tail is in progress
+    return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~st.scratch.tail_pending &
+                    ~jnp.any(st.queue.valid)), rng
 
 
 def block_residual(st, dex, rng, cfg):
@@ -404,20 +431,21 @@ def block_residual(st, dex, rng, cfg):
     micro-steps so the residual walk is traced once per step call, then the runAction tail and end of turn."""
     q = st.queue
     _, hk, anyv = Q.head(q)
-    go = active(st) & ~st.exec.in_move & anyv & (hk == S.Q_RESIDUAL)
+    go = active(st) & ~st.exec.in_move & ~st.scratch.tail_pending & anyv & (hk == S.Q_RESIDUAL)
     st = C.set_step(st, ids.STEP_RESIDUAL, -1, C.eff_action("residual"), 0, go)
     idx = jnp.argmax(q.valid & (q.kind == S.Q_RESIDUAL))
     st = st.replace(queue=q.replace(valid=q.valid.at[idx].set(jnp.where(go, False, q.valid[idx]))))
     st, rng = residual(st, dex, rng, go)
     st, rng = post_action(st, dex, rng, S.Q_RESIDUAL, go)
-    return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~jnp.any(st.queue.valid)), rng
+    return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~st.scratch.tail_pending &
+                    ~jnp.any(st.queue.valid)), rng
 
 
 def run_until_decision(st, dex, rng, cfg):
     st, rng = jax.lax.fori_loop(0, cfg.micro_steps, lambda i, c: micro(c[0], dex, c[1], cfg), (st, rng))
     st, rng = block_residual(st, dex, rng, cfg)
     # work left for the next call: continuation phase (no decision)
-    pending = active(st) & (jnp.any(st.queue.valid) | st.exec.in_move)
+    pending = active(st) & (jnp.any(st.queue.valid) | st.exec.in_move | st.scratch.tail_pending)
     return st.replace(meta=st.meta.replace(phase=jnp.where(pending, S.CONT, st.meta.phase).astype(I8))), rng
 
 

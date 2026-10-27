@@ -14,7 +14,7 @@ ERR_OVERFLOW_ATTACKED_BY = 1 << 10
 ERR_OVERFLOW_EVENTS = 1 << 11
 ERR_OVERFLOW_RESIDUAL = 1 << 12
 ERR_TURN_CAP = 1 << 13             # informational: game ended by the turn cap
-ERR_OVERFLOW_PHAZE = 1 << 14       # more than step.NPHAZE slots flagged for phazing after one action
+ERR_OVERFLOW_PHAZE = 1 << 14       # retired (ADR-107 step C: forced switches resume across micro-steps, no bound)
 
 NAMES = {v: k for k, v in globals().items() if k.startswith("ERR_")}
 

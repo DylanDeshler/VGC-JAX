@@ -188,6 +188,10 @@ class Scratch:
     step_subject: jax.Array        # i16 EffectId or -1
     action_ord: jax.Array          # i8
     cur_select_ord: jax.Array      # i16
+    # runAction tail continuation (ADR-107 §3.2): a forced switch interrupts the tail; it resumes in a later micro-step
+    tail_pending: jax.Array        # bool the tail stopped before its forced switches were done
+    tail_kind: jax.Array           # i8 queue kind of the action whose tail is pending
+    tail_pos: jax.Array            # i8 next active position (p1a p1b p2a p2b = 0..3) to scan for forceSwitchFlag
 
 
 @struct.dataclass
@@ -300,7 +304,8 @@ def empty_scratch() -> Scratch:
     return Scratch(select_ord=_z((), I16), runswitch_ord=_z((), I16), fieldevent_ord=_z((), I16),
                    eachevent_ord=_z((), I16), mulhook_ord=_z((), I16), insert_ord=_z((), I16), move_actions=_z((2, 4), I8),
                    queue_seq=_z((), I16), step_tag=_z((), I8), step_actor=_z((), I8, -1),
-                   step_subject=_z((), I16, -1), action_ord=_z((), I8), cur_select_ord=_z((), I16, -1))
+                   step_subject=_z((), I16, -1), action_ord=_z((), I8), cur_select_ord=_z((), I16, -1),
+                   tail_pending=_z((), bool), tail_kind=_z((), I8), tail_pos=_z((), I8))
 
 
 def empty_state(team: Team) -> State:

@@ -161,3 +161,13 @@ Accepted by the human on 2026-10-27:
   `bench/gpu_time.sh` is the short timing-only GPU run (training build, B = 8k / 16k). The training build needs no
   new switch: forced draws and the draw log are already off by default, `events=False` drops the event log.
   Forced-switch PS corpora added (Roar, Whirlwind, Dragon Tail, Circle Throw, +Intimidate): baseline 100%.
+- **Measurement rule (2026-10-27).** Wall-clock CPU throughput decides, not the kernel-op proxy: `bench/throughput.py
+  --stage core --batch 1024 --steps 16 --micro-steps 4 --no-events` on this Mac (same settings every time).
+  Pilot verified: 83 -> 113 battles/s, compile 190 -> 126 s.
+- **Step B reverted.** Select-chain `mget` / `mset` cut ops 2.7% but ran 2.5x slower (113 -> 46 battles/s): each
+  access touched all 8 rows (8x the data on wide fields such as vol_state). Gathers stay.
+- **Step C (2026-10-27).** Forced switches no longer run inside the runAction tail: the tail records a continuation
+  (`scratch.tail_pending / tail_kind / tail_pos`) and the next micro-step drags in through the single switch-in and
+  runSwitch sites of `run_light`, then resumes the tail. runSwitch compiled once instead of ~7x.
+  **113 -> 146 battles/s, compile 126 -> 106 s.** Differential test identical (92 fields x 512 battles x 120
+  decisions); forced-switch and random PS corpora 100%.
