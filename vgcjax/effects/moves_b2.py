@@ -117,7 +117,7 @@ if mid("clangoroussoul") > 0:
         from vgcjax.battle import move_pipeline as MP
         mv = mid("clangoroussoul")
         st, r = MP.boost(st, hc.target, dex.move_boosts[mv].astype(I32), True, primary=True,
-                         source=hc.source, effect=_cs)
+                         source=hc.source, effect=_cs, simple=True)              # +1 only
         return hc.ret(RS.R(RS.NULL), ~RS.truthy(r)), st, rng
 
     @handler(ids.HOOK_HIT, _cs, ps="data/moves.ts clangoroussoul.onHit")

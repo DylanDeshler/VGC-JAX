@@ -171,3 +171,10 @@ Accepted by the human on 2026-10-27:
   runSwitch sites of `run_light`, then resumes the tail. runSwitch compiled once instead of ~7x.
   **113 -> 146 battles/s, compile 126 -> 106 s.** Differential test identical (92 fields x 512 battles x 120
   decisions); forced-switch and random PS corpora 100%.
+- **Local timing is noisy (2026-10-27).** This Mac runs at load ~12 (system agents); best-of-N wall time and even
+  process CPU time vary +-10-40% between rounds. `scripts/ab_time.sh` alternates baseline / tree; only large effects
+  are resolvable locally. Changes are judged by: differential test (must be identical), op count, and GPU runs.
+- **Narrowing (2026-10-27), safe by construction.** (1) runEvent dispatch tables exclude moves' own handlers (never
+  candidates; TryHit 12 -> 7 branches). (2) `boost` / `boost_v(simple=True)` at 7 statically self-sourced or
+  positive-only call sites: no TryBoost blockers, Defiant / Competitive or Rattled compiled. Ops 194k -> 173k;
+  differential test identical; boost-related PS corpora 100% (a_sapsipper's one failure is pre-existing at e9951ed).

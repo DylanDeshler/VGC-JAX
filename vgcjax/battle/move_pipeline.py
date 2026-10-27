@@ -267,7 +267,7 @@ def emit_boost(st, msgs, actor, idx=(), mask=True):
 
 
 def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effect=-1, has_secondaries=False,
-            ab_msg=None):
+            ab_msg=None, simple=False):
     """battle.boost on distinct refs targets [T] at once, with TryBoost (effects/ability_blocks.py; ChangeBoost /
     AfterEachBoost: M4). Returns (st, result (tags [T], vals [T]), msgs); messages are not emitted (callers interleave
     them)."""
@@ -282,7 +282,15 @@ def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effe
     go = jnp.asarray(on) & (targets >= 0) & (hp > 0) & active & foe_left
     from vgcjax.effects import ability_blocks as AXB
     capped0 = jnp.where((d != 0) & go[:, None], jnp.clip(cur + d, -6, 6) - cur, 0)
-    _, pre = AXB.try_boost(st, targets, capped0, source, effect, has_secondaries, go)
+    # `simple` (static, the caller's guarantee): the boost is self-sourced or has no negative delta, and its effect
+    # is not Intimidate. Every TryBoost handler then declines (they need a drop from another Pokemon or Intimidate),
+    # as do Defiant / Competitive (a foe's drop) and Rattled (Intimidate), so none is compiled (ADR-107)
+    if simple:
+        z = jnp.zeros(T, bool)
+        pre = dict(fail=z, fail_stat=jnp.full(T, -1, I32), fail_ab=jnp.zeros(T, I32), block=z,
+                   block_of=jnp.full(T, -1, I32), guard=z, deleted=jnp.zeros((T, 7), bool))
+    else:
+        _, pre = AXB.try_boost(st, targets, capped0, source, effect, has_secondaries, go)
     d = jnp.where(pre["deleted"], 0, d)                        # deleted keys: no change, no message
     new, capped, msgs = boost_math(cur, d, go, order, primary)
     # Guard Dog: boost({atk: 1}, target, target, null, false, isSelf) inside TryBoost, before the rest
@@ -298,7 +306,7 @@ def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effe
     foe_src = (src >= 0) & (side_of(jnp.clip(src, 0, 7)) != side_of(jnp.clip(targets, 0, 7)))
     dfn = (ab_t == aid("defiant")) if aid("defiant") > 0 else jnp.zeros(T, bool)
     cmp = (ab_t == aid("competitive")) if aid("competitive") > 0 else jnp.zeros(T, bool)
-    react = go & foe_src & (dfn | cmp)
+    react = go & foe_src & (dfn | cmp) & (not simple)
     rstat = jnp.where(cmp, 2, 0)
     on_m, stat_m, amt_m, _ = msgs[:4]
     val = jnp.take_along_axis(cur, rstat[:, None], 1)[:, 0]
@@ -336,12 +344,12 @@ def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effe
 
 
 def boost(st, target, deltas7, on, order=None, primary=False, source=-1, effect=-1, has_secondaries=False,
-          ab_msg=None):
+          ab_msg=None, simple=False):
     """battle.boost on one target, messages emitted. `ab_msg`: the ability effect of a non-secondary boost (its
     '-ability' X Name 'boost' line). Returns (st, result)."""
     t = jnp.asarray(target, I32)[None]
     st, r, msgs = boost_v(st, t, jnp.asarray(deltas7)[None], jnp.asarray(on)[None], order, primary, source, effect,
-                          has_secondaries, ab_msg)
+                          has_secondaries, ab_msg, simple)
     st = emit_boost(st, msgs, t[0], 0)
     return st, (r[0][0], r[1][0])
 
@@ -735,7 +743,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     skey = C.dkey(st, ids.DK_SELF_EFFECT_ROLL, actor=u, subject=C.eff_move(move), hit=hit_no)
     sroll, rng = R.randint(rng, skey, 0, 100, active=any_target & has_self_boosts & (self_chance >= 0))
     apply_self = any_target & has_self_boosts & ((self_chance < 0) | (sroll < self_chance))
-    st, _ = boost(st, u, self_b, apply_self, source=u)
+    st, _ = boost(st, u, self_b, apply_self, source=u, simple=True)            # self-sourced
     # self.volatileStatus (no self.boosts): moveHit(source, source, move, move.self) per target -> addVolatile
     # (Hyper Beam family: mustrecharge; a second target finds it present: no onRestart, false)
     self_vol = dex.move_self_volatile[move].astype(I32)
@@ -1194,7 +1202,8 @@ def move_end(st, dex, rng, cfg):
                                                  (sd_r[0] == RS.UNDEF))
     result = go & ((ex.has_t & ~ex.side_field & res) | (ex.side_field & side_result))
     # selfBoost (Scale Shot) on success
-    st, _ = boost(st, u, dex.move_selfboost[move], result & jnp.any(dex.move_selfboost[move] != 0), source=u)
+    st, _ = boost(st, u, dex.move_selfboost[move], result & jnp.any(dex.move_selfboost[move] != 0), source=u,
+                  simple=True)                                                    # self-sourced
     st = F.faint(st, u, go & (mget(st.mons.hp, u) <= 0))
     # runEvent('AfterMoveSecondarySelf', pokemon, target, move) on success (PS :600-603): Life Orb (MoveFail,
     # EmergencyExit: M4)

@@ -125,7 +125,7 @@ def try_move(st, dex, rng, u, target, move, on):
     st = EV.emit(st, first, EV.EV_PREPARE, actor=u, move=move)
     # boost({spa: 1}, attacker, attacker, move): not isSecondary / isSelf -> a capped boost still prints '-boost' 0
     st, _ = MP.boost(st, u, jnp.zeros(7, I32).at[2].set(1), first & boosts, primary=True, source=u,
-                     effect=C.eff_move(move))
+                     effect=C.eff_move(move), simple=True)                      # self-sourced, +1
     st = EV.attr_last_move(st, first & skip, EV.F_STILL)
     st = EV.anim_last_move(st, first & skip)                # addMove('-anim', attacker, move.name, defender)
     charge = first & ~skip

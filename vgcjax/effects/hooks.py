@@ -104,8 +104,11 @@ def branch_table(hook: int, effect_ids, prefix: int | None = None):
 
 
 def dispatch(hook: int, prefix: int | None = None):
-    """(eff -> local branch index fn, [fn]) of every registered handler for `hook` (run_event `branches`)."""
-    hs = registered(hook, prefix)
+    """(eff -> local branch index fn, [fn]) of the registered handlers for `hook` that can be runEvent candidates
+    (run_event `branches`). A move's own handlers never are: `candidates` collects only what mons, sides and the
+    field hold (PS runs a move's handler through singleEvent, or runEvent's onEffect, which these call sites do not
+    use). Under vmap every switch branch executes, so unreachable branches are pure cost (ADR-107)."""
+    hs = [h for h in registered(hook, prefix) if not (ids.MOVE_BASE <= h.effect < ids.MOVE_BASE + len(ids.MOVES) - 1)]
     effs = jnp.asarray([h.effect for h in hs] or [-10**6], I32)
 
     def local(e):

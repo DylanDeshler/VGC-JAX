@@ -57,7 +57,7 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
     z = jnp.zeros((T, 7), I32)
     dlt = jnp.where(sap_all[:, None], z.at[:, 0].set(1), z.at[:, 4].set(1))
     st, br_all, bmsgs = MP.boost_v(st, targets, dlt, sap_all | md_all, source=u,
-                                   ab_msg=jnp.where(sap_all, aeff("sapsipper"), aeff("motordrive")))
+                                   ab_msg=jnp.where(sap_all, aeff("sapsipper"), aeff("motordrive")), simple=True)  # +1
     for prio in (1, 0):
         for j in range(targets.shape[0]):
             t = jnp.clip(targets[j], 0, 7)
@@ -235,7 +235,7 @@ def steadfast(st, r, on):
     """onFlinch: boost({spe: 1}) ('-ability' X 'Steadfast' 'boost')."""
     from vgcjax.battle import move_pipeline as MP
     go = jnp.asarray(on) & _is(mget(st.mons.ability, jnp.clip(r, 0, 7)), "steadfast")
-    st, _ = MP.boost(st, r, jnp.zeros(7, I32).at[4].set(1), go, source=-2, ab_msg=aeff("steadfast"))
+    st, _ = MP.boost(st, r, jnp.zeros(7, I32).at[4].set(1), go, source=-2, ab_msg=aeff("steadfast"), simple=True)
     return st
 
 
@@ -250,7 +250,7 @@ def residual(st, dex, rng, h, on):
     from vgcjax.battle import move_pipeline as MP
     r = jnp.clip(h, 0, 7)
     go = jnp.asarray(on) & _is(mget(st.mons.ability, r), "speedboost") & (mget(st.mons.active_turns, r) > 0)
-    st, _ = MP.boost(st, r, jnp.zeros(7, I32).at[4].set(1), go, source=-2, ab_msg=aeff("speedboost"))
+    st, _ = MP.boost(st, r, jnp.zeros(7, I32).at[4].set(1), go, source=-2, ab_msg=aeff("speedboost"), simple=True)
     return st, rng
 
 
