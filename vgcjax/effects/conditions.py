@@ -170,7 +170,7 @@ def set_pseudo(st, c, present, state3, on):
 
 # ------------------------------------------------------------------ singleEvent dispatch
 def single_event(hook: int, effect, st, dex, rng, hc: H.HookCtx, on, prefix=ids.PFX_ON, effect_range=None,
-                 exclude_range=None):
+                 exclude_range=None, only=None):
     """PS singleEvent(eventid, effect, state, target, source, sourceEffect) for a traced `effect`: runs the bespoke
     handler registered for (hook, prefix, effect) if any. Returns (hc, st, rng); hc.ret_* holds the handler's return
     (tag UNDEF when none ran)."""
@@ -181,6 +181,8 @@ def single_event(hook: int, effect, st, dex, rng, hc: H.HookCtx, on, prefix=ids.
         hs = [h for h in hs if effect_range[0] <= h.effect < effect_range[1]]
     if exclude_range is not None:                        # handled undispatched by the caller
         hs = [h for h in hs if not exclude_range[0] <= h.effect < exclude_range[1]]
+    if only is not None:                                 # the effects this call site can name (static set)
+        hs = [h for h in hs if h.effect in only]
     hc = hc.replace(cur_effect=jnp.asarray(effect, I32), ret_t=jnp.asarray(RS.UNDEF, I32), ret_v=jnp.zeros((), I32))
     if not hs:
         return hc, st, rng
@@ -221,12 +223,29 @@ def handler_present(dex, effect, hook: int, prefix: int = ids.PFX_ON):
 
 
 # ------------------------------------------------------------------ volatiles: add / remove (PS: sim/pokemon.ts)
-def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1):
+def vol_candidates(column: str) -> frozenset:
+    """EffectIds of the volatiles a move-data column (move_volatile, move_self_volatile, move_sec_volatile) can name:
+    the static dispatch set of an add_volatile call site fed by that column (ADR-106 profiling: a full volatile
+    dispatch copies every Start / Restart handler into each call site)."""
+    if column not in _VOL_CANDS:
+        import numpy as np
+        from vgcjax.core.dex import load_tables_np
+        vals = np.unique(np.asarray(load_tables_np()[column]))
+        _VOL_CANDS[column] = frozenset(int(ids.COND_BASE + v - 1) for v in vals if v > 0)
+    return _VOL_CANDS[column]
+
+
+_VOL_CANDS: dict = {}
+
+
+def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1, cands=None):
     """PS: sim/pokemon.ts:1990-2054 addVolatile (no linkedStatus): hp gate, Restart if present, status immunity
     (runStatusImmunity: none for core volatiles), TryAddVolatile (terrains), duration + durationCallback, Start
     (falsy cancels). Returns (st, rng, result (tag, val)). Handlers dispatched: volatile conditions only."""
     on = jnp.asarray(on)
     ref = jnp.asarray(ref, I32)
+    # static dispatch set: a python-int condition names only itself; dynamic callers pass `cands`
+    only = frozenset({ids.COND_BASE + c - 1}) if isinstance(c, int) else cands
     c = jnp.asarray(c, I32)
     e = ids.COND_BASE + c - 1
     m = st.mons
@@ -237,7 +256,7 @@ def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1):
     # restart
     restart = on & alive & present
     vr = (ids.COND_BASE + ids.VOL_BASE - 1, ids.COND_BASE + ids.VOL_END - 1)
-    hc, st, rng = single_event(ids.HOOK_RESTART, e, st, dex, rng, hc, restart, effect_range=vr)
+    hc, st, rng = single_event(ids.HOOK_RESTART, e, st, dex, rng, hc, restart, effect_range=vr, only=only)
     r_restart = jnp.where(handler_present(dex, e, ids.HOOK_RESTART), hc.ret_t, RS.BOOL), \
         jnp.where(handler_present(dex, e, ids.HOOK_RESTART), hc.ret_v, 0)
     add = on & alive & ~present
@@ -266,13 +285,13 @@ def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1):
     blocked = blocked | ab_block
     dur = dex.cond_duration[c].astype(I32)
     hc2 = H.HookCtx.make(ref, src, source_effect)
-    hc2, st, rng = single_event(DURATION_CALLBACK, e, st, dex, rng, hc2, add, effect_range=vr)
+    hc2, st, rng = single_event(DURATION_CALLBACK, e, st, dex, rng, hc2, add, effect_range=vr, only=only)
     dur = jnp.where(hc2.ret_t == RS.NUM, hc2.ret_v, dur)
     st = _set_vol_bit(st, ref, c, True, add)
     st = set_vol_state(st, ref, c, jnp.zeros(6, I16).at[0].set(dur.astype(I16)), add)
     st = next_effect_order(st, add & mget(st.mons.is_active, ref))
     hc3 = H.HookCtx.make(ref, src, source_effect)
-    hc3, st, rng = single_event(ids.HOOK_START, e, st, dex, rng, hc3, add, effect_range=vr)
+    hc3, st, rng = single_event(ids.HOOK_START, e, st, dex, rng, hc3, add, effect_range=vr, only=only)
     started = (hc3.ret_t == RS.UNDEF) | RS.truthy((hc3.ret_t, hc3.ret_v))
     st = _set_vol_bit(st, ref, c, False, add & ~started)
     r_add = RS.where(started, RS.R(RS.BOOL, 1), (hc3.ret_t, hc3.ret_v))

@@ -658,7 +658,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         dj = RS.where(cj & (mstatus > 0), RS.combine(dj, sres), dj)
         # volatileStatus (PS :1291-1294): addVolatile; the result joins didSomething
         mvol = dex.move_volatile[move].astype(I32)
-        st, rng, vres = CO.add_volatile(st, dex, rng, targets[j], mvol, cj & (mvol > 0), source=u,
+        st, rng, vres = CO.add_volatile(st, dex, rng, targets[j], mvol, cj & (mvol > 0), cands=CO.vol_candidates("move_volatile"), source=u,
                                         source_effect=C.eff_move(move))
         dj = RS.where(cj & (mvol > 0), RS.combine(dj, vres), dj)
         # sideCondition (PS :1295-1298): target.side.addSideCondition(id, source, move)
@@ -740,7 +740,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     # (Hyper Beam family: mustrecharge; a second target finds it present: no onRestart, false)
     self_vol = dex.move_self_volatile[move].astype(I32)
     st, rng, _ = CO.add_volatile(st, dex, rng, u, jnp.maximum(self_vol, 1), any_target & (self_vol > 0) & ~has_self_boosts,
-                                 source=u, source_effect=C.eff_move(move))
+                                 source=u, source_effect=C.eff_move(move), cands=CO.vol_candidates("move_self_volatile"))
     from vgcjax.effects import moves_b2 as MB2
     st = MB2.double_shock_self(st, u, move, any_target)                 # self.onHit
 
@@ -790,7 +790,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
             st = emit_boost(st, tmsgs[k], targets[j], j)
             st = STS.emit_status_msgs(st, sec_msgs[k], j, targets[j])
             svol = dex.move_sec_volatile[move, k].astype(I32)
-            st, rng, _ = CO.add_volatile(st, dex, rng, targets[j], svol, oks[k][j] & (svol > 0), source=u,
+            st, rng, _ = CO.add_volatile(st, dex, rng, targets[j], svol, oks[k][j] & (svol > 0),
+                                         cands=CO.vol_candidates("move_sec_volatile"), source=u,
                                          source_effect=C.eff_move(move))
             from vgcjax.effects import moves_b1 as MB1                # secondary.onHit callbacks
             st, rng = MB1.secondary_special(st, dex, rng, u, move, targets[j], k, oks[k][j], hit_no)

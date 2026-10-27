@@ -1,6 +1,6 @@
 # ADR-106: kernel-count growth with content; table-driven handler families
 
-Status: **Proposed** (performance; no contract impact). Informs ADR-104's budget.
+Status: **Pilot approved** (human, 2026-10-26; performance, no contract impact). Informs ADR-104's budget.
 
 ## Measurements (impl stage, bench/hlo_kernels.py, events on unless noted)
 | point | kernel-like ops / step |
@@ -54,3 +54,29 @@ L40S (~1.9x10^4); the search-batch minimum (2x10^4 at B = 1k-4k) is met (2.3-2.6
 ## Decision
 Pending. Until decided, new families are written with option 1 in mind (tables where the shape fits) and the
 existing ability / item families will be converted in one pass after the v0 content lands.
+
+## Pilot (approved 2026-10-26): profile first
+`bench/hlo_attrib.py` charges every counted HLO op to its source stack (the optimised module's stack-frame table)
+and reports self and inclusive cost per engine function. Impl stage, CPU, B = 256, events on, 300,594 ops:
+
+| inclusive area | share |
+|---|---|
+| fieldEvent('SwitchIn') via switch_in / drag_in (run_switch compiled ~7x: run_light, and 2 drags in each of 3 post_action copies) | ~25% |
+| move_begin / move_hit (spread_move_hit) | ~20% each |
+| boost / boost_v / try_boost / emit_boost (many call sites) | ~13% |
+| resolve_faints (many call sites) | ~9% |
+| encore_start alone (copied into every add_volatile Start dispatch) | 7.9% |
+| mget / mset / mset_many (self) | ~29% |
+
+Finding: the cost is dominated by **generic machinery duplicated at every call site** (every call site of a heavy
+function is inlined, and under vmap every copy executes every step), not by per-entity logic. The originally
+proposed families (type-boost items, resist berries, status immunities) are already table-driven and cost ~0.1%.
+
+Change 1 (pilot): `add_volatile` dispatches Start / Restart / durationCallback only over the conditions its call
+site can name (a python-int condition: itself; move-data callers: the values present in move_volatile /
+move_self_volatile / move_sec_volatile, `CO.vol_candidates`). **300,594 -> 255,226 ops (-15%)**; targeted and
+random corpora unchanged (100%).
+
+Next candidates, by measured share: (1) one switch-in execution per micro-step (drag-in resumes through the shared
+run_light switch path instead of an inline runSwitch in every post_action copy); (2) fewer boost / resolve_faints
+call sites (batch per action); (3) the same static-dispatch narrowing for other single_event call sites.
