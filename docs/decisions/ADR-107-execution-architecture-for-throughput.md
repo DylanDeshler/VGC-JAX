@@ -1,6 +1,6 @@
 # ADR-107: execution architecture for throughput — flat stage pipeline, effects as data, training build
 
-Status: **Proposed — design note for human review** (performance; no change to the conformance contract,
+Status: **Accepted** (human, 2026-10-27) (performance; no change to the conformance contract,
 engine semantics or PS fidelity). Supersedes the per-call-site tactics in ADR-106 as the main plan; ADR-106's
 pilot change (static add_volatile dispatch) stays.
 
@@ -147,4 +147,17 @@ Content work pauses during A–E, so the migration is not chasing a moving targe
 3. GPU runs at the end of C and E (~1 h each with the training build at two batch sizes)?
 
 ## Decision
-Pending.
+Accepted by the human on 2026-10-27:
+1. Targets T1 (>= 3,000 battles/s), T2 (>= 10,000 battles/s), compile <= 3 min; faster is always better.
+2. Content work pauses during steps A-E.
+3. GPU timing runs after C and E; keep them short (timing only, no PS comparison): the training build at the
+   batch sizes that matter.
+
+## Progress log
+- **Step A (2026-10-27).** `scripts/diff/engine_diff.py`: engine-vs-engine differential test (per-field state
+  hashes after every decision; step_counter pinned to the decision index so rolls depend only on draw keys).
+  Validated: repeat recordings identical; micro_steps 4 vs 8 identical (layout-independent); a deliberate
+  Leftovers 1/16 -> 1/15 change detected (7/64 battles, `mons.hp`). `bench/throughput.py` reports battles/s;
+  `bench/gpu_time.sh` is the short timing-only GPU run (training build, B = 8k / 16k). The training build needs no
+  new switch: forced draws and the draw log are already off by default, `events=False` drops the event log.
+  Forced-switch PS corpora added (Roar, Whirlwind, Dragon Tail, Circle Throw, +Intimidate): baseline 100%.

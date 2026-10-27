@@ -1,4 +1,4 @@
-"""Env throughput (09 §1): vmapped auto-reset rollout with uniform legal actions, env-steps/s.
+"""Env throughput (09 §1, ADR-107): vmapped auto-reset rollout with uniform legal actions; battles/s and env-steps/s.
     uv run python bench/throughput.py --stage core --batch 256 --steps 64
 """
 import argparse
@@ -49,6 +49,8 @@ def main():
     t2 = time.time()
     steps = B * T
     ndec = int(np.asarray(dec).sum())      # step calls that ended at a decision point (not CONT)
+    nep = int(np.asarray(d).sum())
+    print(f"battles/s {nep / (t2 - t1):.0f} (ADR-107 headline metric: complete battles per second, timed run)")
     print(f"compile+first {t1 - t0:.1f}s; {steps} env-steps in {t2 - t1:.2f}s = {steps / (t2 - t1):.0f} steps/s; "
           f"{ndec / (t2 - t1):.0f} decision-steps/s ({ndec / steps:.2f} per step); episodes finished "
           f"{int(np.asarray(d).sum())} (backend {jax.default_backend()}, batch {B}, micro_steps {cfg.micro_steps})")

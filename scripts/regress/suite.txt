@@ -196,3 +196,9 @@ t_trick | --n 120 --seed 145 --teams stagereq:impl:move:trick --stage impl
 n_steelroller | --n 80 --seed 147 --teams stagereq:impl:move:steelroller --stage impl
 n_sr_terrain | --n 80 --seed 147 --teams stagereq:impl:move:steelroller+move:grassyterrain --stage impl
 n_doubleshock | --n 80 --seed 147 --teams stagereq:impl:move:doubleshock --stage impl
+f_roar | --n 120 --seed 191 --teams stagereq:impl:move:roar --stage impl
+f_whirlwind | --n 120 --seed 191 --teams stagereq:impl:move:whirlwind --stage impl
+f_dragontail | --n 120 --seed 191 --teams stagereq:impl:move:dragontail --stage impl
+f_circlethrow | --n 120 --seed 191 --teams stagereq:impl:move:circlethrow --stage impl
+f_roar_intim | --n 120 --seed 191 --teams stagereq:impl:move:roar+ability:intimidate --stage impl
+f_dt_intim | --n 120 --seed 191 --teams stagereq:impl:move:dragontail+ability:intimidate --stage impl
