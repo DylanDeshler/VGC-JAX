@@ -22,6 +22,25 @@ Status: **Proposed** (performance; no contract impact). Informs ADR-104's budget
    bespoke code) this lands in the 400-600k range.
 3. Events cost ~13% (167k vs 191k); the logic dominates.
 
+## GPU measurement (L40S 46 GB, commit 1f54497, bench/gpu_check.sh, run by the human 2026-10-26)
+| batch | micro_steps | env-steps/s (events on / off) | decision-steps/s (on / off) | compile + first call |
+|---|---|---|---|---|
+| 4,096 | 4 | 23,307 / 25,970 | 15,089 / 16,814 | 784 s / 583 s |
+| 4,096 | 8 | 12,452 / 13,807 | 12,394 / 13,743 | 809 s / 589 s |
+| 16,384 | 4 | 18,398 / 19,558 | 11,908 / 12,659 | 828 s / 602 s |
+| 16,384 | 8 | 9,624 / 10,190 | 9,580 / 10,144 | 854 s / 629 s |
+| 65,536 | 4 | 17,869 / 19,201 | 11,566 / 12,428 | 898 s / 683 s |
+| 65,536 | 8 | 9,318 / 4,300 (outlier) | 9,274 / 4,279 | 1,021 s / 1,113 s |
+
+GPU HLO: 90,488 kernel-like ops per env step (B = 16k, micro_steps 8, events off).
+
+Reading: time per step call grows linearly with the batch (4k -> 64k: 0.18 s -> 3.7 s per call), so the GPU is
+saturated by per-env work at B = 4k — the step is work-bound, not launch-bound as 09 §1 assumed. Throughput is
+therefore set by the total work every env executes per step, which is exactly what grows with each implemented
+handler (finding 1). Against 08 §6 / 09 §1: the B = 16k-64k minimum (3x10^4 env-steps/s, H100) is missed on the
+L40S (~1.9x10^4); the search-batch minimum (2x10^4 at B = 1k-4k) is met (2.3-2.6x10^4); compile (10-15 min) is
+5-8x the R4 trigger (120 s). With ~1/3 of the format implemented, more content will lower throughput further.
+
 ## Options
 1. **Table-driven families** (recommended): express each handler family as tables indexed by the entity id plus
    one generic implementation (e.g. on-hit status proc: `proc_status[ability]`, `proc_chance[ability]`;
