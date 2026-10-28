@@ -178,3 +178,13 @@ Accepted by the human on 2026-10-27:
   candidates; TryHit 12 -> 7 branches). (2) `boost` / `boost_v(simple=True)` at 7 statically self-sourced or
   positive-only call sites: no TryBoost blockers, Defiant / Competitive or Rattled compiled. Ops 194k -> 173k;
   differential test identical; boost-related PS corpora 100% (a_sapsipper's one failure is pre-existing at e9951ed).
+- **GPU checkpoint (L40S, 231fbef, training build).** B=8192: **2,117 / 1,930 / 1,694 battles/s** at micro_steps 2 / 3 /
+  4 (34.1k / 33.6k / 29.3k decision-steps/s); B=16384 at 4: 1,431 battles/s (was ~650 at the 2026-10-26 run);
+  compile + first call 352 s (was 583-630 s). Per-call time fits ~26 ms fixed + ~39 ms per micro-step (B=8192).
+  `EngineConfig.micro_steps` default 8 -> 2 (outcomes independent of it: engine-vs-engine test).
+- **Weather hoist (2026-10-28).** At micro_steps 2 the once-per-call residual block is ~28% of ops; inside the
+  Residual walk every one of the 16 iterations carried the weathers' eachEvent code. Weathers' Residual order (1) is
+  strictly below every other handler's (next: 3), so a listed weather row is always position 0: the weather code is
+  now compiled into position 0 only (trace-time check from handler_order). Training-build ops 53.4k -> 48.4k.
+  Broad differential test identical (92 fields x 1024 battles x 120 decisions, teams from 63 corpora); weather PS
+  corpora 100%.

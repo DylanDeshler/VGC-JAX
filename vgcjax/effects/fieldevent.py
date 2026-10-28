@@ -294,7 +294,7 @@ def field_event(st, dex, rng, event: str, on, targets=None):
             new_perm = new_perm.at[slots[j]].set(jnp.where(ok, cand[exec_pos[j]], new_perm[slots[j]]))
     cbs = has_cb[sel]
 
-    def body(i, carry):
+    def body(i, carry, weather_code=True):
         st, rng = carry
         j = new_perm[i]
         live = on & valid[j] & (st.meta.phase != S.DONE)
@@ -324,14 +324,43 @@ def field_event(st, dex, rng, event: str, on, targets=None):
         if event == "SwitchIn":                 # abilities' SwitchIn handlers, undispatched (effects/abilities.py)
             from vgcjax.effects import abilities as AB
             st, rng = AB.switch_in_vec(st, dex, rng, h, run & (e >= ar[0]) & (e < ar[1]))
-        if residual_mode:                       # the weathers' onFieldResidual eachEvent('Weather'), undispatched
+        if residual_mode and weather_code:      # the weathers' onFieldResidual eachEvent('Weather'), undispatched
             from vgcjax.effects import weather as WE
             st, rng = WE.residual_each(st, dex, rng, e - ids.COND_BASE + 1, run & (loc == CO.WEATHER))
         # PS :569: resolveFaints() after a handler that got past the duration-end / removed-state `continue`s
         st = F.resolve_faints(st, dex, reach)
         return st, rng
 
+    if residual_mode and _weather_strictly_first(hook):
+        # a weather row (one weather at most, never skipped) sorts strictly first, so it can only be position 0:
+        # the weather's eachEvent code is compiled into that position alone, not into every iteration (ADR-107)
+        st, rng = body(0, (st, rng), True)
+        return jax.lax.fori_loop(1, K, lambda i, c: body(i, c, False), (st, rng))
     return jax.lax.fori_loop(0, K, body, (st, rng))
+
+
+_WFIRST = {}
+
+
+def _weather_strictly_first(hook):
+    """Static: every weather's Residual order is the same and smaller than every other Residual handler's order (rows
+    without a callback sort at ORDER_LAST), so a listed weather row is always first (generated handler_order)."""
+    if hook not in _WFIRST:
+        from vgcjax.core.dex import load_tables_np
+        t = load_tables_np()
+        ho, hm = t["handler_order"], t["handler_mask"]
+        weathers = {CO.eff(w) for w in CO.WEATHERS if w in ids.CONDITIONS}
+        w_ord, other = set(), []
+        for e in range(ho.shape[0]):
+            for p_ in range(ho.shape[2]):
+                if (int(hm[e, hook]) >> p_) & 1:
+                    o = int(ho[e, hook, p_, 0])
+                    if e in weathers:
+                        w_ord.add(o)
+                    else:
+                        other.append(o)
+        _WFIRST[hook] = len(w_ord) == 1 and all(o > next(iter(w_ord)) for o in other)
+    return _WFIRST[hook]
 
 
 def _cur_duration(st, loc, idx, holder):
