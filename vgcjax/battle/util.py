@@ -21,10 +21,23 @@ def run_if(pred, fn, carry, *args):
     return tree_where(pred, fn(carry, *args), carry)
 
 
+# ADR-107 experiment: per-mon access as gathers / scatters (default) or as masked selects over the 8 mons
+# (VGCJAX_ACCESS=select, read at import). Identical values either way; the cost differs by backend (CPU: selects
+# 2.5x slower, they touch all 8 rows).
+_SELECT = __import__("os").environ.get("VGCJAX_ACCESS", "") == "select"
+
+
 def mget(arr, ref):
     """arr[side, b, ...] for ref = side*4 + b (ref < 0 reads ref 0; callers mask)."""
     flat = arr.reshape((8,) + arr.shape[2:])
-    return flat[jnp.clip(jnp.asarray(ref, I32), 0, 7)]
+    r = jnp.clip(jnp.asarray(ref, I32), 0, 7)
+    if not _SELECT:
+        return flat[r]
+    rr = r.reshape(r.shape + (1,) * (flat.ndim - 1))
+    out = jnp.broadcast_to(flat[0], r.shape + flat.shape[1:])
+    for i in range(1, 8):
+        out = jnp.where(rr == i, flat[i], out)
+    return out
 
 
 def mset(arr, ref, val, mask=True):
@@ -33,6 +46,10 @@ def mset(arr, ref, val, mask=True):
     ok = jnp.asarray(mask) & (ref >= 0)
     flat = arr.reshape((8,) + arr.shape[2:])
     r = jnp.clip(ref, 0, 7)
+    if _SELECT and ref.ndim == 0 and ok.ndim == 0:
+        h = ((jnp.arange(8) == r) & ok).reshape((8,) + (1,) * (flat.ndim - 1))
+        v = jnp.broadcast_to(jnp.asarray(val, arr.dtype), flat.shape[1:])
+        return jnp.where(h, v[None], flat).reshape(arr.shape)
     new = jnp.where(ok, jnp.asarray(val, arr.dtype), flat[r])
     return flat.at[r].set(new).reshape(arr.shape)
 
