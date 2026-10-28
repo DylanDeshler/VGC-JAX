@@ -188,3 +188,11 @@ Accepted by the human on 2026-10-27:
   now compiled into position 0 only (trace-time check from handler_order). Training-build ops 53.4k -> 48.4k.
   Broad differential test identical (92 fields x 1024 battles x 120 decisions, teams from 63 corpora); weather PS
   corpora 100%.
+- **GPU checkpoint (L40S, 05045e0, training build, micro_steps 2).** Gathers: B=4096 / 8192 / 16384: 2,824 / 2,193 /
+  2,032 battles/s (smaller batches faster: the working set leaves the 96 MB L2). **Selects at B=8192: 4,035 battles/s
+  (65k decision-steps/s)**, 1.84x gathers, past T1 (3,000); compile 476 s (gathers 368 s).
+- **Access by backend (2026-10-28).** `mget` / `mset`: selects on GPU, gathers on CPU (`VGCJAX_ACCESS` overrides).
+- **Compact volatile state (2026-10-28).** `vol_state[2,4,NV=67,6]` (6.4 KB, 68% of the state) -> `vol_dur[2,4,NV]` +
+  `vol_fx[2,4,NVF=7,4]` for the volatiles with fields (`state.VOL_STATEFUL`). State 9,416 -> 4,504 bytes per battle.
+  `CO.vol_state` / `set_vol_state` keep the 6-vector view. Differential test (with a canonical volatile view across
+  layouts) identical for gathers and selects (512 battles); volatile-heavy PS corpora 100%.

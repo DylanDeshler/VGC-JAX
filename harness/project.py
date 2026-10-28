@@ -84,9 +84,10 @@ def _volatiles(st, side: int, b: int) -> dict:
     for k in range(S.NV):
         if words[k // 32] >> (k % 32) & 1:
             name = ids.CONDITIONS[ids.VOL_BASE + k]
-            out[name] = _eff_state(name, st.mons.vol_state[side, b, k], 5)
+            v6 = _vol6(st, side, b, k)
+            out[name] = _eff_state(name, v6, 5)
             if name == "twoturnmove":
-                out.update(_twoturn_move_volatile(st.mons.vol_state[side, b, k]))
+                out.update(_twoturn_move_volatile(v6))
             if name == "roost":
                 # roost.onType sets effectState.typeWas = pokemon.types on every getTypes() call, and
                 # oracle/lib/project.js calls getTypes() before projecting volatiles: the species' types
@@ -95,6 +96,13 @@ def _volatiles(st, side: int, b: int) -> dict:
                 out[name]["typeWas"] = [TYPE_NAMES[int(t)] for t in load_tables_np()["species_types"][sp] if int(t) > 0]
                 out[name] = dict(sorted(out[name].items()))
     return dict(sorted(out.items()))
+
+
+def _vol6(st, side: int, b: int, k: int) -> list:
+    """The 6-vector view of a volatile's state from the compact storage (effects/conditions.py vol_state)."""
+    fi = int(S.VOL_FIDX[k])
+    fx = [int(x) for x in st.mons.vol_fx[side, b, fi]] if fi >= 0 else [0, 0, 0, 0]
+    return [int(st.mons.vol_dur[side, b, k]), fx[0], fx[1], fx[2], 0, fx[3]]
 
 
 def _twoturn_move_volatile(s) -> dict:

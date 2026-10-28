@@ -106,7 +106,7 @@ def _candidates(st, dex, event: str, targets=None):
         kv = jnp.asarray(SX.cond_subset(hook, pfx, ids.VOL_BASE, S.NV, wd), I32)
         words = mget(m.vol_bits, r)
         von = ((words[kv // 32] >> (kv % 32).astype(U32)) & 1) == 1
-        add(ids.COND_BASE + ids.VOL_BASE + kv - 1, pfx, r, CO.VOLATILE, kv, mget(m.vol_state, r)[kv, 0], on & von,
+        add(ids.COND_BASE + ids.VOL_BASE + kv - 1, pfx, r, CO.VOLATILE, kv, mget(m.vol_dur, r)[kv], on & von,
             SUB_POKEMON_COND, 0, r)
         if SX.abilities_define(hook, pfx):
             ab = mget(m.ability, r).astype(I32)
@@ -169,8 +169,8 @@ def _set_duration(st, loc, idx, holder, value, on):
     v = jnp.asarray(value, I16)
     on = jnp.asarray(on)
     from vgcjax.battle.util import mset
-    vs = mget(m.vol_state, r)
-    m = m.replace(vol_state=mset(m.vol_state, r, vs.at[jnp.clip(idx, 0, S.NV - 1), 0].set(v), on & (loc == CO.VOLATILE)),
+    vs = mget(m.vol_dur, r)
+    m = m.replace(vol_dur=mset(m.vol_dur, r, vs.at[jnp.clip(idx, 0, S.NV - 1)].set(v), on & (loc == CO.VOLATILE)),
                   status_state=mset(m.status_state, r, mget(m.status_state, r).at[0].set(v), on & (loc == CO.STATUS)))
     hs = jnp.clip(holder - 8, 0, 1)
     sd = sd.replace(side_cond_state=jnp.where(on & (loc == CO.SIDE),
@@ -366,7 +366,7 @@ def _weather_strictly_first(hook):
 def _cur_duration(st, loc, idx, holder):
     m, sd, f = st.mons, st.sides, st.field
     r = jnp.clip(holder, 0, 7)
-    vol = mget(m.vol_state, r)[jnp.clip(idx, 0, S.NV - 1), 0]
+    vol = mget(m.vol_dur, r)[jnp.clip(idx, 0, S.NV - 1)]
     status = mget(m.status_state, r)[0]
     side = sd.side_cond_state[jnp.clip(holder - 8, 0, 1), jnp.clip(idx, 0, S.NSC - 1), 0]
     slot = sd.slot_cond_state[r // 4, jnp.clip(idx // 8, 0, 1), jnp.clip(idx % 8, 0, S.NSL - 1), 0]

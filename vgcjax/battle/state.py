@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import jax
 import jax.numpy as jnp
+import numpy as np
 from flax import struct
 
 from vgcjax.data import ids
@@ -21,6 +22,13 @@ NSC = ids.SIDE_END - ids.SIDE_BASE
 NSL = ids.SLOT_END - ids.SLOT_BASE
 NPW = ids.PW_END - ids.PW_BASE
 WV = (NV + 31) // 32
+# volatiles whose effect state holds more than a duration (ADR-107 compact layout): their fields live in vol_fx;
+# every other volatile keeps only its duration (vol_dur). effects/conditions.py checks declarations against this.
+VOL_STATEFUL = tuple(c for c in ("choicelock", "confusion", "encore", "helpinghand", "stall", "twoturnmove", "yawn")
+                     if c in ids.CONDITIONS)
+NVF = max(len(VOL_STATEFUL), 1)
+VOL_FIDX = np.array([VOL_STATEFUL.index(ids.CONDITIONS[ids.VOL_BASE + k]) if ids.CONDITIONS[ids.VOL_BASE + k]
+                     in VOL_STATEFUL else -1 for k in range(NV)], np.int32)
 
 # phases (03 §4.1)
 PREVIEW, MOVE, SWITCH, DONE, CONT = 0, 1, 2, 3, 4   # CONT: mid-turn work left, no decision (ADR-104 option 4)
@@ -110,7 +118,8 @@ class Mons:
     status_state: jax.Array        # i16[2,4,4] slp startTime/time, tox stage, frz time; [3] = seq
     boosts: jax.Array              # i8[2,4,7]
     vol_bits: jax.Array            # u32[2,4,WV]
-    vol_state: jax.Array           # i16[2,4,NV,6]
+    vol_dur: jax.Array             # i16[2,4,NV] volatile duration (0 = none)
+    vol_fx: jax.Array              # i16[2,4,NVF,4] fields 1..3 + presence of the VOL_STATEFUL volatiles
     fainted: jax.Array             # bool
     faint_queued: jax.Array        # bool
     is_active: jax.Array           # bool
@@ -289,7 +298,7 @@ def empty_mons() -> Mons:
         sp=_z(s + (6,), I8), move_ids=_z(s + (4,), I16), pp=_z(s + (4,), I8), maxpp=_z(s + (4,), I8),
         move_disabled=_z(s + (4,), I8), move_used=_z(s + (4,), bool), status=_z(s, I8),
         status_state=_z(s + (4,), I16), boosts=_z(s + (7,), I8), vol_bits=_z(s + (WV,), U32),
-        vol_state=_z(s + (NV, 6), I16), fainted=_z(s, bool), faint_queued=_z(s, bool), is_active=_z(s, bool),
+        vol_dur=_z(s + (NV,), I16), vol_fx=_z(s + (NVF, 4), I16), fainted=_z(s, bool), faint_queued=_z(s, bool), is_active=_z(s, bool),
         active_turns=_z(s, I16), active_move_actions=_z(s, I16), newly_switched=_z(s, bool),
         being_called_back=_z(s, bool), is_started=_z(s, bool), switch_flag=_z(s, I16),
         force_switch_flag=_z(s, bool), speed=_z(s, I16), last_move=_z(s, I16), last_move_used=_z(s, I16),

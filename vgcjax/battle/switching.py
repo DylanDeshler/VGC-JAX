@@ -48,7 +48,7 @@ def clear_volatile_many(st: S.State, dex, refs, include_switch_flags, on) -> S.S
     w = lambda arr, val, mask=on: mset_many(arr, refs, val, mask)  # noqa: E731
     m = m.replace(
         boosts=w(m.boosts, 0), ability=w(m.ability, mget(m.base_ability, refs)), vol_bits=w(m.vol_bits, 0),
-        vol_state=w(m.vol_state, 0), switch_flag=w(m.switch_flag, 0, sw), force_switch_flag=w(m.force_switch_flag, False, sw),
+        vol_dur=w(m.vol_dur, 0), vol_fx=w(m.vol_fx, 0), switch_flag=w(m.switch_flag, 0, sw), force_switch_flag=w(m.force_switch_flag, False, sw),
         last_move=w(m.last_move, 0), last_move_used=w(m.last_move_used, 0), move_this_turn=w(m.move_this_turn, 0),
         move_last_turn_result=w(m.move_last_turn_result, S.MR_UNDEF),
         move_this_turn_result=w(m.move_this_turn_result, S.MR_UNDEF),

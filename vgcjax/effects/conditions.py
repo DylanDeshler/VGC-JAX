@@ -5,7 +5,8 @@ Storage (03 §4): every condition kind keeps a small i16 state vector per instan
 only contain the keys a handler assigned and the projection (oracle/lib/project.js effState) compares key sets.
 
   status      mons.status / status_state[4]          (0 duration, 1..2 fields, 3 presence)
-  volatile    mons.vol_bits / vol_state[NV, 6]        (0 duration, 1..4 fields, 5 presence)
+  volatile    mons.vol_bits / vol_dur[NV] + vol_fx     (6-vector view: 0 duration, 1..3 fields, 5 presence; only
+                                                       the state.VOL_STATEFUL volatiles store fields, ADR-107)
   side        sides.side_cond_bits / state[NSC, 4]    (0 duration, 1..2 fields, 3 presence)
   slot        sides.slot_cond_bits / state[NSL, 6]    (0 duration, 1..4 fields, 5 presence)
   pseudo      field.pw_bits / pw_state[NPW, 3]        (0 duration, 1 field, 2 presence)
@@ -64,6 +65,8 @@ def fields(cond: str, *specs: tuple[str, str]):
     FIELDS[cond] = [(k, j + 1, kind) for j, (k, kind) in enumerate(specs)]
     n, pres = _LAYOUT[kind_of(cond)]
     assert len(specs) < pres, (cond, specs)
+    if kind_of(cond) == VOLATILE:                       # compact layout: fields only for the declared volatiles
+        assert cond in S.VOL_STATEFUL and len(specs) <= 3, (cond, "add it to battle/state.py VOL_STATEFUL")
 
 
 def slot_of(cond: str, key: str) -> int:
@@ -100,7 +103,14 @@ def has_volatile(st, ref, c):
 
 
 def vol_state(st, ref, c):
-    return mget(st.mons.vol_state, ref)[jnp.asarray(c, I32) - ids.VOL_BASE]
+    """The volatile's 6-vector state [duration, f1, f2, f3, 0, presence] (compact storage: vol_dur + vol_fx)."""
+    m = st.mons
+    k = jnp.asarray(c, I32) - ids.VOL_BASE
+    dur = mget(m.vol_dur, ref)[k]
+    fi = jnp.asarray(S.VOL_FIDX)[jnp.clip(k, 0, S.NV - 1)]
+    fx = jnp.where(fi >= 0, mget(m.vol_fx, ref)[jnp.clip(fi, 0, S.NVF - 1)], 0)
+    z = jnp.zeros((), I16)
+    return jnp.stack([dur, fx[0], fx[1], fx[2], z, fx[3]]).astype(I16)
 
 
 def _set_vol_bit(st, ref, c, val, on):
@@ -114,11 +124,15 @@ def _set_vol_bit(st, ref, c, val, on):
 
 
 def set_vol_state(st, ref, c, state6, on):
+    """Write a volatile's 6-vector state (slot 4 is never used: at most 3 fields)."""
     m = st.mons
     k = jnp.asarray(c, I32) - ids.VOL_BASE
-    cur = mget(m.vol_state, ref)
-    new = cur.at[k].set(jnp.asarray(state6, I16))
-    return st.replace(mons=m.replace(vol_state=mset(m.vol_state, ref, new, on)))
+    s = jnp.asarray(state6, I16)
+    d = mget(m.vol_dur, ref).at[k].set(s[0])
+    fi = jnp.asarray(S.VOL_FIDX)[jnp.clip(k, 0, S.NV - 1)]
+    fx = mget(m.vol_fx, ref).at[jnp.clip(fi, 0, S.NVF - 1)].set(jnp.stack([s[1], s[2], s[3], s[5]]))
+    return st.replace(mons=m.replace(vol_dur=mset(m.vol_dur, ref, d, on),
+                                     vol_fx=mset(m.vol_fx, ref, fx, jnp.asarray(on) & (fi >= 0))))
 
 
 def set_vol_field(st, ref, c, slot, value, on):

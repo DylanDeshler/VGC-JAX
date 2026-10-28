@@ -30,6 +30,7 @@ import numpy as np
 
 GROUPS = ("meta", "team", "sides", "mons", "field")
 SKIP = {"meta.step_counter"}            # driven by the harness
+LAYOUT_FIELDS = {"mons.vol_state", "mons.vol_dur", "mons.vol_fx"}   # compared through mons.vol_view
 
 
 def _bank_from_traces(d):
@@ -76,14 +77,25 @@ def record(a):
 
     st = jax.jit(jax.vmap(new_state))(bkeys)
 
+    def vol_view(m):
+        """Canonical volatile state [.., NV, 6] (duration, fields 1..3, 0, presence) from either storage layout, so the
+        comparison survives the ADR-107 compact layout (vol_dur + vol_fx) vs the old vol_state[NV, 6]."""
+        if hasattr(m, "vol_state"):
+            return m.vol_state.at[..., 4].set(0)
+        fidx = jnp.asarray(S.VOL_FIDX)
+        fx = jnp.where((fidx >= 0)[:, None], jnp.take(m.vol_fx, jnp.clip(fidx, 0, None), axis=-2), 0)   # [.., NV, 4]
+        z = jnp.zeros(m.vol_dur.shape, m.vol_dur.dtype)
+        return jnp.stack([m.vol_dur, fx[..., 0], fx[..., 1], fx[..., 2], z, fx[..., 3]], axis=-1)
+
     def leaves(st):
         out = {}
         for g in GROUPS:
             sub = getattr(st, g)
             for k, v in jax.tree_util.tree_flatten_with_path(sub)[0]:
                 name = g + "." + ".".join(str(getattr(p, "name", getattr(p, "key", p))) for p in k)
-                if name not in SKIP:
+                if name not in SKIP and name not in LAYOUT_FIELDS:
                     out[name] = v
+        out["mons.vol_view"] = vol_view(st.mons)
         return out
 
     def digest(x):

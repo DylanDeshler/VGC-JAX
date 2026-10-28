@@ -198,6 +198,6 @@ if "helpinghand" in ids.CONDITIONS:
     @mod("BasePower", CO.eff("helpinghand"), ps="data/moves.ts helpinghand.condition.onBasePower")
     def helpinghand_bp(ctx, h):
         """priority 10: chainModify(multiplier) (1.5^n as a 4096-scale factor: chainModify(1.5) = 6144, 2.25 = 9216)."""
-        vs = mget(ctx.st.mons.vol_state, jnp.clip(h, 0, 7))              # [T, NV, 6]
-        n = vs[..., CO.cid("helpinghand") - ids.VOL_BASE, CO.slot_of("helpinghand", "multiplier")]
+        fx = mget(ctx.st.mons.vol_fx, jnp.clip(h, 0, 7))                 # [T, NVF, 4]
+        n = fx[..., S.VOL_STATEFUL.index("helpinghand"), CO.slot_of("helpinghand", "multiplier") - 1]
         return jnp.ones(h.shape, bool), jnp.where(n >= 2, 9216, 6144).astype(I32), None

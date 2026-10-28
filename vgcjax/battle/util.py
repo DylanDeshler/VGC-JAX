@@ -21,17 +21,22 @@ def run_if(pred, fn, carry, *args):
     return tree_where(pred, fn(carry, *args), carry)
 
 
-# ADR-107 experiment: per-mon access as gathers / scatters (default) or as masked selects over the 8 mons
-# (VGCJAX_ACCESS=select, read at import). Identical values either way; the cost differs by backend (CPU: selects
-# 2.5x slower, they touch all 8 rows).
-_SELECT = __import__("os").environ.get("VGCJAX_ACCESS", "") == "select"
+# Per-mon access (ADR-107): masked selects over the 8 mons on GPU, gathers / scatters elsewhere. Identical values;
+# the cost differs by backend: L40S B=8192 4,035 vs 2,193 battles/s (selects fuse, batched gathers / scatters are
+# separate memory-bound kernels); CPU: selects 2.5x slower (they touch all 8 rows). VGCJAX_ACCESS=select|gather
+# overrides. Decided at trace time.
+_ACCESS = __import__("os").environ.get("VGCJAX_ACCESS", "")
+
+
+def _use_select():
+    return _ACCESS == "select" or (_ACCESS != "gather" and jax.default_backend() == "gpu")
 
 
 def mget(arr, ref):
     """arr[side, b, ...] for ref = side*4 + b (ref < 0 reads ref 0; callers mask)."""
     flat = arr.reshape((8,) + arr.shape[2:])
     r = jnp.clip(jnp.asarray(ref, I32), 0, 7)
-    if not _SELECT:
+    if not _use_select():
         return flat[r]
     rr = r.reshape(r.shape + (1,) * (flat.ndim - 1))
     out = jnp.broadcast_to(flat[0], r.shape + flat.shape[1:])
@@ -46,7 +51,7 @@ def mset(arr, ref, val, mask=True):
     ok = jnp.asarray(mask) & (ref >= 0)
     flat = arr.reshape((8,) + arr.shape[2:])
     r = jnp.clip(ref, 0, 7)
-    if _SELECT and ref.ndim == 0 and ok.ndim == 0:
+    if _use_select() and ref.ndim == 0 and ok.ndim == 0:
         h = ((jnp.arange(8) == r) & ok).reshape((8,) + (1,) * (flat.ndim - 1))
         v = jnp.broadcast_to(jnp.asarray(val, arr.dtype), flat.shape[1:])
         return jnp.where(h, v[None], flat).reshape(arr.shape)
