@@ -11,6 +11,7 @@ from vgcjax.battle.util import mget
 from vgcjax.data import ids
 from vgcjax.effects import conditions as CO
 from vgcjax.effects.hooks import handler
+from vgcjax.effects.modifiers import mod
 
 I16, I32 = jnp.int16, jnp.int32
 
@@ -477,3 +478,92 @@ def disable_disable(st, r, dis, on):
     stored = CO.vol_state(st, r, c)[CO.slot_of("disable", "move")].astype(I32)
     mids = mget(st.mons.move_ids, r).astype(I32)
     return jnp.where(jnp.asarray(on) & CO.has_volatile(st, r, c) & (mids == stored) & (mids > 0), 1, dis)
+
+# ------------------------------------------------------------------ formula / condition moves (batch D1)
+if mid("poltergeist") > 0:
+    _pg = int(C.eff_move(mid("poltergeist")))
+
+    @handler(ids.HOOK_TRY, _pg, ps="data/moves.ts poltergeist.onTry")
+    def poltergeist_try(hc, st, dex, rng):
+        """onTry(source, target): !!target.item (singleEvent('Try', move, null, pokemon, target): hc.source)."""
+        return hc.ret(RS.R(RS.BOOL, 0), mget(st.mons.item, jnp.clip(hc.source, 0, 7)) == 0), st, rng
+
+    @handler(ids.HOOK_TRYHIT, _pg, ps="data/moves.ts poltergeist.onTryHit")
+    def poltergeist_try_hit(hc, st, dex, rng):
+        """'-activate' target 'move: Poltergeist' item."""
+        return hc, EV.emit(st, True, EV.EV_ACTIVATE, actor=hc.target, move=_pg), rng
+
+if mid("firstimpression") > 0:
+    _fi = int(C.eff_move(mid("firstimpression")))
+
+    @handler(ids.HOOK_TRY, _fi, ps="data/moves.ts firstimpression.onTry")
+    def firstimpression_try(hc, st, dex, rng):
+        """source.activeMoveActions > 1 -> false."""
+        return hc.ret(RS.R(RS.BOOL, 0), mget(st.mons.active_move_actions, hc.target) > 1), st, rng
+
+    @handler(ids.HOOK_DISABLEMOVE, _fi, ps="data/mods/champions/moves.ts firstimpression.onDisableMove")
+    def firstimpression_disable(hc, st, dex, rng):
+        """Champions: pokemon.activeMoveActions -> disableMove('firstimpression')."""
+        from vgcjax.battle.util import mset
+        r = hc.target
+        m = st.mons
+        go = mget(m.active_move_actions, r) > 0
+        slots = mget(m.move_ids, r).astype(I32) == mid("firstimpression")
+        dis = mget(m.move_disabled, r)
+        new = jnp.where(slots & (dis != 1) & go, 1, dis)
+        return hc, st.replace(mons=m.replace(move_disabled=mset(m.move_disabled, r, new.astype(dis.dtype), True))), rng
+
+if mid("upperhand") > 0:
+    @handler(ids.HOOK_TRY, int(C.eff_move(mid("upperhand"))), ps="data/moves.ts upperhand.onTry")
+    def upperhand_try(hc, st, dex, rng):
+        """The target's queued move action: priority > 0.1 and not Status, else false."""
+        from vgcjax.battle import queue as Q
+        from vgcjax.battle import state as S
+        tgt = hc.source
+        q = st.queue
+        mine = q.valid & (q.kind == S.Q_MOVE) & (Q.entry_ref(q) == tgt) & ~mget(st.mons.fainted, jnp.clip(tgt, 0, 7))
+        mv = jnp.max(jnp.where(mine, q.move_id.astype(I32), 0))
+        ok = jnp.any(mine) & (Q.move_priority(st, dex, tgt, mv) > 0) & (dex.move_category[mv] != ids.CAT_STATUS)
+        return hc.ret(RS.R(RS.BOOL, 0), ~ok), st, rng
+
+
+def steel_beam_fail(st, dex, rng, u, move, on):
+    """Steel Beam onMoveFail (not multihit): damage(round(maxhp / 2), source, source, Steel Beam) ('-damage' X hp
+    '[from] Steel Beam'), then runEvent('EmergencyExit') (PS :589-594). Returns (st, rng)."""
+    if mid("steelbeam") < 0:
+        return st, rng
+    from vgcjax.effects import ability_reactions as AR
+    from vgcjax.effects import statuses as STS
+    go = jnp.asarray(on) & (move == mid("steelbeam")) & (mget(st.mons.hp, u) > 0)
+    hp0 = mget(st.mons.hp, u).astype(I32)
+    st, rng = STS.effect_damage(st, dex, rng, u, (mget(st.mons.maxhp, u).astype(I32) + 1) // 2,
+                                C.eff_move(mid("steelbeam")), go)
+    return AR.emergency_exit(st, u, hp0, go), rng
+
+
+def _status_of(ctx, r):
+    import jax
+    return jax.vmap(lambda d: mget(ctx.st.mons.status, jnp.clip(d, 0, 7)).astype(I32))(r)
+
+
+if mid("lashout") > 0:
+    @mod("BasePower", int(C.eff_move(mid("lashout"))), ps="data/moves.ts lashout.onBasePower")
+    def lashout_bp(ctx, h):
+        """source.statsLoweredThisTurn -> chainModify(2)."""
+        import jax
+        low = jax.vmap(lambda d: mget(ctx.st.mons.stats_lowered_this_turn, jnp.clip(d, 0, 7)))(ctx.tgt)
+        return low & (ctx.src >= 0), jnp.asarray(8192, I32), None
+
+if mid("facade") > 0:
+    @mod("BasePower", int(C.eff_move(mid("facade"))), ps="data/moves.ts facade.onBasePower")
+    def facade_bp(ctx, h):
+        """pokemon.status && status !== 'slp' -> chainModify(2)."""
+        s = _status_of(ctx, ctx.tgt)
+        return (s > 0) & (s != ids.COND_SLP) & (ctx.src >= 0), jnp.asarray(8192, I32), None
+
+if mid("venoshock") > 0:
+    @mod("BasePower", int(C.eff_move(mid("venoshock"))), ps="data/moves.ts venoshock.onBasePower")
+    def venoshock_bp(ctx, h):
+        """target.status psn / tox -> chainModify(2)."""
+        s = _status_of(ctx, ctx.src)
+        return ((s == ids.COND_PSN) | (s == ids.COND_TOX)) & (ctx.src >= 0), jnp.asarray(8192, I32), None

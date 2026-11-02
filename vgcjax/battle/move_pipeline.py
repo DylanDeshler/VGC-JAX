@@ -451,8 +451,10 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     mtype = dex.move_type[move].astype(I32) if mtype is None else mtype
     bp = dex.move_bp[move].astype(I32) if bp is None else bp
     from vgcjax.effects import move_callbacks as MC
-    bp = MC.base_power(st, dex, u, move, targets, bp)                # basePowerCallback, per target
+    bp = MC.base_power(st, dex, u, move, targets, bp, hit_no)        # basePowerCallback, per target
     fixed = MC.fixed_damage(st, dex, u, move, targets, dex.move_fixed_damage[move].astype(I32))   # damageCallback
+    if opt_id("MOVE_FINALGAMBIT") > 0:                       # Final Gambit damageCallback: pokemon.faint() (queued now)
+        st = F.faint(st, u, jnp.any(on) & (move == opt_id("MOVE_FINALGAMBIT")))
     ohko = dex.move_ohko[move] > 0
     rolls_damage = on & (bp > 0) & ~ohko & (fixed == 0)
     ckey = C.dkey(st, ids.DK_CRIT, actor=u, target=targets, subject=C.eff_move(move), hit=hit_no)
@@ -478,8 +480,10 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     scr = scrappy_ignores(st, u, mtype)
     immune_t = immune_t & (dex.move_ignore_immunity[move] != 1) & ~scr & (mtype != ids.TYPE_TYPELESS) & ~is_struggle
     reach = rolls_damage & ~immune_t
-    per = jnp.where(reach, jnp.where(is_struggle, 5, 6), 0)
-    base = st.scratch.mulhook_ord.astype(I32) + jnp.cumsum(per) - per
+    # Gyro Ball's basePowerCallback makes two getStat('spe') calls (ModifySpe) before ModifyCritRatio
+    pre = jnp.where(reach & (move == opt_id("MOVE_GYROBALL")), 2, 0)
+    per = jnp.where(reach, jnp.where(is_struggle, 5, 6), 0) + pre
+    base = st.scratch.mulhook_ord.astype(I32) + jnp.cumsum(per) - per + pre
     dmg_ord = base + jnp.where(is_struggle, 4, 5)                 # ordinal of each target's ModifyDamage call
     st = C.mul_tick(st, jnp.sum(per))
     wmod = WE.weather_damage_mod(st, dex, u, move, mtype, targets)
@@ -859,6 +863,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     from vgcjax.effects import moves_b1 as MB1                       # singleEvent('AfterHit', move) per target
     for j in range(NT):
         st = MB1.knock_off(st, dex, targets[j], u, move, damaged[j])
+    if opt_id("MOVE_ICESPINNER") > 0:                               # Ice Spinner onAfterHit: clearTerrain()
+        st, rng = SC.clear_terrain(st, dex, rng, jnp.any(damaged) & (move == opt_id("MOVE_ICESPINNER")))
     st = AR.emergency_exit(st, u, u_hp0, on & ~jnp.asarray(side_mode))   # [C] scripts.ts:419 (the attacker)
     return st, rng, (tags, vals)
 
@@ -1089,6 +1095,9 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     pr = MC.prankster_boosted(st, dex, u, move) & (side_of(jnp.clip(targets, 0, 7)) != side_of(u)) & jax.vmap(
         lambda tt_: TC.status_immune(dex, ids.IMMUNITY_KEYS.index("prankster"), tt_))(t_types)
     pimm = pimm | (~pimm & pr)
+    # move onTryImmunity: Endeavor (pokemon.hp < target.hp) -> '-immune'
+    endv = (move == opt_id("MOVE_ENDEAVOR")) & ~(mget(m.hp, u) < mget(m.hp, jnp.clip(targets, 0, 7)))
+    pimm = pimm | (~pimm & endv)
     for j in range(NT):
         st = EV.emit(st, tv[j] & pimm[j], EV.EV_IMMUNE, actor=targets[j])            # PS :731, :745
     fail_any = fail_any | jnp.any(tv & pimm)
@@ -1256,6 +1265,9 @@ def move_end(st, dex, rng, cfg):
     side_result = ex.side & (ex.hit_done > 1) & (RS.truthy(sd_r) | ((sd_r[0] == RS.NUM) & (sd_r[1] == 0)) |
                                                  (sd_r[0] == RS.UNDEF))
     result = go & ((ex.has_t & ~ex.side_field & res) | (ex.side_field & side_result))
+    # PS :589-594: !moveResult -> singleEvent('MoveFail', move): Steel Beam
+    from vgcjax.effects import moves_b2 as MB2
+    st, rng = MB2.steel_beam_fail(st, dex, rng, u, move, go & ex.has_t & ~result)
     # selfBoost (Scale Shot) on success
     st, _ = boost(st, u, dex.move_selfboost[move], result & jnp.any(dex.move_selfboost[move] != 0), source=u,
                   simple=True)                                                    # self-sourced
@@ -1295,16 +1307,19 @@ def apply_recoil(st, dex, u, move, total, on):
     rn = dex.move_recoil[move, 0].astype(I32)
     rd = jnp.maximum(dex.move_recoil[move, 1].astype(I32), 1)
     maxhp = mget(m.maxhp, u).astype(I32)
-    rec = jnp.where(struggle, jnp.maximum((2 * maxhp + 4) // 8, 1), jnp.maximum((2 * total * rn + rd) // (2 * rd), 1))
-    has = struggle | (rn > 0)
+    mind = dex.move_mind_blown_recoil[move] == 1                       # Steel Beam: round(maxhp / 2), [from] the move
+    rec = jnp.where(struggle, jnp.maximum((2 * maxhp + 4) // 8, 1), jnp.where(
+        mind, (maxhp + 1) // 2, jnp.maximum((2 * total * rn + rd) // (2 * rd), 1)))
+    has = struggle | (rn > 0) | mind
     # Rock Head onDamage: recoil (not Struggle's) -> null
-    rock = ~struggle & (mget(m.ability, u) == opt_id("ABILITY_ROCKHEAD"))
+    rock = ~struggle & ~mind & (mget(m.ability, u) == opt_id("ABILITY_ROCKHEAD"))
     on = jnp.asarray(on) & has & ~rock & (mget(m.hp, u) > 0)
     # struggle: directDamage (no Damage event); recoil: battle.damage(..., 'recoil') -> spreadDamage (HOOK H21)
     on = on & mget(m.is_active, u)
     hp_before = mget(m.hp, u).astype(I32)
     st, dealt = F.damage(st, u, rec, on)
-    st = EV.emit_hp(st, on, EV.EV_DAMAGE, u, flags=EV.F_RECOIL)        # '[from] Recoil' / '[from] recoil'
+    st = EV.emit_hp(st, on & ~mind, EV.EV_DAMAGE, u, flags=EV.F_RECOIL)  # '[from] Recoil' / '[from] recoil'
+    st = EV.emit_hp(st, on & mind, EV.EV_DAMAGE, u, move=C.eff_move(move), flags=EV.F_FROM)
     m = st.mons
     st = st.replace(mons=m.replace(hurt_this_turn=mset(m.hurt_this_turn, u, mget(m.hp, u), on & ~struggle & (dealt != 0))))
     from vgcjax.effects import ability_reactions as AR

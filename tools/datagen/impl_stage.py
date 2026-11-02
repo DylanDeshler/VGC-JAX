@@ -39,7 +39,9 @@ EXTRA: dict[str, set[str]] = {
               "hyperbeam", "gigaimpact", "meteorassault", "blastburn", "frenzyplant", "hydrocannon", "rockwrecker",
               "electroshot", "solarbeam", "solarblade", "meteorbeam", "skyattack",     # effects/locked.py
               "expandingforce",                                                        # effects/move_callbacks.py
-              "perishsong", "yawn", "clangoroussoul", "roost", "encore", "imprison", "trick", "steelroller", "doubleshock", "glaiverush", "disable"},                                                           # effects/moves_b2.py
+              "perishsong", "yawn", "clangoroussoul", "roost", "encore", "imprison", "trick", "steelroller", "doubleshock", "glaiverush", "disable",
+              "assurance", "payback", "hardpress", "lashout", "gyroball", "hex", "facade", "venoshock", "poltergeist",
+              "firstimpression", "upperhand", "tripleaxel", "finalgambit", "endeavor", "steelbeam", "icespinner"},                                                           # effects/moves_b2.py
     "abilities": {"drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",

@@ -247,3 +247,19 @@ k_sheerforce | --n 120 --seed 241 --teams stagereq:impl:ability:sheerforce --sta
 k_sf_lo | --n 120 --seed 241 --teams stagereq:impl:ability:sheerforce+item:lifeorb --stage impl
 k_cameruptite | --n 120 --seed 241 --teams stagereq:impl:item:cameruptite --stage impl --policy random-weighted
 k_widelens | --n 120 --seed 241 --teams stagereq:impl:item:widelens --stage impl
+d_assurance | --n 120 --seed 251 --teams stagereq:impl:move:assurance --stage impl
+d_payback | --n 120 --seed 251 --teams stagereq:impl:move:payback --stage impl
+d_hardpress | --n 120 --seed 251 --teams stagereq:impl:move:hardpress --stage impl
+d_lashout | --n 120 --seed 251 --teams stagereq:impl:move:lashout --stage impl
+d_gyroball | --n 120 --seed 251 --teams stagereq:impl:move:gyroball --stage impl
+d_hex | --n 120 --seed 251 --teams stagereq:impl:move:hex --stage impl
+d_facade | --n 120 --seed 251 --teams stagereq:impl:move:facade --stage impl
+d_venoshock | --n 120 --seed 251 --teams stagereq:impl:move:venoshock --stage impl
+d_poltergeist | --n 120 --seed 251 --teams stagereq:impl:move:poltergeist --stage impl
+d_firstimpression | --n 120 --seed 251 --teams stagereq:impl:move:firstimpression --stage impl
+d_upperhand | --n 120 --seed 251 --teams stagereq:impl:move:upperhand --stage impl
+d_tripleaxel | --n 120 --seed 251 --teams stagereq:impl:move:tripleaxel --stage impl
+d_finalgambit | --n 120 --seed 251 --teams stagereq:impl:move:finalgambit --stage impl
+d_endeavor | --n 120 --seed 251 --teams stagereq:impl:move:endeavor --stage impl
+d_steelbeam | --n 120 --seed 251 --teams stagereq:impl:move:steelbeam --stage impl
+d_icespinner | --n 120 --seed 251 --teams stagereq:impl:move:icespinner --stage impl

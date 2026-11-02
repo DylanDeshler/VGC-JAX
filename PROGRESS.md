@@ -223,6 +223,10 @@ M3 content (2026-10-23)
 - Sheer Force (secondaries and move.self deleted, x5325 BasePower incl. hasSheerForceBoost moves, Life Orb recoil /
   its EmergencyExit suppressed; Champions keeps AfterMoveSecondary), Wide Lens. codegen read hasSheerForce instead of
   hasSheerForceBoost (flag was all zero, unused until now). Mega Camerupt unlocked. Targeted corpora 100%.
+- D1 formula moves: Assurance, Hex, Payback, Hard Press, Gyro Ball (pre-ticked getStat MUL), Triple Axel (20 * hit),
+  Final Gambit (damageCallback faints the user before the target's faint is queued), Endeavor (+TryImmunity), Lash
+  Out / Facade / Venoshock BasePower x2, Poltergeist, First Impression (Champions onDisableMove), Upper Hand, Steel
+  Beam (mindBlownRecoil + MoveFail damage + EmergencyExit), Ice Spinner (clearTerrain). Targeted corpora 100%.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

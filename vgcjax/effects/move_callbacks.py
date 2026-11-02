@@ -4,6 +4,7 @@ Fixed-data per move id, so they are evaluated at their formula sites without dis
 """
 from __future__ import annotations
 
+import jax
 import jax.numpy as jnp
 
 from vgcjax.battle.util import mget
@@ -29,7 +30,7 @@ def _ratio_bp(uw, tw):
         uw >= tw * 2, 60, 40))))
 
 
-def base_power(st, dex, u, move, targets, bp):
+def base_power(st, dex, u, move, targets, bp, hit=1):
     """move.basePowerCallback (getDamage, sim/battle-actions.ts:1662-1668), per target slot; `bp` = the ActiveMove
     basePower. The result is clamped to >= 1 by the caller's existing path (falsy -> undefined)."""
     m = st.mons
@@ -52,6 +53,25 @@ def base_power(st, dex, u, move, targets, bp):
     if "electricterrain" in ids.CONDITIONS:
         rv = is_("risingvoltage") & (st.field.terrain == CO.cid("electricterrain")) & CO.is_grounded(st, t)
         out = jnp.where(rv, bp * 2, out)
+    # Assurance (target.hurtThisTurn), Hex (target status), Payback (the target already moved and did not just switch)
+    out = jnp.where(is_("assurance") & (mget(m.hurt_this_turn, t) > 0), bp * 2, out)
+    out = jnp.where(is_("hex") & (mget(m.status, t) > 0), bp * 2, out)
+    if mid("payback") > 0:
+        from vgcjax.effects import disables as DS
+        moved = ~mget(m.newly_switched, t) & ~jax.vmap(lambda r: DS.will_move(st, r))(t)
+        out = jnp.where(is_("payback") & moved, bp * 2, out)
+    # Hard Press: floor(floor((100 * (100 * floor(hp * 4096 / maxhp)) + 2047) / 4096) / 100) || 1
+    thp, tmx = mget(m.hp, t).astype(I32), jnp.maximum(mget(m.maxhp, t).astype(I32), 1)
+    hpb = ((100 * (100 * ((thp * 4096) // tmx)) + 2047) // 4096) // 100
+    out = jnp.where(is_("hardpress"), jnp.maximum(hpb, 1), out)
+    # Gyro Ball: floor(25 * target.getStat('spe') / pokemon.getStat('spe')) + 1, capped at 150 (division by 0 -> 1)
+    if mid("gyroball") > 0:
+        from vgcjax.battle import common as C_
+        us = C_.get_stat(st, dex, u, 4).astype(I32)
+        ts = jax.vmap(lambda r: C_.get_stat(st, dex, r, 4))(t).astype(I32)
+        gb = jnp.where(us > 0, jnp.minimum((25 * ts) // jnp.maximum(us, 1) + 1, 150), 1)
+        out = jnp.where(is_("gyroball"), gb, out)
+    out = jnp.where(is_("tripleaxel"), 20 * jnp.asarray(hit, I32), out)            # 20 * move.hit
     return out
 
 
@@ -59,7 +79,10 @@ def fixed_damage(st, dex, u, move, targets, fixed):
     """move.damageCallback (getDamage returns it directly: no crit / roll): Super Fang (max(1, floor(hp / 2)))."""
     t = jnp.clip(targets, 0, 7)
     hp = mget(st.mons.hp, t).astype(I32)
+    uhp = mget(st.mons.hp, jnp.clip(u, 0, 7)).astype(I32)
     out = jnp.broadcast_to(jnp.asarray(fixed, I32), targets.shape)
+    out = jnp.where(move == mid("finalgambit"), uhp, out)              # pokemon.hp (faint: selfdestruct 'ifHit')
+    out = jnp.where(move == mid("endeavor"), hp - uhp, out)           # target hp - pokemon hp (TryImmunity: >0)
     return jnp.where(move == mid("superfang"), jnp.maximum(hp // 2, 1), out)
 
 
