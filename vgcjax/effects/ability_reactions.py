@@ -334,3 +334,23 @@ def shadow_tagged(st, dex, r):
     tag = jnp.any((act >= 0) & ~mget(m.fainted, refs) & (mget(m.ability, refs) == aid("shadowtag")))
     immune = TC.status_immune(dex, ids.IMMUNITY_KEYS.index("trapped"), mget(m.types, rr))
     return tag & (mget(m.ability, rr) != aid("shadowtag")) & ~immune
+
+
+# ------------------------------------------------------------------ Emergency Exit (runEvent('EmergencyExit'))
+def emergency_exit(st, ref, original_hp, on):
+    """Emergency Exit onEmergencyExit (Champions): hp > 0, hp <= maxhp / 2 < originalHp, canSwitch, no forceSwitchFlag /
+    switchFlag -> switchFlag = true, '-activate' X 'ability: Emergency Exit' (the switch request follows at the end of
+    the action). Returns st."""
+    from vgcjax.battle import faint as F
+    from vgcjax.battle.util import mset
+    if aid("emergencyexit") <= 0:
+        return st
+    r = jnp.clip(jnp.asarray(ref, I32), 0, 7)
+    m = st.mons
+    hp, mx = mget(m.hp, r).astype(I32), mget(m.maxhp, r).astype(I32)
+    oh = jnp.asarray(original_hp, I32)
+    go = jnp.asarray(on) & (jnp.asarray(ref) >= 0) & _is(mget(m.ability, r), "emergencyexit") & (hp > 0) & \
+        (2 * hp <= mx) & (2 * oh > mx) & (F.can_switch(st, r // 4) > 0) & ~mget(m.force_switch_flag, r) & \
+        (mget(m.switch_flag, r) == 0)
+    st = st.replace(mons=m.replace(switch_flag=mset(m.switch_flag, r, 1, go)))
+    return EV.emit(st, go, EV.EV_ACTIVATE, actor=r, move=aeff("emergencyexit"))

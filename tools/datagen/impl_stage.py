@@ -57,7 +57,7 @@ EXTRA: dict[str, set[str]] = {
                   "chlorophyll", "swiftswim", "sandrush",                                     # batch C1a
                   "armortail", "contrary", "shadowtag", "hospitality",                        # batch C1b
                   "cursedbody", "snowcloak", "liquidvoice", "auraguard", "thermalexchange", "galewings",
-                  "infiltrator"},                                                             # batch C2a
+                  "infiltrator", "emergencyexit"},                                            # batch C2a / C3
                                                                                               # effects/ability_blocks.py
     "items": {"blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
               "miracleseed", "mysticwater", "nevermeltice", "poisonbarb", "sharpbeak", "silkscarf", "silverpowder",

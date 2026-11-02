@@ -231,7 +231,7 @@ def run_start(st, dex, rng, on):
     return post_action(st, dex, rng, S.Q_START, on)
 
 
-def post_action(st, dex, rng, kind, on, cursor=0):
+def post_action(st, dex, rng, kind, on, cursor=0, residual_hp=None):
     """PS runAction tail (sim/battle.ts:2861-2986; 04 §7.9). Returns (st, rng).
 
     (a) phazing: one pass over p1a p1b p2a p2b; a flagged position is dragged in (dragIn + inline runSwitch) before
@@ -257,7 +257,13 @@ def post_action(st, dex, rng, kind, on, cursor=0):
     # (d) eachEvent('Update') unless the action was `start` or the next one is an instaswitch (PS :2924-2929);
     #     EmergencyExit: M4
     from vgcjax.effects import berries as B
-    st, rng = B.update(st, dex, rng, on & (kind != S.Q_START) & ~(anyv & (nk == S.Q_INSTASWITCH)))
+    upd = on & (kind != S.Q_START) & ~(anyv & (nk == S.Q_INSTASWITCH))
+    st, rng = B.update(st, dex, rng, upd)
+    if residual_hp is not None:      # the residual action: runEvent('EmergencyExit') per residualPokemon (PS :2926-2929)
+        from vgcjax.effects import ability_reactions as AR
+        refs, hp0 = residual_hp
+        for i in range(4):
+            st = AR.emergency_exit(st, refs[i], hp0[i], upd & (refs[i] >= 0))
     # (e) switch requests
     m = st.mons
     want = []
@@ -440,8 +446,13 @@ def block_residual(st, dex, rng, cfg):
     st = C.set_step(st, ids.STEP_RESIDUAL, -1, C.eff_action("residual"), 0, go)
     idx = jnp.argmax(q.valid & (q.kind == S.Q_RESIDUAL))
     st = st.replace(queue=q.replace(valid=q.valid.at[idx].set(jnp.where(go, False, q.valid[idx]))))
+    # residualPokemon: the actives' hp before the residual (getAllActive order)
+    act = st.sides.active.reshape(4).astype(I32)
+    rrefs = (jnp.arange(4) // 2) * 4 + jnp.maximum(act, 0)
+    alive = (act >= 0) & ~mget(st.mons.fainted, rrefs)
+    res_hp = (jnp.where(alive, rrefs, -1), mget(st.mons.hp, rrefs).astype(I32))
     st, rng = residual(st, dex, rng, go)
-    st, rng = post_action(st, dex, rng, S.Q_RESIDUAL, go)
+    st, rng = post_action(st, dex, rng, S.Q_RESIDUAL, go, residual_hp=res_hp)
     return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~st.scratch.tail_pending &
                     ~jnp.any(st.queue.valid)), rng
 

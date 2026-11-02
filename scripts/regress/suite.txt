@@ -240,3 +240,6 @@ k_liquidvoice | --n 120 --seed 233 --teams stagereq:impl:ability:liquidvoice --s
 k_thermal | --n 120 --seed 233 --teams stagereq:impl:ability:thermalexchange --stage impl
 k_galewings | --n 120 --seed 233 --teams stagereq:impl:ability:galewings --stage impl
 k_infiltrator | --n 120 --seed 233 --teams stagereq:impl:ability:infiltrator+move:reflect --stage impl
+k_eexit | --n 150 --seed 239 --teams stagereq:impl:ability:emergencyexit --stage impl
+k_golisopite | --n 150 --seed 239 --teams stagereq:impl:item:golisopite --stage impl --policy random-weighted
+k_eexit_sand | --n 150 --seed 239 --teams stagereq:impl:ability:emergencyexit+move:sandstorm --stage impl

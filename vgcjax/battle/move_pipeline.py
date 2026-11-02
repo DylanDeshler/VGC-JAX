@@ -549,6 +549,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     tags = jnp.full(NT, RS.BOOL, I32)
     vals = jnp.ones(NT, I32)
     tv = jnp.asarray(tvalid) & on
+    u_hp0 = mget(st.mons.hp, u).astype(I32)                            # pokemonOriginalHP ([C] scripts.ts)
     # [C] scripts.ts:327-339: singleEvent('TryHit', move, {}, targets[0], pokemon, move) (TryHitField / TryHitSide
     # for side / field moves: no Reg M-C handler); falsy -> damage [false] (false: '-fail' pokemon, [still])
     em_ = C.eff_move(move)
@@ -845,6 +846,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     from vgcjax.effects import moves_b1 as MB1                       # singleEvent('AfterHit', move) per target
     for j in range(NT):
         st = MB1.knock_off(st, dex, targets[j], u, move, damaged[j])
+    st = AR.emergency_exit(st, u, u_hp0, on & ~jnp.asarray(side_mode))   # [C] scripts.ts:419 (the attacker)
     return st, rng, (tags, vals)
 
 
@@ -1211,6 +1213,17 @@ def move_end(st, dex, rng, cfg):
         hc, st, rng = H.run_event("AfterMoveSecondary", st, dex, rng, hc,
                                   branches=H.dispatch(ids.HOOK_AFTERMOVESECONDARY),
                                   on=some & still[j] & (targets[j] >= 0))
+    # [C] scripts.ts:577-584: runEvent('EmergencyExit') per target with a numeric damage and hp: the hp before the
+    # move = hurtThisTurn + damage (one target: move.totalDamage)
+    from vgcjax.effects import ability_reactions as AR
+    single_t = jnp.sum(tv.astype(I32)) == 1
+    for j in range(NT):
+        t = targets[j]
+        cur = jnp.where(single_t, ex.total, dv[j])
+        ht = mget(st.mons.hurt_this_turn, jnp.clip(t, 0, 7)).astype(I32)
+        orig = jnp.maximum(ht, 0) + cur
+        st = AR.emergency_exit(st, t, orig, run_rest & tv[j] & (dt[j] == RS.NUM) & (t >= 0) &
+                               (mget(st.mons.hp, jnp.clip(t, 0, 7)) > 0))
     # ---- trySpreadMoveHit tail (a failed preamble returns `hitResult === NOT_FAIL`, PS :645-650)
     on_ts = end & ex.on_ts
     kept = RS.hit_or_zero((dt, dv)) & tv
@@ -1237,7 +1250,11 @@ def move_end(st, dex, rng, cfg):
     # runEvent('AfterMoveSecondarySelf', pokemon, target, move) on success (PS :600-603): Life Orb (MoveFail,
     # EmergencyExit: M4)
     from vgcjax.effects import items as IT
+    lo_hp = mget(st.mons.hp, u).astype(I32)
     st, rng = IT.life_orb_recoil(st, dex, rng, u, -1, move, result)
+    # PS :600-605: runEvent('EmergencyExit', pokemon) after AfterMoveSecondarySelf (not vs itself, not Status)
+    from vgcjax.effects import ability_reactions as AR
+    st = AR.emergency_exit(st, u, lo_hp, result & (targets[0] != u) & (dex.move_category[move] != T.CAT_STATUS))
     set_null = set_null & go & ex.has_t
     # ---- runMove tail
     go_rm = end & ex.go_rm
@@ -1270,7 +1287,10 @@ def apply_recoil(st, dex, u, move, total, on):
     on = jnp.asarray(on) & has & ~rock & (mget(m.hp, u) > 0)
     # struggle: directDamage (no Damage event); recoil: battle.damage(..., 'recoil') -> spreadDamage (HOOK H21)
     on = on & mget(m.is_active, u)
+    hp_before = mget(m.hp, u).astype(I32)
     st, dealt = F.damage(st, u, rec, on)
     st = EV.emit_hp(st, on, EV.EV_DAMAGE, u, flags=EV.F_RECOIL)        # '[from] Recoil' / '[from] recoil'
     m = st.mons
-    return st.replace(mons=m.replace(hurt_this_turn=mset(m.hurt_this_turn, u, mget(m.hp, u), on & ~struggle & (dealt != 0))))
+    st = st.replace(mons=m.replace(hurt_this_turn=mset(m.hurt_this_turn, u, mget(m.hp, u), on & ~struggle & (dealt != 0))))
+    from vgcjax.effects import ability_reactions as AR
+    return AR.emergency_exit(st, u, hp_before, on)                     # PS :1450
