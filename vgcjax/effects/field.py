@@ -58,10 +58,11 @@ for _n in ("reflect", "lightscreen"):
 def _screen(cat):
     def fn(ctx, h):
         """onAnyModifyDamage(damage, source, target, move): target !== source, target on the screen's side, the
-        category, not a crit (Infiltrator: M4) -> chainModify([2732, 4096]) (activePerHalf 2)."""
+        category, not a crit, not move.infiltrates (Infiltrator) -> chainModify([2732, 4096]) (activePerHalf 2)."""
+        from vgcjax.effects import ability_mods as AM
         d, a = ctx.src, ctx.tgt
         ok = (d >= 0) & (d != a) & ((jnp.clip(d, 0, 7) // 4) == (h - 8)) & (ctx.dex.move_category[ctx.move] == cat) & \
-            ~ctx.extra["crit"]
+            ~ctx.extra["crit"] & ~AM.infiltrates(ctx.st, a)
         return ok, jnp.asarray(2732, I32), None
     return fn
 

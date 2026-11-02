@@ -213,6 +213,10 @@ M3 content (2026-10-23)
   sites, onResidual; '-clearnegativeboost'); Trick runs the received item's Start (White Herb / seeds / choicelock
   removal). Found: PS getCallback uses onStart as the SwitchIn handler only without onAnySwitchIn, and resolvePriority
   reads onSwitchInPriority (seeds -1, Hospitality -2): codegen fixed. K_SWITCHIN 8 -> 12. Targeted corpora 100%.
+- Batch C2a: Disable (move + condition; Champions BeforeMove spares cantusetwice; duration -1 when the target still
+  moves or is the active mover), Cursed Body (3/10 on-hit disable), Snow Cloak, Liquid Voice, Aura Guard (Champions),
+  Thermal Exchange, Gale Wings, Infiltrator (screens / Aurora Veil). Unlocks Gengar / Froslass (+ Megas) and Mega
+  Lucario Z. Targeted corpora 100%.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

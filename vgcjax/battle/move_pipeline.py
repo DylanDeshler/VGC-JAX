@@ -957,6 +957,9 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # runEvent('ModifyType'): Aerilate / Pixilate (onModifyTypePriority -1): Normal -> Flying / Fairy
     ate, ate_t = MC.ate_boosted(st, dex, u, move)
     a_type = jnp.where(ate, ate_t, a_type)
+    # Liquid Voice (onModifyTypePriority -1): a sound move becomes Water
+    a_type = jnp.where(mflag(dex, move, T.MF_SOUND) & (mget(st.mons.ability, u) == opt_id("ABILITY_LIQUIDVOICE")),
+                       T.TYPE_WATER, a_type)
     # PS :500-503: ModifyMove changed move.target (Expanding Force) -> getRandomTarget: side.randomFoe, a
     # RANDOM_TARGET_NOMINAL don't-care draw (the printed target is not compared: harness/events.py); the engine takes
     # the first living foe, else foe.active[0]

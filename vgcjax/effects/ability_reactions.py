@@ -123,7 +123,8 @@ def damaging_hit_first(st, dex, rng, targets, damaged, u, move, hit_no):
 def damaging_hit_boosts(st, dex, targets, damaged, u, move, mtype):
     """The holders' self-boost DamagingHit abilities for every target in one boost (one ability per mon, distinct
     targets): Stamina (+1 Def, source = attacker), Weak Armor (physical: -1 Def +2 Spe, self), Justified (Dark: +1
-    Atk), Rattled (Dark / Bug / Ghost: +1 Spe). Returns (st, msgs, on[T]); damaging_hit emits target j's messages."""
+    Atk), Rattled (Dark / Bug / Ghost: +1 Spe), Thermal Exchange (Fire: +1 Atk). Returns (st, msgs, on[T]);
+    damaging_hit emits target j's messages."""
     from vgcjax.battle import move_pipeline as MP
     tcl = jnp.clip(targets, 0, 7)
     ab = mget(st.mons.ability, tcl)
@@ -132,10 +133,11 @@ def damaging_hit_boosts(st, dex, targets, damaged, u, move, mtype):
     wa = damaged & _is(ab, "weakarmor") & (cat == ids.CAT_PHYSICAL)
     jus = damaged & _is(ab, "justified") & (mtype == ids.TYPE_DARK)
     rat = damaged & _is(ab, "rattled") & ((mtype == ids.TYPE_DARK) | (mtype == ids.TYPE_BUG) | (mtype == ids.TYPE_GHOST))
+    te = damaged & _is(ab, "thermalexchange") & (mtype == ids.TYPE_FIRE)
     z = jnp.zeros((targets.shape[0], 7), I32)
     d = jnp.where(sta[:, None], z.at[:, 1].set(1), jnp.where(wa[:, None], z.at[:, 1].set(-1).at[:, 4].set(2),
-                  jnp.where(jus[:, None], z.at[:, 0].set(1), z.at[:, 4].set(1))))
-    on = sta | wa | jus | rat
+                  jnp.where((jus | te)[:, None], z.at[:, 0].set(1), z.at[:, 4].set(1))))
+    on = sta | wa | jus | rat | te
     src = jnp.where(wa, tcl, u)
     st, _, msgs = MP.boost_v(st, targets, d, on, source=src, ab_msg=ids.ABILITY_BASE + ab - 1)
     return st, msgs, on
@@ -181,6 +183,14 @@ def damaging_hit(st, dex, rng, j, t, damaged, u, move, mtype, hit_no, bmsgs, b_o
     goo = damaged & contact & _is(ab, "gooey")
     st = EV.emit(st, goo, EV.EV_ABILITY, actor=tr, move=aeff("gooey"))
     st, _ = MP.boost(st, u, z.at[4].set(-1), goo, primary=True, source=tr, effect=aeff("gooey"))
+    # Cursed Body: the attacker without 'disable', not Struggle (no Max / future moves): 3/10 ->
+    # source.addVolatile('disable', holder) ('-start' source 'Disable' move '[from] ability: Cursed Body' '[of] holder')
+    if aid("cursedbody") > 0 and "disable" in ids.CONDITIONS:
+        cb = damaged & _is(ab, "cursedbody") & ~CO.has_volatile(st, u, CO.cid("disable")) & (move != ids.MOVE_STRUGGLE)
+        key = C.dkey(st, ids.DK_ABILITY_ONHIT_PROC, actor=tr, target=u, subject=aeff("cursedbody"), hit=hit_no)
+        ok, rng = R.chance(rng, key, 3, 10, active=cb)
+        st, rng, _ = CO.add_volatile(st, dex, rng, u, CO.cid("disable"), cb & ok, source=tr,
+                                     source_effect=aeff("cursedbody"))
     # the attacker's Poison Touch (Source prefix: after the target's own handlers)
     pt = damaged & contact & _is(mget(st.mons.ability, u), "poisontouch") & ~_is(ab, "shielddust")
     key = C.dkey(st, ids.DK_ABILITY_ONHIT_PROC, actor=u, target=tr, subject=aeff("poisontouch"), hit=hit_no)

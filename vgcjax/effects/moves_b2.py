@@ -416,3 +416,64 @@ def glaive_rush_target(st, targets):
     if not (mid("glaiverush") > 0 and has("glaiverush")):
         return jnp.zeros(jnp.shape(targets), bool)
     return CO.has_volatile(st, jnp.clip(targets, 0, 7), CO.cid("glaiverush")) & (jnp.asarray(targets) >= 0)
+
+
+# ------------------------------------------------------------------ Disable (Champions: BeforeMove spares cantusetwice)
+if mid("disable") > 0 and has("disable"):
+    CO.fields("disable", ("move", "move"))
+
+    @handler(ids.HOOK_TRYHIT, int(C.eff_move(mid("disable"))), ps="data/moves.ts disable.onTryHit")
+    def disable_try_hit(hc, st, dex, rng):
+        """target.lastMove null (or Struggle; no Max / Z moves) -> false."""
+        lm = mget(st.mons.last_move, hc.target).astype(I32)
+        fail = (lm == 0) | (lm == ids.MOVE_STRUGGLE)
+        return hc.ret(RS.R(RS.BOOL, 0), fail), st, rng
+
+    @handler(ids.HOOK_START, CO.eff("disable"), ps="data/moves.ts disable.condition.onStart")
+    def disable_start(hc, st, dex, rng):
+        """queue.willMove(pokemon), or the pokemon is the one moving (Cursed Body: not an external move) ->
+        duration--; no lastMove or its slot out of PP -> false; '-start' X 'Disable' move (Cursed Body: '[from]
+        ability: Cursed Body' '[of] source'); effectState.move = lastMove."""
+        from vgcjax.effects import disables as DS
+        r, c = hc.target, CO.cid("disable")
+        m = st.mons
+        lm = mget(m.last_move, r).astype(I32)
+        mids = mget(m.move_ids, r).astype(I32)
+        hit = (mids == lm) & (lm > 0)
+        out_pp = jnp.any(hit & (mget(m.pp, r) <= 0))
+        ok = (lm > 0) & ~out_pp
+        dec = DS.will_move(st, r) | (st.exec.in_move & (st.exec.u == r))
+        s = CO.vol_state(st, r, c)
+        st = CO.set_vol_state(st, r, c, s.at[0].set(s[0] - dec.astype(I16)), ok)
+        st = CO.set_vol_field(st, r, c, CO.slot_of("disable", "move"), lm, ok)
+        ab = (hc.effect >= ids.ABILITY_BASE) & (hc.effect < ids.ABILITY_BASE + len(ids.ABILITIES) - 1)
+        st = EV.emit(st, ok, EV.EV_START, actor=r, move=CO.eff("disable"), v1=jnp.where(ab, hc.effect, -1),
+                     flags=jnp.where(ab, EV.F_FROM_ABILITY, 0))
+        return hc.ret(RS.R(RS.BOOL, 0), ~ok), st, rng
+
+    @handler(ids.HOOK_END, CO.eff("disable"), ps="data/moves.ts disable.condition.onEnd")
+    def disable_end(hc, st, dex, rng):
+        """'-end' X 'Disable'."""
+        return hc, EV.emit(st, True, EV.EV_END, actor=hc.target, move=CO.eff("disable"), v1=-1), rng
+
+    @handler(ids.HOOK_BEFOREMOVE, CO.eff("disable"), ps="data/mods/champions/moves.ts disable.condition.onBeforeMove")
+    def disable_before_move(hc, st, dex, rng):
+        """priority 7: the disabled move (not a cantusetwice move) -> 'cant' X 'Disable' move; false."""
+        r = hc.target
+        move = jnp.maximum(hc.effect - ids.MOVE_BASE + 1, 0)
+        w, b = ids.MF_CANTUSETWICE
+        ctw = ((dex.move_flags[move, w] >> b) & 1) == 1
+        stored = CO.vol_state(st, r, CO.cid("disable"))[CO.slot_of("disable", "move")].astype(I32)
+        block = (move == stored) & ~ctw
+        st = EV.emit(st, block, EV.EV_CANT, actor=r, move=CO.eff("disable"))
+        return hc.ret(RS.R(RS.BOOL, 0), block), st, rng
+
+
+def disable_disable(st, r, dis, on):
+    """disable.condition.onDisableMove: the stored move's slot is disabled."""
+    if not (mid("disable") > 0 and has("disable")):
+        return dis
+    c = CO.cid("disable")
+    stored = CO.vol_state(st, r, c)[CO.slot_of("disable", "move")].astype(I32)
+    mids = mget(st.mons.move_ids, r).astype(I32)
+    return jnp.where(jnp.asarray(on) & CO.has_volatile(st, r, c) & (mids == stored) & (mids > 0), 1, dis)

@@ -102,7 +102,9 @@ if has("auroraveil"):
         st = ctx.st
         refl = CO.has_side(st, side, CO.cid("reflect")) & (cat == ids.CAT_PHYSICAL) if has("reflect") else False
         ls = CO.has_side(st, side, CO.cid("lightscreen")) & (cat == ids.CAT_SPECIAL) if has("lightscreen") else False
-        ok = (d >= 0) & (d != a) & ((jnp.clip(d, 0, 7) // 4) == side) & ~refl & ~ls & ~ctx.extra["crit"]
+        from vgcjax.effects import ability_mods as AM
+        ok = (d >= 0) & (d != a) & ((jnp.clip(d, 0, 7) // 4) == side) & ~refl & ~ls & ~ctx.extra["crit"] & \
+            ~AM.infiltrates(st, a)
         return ok, jnp.asarray(2732, I32), None
 
 

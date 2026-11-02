@@ -210,3 +210,23 @@ def fairyaura(ctx, h):
     first = refs[jnp.argmax(spd)]
     ok = (ctx.mtype == ids.TYPE_FAIRY) & (_cat(ctx) != ids.CAT_STATUS) & (ctx.tgt != ctx.src) & (h == first)
     return ok, _const(5448), None
+
+
+@_reg("ModifyAccuracy", "snowcloak")
+def snowcloak(ctx, h):
+    """onModifyAccuracy (priority -1, the defender's): numeric accuracy in Snow -> chainModify([3277, 4096])."""
+    from vgcjax.effects import weather as WE
+    return ctx.extra["numeric"] & WE.is_weather(ctx.st, "snowscape"), _const(3277), None
+
+
+@_reg("ModifyDamage", "auraguard", prefix=ids.PFX_SOURCE)
+def auraguard(ctx, h):
+    """onSourceModifyDamage (the defender's, Champions): a contact move -> chainModify(0.5)."""
+    return jnp.broadcast_to(_flag(ctx, ids.MF_CONTACT), h.shape), _const(X05), None
+
+
+def infiltrates(st, attacker):
+    """move.infiltrates: the attacker's Infiltrator onModifyMove (screens / Aurora Veil do not apply)."""
+    if aid("infiltrator") <= 0:
+        return jnp.zeros(jnp.shape(attacker), bool)
+    return mget(st.mons.ability, jnp.clip(attacker, 0, 7)) == aid("infiltrator")

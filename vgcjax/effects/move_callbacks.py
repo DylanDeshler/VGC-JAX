@@ -65,11 +65,17 @@ def fixed_damage(st, dex, u, move, targets, fixed):
 
 def priority_bonus(st, dex, ref, move):
     """onModifyPriority: Grassy Glide (+1 in Grassy Terrain for a grounded user); Prankster (+1 for a Status move,
-    data/abilities.ts prankster: move.pranksterBoosted)."""
+    data/abilities.ts prankster: move.pranksterBoosted); Gale Wings (+1 for a Flying move at full HP)."""
     out = jnp.zeros(jnp.shape(move), I32)
     if "grassyterrain" in ids.CONDITIONS:
         gg = (move == mid("grassyglide")) & (st.field.terrain == CO.cid("grassyterrain")) & CO.is_grounded(st, ref)
         out = out + gg.astype(I32)
+    gw = getattr(ids, "ABILITY_GALEWINGS", -1)
+    if gw > 0:                                           # Gale Wings: a Flying move at full HP
+        r = jnp.clip(ref, 0, 7)
+        m = st.mons
+        out = out + ((mget(m.ability, r) == gw) & (dex.move_type[move] == ids.TYPE_FLYING) &
+                     (mget(m.hp, r) == mget(m.maxhp, r))).astype(I32)
     return out + prankster_boosted(st, dex, ref, move).astype(I32)
 
 

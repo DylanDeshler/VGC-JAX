@@ -105,7 +105,7 @@ def guard_dog(st, targets, pre):
 
 # ------------------------------------------------------------------ SetStatus (setStatus, PS sim/pokemon.ts:1743-1749)
 STATUS_IMMUNE = {"limber": ("par",), "insomnia": ("slp",), "vitalspirit": ("slp",), "immunity": ("psn", "tox"),
-                 "waterveil": ("brn",), "waterbubble": ("brn",), "purifyingsalt": ("brn", "par", "psn", "tox", "slp",
+                 "waterveil": ("brn",), "thermalexchange": ("brn",), "waterbubble": ("brn",), "purifyingsalt": ("brn", "par", "psn", "tox", "slp",
                                                                                   "frz")}
 
 

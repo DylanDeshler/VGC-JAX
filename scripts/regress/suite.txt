@@ -230,3 +230,13 @@ k_wh_icywind | --n 120 --seed 229 --teams stagereq:impl:item:whiteherb+move:icyw
 k_wh_cc | --n 120 --seed 229 --teams stagereq:impl:item:whiteherb+move:closecombat --stage impl
 k_wh_mega | --n 120 --seed 229 --teams stagereq:impl:item:whiteherb --stage impl --policy random-weighted
 k_trick_wh | --n 120 --seed 229 --teams stagereq:impl:move:trick+item:whiteherb --stage impl
+k_cursedbody | --n 120 --seed 233 --teams stagereq:impl:ability:cursedbody --stage impl
+k_disable | --n 120 --seed 233 --teams stagereq:impl:move:disable --stage impl
+k_gengar_mega | --n 120 --seed 233 --teams stagereq:impl:item:gengarite --stage impl --policy random-weighted
+k_froslass_mega | --n 120 --seed 233 --teams stagereq:impl:item:froslassite --stage impl --policy random-weighted
+k_lucario_z | --n 120 --seed 233 --teams stagereq:impl:item:lucarionitez --stage impl --policy random-weighted
+k_snowcloak | --n 120 --seed 233 --teams stagereq:impl:ability:snowcloak+move:snowscape --stage impl
+k_liquidvoice | --n 120 --seed 233 --teams stagereq:impl:ability:liquidvoice --stage impl
+k_thermal | --n 120 --seed 233 --teams stagereq:impl:ability:thermalexchange --stage impl
+k_galewings | --n 120 --seed 233 --teams stagereq:impl:ability:galewings --stage impl
+k_infiltrator | --n 120 --seed 233 --teams stagereq:impl:ability:infiltrator+move:reflect --stage impl
