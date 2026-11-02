@@ -243,3 +243,7 @@ k_infiltrator | --n 120 --seed 233 --teams stagereq:impl:ability:infiltrator+mov
 k_eexit | --n 150 --seed 239 --teams stagereq:impl:ability:emergencyexit --stage impl
 k_golisopite | --n 150 --seed 239 --teams stagereq:impl:item:golisopite --stage impl --policy random-weighted
 k_eexit_sand | --n 150 --seed 239 --teams stagereq:impl:ability:emergencyexit+move:sandstorm --stage impl
+k_sheerforce | --n 120 --seed 241 --teams stagereq:impl:ability:sheerforce --stage impl
+k_sf_lo | --n 120 --seed 241 --teams stagereq:impl:ability:sheerforce+item:lifeorb --stage impl
+k_cameruptite | --n 120 --seed 241 --teams stagereq:impl:item:cameruptite --stage impl --policy random-weighted
+k_widelens | --n 120 --seed 241 --teams stagereq:impl:item:widelens --stage impl

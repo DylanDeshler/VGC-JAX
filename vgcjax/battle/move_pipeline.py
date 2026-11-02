@@ -373,6 +373,11 @@ def battle_heal(st, target, amount, on, drain_of=None):
 
 
 # ------------------------------------------------------------------ accuracy (PS: sim/battle-actions.ts:752-816)
+def MC_sf_any(st, dex, u, move):
+    from vgcjax.effects import move_callbacks as MC_
+    return MC_.sheer_force(st, dex, u, move)[0]
+
+
 def no_guard(st, u, targets):
     """No Guard onAnyAccuracy: the user or the target holds it -> accuracy true (runEvent('Accuracy'))."""
     a = opt_id("ABILITY_NOGUARD")
@@ -631,7 +636,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     not_fainted = ~mget(m.fainted, targets)
     on_b = tv & has_boosts & not_fainted
     st, br, bmsg = boost_v(st, targets, dex.move_boosts[move], on_b, order=dex.move_boost_order[move], primary=True,
-                           source=u, effect=C.eff_move(move), has_secondaries=dex.move_nsec[move] > 0)
+                           source=u, effect=C.eff_move(move),
+                           has_secondaries=(dex.move_nsec[move] > 0) & ~MC_sf_any(st, dex, u, move))
     did = RS.where(on_b, RS.combine(RS.R(RS.UNDEF), br), RS.R(jnp.full(NT, RS.UNDEF, I32)))
     m = st.mons
     do_heal = tv & (heal_n > 0) & not_fainted
@@ -754,20 +760,27 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     any_target = jnp.any(tv)
     self_chance = dex.move_self_chance[move].astype(I32)
     skey = C.dkey(st, ids.DK_SELF_EFFECT_ROLL, actor=u, subject=C.eff_move(move), hit=hit_no)
-    sroll, rng = R.randint(rng, skey, 0, 100, active=any_target & has_self_boosts & (self_chance >= 0))
-    apply_self = any_target & has_self_boosts & ((self_chance < 0) | (sroll < self_chance))
+    from vgcjax.effects import move_callbacks as MC_
+    sroll, rng = R.randint(rng, skey, 0, 100, active=any_target & has_self_boosts & (self_chance >= 0) &
+                           ~MC_.sheer_force(st, dex, u, move)[0])
+    from vgcjax.effects import move_callbacks as MC_
+    sf_self, _ = MC_.sheer_force(st, dex, u, move)                     # Sheer Force deletes move.self
+    apply_self = any_target & has_self_boosts & ((self_chance < 0) | (sroll < self_chance)) & ~sf_self
     st, _ = boost(st, u, self_b, apply_self, source=u, simple=True)            # self-sourced
     # self.volatileStatus (no self.boosts): moveHit(source, source, move, move.self) per target -> addVolatile
     # (Hyper Beam family: mustrecharge; a second target finds it present: no onRestart, false)
     self_vol = dex.move_self_volatile[move].astype(I32)
-    st, rng, _ = CO.add_volatile(st, dex, rng, u, jnp.maximum(self_vol, 1), any_target & (self_vol > 0) & ~has_self_boosts,
+    st, rng, _ = CO.add_volatile(st, dex, rng, u, jnp.maximum(self_vol, 1),
+                                 any_target & (self_vol > 0) & ~has_self_boosts & ~sf_self,
                                  source=u, source_effect=C.eff_move(move), cands=CO.vol_candidates("move_self_volatile"))
     from vgcjax.effects import moves_b2 as MB2
     st = MB2.double_shock_self(st, u, move, any_target)                 # self.onHit
 
     # 5. secondaries, PS order per target then per secondary; SECONDARY draws only for numeric chance. Target boosts
     #    touch only that target (batched per secondary); the user's self-boosts run as a scalar recurrence.
-    nsec = dex.move_nsec[move]
+    from vgcjax.effects import move_callbacks as MC_
+    sf, _ = MC_.sheer_force(st, dex, u, move)                          # Sheer Force: secondaries / self deleted
+    nsec = jnp.where(sf, 0, dex.move_nsec[move])
     oks = []
     for k in range(2):
         live = tv & (k < nsec)
@@ -1251,10 +1264,12 @@ def move_end(st, dex, rng, cfg):
     # EmergencyExit: M4)
     from vgcjax.effects import items as IT
     lo_hp = mget(st.mons.hp, u).astype(I32)
-    st, rng = IT.life_orb_recoil(st, dex, rng, u, -1, move, result)
+    from vgcjax.effects import move_callbacks as MC_
+    sup = MC_.sheer_force(st, dex, u, move)[0]                         # PS :600 !battle.suppressingSecondaries()
+    st, rng = IT.life_orb_recoil(st, dex, rng, u, -1, move, result & ~sup)
     # PS :600-605: runEvent('EmergencyExit', pokemon) after AfterMoveSecondarySelf (not vs itself, not Status)
     from vgcjax.effects import ability_reactions as AR
-    st = AR.emergency_exit(st, u, lo_hp, result & (targets[0] != u) & (dex.move_category[move] != T.CAT_STATUS))
+    st = AR.emergency_exit(st, u, lo_hp, result & ~sup & (targets[0] != u) & (dex.move_category[move] != T.CAT_STATUS))
     set_null = set_null & go & ex.has_t
     # ---- runMove tail
     go_rm = end & ex.go_rm

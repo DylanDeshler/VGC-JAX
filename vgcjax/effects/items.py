@@ -271,3 +271,10 @@ if iid("whiteherb") > 0:
                 ps="data/items.ts whiteherb.onAnyAfterMove")(_wh_any)
     _wh_handler(ids.HOOK_AFTERMEGA, ieff("whiteherb"), prefix=ids.PFX_ANY,
                 ps="data/items.ts whiteherb.onAnyAfterMega")(_wh_any)
+
+
+if iid("widelens") > 0:
+    @mod("ModifyAccuracy", ieff("widelens"), prefix=ids.PFX_SOURCE, ps="data/items.ts widelens.onSourceModifyAccuracy")
+    def widelens(ctx, h):
+        """priority -2: numeric accuracy -> chainModify([4505, 4096])."""
+        return ctx.extra["numeric"], jnp.asarray(4505, I32), None

@@ -88,6 +88,19 @@ def prankster_boosted(st, dex, ref, move):
     return (mget(st.mons.ability, jnp.clip(ref, 0, 7)) == a) & (dex.move_category[move] == ids.CAT_STATUS)
 
 
+def sheer_force(st, dex, u, move):
+    """Sheer Force onModifyMove: a move with secondaries (not hasSheerForceBoost) loses them and its `self`
+    (move.hasSheerForce). Returns (suppressed (= battle.suppressingSecondaries for this move), BasePower boosted)."""
+    a = getattr(ids, "ABILITY_SHEERFORCE", -1)
+    if a <= 0:
+        z = jnp.zeros((), bool)
+        return z, z
+    holder = mget(st.mons.ability, jnp.clip(u, 0, 7)) == a
+    boost = dex.move_has_sheer_force[move] == 1
+    sup = holder & (dex.move_nsec[move] > 0) & ~boost
+    return sup, holder & (sup | boost)
+
+
 ATE = {"aerilate": "FLYING", "pixilate": "FAIRY"}
 ATE_EXCLUDED = ("judgment", "multiattack", "naturalgift", "revelationdance", "technoblast", "terrainpulse", "weatherball")
 

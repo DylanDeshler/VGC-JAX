@@ -322,7 +322,7 @@ class Builder:
                              ("sleepUsable", "sleep_usable"), ("smartTarget", "smart_target"),
                              ("multiaccuracy", "multiaccuracy"), ("struggleRecoil", "struggle_recoil"),
                              ("hasCrashDamage", "has_crash_damage"), ("mindBlownRecoil", "mind_blown_recoil"),
-                             ("thawsTarget", "thaws_target"), ("hasSheerForce", "has_sheer_force"),
+                             ("thawsTarget", "thaws_target"), ("hasSheerForceBoost", "has_sheer_force"),
                              ("stallingMove", "stalling_move"), ("callsMove", "calls_move"),
                              ("noPPBoosts", "no_pp_boosts"), ("nonGhostTarget", "non_ghost_target"),
                              ("ignorePositiveDefensive", "ignore_positive_defensive"),

@@ -220,6 +220,9 @@ M3 content (2026-10-23)
 - Emergency Exit (Champions): runEvent('EmergencyExit') at the hit-loop tail (per target: hurtThisTurn + damage),
   per hit for the attacker, after recoil, after AfterMoveSecondarySelf (Life Orb) and for residualPokemon after the
   residual tail's Update. Unlocks Golisopod / Mega Golisopod. 126 activations in the targeted corpora, all 100%.
+- Sheer Force (secondaries and move.self deleted, x5325 BasePower incl. hasSheerForceBoost moves, Life Orb recoil /
+  its EmergencyExit suppressed; Champions keeps AfterMoveSecondary), Wide Lens. codegen read hasSheerForce instead of
+  hasSheerForceBoost (flag was all zero, unused until now). Mega Camerupt unlocked. Targeted corpora 100%.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

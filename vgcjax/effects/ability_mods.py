@@ -230,3 +230,12 @@ def infiltrates(st, attacker):
     if aid("infiltrator") <= 0:
         return jnp.zeros(jnp.shape(attacker), bool)
     return mget(st.mons.ability, jnp.clip(attacker, 0, 7)) == aid("infiltrator")
+
+
+@_reg("BasePower", "sheerforce")
+def sheerforce(ctx, h):
+    """onBasePower (priority 21): move.hasSheerForce or move.hasSheerForceBoost -> chainModify([5325, 4096])."""
+    import jax
+    from vgcjax.effects import move_callbacks as MC
+    b = jax.vmap(lambda r: MC.sheer_force(ctx.st, ctx.dex, r, ctx.move)[1])(jnp.clip(h, 0, 7))
+    return b & (h == ctx.tgt), _const(5325), None
