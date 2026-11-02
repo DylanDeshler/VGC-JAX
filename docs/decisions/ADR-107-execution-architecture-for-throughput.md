@@ -196,3 +196,8 @@ Accepted by the human on 2026-10-27:
   `vol_fx[2,4,NVF=7,4]` for the volatiles with fields (`state.VOL_STATEFUL`). State 9,416 -> 4,504 bytes per battle.
   `CO.vol_state` / `set_vol_state` keep the 6-vector view. Differential test (with a canonical volatile view across
   layouts) identical for gathers and selects (512 battles); volatile-heavy PS corpora 100%.
+- **GPU checkpoint (L40S, 959ed91: selects + compact state, training build, micro_steps 2).** B=4096 / 8192 / 16384 /
+  32768: **4,939 / 8,121 / 11,586 / 12,478 battles/s** (80k / 131k / 186k / 194k decision-steps/s; 453k env-steps/s
+  at 32k). **T1 and T2 met** (T2 from B=16384). ~19x the ~650 battles/s of the 2026-10-26 run. Throughput now rises
+  with the batch (the halved state stays in L2). Compile + first call 482-488 s: the compile target (<= 3 min) is not
+  met yet. (Battles are capped at 40 turns in the benchmark, as in every earlier run: finished = ended or truncated.)
