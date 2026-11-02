@@ -227,6 +227,9 @@ M3 content (2026-10-23)
   Final Gambit (damageCallback faints the user before the target's faint is queued), Endeavor (+TryImmunity), Lash
   Out / Facade / Venoshock BasePower x2, Poltergeist, First Impression (Champions onDisableMove), Upper Hand, Steel
   Beam (mindBlownRecoil + MoveFail damage + EmergencyExit), Ice Spinner (clearTerrain). Targeted corpora 100%.
+- partiallytrapped (Bind, Fire Spin, Infestation, Sand Tomb, Whirlpool, Wrap; Snap Trap has no impl learner):
+  VOL_STATEFUL (boundDivisor + raw source / sourceEffect slots), random(5, 7) duration, Binding Band /6, residual
+  source-left silent removal, onTrapPokemon -> trapped (Ghost immune) before Shadow Tag. Targeted corpora 100%.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

@@ -263,3 +263,10 @@ d_finalgambit | --n 120 --seed 251 --teams stagereq:impl:move:finalgambit --stag
 d_endeavor | --n 120 --seed 251 --teams stagereq:impl:move:endeavor --stage impl
 d_steelbeam | --n 120 --seed 251 --teams stagereq:impl:move:steelbeam --stage impl
 d_icespinner | --n 120 --seed 251 --teams stagereq:impl:move:icespinner --stage impl
+pt_bind | --n 120 --seed 261 --teams stagereq:impl:move:bind --stage impl
+pt_firespin | --n 120 --seed 261 --teams stagereq:impl:move:firespin --stage impl
+pt_infestation | --n 120 --seed 261 --teams stagereq:impl:move:infestation --stage impl
+pt_sandtomb | --n 120 --seed 261 --teams stagereq:impl:move:sandtomb --stage impl
+pt_whirlpool | --n 120 --seed 261 --teams stagereq:impl:move:whirlpool --stage impl
+pt_wrap | --n 120 --seed 261 --teams stagereq:impl:move:wrap --stage impl
+pt_band | --n 120 --seed 261 --teams stagereq:impl:move:infestation+item:bindingband --stage impl

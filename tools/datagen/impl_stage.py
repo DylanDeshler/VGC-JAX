@@ -18,7 +18,7 @@ EXPORT = ROOT / "data" / "export"
 # census data_refs kind -> condition ids the engine implements (vgcjax/effects)
 SUPPORTED_REFS = {
     "status": {"brn", "par", "psn", "tox", "slp", "frz"},
-    "volatile": {"flinch", "confusion"},
+    "volatile": {"flinch", "confusion", "partiallytrapped"},
     "weather": {"sunnyday", "raindance", "sandstorm", "snowscape"},
     "terrain": {"electricterrain", "grassyterrain", "psychicterrain", "mistyterrain"},
 }
@@ -41,7 +41,8 @@ EXTRA: dict[str, set[str]] = {
               "expandingforce",                                                        # effects/move_callbacks.py
               "perishsong", "yawn", "clangoroussoul", "roost", "encore", "imprison", "trick", "steelroller", "doubleshock", "glaiverush", "disable",
               "assurance", "payback", "hardpress", "lashout", "gyroball", "hex", "facade", "venoshock", "poltergeist",
-              "firstimpression", "upperhand", "tripleaxel", "finalgambit", "endeavor", "steelbeam", "icespinner"},                                                           # effects/moves_b2.py
+              "firstimpression", "upperhand", "tripleaxel", "finalgambit", "endeavor", "steelbeam", "icespinner",
+              "bind", "firespin", "infestation", "sandtomb", "snaptrap", "whirlpool", "wrap"},   # effects/volatiles.py                                                           # effects/moves_b2.py
     "abilities": {"drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
@@ -61,7 +62,7 @@ EXTRA: dict[str, set[str]] = {
                   "cursedbody", "snowcloak", "liquidvoice", "auraguard", "thermalexchange", "galewings",
                   "infiltrator", "emergencyexit", "sheerforce"},                                            # batch C2a / C3
                                                                                               # effects/ability_blocks.py
-    "items": {"blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
+    "items": {"bindingband", "blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
               "miracleseed", "mysticwater", "nevermeltice", "poisonbarb", "sharpbeak", "silkscarf", "silverpowder",
               "softsand", "spelltag", "twistedspoon", "lifeorb", "expertbelt", "leftovers", "rockyhelmet",
               "focussash", "lightclay", "heatrock", "damprock", "smoothrock", "icyrock", "terrainextender",

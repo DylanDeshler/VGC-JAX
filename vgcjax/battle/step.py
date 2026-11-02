@@ -357,7 +357,11 @@ def end_turn(st, dex, cfg, on) -> S.State:
                 dis.dtype), go)))
             # runEvent('TrapPokemon') (PS :1743-1744): Shadow Tag onFoeTrapPokemon -> tryTrap(true) ('hidden') for
             # a mon without Shadow Tag next to a holder; trapping-immune (Ghost) mons are not trapped
+            # partiallytrapped onTrapPokemon -> tryTrap() (trapped = true; a later hidden tryTrap keeps true)
             from vgcjax.effects import ability_reactions as AR
+            from vgcjax.effects import volatiles as VO
+            m = st.mons
+            st = st.replace(mons=m.replace(trapped=mset(m.trapped, r, 1, ev_on & VO.partially_trapped(st, r))))
             m = st.mons
             st = st.replace(mons=m.replace(trapped=mset(m.trapped, r, 2, ev_on & AR.shadow_tagged(st, dex, r) &
                                                          (mget(m.trapped, r) == 0))))

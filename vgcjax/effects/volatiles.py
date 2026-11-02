@@ -81,3 +81,67 @@ def confusion_before_move(hc, st, dex, rng):
     st, rng = STS.effect_damage(st, dex, rng, ref, confusion_damage(st, ref, roll), CO.eff("confusion"), selfhit,
                                 source=ref)
     return hc.ret(RS.R(RS.BOOL, 0), selfhit), st, rng
+
+
+# ------------------------------------------------------------------ partiallytrapped (Bind, Fire Spin, Infestation, ...)
+if "partiallytrapped" in ids.CONDITIONS:
+    CO.fields("partiallytrapped", ("boundDivisor", "int"))
+    PT_SRC, PT_MOVE = 2, 3                    # raw slots: effectState.source / sourceEffect (dropped by the projection)
+    _PT = CO.cid("partiallytrapped")
+
+    @handler(CO.DURATION_CALLBACK, CO.eff("partiallytrapped"), ps="data/conditions.ts:225-228")
+    def partiallytrapped_duration(hc, st, dex, rng):
+        """source.hasItem('gripclaw') -> 8 (not Reg M-C legal); else random(5, 7)."""
+        key = C.dkey(st, ids.DK_PARTIAL_TRAP_DURATION, actor=hc.target, subject=CO.eff("partiallytrapped"))
+        d, rng = R.randint(rng, key, 5, 7)
+        return hc.ret(RS.R(RS.NUM, d)), st, rng
+
+    @handler(ids.HOOK_START, CO.eff("partiallytrapped"), ps="data/conditions.ts:229-232")
+    def partiallytrapped_start(hc, st, dex, rng):
+        """'-activate' pokemon 'move: <sourceEffect>' '[of] source'; boundDivisor = Binding Band ? 6 : 8."""
+        r, src = hc.target, jnp.clip(hc.source, 0, 7)
+        band = mget(st.mons.item, src).astype(I32) == getattr(ids, "ITEM_BINDINGBAND", -1)
+        s = CO.vol_state(st, r, _PT)
+        s = s.at[PT_SRC].set(jnp.asarray(hc.source, s.dtype)).at[PT_MOVE].set(jnp.asarray(hc.effect, s.dtype))
+        st = CO.set_vol_state(st, r, _PT, s, True)
+        st = CO.set_vol_field(st, r, _PT, CO.slot_of("partiallytrapped", "boundDivisor"), jnp.where(band, 6, 8), True)
+        return hc, EV.emit(st, True, EV.EV_ACTIVATE, actor=r, move=hc.effect), rng
+
+    def _pt_source_gone(st, r):
+        src = CO.vol_state(st, r, _PT)[PT_SRC].astype(I32)
+        s = jnp.clip(src, 0, 7)
+        m = st.mons
+        return (src >= 0) & (~mget(m.is_active, s) | (mget(m.hp, s) <= 0) | (mget(m.active_turns, s) == 0))
+
+    @handler(ids.HOOK_RESIDUAL, CO.eff("partiallytrapped"), ps="data/conditions.ts:233-244")
+    def partiallytrapped_residual(hc, st, dex, rng):
+        """onResidualOrder 13: the source left / fainted / has no activeTurns -> delete the volatile, '-end' pokemon
+        <sourceEffect> '[partiallytrapped]' '[silent]'; else damage(baseMaxhp / boundDivisor) ('-damage' X hp
+        '[from] <sourceEffect>' '[partiallytrapped]')."""
+        from vgcjax.effects import statuses as STS
+        r = hc.holder
+        s = CO.vol_state(st, r, _PT).astype(I32)
+        gone = _pt_source_gone(st, r)
+        st = EV.emit(st, gone, EV.EV_END, actor=r, move=s[PT_MOVE], v1=-1)
+        st = CO._set_vol_bit(st, r, _PT, False, gone)
+        div = jnp.maximum(s[CO.slot_of("partiallytrapped", "boundDivisor")], 1)
+        st, rng = STS.effect_damage(st, dex, rng, r, mget(st.mons.maxhp, r).astype(I32) // div, s[PT_MOVE], ~gone)
+        return hc, st, rng
+
+    @handler(ids.HOOK_END, CO.eff("partiallytrapped"), ps="data/conditions.ts:245-247")
+    def partiallytrapped_end(hc, st, dex, rng):
+        """'-end' pokemon <sourceEffect> '[partiallytrapped]'."""
+        r = hc.target
+        mv = CO.vol_state(st, r, _PT)[PT_MOVE].astype(I32)
+        return hc, EV.emit(st, True, EV.EV_END, actor=r, move=mv, v1=-1), rng
+
+
+def partially_trapped(st, r):
+    """partiallytrapped onTrapPokemon (data/conditions.ts:248-251): effectState.source.isActive -> tryTrap()
+    (runStatusImmunity('trapped'): Ghost types are immune)."""
+    if "partiallytrapped" not in ids.CONDITIONS:
+        return jnp.zeros((), bool)
+    m = st.mons
+    src = CO.vol_state(st, r, _PT)[PT_SRC].astype(I32)
+    ghost = jnp.any(mget(m.types, r) == ids.TYPE_GHOST)
+    return CO.has_volatile(st, r, _PT) & (src >= 0) & mget(m.is_active, jnp.clip(src, 0, 7)) & ~ghost
