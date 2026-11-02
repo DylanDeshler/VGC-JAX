@@ -64,7 +64,7 @@ EXTRA: dict[str, set[str]] = {
               "sitrusberry", "babiriberry", "chartiberry", "chopleberry", "cobaberry", "colburberry", "habanberry",
               "kasibberry", "kebiaberry", "occaberry", "passhoberry", "payapaberry", "rindoberry", "roseliberry",
               "shucaberry", "tangaberry", "wacanberry", "yacheberry", "choicescarf",                          # + effects/berries.py
-              "grassyseed", "electricseed", "psychicseed", "mistyseed", "ejectbutton"},                      # batch C1b-ii
+              "grassyseed", "electricseed", "psychicseed", "mistyseed", "ejectbutton", "whiteherb"},                      # batch C1b-ii
                                                                                               # effects/items.py
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",

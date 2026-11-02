@@ -76,6 +76,11 @@ def mega_evolve(st, dex, rng, ref, on):
     sides = st.sides
     st = st.replace(mons=m.replace(can_mega=cm),
                     sides=sides.replace(mega_used=sides.mega_used.at[side].set(sides.mega_used[side] | go)))
+    # runEvent('AfterMega', pokemon): White Herb (onAnyAfterMega)
+    from vgcjax.data import ids
+    from vgcjax.effects import hooks as H
+    hc = H.HookCtx.make(r, -1, -1)
+    hc, st, rng = H.run_event("AfterMega", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_AFTERMEGA), on=go)
     return st, rng
 
 

@@ -282,6 +282,20 @@ def imprison_disable(st, r, dis, on):
 
 
 # ------------------------------------------------------------------ Trick (Sticky Hold onTryImmunity: not in Reg M-C)
+def _item_start(st, dex, rng, r, on):
+    """setItem's singleEvent('Start', item) (sim/pokemon.ts:1906-1908) for the impl items with onStart: White Herb
+    (negative boosts -> useItem), the terrain seeds (matching terrain -> useItem), the choice items
+    (removeVolatile('choicelock')). Returns (st, rng)."""
+    from vgcjax.effects import disables as DS
+    from vgcjax.effects import items as IT
+    st, rng = IT.white_herb(st, dex, rng, r, on)
+    st, rng = IT.seed(st, dex, rng, r, on)
+    if "choicelock" in ids.CONDITIONS:
+        st, rng, _ = CO.remove_volatile(st, dex, rng, r, CO.cid("choicelock"),
+                                        jnp.asarray(on) & DS.is_choice(mget(st.mons.item, r)))
+    return st, rng
+
+
 if mid("trick") > 0:
     @handler(ids.HOOK_HIT, int(C.eff_move(mid("trick"))), ps="data/moves.ts trick.onHit")
     def trick_hit(hc, st, dex, rng):
@@ -320,7 +334,9 @@ if mid("trick") > 0:
             m = m.replace(item=mset(m.item, holder, new.astype(m.item.dtype), ok),
                           item_seq=mset(m.item_seq, holder, seq, gets))
             seq = seq + gets.astype(seq.dtype)
-            st = st.replace(mons=m)
+            st = st.replace(mons=m, meta=st.meta.replace(effect_seq=seq))
+            st, rng = _item_start(st, dex, rng, holder, gets)        # setItem: singleEvent('Start', item)
+            seq = st.meta.effect_seq
             st = EV.emit(st, gets, EV.EV_ITEM, actor=holder, move=ids.ITEM_BASE + new - 1, v1=-1)
             st = EV.emit(st, empties, EV.EV_ENDITEM, actor=holder, move=ids.ITEM_BASE + old - 1)
         st = st.replace(meta=st.meta.replace(effect_seq=seq))

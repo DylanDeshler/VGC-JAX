@@ -24,7 +24,7 @@ from vgcjax.effects import hooks as H
 
 I16, I32, U32 = jnp.int16, jnp.int32, jnp.uint32
 K_RES = 16          # listed handlers per Residual walk (overflow -> ERR_OVERFLOW_RESIDUAL)
-K_SWITCHIN = 8      # listed handlers per SwitchIn walk
+K_SWITCHIN = 12     # listed handlers per SwitchIn walk (4 leads: ability + item + White Herb's onAnySwitchIn rows)
 G_TIES = 4          # tie groups per walk
 ORDER_LAST = 1 << 15
 
@@ -326,6 +326,7 @@ def field_event(st, dex, rng, event: str, on, targets=None):
             st, rng = AB.switch_in_vec(st, dex, rng, h, run & (e >= ar[0]) & (e < ar[1]))
             from vgcjax.effects import items as IT          # items' onStart (terrain seeds), undispatched
             st, rng = IT.seed(st, dex, rng, h, run & (e >= ir[0]) & (e < ir[1]) & (pfx[j] == ids.PFX_ON))
+            st, rng = IT.white_herb(st, dex, rng, h, run & (e == IT.ieff("whiteherb")))   # onStart / onAnySwitchIn
         if residual_mode and weather_code:      # the weathers' onFieldResidual eachEvent('Weather'), undispatched
             from vgcjax.effects import weather as WE
             st, rng = WE.residual_each(st, dex, rng, e - ids.COND_BASE + 1, run & (loc == CO.WEATHER))

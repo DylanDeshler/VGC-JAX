@@ -118,7 +118,8 @@ def residual(st, dex, rng, h, on):
     from vgcjax.effects import statuses as STS
     r = jnp.clip(h, 0, 7)
     go = jnp.asarray(on) & holds(st, r, "leftovers")
-    return STS.effect_heal(st, dex, rng, r, mget(st.mons.maxhp, r) // 16, ieff("leftovers"), go)
+    st, rng = STS.effect_heal(st, dex, rng, r, mget(st.mons.maxhp, r) // 16, ieff("leftovers"), go)
+    return white_herb(st, dex, rng, r, on)                              # White Herb onResidual (order 29)
 
 
 if iid("leftovers") > 0:
@@ -205,3 +206,40 @@ if iid("ejectbutton") > 0:
         st = st.replace(mons=m.replace(switch_flag=mset(m.switch_flag, tt, 1, go)))
         st = use_item(st, tt, go)
         return hc, st, rng
+
+
+# ------------------------------------------------------------------ White Herb
+def white_herb(st, dex, rng, r, on):
+    """White Herb's onStart / onAnySwitchIn / onAnyAfterMega / onAnyAfterMove / onResidual: any negative boost ->
+    useItem(): '-enditem' X White Herb, Use: setBoost(negative stages to 0), '-clearnegativeboost' X '[silent]',
+    item consumed, AfterUseItem (Unburden). Returns (st, rng)."""
+    from vgcjax.battle.util import mset
+    if iid("whiteherb") <= 0:
+        return st, rng
+    rr = jnp.clip(jnp.asarray(r, I32), 0, 7)
+    m = st.mons
+    b = mget(m.boosts, rr)
+    go = jnp.asarray(on) & holds(st, rr, "whiteherb") & jnp.any(b < 0) & (mget(m.hp, rr) > 0) & mget(m.is_active, rr)
+    st = use_item(st, rr, go)
+    m = st.mons
+    st = st.replace(mons=m.replace(boosts=mset(m.boosts, rr, jnp.where(b < 0, 0, b).astype(b.dtype), go)))
+    return EV.emit(st, go, EV.EV_CLEARNEGATIVEBOOST, actor=rr), rng
+
+
+if iid("whiteherb") > 0:
+    from vgcjax.effects.hooks import handler as _wh_handler
+    # onAnySwitchIn rows of the switch-in walk (work in fieldevent.py -> white_herb); its onStart is not a SwitchIn
+    # handler (PS getCallback skips onStart when onAnySwitchIn exists) and runs only from setItem (Trick)
+    _wh_handler(ids.HOOK_SWITCHIN, ieff("whiteherb"), prefix=ids.PFX_ANY,
+                ps="data/items.ts whiteherb.onAnySwitchIn (items.white_herb)")(lambda hc, st, dex, rng: (hc, st, rng))
+    _wh_handler(ids.HOOK_RESIDUAL, ieff("whiteherb"), ps="data/items.ts whiteherb.onResidual (items.residual)")(
+        lambda hc, st, dex, rng: (hc, st, rng))
+
+    def _wh_any(hc, st, dex, rng):
+        """onAnyAfterMove / onAnyAfterMega: the holder's onStart check."""
+        st, rng = white_herb(st, dex, rng, hc.holder, True)
+        return hc, st, rng
+    _wh_handler(ids.HOOK_AFTERMOVE, ieff("whiteherb"), prefix=ids.PFX_ANY,
+                ps="data/items.ts whiteherb.onAnyAfterMove")(_wh_any)
+    _wh_handler(ids.HOOK_AFTERMEGA, ieff("whiteherb"), prefix=ids.PFX_ANY,
+                ps="data/items.ts whiteherb.onAnyAfterMega")(_wh_any)

@@ -162,6 +162,8 @@ function reduce(lines, battle) {
 				v1: from ? id : '', flags: tags.includes('[fatigue]') ? F.FATIGUE : k === 'ability' ? F.FROM_ABILITY : 0 });
 		} else if (type === '-prepare') {
 			ev('PREPARE', { actor: refOf(parts[1]), move: toID(parts[2]) });
+		} else if (type === '-clearnegativeboost') {
+			ev('CLEARNEGATIVEBOOST', { actor: refOf(parts[1]) });
 		} else if (type === '-singlemove') {
 			ev('SINGLEMOVE', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1] });
 		} else if (type === '-fieldactivate') {

@@ -209,6 +209,10 @@ M3 content (2026-10-23)
 - Item batch C1b-ii: terrain seeds (switch-in in a matching terrain via the walk's item rows; eachEvent('TerrainChange')
   after setTerrain; useItem: '-enditem', self boost, Unburden) and Eject Button (Champions: the attacker's switch is
   not cancelled). Targeted corpora 100%.
+- White Herb (onAnySwitchIn walk rows, onAnyAfterMove / onAnyAfterMega via new runEvent('AfterMove' / 'AfterMega')
+  sites, onResidual; '-clearnegativeboost'); Trick runs the received item's Start (White Herb / seeds / choicelock
+  removal). Found: PS getCallback uses onStart as the SwitchIn handler only without onAnySwitchIn, and resolvePriority
+  reads onSwitchInPriority (seeds -1, Hospitality -2): codegen fixed. K_SWITCHIN 8 -> 12. Targeted corpora 100%.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

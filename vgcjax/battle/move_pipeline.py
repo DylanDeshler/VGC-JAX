@@ -1243,7 +1243,10 @@ def move_end(st, dex, rng, cfg):
     st = st.replace(mons=m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, mr, go_rm)),
                     meta=st.meta.replace(last_successful_move=jnp.where(
                         go_rm, jnp.where(result, move, 0), st.meta.last_successful_move).astype(I16)))
-    # HOOK AfterMove; then resolveFaints() + checkWin()
+    # singleEvent('AfterMove', move) (no Reg M-C handler); runEvent('AfterMove', pokemon, target, move): White Herb
+    # (onAnyAfterMove); then resolveFaints() + checkWin()
+    hc = H.HookCtx.make(u, targets[0], C.eff_move(move))
+    hc, st, rng = H.run_event("AfterMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_AFTERMOVE), on=go_rm)
     on_rm = end & ex.on_rm
     st = F.resolve_faints(st, dex, on_rm)
     st = F.check_win(st, -1, on_rm)

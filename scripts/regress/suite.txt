@@ -224,3 +224,9 @@ k_electricseed | --n 120 --seed 227 --teams stagereq:impl:item:electricseed+move
 k_mistyseed | --n 120 --seed 227 --teams stagereq:impl:item:mistyseed+move:mistyterrain --stage impl
 k_ejectbutton | --n 120 --seed 227 --teams stagereq:impl:item:ejectbutton --stage impl
 k_eject_uturn | --n 120 --seed 227 --teams stagereq:impl:item:ejectbutton+move:uturn --stage impl
+k_whiteherb | --n 120 --seed 229 --teams stagereq:impl:item:whiteherb --stage impl
+k_wh_intim | --n 120 --seed 229 --teams stagereq:impl:item:whiteherb+ability:intimidate --stage impl
+k_wh_icywind | --n 120 --seed 229 --teams stagereq:impl:item:whiteherb+move:icywind --stage impl
+k_wh_cc | --n 120 --seed 229 --teams stagereq:impl:item:whiteherb+move:closecombat --stage impl
+k_wh_mega | --n 120 --seed 229 --teams stagereq:impl:item:whiteherb --stage impl --policy random-weighted
+k_trick_wh | --n 120 --seed 229 --teams stagereq:impl:move:trick+item:whiteherb --stage impl
