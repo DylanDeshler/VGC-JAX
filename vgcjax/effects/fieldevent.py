@@ -324,6 +324,8 @@ def field_event(st, dex, rng, event: str, on, targets=None):
         if event == "SwitchIn":                 # abilities' SwitchIn handlers, undispatched (effects/abilities.py)
             from vgcjax.effects import abilities as AB
             st, rng = AB.switch_in_vec(st, dex, rng, h, run & (e >= ar[0]) & (e < ar[1]))
+            from vgcjax.effects import items as IT          # items' onStart (terrain seeds), undispatched
+            st, rng = IT.seed(st, dex, rng, h, run & (e >= ir[0]) & (e < ir[1]) & (pfx[j] == ids.PFX_ON))
         if residual_mode and weather_code:      # the weathers' onFieldResidual eachEvent('Weather'), undispatched
             from vgcjax.effects import weather as WE
             st, rng = WE.residual_each(st, dex, rng, e - ids.COND_BASE + 1, run & (loc == CO.WEATHER))

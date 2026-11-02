@@ -206,6 +206,9 @@ M3 content (2026-10-23)
 - Ability batch C1b-i: Armor Tail (runEvent('TryMove') veto: false, not null), Contrary (ChangeBoost, incl. the
   secondary self-boost path), Shadow Tag (end-of-turn hidden trap, Ghost immune; Mega Gengar), Hospitality. Targeted
   corpora 100% (Armor Tail activations checked in the traces).
+- Item batch C1b-ii: terrain seeds (switch-in in a matching terrain via the walk's item rows; eachEvent('TerrainChange')
+  after setTerrain; useItem: '-enditem', self boost, Unburden) and Eject Button (Champions: the attacker's switch is
+  not cancelled). Targeted corpora 100%.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

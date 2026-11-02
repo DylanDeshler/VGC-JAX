@@ -125,3 +125,83 @@ if iid("leftovers") > 0:
     from vgcjax.effects.hooks import handler as _handler
     _handler(ids.HOOK_RESIDUAL, ieff("leftovers"), ps="data/items.ts leftovers.onResidual (items.residual)")(
         lambda hc, st, dex, rng: (hc, st, rng))
+
+
+# ------------------------------------------------------------------ terrain seeds (useItem with boosts)
+SEEDS = {"grassyseed": ("grassyterrain", 1), "electricseed": ("electricterrain", 1),
+         "psychicseed": ("psychicterrain", 3), "mistyseed": ("mistyterrain", 3)}   # boosts: def (1) / spd (3) +1
+
+
+def seed(st, dex, rng, r, on):
+    """A terrain seed's onStart / onTerrainChange: the field's terrain is the seed's -> pokemon.useItem(): '-enditem',
+    boost(item.boosts, pokemon, pokemon, item) (not isSecondary / isSelf: a capped stat still prints '-boost' 0),
+    Use, item consumed, AfterUseItem (Unburden). Returns (st, rng)."""
+    from vgcjax.battle import move_pipeline as MP
+    from vgcjax.effects import conditions as CO
+    rr = jnp.clip(jnp.asarray(r, I32), 0, 7)
+    m = st.mons
+    it = mget(m.item, rr).astype(I32)
+    t = st.field.terrain.astype(I32)
+    go = jnp.zeros((), bool)
+    stat = jnp.int32(1)
+    for name, (terr, k) in SEEDS.items():
+        if iid(name) > 0 and terr in ids.CONDITIONS:
+            hit = (it == iid(name)) & (t == CO.cid(terr))
+            go = go | hit
+            stat = jnp.where(hit, k, stat)
+    go = jnp.asarray(on) & go & (mget(m.hp, rr) > 0) & mget(m.is_active, rr)
+    eff = ids.ITEM_BASE + it - 1
+    st = use_item(st, rr, go)
+    st, _ = MP.boost(st, rr, (jnp.arange(7) == stat).astype(I32), go, primary=True, source=rr, effect=eff,
+                     simple=True)                                       # self-sourced
+    return st, rng
+
+
+# the seeds' onStart rows must be fieldEvent('SwitchIn') candidates (effects/static.py lists registered handlers);
+# their work runs undispatched in the walk body (fieldevent.py -> seed)
+from vgcjax.effects.hooks import handler as _seed_handler  # noqa: E402
+for _n in SEEDS:
+    if iid(_n) > 0:
+        _seed_handler(ids.HOOK_SWITCHIN, ieff(_n), ps=f"data/items.ts {_n}.onStart (items.seed)")(
+            lambda hc, st, dex, rng: (hc, st, rng))
+
+
+def terrain_change(st, dex, rng, on):
+    """eachEvent('TerrainChange') (actives by speed; ties are a don't-care kind): the seeds' onTerrainChange."""
+    if not any(iid(n) > 0 for n in SEEDS):
+        return st, rng
+    act = st.sides.active.reshape(4).astype(I32)
+    refs = jnp.clip((jnp.arange(4) // 2) * 4 + act, 0, 7)
+    alive = (act >= 0) & ~mget(st.mons.fainted, refs)
+    spd = jnp.where(alive, mget(st.mons.speed, refs).astype(I32), -(1 << 20))
+    order = jnp.argsort(-spd, stable=True)
+    for i in range(4):
+        st, rng = seed(st, dex, rng, refs[order[i]], jnp.asarray(on) & alive[order[i]])
+    return st, rng
+
+
+# ------------------------------------------------------------------ Eject Button (Champions version)
+if iid("ejectbutton") > 0:
+    from vgcjax.effects.hooks import handler as _handler
+
+    @_handler(ids.HOOK_AFTERMOVESECONDARY, ieff("ejectbutton"),
+              ps="data/mods/champions/items.ts ejectbutton.onAfterMoveSecondary")
+    def ejectbutton_after_move_secondary(hc, st, dex, rng):
+        """priority 2: hit by another Pokemon's non-Status move while it has hp: canSwitch, not already forced out /
+        called back, no active with switchFlag === true -> switchFlag = true; useItem() (Champions: the attacker's
+        switch is not cancelled)."""
+        from vgcjax.battle import faint as F
+        from vgcjax.battle.util import mset
+        t, s = hc.target, hc.source
+        tt = jnp.clip(t, 0, 7)
+        m = st.mons
+        move = jnp.maximum(hc.effect - ids.MOVE_BASE + 1, 0)
+        act = st.sides.active.reshape(4).astype(I32)
+        refs = jnp.clip((jnp.arange(4) // 2) * 4 + act, 0, 7)
+        pending = jnp.any((act >= 0) & (mget(m.switch_flag, refs) == 1))
+        go = (s >= 0) & (s != t) & (mget(m.hp, tt) > 0) & (dex.move_category[move] != ids.CAT_STATUS) & \
+            (F.can_switch(st, tt // 4) > 0) & ~mget(m.force_switch_flag, tt) & ~mget(m.being_called_back, tt) & \
+            ~pending & (mget(m.item, tt) == iid("ejectbutton"))
+        st = st.replace(mons=m.replace(switch_flag=mset(m.switch_flag, tt, 1, go)))
+        st = use_item(st, tt, go)
+        return hc, st, rng

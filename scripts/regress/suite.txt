@@ -217,3 +217,10 @@ k_armortail_pr | --n 120 --seed 223 --teams stagereq:impl:ability:armortail+move
 k_contrary | --n 120 --seed 223 --teams stagereq:impl:ability:contrary --stage impl
 k_gengarite | --n 120 --seed 223 --teams stagereq:impl:item:gengarite --stage impl --policy random-weighted
 k_hospitality | --n 120 --seed 223 --teams stagereq:impl:ability:hospitality --stage impl
+k_grassyseed | --n 120 --seed 227 --teams stagereq:impl:item:grassyseed+move:grassyterrain --stage impl
+k_gseed_surge | --n 120 --seed 227 --teams stagereq:impl:item:grassyseed+ability:grassysurge --stage impl
+k_psychicseed | --n 120 --seed 227 --teams stagereq:impl:item:psychicseed+ability:psychicsurge --stage impl
+k_electricseed | --n 120 --seed 227 --teams stagereq:impl:item:electricseed+move:electricterrain --stage impl
+k_mistyseed | --n 120 --seed 227 --teams stagereq:impl:item:mistyseed+move:mistyterrain --stage impl
+k_ejectbutton | --n 120 --seed 227 --teams stagereq:impl:item:ejectbutton --stage impl
+k_eject_uturn | --n 120 --seed 227 --teams stagereq:impl:item:ejectbutton+move:uturn --stage impl

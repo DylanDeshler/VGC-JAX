@@ -74,8 +74,8 @@ def terrain_cond(name):
 # ------------------------------------------------------------------ setTerrain
 def set_terrain(st, dex, rng, c, on, source=-1, source_effect=-1):
     """PS: sim/field.ts setTerrain(status, source, sourceEffect): false when already active; new state (duration 5,
-    durationCallback; no target so effectOrder 0); FieldStart (falsy restores); eachEvent('TerrainChange') (seeds /
-    abilities: M4). Returns (st, rng, result)."""
+    durationCallback; no target so effectOrder 0); FieldStart (falsy restores); eachEvent('TerrainChange'): the terrain
+    seeds (abilities: none in Reg M-C's impl stage). Returns (st, rng, result)."""
     on = jnp.asarray(on)
     c = jnp.asarray(c, I32)
     e = ids.COND_BASE + c - 1
@@ -96,6 +96,8 @@ def set_terrain(st, dex, rng, c, on, source=-1, source_effect=-1):
     f = st.field
     st = st.replace(field=f.replace(terrain=jnp.where(go & ~started, prev_t, f.terrain),
                                     terrain_state=jnp.where(go & ~started, prev_s, f.terrain_state)))
+    from vgcjax.effects import items as IT                  # eachEvent('TerrainChange', sourceEffect): the seeds
+    st, rng = IT.terrain_change(st, dex, rng, go & started)
     return st, rng, RS.where(go & started, RS.R(RS.BOOL, 1), RS.R(RS.BOOL, 0))
 
 
