@@ -314,11 +314,11 @@ def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1, cands=No
 
 
 def add_plain_volatile(st, ref, c: int, on):
-    """addVolatile for a volatile with no Start / Restart / durationCallback / TryAddVolatile handler and no duration
-    (e.g. 'unburden'): hp gate, no-op when present, else set (effectOrder++ for an active holder)."""
+    """addVolatile for a volatile with no Start / Restart / durationCallback / TryAddVolatile handler, no duration and
+    no fields (e.g. 'unburden'): hp gate, no-op when present, else set (effectOrder++ for an active holder). Its state
+    stays all-zero (removal and clearVolatile zero it; nothing else writes it), so only the bit is written."""
     go = jnp.asarray(on) & (mget(st.mons.hp, ref) > 0) & ~has_volatile(st, ref, c)
     st = _set_vol_bit(st, ref, c, True, go)
-    st = set_vol_state(st, ref, c, jnp.zeros(6, I16), go)
     return next_effect_order(st, go & mget(st.mons.is_active, ref))
 
 

@@ -168,16 +168,44 @@ for _n in SEEDS:
 
 
 def terrain_change(st, dex, rng, on):
-    """eachEvent('TerrainChange') (actives by speed; ties are a don't-care kind): the seeds' onTerrainChange."""
+    """eachEvent('TerrainChange') (actives by speed; ties are a don't-care kind): the seeds' onTerrainChange, batched
+    over the four actives (each holder's useItem + boost touches only that holder; the protocol lines are emitted per
+    holder in speed order, ADR-107)."""
+    from vgcjax.battle import move_pipeline as MP
+    from vgcjax.battle.util import mset_many
+    from vgcjax.effects import abilities as AB
+    from vgcjax.effects import conditions as CO
     if not any(iid(n) > 0 for n in SEEDS):
         return st, rng
+    m = st.mons
     act = st.sides.active.reshape(4).astype(I32)
-    refs = jnp.clip((jnp.arange(4) // 2) * 4 + act, 0, 7)
-    alive = (act >= 0) & ~mget(st.mons.fainted, refs)
-    spd = jnp.where(alive, mget(st.mons.speed, refs).astype(I32), -(1 << 20))
+    refs0 = jnp.clip((jnp.arange(4) // 2) * 4 + act, 0, 7)
+    alive0 = (act >= 0) & ~mget(m.fainted, refs0)
+    spd = jnp.where(alive0, mget(m.speed, refs0).astype(I32), -(1 << 20))
     order = jnp.argsort(-spd, stable=True)
-    for i in range(4):
-        st, rng = seed(st, dex, rng, refs[order[i]], jnp.asarray(on) & alive[order[i]])
+    refs, alive = refs0[order], alive0[order]
+    it = mget(m.item, refs).astype(I32)
+    t = st.field.terrain.astype(I32)
+    match = jnp.zeros(4, bool)
+    stat = jnp.ones(4, I32)
+    for name, (terr, k) in SEEDS.items():
+        if iid(name) > 0 and terr in ids.CONDITIONS:
+            hit = (it == iid(name)) & (t == CO.cid(terr))
+            match = match | hit
+            stat = jnp.where(hit, k, stat)
+    go = jnp.asarray(on) & alive & match & (mget(m.hp, refs) > 0) & mget(m.is_active, refs)
+    # useItem state (sim/pokemon.ts useItem) for every holder at once
+    zst = jnp.zeros((4,) + m.item_state.shape[2:], m.item_state.dtype)
+    m = m.replace(last_item=mset_many(m.last_item, refs, it, go), item=mset_many(m.item, refs, 0, go),
+                  used_item_this_turn=mset_many(m.used_item_this_turn, refs, True, go),
+                  item_state=mset_many(m.item_state, refs, zst, go), item_seq=mset_many(m.item_seq, refs, 0, go))
+    st = st.replace(mons=m)
+    st, _, bmsgs = MP.boost_v(st, refs, (jnp.arange(7)[None, :] == stat[:, None]).astype(I32), go, primary=True,
+                              source=-2, simple=True)                  # self-sourced
+    for j in range(4):
+        st = EV.emit(st, go[j], EV.EV_ENDITEM, actor=refs[j], move=ids.ITEM_BASE + it[j] - 1)
+        st = MP.emit_boost(st, bmsgs, refs[j], j)
+        st = AB.unburden(st, refs[j], go[j])                            # AfterUseItem
     return st, rng
 
 
