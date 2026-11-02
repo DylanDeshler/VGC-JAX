@@ -52,7 +52,7 @@ def set_state_field(st, ref, name, key, value, on):
 
 
 SWITCH_IN = ("drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
-             "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk", "fairyaura")
+             "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk", "fairyaura", "hospitality")
 WEATHER_SETTERS = {"drought": "sunnyday", "drizzle": "raindance", "sandstream": "sandstorm", "snowwarning": "snowscape"}
 TERRAIN_SETTERS = {"electricsurge": "electricterrain", "grassysurge": "grassyterrain", "psychicsurge": "psychicterrain",
                    "mistysurge": "mistyterrain"}
@@ -117,6 +117,13 @@ def switch_in_vec(st, dex, rng, u, on, start=False):
         st = set_state_field(st, r, "cloudnine", "ending", 0, c9)
     st = _ability_msg(st, is_("pressure"), u, "pressure")
     st = _ability_msg(st, is_("fairyaura"), u, "fairyaura")              # Fairy Aura onStart: '-ability' X 'Fairy Aura'
+    if aid("hospitality") > 0:                       # Hospitality onStart: heal(ally.baseMaxhp / 4, ally, pokemon)
+        from vgcjax.effects import statuses as STS
+        side, pos = r // 4, MP.position(st, r)
+        ab_ = st.sides.active[side, jnp.clip(1 - pos, 0, 1)].astype(I32)
+        ally = side * 4 + jnp.maximum(ab_, 0)
+        ok = is_("hospitality") & (ab_ >= 0) & (pos >= 0) & ~mget(st.mons.fainted, ally) & (mget(st.mons.hp, ally) > 0)
+        st, rng = STS.effect_heal(st, dex, rng, ally, mget(st.mons.maxhp, ally) // 4, aeff("hospitality"), ok)
     if aid("unnerve") > 0:
         un = is_("unnerve")
         done = (state_field(st, r, "unnerve", "unnerved") != 0) & ((mget(st.mons.ability_state, r)[3] & 1) == 1)

@@ -54,7 +54,8 @@ EXTRA: dict[str, set[str]] = {
                   "stamina", "weakarmor", "gooey", "effectspore", "poisontouch", "spicyspray", "justified", "rattled",
                   "defiant", "competitive", "speedboost", "regenerator", "naturalcure", "angerpoint", "steadfast",
                   "unburden", "aerilate", "pixilate", "noguard", "fairyaura", "prankster", "rockhead",
-                  "chlorophyll", "swiftswim", "sandrush"},                                    # batch C1a
+                  "chlorophyll", "swiftswim", "sandrush",                                     # batch C1a
+                  "armortail", "contrary", "shadowtag", "hospitality"},                       # batch C1b
                                                                                               # effects/ability_blocks.py
     "items": {"blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
               "miracleseed", "mysticwater", "nevermeltice", "poisonbarb", "sharpbeak", "silkscarf", "silverpowder",

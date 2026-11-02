@@ -203,6 +203,9 @@ M3 content (2026-10-23)
   Struggle), No Guard (Accuracy, also the multi-hit re-roll; Glaive Rush likewise), Fairy Aura (switch-in message,
   x5448 Any BasePower), Prankster (+1 priority, Dark immunity at TryImmunity), Rock Head, Chlorophyll / Swift Swim /
   Sand Rush (+ Sand Rush's sandstorm immunity). Targeted corpora 100%. Mega Salamence / Floette now in the pool.
+- Ability batch C1b-i: Armor Tail (runEvent('TryMove') veto: false, not null), Contrary (ChangeBoost, incl. the
+  secondary self-boost path), Shadow Tag (end-of-turn hidden trap, Ghost immune; Mega Gengar), Hospitality. Targeted
+  corpora 100% (Armor Tail activations checked in the traces).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

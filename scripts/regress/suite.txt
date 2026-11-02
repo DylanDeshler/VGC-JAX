@@ -212,3 +212,8 @@ k_rockhead | --n 120 --seed 211 --teams stagereq:impl:ability:rockhead --stage i
 k_chloro | --n 120 --seed 211 --teams stagereq:impl:ability:chlorophyll+move:sunnyday --stage impl
 k_swiftswim | --n 120 --seed 211 --teams stagereq:impl:ability:swiftswim+move:raindance --stage impl
 k_sandrush | --n 120 --seed 211 --teams stagereq:impl:ability:sandrush+move:sandstorm --stage impl
+k_armortail | --n 120 --seed 223 --teams stagereq:impl:ability:armortail --stage impl
+k_armortail_pr | --n 120 --seed 223 --teams stagereq:impl:ability:armortail+move:fakeout --stage impl
+k_contrary | --n 120 --seed 223 --teams stagereq:impl:ability:contrary --stage impl
+k_gengarite | --n 120 --seed 223 --teams stagereq:impl:item:gengarite --stage impl --policy random-weighted
+k_hospitality | --n 120 --seed 223 --teams stagereq:impl:ability:hospitality --stage impl

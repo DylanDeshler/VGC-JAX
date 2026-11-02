@@ -279,6 +279,9 @@ def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effe
     foe_left = st.sides.pokemon_left[1 - side_of(jnp.clip(targets, 0, 7))] > 0
     cur = mget(m.boosts, targets).astype(I32)
     d = jnp.broadcast_to(jnp.asarray(deltas7, I32), (T, 7))
+    # runEvent('ChangeBoost'): Contrary inverts every delta (no Z-Power in Reg M-C)
+    contrary = mget(m.ability, jnp.clip(targets, 0, 7)) == opt_id("ABILITY_CONTRARY")
+    d = jnp.where(contrary[:, None], -d, d)
     go = jnp.asarray(on) & (targets >= 0) & (hp > 0) & active & foe_left
     from vgcjax.effects import ability_blocks as AXB
     capped0 = jnp.where((d != 0) & go[:, None], jnp.clip(cur + d, -6, 6) - cur, 0)
@@ -785,6 +788,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     for j in range(NT):
         for k in range(2):
             ssb = dex.move_sec_self_boosts[move, k].astype(I32)
+            ssb = jnp.where(mget(m.ability, u) == opt_id("ABILITY_CONTRARY"), -ssb, ssb)   # ChangeBoost: Contrary
             g = oks[k][j] & jnp.any(ssb != 0) & base_u
             cur_u, capped, smsgs[j, k] = boost_math(cur_u, ssb, g)
             succ = g & jnp.any(capped != 0)
@@ -982,7 +986,11 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     from vgcjax.effects import moves_b2 as MB2
     st, ds_null = MB2.double_shock_try(st, u, move, go_um)
     tm_null = tm_null | ds_null
-    go_um = go_um & ~tm_null
+    # runEvent('TryMove', pokemon, target, move) (PS :552): Armor Tail (onFoeTryMove) -> false
+    from vgcjax.effects import ability_reactions as AR
+    st, at_fail = AR.armor_tail(st, dex, u, jnp.where(targets[0] >= 0, targets[0], target), move,
+                                go_um & ~tm_null)
+    go_um = go_um & ~tm_null & ~at_fail
     side_field = _in(tt, (T.TARGET_ALL, T.TARGET_FOESIDE, T.TARGET_ALLYSIDE, T.TARGET_ALLYTEAM))
     has_t = targets[0] >= 0
     st = F.faint(st, u, go_um & (dex.move_selfdestruct[move] == 1))

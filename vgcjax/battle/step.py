@@ -349,6 +349,12 @@ def end_turn(st, dex, cfg, on) -> S.State:
             dis = mget(m.move_disabled, r)
             st = st.replace(mons=m.replace(move_disabled=mset(m.move_disabled, r, jnp.where(hit, 1, dis).astype(
                 dis.dtype), go)))
+            # runEvent('TrapPokemon') (PS :1743-1744): Shadow Tag onFoeTrapPokemon -> tryTrap(true) ('hidden') for
+            # a mon without Shadow Tag next to a holder; trapping-immune (Ghost) mons are not trapped
+            from vgcjax.effects import ability_reactions as AR
+            m = st.mons
+            st = st.replace(mons=m.replace(trapped=mset(m.trapped, r, 2, ev_on & AR.shadow_tagged(st, dex, r) &
+                                                         (mget(m.trapped, r) == 0))))
             # getMoveRequestData (sim/pokemon.ts:1105-1108): a locked move sets pokemon.trapped = true
             from vgcjax.effects import locked as LK
             m = st.mons

@@ -272,3 +272,55 @@ def switch_out(st, dex, rng, r, on):
                  flags=EV.F_FROM_MOVE_CURE)
     st = STS.clear_status(st, r, nc)
     return st, rng
+
+
+# ------------------------------------------------------------------ Armor Tail (runEvent('TryMove'))
+ARMOR_TAIL_ALL_EXCEPTIONS = ("perishsong", "flowershield", "rototiller")
+
+
+def armor_tail(st, dex, u, target, move, on):
+    """Armor Tail onFoeTryMove (the move user is a foe of the holder): not a foeSide move, not an 'all' move (except
+    Perish Song / Flower Shield / Rototiller); the move's target is on the holder's side or the move targets 'all',
+    and move.priority > 0.1 (the modified priority) -> attrLastMove('[still]'), 'cant' holder 'ability: Armor Tail'
+    move '[of] target', false. Two holders: the faster one's handler runs first (lowest ref on a speed tie).
+    Returns (st, failed)."""
+    from vgcjax.battle import move_pipeline as MP
+    from vgcjax.battle import queue as Q
+    if aid("armortail") <= 0:
+        return st, jnp.zeros((), bool)
+    m = st.mons
+    us = jnp.clip(u, 0, 7) // 4
+    fs = 1 - us
+    act = st.sides.active[fs].astype(I32)
+    refs = fs * 4 + jnp.maximum(act, 0)
+    hold = (act >= 0) & ~mget(m.fainted, refs) & (mget(m.hp, refs) > 0) & (mget(m.ability, refs) == aid("armortail"))
+    tt = dex.move_target[move]
+    exc = jnp.zeros((), bool)
+    for n in ARMOR_TAIL_ALL_EXCEPTIONS:
+        exc = exc | (move == getattr(ids, f"MOVE_{n.upper()}", -999))
+    skip = (tt == ids.TARGET_FOESIDE) | ((tt == ids.TARGET_ALL) & ~exc)
+    t_side = jnp.clip(target, 0, 7) // 4
+    hits = (((target >= 0) & (t_side == fs)) | (tt == ids.TARGET_ALL)) & (Q.move_priority(st, dex, u, move) > 0)
+    fail = jnp.asarray(on) & jnp.any(hold) & ~skip & hits
+    spd = jnp.where(hold, mget(m.speed, refs).astype(I32) * 8 - refs, -(1 << 30))
+    holder = refs[jnp.argmax(spd)]
+    st = EV.attr_last_move(st, fail, EV.F_STILL)
+    st = EV.emit(st, fail, EV.EV_CANT, actor=holder, move=aeff("armortail"))
+    return st, fail
+
+
+# ------------------------------------------------------------------ Shadow Tag (runEvent('TrapPokemon'))
+def shadow_tagged(st, dex, r):
+    """Shadow Tag onFoeTrapPokemon: an active foe (adjacent in doubles) holds Shadow Tag and `r` does not; tryTrap(true)
+    succeeds unless runStatusImmunity('trapped') fails (Ghost)."""
+    from vgcjax.core import typechart as TC
+    if aid("shadowtag") <= 0:
+        return jnp.zeros((), bool)
+    m = st.mons
+    rr = jnp.clip(r, 0, 7)
+    fs = 1 - rr // 4
+    act = st.sides.active[fs].astype(I32)
+    refs = fs * 4 + jnp.maximum(act, 0)
+    tag = jnp.any((act >= 0) & ~mget(m.fainted, refs) & (mget(m.ability, refs) == aid("shadowtag")))
+    immune = TC.status_immune(dex, ids.IMMUNITY_KEYS.index("trapped"), mget(m.types, rr))
+    return tag & (mget(m.ability, rr) != aid("shadowtag")) & ~immune
