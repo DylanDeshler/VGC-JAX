@@ -202,3 +202,13 @@ f_dragontail | --n 120 --seed 191 --teams stagereq:impl:move:dragontail --stage 
 f_circlethrow | --n 120 --seed 191 --teams stagereq:impl:move:circlethrow --stage impl
 f_roar_intim | --n 120 --seed 191 --teams stagereq:impl:move:roar+ability:intimidate --stage impl
 f_dt_intim | --n 120 --seed 191 --teams stagereq:impl:move:dragontail+ability:intimidate --stage impl
+k_unburden | --n 120 --seed 211 --teams stagereq:impl:ability:unburden --stage impl
+k_salamencite | --n 120 --seed 211 --teams stagereq:impl:item:salamencite --stage impl --policy random-weighted
+k_pixilate | --n 120 --seed 211 --teams stagereq:impl:ability:pixilate --stage impl
+k_noguard | --n 120 --seed 211 --teams stagereq:impl:ability:noguard --stage impl
+k_floettite | --n 120 --seed 211 --teams stagereq:impl:item:floettite --stage impl --policy random-weighted
+k_prankster | --n 120 --seed 211 --teams stagereq:impl:ability:prankster --stage impl
+k_rockhead | --n 120 --seed 211 --teams stagereq:impl:ability:rockhead --stage impl
+k_chloro | --n 120 --seed 211 --teams stagereq:impl:ability:chlorophyll+move:sunnyday --stage impl
+k_swiftswim | --n 120 --seed 211 --teams stagereq:impl:ability:swiftswim+move:raindance --stage impl
+k_sandrush | --n 120 --seed 211 --teams stagereq:impl:ability:sandrush+move:sandstorm --stage impl

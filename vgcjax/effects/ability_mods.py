@@ -182,3 +182,31 @@ for _hook in ("ModifyAtk", "ModifySpA"):
         lambda ctx, h: (jnp.broadcast_to(ctx.mtype == ids.TYPE_WATER, h.shape), _const(X2), None))
     _reg(_hook, "purifyingsalt", prefix=ids.PFX_SOURCE)(
         lambda ctx, h: (jnp.broadcast_to(ctx.mtype == ids.TYPE_GHOST, h.shape), _const(X05), None))
+
+
+# ------------------------------------------------------------------ -ate abilities / Fairy Aura (BasePower)
+def _ate_bp(ctx, h):
+    """onBasePower (priority 23): move.typeChangerBoosted === this ability -> chainModify([4915, 4096])."""
+    import jax
+    from vgcjax.effects import move_callbacks as MC
+    b = jax.vmap(lambda r: MC.ate_boosted(ctx.st, ctx.dex, r, ctx.move)[0])(jnp.clip(h, 0, 7))
+    return b & (h == ctx.tgt), _const(4915), None
+
+
+for _n in ("aerilate", "pixilate"):
+    _reg("BasePower", _n)(_ate_bp)
+
+
+@_reg("BasePower", "fairyaura", prefix=ids.PFX_ANY)
+def fairyaura(ctx, h):
+    """onAnyBasePower (priority 20): a Fairy move (the ActiveMove's type), not Status, not targeting its user ->
+    chainModify([5448, 4096]) (no Aura Break in Reg M-C). move.auraBooster: only the first Fairy Aura holder in
+    handler order applies it; the engine takes the fastest holder (lowest ref on a speed tie)."""
+    m = ctx.st.mons
+    act = ctx.st.sides.active.reshape(4).astype(I32)
+    refs = (jnp.arange(4) // 2) * 4 + jnp.maximum(act, 0)
+    hold = (act >= 0) & ~mget(m.fainted, refs) & (mget(m.ability, refs) == aid("fairyaura"))
+    spd = jnp.where(hold, mget(m.speed, refs).astype(I32) * 8 - refs, -(1 << 30))
+    first = refs[jnp.argmax(spd)]
+    ok = (ctx.mtype == ids.TYPE_FAIRY) & (_cat(ctx) != ids.CAT_STATUS) & (ctx.tgt != ctx.src) & (h == first)
+    return ok, _const(5448), None

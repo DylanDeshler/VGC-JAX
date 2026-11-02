@@ -52,7 +52,7 @@ def set_state_field(st, ref, name, key, value, on):
 
 
 SWITCH_IN = ("drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
-             "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk")
+             "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk", "fairyaura")
 WEATHER_SETTERS = {"drought": "sunnyday", "drizzle": "raindance", "sandstream": "sandstorm", "snowwarning": "snowscape"}
 TERRAIN_SETTERS = {"electricsurge": "electricterrain", "grassysurge": "grassyterrain", "psychicsurge": "psychicterrain",
                    "mistysurge": "mistyterrain"}
@@ -116,6 +116,7 @@ def switch_in_vec(st, dex, rng, u, on, start=False):
     if aid("cloudnine") > 0:
         st = set_state_field(st, r, "cloudnine", "ending", 0, c9)
     st = _ability_msg(st, is_("pressure"), u, "pressure")
+    st = _ability_msg(st, is_("fairyaura"), u, "fairyaura")              # Fairy Aura onStart: '-ability' X 'Fairy Aura'
     if aid("unnerve") > 0:
         un = is_("unnerve")
         done = (state_field(st, r, "unnerve", "unnerved") != 0) & ((mget(st.mons.ability_state, r)[3] & 1) == 1)
@@ -193,3 +194,15 @@ def pressure_extra_pp(st, dex, u, move, targets, on):
     return jnp.where(on, n, 0)
 
 
+
+
+# ------------------------------------------------------------------ Unburden
+def unburden(st, ref, on):
+    """Unburden onAfterUseItem (the holder's own item used / eaten) and onTakeItem (runEvent('TakeItem') on the holder:
+    the ability handler (subOrder 7) runs before the item's own onTakeItem (8), so even a blocked take counts):
+    addVolatile('unburden') (no message). Its onModifySpe is in battle/common.py spe_chain."""
+    if aid("unburden") <= 0 or "unburden" not in ids.CONDITIONS:
+        return st
+    r = jnp.clip(jnp.asarray(ref, I32), 0, 7)
+    go = jnp.asarray(on) & (mget(st.mons.ability, r) == aid("unburden"))
+    return CO.add_plain_volatile(st, r, CO.cid("unburden"), go)

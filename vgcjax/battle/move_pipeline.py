@@ -370,6 +370,15 @@ def battle_heal(st, target, amount, on, drain_of=None):
 
 
 # ------------------------------------------------------------------ accuracy (PS: sim/battle-actions.ts:752-816)
+def no_guard(st, u, targets):
+    """No Guard onAnyAccuracy: the user or the target holds it -> accuracy true (runEvent('Accuracy'))."""
+    a = opt_id("ABILITY_NOGUARD")
+    if a <= 0:
+        return jnp.zeros(jnp.shape(targets), bool)
+    m = st.mons
+    return (mget(m.ability, jnp.clip(u, 0, 7)) == a) | (mget(m.ability, jnp.clip(targets, 0, 7)) == a)
+
+
 def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=False, acc_base=None):
     """hitStepAccuracy for all target slots at once (09 J5). Returns (st, ok[3], rng).
     Messages, per target in order: '-immune' target '[ohko]' (PS :768); a miss adds '-miss' user target and marks the
@@ -406,7 +415,7 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=Fa
     from vgcjax.effects import move_callbacks as MC
     from vgcjax.effects import moves_b2 as MB2
     always = ((acc_base == 0) & (ohko == 0)) | ((tt == T.TARGET_SELF) & (cat == T.CAT_STATUS)) | \
-        MC.always_hits(st, u, move) | MB2.glaive_rush_target(st, targets)      # runEvent('Accuracy')
+        MC.always_hits(st, u, move) | MB2.glaive_rush_target(st, targets) | no_guard(st, u, targets)  # 'Accuracy'
     key = C.dkey(st, ids.DK_ACCURACY, actor=u, target=targets, subject=C.eff_move(move), hit=0)
     hit, rng = R.chance_v(rng, key, acc, 100, active=live & ~always & ~ohko_immune)
     st = C.mul_tick(st, jnp.sum((live & (ohko == 0)).astype(I32)))   # runEvent('ModifyAccuracy') per non-OHKO target
@@ -941,6 +950,9 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     a_type, a_bp, a_acc = WE.modify_move(st, dex, u, target, move)
     from vgcjax.effects import move_callbacks as MC
     a_type, a_bp = MC.terrain_pulse(st, dex, u, move, a_type, a_bp)
+    # runEvent('ModifyType'): Aerilate / Pixilate (onModifyTypePriority -1): Normal -> Flying / Fairy
+    ate, ate_t = MC.ate_boosted(st, dex, u, move)
+    a_type = jnp.where(ate, ate_t, a_type)
     # PS :500-503: ModifyMove changed move.target (Expanding Force) -> getRandomTarget: side.randomFoe, a
     # RANDOM_TARGET_NOMINAL don't-care draw (the printed target is not compared: harness/events.py); the engine takes
     # the first living foe, else foe.active[0]
@@ -1047,8 +1059,12 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     powder = mflag(dex, move, T.MF_POWDER)
     pimm = powder & (targets != u) & jax.vmap(
         lambda tt_: TC.status_immune(dex, ids.IMMUNITY_KEYS.index("powder"), tt_))(t_types)
+    # Prankster (gen >= 7): a pranksterBoosted move of a Prankster user fails on non-ally Dark targets (PS :738-745)
+    pr = MC.prankster_boosted(st, dex, u, move) & (side_of(jnp.clip(targets, 0, 7)) != side_of(u)) & jax.vmap(
+        lambda tt_: TC.status_immune(dex, ids.IMMUNITY_KEYS.index("prankster"), tt_))(t_types)
+    pimm = pimm | (~pimm & pr)
     for j in range(NT):
-        st = EV.emit(st, tv[j] & pimm[j], EV.EV_IMMUNE, actor=targets[j])            # PS :731
+        st = EV.emit(st, tv[j] & pimm[j], EV.EV_IMMUNE, actor=targets[j])            # PS :731, :745
     fail_any = fail_any | jnp.any(tv & pimm)
     smart = smart & ~fail_any
     tv = tv & ~pimm
@@ -1120,7 +1136,9 @@ def move_hit(st, dex, rng, cfg):
                          acc_on[None])
     bound = jnp.where((num % den == 0) & (a > 0), av[0], bound)
     st = C.mul_tick(st, 1, acc_on)
-    need_acc = go & ex.multiacc & (a > 0) & (h > 1)
+    from vgcjax.effects import moves_b2 as MB2
+    acc_true = no_guard(st, u, t0) | MB2.glaive_rush_target(st, t0)           # [C] :505 runEvent('Accuracy')
+    need_acc = go & ex.multiacc & (a > 0) & (h > 1) & ~acc_true
     ahit, rng = R.chance(rng, akey, bound, 100, active=need_acc)
     miss = need_acc & ~ahit
     stopped = stopped | miss
@@ -1233,7 +1251,9 @@ def apply_recoil(st, dex, u, move, total, on):
     maxhp = mget(m.maxhp, u).astype(I32)
     rec = jnp.where(struggle, jnp.maximum((2 * maxhp + 4) // 8, 1), jnp.maximum((2 * total * rn + rd) // (2 * rd), 1))
     has = struggle | (rn > 0)
-    on = jnp.asarray(on) & has & (mget(m.hp, u) > 0)
+    # Rock Head onDamage: recoil (not Struggle's) -> null
+    rock = ~struggle & (mget(m.ability, u) == opt_id("ABILITY_ROCKHEAD"))
+    on = jnp.asarray(on) & has & ~rock & (mget(m.hp, u) > 0)
     # struggle: directDamage (no Damage event); recoil: battle.damage(..., 'recoil') -> spreadDamage (HOOK H21)
     on = on & mget(m.is_active, u)
     st, dealt = F.damage(st, u, rec, on)

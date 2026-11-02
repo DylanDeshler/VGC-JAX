@@ -201,3 +201,7 @@ Accepted by the human on 2026-10-27:
   at 32k). **T1 and T2 met** (T2 from B=16384). ~19x the ~650 battles/s of the 2026-10-26 run. Throughput now rises
   with the batch (the halved state stays in L2). Compile + first call 482-488 s: the compile target (<= 3 min) is not
   met yet. (Battles are capped at 40 turns in the benchmark, as in every earlier run: finished = ended or truncated.)
+- **Content resumed (human, 2026-11-02).** With T1 / T2 met, content work restarts (plan step 5). Guardrails: every
+  batch keeps the engine-vs-engine differential test (where behaviour is unchanged) and PS corpora at 100%, and the
+  profiler / GPU timing are rerun at milestones so content does not erode throughput. Compile time (<= 3 min) remains
+  open.

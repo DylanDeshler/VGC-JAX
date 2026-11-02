@@ -64,11 +64,45 @@ def fixed_damage(st, dex, u, move, targets, fixed):
 
 
 def priority_bonus(st, dex, ref, move):
-    """onModifyPriority: Grassy Glide (+1 in Grassy Terrain for a grounded user)."""
-    if "grassyterrain" not in ids.CONDITIONS:
-        return jnp.zeros(jnp.shape(move), I32)
-    gg = (move == mid("grassyglide")) & (st.field.terrain == CO.cid("grassyterrain")) & CO.is_grounded(st, ref)
-    return gg.astype(I32)
+    """onModifyPriority: Grassy Glide (+1 in Grassy Terrain for a grounded user); Prankster (+1 for a Status move,
+    data/abilities.ts prankster: move.pranksterBoosted)."""
+    out = jnp.zeros(jnp.shape(move), I32)
+    if "grassyterrain" in ids.CONDITIONS:
+        gg = (move == mid("grassyglide")) & (st.field.terrain == CO.cid("grassyterrain")) & CO.is_grounded(st, ref)
+        out = out + gg.astype(I32)
+    return out + prankster_boosted(st, dex, ref, move).astype(I32)
+
+
+def prankster_boosted(st, dex, ref, move):
+    """move.pranksterBoosted: the user's Prankster raised a Status move's priority (getActionSpeed; the flag stays on
+    the queued ActiveMove, sim/battle-actions.ts:281-290)."""
+    a = getattr(ids, "ABILITY_PRANKSTER", -1)
+    if a <= 0:
+        return jnp.zeros(jnp.shape(move), bool)
+    return (mget(st.mons.ability, jnp.clip(ref, 0, 7)) == a) & (dex.move_category[move] == ids.CAT_STATUS)
+
+
+ATE = {"aerilate": "FLYING", "pixilate": "FAIRY"}
+ATE_EXCLUDED = ("judgment", "multiattack", "naturalgift", "revelationdance", "technoblast", "terrainpulse", "weatherball")
+
+
+def ate_boosted(st, dex, u, move):
+    """-ate abilities' onModifyType condition (move.typeChangerBoosted): a Normal move (base type; not in the excluded
+    list) used by an Aerilate / Pixilate holder. Returns (boosted, new type)."""
+    ab = mget(st.mons.ability, jnp.clip(u, 0, 7))
+    normal = dex.move_type[move] == ids.TYPE_NORMAL
+    for n in ATE_EXCLUDED:
+        if mid(n) > 0:
+            normal = normal & (move != mid(n))
+    boosted = jnp.zeros((), bool)
+    ty = jnp.int32(0)
+    for name, t in ATE.items():
+        a = getattr(ids, f"ABILITY_{name.upper()}", -1)
+        if a > 0:
+            hit = normal & (ab == a)
+            boosted = boosted | hit
+            ty = jnp.where(hit, getattr(ids, f"TYPE_{t}"), ty)
+    return boosted, ty
 
 
 def always_hits(st, u, move):

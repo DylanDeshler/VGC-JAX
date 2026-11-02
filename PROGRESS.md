@@ -198,6 +198,11 @@ M3 content (2026-10-23)
   Imprison-hidden still gets a request listing its moves (restrictData); Side.chooseMove accepts any listed move
   index with a valid target (and Mega) and turns it into Struggle because getMoves() is empty. Engine masks and
   decode now do the same (requests.struggle_state).
+- Ability batch C1a (content resumed after ADR-107): Unburden (AfterUseItem / TakeItem volatile, ModifySpe x2; the
+  ability's TakeItem handler runs before a Mega Stone's veto), Aerilate / Pixilate (ModifyType + x1.2 BasePower, incl.
+  Struggle), No Guard (Accuracy, also the multi-hit re-roll; Glaive Rush likewise), Fairy Aura (switch-in message,
+  x5448 Any BasePower), Prankster (+1 priority, Dark immunity at TryImmunity), Rock Head, Chlorophyll / Swift Swim /
+  Sand Rush (+ Sand Rush's sandstorm immunity). Targeted corpora 100%. Mega Salamence / Floette now in the pool.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

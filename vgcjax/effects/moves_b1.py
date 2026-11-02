@@ -178,6 +178,10 @@ def knock_off(st, dex, t, u, move, on):
     m = st.mons
     r = jnp.clip(t, 0, 7)
     it = mget(m.item, r).astype(I32)
+    # takeItem runs runEvent('TakeItem') whenever there is an item: Unburden before the item's own veto
+    from vgcjax.effects import abilities as AB
+    st = AB.unburden(st, r, jnp.asarray(on) & (move == mid("knockoff")) & mget(m.is_active, r) & (it > 0))
+    m = st.mons
     go = jnp.asarray(on) & (move == mid("knockoff")) & mget(m.is_active, r) & can_take(st, r)
     m = m.replace(item=mset(m.item, r, 0, go), item_state=mset(m.item_state, r, jnp.zeros_like(mget(m.item_state, r)),
                                                               go), item_seq=mset(m.item_seq, r, 0, go))

@@ -62,10 +62,12 @@ def eat_item(st, ref, on):
     go = jnp.asarray(on) & (it > 0)
     st = EV.emit(st, go, EV.EV_ENDITEM, actor=r, move=ids.ITEM_BASE + it - 1, flags=EV.F_EAT)
     m = st.mons
-    return st.replace(mons=m.replace(last_item=mset(m.last_item, r, it, go), item=mset(m.item, r, 0, go),
-                                     used_item_this_turn=mset(m.used_item_this_turn, r, True, go),
-                                     item_state=mset(m.item_state, r, jnp.zeros_like(mget(m.item_state, r)), go),
-                                     item_seq=mset(m.item_seq, r, 0, go)))
+    st = st.replace(mons=m.replace(last_item=mset(m.last_item, r, it, go), item=mset(m.item, r, 0, go),
+                                   used_item_this_turn=mset(m.used_item_this_turn, r, True, go),
+                                   item_state=mset(m.item_state, r, jnp.zeros_like(mget(m.item_state, r)), go),
+                                   item_seq=mset(m.item_seq, r, 0, go)))
+    from vgcjax.effects import abilities as AB
+    return AB.unburden(st, r, go)                                        # runEvent('AfterUseItem')
 
 
 # ------------------------------------------------------------------ resist berries (ModifyDamage, Source prefix)

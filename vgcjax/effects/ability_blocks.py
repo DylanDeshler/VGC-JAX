@@ -244,11 +244,13 @@ def yawn_block(st, ref):
 
 
 def status_immunity(st, refs, key):
-    """runEvent('Immunity', pokemon, null, null, type): Magma Armor (frz) and Sand Force (sandstorm) return false."""
+    """runEvent('Immunity', pokemon, null, null, type): Magma Armor (frz), Sand Force / Sand Rush (sandstorm) return
+    false."""
     ab = mget(st.mons.ability, jnp.clip(refs, 0, 7))
     out = jnp.zeros(jnp.shape(ab), bool)
     if aid("magmaarmor") > 0:
         out = out | ((ab == aid("magmaarmor")) & (key == ids.COND_FRZ))
-    if aid("sandforce") > 0 and "sandstorm" in ids.CONDITIONS:
-        out = out | ((ab == aid("sandforce")) & (key == ids.CONDITIONS.index("sandstorm")))
+    for name in ("sandforce", "sandrush"):                  # onImmunity: 'sandstorm' -> false
+        if aid(name) > 0 and "sandstorm" in ids.CONDITIONS:
+            out = out | ((ab == aid(name)) & (key == ids.CONDITIONS.index("sandstorm")))
     return out

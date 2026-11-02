@@ -102,6 +102,20 @@ def spe_chain(st: S.State, ref, spe):
     # Choice Scarf onModifySpe (priority 0): chainModify(1.5) (two factors: order-free)
     scarf = active & (mget(m.item, ref) == getattr(ids, "ITEM_CHOICESCARF", -1))
     mod = jnp.where(scarf, fp.chain_modify(mod, 3, 2), mod)
+    # Chlorophyll / Swift Swim / Sand Rush (the holder's effectiveWeather) and the unburden volatile (no item):
+    # chainModify(2) each (exact: order-free)
+    from vgcjax.effects import weather as WE
+    ab = mget(m.ability, ref)
+    wt = WE.mon_weather(st, ref)
+    for name, w in (("chlorophyll", "sunnyday"), ("swiftswim", "raindance"), ("sandrush", "sandstorm")):
+        a = getattr(ids, f"ABILITY_{name.upper()}", -1)
+        if a > 0 and w in ids.CONDITIONS:
+            mod = jnp.where(active & (ab == a) & (wt == ids.CONDITIONS.index(w)), fp.chain_modify(mod, 2, 1), mod)
+    if "unburden" in ids.CONDITIONS:
+        k = ids.CONDITIONS.index("unburden") - ids.VOL_BASE
+        words = mget(m.vol_bits, ref)
+        unb = active & (((words[k // 32] >> (k % 32)) & 1) == 1) & (mget(m.item, ref) == 0)
+        mod = jnp.where(unb, fp.chain_modify(mod, 2, 1), mod)
     par = active & (mget(m.status, ref) == ids.COND_PAR)
     spe = jnp.where(par, fp.modify_raw(spe, mod), spe)
     mod = jnp.where(par, 4096, mod)

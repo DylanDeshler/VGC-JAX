@@ -297,6 +297,10 @@ if mid("trick") > 0:
         yi, mi = mget(m.item, t).astype(I32), mget(m.item, u).astype(I32)
         y_false = (yi > 0) & ~MB1.takeable(st, yi, t)
         m_false = (mi > 0) & ~MB1.takeable(st, mi, u)
+        from vgcjax.effects import abilities as AB   # each takeItem's runEvent('TakeItem'): Unburden first
+        st = AB.unburden(st, t, yi > 0)
+        st = AB.unburden(st, u, mi > 0)
+        m = st.mons
         taken_y = (yi > 0) & ~y_false                # takeItem cleared the item and its state
         taken_m = (mi > 0) & ~m_false
         fail1 = y_false | m_false | ((yi == 0) & (mi == 0))
