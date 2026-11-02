@@ -230,6 +230,12 @@ M3 content (2026-10-23)
 - partiallytrapped (Bind, Fire Spin, Infestation, Sand Tomb, Whirlpool, Wrap; Snap Trap has no impl learner):
   VOL_STATEFUL (boundDivisor + raw source / sourceEffect slots), random(5, 7) duration, Binding Band /6, residual
   source-left silent removal, onTrapPokemon -> trapped (Ghost immune) before Shadow Tag. Targeted corpora 100%.
+- Hazards (effects/hazards.py): Stealth Rock, Spikes, Toxic Spikes (layers; Poison absorbs), Sticky Web; Toxic
+  Debris. Fixes found on the way: fieldevent customHolder side rows read the mon's side (was side 0); hazard rows
+  tie on the side condition's effectOrder (stored at SideStart); foeSide moves keep targets[0] = a fainted foe
+  (getMoveTargets foes(true)) and their side follows the move target; a side move's moveHit skips the hit-loop
+  alive gate; runSwitch actions run EmergencyExit with the pre-runSwitch hp (PS battle.ts:2932, hazard damage).
+  Targeted corpora + regression subset 100%.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

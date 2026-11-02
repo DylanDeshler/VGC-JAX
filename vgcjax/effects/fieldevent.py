@@ -94,8 +94,9 @@ def _candidates(st, dex, event: str, targets=None):
         cust = pfx == ids.PFX_ON
         k = jnp.asarray(SX.cond_subset(hook, pfx, ids.SIDE_BASE, S.NSC, resid and pfx == ids.PFX_SIDE), I32)
         son = ((sd.side_cond_bits[s] >> k.astype(U32)) & 1) == 1
+        eo = sd.side_cond_state[s, k, 2].astype(I32) if hook == ids.HOOK_SWITCHIN else 0   # hazards' effectOrder
         add(ids.COND_BASE + ids.SIDE_BASE + k - 1, pfx, holder, CO.SIDE, k, sd.side_cond_state[s, k, 0], son & on,
-            SUB_SIDE, 0, spdh, cust)
+            SUB_SIDE, eo, spdh, cust)
 
     def mon_effects(s, pos, r, pfx, on):
         wd = resid and pfx == ids.PFX_ON
@@ -155,7 +156,8 @@ def _still_present(st, loc, idx, holder, eff):
     c = eff - ids.COND_BASE + 1
     vol = CO.has_volatile(st, r, c)
     status = mget(m.status, r).astype(I32) == c
-    side = ((sd.side_cond_bits[jnp.clip(holder - 8, 0, 1)] >> jnp.clip(idx, 0, 31).astype(U32)) & 1) == 1
+    hs = jnp.where(holder >= 8, jnp.clip(holder - 8, 0, 1), r // 4)     # customHolder rows: the mon's side
+    side = ((sd.side_cond_bits[hs] >> jnp.clip(idx, 0, 31).astype(U32)) & 1) == 1
     pw = ((f.pw_bits >> jnp.clip(idx, 0, 31).astype(U32)) & 1) == 1
     slot = ((sd.slot_cond_bits[r // 4, jnp.clip(idx // 8, 0, 1)] >> (idx % 8).astype(U32)) & 1) == 1
     return jnp.where(loc == CO.VOLATILE, vol, jnp.where(loc == CO.STATUS, status, jnp.where(

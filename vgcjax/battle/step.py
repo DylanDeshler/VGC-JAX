@@ -231,7 +231,7 @@ def run_start(st, dex, rng, on):
     return post_action(st, dex, rng, S.Q_START, on)
 
 
-def post_action(st, dex, rng, kind, on, cursor=0, residual_hp=None):
+def post_action(st, dex, rng, kind, on, cursor=0, residual_hp=None, switch_hp=None):
     """PS runAction tail (sim/battle.ts:2861-2986; 04 §7.9). Returns (st, rng).
 
     (a) phazing: one pass over p1a p1b p2a p2b; a flagged position is dragged in (dragIn + inline runSwitch) before
@@ -264,6 +264,10 @@ def post_action(st, dex, rng, kind, on, cursor=0, residual_hp=None):
         refs, hp0 = residual_hp
         for i in range(4):
             st = AR.emergency_exit(st, refs[i], hp0[i], upd & (refs[i] >= 0))
+    if switch_hp is not None:        # a runSwitch action: runEvent('EmergencyExit', action.pokemon, ..., its hp
+        from vgcjax.effects import ability_reactions as AR   # before runSwitch) (PS :2932-2934; hazard damage)
+        s_ref, s_hp0 = switch_hp
+        st = AR.emergency_exit(st, jnp.maximum(s_ref, 0), s_hp0, on & (s_ref >= 0))
     # (e) switch requests
     m = st.mons
     want = []
@@ -422,6 +426,8 @@ def micro(st, dex, rng, cfg):
     sc = st.scratch
     st = st.replace(scratch=sc.replace(move_actions=mset(sc.move_actions, ref, mget(sc.move_actions, ref) + 1,
                                                          run & is_move)))
+    rs_ref = jnp.where(run & ~tail & (kind == S.Q_RUN_SWITCH) & (ref >= 0), ref, -1)   # pokemonOriginalHP (PS :2719)
+    rs_hp0 = mget(st.mons.hp, jnp.maximum(rs_ref, 0)).astype(I32)
     st, rng = run_light(st, dex, rng, cfg, idx, run & ~is_move, tail=tail)
     st, rng = MP.move_begin(st, dex, rng, cfg, q.side[idx], q.actor_b[idx], q.move_slot[idx], q.move_id[idx],
                             q.target_loc[idx], q.original_target[idx], run & is_move)
@@ -430,7 +436,7 @@ def micro(st, dex, rng, cfg):
     st, rng = MP.move_end(st, dex, rng, cfg)
     finished = (run & ~is_move) | move_done
     st, rng = post_action(st, dex, rng, jnp.where(tail, tail_kind, kind), finished | tail,
-                          cursor=jnp.where(tail, st.scratch.tail_pos.astype(I32), 0))
+                          cursor=jnp.where(tail, st.scratch.tail_pos.astype(I32), 0), switch_hp=(rs_ref, rs_hp0))
     done = (finished | tail) & ~st.scratch.tail_pending                 # the tail reached its end
     # end of runAction (PS: sim/battle.ts:2974-2982): when the action reached its tail (no early return, no switch
     # request) and the next action is a move, updateSpeed + getActionSpeed for every queued action, then re-sort

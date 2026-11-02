@@ -270,3 +270,8 @@ pt_sandtomb | --n 120 --seed 261 --teams stagereq:impl:move:sandtomb --stage imp
 pt_whirlpool | --n 120 --seed 261 --teams stagereq:impl:move:whirlpool --stage impl
 pt_wrap | --n 120 --seed 261 --teams stagereq:impl:move:wrap --stage impl
 pt_band | --n 120 --seed 261 --teams stagereq:impl:move:infestation+item:bindingband --stage impl
+h_stealthrock | --n 120 --seed 271 --teams stagereq:impl:move:stealthrock --stage impl
+h_spikes | --n 120 --seed 271 --teams stagereq:impl:move:spikes --stage impl
+h_toxicspikes | --n 120 --seed 271 --teams stagereq:impl:move:toxicspikes --stage impl
+h_stickyweb | --n 120 --seed 271 --teams stagereq:impl:move:stickyweb --stage impl
+h_toxicdebris | --n 120 --seed 271 --teams stagereq:impl:ability:toxicdebris --stage impl

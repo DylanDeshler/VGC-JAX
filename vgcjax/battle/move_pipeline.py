@@ -207,6 +207,11 @@ def get_move_targets(st, dex, rng, u, move, target, on):
     first = single[0]
     dead = (first < 0) | (mget(m.fainted, first) & ~mflag(dex, move, T.MF_FUTUREMOVE))
     single = jnp.where(dead, none, single)
+    # foeSide: targets = foes(true) (fainted actives included), the side move hits targets[0]'s side
+    fs = 1 - us
+    fb = st.sides.active[fs].astype(I32)
+    f0 = jnp.where(fb[0] >= 0, fs * 4 + jnp.maximum(fb[0], 0), jnp.where(fb[1] >= 0, fs * 4 + jnp.maximum(fb[1], 0), -1))
+    single = jnp.where((tt == T.TARGET_FOESIDE) & (single[0] < 0), none.at[0].set(f0), single)
     out = jnp.where(tt == T.TARGET_ALLADJACENT, t_adj,
           jnp.where(tt == T.TARGET_ALLADJACENTFOES, t_adjfoes,
           jnp.where(tt == T.TARGET_ALLIES, t_allies, single)))
@@ -695,7 +700,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         # sideCondition (PS :1295-1298): target.side.addSideCondition(id, source, move)
         if j == 0:                       # moves with a sideCondition are side moves: one target
             msc = dex.move_side_cond[move].astype(I32)
-            st, rng, scres = SC.add_side_condition(st, dex, rng, side_of(jnp.clip(targets[j], 0, 7)), msc,
+            # target.side: foeSide -> the user's foe side (getMoveTargets lists fainted foes too), else the user's
+            sc_side = jnp.where(dex.move_target[move] == T.TARGET_FOESIDE, 1 - side_of(u), side_of(u))
+            st, rng, scres = SC.add_side_condition(st, dex, rng, sc_side, msc,
                                                    cj & (msc > 0), source=u, source_effect=C.eff_move(move))
             dj = RS.where(cj & (msc > 0), RS.combine(dj, scres), dj)
             # weather / terrain (PS :1303-1310): field.setWeather / setTerrain(id, source, move)
@@ -860,6 +867,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
                                   on=damaged[j])
         st, rng = AR.damaging_hit(st, dex, rng, j, targets[j], damaged[j], u, move, st.exec.mtype, hit_no, dh_msgs,
                                   dh_on)
+        from vgcjax.effects import hazards as HZ                       # Toxic Debris (holder's DamagingHit)
+        st, rng = HZ.toxic_debris(st, dex, rng, targets[j], damaged[j], move)
     from vgcjax.effects import moves_b1 as MB1                       # singleEvent('AfterHit', move) per target
     for j in range(NT):
         st = MB1.knock_off(st, dex, targets[j], u, move, damaged[j])
@@ -1143,6 +1152,7 @@ def move_hit(st, dex, rng, cfg):
     go = live & (h <= ex.hits)
     any_false = jnp.any(RS.is_false((ex.dt, ex.dv)))
     alive = (targets >= 0) & (mget(m.hp, jnp.clip(targets, 0, 7)) > 0) & tv
+    alive = alive | (ex.side & (targets >= 0) & tv)            # side moves: moveHit(targets[0]) (fainted foes too)
     go = go & ~any_false & jnp.any(alive)
     # [C] scripts.ts:462: a user put to sleep mid-move stops before hit 2+ (unless sleepUsable)
     asleep = (mget(m.status, u) == T.COND_SLP) & (dex.move_sleep_usable[move] != 1)
