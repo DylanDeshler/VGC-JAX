@@ -100,7 +100,10 @@ if mid("yawn") > 0 and has("yawn"):
         st = EV.emit(st, True, EV.EV_END, actor=r, move=CO.eff("yawn"), v1=-1)
         st, rng, _, msgs = STS.try_set_status_v(st, dex, rng, jnp.asarray(r, I32)[None], ids.COND_SLP, True, src,
                                                 CO.eff("yawn"), 0)
-        return hc, STS.emit_status_msgs(st, msgs, 0, r), rng
+        from vgcjax.effects import berries as BE
+        st = STS.emit_status_msgs(st, msgs, 0, r)
+        st, rng = BE.after_set_status(st, dex, rng, msgs, 0, r)
+        return hc, st, rng
 
 
 # ------------------------------------------------------------------ Clangorous Soul (Champions: accuracy true)

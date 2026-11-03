@@ -248,6 +248,10 @@ M3 content (2026-10-23)
   Invulnerability (No Guard, Helping Hand, Poison Toxic exceptions; a false result counts as a failure), Perish
   Song's miss, and isSemiInvulnerable in the terrain checks (Grassy heal / quake, Electric / Misty blocks, boosts,
   Psychic Terrain priority block). The '[broken]' ACTIVATE flag is gone (the reducer keeps no such tag).
+- Lum Berry (AfterSetStatus after every status line + Update; cureStatus [msg], confusion removed), Unaware
+  (ModifyBoost on the stat user: target holder zeroes attack-stat / accuracy boosts, user holder zeroes defense /
+  evasion), Lightning Rod (TryHit +1 SpA or '-immune'; onAnyRedirectTarget after Follow Me, '-activate'),
+  Sceptilite. Targeted corpora 100% (46 Lum eats, 82 redirects).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

@@ -159,7 +159,7 @@ def get_target(st, dex, rng, u, move, loc, orig, on):
     return out, rng
 
 
-def get_move_targets(st, dex, rng, u, move, target, on):
+def get_move_targets(st, dex, rng, u, move, target, on, mtype=None):
     """PS: sim/pokemon.ts:812-877 getMoveTargets. Returns (refs[3], smart_still, rng); refs -1 = no target."""
     from vgcjax.effects import move_callbacks as MC
     tt = MC.move_target(st, dex, u, move)                       # after ModifyMove (Expanding Force)
@@ -194,8 +194,8 @@ def get_move_targets(st, dex, rng, u, move, target, on):
     # smartTarget and retargets the move line (effects/disables.py)
     from vgcjax.effects import disables as DS
     single_tt = _in(tt, SINGLE_TARGET)
-    t_red, red = DS.redirect_target(st, dex, u, move, t2, jnp.asarray(on) & single_tt & (t2 >= 0) &
-                                    (dex.move_tracks_target[move] != 1))
+    t_red, red, st = DS.redirect_target(st, dex, u, move, t2, jnp.asarray(on) & single_tt & (t2 >= 0) &
+                                        (dex.move_tracks_target[move] != 1), mtype=mtype)
     red = red & (t_red != t2)
     t2 = t_red
     smart = (dex.move_smart_target[move] == 1) & ~red
@@ -215,7 +215,7 @@ def get_move_targets(st, dex, rng, u, move, target, on):
     out = jnp.where(tt == T.TARGET_ALLADJACENT, t_adj,
           jnp.where(tt == T.TARGET_ALLADJACENTFOES, t_adjfoes,
           jnp.where(tt == T.TARGET_ALLIES, t_allies, single)))
-    return out, smart_two, rng, jnp.where(red, t2, -1)
+    return out, smart_two, rng, jnp.where(red, t2, -1), st
 
 
 # ------------------------------------------------------------------ boosts (PS: sim/battle.ts:2037-2106)
@@ -435,6 +435,17 @@ def MC_sf_any(st, dex, u, move):
     return MC_.sheer_force(st, dex, u, move)[0]
 
 
+def unaware(st, u, targets):
+    """(user holds Unaware, per-target: a target other than the user holds Unaware) for ModifyBoost (activePokemon /
+    activeTarget = the move user / its target)."""
+    a = opt_id("ABILITY_UNAWARE")
+    if a <= 0:
+        return jnp.zeros((), bool), jnp.zeros(jnp.shape(targets), bool)
+    m = st.mons
+    return (mget(m.ability, jnp.clip(u, 0, 7)) == a), \
+        (mget(m.ability, jnp.clip(targets, 0, 7)) == a) & (jnp.asarray(targets) != u) & (jnp.asarray(targets) >= 0)
+
+
 def no_guard(st, u, targets):
     """No Guard onAnyAccuracy: the user or the target holds it -> accuracy true (runEvent('Accuracy'))."""
     a = opt_id("ABILITY_NOGUARD")
@@ -470,11 +481,13 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=Fa
                   extra=dict(numeric=jnp.broadcast_to(numeric, (NT,))))
     acc_mod, _, rng = MOD.run("ModifyAccuracy", ctx, rng, jnp.full(NT, acc_base, I32), ords, live_acc)
     acc_t = jnp.where(numeric, acc_mod, acc_base)
-    # stages (ModifyBoost: Unaware etc., M4)
-    b = jnp.clip(mget(m.boosts, u)[5].astype(I32), -6, 6)
+    # stages: runEvent('ModifyBoost') on the user (a target's Unaware zeroes accuracy) and on the target (the user's
+    # Unaware zeroes evasion)
+    uw_u, uw_t = unaware(st, u, targets)
+    b = jnp.where(uw_t, 0, jnp.clip(mget(m.boosts, u)[5].astype(I32), -6, 6))
     keen = mget(m.ability, u) == opt_id("ABILITY_KEENEYE")            # Keen Eye onModifyMove: ignoreEvasion
-    b = jnp.where((dex.move_ignore_evasion[move] == 1) | keen, b,
-                  jnp.clip(b - mget(m.boosts, targets)[:, 6].astype(I32), -6, 6))
+    eva = jnp.where(uw_u, 0, mget(m.boosts, targets)[:, 6].astype(I32))
+    b = jnp.where((dex.move_ignore_evasion[move] == 1) | keen, b, jnp.clip(b - eva, -6, 6))
     staged = jnp.where(b > 0, acc_t * (3 + b) // 3, jnp.where(b < 0, acc_t * 3 // (3 - b), acc_t))
     acc = jnp.where(ohko > 0, ohko_acc, staged)
     from vgcjax.effects import move_callbacks as MC
@@ -549,9 +562,12 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     uu = jnp.full(NT, u, I32)
     mtype_ev = jnp.where(is_struggle, T.TYPE_TYPELESS, mtype)       # Struggle's onModifyMove type '???'
     stats_t, boosts_t = mget(m.stats, targets), mget(m.boosts, targets)
-    att, dfn, off_idx, def_idx = jax.vmap(lambda ds, db, cr: D.raw_stats(dex, move, cr, atk["atk_stats5"],
-                                                                          atk["atk_boosts7"], ds, db))(
-        stats_t, boosts_t, will_crit_t)
+    # Unaware onAnyModifyBoost (data/abilities.ts unaware): a target holder zeroes the attack-stat boosts (the move
+    # user's calculateStat, Foul Play / Body Press included); a user holder zeroes the target's defense boosts
+    u_unaware, t_unaware = unaware(st, u, targets)
+    att, dfn, off_idx, def_idx = jax.vmap(lambda ds, db, cr, zo, zd: D.raw_stats(
+        dex, move, cr, atk["atk_stats5"], atk["atk_boosts7"], ds, db, zo, zd))(
+        stats_t, boosts_t, will_crit_t, t_unaware, jnp.broadcast_to(u_unaware, (NT,)) & (targets != u))
     eff = jax.vmap(lambda tt: TC.effectiveness(dex, mtype, tt, freeze_dry=move == opt_id("MOVE_FREEZEDRY")))(t_types)
     ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev,
                   extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff)))
@@ -738,6 +754,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         dj = (did[0][j], did[1][j])
         tj = (tags[j], vals[j])
         st = STS.emit_status_msgs(st, smsg, j, targets[j])
+        from vgcjax.effects import berries as BE                       # AfterSetStatus: Lum Berry
+        st, rng = BE.after_set_status(st, dex, rng, smsg, j, targets[j])
         sres = (sres_v[0][j], sres_v[1][j])
         sfail = cj & (mstatus > 0) & ~RS.truthy(sres)                  # `!hitResult && move.status` -> continue
         tj = RS.where(sfail, RS.combine(tj, RS.R(RS.BOOL, 0)), tj)
@@ -888,6 +906,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
             # moveHit(target, source, move, secondary, isSecondary) -> runMoveEffects: boosts, status, volatile (M3)
             st = emit_boost(st, tmsgs[k], targets[j], j)
             st = STS.emit_status_msgs(st, sec_msgs[k], j, targets[j])
+            from vgcjax.effects import berries as BE                   # AfterSetStatus: Lum Berry
+            st, rng = BE.after_set_status(st, dex, rng, sec_msgs[k], j, targets[j])
             svol = dex.move_sec_volatile[move, k].astype(I32)
             st, rng, _ = CO.add_volatile(st, dex, rng, targets[j], svol, oks[k][j] & (svol > 0),
                                          cands=CO.vol_candidates("move_sec_volatile"), source=u,
@@ -1056,7 +1076,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     st = EV.attr_last_move(st, no_target, EV.F_NOTARGET)
     st = EV.emit(st, no_target, EV.EV_FAIL, actor=u)
     go_um = go_rm & alive & (target >= 0)
-    targets, smart, rng, retgt = get_move_targets(st, dex, rng, u, move, target, go_um)
+    targets, smart, rng, retgt, st = get_move_targets(st, dex, rng, u, move, target, go_um, mtype=a_type)
     st = EV.retarget_last_move(st, go_um & (retgt >= 0) & (targets[0] == retgt), retgt)  # PS getMoveTargets
     # PS :533-548: runEvent('DeductPP') over pressureTargets (Pressure), then deductPP(move, extraPP)
     from vgcjax.effects import abilities as AB
@@ -1227,8 +1247,9 @@ def move_hit(st, dex, rng, cfg):
     # multiaccuracy re-roll for hits >= 2: float stage table -> exact rational bound
     t0 = jnp.where(smart, targets[jnp.clip(h - 1, 0, NT - 1)], targets[jnp.argmax(tv)])   # targetsCopy[0]
     a = ex.acc
-    bu = jnp.clip(mget(m.boosts, u)[5].astype(I32), -6, 6)
-    be = jnp.clip(mget(m.boosts, t0)[6].astype(I32), -6, 6)
+    uw_u, uw_t0 = unaware(st, u, t0)
+    bu = jnp.where(uw_t0, 0, jnp.clip(mget(m.boosts, u)[5].astype(I32), -6, 6))
+    be = jnp.where(uw_u, 0, jnp.clip(mget(m.boosts, t0)[6].astype(I32), -6, 6))
     be = jnp.where((dex.move_ignore_evasion[move] == 1) | (mget(m.ability, u) == opt_id("ABILITY_KEENEYE")), 0, be)
     num = a * jnp.where(bu > 0, 3 + bu, 3) * jnp.where(be < 0, 3 - be, 3)
     den = jnp.where(bu > 0, 3, 3 - bu) * jnp.where(be > 0, 3 + be, 3)

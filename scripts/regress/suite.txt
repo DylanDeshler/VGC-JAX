@@ -280,3 +280,8 @@ m_ma_icywind | --n 120 --seed 281 --teams stagereq:impl:ability:mirrorarmor+move
 pf_phantomforce | --n 120 --seed 291 --teams stagereq:impl:move:phantomforce --stage impl
 pf_protect | --n 120 --seed 291 --teams stagereq:impl:move:phantomforce+move:protect --stage impl
 pf_gterrain | --n 120 --seed 291 --teams stagereq:impl:move:phantomforce+move:grassyterrain --stage impl
+s_lumberry | --n 120 --seed 301 --teams stagereq:impl:item:lumberry --stage impl
+s_lum_conf | --n 120 --seed 301 --teams stagereq:impl:item:lumberry+move:swagger --stage impl
+s_unaware | --n 120 --seed 301 --teams stagereq:impl:ability:unaware --stage impl
+s_lightningrod | --n 120 --seed 301 --teams stagereq:impl:ability:lightningrod --stage impl
+s_sceptilite | --n 120 --seed 301 --teams stagereq:impl:item:sceptilite --stage impl --policy random-weighted

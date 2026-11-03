@@ -98,9 +98,11 @@ def resist_berry_eat(st, ref, on):
 # ------------------------------------------------------------------ eachEvent('Update')
 def update(st, dex, rng, on):
     """eachEvent('Update') (sim/battle.ts:470-480; speed-sorted actives, ties a don't-care kind): Sitrus Berry
-    onUpdate (hp <= maxhp / 2 -> eatItem -> Eat: heal(baseMaxhp / 4), '-heal' X hp '[from] item: Sitrus Berry')."""
+    onUpdate (hp <= maxhp / 2 -> eatItem -> Eat: heal(baseMaxhp / 4), '-heal' X hp '[from] item: Sitrus Berry');
+    Lum Berry onUpdate (status or confusion -> eatItem)."""
+    from vgcjax.effects import conditions as CO
     from vgcjax.effects import statuses as STS
-    if iid("sitrusberry") <= 0:
+    if iid("sitrusberry") <= 0 and iid("lumberry") <= 0:
         return st, rng
     on = jnp.asarray(on)
     act = st.sides.active.reshape(4).astype(I32)
@@ -112,7 +114,32 @@ def update(st, dex, rng, on):
         r = refs[order[i]]
         m = st.mons
         hp, mx = mget(m.hp, r).astype(I32), mget(m.maxhp, r).astype(I32)
-        go = on & alive[order[i]] & holds(st, r, "sitrusberry") & (hp * 2 <= mx) & can_eat(st, r)
-        st = eat_item(st, r, go)
-        st, rng = STS.effect_heal(st, dex, rng, r, mx // 4, ieff("sitrusberry"), go)
+        if iid("sitrusberry") > 0:
+            go = on & alive[order[i]] & holds(st, r, "sitrusberry") & (hp * 2 <= mx) & can_eat(st, r)
+            st = eat_item(st, r, go)
+            st, rng = STS.effect_heal(st, dex, rng, r, mx // 4, ieff("sitrusberry"), go)
+        conf = CO.has_volatile(st, r, CO.cid("confusion")) if "confusion" in ids.CONDITIONS else False
+        st, rng = lum_eat(st, dex, rng, r, on & alive[order[i]] & ((mget(st.mons.status, r) > 0) | conf))
     return st, rng
+
+
+# ------------------------------------------------------------------ Lum Berry
+def lum_eat(st, dex, rng, ref, on):
+    """Lum Berry: eatItem -> onEat: cureStatus() ('-curestatus' X status '[msg]'), removeVolatile('confusion')
+    ('-end' X 'confusion'). Returns (st, rng)."""
+    if iid("lumberry") <= 0:
+        return st, rng
+    from vgcjax.effects import conditions as CO
+    from vgcjax.effects import statuses as STS
+    r = jnp.clip(jnp.asarray(ref, I32), 0, 7)
+    go = jnp.asarray(on) & holds(st, r, "lumberry") & can_eat(st, r)
+    st = eat_item(st, r, go)
+    st = STS.cure_status(st, r, go)
+    st, rng, _ = CO.remove_volatile(st, dex, rng, r, CO.cid("confusion"), go)
+    return st, rng
+
+
+def after_set_status(st, dex, rng, msgs, j, ref):
+    """runEvent('AfterSetStatus') once setStatus succeeded (PS sim/pokemon.ts setStatus tail), after the status
+    line: Lum Berry (onAfterSetStatusPriority -1) eats. Returns (st, rng)."""
+    return lum_eat(st, dex, rng, ref, msgs["ok"][j])

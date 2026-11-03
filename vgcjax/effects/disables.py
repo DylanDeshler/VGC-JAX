@@ -138,7 +138,7 @@ for _n, _mv in (("followme", "Follow Me"), ("ragepowder", "Rage Powder")):
         # onTry: activePerHalf > 1 (always true in doubles)
 
 
-def redirect_target(st, dex, u, move, target, on):
+def redirect_target(st, dex, u, move, target, on, mtype=None):
     """priorityEvent('RedirectTarget', user, user, move, target) (sim/pokemon.ts getMoveTargets, not tracksTarget):
     a foe's Follow Me / Rage Powder (onFoeRedirectTargetPriority 1; Rage Powder needs the user not powder-immune)
     whose holder is a valid target for the move redirects it (and clears smartTarget). Two holders: the faster
@@ -165,7 +165,28 @@ def redirect_target(st, dex, u, move, target, on):
         best = jnp.where(take, r, best)
         best_spd = jnp.where(take, spd, best_spd)
     red = best >= 0
-    return jnp.where(red, best, target), red
+    # Lightning Rod onAnyRedirectTarget (priority 0, after Follow Me / Rage Powder): an Electric move whose holder
+    # (any active but the user) is a valid target ('normal' for randomNormal / adjacentFoe) -> '-activate' holder
+    # 'ability: Lightning Rod' unless it already was the target; the faster holder (effectOrder ties: the earlier)
+    from vgcjax.effects.abilities import aeff, aid
+    if aid("lightningrod") > 0 and mtype is not None:
+        lr_best, lr_spd = jnp.asarray(-1, I32), jnp.asarray(-(1 << 20), I32)
+        elec = mtype == ids.TYPE_ELECTRIC
+        any_t = tt == ids.TARGET_ANY
+        for s_ in range(2):
+            for slot in range(2):
+                b = st.sides.active.astype(I32)[s_, slot]
+                r = s_ * 4 + jnp.maximum(b, 0)
+                live = (b >= 0) & ~mget(m.fainted, r) & (mget(m.hp, r) > 0) & (r != u)
+                ok = on & ~red & elec & (valid_t | any_t) & live & (mget(m.ability, r) == aid("lightningrod"))
+                spd = mget(m.speed, r).astype(I32)
+                take = ok & (spd > lr_spd)
+                lr_best = jnp.where(take, r, lr_best)
+                lr_spd = jnp.where(take, spd, lr_spd)
+        lr = lr_best >= 0
+        st = EV.emit(st, lr & (lr_best != target), EV.EV_ACTIVATE, actor=lr_best, move=aeff("lightningrod"))
+        return jnp.where(red, best, jnp.where(lr, lr_best, target)), red | lr, st
+    return jnp.where(red, best, target), red, st
 
 
 # ------------------------------------------------------------------ Helping Hand

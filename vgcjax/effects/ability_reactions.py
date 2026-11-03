@@ -54,10 +54,13 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
     live0 = tv & RS.truthy((tt, tvv)) & (targets != u)
     sap_all = live0 & _is(ab_all, "sapsipper") & (mtype == ids.TYPE_GRASS)
     md_all = live0 & _is(ab_all, "motordrive") & (mtype == ids.TYPE_ELECTRIC)
+    lr_all = live0 & _is(ab_all, "lightningrod") & (mtype == ids.TYPE_ELECTRIC)          # Lightning Rod: +1 SpA
     z = jnp.zeros((T, 7), I32)
-    dlt = jnp.where(sap_all[:, None], z.at[:, 0].set(1), z.at[:, 4].set(1))
-    st, br_all, bmsgs = MP.boost_v(st, targets, dlt, sap_all | md_all, source=u,
-                                   ab_msg=jnp.where(sap_all, aeff("sapsipper"), aeff("motordrive")), simple=True)  # +1
+    dlt = jnp.where(sap_all[:, None], z.at[:, 0].set(1), jnp.where(lr_all[:, None], z.at[:, 2].set(1),
+                                                                   z.at[:, 4].set(1)))
+    st, br_all, bmsgs = MP.boost_v(st, targets, dlt, sap_all | md_all | lr_all, source=u,
+                                   ab_msg=jnp.where(sap_all, aeff("sapsipper"), jnp.where(
+                                       lr_all, aeff("lightningrod"), aeff("motordrive"))), simple=True)  # +1
     for prio in (1, 0):
         for j in range(targets.shape[0]):
             t = jnp.clip(targets[j], 0, 7)
@@ -79,10 +82,10 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
                     st, rng = STS.effect_heal(st, dex, rng, t, mx // 4, aeff(name), healed)
                     st = EV.emit(st, a & ~healed, EV.EV_IMMUNE, actor=t, v1=aeff(name))
                     hit = hit | a
-                md = md_all[j]
+                md = md_all[j] | lr_all[j]
                 st = MP.emit_boost(st, bmsgs, t, j, mask=md)
                 st = EV.emit(st, md & ~RS.truthy((br_all[0][j], br_all[1][j])), EV.EV_IMMUNE, actor=t,
-                             v1=aeff("motordrive"))
+                             v1=jnp.where(lr_all[j], aeff("lightningrod"), aeff("motordrive")))
                 hit = hit | md
                 if aid("flashfire") > 0 and "flashfire" in ids.CONDITIONS:
                     ff = live & other & _is(ab, "flashfire") & (mtype == ids.TYPE_FIRE)
@@ -204,7 +207,9 @@ def _set_status(st, dex, rng, ref, status, on, source, eff):
     from vgcjax.effects import statuses as STS
     st, rng, _, msgs = STS.try_set_status_v(st, dex, rng, jnp.asarray(ref, I32)[None], status, jnp.asarray(on)[None],
                                             source, eff, 0)
-    return STS.emit_status_msgs(st, msgs, 0, ref), rng
+    from vgcjax.effects import berries as BE
+    st = STS.emit_status_msgs(st, msgs, 0, ref)
+    return BE.after_set_status(st, dex, rng, msgs, 0, ref)
 
 
 # ------------------------------------------------------------------ Flash Fire volatile (onModifyAtk / SpA mods)

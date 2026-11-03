@@ -126,7 +126,10 @@ if _has("toxicspikes"):
         on = go & ~poison & ~steel
         st, rng, _, msgs = STS.try_set_status_v(st, dex, rng, jnp.asarray(r, I32)[None], status, on,
                                                 _foe_active0(st, r), CO.eff("toxicspikes"), 0)
-        return hc, STS.emit_status_msgs(st, msgs, 0, r), rng
+        from vgcjax.effects import berries as BE
+        st = STS.emit_status_msgs(st, msgs, 0, r)
+        st, rng = BE.after_set_status(st, dex, rng, msgs, 0, r)
+        return hc, st, rng
 
 
 if _has("stickyweb"):

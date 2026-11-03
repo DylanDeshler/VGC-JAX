@@ -54,9 +54,11 @@ def modify_damage(base, *, spread, pbond_hit2, crit, roll, stab_m4096, type_mod,
     return jnp.where(d == 0, 1, fp.trunc16(d))
 
 
-def raw_stats(dex, move, crit, atk_stats5, atk_boosts7, def_stats5, def_boosts7):
+def raw_stats(dex, move, crit, atk_stats5, atk_boosts7, def_stats5, def_boosts7, zero_off=False, zero_def=False):
     """PS :1725-1760: the attacking / defending stats after boosts (crit ignores negative offensive / positive
-    defensive boosts), before the ModifyAtk / ModifyDef-family events. Returns (attack, defense, off_idx, def_idx)."""
+    defensive boosts), before the ModifyAtk / ModifyDef-family events. `zero_off` / `zero_def`: calculateStat's
+    runEvent('ModifyBoost') on the stat user (Unaware: the target's for the attack stat, the user's for the defense
+    stat). Returns (attack, defense, off_idx, def_idx)."""
     I = lambda x: jnp.asarray(x, I32)  # noqa: E731
     is_phys = dex.move_category[move] == ids.CAT_PHYSICAL
     off_idx = jnp.where(dex.move_override_off_stat[move] > 0, dex.move_override_off_stat[move] - 1,
@@ -72,6 +74,8 @@ def raw_stats(dex, move, crit, atk_stats5, atk_boosts7, def_stats5, def_boosts7)
     ign_pos_def = crit | (dex.move_ignore_positive_defensive[move] == 1)
     ab = jnp.where((dex.move_ignore_offensive[move] == 1) | (ign_neg_off & (ab < 0)), 0, ab)
     db = jnp.where((dex.move_ignore_defensive[move] == 1) | (ign_pos_def & (db > 0)), 0, db)
+    ab = jnp.where(zero_off, 0, ab)
+    db = jnp.where(zero_def, 0, db)
     return S.boosted(jnp.take(off_stats, off_idx), ab), S.boosted(jnp.take(I(def_stats5), def_idx), db), off_idx, \
         def_idx
 

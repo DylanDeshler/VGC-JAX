@@ -57,6 +57,8 @@ def _shield_try_hit(name):
             st, rng, _, msgs = STS.try_set_status_v(st, dex, rng, jnp.asarray(src, I32)[None], ids.COND_PSN,
                                                     contact[None], tgt, ids.MOVE_BASE + mid(name) - 1, 0)
             st = STS.emit_status_msgs(st, msgs, 0, src)
+            from vgcjax.effects import berries as BE
+            st, rng = BE.after_set_status(st, dex, rng, msgs, 0, src)
         else:
             st, _ = MP.boost(st, src, jnp.zeros(7, I32).at[0].set(-1), contact, source=tgt,
                              effect=ids.MOVE_BASE + mid(name) - 1)
@@ -248,6 +250,8 @@ def secondary_special(st, dex, rng, u, move, t, k, ok, hit_no):
         # sourceEffect = the secondary object (no effectType): no '[from] move:' on the status line
         st, rng, _, msgs = STS.try_set_status_v(st, dex, rng, tr[None], status, on[None], u, -1, 0)
         st = STS.emit_status_msgs(st, msgs, 0, tr)
+        from vgcjax.effects import berries as BE
+        st, rng = BE.after_set_status(st, dex, rng, msgs, 0, tr)
     if has("throatchop") and mid("throatchop") > 0:
         st, rng, _ = CO.add_volatile(st, dex, rng, tr, CO.cid("throatchop"), ok & (move == mid("throatchop")),
                                      source=u, source_effect=C.eff_move(move))
