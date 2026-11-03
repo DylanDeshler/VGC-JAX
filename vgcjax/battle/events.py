@@ -67,7 +67,6 @@ F_FAILSTATUS = 2                 # FAIL: ('-fail', target, <status>) (status in 
 F_UNBOOST = 1
 F_FROM_MOVE, F_FROM_ABILITY, F_FROM_ITEM = 1, 2, 4   # STATUS: '[from] move: / ability: / item:' (effect in v1)
 F_FATIGUE = 8                    # START: '[fatigue]'
-F_BROKEN = 16                    # ACTIVATE: '[broken]' (protection broken by a breaksProtect move other than Feint)
 F_MSG, F_SILENT, F_FROM_MOVE_CURE = 1, 2, 4   # CURESTATUS: '[msg]' / '[silent]' / '[from] move: X' (move in v1)
 F_BOOST = 1                      # ABILITY: '-ability' pokemon X 'boost' (ability in `move`)
 F_EAT, F_WEAKEN = 1, 2           # ENDITEM: '[eat]' / '[weaken]' (item in `move`)

@@ -959,8 +959,8 @@ def break_protect(st, dex, rng, u, move, targets, on):
                 had = CO_.has_side(st, s_, CO_.cid(g))
                 st, rng = SC_.remove_side_condition(st, dex, rng, s_, CO_.cid(g), on[j])
                 broke = broke | (on[j] & had)
-        st = EV.emit(st, broke, EV.EV_ACTIVATE, actor=t, move=C.eff_move(move),
-                     flags=jnp.where(move == opt_id("MOVE_FEINT"), 0, EV.F_BROKEN))
+        # the PublicEvents reducer keeps no '[broken]' tag (oracle/lib/protocol.js '-activate')
+        st = EV.emit(st, broke, EV.EV_ACTIVATE, actor=t, move=C.eff_move(move))
         c = CO_.cid("stall")
         st = CO_._set_vol_bit(st, t, c, False, broke)
         st = CO_.set_vol_state(st, t, c, jnp.zeros(6, I16), broke)
@@ -1109,6 +1109,16 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     n_targets = jnp.sum(tv.astype(I32))
     spread = (n_targets > 1) & ~smart
     spread_hit = ((n_targets > 1) & ~smart) | (dex.move_spread_hit[move] == 1)        # PS :613 (before the steps)
+    # 0 Invulnerability (PS :683-704): false -> smartTarget cleared silently, else '-miss' pokemon target ([miss] on
+    #   the move line unless spreadHit); the target is dropped (a false result: atLeastOneFailure)
+    from vgcjax.effects import locked as LK
+    inv = tv & LK.semi_invulnerable(st, dex, u, targets, move)
+    inv_msg = inv & ~smart
+    for j in range(NT):
+        st = EV.attr_last_move(st, inv_msg[j] & ~spread_hit, EV.F_MISS)
+        st = EV.emit(st, inv_msg[j], EV.EV_MISS, actor=u, target=targets[j])
+    smart = smart & ~jnp.any(inv)
+    tv = tv & ~inv
     # 1 TryHit (PS :698-711): runEvent('TryHit', targets, pokemon, move), left to right; NOT_FAIL drops a target
     #   silently, false fails it; '-fail' when no target kept true and one returned false
     tv_th = tv
@@ -1127,7 +1137,6 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # PS :623-627: after each step, any `false` result (atLeastOneFailure) clears move.smartTarget; Protect /
     # Detect's onTryHit also clears it (silently) before returning NOT_FAIL (data/moves.ts protect.condition)
     smart = smart & ~jnp.any(th_fail) & ~jnp.any(tv_th & (th[0] == RS.NOTFAIL))
-    # 0 Invulnerability / 1 TryHit: hooks (M3)
     # 2 type immunity
     # move.ignoreImmunity as exported is already resolved by PS's Move constructor (data value, else category ===
     # 'Status'; sim/dex-moves.ts:505): Thunder Wave keeps an explicit false
@@ -1146,7 +1155,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     for j in range(NT):
         st = EV.emit(st, tv[j] & imm[j] & ~smart, EV.EV_IMMUNE, actor=targets[j],
                      flags=jnp.where(lev[j], EV.F_LEVITATE, 0))
-    fail_any = jnp.any(th_fail) | jnp.any(tv & imm)
+    fail_any = jnp.any(inv) | jnp.any(th_fail) | jnp.any(tv & imm)       # Invulnerability false counts too
     smart = smart & ~fail_any
     tv = tv & ~imm
     # 3 TryImmunity: powder vs Grass (getImmunity('powder')), move onTryImmunity (M3), Prankster vs Dark (M3)

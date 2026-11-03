@@ -233,7 +233,8 @@ class Census:
             for k in COND_KEYS:
                 for c in src.get(k, []):
                     out.add(toid(c))
-        if r.get("owned_condition") and r["owned_condition"]["fns"]:
+        oc = r.get("owned_condition")
+        if oc and (oc["fns"] or oc.get("duration")):     # handlers, or a data-only volatile with a duration
             out.add(eid)
         return out
 

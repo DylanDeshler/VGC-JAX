@@ -37,7 +37,7 @@ def blocks_status(st, dex, refs, status, source_effect, move_status):
     or a move without secondaries) and Misty Terrain onSetStatus (any status; '-activate' when the effect has a
     primary `status`), grounded targets only. Returns (blocked, activate message) per ref."""
     t = terrain(st)
-    g = CO.is_grounded(st, refs)
+    g = CO.is_grounded(st, refs) & ~CO.is_semi_invulnerable(st, refs)      # isGrounded() && !isSemiInvulnerable()
     eff = jnp.asarray(source_effect, I32)
     is_move = (eff >= ids.MOVE_BASE) & (eff < ids.MOVE_BASE + len(ids.MOVES) - 1)
     mv = jnp.clip(eff - ids.MOVE_BASE + 1, 0, len(ids.MOVES) - 1)
@@ -53,7 +53,7 @@ def blocks_volatile(st, dex, ref, c, source_effect):
     for a move without secondaries), Electric Terrain blocks Yawn (null, '-activate'), grounded targets only.
     Returns (blocked, activate message)."""
     t = terrain(st)
-    g = CO.is_grounded(st, ref)
+    g = CO.is_grounded(st, ref) & ~CO.is_semi_invulnerable(st, ref)
     eff = jnp.asarray(source_effect, I32)
     is_move = (eff >= ids.MOVE_BASE) & (eff < ids.MOVE_BASE + len(ids.MOVES) - 1)
     mv = jnp.clip(eff - ids.MOVE_BASE + 1, 0, len(ids.MOVES) - 1)
@@ -134,11 +134,12 @@ for _t in TERRAINS:
 if "grassyterrain" in ids.CONDITIONS:
     @handler(ids.HOOK_RESIDUAL, CO.eff("grassyterrain"), ps="data/moves.ts grassyterrain.condition.onResidual")
     def grassy_residual(hc, st, dex, rng):
-        """heal(baseMaxhp / 16, pokemon, pokemon) for a grounded holder: '-heal' X hp '[from] Grassy Terrain'."""
+        """heal(baseMaxhp / 16, pokemon, pokemon) for a grounded, not semi-invulnerable holder: '-heal' X hp
+        '[from] Grassy Terrain'."""
         from vgcjax.effects import statuses as STS
         r = hc.target
         st, rng = STS.effect_heal(st, dex, rng, r, mget(st.mons.maxhp, r) // 16, CO.eff("grassyterrain"),
-                                  CO.is_grounded(st, r))
+                                  CO.is_grounded(st, r) & ~CO.is_semi_invulnerable(st, r))
         return hc, st, rng
 
 
@@ -152,7 +153,8 @@ if "psychicterrain" in ids.CONDITIONS:
         prio = Q.move_priority(st, dex, hc.source, move)
         tgt, src = hc.target, hc.source
         ally = (jnp.clip(tgt, 0, 7) // 4) == (jnp.clip(src, 0, 7) // 4)
-        block = (prio > 0) & (dex.move_target[move] != ids.TARGET_SELF) & ~ally & CO.is_grounded(st, tgt)
+        block = (prio > 0) & (dex.move_target[move] != ids.TARGET_SELF) & ~ally & CO.is_grounded(st, tgt) & \
+            ~CO.is_semi_invulnerable(st, tgt)
         st = EV.emit(st, block, EV.EV_ACTIVATE, actor=tgt, move=CO.eff("psychicterrain"))
         return hc.ret(RS.R(RS.NULL), block), st, rng
 
@@ -165,14 +167,15 @@ def _bp(name):
         vs a grounded target x0.5."""
         a, d, t = ctx.tgt, ctx.src, ctx.mtype
         ag, dg = CO.is_grounded(ctx.st, a), CO.is_grounded(ctx.st, d)
+        a_s, d_s = ag & ~CO.is_semi_invulnerable(ctx.st, a), dg & ~CO.is_semi_invulnerable(ctx.st, d)
         if name in ("electricterrain", "psychicterrain"):
             ty = ids.TYPE_ELECTRIC if name == "electricterrain" else ids.TYPE_PSYCHIC
-            return ag & (t == ty), jnp.asarray(5325, I32), None
+            return a_s & (t == ty), jnp.asarray(5325, I32), None
         if name == "mistyterrain":
-            return dg & (t == ids.TYPE_DRAGON), jnp.asarray(2048, I32), None
+            return d_s & (t == ids.TYPE_DRAGON), jnp.asarray(2048, I32), None
         quake = (ctx.move == getattr(ids, "MOVE_EARTHQUAKE", -1)) | (ctx.move == getattr(ids, "MOVE_BULLDOZE", -1)) | (
             ctx.move == getattr(ids, "MOVE_MAGNITUDE", -1))
-        half = quake & dg
+        half = quake & d_s                             # the Grass boost below has no semi-invulnerable check
         return half | (ag & (t == ids.TYPE_GRASS)), jnp.where(half, 2048, 5325).astype(I32), None
     return fn
 

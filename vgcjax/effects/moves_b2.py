@@ -29,10 +29,12 @@ def has(name):
 if mid("perishsong") > 0 and has("perishsong"):
     @handler(ids.HOOK_HITFIELD, int(C.eff_move(mid("perishsong"))), ps="data/moves.ts perishsong.onHitField")
     def perishsong_hit_field(hc, st, dex, rng):
-        """Each active (getAllActive order): Invulnerability (no Reg M-C semi-invulnerable state) / runEvent('TryHit')
-        null (Soundproof, Good as Gold: '-immune') -> counted; else no perishsong -> addVolatile, '-start' X 'perish3'
-        '[silent]'. Nothing counted -> false; a volatile added -> '-fieldactivate' 'move: Perish Song'."""
+        """Each active (getAllActive order): runEvent('Invulnerability') false (Phantom Force) -> '-miss' source X,
+        counted; runEvent('TryHit') null (Soundproof, Good as Gold: '-immune') -> counted; else no perishsong ->
+        addVolatile, '-start' X 'perish3' '[silent]'. Nothing counted -> false; a volatile added -> '-fieldactivate'
+        'move: Perish Song'."""
         from vgcjax.effects import ability_reactions as AR
+        from vgcjax.effects import locked as LK
         u = hc.source
         move = jnp.int32(mid("perishsong"))
         c = CO.cid("perishsong")
@@ -41,13 +43,16 @@ if mid("perishsong") > 0 and has("perishsong"):
             b = st.sides.active[k // 2, k % 2].astype(I32)
             r = (k // 2) * 4 + jnp.maximum(b, 0)
             live = (b >= 0) & ~mget(st.mons.fainted, r)
+            inv = live & LK.semi_invulnerable(st, dex, u, r[None], move)[0]
+            st = EV.emit(st, inv, EV.EV_MISS, actor=u, target=r)
+            live = live & ~inv
             th = (jnp.full(1, RS.BOOL, I32), jnp.ones(1, I32))
             th, st, rng, _ = AR.try_hit(st, dex, rng, r[None], live[None], th, u, move, dex.move_type[move].astype(I32))
             blocked = live & (th[0][0] == RS.NULL)
             add = live & ~blocked & ~CO.has_volatile(st, r, c)
             st, rng, _ = CO.add_volatile(st, dex, rng, r, c, add, source=u, source_effect=C.eff_move(move))
             st = EV.emit(st, add, EV.EV_START, actor=r, move=CO.eff("perishsong"), v1=-1, v2=3)
-            result = result | blocked | add
+            result = result | inv | blocked | add
             message = message | add
         st = EV.emit(st, message, EV.EV_FIELDACTIVATE, move=C.eff_move(move))
         return hc.ret(RS.R(RS.BOOL, 0), ~result), st, rng

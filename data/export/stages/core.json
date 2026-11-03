@@ -34,7 +34,7 @@
   },
   "format": "gen9championsvgc2026regmc",
   "inputs": {
-   "data/export/handler_census.json": "f3504cfd4846199d494feab4abfc7d80480dde92deec4b4f6a77d68ce3c0f18d",
+   "data/export/handler_census.json": "b702b582ab6df042688ab049609184546bfd6968d61a409da5b1cdf23288050d",
    "data/export/legal_pool.json": "5d936757833291d1b14d8b8ab2c1a92628f03507d582997a8d52971c4a40fcc3",
    "data/raw/smogon-chaos/2026-09/gen9championsvgc2026regmc-0.json": "0486ba6cc0d4b220ea959aa981260ab6feab4f4a8b8297886580968cf10cd5f3",
    "data/raw/smogon-chaos/2026-09/gen9championsvgc2026regmcbo3-1760.json": "f944e2de85ee262f20caa75b6a7b500dc8cfe6347264c142c16c1b0829813ee7",

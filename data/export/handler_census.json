@@ -1681,6 +1681,7 @@
       "onModifyAtkPriority": 5,
       "onModifySpAPriority": 5
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -7603,6 +7604,7 @@
     "name": "Unburden",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onModifySpe",
@@ -11675,6 +11677,28 @@
     ],
     "source": "Condition"
    },
+   "phantomforce": {
+    "class": "DATA_ONLY",
+    "code_refs": {},
+    "condition_hooks": [],
+    "core_refs": {
+     "sim/pokemon.ts": 1
+    },
+    "data": {},
+    "fns": [],
+    "hooks": [],
+    "id": "phantomforce",
+    "kind": "condition",
+    "loc": 0,
+    "n_condition_hooks": 0,
+    "n_hooks": 0,
+    "name": "Phantom Force",
+    "owner": "move",
+    "referenced_by": [
+     "move:phantomforce#owner"
+    ],
+    "source": "Condition"
+   },
    "powertrick": {
     "class": "CUSTOM",
     "code_refs": {},
@@ -12183,7 +12207,8 @@
     "name": "Revival Blessing",
     "owner": "move",
     "referenced_by": [
-     "move:revivalblessing"
+     "move:revivalblessing",
+     "move:revivalblessing#owner"
     ],
     "source": "Condition"
    },
@@ -18236,6 +18261,7 @@
      "data": {
       "onTryMovePriority": -2
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -21205,6 +21231,7 @@
      "data": {
       "counterMax": 729
      },
+     "duration": 2,
      "fns": [
       {
        "hook": "onStart",
@@ -21494,6 +21521,7 @@
      "data": {
       "onResidualOrder": 6
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -21784,6 +21812,7 @@
      "data": {
       "onBeforeMovePriority": 2
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -22006,6 +22035,7 @@
       "onSideResidualOrder": 26,
       "onSideResidualSubOrder": 10
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "durationCallback",
@@ -22253,6 +22283,7 @@
      "data": {
       "onTryHitPriority": 3
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -22466,6 +22497,7 @@
     "name": "Beak Blast",
     "owned_condition": {
      "data": {},
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -23211,6 +23243,7 @@
     "name": "Bounce",
     "owned_condition": {
      "data": {},
+     "duration": 2,
      "fns": [
       {
        "hook": "onInvulnerability",
@@ -23903,6 +23936,7 @@
      "data": {
       "onBasePowerPriority": 9
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -24149,6 +24183,7 @@
      "data": {
       "onBeforeMovePriority": 100
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onBeforeMove",
@@ -24802,6 +24837,7 @@
      "data": {
       "onRedirectTargetPriority": -1
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -25224,6 +25260,7 @@
      "data": {
       "onResidualOrder": 12
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -25506,6 +25543,7 @@
      "data": {
       "onBeforeMovePriority": -1
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -25671,6 +25709,7 @@
     "name": "Dig",
     "owned_condition": {
      "data": {},
+     "duration": 2,
      "fns": [
       {
        "hook": "onImmunity",
@@ -25813,6 +25852,7 @@
       "onBeforeMovePriority": 7,
       "onResidualOrder": 17
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "onStart",
@@ -25963,6 +26003,7 @@
     "name": "Dive",
     "owned_condition": {
      "data": {},
+     "duration": 2,
      "fns": [
       {
        "hook": "onImmunity",
@@ -26232,6 +26273,7 @@
     "name": "Dragon Cheer",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -26951,6 +26993,7 @@
       "onFieldResidualOrder": 27,
       "onFieldResidualSubOrder": 7
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "durationCallback",
@@ -27052,6 +27095,7 @@
      "data": {
       "onModifyTypePriority": -2
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -27279,6 +27323,7 @@
      "data": {
       "onResidualOrder": 16
      },
+     "duration": 3,
      "fns": [
       {
        "hook": "onStart",
@@ -27429,6 +27474,7 @@
      "data": {
       "onDamagePriority": -10
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -27849,6 +27895,7 @@
     "name": "Fairy Lock",
     "owned_condition": {
      "data": {},
+     "duration": 2,
      "fns": [
       {
        "hook": "onFieldStart",
@@ -28887,6 +28934,7 @@
     "name": "Fling",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onUpdate",
@@ -29029,6 +29077,7 @@
     "name": "Fly",
     "owned_condition": {
      "data": {},
+     "duration": 2,
      "fns": [
       {
        "hook": "onInvulnerability",
@@ -29196,6 +29245,7 @@
     "name": "Focus Energy",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -29285,6 +29335,7 @@
     "name": "Focus Punch",
     "owned_condition": {
      "data": {},
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -29362,6 +29413,7 @@
      "data": {
       "onFoeRedirectTargetPriority": 1
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -29675,6 +29727,7 @@
     "name": "Gastro Acid",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -29852,6 +29905,7 @@
      "data": {
       "onBeforeMovePriority": 100
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -30081,6 +30135,7 @@
       "onResidualOrder": 5,
       "onResidualSubOrder": 2
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "durationCallback",
@@ -30260,6 +30315,7 @@
       "onFieldResidualOrder": 27,
       "onFieldResidualSubOrder": 2
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "durationCallback",
@@ -30868,6 +30924,7 @@
     "name": "Healing Wish",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onSwitchIn",
@@ -31150,6 +31207,7 @@
      "data": {
       "onBasePowerPriority": 10
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -32080,6 +32138,7 @@
      "data": {
       "onFoeBeforeMovePriority": 4
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -32290,6 +32349,7 @@
      "data": {
       "onResidualOrder": 7
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -32671,6 +32731,7 @@
      "data": {
       "onTryHitPriority": 3
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -33114,6 +33175,7 @@
      "data": {
       "onResidualOrder": 8
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -33251,6 +33313,7 @@
       "onSideResidualOrder": 26,
       "onSideResidualSubOrder": 2
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "durationCallback",
@@ -33397,6 +33460,7 @@
      "data": {
       "onSourceInvulnerabilityPriority": 1
      },
+     "duration": 2,
      "fns": [
       {
        "hook": "onSourceInvulnerability",
@@ -33755,6 +33819,7 @@
       "onFieldResidualOrder": 27,
       "onFieldResidualSubOrder": 6
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "durationCallback",
@@ -33905,6 +33970,7 @@
      "data": {
       "onResidualOrder": 18
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "onStart",
@@ -34489,6 +34555,7 @@
     "name": "Minimize",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onRestart",
@@ -34586,6 +34653,7 @@
      "data": {
       "onRedirectTargetPriority": -1
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -34718,6 +34786,7 @@
       "onFieldResidualOrder": 27,
       "onFieldResidualSubOrder": 7
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "durationCallback",
@@ -35507,6 +35576,7 @@
     "name": "No Retreat",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -35624,6 +35694,7 @@
      "data": {
       "onResidualOrder": 14
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -35983,6 +36054,7 @@
      "data": {
       "onResidualOrder": 24
      },
+     "duration": 4,
      "fns": [
       {
        "hook": "onEnd",
@@ -36127,6 +36199,7 @@
     "name": "Phantom Force",
     "owned_condition": {
      "data": {},
+     "duration": 2,
      "fns": []
     }
    },
@@ -36737,6 +36810,7 @@
     "name": "Power Trick",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -36918,6 +36992,7 @@
      "data": {
       "onTryHitPriority": 3
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -37137,6 +37212,7 @@
       "onFieldResidualSubOrder": 7,
       "onTryHitPriority": 4
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "durationCallback",
@@ -37539,6 +37615,7 @@
      "data": {
       "onTryHitPriority": 4
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onSideStart",
@@ -37688,6 +37765,7 @@
      "data": {
       "onFoeRedirectTargetPriority": 1
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -38112,6 +38190,7 @@
       "onSideResidualOrder": 26,
       "onSideResidualSubOrder": 1
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "durationCallback",
@@ -38344,6 +38423,7 @@
     "name": "Revival Blessing",
     "owned_condition": {
      "data": {},
+     "duration": 1,
      "fns": []
     }
    },
@@ -38730,6 +38810,7 @@
       "onResidualOrder": 25,
       "onTypePriority": -1
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -38894,6 +38975,7 @@
       "onSideResidualOrder": 26,
       "onSideResidualSubOrder": 3
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "durationCallback",
@@ -38982,6 +39064,7 @@
      "data": {
       "onResidualOrder": 13
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -40405,6 +40488,7 @@
     "name": "Smack Down",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -41052,6 +41136,7 @@
     "name": "Spikes",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onSideStart",
@@ -41154,6 +41239,7 @@
      "data": {
       "onTryHitPriority": 3
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onStart",
@@ -41438,6 +41524,7 @@
     "name": "Stealth Rock",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onSideStart",
@@ -41665,6 +41752,7 @@
     "name": "Sticky Web",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onSideStart",
@@ -41738,6 +41826,7 @@
     "name": "Stockpile",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -42250,6 +42339,7 @@
      "data": {
       "onTryPrimaryHitPriority": -1
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -42897,6 +42987,7 @@
      "data": {
       "onResidualOrder": 14
      },
+     "duration": 4,
      "fns": [
       {
        "hook": "onStart",
@@ -43014,6 +43105,7 @@
       "onSideResidualOrder": 26,
       "onSideResidualSubOrder": 5
      },
+     "duration": 4,
      "fns": [
       {
        "hook": "durationCallback",
@@ -43097,6 +43189,7 @@
       "onBeforeMovePriority": 5,
       "onResidualOrder": 15
      },
+     "duration": 3,
      "fns": [
       {
        "hook": "onStart",
@@ -43492,6 +43585,7 @@
       "onBeforeMovePriority": 6,
       "onResidualOrder": 22
      },
+     "duration": 2,
      "fns": [
       {
        "hook": "onStart",
@@ -44018,6 +44112,7 @@
     "name": "Torment",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -44141,6 +44236,7 @@
     "name": "Toxic Spikes",
     "owned_condition": {
      "data": {},
+     "duration": 0,
      "fns": [
       {
        "hook": "onSideStart",
@@ -44534,6 +44630,7 @@
       "onFieldResidualOrder": 27,
       "onFieldResidualSubOrder": 1
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "durationCallback",
@@ -44869,6 +44966,7 @@
       "onResidualOrder": 28,
       "onResidualSubOrder": 1
      },
+     "duration": 3,
      "fns": [
       {
        "hook": "onStart",
@@ -45524,6 +45622,7 @@
      "data": {
       "onTryHitPriority": 4
      },
+     "duration": 1,
      "fns": [
       {
        "hook": "onSideStart",
@@ -45660,6 +45759,7 @@
      "data": {
       "onResidualOrder": 4
      },
+     "duration": 0,
      "fns": [
       {
        "hook": "onStart",
@@ -45750,6 +45850,7 @@
       "onFieldResidualOrder": 27,
       "onFieldResidualSubOrder": 5
      },
+     "duration": 5,
      "fns": [
       {
        "hook": "durationCallback",
@@ -46016,6 +46117,7 @@
      "data": {
       "onResidualOrder": 23
      },
+     "duration": 2,
      "fns": [
       {
        "hook": "onStart",

@@ -243,6 +243,11 @@ M3 content (2026-10-23)
   boost on the source (effect Mirror Armor: no re-bounce; zero changes print; source's Defiant / Clear Body apply);
   '-ability' per bounced stat; Parting Shot keeps selfSwitch vs Mirror Armor. Several bouncing targets in one boost,
   or a multi-stat bounce into a source TryBoost message, raise ERR_UNSUPPORTED_EFFECT. 191 bounces in corpora 100%.
+- Phantom Force: charge move (locked.py) whose data-only condition (duration 2) is a real volatile; census /
+  dex_stages now treat an owned condition with a duration as reachable (NC 104 -> 105). trySpreadMoveHit step 0
+  Invulnerability (No Guard, Helping Hand, Poison Toxic exceptions; a false result counts as a failure), Perish
+  Song's miss, and isSemiInvulnerable in the terrain checks (Grassy heal / quake, Electric / Misty blocks, boosts,
+  Psychic Terrain priority block). The '[broken]' ACTIVATE flag is gone (the reducer keeps no such tag).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

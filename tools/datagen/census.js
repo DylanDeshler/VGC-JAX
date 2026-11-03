@@ -148,7 +148,8 @@ function recordFor(kind, obj, ownedCond) {
 	if (ownedCond) {
 		const cf = [], cd = {};
 		walk(ownedCond, '', cf, cd, new Set());
-		rec.owned_condition = {fns: cf.map(f => ({path: 'condition.' + f.path, hook: f.hook, loc: f.loc, norm: f.norm})), data: cd};
+		rec.owned_condition = {fns: cf.map(f => ({path: 'condition.' + f.path, hook: f.hook, loc: f.loc, norm: f.norm})), data: cd,
+			duration: ownedCond.duration || 0};
 		allSrc += '\n' + cf.map(f => f.src).join('\n');
 	}
 	// data-declared references
@@ -195,7 +196,9 @@ for (const t of ['move', 'ability', 'item']) {
 			for (const c of (r.data_refs[k] || [])) noteCond(c, `${t}:${id}`);
 			for (const c of (r.code_refs[k] || [])) noteCond(c, `${t}:${id}`);
 		}
-		if (r.owned_condition && r.owned_condition.fns.length) noteCond(id, `${t}:${id}#owner`);
+		// an owned condition with handlers, or a data-only one the engine must hold as a volatile with a duration
+		// (Phantom Force: condition {duration: 2, onInvulnerability: false})
+		if (r.owned_condition && (r.owned_condition.fns.length || r.owned_condition.duration)) noteCond(id, `${t}:${id}#owner`);
 	}
 }
 for (const c of ENGINE_CONDITIONS) noteCond(c, 'engine');

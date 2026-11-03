@@ -277,3 +277,6 @@ h_stickyweb | --n 120 --seed 271 --teams stagereq:impl:move:stickyweb --stage im
 h_toxicdebris | --n 120 --seed 271 --teams stagereq:impl:ability:toxicdebris --stage impl
 m_mirrorarmor | --n 120 --seed 281 --teams stagereq:impl:ability:mirrorarmor --stage impl
 m_ma_icywind | --n 120 --seed 281 --teams stagereq:impl:ability:mirrorarmor+move:icywind --stage impl
+pf_phantomforce | --n 120 --seed 291 --teams stagereq:impl:move:phantomforce --stage impl
+pf_protect | --n 120 --seed 291 --teams stagereq:impl:move:phantomforce+move:protect --stage impl
+pf_gterrain | --n 120 --seed 291 --teams stagereq:impl:move:phantomforce+move:grassyterrain --stage impl

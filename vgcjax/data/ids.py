@@ -4,7 +4,7 @@ ID spaces (03 §1) are stage-independent; stage support lives in tables.npz `sup
 """
 # ruff: noqa
 
-DATA_VERSION = "823da6183e3da9c4"
+DATA_VERSION = "cb12e2df59eb9a2c"
 PS_COMMIT = "d601443456c795f77c6e4f2b5b459167f2b10a3c"
 FORMAT = "gen9championsvgc2026regmc"
 
@@ -184,13 +184,14 @@ CONDITIONS = (
     "dragoncheer", "electrify", "encore", "endure", "flashfire", "flinch", "fling", "fly",
     "focusenergy", "focuspunch", "followme", "gastroacid", "gem", "glaiverush", "healblock", "helpinghand",
     "imprison", "ingrain", "kingsshield", "leechseed", "lockedmove", "lockon", "magnetrise", "metronome",
-    "minimize", "mirrorcoat", "mustrecharge", "noretreat", "octolock", "partiallytrapped", "perishsong", "powertrick",
-    "protect", "ragepowder", "roost", "saltcure", "smackdown", "sparklingaria", "spikyshield", "stall",
-    "stockpile", "substitute", "syrupbomb", "taunt", "throatchop", "torment", "trapped", "twoturnmove",
-    "unburden", "uproar", "yawn", "auroraveil", "lightscreen", "quickguard", "reflect", "safeguard",
-    "spikes", "stealthrock", "stickyweb", "tailwind", "toxicspikes", "wideguard", "futuremove", "healingwish",
-    "healreplacement", "revivalblessing", "wish", "fairylock", "gravity", "magicroom", "trickroom", "wonderroom",
-    "raindance", "sandstorm", "snowscape", "sunnyday", "electricterrain", "grassyterrain", "mistyterrain", "psychicterrain",
+    "minimize", "mirrorcoat", "mustrecharge", "noretreat", "octolock", "partiallytrapped", "perishsong", "phantomforce",
+    "powertrick", "protect", "ragepowder", "roost", "saltcure", "smackdown", "sparklingaria", "spikyshield",
+    "stall", "stockpile", "substitute", "syrupbomb", "taunt", "throatchop", "torment", "trapped",
+    "twoturnmove", "unburden", "uproar", "yawn", "auroraveil", "lightscreen", "quickguard", "reflect",
+    "safeguard", "spikes", "stealthrock", "stickyweb", "tailwind", "toxicspikes", "wideguard", "futuremove",
+    "healingwish", "healreplacement", "revivalblessing", "wish", "fairylock", "gravity", "magicroom", "trickroom",
+    "wonderroom", "raindance", "sandstorm", "snowscape", "sunnyday", "electricterrain", "grassyterrain", "mistyterrain",
+    "psychicterrain",
 )
 NATURES = (
     "adamant", "bashful", "bold", "brave", "calm", "careful", "docile", "gentle",
@@ -1502,7 +1503,7 @@ NATURE_RELAXED = 21
 NATURE_SASSY = 22
 NATURE_SERIOUS = 23
 NATURE_TIMID = 24
-NS, NM, NA, NI, NC, NNAT = 383, 512, 217, 167, 104, 25
+NS, NM, NA, NI, NC, NNAT = 383, 512, 217, 167, 105, 25
 
 # TypeId: 0 none, 1..18, 19 = ??? (typeless)
 TYPE_NONE = 0
@@ -1530,12 +1531,12 @@ IMMUNITY_KEYS = ('brn', 'par', 'psn', 'tox', 'frz', 'sandstorm', 'hail', 'powder
 
 # ConditionId kind sub-ranges [start, end)
 STATUS_BASE, STATUS_END = 1, 8
-VOL_BASE, VOL_END = 8, 75
-SIDE_BASE, SIDE_END = 75, 86
-SLOT_BASE, SLOT_END = 86, 91
-PW_BASE, PW_END = 91, 96
-WEATHER_BASE, WEATHER_END = 96, 100
-TERRAIN_BASE, TERRAIN_END = 100, 104
+VOL_BASE, VOL_END = 8, 76
+SIDE_BASE, SIDE_END = 76, 87
+SLOT_BASE, SLOT_END = 87, 92
+PW_BASE, PW_END = 92, 97
+WEATHER_BASE, WEATHER_END = 97, 101
+TERRAIN_BASE, TERRAIN_END = 101, 105
 COND_KINDS = ('STATUS', 'VOL', 'SIDE', 'SLOT', 'PW', 'WEATHER', 'TERRAIN')
 COND_NONE = 0
 COND_BRN = 1
@@ -1592,63 +1593,64 @@ COND_NORETREAT = 51
 COND_OCTOLOCK = 52
 COND_PARTIALLYTRAPPED = 53
 COND_PERISHSONG = 54
-COND_POWERTRICK = 55
-COND_PROTECT = 56
-COND_RAGEPOWDER = 57
-COND_ROOST = 58
-COND_SALTCURE = 59
-COND_SMACKDOWN = 60
-COND_SPARKLINGARIA = 61
-COND_SPIKYSHIELD = 62
-COND_STALL = 63
-COND_STOCKPILE = 64
-COND_SUBSTITUTE = 65
-COND_SYRUPBOMB = 66
-COND_TAUNT = 67
-COND_THROATCHOP = 68
-COND_TORMENT = 69
-COND_TRAPPED = 70
-COND_TWOTURNMOVE = 71
-COND_UNBURDEN = 72
-COND_UPROAR = 73
-COND_YAWN = 74
-COND_AURORAVEIL = 75
-COND_LIGHTSCREEN = 76
-COND_QUICKGUARD = 77
-COND_REFLECT = 78
-COND_SAFEGUARD = 79
-COND_SPIKES = 80
-COND_STEALTHROCK = 81
-COND_STICKYWEB = 82
-COND_TAILWIND = 83
-COND_TOXICSPIKES = 84
-COND_WIDEGUARD = 85
-COND_FUTUREMOVE = 86
-COND_HEALINGWISH = 87
-COND_HEALREPLACEMENT = 88
-COND_REVIVALBLESSING = 89
-COND_WISH = 90
-COND_FAIRYLOCK = 91
-COND_GRAVITY = 92
-COND_MAGICROOM = 93
-COND_TRICKROOM = 94
-COND_WONDERROOM = 95
-COND_RAINDANCE = 96
-COND_SANDSTORM = 97
-COND_SNOWSCAPE = 98
-COND_SUNNYDAY = 99
-COND_ELECTRICTERRAIN = 100
-COND_GRASSYTERRAIN = 101
-COND_MISTYTERRAIN = 102
-COND_PSYCHICTERRAIN = 103
+COND_PHANTOMFORCE = 55
+COND_POWERTRICK = 56
+COND_PROTECT = 57
+COND_RAGEPOWDER = 58
+COND_ROOST = 59
+COND_SALTCURE = 60
+COND_SMACKDOWN = 61
+COND_SPARKLINGARIA = 62
+COND_SPIKYSHIELD = 63
+COND_STALL = 64
+COND_STOCKPILE = 65
+COND_SUBSTITUTE = 66
+COND_SYRUPBOMB = 67
+COND_TAUNT = 68
+COND_THROATCHOP = 69
+COND_TORMENT = 70
+COND_TRAPPED = 71
+COND_TWOTURNMOVE = 72
+COND_UNBURDEN = 73
+COND_UPROAR = 74
+COND_YAWN = 75
+COND_AURORAVEIL = 76
+COND_LIGHTSCREEN = 77
+COND_QUICKGUARD = 78
+COND_REFLECT = 79
+COND_SAFEGUARD = 80
+COND_SPIKES = 81
+COND_STEALTHROCK = 82
+COND_STICKYWEB = 83
+COND_TAILWIND = 84
+COND_TOXICSPIKES = 85
+COND_WIDEGUARD = 86
+COND_FUTUREMOVE = 87
+COND_HEALINGWISH = 88
+COND_HEALREPLACEMENT = 89
+COND_REVIVALBLESSING = 90
+COND_WISH = 91
+COND_FAIRYLOCK = 92
+COND_GRAVITY = 93
+COND_MAGICROOM = 94
+COND_TRICKROOM = 95
+COND_WONDERROOM = 96
+COND_RAINDANCE = 97
+COND_SANDSTORM = 98
+COND_SNOWSCAPE = 99
+COND_SUNNYDAY = 100
+COND_ELECTRICTERRAIN = 101
+COND_GRASSYTERRAIN = 102
+COND_MISTYTERRAIN = 103
+COND_PSYCHICTERRAIN = 104
 
 # unified EffectId ranges (03 §1)
 MOVE_BASE = 1
 ABILITY_BASE = 512
 ITEM_BASE = 728
 COND_BASE = 894
-ACTION_BASE = 997
-NEFFECT = 1009
+ACTION_BASE = 998
+NEFFECT = 1010
 ACTION_KINDS = ('switch', 'instaswitch', 'megaEvo', 'beforeTurn', 'beforeTurnMove', 'revivalblessing', 'priorityChargeMove', 'start', 'team', 'residual', 'runSwitch', 'commit')
 
 # move table enums
