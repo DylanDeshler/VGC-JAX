@@ -236,6 +236,9 @@ M3 content (2026-10-23)
   (getMoveTargets foes(true)) and their side follows the move target; a side move's moveHit skips the hit-loop
   alive gate; runSwitch actions run EmergencyExit with the pre-runSwitch hp (PS battle.ts:2932, hazard damage).
   Targeted corpora + regression subset 100%.
+- Fixes exposed by regenerated regression teams: runMoveEffects didAnything reduces only this call's targets (a
+  TryHit-null first slot seeded it true: Teeter Dance into Good as Gold + confused foes printed no -fail); Struggle
+  is never -ate boosted (its onModifyMove sets '???' before runEvent('ModifyType')).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

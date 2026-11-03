@@ -132,7 +132,8 @@ def ate_boosted(st, dex, u, move):
     """-ate abilities' onModifyType condition (move.typeChangerBoosted): a Normal move (base type; not in the excluded
     list) used by an Aerilate / Pixilate holder. Returns (boosted, new type)."""
     ab = mget(st.mons.ability, jnp.clip(u, 0, 7))
-    normal = dex.move_type[move] == ids.TYPE_NORMAL
+    # Struggle's onModifyMove (singleEvent, PS battle-actions.ts:495) sets type '???' before runEvent('ModifyType')
+    normal = (dex.move_type[move] == ids.TYPE_NORMAL) & (move != ids.MOVE_STRUGGLE)
     for n in ATE_EXCLUDED:
         if mid(n) > 0:
             normal = normal & (move != mid(n))

@@ -631,8 +631,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
 
     # 3. runMoveEffects (PS: sim/battle-actions.ts:1241-1372), per-target work batched
     tv_in = jnp.asarray(tvalid) & on
-    da = (tags[0], vals[0])
-    for j in range(1, NT):
+    da = RS.R(RS.UNDEF)                 # damage.reduce(combineResults) over this call's targets (undefined is neutral)
+    for j in range(NT):
         da = RS.where(tv_in[j], RS.combine(da, (tags[j], vals[j])), da)
     # Clangorous Soul's onTryHit applied (and deleted) move.boosts
     has_boosts = jnp.any(dex.move_boosts[move] != 0) & (move != opt_id("MOVE_CLANGOROUSSOUL"))
