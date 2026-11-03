@@ -239,6 +239,10 @@ M3 content (2026-10-23)
 - Fixes exposed by regenerated regression teams: runMoveEffects didAnything reduces only this call's targets (a
   TryHit-null first slot seeded it true: Teeter Dance into Good as Gold + confused foes printed no -fail); Struggle
   is never -ate boosted (its onModifyMove sets '???' before runEvent('ModifyType')).
+- Mirror Armor (boost_v TryBoost): drops from another mon (capped, above -6) deleted and bounced as a nested isSecondary
+  boost on the source (effect Mirror Armor: no re-bounce; zero changes print; source's Defiant / Clear Body apply);
+  '-ability' per bounced stat; Parting Shot keeps selfSwitch vs Mirror Armor. Several bouncing targets in one boost,
+  or a multi-stat bounce into a source TryBoost message, raise ERR_UNSUPPORTED_EFFECT. 191 bounces in corpora 100%.
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

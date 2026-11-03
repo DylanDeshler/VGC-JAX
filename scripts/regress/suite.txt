@@ -275,3 +275,5 @@ h_spikes | --n 120 --seed 271 --teams stagereq:impl:move:spikes --stage impl
 h_toxicspikes | --n 120 --seed 271 --teams stagereq:impl:move:toxicspikes --stage impl
 h_stickyweb | --n 120 --seed 271 --teams stagereq:impl:move:stickyweb --stage impl
 h_toxicdebris | --n 120 --seed 271 --teams stagereq:impl:ability:toxicdebris --stage impl
+m_mirrorarmor | --n 120 --seed 281 --teams stagereq:impl:ability:mirrorarmor --stage impl
+m_ma_icywind | --n 120 --seed 281 --teams stagereq:impl:ability:mirrorarmor+move:icywind --stage impl

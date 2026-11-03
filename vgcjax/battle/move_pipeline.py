@@ -241,6 +241,25 @@ def emit_boost(st, msgs, actor, idx=(), mask=True):
     if len(msgs) == 5:
         from vgcjax.effects import ability_blocks as AXB
         pre = msgs[4]
+        if "mir" in pre:                 # Mirror Armor: per bounced stat, '-ability' then the source's nested boost
+            from vgcjax.effects.abilities import aeff as _aeff
+            mm, live = pre["mir"][idx], pre["mir_live"][idx]
+            nm = pre["mir_msgs"]
+            npre, s_ref = nm[4], pre["mir_src"]
+            n_on, n_stat, n_amt, n_fl = (x[0] for x in nm[:4])
+            nr_on, nr_amt, nr_stat, nr_eff = (npre["react_on"][0], npre["react_amt"][0], npre["react_stat"][0],
+                                              npre["react_eff"][0])
+            first = jnp.ones((), bool)
+            for kk in range(7):
+                hit = live & mm[jnp.clip(n_stat[kk], 0, 6)]
+                st = EV.emit(st, hit, EV.EV_ABILITY, actor=actor, move=_aeff("mirrorarmor"))
+                st = jax.tree_util.tree_map(lambda a, b: jnp.where(hit & first, a, b),
+                                            AXB.emit_try_boost(st, npre, s_ref, 0), st)
+                first = first & ~hit
+                st = EV.emit(st, hit & n_on[kk], EV.EV_BOOST, actor=s_ref, v1=n_stat[kk], v2=n_amt[kk], flags=n_fl[kk])
+                st = EV.emit(st, hit & nr_on[kk] & (nr_amt[kk] > 0), EV.EV_ABILITY, actor=s_ref, move=nr_eff,
+                             flags=EV.F_BOOST)
+                st = EV.emit(st, hit & nr_on[kk], EV.EV_BOOST, actor=s_ref, v1=nr_stat, v2=nr_amt[kk])
         st = AXB.emit_try_boost(st, pre, actor, idx)
         from vgcjax.effects.abilities import aeff
         # an ability's nested isSelf boost: '-ability' only with a change, the '-boost' line even at +6 (PS :2070-2093)
@@ -272,7 +291,7 @@ def emit_boost(st, msgs, actor, idx=(), mask=True):
 
 
 def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effect=-1, has_secondaries=False,
-            ab_msg=None, simple=False):
+            ab_msg=None, simple=False, _nested=False):
     """battle.boost on distinct refs targets [T] at once, with TryBoost (effects/ability_blocks.py; ChangeBoost /
     AfterEachBoost: M4). Returns (st, result (tags [T], vals [T]), msgs); messages are not emitted (callers interleave
     them)."""
@@ -299,6 +318,17 @@ def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effe
                    block_of=jnp.full(T, -1, I32), guard=z, deleted=jnp.zeros((T, 7), bool))
     else:
         _, pre = AXB.try_boost(st, targets, capped0, source, effect, has_secondaries, go)
+    # Mirror Armor onTryBoost (data/abilities.ts mirrorarmor): a drop from another mon (not itself Mirror Armor's
+    # bounce) on a stat above -6 is deleted and, if the source has hp, bounced: '-ability' target 'Mirror Armor', then
+    # boost({stat: amount}, source, target, Mirror Armor, isSecondary) per stat (nested below, after this boost)
+    from vgcjax.effects.abilities import aeff as _aeff, aid as _aid
+    mir_on = (_aid("mirrorarmor") > 0) and not simple and not _nested
+    if mir_on:
+        msrc = jnp.broadcast_to(jnp.asarray(source, I32), (T,))          # per-target sources (DamagingHit boosts)
+        ma = go & (mget(m.ability, jnp.clip(targets, 0, 7)) == _aid("mirrorarmor")) & (msrc >= 0) & \
+            (msrc != targets) & (jnp.asarray(effect, I32) != _aeff("mirrorarmor"))
+        mir = ma[:, None] & (capped0 < 0)
+        pre["deleted"] = pre["deleted"] | mir
     d = jnp.where(pre["deleted"], 0, d)                        # deleted keys: no change, no message
     new, capped, msgs = boost_math(cur, d, go, order, primary)
     # Guard Dog: boost({atk: 1}, target, target, null, false, isSelf) inside TryBoost, before the rest
@@ -348,7 +378,29 @@ def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effe
                                                     go & success & jnp.any(capped < 0, axis=-1)))
     r = RS.where(hp <= 0, RS.R(RS.NUM, 0), RS.where(~active | ~foe_left, RS.R(RS.BOOL, 0),
                                                     RS.where(success, RS.R(RS.BOOL, 1), RS.R(RS.NULL))))
-    return st.replace(mons=m), r, msgs
+    st = st.replace(mons=m)
+    if mir_on:
+        # one bouncing target per boost and, for a multi-stat bounce, no TryBoost message on the source: the nested
+        # boosts are then exactly PS's per-stat calls (other cases raise ERR_UNSUPPORTED_EFFECT)
+        from vgcjax.battle import errors as E
+        from vgcjax.battle.util import or_flag
+        rows = jnp.any(mir, axis=1)
+        jm = jnp.argmax(rows)
+        mrow = mir[jm]
+        s_ref = jnp.clip(msrc[jm], 0, 7)
+        live = jnp.any(mrow) & (mget(st.mons.hp, s_ref) > 0)
+        st, _, nmsgs = boost_v(st, s_ref[None], jnp.where(mrow, capped0[jm], 0)[None], live[None], order=order,
+                               primary=True, source=targets[jm], effect=_aeff("mirrorarmor"), _nested=True)
+        npre = nmsgs[4]
+        multi = jnp.sum(mrow.astype(I32)) > 1
+        st = or_flag(st, E.ERR_UNSUPPORTED_EFFECT, (jnp.sum(rows.astype(I32)) > 1) |
+                     (live & multi & (npre["fail"][0] | npre["block"][0])))
+        pre["mir"] = mir & (jnp.arange(T) == jm)[:, None]
+        pre["mir_live"] = jnp.broadcast_to(live, (T,))
+        pre["mir_msgs"] = nmsgs
+        pre["mir_src"] = s_ref
+        msgs = msgs[:4] + (pre,)
+    return st, r, msgs
 
 
 def boost(st, target, deltas7, on, order=None, primary=False, source=-1, effect=-1, has_secondaries=False,
@@ -744,7 +796,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
             ps_on = cj & ~side_mode_ & (move == T.MOVE_PARTINGSHOT)
             st, ps_r = boost(st, targets[j], jnp.zeros(7, I32).at[0].set(-1).at[2].set(-1), ps_on, primary=True,
                              source=u, effect=C.eff_move(move))
-            ps_fail = ps_fail | (ps_on & ~RS.truthy(ps_r))
+            ps_ma = mget(st.mons.ability, jnp.clip(targets[j], 0, 7)) == opt_id("ABILITY_MIRRORARMOR")
+            ps_fail = ps_fail | (ps_on & ~RS.truthy(ps_r) & ~ps_ma)       # !target.hasAbility('mirrorarmor')
             dj = RS.where(ps_on, RS.combine(dj, RS.R(RS.BOOL, 1)), dj)   # singleEvent('Hit') -> true (no return)
         self_switch_j = self_switch & ~ps_fail
         dj = RS.where(cj & self_switch_j, RS.where(css, RS.R(RS.BOOL, 1), RS.combine(dj, RS.R(RS.BOOL, 0))), dj)

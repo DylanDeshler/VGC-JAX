@@ -612,7 +612,7 @@ ABILITY,megasol,Mega Sol,CUSTOM,v0,onWeatherModifyDamage,1,4,1,18,0.001638,0.013
 ABILITY,merciless,Merciless,CUSTOM,v1,onModifyCritRatio,1,3,0,9,5.9e-05,0.001068,,todo,,,
 ABILITY,mimicry,Mimicry,CUSTOM,v2,onStart onTerrainChange,2,31,0,,,,,todo,,,
 ABILITY,minus,Minus,CUSTOM,v2,onModifySpA,1,7,0,,,,,todo,,,
-ABILITY,mirrorarmor,Mirror Armor,CUSTOM,v0,onTryBoost,1,16,0,25,0.012112,0.029782,,todo,,,
+ABILITY,mirrorarmor,Mirror Armor,CUSTOM,v0,onTryBoost,1,16,0,25,0.012112,0.029782,,impl,d601443,,
 ABILITY,moldbreaker,Mold Breaker,CUSTOM,v0,onModifyMove onStart,2,6,0,18,0.001739,0.017987,,todo,,,
 ABILITY,moody,Moody,CUSTOM,v0,onResidual,1,24,0,30,0.0,0.000384,,todo,,,
 ABILITY,motordrive,Motor Drive,CUSTOM,v2,onTryHit,1,8,0,,,,,impl,d601443,,
