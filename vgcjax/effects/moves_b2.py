@@ -606,3 +606,76 @@ if mid("healingwish") > 0 and "healingwish" in ids.CONDITIONS:
         st, rng = SC.remove_slot_condition(st, dex, rng, r // 4, jnp.maximum(MP.position(st, r), 0),
                                            CO.cid("healingwish"), go)
         return hc, st, rng
+
+
+# ------------------------------------------------------------------ Heal Pulse / Strength Sap / Soak / Pollen Puff
+if mid("healpulse") > 0:
+    @handler(ids.HOOK_HIT, int(C.eff_move(mid("healpulse"))), ps="data/moves.ts healpulse.onHit")
+    def healpulse_hit(hc, st, dex, rng):
+        """heal(Mega Launcher ? modify(baseMaxhp, 0.75) : ceil(baseMaxhp / 2)) ('-heal' X hp); failed -> '-fail'
+        target 'heal', NOT_FAIL; else the heal result."""
+        from vgcjax.battle import move_pipeline as MP
+        from vgcjax.core import fixedpoint as FP
+        from vgcjax.effects.abilities import aid
+        t, u = hc.target, hc.source
+        mx = mget(st.mons.maxhp, t).astype(I32)
+        ml = mget(st.mons.ability, jnp.clip(u, 0, 7)) == aid("megalauncher")
+        amt = jnp.where(ml, FP.modify_raw(mx, 3072), (mx + 1) // 2)
+        st, r = MP.battle_heal(st, t, amt, True)
+        ok = RS.truthy(r)
+        st = EV.emit(st, ~ok, EV.EV_FAIL, actor=t, flags=EV.F_HEAL)
+        return hc.ret(RS.where(ok, RS.R(RS.BOOL, 1), RS.R(RS.NOTFAIL, 0))), st, rng
+
+if mid("strengthsap") > 0:
+    @handler(ids.HOOK_HIT, int(C.eff_move(mid("strengthsap"))), ps="data/moves.ts strengthsap.onHit")
+    def strengthsap_hit(hc, st, dex, rng):
+        """target at -6 Atk -> false; atk = target.getStat('atk', false, true) (boosted, unmodified);
+        boost({atk: -1}, target, source, null, false, isSelf); heal(atk, source, target) ('-heal' source hp);
+        !!(heal || boost)."""
+        from vgcjax.battle import move_pipeline as MP
+        from vgcjax.core import stats as ST
+        t, u = hc.target, hc.source
+        m = st.mons
+        b0 = mget(m.boosts, t)[0].astype(I32)
+        floor = b0 == -6
+        atk = ST.boosted(mget(m.stats, t)[0].astype(I32), b0)
+        st, br = MP.boost(st, t, jnp.zeros(7, I32).at[0].set(-1), ~floor, primary=False, source=u,
+                          effect=C.eff_move(mid("strengthsap")))
+        st, hr = MP.battle_heal(st, jnp.clip(u, 0, 7), atk, ~floor)
+        ok = RS.truthy(hr) | RS.truthy(br)
+        return hc.ret(RS.where(floor, RS.R(RS.BOOL, 0), RS.R(RS.BOOL, ok.astype(I32)))), st, rng
+
+if mid("soak") > 0:
+    @handler(ids.HOOK_HIT, int(C.eff_move(mid("soak"))), ps="data/moves.ts soak.onHit")
+    def soak_hit(hc, st, dex, rng):
+        """Already pure Water -> '-fail' target, null; else setType('Water') (addedType cleared), '-start' target
+        'typechange' 'Water' (START move = Soak, v2 = 1: harness/events.py prints 'typechange')."""
+        from vgcjax.battle.util import mset
+        t = hc.target
+        m = st.mons
+        ty = mget(m.types, t).astype(I32)
+        water = (ty[0] == ids.TYPE_WATER) & (ty[1] <= 0)
+        st = EV.emit(st, water, EV.EV_FAIL, actor=t)
+        new = jnp.stack([jnp.int32(ids.TYPE_WATER), jnp.int32(-1)]).astype(m.types.dtype)
+        m = m.replace(types=mset(m.types, t, new, ~water), added_type=mset(m.added_type, t, 0, ~water))
+        st = EV.emit(st.replace(mons=m), ~water, EV.EV_START, actor=t, move=C.eff_move(mid("soak")), v1=-1, v2=1)
+        return hc.ret(RS.R(RS.NULL), water), st, rng
+
+if mid("pollenpuff") > 0:
+    _pp = int(C.eff_move(mid("pollenpuff")))
+
+    @handler(ids.HOOK_TRYHIT, _pp, ps="data/moves.ts pollenpuff.onTryHit")
+    def pollenpuff_try_hit(hc, st, dex, rng):
+        """An ally target: move.basePower = 0 (getDamage -> undefined: no damage, no crit / roll), infiltrates."""
+        ally = (jnp.clip(hc.target, 0, 7) // 4) == (jnp.clip(hc.source, 0, 7) // 4)
+        ex = st.exec
+        return hc, st.replace(exec=ex.replace(bp=jnp.where(ally, 0, ex.bp).astype(ex.bp.dtype))), rng
+
+    @handler(ids.HOOK_HIT, _pp, ps="data/moves.ts pollenpuff.onHit")
+    def pollenpuff_hit(hc, st, dex, rng):
+        """An ally target: heal(floor(baseMaxhp / 2)) ('-heal' X hp); a failed heal -> NOT_FAIL."""
+        from vgcjax.battle import move_pipeline as MP
+        t, u = hc.target, hc.source
+        ally = (jnp.clip(t, 0, 7) // 4) == (jnp.clip(u, 0, 7) // 4)
+        st, r = MP.battle_heal(st, t, mget(st.mons.maxhp, t).astype(I32) // 2, ally)
+        return hc.ret(RS.R(RS.NOTFAIL, 0), ally & ~RS.truthy(r)), st, rng

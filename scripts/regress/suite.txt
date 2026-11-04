@@ -293,3 +293,7 @@ aeg_kingsshield | --n 120 --seed 342 --teams stagereq:impl:ability:stancechange+
 q_queenlymajesty | --n 150 --seed 351 --teams stagereq:impl:ability:queenlymajesty --stage impl
 q_sturdy | --n 150 --seed 351 --teams stagereq:impl:ability:sturdy --stage impl
 q_stoneaxe | --n 150 --seed 351 --teams stagereq:impl:move:stoneaxe --stage impl
+m_healpulse | --n 150 --seed 361 --teams stagereq:impl:move:healpulse --stage impl
+m_strengthsap | --n 150 --seed 361 --teams stagereq:impl:move:strengthsap --stage impl
+m_soak | --n 150 --seed 361 --teams stagereq:impl:move:soak --stage impl
+m_pollenpuff | --n 150 --seed 361 --teams stagereq:impl:move:pollenpuff --stage impl

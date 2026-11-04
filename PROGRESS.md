@@ -265,6 +265,8 @@ M3 content (2026-10-23)
   Sash: full HP -> hp - 1, '-ability' X Sturdy), Stone Axe (onAfterHit Stealth Rock on the foe side, not with Sheer
   Force). Mega Stone take-lock now follows both PS forms (megaStone[baseSpecies.baseSpecies] and the newer
   baseSpecies.name in keys / values: a Floette-Mega keeps Floettite vs Trick / Knock Off).
+- Heal Pulse (Mega Launcher 0.75, '-fail' heal / NOT_FAIL), Strength Sap (boosted unmodified Atk, isSelf -1 Atk,
+  heal), Soak ('-start' typechange Water or '-fail' / null), Pollen Puff (ally: basePower 0 + heal / NOT_FAIL).
 - CPU testing: scripts/memguard.sh caps the process tree (one replay worker ~14.5 GB; use <= 2 workers).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
