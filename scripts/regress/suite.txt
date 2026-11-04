@@ -287,3 +287,4 @@ s_lightningrod | --n 120 --seed 301 --teams stagereq:impl:ability:lightningrod -
 s_sceptilite | --n 120 --seed 301 --teams stagereq:impl:item:sceptilite --stage impl --policy random-weighted
 hw_healingwish | --n 200 --seed 311 --teams stagereq:impl:move:healingwish --stage impl
 tr_trace | --n 200 --seed 321 --teams stagereq:impl:ability:trace --stage impl
+kang_parentalbond | --n 150 --seed 333 --teams stagereq:impl:species:kangaskhan+item:kangaskhanite --stage impl --policy random-weighted

@@ -435,6 +435,17 @@ def MC_sf_any(st, dex, u, move):
     return MC_.sheer_force(st, dex, u, move)[0]
 
 
+def parental_bond(st, dex, u, move, spread_hit):
+    """Parental Bond onPrepareHit (data/abilities.ts parentalbond): not Status, no data multihit, no noparentalbond /
+    charge / futuremove flag, not spreadHit -> move.multihit = 2, multihitType 'parentalbond'."""
+    a = opt_id("ABILITY_PARENTALBOND")
+    if a <= 0:
+        return jnp.zeros((), bool)
+    excl = mflag(dex, move, T.MF_NOPARENTALBOND) | mflag(dex, move, T.MF_CHARGE) | mflag(dex, move, T.MF_FUTUREMOVE)
+    return (mget(st.mons.ability, jnp.clip(u, 0, 7)) == a) & (dex.move_category[move] != T.CAT_STATUS) & \
+        (dex.move_multihit[move][0] == 0) & ~excl & ~jnp.asarray(spread_hit)
+
+
 def unaware(st, u, targets):
     """(user holds Unaware, per-target: a target other than the user holds Unaware) for ModifyBoost (activePokemon /
     activeTarget = the move user / its target)."""
@@ -593,10 +604,13 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     _, final, rng = MOD.run("ModifyDamage", ctx, rng, jnp.ones(NT, I32), dmg_ord, reach)
     guts = mget(m.ability, u) == opt_id("ABILITY_GUTS")
     no_burn = guts | (move == opt_id("MOVE_FACADE"))
+    # [C] scripts.ts:208-213: the second Parental Bond hit x0.25 (spread modifier otherwise)
+    pb2 = parental_bond(st, dex, u, move, st.exec.spread_hit) & (jnp.asarray(hit_no) > 1)
 
     def one(ds, db, dt, dmx, dg, dci, cd, r, fm, wm, bpp, ap, dp, sp, bp1, fx1, em):
         return D.get_damage_core(dex, move, **atk, def_stats5=ds, def_boosts7=db, def_types=dt, def_maxhp=dmx,
                                  def_grounded=dg, def_crit_immune=dci, crit_draw=cd, roll=r, spread=spread,
+                                 pbond_hit2=pb2,
                                  canary_crit=cfg.flags.canary_crit_2048, final_m4096=fm, mtype=mtype, bp=bp1, fixed=fx1,
                                  weather_m4096=wm, bp_post=bpp, atk_post=ap, def_post=dp,
                                  stab_post=jnp.where(is_struggle, 4096, sp), no_burn=no_burn, ignore_immunity=scr,
@@ -1219,6 +1233,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     mkey = C.dkey(st, ids.DK_MULTIHIT_COUNT, actor=u, subject=C.eff_move(move))
     idx, rng = R.sample(rng, mkey, 20, active=on_hl & is_range)
     hits = jnp.where(is_range, MULTIHIT_TABLE[idx], jnp.where(mh[0] > 0, mh[0], 1)).astype(I32)
+    hits = jnp.where(parental_bond(st, dex, u, move, spread_hit), 2, hits)       # move.multihit = 2
     hits = jnp.where(side_on, 1, hits)
     full = lambda v: jnp.full(NT, v, I32)  # noqa: E731
     new = S.Exec(in_move=jnp.asarray(True), u=u, move=move, targets=targets.astype(I32), tv=tv, spread=spread,
@@ -1313,8 +1328,9 @@ def move_end(st, dex, rng, cfg):
     st = F.resolve_faints(st, dex, run_rest, do_check_win=mget(st.mons.hp, u) <= 0)
     # [C] scripts.ts:545-549: '-hitcount' for multihit moves without a boolean smartTarget
     mh = dex.move_multihit[move]
-    st = EV.emit(st, run_rest & (mh[0] > 0) & (dex.move_smart_target[move] != 1), EV.EV_HITCOUNT, actor=targets[0],
-                 v1=hit_count)
+    pb = parental_bond(st, dex, u, move, ex.spread_hit)
+    st = EV.emit(st, run_rest & ((mh[0] > 0) | pb) & (dex.move_smart_target[move] != 1) & ~(pb & (hit_count == 1)),
+                 EV.EV_HITCOUNT, actor=targets[0], v1=hit_count)
     st = apply_recoil(st, dex, u, move, ex.total, run_rest & (ex.total > 0))
     # gotAttacked / timesAttacked
     m = st.mons

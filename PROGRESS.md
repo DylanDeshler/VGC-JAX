@@ -256,6 +256,8 @@ M3 content (2026-10-23)
   (onStart seek + Update; index draw over the non-notrace adjacent foes; setAbility: '-ability ... [from] ability:
   Trace', new abilityState, Start of the copied ability). mons.ability_state_of records abilityState.id: PS keeps the
   state when clearVolatile resets the ability (a fainted Trace holder keeps Cloud Nine's {ending}).
+- Parental Bond (onPrepareHit: two hits unless Status / data multihit / noparentalbond / charge / futuremove /
+  spreadHit; second hit x0.25 in modifyDamage; '-hitcount' skipped when only hit 1 ran), Kangaskhanite.
 - CPU testing: scripts/memguard.sh caps the process tree (one replay worker ~14.5 GB; use <= 2 workers).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

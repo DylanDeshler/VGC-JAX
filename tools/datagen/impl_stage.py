@@ -46,7 +46,7 @@ EXTRA: dict[str, set[str]] = {
               "stealthrock", "spikes", "toxicspikes", "stickyweb",                     # effects/hazards.py
               "phantomforce",                                                          # effects/locked.py
               "healingwish"},                                                          # effects/moves_b2.py
-    "abilities": {"trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
+    "abilities": {"parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
                   "punkrock", "sandforce", "hugepower", "purepower", "hustle", "guts", "blaze", "torrent",
@@ -65,7 +65,7 @@ EXTRA: dict[str, set[str]] = {
                   "cursedbody", "snowcloak", "liquidvoice", "auraguard", "thermalexchange", "galewings",
                   "infiltrator", "emergencyexit", "sheerforce"},                                            # batch C2a / C3
                                                                                               # effects/ability_blocks.py
-    "items": {"lumberry", "sceptilite", "bindingband", "blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
+    "items": {"kangaskhanite", "lumberry", "sceptilite", "bindingband", "blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
               "miracleseed", "mysticwater", "nevermeltice", "poisonbarb", "sharpbeak", "silkscarf", "silverpowder",
               "softsand", "spelltag", "twistedspoon", "lifeorb", "expertbelt", "leftovers", "rockyhelmet",
               "focussash", "lightclay", "heatrock", "damprock", "smoothrock", "icyrock", "terrainextender",
