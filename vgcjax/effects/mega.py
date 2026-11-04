@@ -66,6 +66,7 @@ def mega_evolve(st, dex, rng, ref, on):
     st = st.replace(mons=m.replace(ability=mset(m.ability, r, new_ab, alive),
                                    base_ability=mset(m.base_ability, r, new_ab, go),
                                    ability_state=mset(m.ability_state, r, jnp.zeros(4, I16), alive),
+                                   ability_state_of=mset(m.ability_state_of, r, new_ab, alive),
                                    ability_seq=mset(m.ability_seq, r, meta.effect_seq, alive)),
                     meta=meta.replace(effect_seq=meta.effect_seq + alive.astype(meta.effect_seq.dtype)))
     st, rng = AB.switch_in_vec(st, dex, rng, r, alive, start=True)   # singleEvent('Start', ability)

@@ -285,3 +285,5 @@ s_lum_conf | --n 120 --seed 301 --teams stagereq:impl:item:lumberry+move:swagger
 s_unaware | --n 120 --seed 301 --teams stagereq:impl:ability:unaware --stage impl
 s_lightningrod | --n 120 --seed 301 --teams stagereq:impl:ability:lightningrod --stage impl
 s_sceptilite | --n 120 --seed 301 --teams stagereq:impl:item:sceptilite --stage impl --policy random-weighted
+hw_healingwish | --n 200 --seed 311 --teams stagereq:impl:move:healingwish --stage impl
+tr_trace | --n 200 --seed 321 --teams stagereq:impl:ability:trace --stage impl

@@ -775,6 +775,12 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
             st, rng, scres = SC.add_side_condition(st, dex, rng, sc_side, msc,
                                                    cj & (msc > 0), source=u, source_effect=C.eff_move(move))
             dj = RS.where(cj & (msc > 0), RS.combine(dj, scres), dj)
+            # slotCondition (PS :1299-1302): target.side.addSlotCondition(target, id, source, move)
+            mslot = dex.move_slot_cond[move].astype(I32)
+            t0c = jnp.clip(targets[j], 0, 7)
+            st, rng, slres = SC.add_slot_condition(st, dex, rng, side_of(t0c), jnp.maximum(position(st, t0c), 0), mslot,
+                                                   cj & (mslot > 0), source=u, source_effect=C.eff_move(move))
+            dj = RS.where(cj & (mslot > 0), RS.combine(dj, slres), dj)
             # weather / terrain (PS :1303-1310): field.setWeather / setTerrain(id, source, move)
             mw = dex.move_weather[move].astype(I32)
             st, rng, wres = WE.set_weather(st, dex, rng, mw, cj & (mw > 0), source=u, source_effect=C.eff_move(move))

@@ -134,6 +134,7 @@ def _mon(m, s, b, p, sheet):
     w("ability", _I["ABILITIES"][p["ability"]])
     w("base_ability", _I["ABILITIES"][p["baseAbility"]])
     w("ability_seq", (p.get("abilityState") or {}).get("effectOrder", 0))
+    w("ability_state_of", _I["ABILITIES"][(p.get("abilityState") or {}).get("id") or p["ability"]])
     w("item", _I["ITEMS"][p["item"]] if p["item"] else 0)
     w("item_seq", (p.get("itemState") or {}).get("effectOrder", 0))
     w("last_item", _I["ITEMS"][p["lastItem"]] if p.get("lastItem") else 0)

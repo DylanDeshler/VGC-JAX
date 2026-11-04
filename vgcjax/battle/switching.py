@@ -113,6 +113,7 @@ def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_dr
                   active_move_actions=mset(m.active_move_actions, r_in, 0, on),
                   move_used=mset(m.move_used, r_in, jnp.zeros(4, bool), on),
                   ability_state=mset(m.ability_state, r_in, jnp.zeros(4, I16), on),
+                  ability_state_of=mset(m.ability_state_of, r_in, mget(m.ability, r_in), on),
                   item_state=mset(m.item_state, r_in, jnp.zeros(2, I16), on),
                   ability_seq=mset(m.ability_seq, r_in, ab_seq, on), item_seq=mset(m.item_seq, r_in, it_seq, on),
                   previously_switched_in=mset(m.previously_switched_in, r_in, mget(m.previously_switched_in, r_in) + 1, on))

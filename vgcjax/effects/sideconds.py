@@ -76,6 +76,40 @@ def clear_terrain(st, dex, rng, on):
                                       terrain_state=jnp.where(on, jnp.zeros(3, I16), f.terrain_state))), rng
 
 
+def add_slot_condition(st, dex, rng, side, pos, c, on, source=-1, source_effect=-1):
+    """PS: sim/side.ts:464-495 addSlotCondition: Restart if present (false without a handler), else a new state
+    (initEffectState: target the side -> effectOrder++; duration), Start on side.active[pos] (falsy cancels).
+    Returns (st, rng, result)."""
+    from vgcjax.battle import results as RS
+    on = jnp.asarray(on)
+    side, pos = jnp.asarray(side, I32), jnp.asarray(pos, I32)
+    c = jnp.asarray(c, I32)
+    e = ids.COND_BASE + c - 1
+    k = c - ids.SLOT_BASE
+    sd = st.sides
+    present = ((sd.slot_cond_bits[side, pos] >> k.astype(U32)) & 1) == 1
+    restart = on & present
+    hc = HookCtx.make(-1, source, source_effect).replace(holder=8 + side)
+    hc, st, rng = CO.single_event(ids.HOOK_RESTART, e, st, dex, rng, hc, restart, prefix=ids.PFX_ON)
+    has_restart = CO.handler_present(dex, e, ids.HOOK_RESTART, ids.PFX_ON)
+    r_restart = RS.where(has_restart, (hc.ret_t, hc.ret_v), RS.R(RS.BOOL, 0))
+    add = on & ~present
+    sd = st.sides
+    nb = sd.slot_cond_bits[side, pos] | (U32(1) << k.astype(U32))
+    state = jnp.zeros(6, I16).at[0].set(dex.cond_duration[c].astype(I16))
+    sd = sd.replace(slot_cond_bits=sd.slot_cond_bits.at[side, pos].set(jnp.where(add, nb, sd.slot_cond_bits[side, pos])),
+                    slot_cond_state=sd.slot_cond_state.at[side, pos, k].set(
+                        jnp.where(add, state, sd.slot_cond_state[side, pos, k])))
+    st = CO.next_effect_order(st.replace(sides=sd), add)
+    b = st.sides.active[side, pos].astype(I32)
+    hc3 = HookCtx.make(jnp.where(b >= 0, side * 4 + jnp.maximum(b, 0), -1), source, source_effect)
+    hc3, st, rng = CO.single_event(ids.HOOK_START, e, st, dex, rng, hc3, add, prefix=ids.PFX_ON)
+    started = (hc3.ret_t == RS.UNDEF) | RS.truthy((hc3.ret_t, hc3.ret_v))
+    st, rng = remove_slot_condition(st, dex, rng, side, pos, c, add & ~started)
+    res = RS.where(restart, r_restart, RS.where(add & started, RS.R(RS.BOOL, 1), RS.R(RS.BOOL, 0)))
+    return st, rng, res
+
+
 def add_side_condition(st, dex, rng, side, c, on, source=-1, source_effect=-1):
     """PS: sim/side.ts:413-443 addSideCondition: SideRestart if present (false without a handler), else new state
     (duration, durationCallback), SideStart (falsy cancels), SideConditionStart (M4). Returns (st, rng, result)."""

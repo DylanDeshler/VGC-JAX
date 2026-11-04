@@ -52,12 +52,13 @@ def set_state_field(st, ref, name, key, value, on):
 
 
 SWITCH_IN = ("drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
-             "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk", "fairyaura", "hospitality")
+             "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk", "fairyaura", "hospitality", "trace")
 WEATHER_SETTERS = {"drought": "sunnyday", "drizzle": "raindance", "sandstream": "sandstorm", "snowwarning": "snowscape"}
 TERRAIN_SETTERS = {"electricsurge": "electricterrain", "grassysurge": "grassyterrain", "psychicsurge": "psychicterrain",
                    "mistysurge": "mistyterrain"}
 fields("cloudnine", ("ending", "bool"))
 fields("unnerve", ("unnerved", "bool"))
+fields("trace", ("seek", "bool"))
 
 
 def _noop(hc, st, dex, rng):
@@ -83,7 +84,7 @@ def _table(mapping, value_fn):
     return jnp.array(t, I32)
 
 
-def switch_in_vec(st, dex, rng, u, on, start=False):
+def switch_in_vec(st, dex, rng, u, on, start=False, _traced=False):
     """The SwitchIn handler (onStart, or onSwitchIn when defined) of holder u's ability, for the abilities of
     SWITCH_IN (data/abilities.ts):
       Drought / Drizzle / Sand Stream / Snow Warning: this.field.setWeather(w) (source = holder, sourceEffect = the
@@ -144,7 +145,52 @@ def switch_in_vec(st, dex, rng, u, on, start=False):
         it = mget(st.mons.item, frefs[j]).astype(I32)
         st = EV.emit(st, frisk & foe_up[j] & (it > 0), EV.EV_ITEM, actor=frefs[j], target=u,
                      move=ids.ITEM_BASE + it - 1, v1=aeff("frisk"), flags=EV.F_FROM_ABILITY)
+    if aid("trace") > 0 and not _traced:      # Trace onStart: seek = true (no No Ability / Ability Shield in Reg
+        tr = is_("trace")                     # M-C), then singleEvent('Update')
+        st = set_state_field(st, r, "trace", "seek", 1, tr)
+        st, rng = trace_update(st, dex, rng, r, tr)
     return st, rng
+
+
+def trace_update(st, dex, rng, u, on):
+    """Trace onUpdate: effectState.seek and an adjacent unfainted foe whose ability has no 'notrace' flag ->
+    sample(possibleTargets) (ABILITY_TRACE_TARGET, holder, 'trace'), pokemon.setAbility(target's ability, target):
+    cantsuppress -> false; runEvent('SetAbility') (no Reg M-C handler); End(Trace) (none); ability = it, a new
+    abilityState (effectOrder++); '-ability' X Ability 'Trace' '[from] ability: Trace' '[of] target'; Start(it).
+    Returns (st, rng)."""
+    from vgcjax.battle import common as C
+    from vgcjax.core import rng as R
+    if aid("trace") <= 0:
+        return st, rng
+    r = jnp.clip(jnp.asarray(u, I32), 0, 7)
+    m = st.mons
+    seek = (state_field(st, r, "trace", "seek") != 0) & ((mget(m.ability_state, r)[3] & 1) == 1)
+    go = jnp.asarray(on) & (mget(m.ability, r) == aid("trace")) & seek & (mget(m.hp, r) > 0)
+    fs = 1 - r // 4
+    act = st.sides.active[fs].astype(I32)
+    frefs = fs * 4 + jnp.maximum(act, 0)
+    fab = mget(m.ability, frefs).astype(I32)
+    ok = (act >= 0) & ~mget(m.fainted, frefs) & (mget(m.hp, frefs) > 0) & \
+        ((dex.ability_flags[fab].astype(I32) & ids.AF_NOTRACE) == 0) & (fab > 0)
+    go = go & jnp.any(ok)
+    key = C.dkey(st, ids.DK_ABILITY_TRACE_TARGET, actor=r, subject=aeff("trace"))
+    # sample(possibleTargets): an index draw over the filtered adjacent foes, in side.active order
+    n = jnp.sum(ok.astype(I32))
+    i, rng = R.sample(rng, key, n, active=go)
+    rank = jnp.cumsum(ok.astype(I32)) - 1
+    tgt = jnp.clip(jnp.where(ok[0] & (rank[0] == i), frefs[0], frefs[1]), 0, 7)
+    new = mget(m.ability, tgt).astype(I32)
+    cant = ((dex.ability_flags[new].astype(I32) | dex.ability_flags[aid("trace")].astype(I32)) &
+            ids.AF_CANTSUPPRESS) != 0
+    go = go & ~cant
+    meta = st.meta
+    m = m.replace(ability=mset(m.ability, r, new.astype(m.ability.dtype), go),
+                  ability_state=mset(m.ability_state, r, jnp.zeros_like(mget(m.ability_state, r)), go),
+                  ability_state_of=mset(m.ability_state_of, r, new.astype(m.ability_state_of.dtype), go),
+                  ability_seq=mset(m.ability_seq, r, meta.effect_seq, go))
+    st = CO.next_effect_order(st.replace(mons=m), go)
+    st = EV.emit(st, go, EV.EV_ABILITY, actor=r, move=ids.ABILITY_BASE + new - 1)
+    return switch_in_vec(st, dex, rng, r, go, start=True, _traced=True)
 
 
 def end_vec(st, refs, on):

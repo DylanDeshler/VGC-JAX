@@ -102,7 +102,8 @@ def update(st, dex, rng, on):
     Lum Berry onUpdate (status or confusion -> eatItem)."""
     from vgcjax.effects import conditions as CO
     from vgcjax.effects import statuses as STS
-    if iid("sitrusberry") <= 0 and iid("lumberry") <= 0:
+    from vgcjax.effects.abilities import aid
+    if iid("sitrusberry") <= 0 and iid("lumberry") <= 0 and aid("trace") <= 0:
         return st, rng
     on = jnp.asarray(on)
     act = st.sides.active.reshape(4).astype(I32)
@@ -114,6 +115,8 @@ def update(st, dex, rng, on):
         r = refs[order[i]]
         m = st.mons
         hp, mx = mget(m.hp, r).astype(I32), mget(m.maxhp, r).astype(I32)
+        from vgcjax.effects import abilities as AB_                       # abilities' onUpdate first (subOrder 7)
+        st, rng = AB_.trace_update(st, dex, rng, r, on & alive[order[i]])
         if iid("sitrusberry") > 0:
             go = on & alive[order[i]] & holds(st, r, "sitrusberry") & (hp * 2 <= mx) & can_eat(st, r)
             st = eat_item(st, r, go)

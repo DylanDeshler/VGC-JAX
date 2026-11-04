@@ -77,6 +77,17 @@ def _side_conditions(st, side: int) -> dict:
     return dict(sorted(out.items()))
 
 
+def _slot_conditions(st, side: int, pos: int) -> dict:
+    """PS side.slotConditions[pos] (effMap): every set slot-condition bit with its effState."""
+    bits = int(st.sides.slot_cond_bits[side, pos])
+    out = {}
+    for k in range(S.NSL):
+        if bits >> k & 1:
+            name = ids.CONDITIONS[ids.SLOT_BASE + k]
+            out[name] = _eff_state(name, st.sides.slot_cond_state[side, pos, k], 5)
+    return dict(sorted(out.items()))
+
+
 def _volatiles(st, side: int, b: int) -> dict:
     """PS pokemon.volatiles (effMap): every set volatile bit with its effState."""
     words = [int(w) for w in st.mons.vol_bits[side, b]]
@@ -159,7 +170,7 @@ def _pokemon(st, side: int, b: int) -> dict:
         "itemState": {} if item else None,
         "lastItem": ids.ITEMS[int(g(m.last_item))] if int(g(m.last_item)) else "",
         "ability": ids.ABILITIES[int(g(m.ability))],
-        "abilityState": _ability_state(int(g(m.ability)), g(m.ability_state)),
+        "abilityState": _ability_state(int(g(m.ability_state_of)), g(m.ability_state)),
         "moves": moves,
         "canMegaEvo": bool(g(m.can_mega)),
         "lastMove": ids.MOVES[last_move] if last_move else None,
@@ -230,7 +241,7 @@ def engine_to_json(st: S.State) -> dict:
                     "faintedThisTurn": bool(st.sides.fainted_this_turn[side]),
                     "faintedLastTurn": bool(st.sides.fainted_last_turn[side])},
             "sideConditions": _side_conditions(st, side),
-            "slotConditions": [{}, {}],
+            "slotConditions": [_slot_conditions(st, side, pos) for pos in range(2)],
             "active": active,
             "pokemon": [_pokemon(st, side, b) for b in order],
         })

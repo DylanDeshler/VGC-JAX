@@ -29,6 +29,7 @@ def build_mon(dex, team: S.Team, side, sheet):
     return dict(
         sheet_idx=sheet, species=sp, base_species=sp, types=dex.species_types[sp], stats=stats, hp=maxhp,
         maxhp=maxhp, ability=team.ability[side, sheet], base_ability=team.ability[side, sheet], item=item,
+        ability_state_of=team.ability[side, sheet],
         nature=nat, sp=sp6, move_ids=moves, pp=maxpp, maxpp=maxpp, can_mega=can_mega,
         weight_hg=dex.species_weight_hg[sp], newly_switched=True, speed=stats[4],
     )

@@ -575,3 +575,34 @@ if mid("venoshock") > 0:
         """target.status psn / tox -> chainModify(2)."""
         s = _status_of(ctx, ctx.src)
         return ((s == ids.COND_PSN) | (s == ids.COND_TOX)) & (ctx.src >= 0), jnp.asarray(8192, I32), None
+
+
+# ------------------------------------------------------------------ Healing Wish
+if mid("healingwish") > 0 and "healingwish" in ids.CONDITIONS:
+    @handler(ids.HOOK_TRYHIT, int(C.eff_move(mid("healingwish"))), ps="data/moves.ts healingwish.onTryHit")
+    def healingwish_try_hit(hc, st, dex, rng):
+        """!canSwitch(source.side) -> attrLastMove('[still]'), '-fail' source, NOT_FAIL."""
+        from vgcjax.battle import faint as F
+        u = hc.source
+        fail = F.can_switch(st, jnp.clip(u, 0, 7) // 4) <= 0
+        st = EV.attr_last_move(st, fail, EV.F_STILL)
+        st = EV.emit(st, fail, EV.EV_FAIL, actor=u)
+        return hc.ret(RS.R(RS.NOTFAIL, 0), fail), st, rng
+
+    @handler(ids.HOOK_SWITCHIN, CO.eff("healingwish"), ps="data/moves.ts healingwish.condition.onSwitchIn / onSwap")
+    def healingwish_switch_in(hc, st, dex, rng):
+        """singleEvent('Swap'): not fainted and (hp < maxhp or a status) -> heal(maxhp) (no TryHeal), clearStatus,
+        '-heal' X hp '[from] move: Healing Wish', removeSlotCondition."""
+        from vgcjax.battle import faint as F
+        from vgcjax.battle import move_pipeline as MP
+        from vgcjax.effects import sideconds as SC
+        from vgcjax.effects import statuses as STS
+        r = hc.target
+        m = st.mons
+        go = ~mget(m.fainted, r) & ((mget(m.hp, r) < mget(m.maxhp, r)) | (mget(m.status, r) > 0))
+        st, _ = F.heal(st, r, mget(m.maxhp, r).astype(I32), go)
+        st = STS.clear_status(st, r, go)
+        st = EV.emit_hp(st, go, EV.EV_HEAL, r, move=C.eff_move(mid("healingwish")), flags=EV.F_FROM)
+        st, rng = SC.remove_slot_condition(st, dex, rng, r // 4, jnp.maximum(MP.position(st, r), 0),
+                                           CO.cid("healingwish"), go)
+        return hc, st, rng

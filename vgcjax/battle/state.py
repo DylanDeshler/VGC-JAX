@@ -104,6 +104,8 @@ class Mons:
     base_ability: jax.Array        # i16
     ability_state: jax.Array       # i16[2,4,4]
     ability_seq: jax.Array         # i32 abilityState.effectOrder
+    ability_state_of: jax.Array    # i16 abilityState.id: the ability whose keys ability_state holds (PS keeps the
+                                   #     state when clearVolatile resets the ability to baseAbility)
     item: jax.Array                # i16
     item_state: jax.Array          # i16[2,4,2]
     item_seq: jax.Array            # i32
@@ -294,7 +296,8 @@ def empty_mons() -> Mons:
     return Mons(
         sheet_idx=_z(s, I8, -1), species=_z(s, I16), base_species=_z(s, I16), types=_z(s + (2,), I8, -1),
         added_type=_z(s, I8), stats=_z(s + (5,), I16), hp=_z(s, I16), maxhp=_z(s, I16), ability=_z(s, I16),
-        base_ability=_z(s, I16), ability_state=_z(s + (4,), I16), ability_seq=_z(s, I32), item=_z(s, I16),
+        base_ability=_z(s, I16), ability_state=_z(s + (4,), I16), ability_seq=_z(s, I32),
+        ability_state_of=_z(s, I16), item=_z(s, I16),
         item_state=_z(s + (2,), I16), item_seq=_z(s, I32), last_item=_z(s, I16), nature=_z(s, I8),
         sp=_z(s + (6,), I8), move_ids=_z(s + (4,), I16), pp=_z(s + (4,), I8), maxpp=_z(s + (4,), I8),
         move_disabled=_z(s + (4,), I8), move_used=_z(s + (4,), bool), status=_z(s, I8),

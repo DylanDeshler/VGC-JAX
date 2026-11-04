@@ -252,6 +252,11 @@ M3 content (2026-10-23)
   (ModifyBoost on the stat user: target holder zeroes attack-stat / accuracy boosts, user holder zeroes defense /
   evasion), Lightning Rod (TryHit +1 SpA or '-immune'; onAnyRedirectTarget after Follow Me, '-activate'),
   Sceptilite. Targeted corpora 100% (46 Lum eats, 82 redirects).
+- Healing Wish (addSlotCondition; slotConditions now projected; onSwitchIn / Swap full heal + clearStatus), Trace
+  (onStart seek + Update; index draw over the non-notrace adjacent foes; setAbility: '-ability ... [from] ability:
+  Trace', new abilityState, Start of the copied ability). mons.ability_state_of records abilityState.id: PS keeps the
+  state when clearVolatile resets the ability (a fainted Trace holder keeps Cloud Nine's {ending}).
+- CPU testing: scripts/memguard.sh caps the process tree (one replay worker ~14.5 GB; use <= 2 workers).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

@@ -43,9 +43,10 @@ EXTRA: dict[str, set[str]] = {
               "assurance", "payback", "hardpress", "lashout", "gyroball", "hex", "facade", "venoshock", "poltergeist",
               "firstimpression", "upperhand", "tripleaxel", "finalgambit", "endeavor", "steelbeam", "icespinner",
               "bind", "firespin", "infestation", "sandtomb", "snaptrap", "whirlpool", "wrap",   # effects/volatiles.py
-              "stealthrock", "spikes", "toxicspikes", "stickyweb",
-              "phantomforce"},                                                         # effects/locked.py                    # effects/hazards.py                                                           # effects/moves_b2.py
-    "abilities": {"unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
+              "stealthrock", "spikes", "toxicspikes", "stickyweb",                     # effects/hazards.py
+              "phantomforce",                                                          # effects/locked.py
+              "healingwish"},                                                          # effects/moves_b2.py
+    "abilities": {"trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
                   "punkrock", "sandforce", "hugepower", "purepower", "hustle", "guts", "blaze", "torrent",
