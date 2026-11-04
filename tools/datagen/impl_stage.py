@@ -45,8 +45,8 @@ EXTRA: dict[str, set[str]] = {
               "bind", "firespin", "infestation", "sandtomb", "snaptrap", "whirlpool", "wrap",   # effects/volatiles.py
               "stealthrock", "spikes", "toxicspikes", "stickyweb",                     # effects/hazards.py
               "phantomforce",                                                          # effects/locked.py
-              "healingwish"},                                                          # effects/moves_b2.py
-    "abilities": {"stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
+              "healingwish", "stoneaxe"},                                                          # effects/moves_b2.py
+    "abilities": {"queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
                   "punkrock", "sandforce", "hugepower", "purepower", "hustle", "guts", "blaze", "torrent",

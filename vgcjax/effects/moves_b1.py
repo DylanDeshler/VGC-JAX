@@ -116,13 +116,22 @@ def _snow(st):
 
 
 # ------------------------------------------------------------------ Knock Off
-def takeable(st, item, holder):
-    """<item>.onTakeItem(item, holder): a Mega Stone of the holder's base species -> false."""
+def stone_locked(st, item, holder):
+    """A Mega Stone's onTakeItem(item, holder) -> false (data/items.ts): the classic stones test
+    megaStone[holder.baseSpecies.baseSpecies] (Lopunnite), the newer ones holder.baseSpecies.name among the
+    megaStone keys / values (Floettite: a Floette-Mega holder keeps it). With rows (user species K, Mega forme V) this
+    is: baseSpecies in {K, V} or base(baseSpecies) == K, which agrees with both tests on every row."""
     item = jnp.asarray(item, I32)
-    sp = mget(st.mons.base_species, jnp.clip(holder, 0, 7)).astype(I32)
-    base = jnp.asarray(_base_species_table(), I32)[sp]
-    stone = jnp.asarray(_stone_table(), I32)
-    return ~jnp.any(stone[jnp.clip(item, 0, stone.shape[0] - 1)] == base)
+    hb = mget(st.mons.base_species, jnp.clip(holder, 0, 7)).astype(I32)
+    base = jnp.asarray(_base_species_table(), I32)[hb]
+    rows = jnp.asarray(_stone_table(), I32)[jnp.clip(item, 0, len(ids.ITEMS))]       # [2, 2] (K, V)
+    k, v = rows[:, 0], rows[:, 1]
+    return jnp.any((k >= 0) & ((hb == k) | (hb == v) | (base == k)))
+
+
+def takeable(st, item, holder):
+    """<item>.onTakeItem(item, holder): a Mega Stone its holder can use -> false."""
+    return ~stone_locked(st, item, holder)
 
 
 def can_take(st, ref):
@@ -131,11 +140,7 @@ def can_take(st, ref):
     m = st.mons
     r = jnp.clip(ref, 0, 7)
     it = mget(m.item, r).astype(I32)
-    sp = mget(m.base_species, r).astype(I32)
-    base = jnp.asarray(_base_species_table(), I32)[sp]
-    stone = jnp.asarray(_stone_table(), I32)                            # [n_items, 2] base species ids
-    locked = jnp.any(stone[jnp.clip(it, 0, stone.shape[0] - 1)] == base)
-    return (it > 0) & ~locked
+    return (it > 0) & ~stone_locked(st, it, r)
 
 
 _TABLES = {}
@@ -150,18 +155,18 @@ def _base_species_table():
 
 
 def _stone_table():
-    """item -> the base species ids whose Mega Stone it is (species_mega rows)."""
+    """item -> up to two (user species, Mega forme) rows from species_mega."""
     if "stone" not in _TABLES:
         import numpy as np
         from vgcjax.core.dex import load_tables_np
         t = load_tables_np()
-        tab = np.full((len(ids.ITEMS) + 1, 2), -1, np.int32)
+        tab = np.full((len(ids.ITEMS) + 1, 2, 2), -1, np.int32)
         cnt = np.zeros(len(ids.ITEMS) + 1, np.int32)
         for sp in range(t["species_mega"].shape[0]):
             for k in range(2):
                 stone, mega = int(t["species_mega"][sp, k, 0]), int(t["species_mega"][sp, k, 1])
                 if stone > 0 and mega > 0 and cnt[stone] < 2:
-                    tab[stone, cnt[stone]] = int(t["species_base_species"][sp])
+                    tab[stone, cnt[stone]] = (sp, mega)
                     cnt[stone] += 1
         _TABLES["stone"] = tab
     return _TABLES["stone"]

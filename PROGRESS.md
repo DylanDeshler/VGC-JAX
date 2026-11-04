@@ -261,6 +261,10 @@ M3 content (2026-10-23)
 - Stance Change (onModifyMove: Aegislash-Blade for a damaging move, Aegislash for King's Shield; formeChange via
   setSpecies). PublicEvents gain FORMECHANGE ('-formechange' X species: oracle/lib/protocol.js + engine kind; the
   traces carry no '[from]' for it). Aegislash corpora 100%.
+- Queenly Majesty (Armor Tail's onFoeTryMove), Sturdy (onTryHit OHKO '-immune'; onDamage priority -30 before Focus
+  Sash: full HP -> hp - 1, '-ability' X Sturdy), Stone Axe (onAfterHit Stealth Rock on the foe side, not with Sheer
+  Force). Mega Stone take-lock now follows both PS forms (megaStone[baseSpecies.baseSpecies] and the newer
+  baseSpecies.name in keys / values: a Floette-Mega keeps Floettite vs Trick / Knock Off).
 - CPU testing: scripts/memguard.sh caps the process tree (one replay worker ~14.5 GB; use <= 2 workers).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

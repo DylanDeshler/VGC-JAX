@@ -678,8 +678,11 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     inactive = ~mget(m.is_active, targets)
     go = tv & numeric & ~hp0 & ~inactive
     amt = jnp.where(vals != 0, jnp.maximum(vals, 1), 0)
-    # runEvent('Damage', target, source, move): Focus Sash (Sturdy etc.: M4)
+    # runEvent('Damage', target, source, move): Sturdy (priority -30: at full HP, damage >= hp -> '-ability' X
+    # Sturdy, hp - 1), then Focus Sash (priority -40)
     from vgcjax.effects import items as IT
+    stu = go & (amt > 0) & (mget(m.ability, targets) == opt_id("ABILITY_STURDY")) & (hp_t == mx_t) & (amt >= hp_t)
+    amt = jnp.where(stu, hp_t - 1, amt)
     amt, sash = IT.focus_sash(st, targets, amt, go & (amt > 0))
     hit_t = go & (amt > 0)
     dealt = jnp.where(hit_t, jnp.minimum(amt, hp_t), 0)
@@ -699,6 +702,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     act_u = mget(m.is_active, u)
     healed = jnp.zeros((), bool)
     for j in range(NT):
+        st = EV.emit(st, stu[j], EV.EV_ABILITY, actor=targets[j], move=T.ABILITY_BASE + opt_id("ABILITY_STURDY") - 1)
         st = IT.use_item(st, targets[j], sash[j])                 # '-enditem' X Focus Sash (inside the Damage event)
         pct, col = EV.hp_public(new_hp[j], mx_t[j])
         st = EV.emit(st, go[j], EV.EV_DAMAGE, actor=targets[j], v1=pct, v2=col)  # PS: sim/battle.ts:2171
@@ -967,6 +971,11 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         st = MB1.knock_off(st, dex, targets[j], u, move, damaged[j])
     if opt_id("MOVE_ICESPINNER") > 0:                               # Ice Spinner onAfterHit: clearTerrain()
         st, rng = SC.clear_terrain(st, dex, rng, jnp.any(damaged) & (move == opt_id("MOVE_ICESPINNER")))
+    if opt_id("MOVE_STONEAXE") > 0 and "stealthrock" in ids.CONDITIONS:   # Stone Axe onAfterHit (not Sheer Force)
+        from vgcjax.effects import move_callbacks as MC_sa
+        sa = jnp.any(damaged) & (move == opt_id("MOVE_STONEAXE")) & ~MC_sa.sheer_force(st, dex, u, move)[0]
+        st, rng, _ = SC.add_side_condition(st, dex, rng, 1 - side_of(u), CO.cid("stealthrock"), sa, source=u,
+                                           source_effect=C.eff_move(move))
     st = AR.emergency_exit(st, u, u_hp0, on & ~jnp.asarray(side_mode))   # [C] scripts.ts:419 (the attacker)
     return st, rng, (tags, vals)
 

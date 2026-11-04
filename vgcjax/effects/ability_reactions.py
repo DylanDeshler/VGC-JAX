@@ -97,6 +97,7 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
                 tnt = (move == getattr(ids, "MOVE_TAUNT", -1)) | (move == getattr(ids, "MOVE_ATTRACT", -1))
                 for name, cond in (("oblivious", tnt), ("soundproof", other & _flag(dex, move, ids.MF_SOUND)),
                                    ("bulletproof", _flag(dex, move, ids.MF_BULLET)),
+                                   ("sturdy", dex.move_ohko[move] > 0),                 # Sturdy onTryHit: OHKO
                                    ("goodasgold", other & (cat == ids.CAT_STATUS))):
                     a = live & _is(ab, name) & cond
                     st = EV.emit(st, a, EV.EV_IMMUNE, actor=t, v1=aeff(name))
@@ -301,14 +302,16 @@ def armor_tail(st, dex, u, target, move, on):
     Returns (st, failed)."""
     from vgcjax.battle import move_pipeline as MP
     from vgcjax.battle import queue as Q
-    if aid("armortail") <= 0:
+    if aid("armortail") <= 0 and aid("queenlymajesty") <= 0:
         return st, jnp.zeros((), bool)
     m = st.mons
     us = jnp.clip(u, 0, 7) // 4
     fs = 1 - us
     act = st.sides.active[fs].astype(I32)
     refs = fs * 4 + jnp.maximum(act, 0)
-    hold = (act >= 0) & ~mget(m.fainted, refs) & (mget(m.hp, refs) > 0) & (mget(m.ability, refs) == aid("armortail"))
+    fab = mget(m.ability, refs)                       # Queenly Majesty has the same onFoeTryMove
+    hold = (act >= 0) & ~mget(m.fainted, refs) & (mget(m.hp, refs) > 0) & \
+        ((fab == aid("armortail")) | (fab == aid("queenlymajesty")))
     tt = dex.move_target[move]
     exc = jnp.zeros((), bool)
     for n in ARMOR_TAIL_ALL_EXCEPTIONS:
@@ -320,7 +323,7 @@ def armor_tail(st, dex, u, target, move, on):
     spd = jnp.where(hold, mget(m.speed, refs).astype(I32) * 8 - refs, -(1 << 30))
     holder = refs[jnp.argmax(spd)]
     st = EV.attr_last_move(st, fail, EV.F_STILL)
-    st = EV.emit(st, fail, EV.EV_CANT, actor=holder, move=aeff("armortail"))
+    st = EV.emit(st, fail, EV.EV_CANT, actor=holder, move=ids.ABILITY_BASE + mget(m.ability, holder) - 1)
     return st, fail
 
 
