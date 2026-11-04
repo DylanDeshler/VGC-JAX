@@ -1083,6 +1083,19 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # Liquid Voice (onModifyTypePriority -1): a sound move becomes Water
     a_type = jnp.where(mflag(dex, move, T.MF_SOUND) & (mget(st.mons.ability, u) == opt_id("ABILITY_LIQUIDVOICE")),
                        T.TYPE_WATER, a_type)
+    # Stance Change onModifyMove (priority 1): an Aegislash using a damaging move (or King's Shield) changes to
+    # Aegislash-Blade (Aegislash) -> formeChange (setSpecies, '-formechange' X forme: the traces show no '[from]',
+    # i.e. formeChange's default source (battle.effect) is not the ability here; [C] scripts.ts:98-103)
+    if opt_id("ABILITY_STANCECHANGE") > 0 and opt_id("SPECIES_AEGISLASHBLADE") > 0:
+        from vgcjax.battle import switching as SW_
+        sp = mget(st.mons.species, u).astype(I32)
+        aeg = dex.species_base_species[sp] == T.SPECIES_AEGISLASH
+        ks = move == opt_id("MOVE_KINGSSHIELD")
+        want = jnp.where(ks, T.SPECIES_AEGISLASH, T.SPECIES_AEGISLASHBLADE)
+        sc = go_rm & alive & (mget(st.mons.ability, u) == T.ABILITY_STANCECHANGE) & aeg & \
+            ((dex.move_category[move] != T.CAT_STATUS) | ks) & (sp != want)
+        st = SW_.set_species(st, dex, u, want, sc)
+        st = EV.emit(st, sc, EV.EV_FORMECHANGE, actor=u, v1=want)
     # PS :500-503: ModifyMove changed move.target (Expanding Force) -> getRandomTarget: side.randomFoe, a
     # RANDOM_TARGET_NOMINAL don't-care draw (the printed target is not compared: harness/events.py); the engine takes
     # the first living foe, else foe.active[0]

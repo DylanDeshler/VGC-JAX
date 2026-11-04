@@ -103,6 +103,8 @@ function reduce(lines, battle) {
 			ev('CLEARALLBOOST');
 		} else if (type === '-mega') {
 			ev('MEGA', { actor: refOf(parts[1]), move: toID(parts[3]) });
+		} else if (type === '-formechange') {
+			ev('FORMECHANGE', { actor: refOf(parts[1]), v1: toID(parts[2]), move: fromEffect(from)[1] });
 		} else if (type === 'detailschange') {
 			ev('DETAILSCHANGE', { actor: refOf(parts[1]), v1: toID(String(parts[2]).split(',')[0]) });
 		} else if (type === '-enditem') {

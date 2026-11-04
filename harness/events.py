@@ -42,7 +42,7 @@ def engine_events(st) -> tuple[list[dict], bool]:
             mv, v2 = "typechange", 0            # '-start' X 'typechange' (effects/moves_b2.py double_shock_self)
         if name == "CANT" and mv == "mustrecharge":
             mv = "recharge"                     # mustrecharge.onBeforeMove: ('cant', pokemon, 'recharge')
-        if name == "DETAILSCHANGE":
+        if name in ("DETAILSCHANGE", "FORMECHANGE"):
             v1 = ids.SPECIES[v1] if 0 < v1 < len(ids.SPECIES) else ""
         if name in ("STATUS", "CURESTATUS", "START", "END", "WEATHER", "ITEM", "IMMUNE", "FAIL"):
             v1 = effect_name(v1) if v1 >= 0 else ""

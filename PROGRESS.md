@@ -258,6 +258,9 @@ M3 content (2026-10-23)
   state when clearVolatile resets the ability (a fainted Trace holder keeps Cloud Nine's {ending}).
 - Parental Bond (onPrepareHit: two hits unless Status / data multihit / noparentalbond / charge / futuremove /
   spreadHit; second hit x0.25 in modifyDamage; '-hitcount' skipped when only hit 1 ran), Kangaskhanite.
+- Stance Change (onModifyMove: Aegislash-Blade for a damaging move, Aegislash for King's Shield; formeChange via
+  setSpecies). PublicEvents gain FORMECHANGE ('-formechange' X species: oracle/lib/protocol.js + engine kind; the
+  traces carry no '[from]' for it). Aegislash corpora 100%.
 - CPU testing: scripts/memguard.sh caps the process tree (one replay worker ~14.5 GB; use <= 2 workers).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
