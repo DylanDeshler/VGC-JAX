@@ -74,11 +74,13 @@ def eat_item(st, ref, on):
 @mod_family("ModifyDamage", [ieff(n) for n in RESIST if iid(n) > 0], ps="data/items.ts <resist berry>.onSourceModifyDamage",
             prefix=ids.PFX_SOURCE)
 def resist_berry(ctx, h):
-    """onSourceModifyDamage (the defender's): the berry's type, super effective (Substitute: M3), eatItem ->
-    chainModify(0.5). Pure part only; resist_berry_eat performs the eat (same conditions) after the event."""
+    """onSourceModifyDamage (the defender's): the berry's type, super effective, not a substitute hit (hitSub returns
+    early), eatItem -> chainModify(0.5). Pure part only; resist_berry_eat performs the eat after the event."""
+    from vgcjax.effects import volatiles as VO
     it = mget(ctx.st.mons.item, jnp.clip(h, 0, 7)).astype(I32)
     ty = jnp.asarray(_RESIST_TYPE, I32)[jnp.clip(it, 0, len(ids.ITEMS))]
-    ok = (ty > 0) & (ctx.mtype == ty) & (ctx.extra["type_mod"] > 0) & can_eat(ctx.st, h)
+    hit_sub = VO.sub_blocks(ctx.st, ctx.dex, ctx.tgt, ctx.move, ctx.src)
+    ok = (ty > 0) & (ctx.mtype == ty) & (ctx.extra["type_mod"] > 0) & can_eat(ctx.st, h) & ~hit_sub
     return ok, jnp.asarray(2048, I32), None
 
 

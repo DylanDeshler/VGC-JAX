@@ -145,3 +145,42 @@ def partially_trapped(st, r):
     src = CO.vol_state(st, r, _PT)[PT_SRC].astype(I32)
     ghost = jnp.any(mget(m.types, r) == ids.TYPE_GHOST)
     return CO.has_volatile(st, r, _PT) & (src >= 0) & mget(m.is_active, jnp.clip(src, 0, 7)) & ~ghost
+
+
+# ------------------------------------------------------------------ substitute (data/moves.ts substitute.condition)
+if "substitute" in ids.CONDITIONS:
+    CO.fields("substitute", ("hp", "int"))
+    _SUB = CO.cid("substitute")
+
+    @handler(ids.HOOK_START, CO.eff("substitute"), ps="data/moves.ts substitute.condition.onStart")
+    def substitute_start(hc, st, dex, rng):
+        """'-start' target 'Substitute'; effectState.hp = floor(maxhp / 4); a partiallytrapped volatile is deleted
+        ('-end' target <sourceEffect> '[partiallytrapped]' '[silent]')."""
+        r = hc.target
+        st = EV.emit(st, True, EV.EV_START, actor=r, move=CO.eff("substitute"), v1=-1)
+        st = CO.set_vol_field(st, r, _SUB, CO.slot_of("substitute", "hp"), mget(st.mons.maxhp, r).astype(I32) // 4, True)
+        if "partiallytrapped" in ids.CONDITIONS:
+            pt = CO.has_volatile(st, r, _PT)
+            st = EV.emit(st, pt, EV.EV_END, actor=r, move=CO.vol_state(st, r, _PT)[PT_MOVE].astype(I32), v1=-1)
+            st = CO._set_vol_bit(st, r, _PT, False, pt)
+        return hc, st, rng
+
+    @handler(ids.HOOK_END, CO.eff("substitute"), ps="data/moves.ts substitute.condition.onEnd")
+    def substitute_end(hc, st, dex, rng):
+        """'-end' target 'Substitute'."""
+        return hc, EV.emit(st, True, EV.EV_END, actor=hc.target, move=CO.eff("substitute"), v1=-1), rng
+
+
+def sub_blocks(st, dex, u, move, targets):
+    """substitute.onTryPrimaryHit intercepts (targets [T]): the target holds a substitute, is not the user, and the move
+    has no bypasssub flag and does not infiltrate (Infiltrator; Pollen Puff on an ally sets move.infiltrates)."""
+    if "substitute" not in ids.CONDITIONS:
+        return jnp.zeros(jnp.shape(targets), bool)
+    t = jnp.clip(jnp.asarray(targets, I32), 0, 7)
+    w, b = ids.MF_BYPASSSUB
+    bypass = ((dex.move_flags[move, w] >> b) & 1) == 1
+    pp = getattr(ids, "MOVE_POLLENPUFF", -999)
+    ally = (t // 4) == (jnp.clip(u, 0, 7) // 4)
+    from vgcjax.effects import ability_mods as AM
+    infil = ((move == pp) & ally) | AM.infiltrates(st, u)              # Infiltrator onModifyMove: move.infiltrates
+    return CO.has_volatile(st, t, _SUB) & (jnp.asarray(targets) != u) & (jnp.asarray(targets) >= 0) & ~bypass & ~infil

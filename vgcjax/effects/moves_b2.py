@@ -679,3 +679,28 @@ if mid("pollenpuff") > 0:
         ally = (jnp.clip(t, 0, 7) // 4) == (jnp.clip(u, 0, 7) // 4)
         st, r = MP.battle_heal(st, t, mget(st.mons.maxhp, t).astype(I32) // 2, ally)
         return hc.ret(RS.R(RS.NOTFAIL, 0), ally & ~RS.truthy(r)), st, rng
+
+
+# ------------------------------------------------------------------ Substitute (the move)
+if mid("substitute") > 0 and "substitute" in ids.CONDITIONS:
+    _sb = int(C.eff_move(mid("substitute")))
+
+    @handler(ids.HOOK_TRYHIT, _sb, ps="data/moves.ts substitute.onTryHit")
+    def substitute_try_hit(hc, st, dex, rng):
+        """A substitute already up -> '-fail' X 'move: Substitute'; hp <= maxhp / 4 or maxhp 1 -> '-fail' X
+        'move: Substitute' '[weak]'; both NOT_FAIL."""
+        u = hc.target
+        m = st.mons
+        hp, mx = mget(m.hp, u).astype(I32), mget(m.maxhp, u).astype(I32)
+        fail = CO.has_volatile(st, u, CO.cid("substitute")) | (4 * hp <= mx) | (mx == 1)
+        st = EV.emit(st, fail, EV.EV_FAIL, actor=u, move=_sb, flags=EV.F_FAILSTATUS)
+        return hc.ret(RS.R(RS.NOTFAIL, 0), fail), st, rng
+
+    @handler(ids.HOOK_HIT, _sb, ps="data/moves.ts substitute.onHit")
+    def substitute_hit(hc, st, dex, rng):
+        """directDamage(maxhp / 4): '-damage' X hp (no [from])."""
+        from vgcjax.battle import faint as F
+        u = hc.target
+        amt = jnp.maximum(mget(st.mons.maxhp, u).astype(I32) // 4, 1)
+        st, _ = F.damage(st, u, amt, True)
+        return hc, EV.emit_hp(st, True, EV.EV_DAMAGE, u), rng

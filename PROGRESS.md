@@ -267,6 +267,12 @@ M3 content (2026-10-23)
   baseSpecies.name in keys / values: a Floette-Mega keeps Floettite vs Trick / Knock Off).
 - Heal Pulse (Mega Launcher 0.75, '-fail' heal / NOT_FAIL), Strength Sap (boosted unmodified Atk, isSelf -1 Atk,
   heal), Soak ('-start' typechange Water or '-fail' / null), Pollen Puff (ally: basePower 0 + heal / NOT_FAIL).
+- Substitute: the move (TryHit '-fail' / [weak], directDamage maxhp / 4), the volatile (hp, Start removes
+  partiallytrapped, '-end'), and spreadMoveHit step 0 TryPrimaryHit: unless bypasssub / infiltrates (Infiltrator,
+  ally Pollen Puff) the getDamage result goes to the substitute ('-activate' [damage] or '-ohko' + break), recoil,
+  ceil drain, AfterSubDamage; status moves '-fail' [still]; HIT_SUBSTITUTE targets are null: no damage / effects /
+  DamagingHit, but selfDrops, secondary rolls (draw target -1) and secondary self effects run; U-turn still switches.
+  Intimidate '-immune'; resist berries skip a substitute hit. 900 targeted battles + regression slice 100%.
 - CPU testing: scripts/memguard.sh caps the process tree (one replay worker ~14.5 GB; use <= 2 workers).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

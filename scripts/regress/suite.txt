@@ -297,3 +297,9 @@ m_healpulse | --n 150 --seed 361 --teams stagereq:impl:move:healpulse --stage im
 m_strengthsap | --n 150 --seed 361 --teams stagereq:impl:move:strengthsap --stage impl
 m_soak | --n 150 --seed 361 --teams stagereq:impl:move:soak --stage impl
 m_pollenpuff | --n 150 --seed 361 --teams stagereq:impl:move:pollenpuff --stage impl
+sub_substitute | --n 150 --seed 372 --teams stagereq:impl:move:substitute --stage impl
+sub_rockslide | --n 150 --seed 372 --teams stagereq:impl:move:substitute+move:rockslide --stage impl
+sub_drainpunch | --n 150 --seed 372 --teams stagereq:impl:move:substitute+move:drainpunch --stage impl
+sub_intimidate | --n 150 --seed 372 --teams stagereq:impl:move:substitute+ability:intimidate --stage impl
+sub_hypervoice | --n 150 --seed 372 --teams stagereq:impl:move:substitute+move:hypervoice --stage impl
+sub_uturn | --n 150 --seed 372 --teams stagereq:impl:move:substitute+move:uturn --stage impl

@@ -618,18 +618,26 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     dmg, kind, crit = jax.vmap(one)(stats_t, boosts_t, def_types, mget(m.maxhp, targets), grounded, crit_immune,
                                     crit_draw, roll, final, wmod, bp_post, att, dfn, stab_post, bp, fixed,
                                     jnp.where(is_struggle, 0, eff))
-    # [C] modifyDamage messages (data/mods/champions/scripts.ts:266-284): effectiveness then crit, per target
+    # [C] modifyDamage messages (data/mods/champions/scripts.ts:266-284): effectiveness then crit, per target; the
+    # caller emits them (emit_damage_msgs) in PS order around the Substitute step
     formula = rolls_damage & (kind == D.DMG_NUMBER)
     tm = jnp.clip(jnp.where(is_struggle, 0, eff), -6, 6)
-    for j in range(NT):
-        st = EV.emit(st, formula[j] & (tm[j] > 0), EV.EV_SUPER, actor=targets[j], v1=jnp.minimum(tm[j], 2))
-        st = EV.emit(st, formula[j] & (tm[j] < 0), EV.EV_RESIST, actor=targets[j], v1=jnp.minimum(-tm[j], 2))
-        st = EV.emit(st, formula[j] & crit[j], EV.EV_CRIT, actor=targets[j])
-        st = B.resist_berry_eat(st, targets[j], berry_eat[j])          # within runEvent('ModifyDamage')
     res = RS.where(kind == D.DMG_NUMBER, RS.R(RS.NUM, dmg), RS.where(kind == D.DMG_FALSE, RS.R(RS.BOOL, 0),
                                                                      RS.where(kind == D.DMG_UNDEFINED, RS.R(RS.UNDEF),
                                                                               RS.R(RS.NUM, 0))))
-    return st, res, rng, crit
+    return st, res, rng, crit, (formula, tm, crit, berry_eat)
+
+
+def emit_damage_msgs(st, msgs, targets, j, on, berry=True):
+    """getDamage's per-target messages: '-supereffective' / '-resisted' / '-crit', and a resist berry eaten within
+    runEvent('ModifyDamage') (berries skip a substitute hit: data/items.ts <resist berry> hitSub)."""
+    from vgcjax.effects import berries as B
+    formula, tm, crit, berry_eat = msgs
+    f = formula[j] & on
+    st = EV.emit(st, f & (tm[j] > 0), EV.EV_SUPER, actor=targets[j], v1=jnp.minimum(tm[j], 2))
+    st = EV.emit(st, f & (tm[j] < 0), EV.EV_RESIST, actor=targets[j], v1=jnp.minimum(-tm[j], 2))
+    st = EV.emit(st, f & crit[j], EV.EV_CRIT, actor=targets[j])
+    return B.resist_berry_eat(st, targets[j], berry_eat[j] & on & berry)
 
 
 STAT_HOOKS = ("ModifyAtk", "ModifyDef", "ModifySpA", "ModifySpD")   # statTable order (atk def spa spd)
@@ -661,12 +669,60 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     vals = jnp.where(th_bad, 0, vals)
     tv = tv & ~th_bad
     on = on & ~th_bad                                                  # returns [[false], targets]
-    # TryPrimaryHit (Substitute; HOOK H12) -> true
+    # 0. [C] scripts.ts:341-357 tryPrimaryHitEvent: substitute.onTryPrimaryHit (not side / field moves). Its
+    #    getDamage is the one computed below for every target (same draws); per target, in order: that getDamage's
+    #    messages, then no damage (undefined / null) -> '-fail' source [still], null (target false); else the damage
+    #    capped at the substitute's hp, '-ohko' + removeVolatile when it breaks else '-activate' X 'move: Substitute'
+    #    '[damage]', recoil, drain (ceil, '[from] drain'), AfterSubDamage (Ice Spinner, Stone Axe); HIT_SUBSTITUTE
+    #    (damage true, target null: no damage / effects / DamagingHit, but selfDrops and secondary rolls still run)
+    from vgcjax.effects import volatiles as VO
+    subbed = tv & VO.sub_blocks(st, dex, u, move, targets) & ~jnp.asarray(side_mode)
 
     # 1. getSpreadDamage
-    st, res, rng, crit_t = get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, tv, mtype=st.exec.mtype,
-                              bp=st.exec.bp)
+    st, res, rng, crit_t, dmsgs = get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, tv,
+                                             mtype=st.exec.mtype, bp=st.exec.bp)
     tags, vals = RS.where(tv, res, (tags, vals))
+    sub_ok = jnp.zeros(NT, bool)
+    if "substitute" in ids.CONDITIONS:
+        c_sub = CO.cid("substitute")
+        hp_slot = CO.slot_of("substitute", "hp")
+        num = RS.is_num((tags, vals))
+        dn_, dd_ = dex.move_drain[move, 0].astype(I32), jnp.maximum(dex.move_drain[move, 1].astype(I32), 1)
+        from vgcjax.effects import move_callbacks as MC_sub
+        sf_sub = MC_sub.sheer_force(st, dex, u, move)[0]
+        for j in range(NT):
+            sj = subbed[j]
+            t = jnp.clip(targets[j], 0, 7)
+            st = emit_damage_msgs(st, dmsgs, targets, j, sj, berry=False)
+            fail = sj & ~num[j]
+            st = EV.emit(st, fail, EV.EV_FAIL, actor=u)
+            st = EV.attr_last_move(st, fail, EV.F_STILL)
+            hit = sj & num[j]
+            shp = CO.vol_state(st, t, c_sub)[hp_slot].astype(I32)
+            d = jnp.minimum(vals[j], shp)
+            nh = shp - d
+            broken = hit & (nh <= 0)
+            st = EV.emit(st, broken & (dex.move_ohko[move] > 0), EV.EV_OHKO)
+            st = CO.set_vol_field(st, t, c_sub, hp_slot, nh, hit & ~broken)
+            st, rng, _ = CO.remove_volatile(st, dex, rng, t, c_sub, broken)
+            st = EV.emit(st, hit & ~broken, EV.EV_ACTIVATE, actor=t, move=CO.eff("substitute"))
+            m = st.mons
+            st = st.replace(mons=m.replace(last_damage=mset(m.last_damage, u, d, hit)))
+            st = apply_recoil(st, dex, u, move, d, hit & (d > 0))
+            st, _ = battle_heal(st, u, (d * dn_ + dd_ - 1) // dd_, hit & (dn_ > 0), drain_of=t)
+            src_up = mget(st.mons.hp, u) > 0                               # onAfterSubDamage: source.hp
+            if opt_id("MOVE_ICESPINNER") > 0:
+                st, rng = SC.clear_terrain(st, dex, rng, hit & src_up & (move == opt_id("MOVE_ICESPINNER")))
+            if opt_id("MOVE_STONEAXE") > 0 and "stealthrock" in ids.CONDITIONS:
+                st, rng, _ = SC.add_side_condition(st, dex, rng, 1 - side_of(u), CO.cid("stealthrock"),
+                                                   hit & src_up & ~sf_sub & (move == opt_id("MOVE_STONEAXE")),
+                                                   source=u, source_effect=C.eff_move(move))
+            tags = tags.at[j].set(jnp.where(hit, RS.BOOL, jnp.where(fail, RS.NULL, tags[j])))
+            vals = vals.at[j].set(jnp.where(hit, 1, jnp.where(fail, 0, vals[j])))
+            sub_ok = sub_ok.at[j].set(hit)
+    tv = tv & ~subbed
+    for j in range(NT):
+        st = emit_damage_msgs(st, dmsgs, targets, j, tv[j])
     tv = tv & ~RS.is_false((tags, vals))
 
     # 2. spreadDamage (PS: sim/battle.ts:2108-2210) + drain (PS :2181-2186, sequential on the user)
@@ -863,7 +919,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     # 4. selfDrops (self.boosts): SELF_EFFECT_ROLL only when self.chance is defined (contract §6)
     self_b = dex.move_self_boosts[move]
     has_self_boosts = jnp.any(self_b != 0)
-    any_target = jnp.any(tv)
+    any_target = jnp.any(tv | sub_ok)                                    # a substitute target is null, not false
     self_chance = dex.move_self_chance[move].astype(I32)
     skey = C.dkey(st, ids.DK_SELF_EFFECT_ROLL, actor=u, subject=C.eff_move(move), hit=hit_no)
     from vgcjax.effects import move_callbacks as MC_
@@ -888,12 +944,17 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     sf, _ = MC_.sheer_force(st, dex, u, move)                          # Sheer Force: secondaries / self deleted
     nsec = jnp.where(sf, 0, dex.move_nsec[move])
     oks = []
+    oks_self = []
     for k in range(2):
-        live = tv & (k < nsec)
+        live = (tv | sub_ok) & (k < nsec)            # a substitute target still rolls; only self effects apply
         chance = dex.move_sec_chance[move, k].astype(I32)
-        key = C.dkey(st, ids.DK_SECONDARY, actor=u, target=targets, subject=C.eff_move(move), hit=hit_no, ord=k)
+        # the draw key's target is the (null -> -1) secondaries() loop target
+        key = C.dkey(st, ids.DK_SECONDARY, actor=u, target=jnp.where(sub_ok, -1, targets), subject=C.eff_move(move),
+                     hit=hit_no, ord=k)
         roll, rng = R.randint_v(rng, key, 0, 100, active=live & (chance >= 0))
-        oks.append(live & ((chance < 0) | (roll < chance)))
+        ok_k = live & ((chance < 0) | (roll < chance))
+        oks_self.append(ok_k)
+        oks.append(ok_k & ~sub_ok)
     tmsgs = []
     for k in range(2):
         sb = dex.move_sec_boosts[move, k]
@@ -909,7 +970,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         for k in range(2):
             ssb = dex.move_sec_self_boosts[move, k].astype(I32)
             ssb = jnp.where(mget(m.ability, u) == opt_id("ABILITY_CONTRARY"), -ssb, ssb)   # ChangeBoost: Contrary
-            g = oks[k][j] & jnp.any(ssb != 0) & base_u
+            g = oks_self[k][j] & jnp.any(ssb != 0) & base_u
             cur_u, capped, smsgs[j, k] = boost_math(cur_u, ssb, g)
             succ = g & jnp.any(capped != 0)
             up, down = up | (succ & jnp.any(capped > 0)), down | (succ & jnp.any(capped < 0))

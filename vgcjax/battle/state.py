@@ -25,7 +25,7 @@ WV = (NV + 31) // 32
 # volatiles whose effect state holds more than a duration (ADR-107 compact layout): their fields live in vol_fx;
 # every other volatile keeps only its duration (vol_dur). effects/conditions.py checks declarations against this.
 VOL_STATEFUL = tuple(c for c in ("choicelock", "confusion", "disable", "encore", "helpinghand", "stall", "twoturnmove",
-                                "yawn", "partiallytrapped")
+                                "yawn", "partiallytrapped", "substitute")
                      if c in ids.CONDITIONS)
 NVF = max(len(VOL_STATEFUL), 1)
 VOL_FIDX = np.array([VOL_STATEFUL.index(ids.CONDITIONS[ids.VOL_BASE + k]) if ids.CONDITIONS[ids.VOL_BASE + k]
