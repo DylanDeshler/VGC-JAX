@@ -126,7 +126,14 @@ def emit_move(st: S.State, on, actor, target, move) -> S.State:
 
 
 def attr_last_move(st: S.State, on, or_flags=0, v1=None) -> S.State:
-    """PS: sim/battle.ts:3181-3197 attrLastMove: annotate the last MOVE record; [still] also blanks its target."""
+    """PS: sim/battle.ts:3181-3197 attrLastMove: annotate the last MOVE record; [still] also blanks its target.
+    Attributes are appended: a second '[spread]' tag (a move resumed after a Magic Bounce reflection annotates the
+    reflection's line) leaves the first one, which the PublicEvents reducer reads, in place."""
+    if v1 is not None and _ENABLED[0] and (or_flags & F_SPREAD):
+        ev = st.events
+        rec = ev.buf[jnp.maximum(ev.last_move, 0) % S.NE]
+        had = (ev.last_move >= 0) & ((rec[7] & F_SPREAD) != 0)
+        v1 = jnp.where(had, rec[5], jnp.asarray(v1, I16))
     return patch(st, st.events.last_move, on, or_flags, v1, target=-1 if or_flags & F_STILL else None)
 
 

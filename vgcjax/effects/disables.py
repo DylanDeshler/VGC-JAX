@@ -69,13 +69,18 @@ def is_choice(item):
     return out
 
 
-def choice_lock(st, dex, rng, u, move, on):
+def choice_lock(st, dex, rng, u, move, on, bounced=False):
     """The choice item's onModifyMove: pokemon.addVolatile('choicelock') -> onStart: effectState.move = the active
-    move (an existing lock has no onRestart: unchanged). Returns (st, rng)."""
+    move (an existing lock has no onRestart: unchanged). A Magic Bounce reflection (activeMove.hasBounced): onStart
+    returns false, so a new state is created (effectOrder++) and deleted. Returns (st, rng)."""
     if "choicelock" not in ids.CONDITIONS:
         return st, rng
     go = jnp.asarray(on) & is_choice(mget(st.mons.item, u))
     c = CO.cid("choicelock")
+    bounced = jnp.asarray(bounced)
+    st = CO.next_effect_order(st, go & bounced & ~CO.has_volatile(st, u, c) & (mget(st.mons.hp, u) > 0) &
+                              mget(st.mons.is_active, u))
+    go = go & ~bounced
     st, rng, _ = CO.add_volatile(st, dex, rng, u, c, go & ~CO.has_volatile(st, u, c), source=u)
     fresh = go & CO.has_volatile(st, u, c) & (CO.vol_state(st, u, c)[CO.slot_of("choicelock", "move")] == 0)
     return CO.set_vol_field(st, u, c, CO.slot_of("choicelock", "move"), move, fresh), rng

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Run a command under a memory cap: sums the RSS of the whole process tree every second and kills it (SIGTERM, then
-# SIGKILL) when the total exceeds MEM_CAP_GB (default 36, i.e. margin under a 40 GB budget). Prints the peak on exit.
+# SIGKILL) when the total exceeds MEM_CAP_GB (default 22: room for one worker plus the rest of the machine). Prints the peak on exit.
 #   MEM_CAP_GB=36 bash scripts/memguard.sh <command> [args ...]
 set -uo pipefail
-CAP_KB=$(( ${MEM_CAP_GB:-36} * 1024 * 1024 ))
+CAP_KB=$(( ${MEM_CAP_GB:-22} * 1024 * 1024 ))
 "$@" &
 ROOT=$!
 peak=0

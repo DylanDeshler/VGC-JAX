@@ -303,3 +303,7 @@ sub_drainpunch | --n 150 --seed 372 --teams stagereq:impl:move:substitute+move:d
 sub_intimidate | --n 150 --seed 372 --teams stagereq:impl:move:substitute+ability:intimidate --stage impl
 sub_hypervoice | --n 150 --seed 372 --teams stagereq:impl:move:substitute+move:hypervoice --stage impl
 sub_uturn | --n 150 --seed 372 --teams stagereq:impl:move:substitute+move:uturn --stage impl
+mb_magicbounce | --n 150 --seed 382 --teams stagereq:impl:ability:magicbounce --stage impl
+mb_stealthrock | --n 150 --seed 382 --teams stagereq:impl:ability:magicbounce+move:stealthrock --stage impl
+mb_thunderwave | --n 150 --seed 382 --teams stagereq:impl:ability:magicbounce+move:thunderwave --stage impl
+mb_taunt | --n 150 --seed 382 --teams stagereq:impl:ability:magicbounce+move:taunt --stage impl

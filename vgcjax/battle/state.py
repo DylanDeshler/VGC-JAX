@@ -184,6 +184,41 @@ class Queue:
 
 
 @struct.dataclass
+class MoveCarry:
+    """move_begin's front (runMove / useMove up to trySpreadMoveHit step 1) -> back (steps 2-5, hit-loop setup).
+    A Magic Bounce inside step 1 with other targets still hit suspends the move here (Scratch.res)."""
+    u: jax.Array
+    move: jax.Array
+    targets: jax.Array             # i32[3]
+    tv: jax.Array                  # bool[3]
+    smart: jax.Array
+    spread: jax.Array
+    spread_hit: jax.Array
+    fail0: jax.Array               # a false result in steps 0-1 (atLeastOneFailure)
+    a_type: jax.Array
+    a_bp: jax.Array
+    a_acc: jax.Array
+    on: jax.Array
+    go_rm: jax.Array
+    go_um: jax.Array
+    has_t: jax.Array
+    side_field: jax.Array
+    on_ts: jax.Array
+    side_on: jax.Array
+    pre_ok: jax.Array
+    pre_notfail: jax.Array
+    tm_null: jax.Array
+    abort: jax.Array
+
+
+def empty_carry() -> MoveCarry:
+    i, b = jnp.zeros((), I32), jnp.zeros((), bool)
+    return MoveCarry(u=i, move=i, targets=jnp.full(3, -1, I32), tv=jnp.zeros(3, bool), smart=b, spread=b,
+                     spread_hit=b, fail0=b, a_type=i, a_bp=i, a_acc=i, on=b, go_rm=b, go_um=b, has_t=b, side_field=b,
+                     on_ts=b, side_on=b, pre_ok=b, pre_notfail=b, tm_null=b, abort=b)
+
+
+@struct.dataclass
 class Scratch:
     """Per-turn scratch (03 §4.6); ordinals persist across SWITCH steps and reset in end_turn."""
     select_ord: jax.Array          # i16
@@ -204,6 +239,23 @@ class Scratch:
     tail_pending: jax.Array        # bool the tail stopped before its forced switches were done
     tail_kind: jax.Array           # i8 queue kind of the action whose tail is pending
     tail_pos: jax.Array            # i8 next active position (p1a p1b p2a p2b = 0..3) to scan for forceSwitchFlag
+    # Magic Bounce: the reflected move runs (useMove) right after the bouncing move's hits, before that move's runMove
+    # tail, which is stashed (orig_*) and run once the reflected move ends
+    bounce_pending: jax.Array      # bool a bounce was recorded; the next micro-step starts it
+    bounce_running: jax.Array      # bool the running move is a reflected one (move.hasBounced)
+    bounce_u: jax.Array            # i8 holder ref (the reflected move's user)
+    bounce_move: jax.Array         # i16 MoveId
+    bounce_tgt: jax.Array          # i8 the original user (the reflected move's target)
+    orig_u: jax.Array              # i8 the bouncing move's user
+    orig_move: jax.Array           # i16
+    orig_t0: jax.Array             # i8 its targets[0]
+    orig_mr: jax.Array             # i8 its moveThisTurnResult
+    orig_result: jax.Array         # bool its moveResult
+    orig_go_rm: jax.Array          # bool
+    orig_on_rm: jax.Array          # bool
+    res_pending: jax.Array         # bool a move suspended in step 1 (Magic Bounce with other targets) resumes next
+    res: MoveCarry                 # its carry
+    res_hit: jax.Array             # i8 the reflection's move.hit (activeMove is not restored: the resumed steps' key)
 
 
 @struct.dataclass
@@ -254,6 +306,7 @@ class Exec:
     mtype: jax.Array               # i32 ActiveMove type after ModifyType / ModifyMove
     bp: jax.Array                  # i32 ActiveMove basePower after ModifyMove
     acc: jax.Array                 # i32 ActiveMove accuracy after ModifyMove (0 = true)
+    act_t: jax.Array               # i32 battle.activeTarget after hitStepAccuracy (its loop's last target), -1 none
     tm_null: jax.Array             # bool TryMove returned null (a charge turn: effects/locked.py)
 
 
@@ -263,7 +316,7 @@ def empty_exec() -> Exec:
                 go_rm=b, go_um=b, has_t=b, side_field=b, on_ts=b, on_hl=b, fail_any=b, pre_ok=b, pre_notfail=b,
                 side=b, hits=i, multiacc=b, single=b,
                 h=i, hit_done=i, stopped=_z((), bool, True), null_damage=b, dt=a3, dv=a3, lt=a3, lv=a3, total=i,
-                mtype=i, bp=i, acc=i, tm_null=b)
+                mtype=i, bp=i, acc=i, tm_null=b, act_t=_z((), I32, -1))
 
 
 @struct.dataclass
@@ -318,7 +371,11 @@ def empty_scratch() -> Scratch:
                    eachevent_ord=_z((), I16), mulhook_ord=_z((), I16), insert_ord=_z((), I16), move_actions=_z((2, 4), I8),
                    queue_seq=_z((), I16), step_tag=_z((), I8), step_actor=_z((), I8, -1),
                    step_subject=_z((), I16, -1), action_ord=_z((), I8), cur_select_ord=_z((), I16, -1),
-                   tail_pending=_z((), bool), tail_kind=_z((), I8), tail_pos=_z((), I8))
+                   tail_pending=_z((), bool), tail_kind=_z((), I8), tail_pos=_z((), I8),
+                   bounce_pending=_z((), bool), bounce_running=_z((), bool), bounce_u=_z((), I8, -1),
+                   bounce_move=_z((), I16), bounce_tgt=_z((), I8, -1), orig_u=_z((), I8, -1), orig_move=_z((), I16),
+                   orig_t0=_z((), I8, -1), orig_mr=_z((), I8), orig_result=_z((), bool), orig_go_rm=_z((), bool),
+                   orig_on_rm=_z((), bool), res_pending=_z((), bool), res=empty_carry(), res_hit=_z((), I8))
 
 
 def empty_state(team: Team) -> State:

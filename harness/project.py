@@ -92,13 +92,14 @@ def _volatiles(st, side: int, b: int) -> dict:
     """PS pokemon.volatiles (effMap): every set volatile bit with its effState."""
     words = [int(w) for w in st.mons.vol_bits[side, b]]
     out = {}
+    tw = {}
     for k in range(S.NV):
         if words[k // 32] >> (k % 32) & 1:
             name = ids.CONDITIONS[ids.VOL_BASE + k]
             v6 = _vol6(st, side, b, k)
             out[name] = _eff_state(name, v6, 5)
             if name == "twoturnmove":
-                out.update(_twoturn_move_volatile(v6))
+                tw = _twoturn_move_volatile(v6)
             if name == "roost":
                 # roost.onType sets effectState.typeWas = pokemon.types on every getTypes() call, and
                 # oracle/lib/project.js calls getTypes() before projecting volatiles: the species' types
@@ -106,6 +107,12 @@ def _volatiles(st, side: int, b: int) -> dict:
                 sp = int(st.mons.species[side, b])
                 out[name]["typeWas"] = [TYPE_NAMES[int(t)] for t in load_tables_np()["species_types"][sp] if int(t) > 0]
                 out[name] = dict(sorted(out[name].items()))
+    for mv, state in tw.items():
+        # a move volatile that is a real volatile (Phantom Force) keeps its own duration: it ticks separately (the
+        # residual walk may end the battle between the two)
+        if mv in out:
+            state = dict(sorted({**state, **out[mv]}.items()))
+        out[mv] = state
     return dict(sorted(out.items()))
 
 

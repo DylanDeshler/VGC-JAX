@@ -273,7 +273,15 @@ M3 content (2026-10-23)
   ceil drain, AfterSubDamage; status moves '-fail' [still]; HIT_SUBSTITUTE targets are null: no damage / effects /
   DamagingHit, but selfDrops, secondary rolls (draw target -1) and secondary self effects run; U-turn still switches.
   Intimidate '-immune'; resist berries skip a substitute hit. 900 targeted battles + regression slice 100%.
-- CPU testing: scripts/memguard.sh caps the process tree (one replay worker ~14.5 GB; use <= 2 workers).
+- Magic Bounce: onTryHit / onAllyTryHitSide record the reflection (move.hasBounced); the reflected move runs as a
+  useMove (move_slot BOUNCE_SLOT: no BeforeMove / PP / lastMove / Pressure; choicelock's state is created then
+  dropped) through the single move_begin call site, then the bouncing move's runMove tail (stashed). move_begin is
+  split into front (to trySpreadMoveHit step 1) and back (steps 2-5): a spread move with other targets still hit is
+  suspended after step 1 (Scratch.res) and resumed after the reflection, PS order; its resumed accuracy draws key
+  hit = the reflection's (activeMove is not restored); a second '[spread]' tag keeps the first slots.
+  Also: Substitute hits see battle.activeTarget = the accuracy loop's last target (Unaware); the projection keeps
+  a real move volatile's own duration (Phantom Force vs twoturnmove).
+- CPU testing: scripts/memguard.sh caps the process tree (default cap 22 GB, 1 worker).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).
 - Kernel count 191.6k after batches 3-4 (167.5k events off; was 136k). Ablations: no single culprit — cost grows

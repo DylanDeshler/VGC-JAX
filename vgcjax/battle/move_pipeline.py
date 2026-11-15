@@ -466,7 +466,7 @@ def no_guard(st, u, targets):
     return (mget(m.ability, jnp.clip(u, 0, 7)) == a) | (mget(m.ability, jnp.clip(targets, 0, 7)) == a)
 
 
-def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=False, acc_base=None):
+def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=False, acc_base=None, hit_key=0):
     """hitStepAccuracy for all target slots at once (09 J5). Returns (st, ok[3], rng).
     Messages, per target in order: '-immune' target '[ohko]' (PS :768); a miss adds '-miss' user target and marks the
     move line [miss] when not spreadHit (PS :800-806); smartTarget misses are silent."""
@@ -505,7 +505,7 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=Fa
     from vgcjax.effects import moves_b2 as MB2
     always = ((acc_base == 0) & (ohko == 0)) | ((tt == T.TARGET_SELF) & (cat == T.CAT_STATUS)) | \
         MC.always_hits(st, u, move) | MB2.glaive_rush_target(st, targets) | no_guard(st, u, targets)  # 'Accuracy'
-    key = C.dkey(st, ids.DK_ACCURACY, actor=u, target=targets, subject=C.eff_move(move), hit=0)
+    key = C.dkey(st, ids.DK_ACCURACY, actor=u, target=targets, subject=C.eff_move(move), hit=hit_key)
     hit, rng = R.chance_v(rng, key, acc, 100, active=live & ~always & ~ohko_immune)
     st = C.mul_tick(st, jnp.sum((live & (ohko == 0)).astype(I32)))   # runEvent('ModifyAccuracy') per non-OHKO target
     ok = jnp.where(always, True, hit & ~ohko_immune)
@@ -519,7 +519,7 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=Fa
 
 
 # ------------------------------------------------------------------ getDamage for all targets
-def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=None, bp=None):
+def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=None, bp=None, subbed=None):
     """PS getDamage for each target slot at once (09 J5): returns (st, (tags[3], vals[3]), rng). Struggle is typeless
     via its onModifyMove."""
     m = st.mons
@@ -576,9 +576,12 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     # Unaware onAnyModifyBoost (data/abilities.ts unaware): a target holder zeroes the attack-stat boosts (the move
     # user's calculateStat, Foul Play / Body Press included); a user holder zeroes the target's defense boosts
     u_unaware, t_unaware = unaware(st, u, targets)
+    # ModifyBoost tests battle.activeTarget: getSpreadDamage sets it per target, but the Substitute handler's getDamage
+    # runs with the accuracy loop's last target still in place (data/moves.ts substitute.onTryPrimaryHit)
+    is_at = jnp.ones(NT, bool) if subbed is None else (~subbed | (targets == st.exec.act_t))
     att, dfn, off_idx, def_idx = jax.vmap(lambda ds, db, cr, zo, zd: D.raw_stats(
         dex, move, cr, atk["atk_stats5"], atk["atk_boosts7"], ds, db, zo, zd))(
-        stats_t, boosts_t, will_crit_t, t_unaware, jnp.broadcast_to(u_unaware, (NT,)) & (targets != u))
+        stats_t, boosts_t, will_crit_t, t_unaware & is_at, jnp.broadcast_to(u_unaware, (NT,)) & (targets != u) & is_at)
     eff = jax.vmap(lambda tt: TC.effectiveness(dex, mtype, tt, freeze_dry=move == opt_id("MOVE_FREEZEDRY")))(t_types)
     ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev,
                   extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff)))
@@ -680,7 +683,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
 
     # 1. getSpreadDamage
     st, res, rng, crit_t, dmsgs = get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, tv,
-                                             mtype=st.exec.mtype, bp=st.exec.bp)
+                                             mtype=st.exec.mtype, bp=st.exec.bp, subbed=subbed)
     tags, vals = RS.where(tv, res, (tags, vals))
     sub_ok = jnp.zeros(NT, bool)
     if "substitute" in ids.CONDITIONS:
@@ -1085,25 +1088,43 @@ def _exec_where(on, new: S.Exec, old: S.Exec) -> S.Exec:
     return jax.tree_util.tree_map(lambda a, b: jnp.where(on, a, b), new, old)
 
 
+BOUNCE_SLOT = -3                     # queue-free move_slot of a Magic Bounce reflection (useMove, no runMove)
+
+
 def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig, on):
+    """move_begin_front then move_begin_back. Returns (st, rng)."""
+    st, rng, carry = move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig, on)
+    return move_begin_back(st, dex, rng, cfg, carry)
+
+
+def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig, on):
     """PS runMove (sim/battle-actions.ts:267-418) up to useMove, useMoveInner (:429-582) up to trySpreadMoveHit,
-    trySpreadMoveHit (:612-682) steps 0-4 and the hit-loop setup (ch/scripts.ts:426-461). Returns (st, rng)."""
+    trySpreadMoveHit (:612-682) steps 0-1. Returns (st, rng, carry: S.MoveCarry for move_begin_back)."""
     on = jnp.asarray(on)
     u = jnp.asarray(side, I32) * 4 + jnp.asarray(b, I32)
     move = jnp.asarray(move_id, I32)
+    # a Magic Bounce reflection (move_slot BOUNCE_SLOT): useMove only (no runMove: no BeforeMove, PP, lastMove,
+    # Pressure, choice lock), target = the original user, pranksterBoosted false
+    bnc = jnp.asarray(move_slot, I32) == BOUNCE_SLOT
+    sc = st.scratch
+    st = st.replace(scratch=sc.replace(bounce_pending=sc.bounce_pending & ~(on & bnc),
+                                       bounce_running=sc.bounce_running | (on & bnc)))
+    bp_entry = st.scratch.bounce_pending
+    on_rmv = on & ~bnc
     # ---- runMove
     m = st.mons
-    st = st.replace(mons=m.replace(active_move_actions=mset(m.active_move_actions, u, mget(m.active_move_actions, u) + 1, on)))
+    st = st.replace(mons=m.replace(active_move_actions=mset(m.active_move_actions, u, mget(m.active_move_actions, u) + 1, on_rmv)))
     from vgcjax.effects import locked as LK
-    locked = LK.locked(st, u)[0]
+    locked = LK.locked(st, u)[0] & ~bnc
     recharge = jnp.asarray(move_slot, I32) == LK.RECHARGE_SLOT
     # Recharge (target undefined): getTarget's draw is side.randomFoe, a don't-care draw (effects/locked.py)
-    target, rng = get_target(st, dex, rng, u, move, target_loc, orig, on & ~recharge)
+    target, rng = get_target(st, dex, rng, u, move, target_loc, orig, on_rmv & ~recharge)
+    target = jnp.where(bnc, jnp.asarray(orig, I32), target)
     # HOOK(H2) OverrideAction (M3 Encore); BeforeMove (PS :311-321): a falsy result aborts with
     # moveThisTurnResult = that result (false / null), before PP and lastDamage
     hc = H.HookCtx.make(u, target, C.eff_move(move), relay=RS.R(RS.BOOL, 1))
-    hc, st, rng = H.run_event("BeforeMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_BEFOREMOVE), on=on)
-    will = RS.truthy((hc.relay_t, hc.relay_v))
+    hc, st, rng = H.run_event("BeforeMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_BEFOREMOVE), on=on_rmv)
+    will = RS.truthy((hc.relay_t, hc.relay_v)) | bnc
     abort = on & ~will
     st, rng = LK.move_aborted(st, dex, rng, u, abort)                    # runEvent('MoveAborted') (PS :314)
     m = st.mons
@@ -1112,7 +1133,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     on = on & will
     # beforeMoveCallback (M3: Focus Punch etc.)
     m = st.mons
-    m = m.replace(last_damage=mset(m.last_damage, u, 0, on))
+    m = m.replace(last_damage=mset(m.last_damage, u, 0, on & ~bnc))
     slot = jnp.asarray(move_slot, I32)
     is_struggle = move == T.MOVE_STRUGGLE
     has_slot = (slot >= 0) & ~is_struggle
@@ -1121,12 +1142,12 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     pp_new = mget(m.pp, u).at[jnp.clip(slot, 0, 3)].set(jnp.maximum(pp_now - 1, 0).astype(I8))
     used_new = mget(m.move_used, u).at[jnp.clip(slot, 0, 3)].set(True)
     m = m.replace(pp=mset(m.pp, u, pp_new, deduct & (pp_now > 0)), move_used=mset(m.move_used, u, used_new, deduct))
-    nopp = on & ~is_struggle & ~locked & ~(has_slot & (pp_now > 0))
+    nopp = on & ~bnc & ~is_struggle & ~locked & ~(has_slot & (pp_now > 0))
     go_rm = on & ~nopp
     m = m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, S.MR_FALSE, nopp),
-                  last_move=mset(m.last_move, u, move, go_rm),
-                  last_move_target_loc=mset(m.last_move_target_loc, u, target_loc, go_rm),
-                  move_this_turn=mset(m.move_this_turn, u, move, go_rm))
+                  last_move=mset(m.last_move, u, move, go_rm & ~bnc),
+                  last_move_target_loc=mset(m.last_move_target_loc, u, target_loc, go_rm & ~bnc),
+                  move_this_turn=mset(m.move_this_turn, u, move, go_rm & ~bnc))
     # ---- useMove / useMoveInner
     m = m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, S.MR_UNDEF, go_rm),
                   last_move_used=mset(m.last_move_used, u, move, go_rm))
@@ -1142,7 +1163,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     hc, st, rng = H.run_event("ModifyMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_MODIFYMOVE), on=go_rm)
     # the choice items' onModifyMove: addVolatile('choicelock')
     from vgcjax.effects import disables as DS
-    st, rng = DS.choice_lock(st, dex, rng, u, move, go_rm & ~is_struggle)
+    st, rng = DS.choice_lock(st, dex, rng, u, move, go_rm & ~is_struggle, bounced=bnc)
     # the move's own weather-dependent onModifyType / onModifyMove (singleEvents, PS :494-495)
     a_type, a_bp, a_acc = WE.modify_move(st, dex, u, target, move)
     from vgcjax.effects import move_callbacks as MC
@@ -1183,7 +1204,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     st = EV.retarget_last_move(st, go_um & (retgt >= 0) & (targets[0] == retgt), retgt)  # PS getMoveTargets
     # PS :533-548: runEvent('DeductPP') over pressureTargets (Pressure), then deductPP(move, extraPP)
     from vgcjax.effects import abilities as AB
-    extra = AB.pressure_extra_pp(st, dex, u, move, targets, go_um & has_slot & ~locked)   # sourceEffect lockedmove
+    extra = AB.pressure_extra_pp(st, dex, u, move, targets, go_um & has_slot & ~locked & ~bnc)   # sourceEffect
     m = st.mons
     pp_cur = mget(m.pp, u)[jnp.clip(slot, 0, 3)].astype(I32)
     m = m.replace(pp=mset(m.pp, u, mget(m.pp, u).at[jnp.clip(slot, 0, 3)].set(
@@ -1224,7 +1245,9 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     pre_notfail = r_pre[0] == RS.NOTFAIL
     # ---- side / field moves: tryMoveHit -> TryHitSide / TryHitField (M4 handlers) -> moveHit(target): run below as
     #      one hit on targets[0] without the trySpreadMoveHit steps and the hit-loop tails (Exec.side)
-    side_on = pre_on & pre_ok & side_field
+    st, mb_side = AR.magic_bounce_side(st, dex, u, move, targets[0], pre_on & pre_ok & side_field &
+                                       (tt == T.TARGET_FOESIDE))            # runEvent('TryHitSide') null
+    side_on = pre_on & pre_ok & side_field & ~mb_side
     on_ts = go_um & has_t & ~side_field & pre_ok
     # ---- trySpreadMoveHit steps 0-4
     m = st.mons
@@ -1260,6 +1283,33 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # PS :623-627: after each step, any `false` result (atLeastOneFailure) clears move.smartTarget; Protect /
     # Detect's onTryHit also clears it (silently) before returning NOT_FAIL (data/moves.ts protect.condition)
     smart = smart & ~jnp.any(th_fail) & ~jnp.any(tv_th & (th[0] == RS.NOTFAIL))
+    carry = S.MoveCarry(u=u, move=move, targets=targets.astype(I32), tv=tv, smart=smart, spread=spread,
+                        spread_hit=spread_hit, fail0=jnp.any(inv) | jnp.any(th_fail), a_type=a_type.astype(I32),
+                        a_bp=jnp.asarray(a_bp, I32), a_acc=jnp.asarray(a_acc, I32), on=on, go_rm=go_rm, go_um=go_um,
+                        has_t=has_t, side_field=side_field, on_ts=on_ts, side_on=side_on, pre_ok=pre_ok,
+                        pre_notfail=pre_notfail, tm_null=tm_null, abort=abort)
+    # PS runs a Magic Bounce reflection inside this TryHit, before the other targets' steps 2-5: with targets still
+    # hit, the move is suspended here (its carry stashed); the reflection runs, then move_begin_back resumes it
+    sc = st.scratch
+    susp = on_ts & sc.bounce_pending & ~bp_entry & jnp.any(tv)
+    st = st.replace(scratch=sc.replace(res_pending=sc.res_pending | susp,
+                                       res=jax.tree_util.tree_map(lambda a, b_: jnp.where(susp, a, b_), carry, sc.res)))
+    carry = carry.replace(on=on & ~susp, on_ts=on_ts & ~susp, tv=tv & ~susp, side_on=side_on & ~susp,
+                          go_um=go_um & ~susp, go_rm=go_rm & ~susp)
+    return st, rng, carry
+
+
+def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
+    """trySpreadMoveHit (:612-682) steps 2-5 and the hit-loop setup (ch/scripts.ts:426-461) from move_begin_front's
+    carry (or a resumed one). Returns (st, rng)."""
+    c = carry
+    u, move, targets, tv, smart, spread, spread_hit = c.u, c.move, c.targets, c.tv, c.smart, c.spread, c.spread_hit
+    a_type, a_bp, a_acc, on, go_rm, go_um, has_t = c.a_type, c.a_bp, c.a_acc, c.on, c.go_rm, c.go_um, c.has_t
+    side_field, on_ts, side_on, pre_ok, pre_notfail, tm_null, abort = (c.side_field, c.on_ts, c.side_on, c.pre_ok,
+                                                                       c.pre_notfail, c.tm_null, c.abort)
+    is_struggle = move == T.MOVE_STRUGGLE
+    from vgcjax.effects import move_callbacks as MC
+    m = st.mons
     # 2 type immunity
     # move.ignoreImmunity as exported is already resolved by PS's Move constructor (data value, else category ===
     # 'Status'; sim/dex-moves.ts:505): Thunder Wave keeps an explicit false
@@ -1278,7 +1328,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     for j in range(NT):
         st = EV.emit(st, tv[j] & imm[j] & ~smart, EV.EV_IMMUNE, actor=targets[j],
                      flags=jnp.where(lev[j], EV.F_LEVITATE, 0))
-    fail_any = jnp.any(inv) | jnp.any(th_fail) | jnp.any(tv & imm)       # Invulnerability false counts too
+    fail_any = c.fail0 | jnp.any(tv & imm)                    # steps 0-1 false results (Invulnerability too)
     smart = smart & ~fail_any
     tv = tv & ~imm
     # 3 TryImmunity: powder vs Grass (getImmunity('powder')), move onTryImmunity (M3), Prankster vs Dark (M3)
@@ -1286,7 +1336,8 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     pimm = powder & (targets != u) & jax.vmap(
         lambda tt_: TC.status_immune(dex, ids.IMMUNITY_KEYS.index("powder"), tt_))(t_types)
     # Prankster (gen >= 7): a pranksterBoosted move of a Prankster user fails on non-ally Dark targets (PS :738-745)
-    pr = MC.prankster_boosted(st, dex, u, move) & (side_of(jnp.clip(targets, 0, 7)) != side_of(u)) & jax.vmap(
+    pr = MC.prankster_boosted(st, dex, u, move) & ~st.scratch.bounce_running & \
+        (side_of(jnp.clip(targets, 0, 7)) != side_of(u)) & jax.vmap(
         lambda tt_: TC.status_immune(dex, ids.IMMUNITY_KEYS.index("prankster"), tt_))(t_types)
     pimm = pimm | (~pimm & pr)
     # move onTryImmunity: Endeavor (pokemon.hp < target.hp) -> '-immune'
@@ -1297,9 +1348,11 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     fail_any = fail_any | jnp.any(tv & pimm)
     smart = smart & ~fail_any
     tv = tv & ~pimm
-    # 4 accuracy
+    # 4 accuracy (its loop sets battle.activeTarget to each remaining target: the last one stays)
+    jl = NT - 1 - jnp.argmax(tv[::-1])
+    act_t = jnp.where(jnp.any(tv), targets[jl], -1)
     st, acc_ok, rng = accuracy_step(st, dex, rng, u, move, targets, tv, on_ts & jnp.any(tv), smart=smart,
-                                    spread=spread_hit, acc_base=a_acc)
+                                    spread=spread_hit, acc_base=a_acc, hit_key=hit_key)
     acc_ok = jnp.where(tv, acc_ok, False)
     fail_any = fail_any | jnp.any(tv & ~acc_ok)
     smart = smart & ~jnp.any(tv & ~acc_ok)
@@ -1325,7 +1378,8 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
                  pre_notfail=pre_notfail, side=side_on, tm_null=tm_null,
                  multiacc=dex.move_multiaccuracy[move] == 1, single=jnp.sum(tv.astype(I32)) == 1, h=jnp.int32(1),
                  hit_done=jnp.int32(1), stopped=~on_hl, null_damage=jnp.asarray(True), dt=full(RS.NUM), dv=full(0),
-                 lt=full(RS.UNDEF), lv=full(0), total=jnp.int32(0), mtype=a_type, bp=a_bp, acc=a_acc)
+                 lt=full(RS.UNDEF), lv=full(0), total=jnp.int32(0), mtype=a_type, bp=a_bp, acc=a_acc,
+                 act_t=act_t.astype(I32))
     return st.replace(exec=_exec_where(on | abort, new, st.exec)), rng
 
 
@@ -1481,20 +1535,43 @@ def move_end(st, dex, rng, cfg):
     from vgcjax.effects import ability_reactions as AR
     st = AR.emergency_exit(st, u, lo_hp, result & ~sup & (targets[0] != u) & (dex.move_category[move] != T.CAT_STATUS))
     set_null = set_null & go & ex.has_t
-    # ---- runMove tail
+    # ---- runMove tail. A Magic Bounce recorded during this move: the reflected move runs next (useMove) and this
+    #      tail waits for it (stashed); at the reflected move's end the useMove wrapper sets the holder's
+    #      moveThisTurnResult, then the stashed tail runs
     go_rm = end & ex.go_rm
+    sc = st.scratch
+    defer = end & sc.bounce_pending & ~sc.bounce_running
+    bdone = end & sc.bounce_running
     m = st.mons
     mr = jnp.where(set_null | ex.tm_null, S.MR_NULL, jnp.where(result, S.MR_TRUE, S.MR_FALSE))
-    st = st.replace(mons=m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, mr, go_rm)),
+    m = m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, mr, go_rm & bdone))      # useMove wrapper
+    st = st.replace(mons=m, scratch=sc.replace(
+        orig_u=jnp.where(defer, u, sc.orig_u).astype(I8), orig_move=jnp.where(defer, move, sc.orig_move).astype(I16),
+        orig_t0=jnp.where(defer, targets[0], sc.orig_t0).astype(I8),
+        orig_mr=jnp.where(defer, mr, sc.orig_mr).astype(I8), orig_result=jnp.where(defer, result, sc.orig_result),
+        orig_go_rm=jnp.where(defer, go_rm, sc.orig_go_rm), orig_on_rm=jnp.where(defer, end & ex.on_rm, sc.orig_on_rm),
+        bounce_running=sc.bounce_running & ~bdone,
+        res_hit=jnp.where(bdone, jnp.where(ex.on_hl, jnp.maximum(ex.hit_done - 1, 0), 0), sc.res_hit).astype(I8)))
+    sc = st.scratch
+    # a move suspended in step 1 resumes next (move_begin_back) and runs its own tails: nothing stashed
+    resumes = bdone & sc.res_pending
+    tu = jnp.where(bdone, sc.orig_u.astype(I32), u)
+    tmove = jnp.where(bdone, sc.orig_move.astype(I32), move)
+    tt0 = jnp.where(bdone, sc.orig_t0.astype(I32), targets[0])
+    tmr = jnp.where(bdone, sc.orig_mr, mr)
+    tres = jnp.where(bdone, sc.orig_result, result)
+    tgo = jnp.where(bdone, sc.orig_go_rm & ~resumes, go_rm & ~defer)
+    ton = jnp.where(bdone, sc.orig_on_rm & ~resumes, end & ex.on_rm & ~defer)
+    m = st.mons
+    st = st.replace(mons=m.replace(move_this_turn_result=mset(m.move_this_turn_result, tu, tmr, tgo)),
                     meta=st.meta.replace(last_successful_move=jnp.where(
-                        go_rm, jnp.where(result, move, 0), st.meta.last_successful_move).astype(I16)))
+                        tgo, jnp.where(tres, tmove, 0), st.meta.last_successful_move).astype(I16)))
     # singleEvent('AfterMove', move) (no Reg M-C handler); runEvent('AfterMove', pokemon, target, move): White Herb
     # (onAnyAfterMove); then resolveFaints() + checkWin()
-    hc = H.HookCtx.make(u, targets[0], C.eff_move(move))
-    hc, st, rng = H.run_event("AfterMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_AFTERMOVE), on=go_rm)
-    on_rm = end & ex.on_rm
-    st = F.resolve_faints(st, dex, on_rm)
-    st = F.check_win(st, -1, on_rm)
+    hc = H.HookCtx.make(tu, tt0, C.eff_move(tmove))
+    hc, st, rng = H.run_event("AfterMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_AFTERMOVE), on=tgo)
+    st = F.resolve_faints(st, dex, ton)
+    st = F.check_win(st, -1, ton)
     return st.replace(exec=ex.replace(in_move=ex.in_move & ~end)), rng
 
 

@@ -412,7 +412,10 @@ def micro(st, dex, rng, cfg):
     # a pending runAction tail (forced switch) resumes before any new action is selected
     tail = act & st.scratch.tail_pending & ~st.exec.in_move
     tail_kind, tail_pos = st.scratch.tail_kind.astype(I32), st.scratch.tail_pos.astype(I32)
-    go = act & ~st.exec.in_move & anyv & (hk != S.Q_RESIDUAL) & ~tail  # residual runs once per call (run_until_decision)
+    # a pending Magic Bounce reflection starts before any new action (it belongs to the running move action)
+    bounce = act & st.scratch.bounce_pending & ~st.exec.in_move
+    resume = act & st.scratch.res_pending & ~st.exec.in_move & ~bounce   # a suspended move continues (step 2)
+    go = act & ~st.exec.in_move & anyv & (hk != S.Q_RESIDUAL) & ~tail & ~bounce & ~resume  # residual: once/call
     # tied entries share an order class, so the head's kind gives the step_tag of the SELECT tie record
     st = C.set_step(st, _lookup(STEP_TAG, hk, ids.STEP_COMMIT), -1, -1, 0, go)
     st, rng, idx, passes = Q.select(st, dex, rng, go)
@@ -429,12 +432,26 @@ def micro(st, dex, rng, cfg):
     rs_ref = jnp.where(run & ~tail & (kind == S.Q_RUN_SWITCH) & (ref >= 0), ref, -1)   # pokemonOriginalHP (PS :2719)
     rs_hp0 = mget(st.mons.hp, jnp.maximum(rs_ref, 0)).astype(I32)
     st, rng = run_light(st, dex, rng, cfg, idx, run & ~is_move, tail=tail)
-    st, rng = MP.move_begin(st, dex, rng, cfg, q.side[idx], q.actor_b[idx], q.move_slot[idx], q.move_id[idx],
-                            q.target_loc[idx], q.original_target[idx], run & is_move)
+    sc = st.scratch
+    bu = sc.bounce_u.astype(I32)
+    st, rng, carry = MP.move_begin_front(st, dex, rng, cfg, jnp.where(bounce, bu // 4, q.side[idx]),
+                                         jnp.where(bounce, bu % 4, q.actor_b[idx]),
+                                         jnp.where(bounce, MP.BOUNCE_SLOT, q.move_slot[idx]),
+                                         jnp.where(bounce, sc.bounce_move, q.move_id[idx]),
+                                         jnp.where(bounce, 0, q.target_loc[idx]),
+                                         jnp.where(bounce, sc.bounce_tgt.astype(I32), q.original_target[idx]),
+                                         (run & is_move) | bounce)
+    sc = st.scratch
+    carry = jax.tree_util.tree_map(lambda a, b_: jnp.where(resume, a, b_), sc.res, carry)
+    st = st.replace(scratch=sc.replace(res_pending=sc.res_pending & ~resume))
+    st, rng = MP.move_begin_back(st, dex, rng, cfg, carry, hit_key=jnp.where(resume, sc.res_hit.astype(I32), 0))
     st, rng = MP.move_hit(st, dex, rng, cfg)
     move_done = st.exec.in_move & st.exec.stopped
     st, rng = MP.move_end(st, dex, rng, cfg)
+    # a move that recorded a bounce is not finished: its reflection (then its runMove tail) runs first
+    move_done = move_done & ~st.scratch.bounce_pending & ~st.scratch.res_pending
     finished = (run & ~is_move) | move_done
+    kind = jnp.where(move_done & ~run, S.Q_MOVE, kind)                  # a reflection ends its move action's tail
     st, rng = post_action(st, dex, rng, jnp.where(tail, tail_kind, kind), finished | tail,
                           cursor=jnp.where(tail, st.scratch.tail_pos.astype(I32), 0), switch_hp=(rs_ref, rs_hp0))
     done = (finished | tail) & ~st.scratch.tail_pending                 # the tail reached its end
@@ -442,9 +459,9 @@ def micro(st, dex, rng, cfg):
     # request) and the next action is a move, updateSpeed + getActionSpeed for every queued action, then re-sort
     _, nk, nany = Q.head(st.queue)
     st = Q.rekey(st, dex, done & active(st) & nany & (nk == S.Q_MOVE))
-    # end of turn when the queue is drained and no move or tail is in progress
+    # end of turn when the queue is drained and no move, tail or reflection is in progress
     return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~st.scratch.tail_pending &
-                    ~jnp.any(st.queue.valid)), rng
+                    ~st.scratch.bounce_pending & ~st.scratch.res_pending & ~jnp.any(st.queue.valid)), rng
 
 
 def block_residual(st, dex, rng, cfg):
@@ -452,7 +469,9 @@ def block_residual(st, dex, rng, cfg):
     micro-steps so the residual walk is traced once per step call, then the runAction tail and end of turn."""
     q = st.queue
     _, hk, anyv = Q.head(q)
-    go = active(st) & ~st.exec.in_move & ~st.scratch.tail_pending & anyv & (hk == S.Q_RESIDUAL)
+    go = active(st) & ~st.exec.in_move & ~st.scratch.tail_pending & ~st.scratch.bounce_pending & \
+        ~st.scratch.res_pending & anyv & \
+        (hk == S.Q_RESIDUAL)
     st = C.set_step(st, ids.STEP_RESIDUAL, -1, C.eff_action("residual"), 0, go)
     idx = jnp.argmax(q.valid & (q.kind == S.Q_RESIDUAL))
     st = st.replace(queue=q.replace(valid=q.valid.at[idx].set(jnp.where(go, False, q.valid[idx]))))
@@ -464,14 +483,15 @@ def block_residual(st, dex, rng, cfg):
     st, rng = residual(st, dex, rng, go)
     st, rng = post_action(st, dex, rng, S.Q_RESIDUAL, go, residual_hp=res_hp)
     return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~st.scratch.tail_pending &
-                    ~jnp.any(st.queue.valid)), rng
+                    ~st.scratch.bounce_pending & ~st.scratch.res_pending & ~jnp.any(st.queue.valid)), rng
 
 
 def run_until_decision(st, dex, rng, cfg):
     st, rng = jax.lax.fori_loop(0, cfg.micro_steps, lambda i, c: micro(c[0], dex, c[1], cfg), (st, rng))
     st, rng = block_residual(st, dex, rng, cfg)
     # work left for the next call: continuation phase (no decision)
-    pending = active(st) & (jnp.any(st.queue.valid) | st.exec.in_move | st.scratch.tail_pending)
+    pending = active(st) & (jnp.any(st.queue.valid) | st.exec.in_move | st.scratch.tail_pending |
+                            st.scratch.bounce_pending | st.scratch.res_pending)
     return st.replace(meta=st.meta.replace(phase=jnp.where(pending, S.CONT, st.meta.phase).astype(I8))), rng
 
 

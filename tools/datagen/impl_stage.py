@@ -47,7 +47,7 @@ EXTRA: dict[str, set[str]] = {
               "phantomforce",                                                          # effects/locked.py
               "healingwish", "stoneaxe", "healpulse", "strengthsap", "soak", "pollenpuff",
               "substitute"},                                                          # effects/moves_b2.py
-    "abilities": {"queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
+    "abilities": {"magicbounce", "queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
                   "punkrock", "sandforce", "hugepower", "purepower", "hustle", "guts", "blaze", "torrent",

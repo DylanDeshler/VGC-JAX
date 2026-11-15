@@ -33,6 +33,39 @@ def _flag(dex, move, flag):
 ABSORB = {"voltabsorb": "TYPE_ELECTRIC", "waterabsorb": "TYPE_WATER", "eartheater": "TYPE_GROUND"}
 
 
+def record_bounce(st, holder, u, move, on):
+    """Magic Bounce's useMove(newMove, holder, {target: source}) is run after the bouncing move's hits (the step loop
+    starts it next: vgcjax/battle/step.py); a second bounce in one move raises ERR_UNSUPPORTED_EFFECT."""
+    from vgcjax.battle import errors as E
+    from vgcjax.battle.util import or_flag
+    sc = st.scratch
+    on = jnp.asarray(on)
+    st = or_flag(st, E.ERR_UNSUPPORTED_EFFECT, on & sc.bounce_pending)
+    go = on & ~sc.bounce_pending
+    sc = sc.replace(bounce_pending=sc.bounce_pending | go,
+                    bounce_u=jnp.where(go, holder, sc.bounce_u).astype(sc.bounce_u.dtype),
+                    bounce_move=jnp.where(go, move, sc.bounce_move).astype(sc.bounce_move.dtype),
+                    bounce_tgt=jnp.where(go, u, sc.bounce_tgt).astype(sc.bounce_tgt.dtype))
+    return st.replace(scratch=sc)
+
+
+def magic_bounce_side(st, dex, u, move, target, on):
+    """Magic Bounce onAllyTryHitSide: a reflectable side move aimed at a side with an unfainted, not semi-invulnerable
+    holder that is not the user's ally -> bounced (the faster holder; move.hasBounced stops a second), null. Returns
+    (st, blocked)."""
+    if aid("magicbounce") <= 0:
+        return st, jnp.zeros((), bool)
+    m = st.mons
+    ts = jnp.clip(target, 0, 7) // 4
+    act = st.sides.active[ts].astype(I32)
+    refs = ts * 4 + jnp.maximum(act, 0)
+    hold = (act >= 0) & ~mget(m.fainted, refs) & (mget(m.hp, refs) > 0) & _is(mget(m.ability, refs), "magicbounce") & \
+        ~CO.is_semi_invulnerable(st, refs) & (ts != jnp.clip(u, 0, 7) // 4)
+    go = jnp.asarray(on) & jnp.any(hold) & _flag(dex, move, ids.MF_REFLECTABLE) & ~st.scratch.bounce_running
+    spd = jnp.where(hold, mget(m.speed, refs).astype(I32) * 8 - refs, -(1 << 30))
+    return record_bounce(st, refs[jnp.argmax(spd)], u, move, go), go
+
+
 def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
     """runEvent('TryHit', targets, pokemon, move) for the abilities (after the dispatched protections, which have
     higher priority): Sap Sipper (priority 1), then Volt Absorb / Water Absorb / Earth Eater (heal 1/4 or
@@ -58,6 +91,7 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
     z = jnp.zeros((T, 7), I32)
     dlt = jnp.where(sap_all[:, None], z.at[:, 0].set(1), jnp.where(lr_all[:, None], z.at[:, 2].set(1),
                                                                    z.at[:, 4].set(1)))
+    mb_any = jnp.zeros(T, bool)
     st, br_all, bmsgs = MP.boost_v(st, targets, dlt, sap_all | md_all | lr_all, source=u,
                                    ab_msg=jnp.where(sap_all, aeff("sapsipper"), jnp.where(
                                        lr_all, aeff("lightningrod"), aeff("motordrive"))), simple=True)  # +1
@@ -72,7 +106,13 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
                 st = MP.emit_boost(st, bmsgs, t, j, mask=sap)
                 st = EV.emit(st, sap & ~RS.truthy((br_all[0][j], br_all[1][j])), EV.EV_IMMUNE, actor=t,
                              v1=aeff("sapsipper"))
-                hit = sap
+                # Magic Bounce onTryHit (priority 1): a reflectable move from another mon, not already bounced, the
+                # holder not semi-invulnerable -> useMove(the move, holder, {target: source}), null (no message)
+                mb = live & other & _is(ab, "magicbounce") & _flag(dex, move, ids.MF_REFLECTABLE) & \
+                    ~st.scratch.bounce_running & ~CO.is_semi_invulnerable(st, t)
+                st = record_bounce(st, t, u, move, mb)
+                mb_any = mb_any.at[j].set(mb)
+                hit = sap | mb
             else:
                 hit = jnp.zeros((), bool)
                 for name, ty in ABSORB.items():
