@@ -352,7 +352,7 @@ MOVE,reflect,Reflect,DATA_PLUS_COMMON,v0,cond.durationCallback cond.onAnyModifyD
 MOVE,reflecttype,Reflect Type,CUSTOM,v2,onHit,1,18,0,,,,,todo,,,
 MOVE,rest,Rest,CUSTOM,v1,onHit onTry,2,22,1,38,1e-05,0.004399,,todo,,,
 MOVE,reversal,Reversal,CUSTOM,v2,basePowerCallback,1,19,0,,,,,todo,,,
-MOVE,revivalblessing,Revival Blessing,CUSTOM,v0,onTryHit,1,5,5,63,0.012893,0.029351,extra decision variant,todo,,,
+MOVE,revivalblessing,Revival Blessing,CUSTOM,v0,onTryHit,1,5,5,63,0.012893,0.029351,extra decision variant,impl,d601443,,
 MOVE,risingvoltage,Rising Voltage,CUSTOM,v0,basePowerCallback,1,7,0,13,0.002002,0.02571,,impl,d601443,,
 MOVE,roar,Roar,DATA_ONLY,v0,,0,0,0,,0.008926,0.014198,,impl,d601443,,
 MOVE,rockblast,Rock Blast,DATA_ONLY,v0,,0,0,0,,0.000321,0.002889,,impl,d601443,,

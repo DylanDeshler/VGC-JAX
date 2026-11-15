@@ -156,8 +156,12 @@ def commit_switch(st, dex, actions, on):
             flag = mget(m.switch_flag, u)
             go = on & (b >= 0) & (flag != 0) & (a >= 24) & (a < 28)
             src = jnp.where(flag >= 2, flag - 2, 0)
-            st = Q.add_entry(st, go, kind=S.Q_INSTASWITCH, side=side, b=b, speed=C.action_speed(st, dex, u),
+            from vgcjax.effects import moves_b2 as MB2
+            rv = MB2.reviving(st, side, slot)                 # side.ts:965-976: choice 'revivalblessing'
+            st = Q.add_entry(st, go & ~rv, kind=S.Q_INSTASWITCH, side=side, b=b, speed=C.action_speed(st, dex, u),
                              switch_target_b=a - 24, source_effect=src, prepend=True)
+            st = Q.add_entry(st, go & rv, kind=S.Q_REVIVAL, side=side, b=b, speed=C.action_speed(st, dex, u),
+                             switch_target_b=a - 24)
             st = C.mul_tick(st, 1, go)
             m = st.mons
             st = st.replace(mons=m.replace(switch_flag=mset(m.switch_flag, u, 0, go)))
@@ -208,9 +212,35 @@ def run_light(st, dex, rng, cfg, idx, on, tail=False):
     # megaEvo (PS :2766-2768): runMegaEvo
     from vgcjax.effects import mega as MG
     st, rng = MG.mega_evolve(st, dex, rng, ref, on & (kind == S.Q_MEGA))
-    unsupported = on & ((kind == S.Q_BEFORE_TURN_MOVE) | (kind == S.Q_PRIORITY_CHARGE) |
-                        (kind == S.Q_REVIVAL))
+    st, rng = revive(st, dex, rng, side, b, q.switch_target_b[idx].astype(I32), on & (kind == S.Q_REVIVAL))
+    unsupported = on & ((kind == S.Q_BEFORE_TURN_MOVE) | (kind == S.Q_PRIORITY_CHARGE))
     st = or_flag(st, E.ERR_UNSUPPORTED_EFFECT, unsupported)
+    return st, rng
+
+
+def revive(st, dex, rng, side, b, tb, on):
+    """PS: sim/battle.ts:2821-2838 the 'revivalblessing' action: pokemonLeft++; the target still in an active
+    position -> an instaswitch of it into that position; fainted / faintQueued false, status '', hp =
+    trunc(maxhp / 2), '-heal' X hp '[from] move: Revival Blessing'; removeSlotCondition(user, 'revivalblessing')."""
+    from vgcjax.effects import conditions as CO
+    from vgcjax.effects import sideconds as SC
+    on = jnp.asarray(on)
+    t = side * 4 + jnp.clip(tb, 0, 3)
+    sd = st.sides
+    st = st.replace(sides=sd.replace(pokemon_left=sd.pokemon_left.at[side].add(on.astype(sd.pokemon_left.dtype))))
+    act = st.sides.active[side].astype(I32)
+    in_slot = on & jnp.any(act == tb)
+    st = Q.add_entry(st, in_slot, kind=S.Q_INSTASWITCH, side=side, b=tb, speed=C.action_speed(st, dex, t),
+                     switch_target_b=tb, prepend=True)
+    m = st.mons
+    st = st.replace(mons=m.replace(fainted=mset(m.fainted, t, False, on), faint_queued=mset(m.faint_queued, t, False, on),
+                                   hp=mset(m.hp, t, jnp.maximum(mget(m.maxhp, t).astype(I32) // 2, 1), on)))
+    m = st.mons
+    st = st.replace(mons=m.replace(status=mset(m.status, t, 0, on),
+                                   status_state=mset(m.status_state, t, jnp.zeros_like(mget(m.status_state, t)), on)))
+    st = EV.emit_hp(st, on, EV.EV_HEAL, t, move=C.eff_move(ids.MOVE_REVIVALBLESSING), flags=EV.F_FROM)
+    pos = jnp.argmax(act == b)
+    st, rng = SC.remove_slot_condition(st, dex, rng, side, pos, CO.cid("revivalblessing"), on)
     return st, rng
 
 
@@ -271,25 +301,33 @@ def post_action(st, dex, rng, kind, on, cursor=0, residual_hp=None, switch_hp=No
     # (e) switch requests
     m = st.mons
     want = []
+    from vgcjax.effects import moves_b2 as MB2
+    rb_flag = opt_rb + 2 if (opt_rb := getattr(ids, "MOVE_REVIVALBLESSING", -1)) > 0 else -1
     for side in range(2):
         flagged = jnp.zeros((), bool)
         refs = []
+        rev_any = jnp.zeros((), bool)
         for slot in range(2):
             b = st.sides.active[side, slot].astype(I32)
             r = side * 4 + jnp.maximum(b, 0)
-            refs.append((r, b >= 0))
-            flagged = flagged | ((b >= 0) & (mget(m.switch_flag, r) != 0))
+            rv = MB2.reviving(st, side, slot)
+            refs.append((r, b >= 0, rv))
+            fl = (b >= 0) & (mget(m.switch_flag, r) != 0)
+            flagged = flagged | fl
+            rev_any = rev_any | (fl & rv)
         cs = F.can_switch(st, side) > 0
+        # PS :2939-2950: no canSwitch -> every flag cleared but a Revival Blessing slot's (reviveSwitch keeps the
+        # request)
         clear = on & flagged & ~cs
-        # runPursuitActivation per live flagged mon (PS :2950-2955, sim/battle-actions.ts:62-68): eachEvent('Update')
-        for r, ok in refs:
-            st, rng = B.update(st, dex, rng, on & cs & ok & (mget(st.mons.switch_flag, r) != 0) &
-                               (mget(st.mons.hp, r) > 0))
+        # runPursuitActivation per live flagged mon whose flag is not 'revivalblessing' (PS :2950-2955): Update
+        for r, ok, rv in refs:
+            sf = mget(st.mons.switch_flag, r)
+            st, rng = B.update(st, dex, rng, on & cs & ok & (sf != 0) & (sf != rb_flag) & (mget(st.mons.hp, r) > 0))
         m = st.mons
-        for r, ok in refs:   # (Revival Blessing slots keep their flag: v1)
-            m = m.replace(switch_flag=mset(m.switch_flag, r, 0, clear & ok))
+        for r, ok, rv in refs:
+            m = m.replace(switch_flag=mset(m.switch_flag, r, 0, clear & ok & ~rv))
         st = st.replace(mons=m)
-        want.append(on & flagged & cs)
+        want.append(on & flagged & (cs | rev_any))
     pause = want[0] | want[1]
     meta = st.meta
     return st.replace(meta=meta.replace(phase=jnp.where(pause, S.SWITCH, meta.phase).astype(I8))), rng

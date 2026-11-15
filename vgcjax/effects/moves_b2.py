@@ -704,3 +704,21 @@ if mid("substitute") > 0 and "substitute" in ids.CONDITIONS:
         amt = jnp.maximum(mget(st.mons.maxhp, u).astype(I32) // 4, 1)
         st, _ = F.damage(st, u, amt, True)
         return hc, EV.emit_hp(st, True, EV.EV_DAMAGE, u), rng
+
+
+# ------------------------------------------------------------------ Revival Blessing
+if mid("revivalblessing") > 0 and "revivalblessing" in ids.CONDITIONS:
+    @handler(ids.HOOK_TRYHIT, int(C.eff_move(mid("revivalblessing"))), ps="data/moves.ts revivalblessing.onTryHit")
+    def revivalblessing_try_hit(hc, st, dex, rng):
+        """No fainted party member on the user's side -> false."""
+        side = jnp.clip(hc.source, 0, 7) // 4
+        any_fnt = jnp.any(st.mons.fainted[side])
+        return hc.ret(RS.R(RS.BOOL, 0), ~any_fnt), st, rng
+
+
+def reviving(st, side, slot):
+    """side.slotConditions[position]['revivalblessing'] (the request's `reviving`)."""
+    if "revivalblessing" not in ids.CONDITIONS:
+        return jnp.zeros((), bool)
+    k = CO.cid("revivalblessing") - ids.SLOT_BASE
+    return ((st.sides.slot_cond_bits[side, slot] >> jnp.uint32(k)) & 1) == 1

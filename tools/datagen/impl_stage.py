@@ -46,7 +46,7 @@ EXTRA: dict[str, set[str]] = {
               "stealthrock", "spikes", "toxicspikes", "stickyweb",                     # effects/hazards.py
               "phantomforce",                                                          # effects/locked.py
               "healingwish", "stoneaxe", "healpulse", "strengthsap", "soak", "pollenpuff",
-              "substitute"},                                                          # effects/moves_b2.py
+              "substitute", "revivalblessing"},                                                          # effects/moves_b2.py
     "abilities": {"magicbounce", "queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",

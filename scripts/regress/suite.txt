@@ -307,3 +307,4 @@ mb_magicbounce | --n 150 --seed 382 --teams stagereq:impl:ability:magicbounce --
 mb_stealthrock | --n 150 --seed 382 --teams stagereq:impl:ability:magicbounce+move:stealthrock --stage impl
 mb_thunderwave | --n 150 --seed 382 --teams stagereq:impl:ability:magicbounce+move:thunderwave --stage impl
 mb_taunt | --n 150 --seed 382 --teams stagereq:impl:ability:magicbounce+move:taunt --stage impl
+rb_revivalblessing | --n 200 --seed 392 --teams stagereq:impl:move:revivalblessing --stage impl

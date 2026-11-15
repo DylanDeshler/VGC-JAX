@@ -68,10 +68,12 @@ def subject_effect(kind: str, s) -> int:
     raise HarnessError(f"unmapped subject {s!r} for {kind}")
 
 
-def step_subject(s) -> int:
+def step_subject(s, step_tag=None) -> int:
+    """A move step's subject is its move (Revival Blessing's move id equals an action kind name); otherwise the
+    action kind, else a move (a move action's subject)."""
     if s is None:
         return -1
-    if s in ids.ACTION_KINDS:
+    if step_tag != ids.STEP_B_MOVE and s in ids.ACTION_KINDS:
         return ids.ACTION_BASE + ids.ACTION_KINDS.index(s)
     return eff("MOVES", s, ids.MOVE_BASE)
 
@@ -80,7 +82,7 @@ def draw_key(d: dict) -> dk.DrawKey:
     k = d["key"]
     kind = d["kind"]
     return dk.DrawKey(kind=DK[kind], turn=k["turn"], step_tag=k["step_tag"], step_actor=k["step_actor"],
-                      step_subject=step_subject(k["step_subject"]), actor=k["actor"], target=k["target"],
+                      step_subject=step_subject(k["step_subject"], k["step_tag"]), actor=k["actor"], target=k["target"],
                       subject=subject_effect(kind, k["subject"]), hit=k["hit"], ord=k["ord"], sub=k["sub"],
                       action_ord=k["action_ord"])
 

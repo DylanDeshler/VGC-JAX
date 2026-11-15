@@ -35,7 +35,9 @@ function legalOptions(req) {
 	if (req.forceSwitch) {
 		// PS rule: a forced slot may pass only if there are fewer healthy bench mons than forced slots
 		// (side.choice.forcedPassesLeft); i.e. exactly min(forced, bench) slots must switch.
-		const forced = req.forceSwitch.filter(Boolean).length;
+		// a reviving slot (Revival Blessing) always picks a fainted party member and is not counted here
+		const reviving = req.forceSwitch.map((must, i) => !!(must && mons[i] && mons[i].reviving));
+		const forced = req.forceSwitch.filter((must, i) => must && !reviving[i]).length;
 		const passOk = benchOk.length < forced;
 		const slots = req.forceSwitch.map((must, i) => {
 			if (!must) return ['pass'];
@@ -45,7 +47,8 @@ function legalOptions(req) {
 			}
 			return benchOk.map(j => `switch ${j}`).concat(passOk || !benchOk.length ? ['pass'] : []);
 		});
-		return { kind: 'switch', slots, benchCount: benchOk.length, mustSwitch: Math.min(forced, benchOk.length) };
+		return { kind: 'switch', slots, benchCount: benchOk.length,
+			mustSwitch: Math.min(forced, benchOk.length) + reviving.filter(Boolean).length };
 	}
 	// move request
 	const slots = req.active.map((act, i) => {

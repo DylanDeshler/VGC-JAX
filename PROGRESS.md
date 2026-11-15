@@ -281,6 +281,12 @@ M3 content (2026-10-23)
   hit = the reflection's (activeMove is not restored); a second '[spread]' tag keeps the first slots.
   Also: Substitute hits see battle.activeTarget = the accuracy loop's last target (Unaware); the projection keeps
   a real move volatile's own duration (Phantom Force vs twoturnmove).
+- Revival Blessing: onTryHit (no fainted party member -> false), slotCondition, selfSwitch flag even without
+  canSwitch; the runAction tail keeps a reviving slot's switch request; that slot's legal picks are fainted party
+  members (no pass); commit queues the 'revivalblessing' action (order 6): pokemonLeft++, an instaswitch when the
+  target is still in its active position, fainted cleared, hp = maxhp / 2, '-heal' [from] move, slot condition
+  removed. Oracle player: reviving slots counted in mustSwitch (no 'default' fallback); harness: a move step's
+  subject resolves to the move (Revival Blessing's id equals an action kind).
 - CPU testing: scripts/memguard.sh caps the process tree (default cap 22 GB, 1 worker).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

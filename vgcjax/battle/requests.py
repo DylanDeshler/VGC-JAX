@@ -103,12 +103,16 @@ def switch_side_masks(st, side):
         b = st.sides.active[side, slot].astype(I32)
         u = side * 4 + jnp.maximum(b, 0)
         flags.append((b >= 0) & (mget(m.switch_flag, u) != 0))
-    nf = flags[0].astype(I32) + flags[1].astype(I32)
-    ns = jnp.minimum(nf, nb)
+    # a reviving slot (Revival Blessing) must pick a fainted party member; the others follow the forced-switch rule
+    from vgcjax.effects import moves_b2 as MB2
+    rv = [flags[s] & MB2.reviving(st, side, s) for s in range(2)]
+    fainted = m.fainted[side]
+    nf = (flags[0] & ~rv[0]).astype(I32) + (flags[1] & ~rv[1]).astype(I32)
+    ns = jnp.minimum(nf, nb) + rv[0].astype(I32) + rv[1].astype(I32)
     masks = []
     for slot in range(2):
-        sw = jnp.where(flags[slot], poss, False)
-        pas = jnp.where(flags[slot], nb < nf, True)
+        sw = jnp.where(rv[slot], fainted, jnp.where(flags[slot], poss, False))
+        pas = jnp.where(rv[slot], False, jnp.where(flags[slot], nb < nf, True))
         masks.append(jnp.concatenate([jnp.zeros(24, bool), sw, pas[None]]))
     a = jnp.arange(NA)
     is_sw = (a >= 24) & (a < 28)

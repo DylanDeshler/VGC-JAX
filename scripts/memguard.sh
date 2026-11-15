@@ -17,9 +17,9 @@ while kill -0 "$ROOT" 2>/dev/null; do
   (( cur > peak )) && peak=$cur
   if (( cur > CAP_KB )); then
     echo "memguard: ${cur} KB > cap ${CAP_KB} KB; killing" >&2
-    pkill -TERM -P "$ROOT" 2>/dev/null; kill -TERM "$ROOT" 2>/dev/null; sleep 3
-    for p in $(ps -axo pid=,ppid= | awk -v r="$ROOT" '$2==r{print $1}'); do pkill -KILL -P "$p" 2>/dev/null; kill -KILL "$p" 2>/dev/null; done
-    kill -KILL "$ROOT" 2>/dev/null
+    tree=$(ps -axo pid=,ppid= | awk -v root="$ROOT" '
+      { pp[$1] = $2 } END { for (p in pp) { q = p; while (q != "" && q != 0 && q != root) q = pp[q]; if (q == root) print p } }')
+    kill -TERM $tree 2>/dev/null; sleep 3; kill -KILL $tree 2>/dev/null
     break
   fi
   sleep 1

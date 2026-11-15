@@ -915,7 +915,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     st = EV.emit(st, fail_msg, EV.EV_FAIL, actor=u)
     st = EV.attr_last_move(st, fail_msg, EV.F_STILL)
     did_nothing = ~RS.truthy(da) & ~((da[0] == RS.NUM) & (da[1] == 0)) & ~has_self & (dex.move_selfdestruct[move] == 0)
-    set_flag = on & ~did_nothing & self_switch & ~ps_fail & (mget(m.hp, u) > 0) & css
+    # PS :1366-1368: (canSwitch(source.side) || move.id === 'revivalblessing')
+    set_flag = on & ~did_nothing & self_switch & ~ps_fail & (mget(m.hp, u) > 0) & \
+        (css | (move == opt_id("MOVE_REVIVALBLESSING")))
     st = st.replace(mons=m.replace(switch_flag=mset(m.switch_flag, u, move + 2, set_flag)))
     tv = tv & RS.hit_or_zero((tags, vals))
 
