@@ -83,18 +83,43 @@ def check_win(st: S.State, last_ref, on) -> S.State:
     return st.replace(meta=meta)
 
 
-def resolve_faints(st: S.State, dex, on, check_win_if_no_faints=False, do_check_win=True) -> S.State:
+def resolve_faints(st: S.State, dex, on, check_win_if_no_faints=False, do_check_win=True, move_src=None) -> S.State:
     """PS: sim/battle.ts:2561-2657 resolveFaints (gen 9 path) over the whole faint queue at once: queued refs are
-    distinct, the per-side counters are additive, and 'faint' messages keep queue order."""
-    from vgcjax.battle.switching import clear_volatile_many
+    distinct, the per-side counters are additive, and 'faint' messages keep queue order.
+
+    `move_src` (the move user, for the hit-loop tail's resolveFaints, ch/scripts.ts:545): the queued faints carry it
+    as faintData.source with its move as the effect, so runEvent('Faint') runs Destiny Bond (effects/batch_utility.py):
+    its source.faint() is appended to the queue and processed by the same loop (one more pass), and checkWin is
+    forced (PS :2626-2631)."""
     on = jnp.asarray(on) & (st.meta.phase != S.DONE)
+    n0 = st.meta.faint_queue_len.astype(I32)
+    st, last, db = _faint_pass(st, dex, on, move_src)
+    if move_src is not None:
+        st = faint(st, move_src, db)
+        st, last2, _ = _faint_pass(st, dex, on & db, None)
+        last = jnp.where(db, last2, last)
+        do_check_win = jnp.asarray(do_check_win) | db
+    had = n0 > 0
+    cw = on & jnp.where(had, do_check_win, check_win_if_no_faints)
+    return check_win(st, jnp.where(had, last, -1), cw)
+
+
+def _faint_pass(st: S.State, dex, on, move_src):
+    """One batched pass of resolveFaints' loop over the queued faints; empties the queue. Returns (st, last ref,
+    Destiny Bond activated)."""
+    from vgcjax.battle.switching import clear_volatile_many
     meta = st.meta
     n0 = meta.faint_queue_len.astype(I32)
     refs = meta.faint_queue.astype(I32)
     live = on & (jnp.arange(S.FAINTQ) < n0) & (refs >= 0)
     do = live & ~mget(st.mons.fainted, refs)             # BeforeFaint: no handlers yet
+    db = jnp.zeros((), bool)
     for k in range(S.FAINTQ):
         st = EV.emit(st, do[k], EV.EV_FAINT, actor=refs[k])     # PS: sim/battle.ts:2598 add("faint", pokemon)
+        if move_src is not None:                                 # runEvent('Faint') (PS :2602-2604): Destiny Bond
+            from vgcjax.effects import batch_utility as BU
+            st, act = BU.destinybond_faint(st, refs[k], move_src, do[k] & ~db)
+            db = db | act
     side = side_of(jnp.clip(refs, 0, 7))
     cnt = jnp.stack([jnp.sum((do & (side == s)).astype(I32)) for s in range(2)])
     sides = st.sides
@@ -114,9 +139,7 @@ def resolve_faints(st: S.State, dex, on, check_win_if_no_faints=False, do_check_
     meta = st.meta
     st = st.replace(meta=meta.replace(faint_queue=jnp.where(on, jnp.full(S.FAINTQ, -1, I8), meta.faint_queue),
                                       faint_queue_len=jnp.where(on, 0, meta.faint_queue_len).astype(I8)))
-    had = n0 > 0
-    cw = on & jnp.where(had, do_check_win, check_win_if_no_faints)
-    return check_win(st, jnp.where(had, last, -1), cw)
+    return st, last, db
 
 
 def possible_switches(st: S.State, side):

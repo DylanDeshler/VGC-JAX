@@ -304,6 +304,15 @@ M3 content (2026-10-23)
   {protean} projected). Transform / Skill Swap / Worry Seed state work runs undispatched after the first target's Hit
   events (move_pipeline post_hit, one switch_in_vec pass for the Starts); Imposter runs at the head of
   switch_in_vec, which then plays the copied ability's Start. Unburden onEnd (removeVolatile) added to end_vec.
+- Utility batch (effects/batch_utility.py; trace-checked only, corpora pending): Leech Seed (raw sourceSlot, residual
+  drain to the mon now in that slot, '-heal' [silent]; Grass onTryImmunity), Belly Drum ('-setboost' [from], Contrary
+  -6), Focus Energy / Dragon Cheer (mutually exclusive Starts, hasDragonType; ModifyCritRatio in get_damage), No
+  Retreat ([C] Start: 'trapped' volatile + its onTrapPokemon in end_turn), Destiny Bond (PrepareHit, BeforeMove -1,
+  MoveAborted; onFaint in the hit-loop tail's resolveFaints: '-activate', the source's faint in a second pass,
+  checkWin forced), Quash (willMove order 201), Round (onTry prioritizeAction: order 3 + source_effect; move_begin
+  doubles basePower for move.sourceEffect round), Ally Switch (allyswitch volatile counter, ALLY_SWITCH_STALL draw,
+  swapPosition: active / ps_order, new PublicEvent SWAP, Healing Wish onSwap), Chilly Reception (priorityChargeMove
+  queue action at order 107 -> chillyreception volatile, '-prepare' [premajor]; weather + selfSwitch from data).
 - CPU testing: scripts/memguard.sh caps the process tree (default cap 22 GB, 1 worker).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

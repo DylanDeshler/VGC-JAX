@@ -108,6 +108,8 @@ function reduce(lines, battle) {
 		} else if (type === '-transform' || type === '-copyboost') {
 			ev(type === '-transform' ? 'TRANSFORM' : 'COPYBOOST', { actor: refOf(parts[1]), target: refOf(parts[2]),
 				move: fromEffect(from)[1] });
+		} else if (type === 'swap') {
+			ev('SWAP', { actor: refOf(parts[1]), v1: Number(parts[2]), move: fromEffect(from)[1] });
 		} else if (type === 'detailschange') {
 			ev('DETAILSCHANGE', { actor: refOf(parts[1]), v1: toID(String(parts[2]).split(',')[0]) });
 		} else if (type === '-enditem') {

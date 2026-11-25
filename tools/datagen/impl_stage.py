@@ -50,7 +50,9 @@ EXTRA: dict[str, set[str]] = {
               "explosion", "selfdestruct",
               "beatup", "psychicnoise", "ragingbull", "highjumpkick", "ceaselessedge", "bugbite", "mortalspin",
               "watershuriken",                                                        # effects/batch_damaging.py
-              "batonpass", "skillswap", "worryseed", "psychup", "transform"},         # effects/batch_copy.py
+              "batonpass", "skillswap", "worryseed", "psychup", "transform",          # effects/batch_copy.py
+              "leechseed", "bellydrum", "focusenergy", "quash", "allyswitch", "destinybond", "noretreat",
+              "dragoncheer", "chillyreception", "round"},                              # effects/batch_utility.py
     "abilities": {"imposter", "protean", "libero",                              # effects/batch_copy.py
                   "magicbounce", "queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
@@ -89,7 +91,9 @@ EXTRA: dict[str, set[str]] = {
                    "taunt", "choicelock", "followme", "ragepowder", "helpinghand",
                    "spikyshield", "banefulbunker", "kingsshield", "auroraveil", "throatchop",
                    "mustrecharge", "twoturnmove", "perishsong", "yawn", "roost", "encore", "imprison", "glaiverush", "disable",
-                   "gem", "attract", "healblock"},
+                   "gem", "attract", "healblock",
+                   "leechseed", "focusenergy", "dragoncheer", "noretreat", "trapped", "destinybond", "allyswitch",
+                   "chillyreception"},                                       # effects/batch_utility.py,
 }
 
 
