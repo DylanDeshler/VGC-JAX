@@ -59,6 +59,8 @@ TERRAIN_SETTERS = {"electricsurge": "electricterrain", "grassysurge": "grassyter
 fields("cloudnine", ("ending", "bool"))
 fields("unnerve", ("unnerved", "bool"))
 fields("trace", ("seek", "bool"))
+fields("protean", ("protean", "bool"))     # effects/batch_copy.py
+fields("libero", ("libero", "bool"))
 
 
 def _noop(hc, st, dex, rng):
@@ -105,6 +107,11 @@ def switch_in_vec(st, dex, rng, u, on, start=False, _traced=False):
     on = jnp.asarray(on)
     u = jnp.asarray(u, I32)
     r = jnp.clip(u, 0, 7)
+    started = jnp.asarray(start)
+    if not start:     # Imposter onSwitchIn: transformInto -> setAbility -> Start(the copied ability), run below
+        from vgcjax.effects import batch_copy as BC
+        st, imp = BC.imposter(st, dex, r, on)
+        started = started | imp
     ab = mget(st.mons.ability, r).astype(I32)
     is_ = lambda name: on & (ab == aid(name)) if aid(name) > 0 else jnp.zeros((), bool)  # noqa: E731
     src_eff = ids.ABILITY_BASE + ab - 1
@@ -113,7 +120,7 @@ def switch_in_vec(st, dex, rng, u, on, start=False, _traced=False):
     tc = _table(TERRAIN_SETTERS, CO.cid)[ab]
     st, rng, _ = TR.set_terrain(st, dex, rng, tc, on & (tc > 0), source=u, source_effect=src_eff)
     c9 = is_("cloudnine")
-    st = _ability_msg(st, c9 & (not start), u, "cloudnine")
+    st = _ability_msg(st, c9 & ~started, u, "cloudnine")
     if aid("cloudnine") > 0:
         st = set_state_field(st, r, "cloudnine", "ending", 0, c9)
     st = _ability_msg(st, is_("pressure"), u, "pressure")
@@ -198,7 +205,8 @@ def trace_update(st, dex, rng, u, on):
 
 def end_vec(st, refs, on):
     """singleEvent('End', ability) for refs [N] at once: Cloud Nine onEnd (abilityState.ending = true;
-    eachEvent('WeatherChange'): no Reg M-C handler), Unnerve onEnd (unnerved = false). State only."""
+    eachEvent('WeatherChange'): no Reg M-C handler), Unnerve onEnd (unnerved = false), Unburden onEnd
+    (removeVolatile('unburden'), data/abilities.ts unburden.onEnd). State only."""
     refs = jnp.clip(jnp.asarray(refs, I32), 0, 7)
     on = jnp.asarray(on)
     m = st.mons
@@ -212,6 +220,15 @@ def end_vec(st, refs, on):
         s = jnp.where(hit, s.at[:, slot].set(val).at[:, 3].set(s[:, 3] | (1 << slot)), s)
     from vgcjax.battle.util import mset_many
     st = st.replace(mons=m.replace(ability_state=mset_many(m.ability_state, refs, s, on)))
+    # Unburden onEnd: removeVolatile('unburden') (no message; matters before Baton Pass' copy / Skill Swap)
+    if aid("unburden") > 0 and "unburden" in ids.CONDITIONS:
+        import numpy as np
+        k = CO.cid("unburden") - ids.VOL_BASE
+        m = st.mons
+        words = mget(m.vol_bits, refs)                                # [N, WV]
+        words = words.at[:, k // 32].set(words[:, k // 32] & ~np.uint32(1 << (k % 32)))
+        hit = jnp.broadcast_to(on, refs.shape) & (ab == aid("unburden"))
+        st = st.replace(mons=m.replace(vol_bits=mset_many(m.vol_bits, refs, words, hit)))
     # Flash Fire onEnd: removeVolatile('flashfire') -> '-end' X 'ability: Flash Fire' '[silent]'
     if aid("flashfire") > 0 and "flashfire" in ids.CONDITIONS:
         c = CO.cid("flashfire")

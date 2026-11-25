@@ -49,8 +49,10 @@ EXTRA: dict[str, set[str]] = {
               "substitute", "revivalblessing",                                         # effects/moves_b2.py
               "explosion", "selfdestruct",
               "beatup", "psychicnoise", "ragingbull", "highjumpkick", "ceaselessedge", "bugbite", "mortalspin",
-              "watershuriken"},                                                       # effects/batch_damaging.py             # selfdestruct 'always' (core pipeline); Damp's targets
-    "abilities": {"magicbounce", "queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
+              "watershuriken",                                                        # effects/batch_damaging.py
+              "batonpass", "skillswap", "worryseed", "psychup", "transform"},         # effects/batch_copy.py
+    "abilities": {"imposter", "protean", "libero",                              # effects/batch_copy.py
+                  "magicbounce", "queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
                   "punkrock", "sandforce", "hugepower", "purepower", "hustle", "guts", "blaze", "torrent",

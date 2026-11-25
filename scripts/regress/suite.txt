@@ -308,3 +308,11 @@ mb_stealthrock | --n 150 --seed 382 --teams stagereq:impl:ability:magicbounce+mo
 mb_thunderwave | --n 150 --seed 382 --teams stagereq:impl:ability:magicbounce+move:thunderwave --stage impl
 mb_taunt | --n 150 --seed 382 --teams stagereq:impl:ability:magicbounce+move:taunt --stage impl
 rb_revivalblessing | --n 200 --seed 392 --teams stagereq:impl:move:revivalblessing --stage impl
+bc_batonpass | --n 150 --seed 381 --teams stagereq:impl:move:batonpass --stage impl
+bc_skillswap | --n 150 --seed 382 --teams stagereq:impl:move:skillswap --stage impl
+bc_worryseed | --n 150 --seed 383 --teams stagereq:impl:move:worryseed --stage impl
+bc_psychup | --n 150 --seed 384 --teams stagereq:impl:move:psychup --stage impl
+bc_transform | --n 150 --seed 385 --teams stagereq:impl:move:transform --stage impl
+bc_imposter | --n 150 --seed 386 --teams stagereq:impl:ability:imposter --stage impl
+bc_protean | --n 150 --seed 387 --teams stagereq:impl:ability:protean --stage impl
+bc_libero | --n 150 --seed 388 --teams stagereq:impl:ability:libero --stage impl
