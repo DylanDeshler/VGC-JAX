@@ -677,6 +677,8 @@ if mid("pollenpuff") > 0:
         from vgcjax.battle import move_pipeline as MP
         t, u = hc.target, hc.source
         ally = (jnp.clip(t, 0, 7) // 4) == (jnp.clip(u, 0, 7) // 4)
+        from vgcjax.effects import batch_damaging as BD                   # healblock.onTryHeal's Pollen Puff branch
+        st = BD.pollenpuff_heal_block_msg(st, t, u, ally)
         st, r = MP.battle_heal(st, t, mget(st.mons.maxhp, t).astype(I32) // 2, ally)
         return hc.ret(RS.R(RS.NOTFAIL, 0), ally & ~RS.truthy(r)), st, rng
 

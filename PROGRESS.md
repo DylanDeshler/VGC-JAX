@@ -287,6 +287,12 @@ M3 content (2026-10-23)
   target is still in its active position, fainted cleared, hp = maxhp / 2, '-heal' [from] move, slot condition
   removed. Oracle player: reviving slots counted in mustSwitch (no 'default' fallback); harness: a move step's
   subject resolves to the move (Revival Blessing's id equals an action kind).
+- Damaging batch (effects/batch_damaging.py): Beat Up (onModifyMove multihit = side.pokemon order allies, per-hit set
+  species Atk BP, '-hitcount', no Parental Bond), Water Shuriken (data 2-5), High Jump Kick (MoveFail crash floor(maxhp
+  / 2)), Ceaseless Edge / Mortal Spin (AfterHit + AfterSubDamage), Raging Bull (screens + Tauros-Paldea type), Bug Bite
+  (steal + Eat on the user), Psychic Noise + healblock (2 turns, BeforeMove / DisableMove heal moves, TryHeal at every
+  battle.heal site incl. drain / Leftovers / Sitrus TryEatItem / absorb abilities, Pollen Puff branches). Trace check
+  only so far; corpora pending (coordinator).
 - CPU testing: scripts/memguard.sh caps the process tree (default cap 22 GB, 1 worker).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

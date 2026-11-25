@@ -121,7 +121,8 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
                 for name, ty in ABSORB.items():
                     a = live & other & _is(ab, name) & (mtype == getattr(ids, ty))
                     hp, mx = mget(st.mons.hp, t), mget(st.mons.maxhp, t)
-                    healed = a & (hp < mx) & (hp > 0)
+                    from vgcjax.effects import batch_damaging as BD    # heal()'s TryHeal: Heal Block
+                    healed = a & (hp < mx) & (hp > 0) & ~BD.heal_blocked(st, t)
                     st, rng = STS.effect_heal(st, dex, rng, t, mx // 4, aeff(name), healed)
                     st = EV.emit(st, a & ~healed, EV.EV_IMMUNE, actor=t, v1=aeff(name))
                     hit = hit | a

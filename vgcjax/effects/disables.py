@@ -129,6 +129,8 @@ def disable_moves(st, dex, rng, r, on):
     dis = MB2.encore_disable(st, dex, r, dis, on)
     dis = MB2.imprison_disable(st, r, dis, on)
     dis = MB2.disable_disable(st, r, dis, on)
+    from vgcjax.effects import batch_damaging as BD
+    dis = BD.healblock_disable(st, dex, r, dis, on)                                 # healblock: heal-flag moves
     m = st.mons
     return st.replace(mons=m.replace(move_disabled=mset(m.move_disabled, r, dis.astype(m.move_disabled.dtype), on))), rng
 

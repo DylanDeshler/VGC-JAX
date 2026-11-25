@@ -47,7 +47,9 @@ EXTRA: dict[str, set[str]] = {
               "phantomforce",                                                          # effects/locked.py
               "healingwish", "stoneaxe", "healpulse", "strengthsap", "soak", "pollenpuff",
               "substitute", "revivalblessing",                                         # effects/moves_b2.py
-              "explosion", "selfdestruct"},             # selfdestruct 'always' (core pipeline); Damp's targets
+              "explosion", "selfdestruct",
+              "beatup", "psychicnoise", "ragingbull", "highjumpkick", "ceaselessedge", "bugbite", "mortalspin",
+              "watershuriken"},                                                       # effects/batch_damaging.py             # selfdestruct 'always' (core pipeline); Damp's targets
     "abilities": {"magicbounce", "queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
@@ -85,7 +87,7 @@ EXTRA: dict[str, set[str]] = {
                    "taunt", "choicelock", "followme", "ragepowder", "helpinghand",
                    "spikyshield", "banefulbunker", "kingsshield", "auroraveil", "throatchop",
                    "mustrecharge", "twoturnmove", "perishsong", "yawn", "roost", "encore", "imprison", "glaiverush", "disable",
-                   "gem", "attract"},
+                   "gem", "attract", "healblock"},
 }
 
 

@@ -72,7 +72,8 @@ def base_power(st, dex, u, move, targets, bp, hit=1):
         gb = jnp.where(us > 0, jnp.minimum((25 * ts) // jnp.maximum(us, 1) + 1, 150), 1)
         out = jnp.where(is_("gyroball"), gb, out)
     out = jnp.where(is_("tripleaxel"), 20 * jnp.asarray(hit, I32), out)            # 20 * move.hit
-    return out
+    from vgcjax.effects import batch_damaging as BD
+    return BD.beat_up_bp(st, dex, u, move, out, hit)                                # move.allies.shift()
 
 
 def fixed_damage(st, dex, u, move, targets, fixed):

@@ -18,6 +18,7 @@ from vgcjax.battle.util import mget, mset, mset_many, side_of
 from vgcjax.core import rng as R
 from vgcjax.core import typechart as TC
 from vgcjax.data import ids
+from vgcjax.effects import batch_damaging as BD
 from vgcjax.effects import conditions as CO
 from vgcjax.effects import hooks as H
 from vgcjax.effects import modifiers as MOD
@@ -422,6 +423,7 @@ def battle_heal(st, target, amount, on, drain_of=None):
     amount = jnp.where((amount > 0) & (amount <= 1), 1, amount)
     hp = mget(m.hp, target)
     ok = jnp.asarray(on) & (amount != 0) & (hp > 0) & mget(m.is_active, target) & (hp < mget(m.maxhp, target))
+    ok = ok & ~BD.heal_blocked(st, target)                             # runEvent('TryHeal'): Heal Block -> false
     st, healed = F.heal(st, target, amount, ok)
     st = EV.emit_hp(st, ok, EV.EV_HEAL, target, target=-1 if drain_of is None else drain_of,
                     flags=0 if drain_of is None else EV.F_DRAIN)
@@ -443,7 +445,7 @@ def parental_bond(st, dex, u, move, spread_hit):
         return jnp.zeros((), bool)
     excl = mflag(dex, move, T.MF_NOPARENTALBOND) | mflag(dex, move, T.MF_CHARGE) | mflag(dex, move, T.MF_FUTUREMOVE)
     return (mget(st.mons.ability, jnp.clip(u, 0, 7)) == a) & (dex.move_category[move] != T.CAT_STATUS) & \
-        (dex.move_multihit[move][0] == 0) & ~excl & ~jnp.asarray(spread_hit)
+        (dex.move_multihit[move][0] == 0) & ~excl & ~jnp.asarray(spread_hit) & ~BD.is_beat_up(move)
 
 
 def unaware(st, u, targets):
@@ -728,6 +730,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
                 st, rng, _ = SC.add_side_condition(st, dex, rng, 1 - side_of(u), CO.cid("stealthrock"),
                                                    hit & src_up & ~sf_sub & (move == opt_id("MOVE_STONEAXE")),
                                                    source=u, source_effect=C.eff_move(move))
+            st, rng = BD.after_sub_damage(st, dex, rng, u, move, targets[j], hit, sf_sub)   # Ceaseless Edge, Mortal Spin
             tags = tags.at[j].set(jnp.where(hit, RS.BOOL, jnp.where(fail, RS.NULL, tags[j])))
             vals = vals.at[j].set(jnp.where(hit, 1, jnp.where(fail, 0, vals[j])))
             sub_ok = sub_ok.at[j].set(hit)
@@ -768,13 +771,14 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     mx_u = mget(m.maxhp, u).astype(I32)
     act_u = mget(m.is_active, u)
     healed = jnp.zeros((), bool)
+    hb_u = BD.heal_blocked(st, u)                                      # drain's TryHeal: Heal Block
     for j in range(NT):
         st = EV.emit(st, stu[j], EV.EV_ABILITY, actor=targets[j], move=T.ABILITY_BASE + opt_id("ABILITY_STURDY") - 1)
         st = IT.use_item(st, targets[j], sash[j])                 # '-enditem' X Focus Sash (inside the Damage event)
         pct, col = EV.hp_public(new_hp[j], mx_t[j])
         st = EV.emit(st, go[j], EV.EV_DAMAGE, actor=targets[j], v1=pct, v2=col)  # PS: sim/battle.ts:2171
         a = (2 * dealt[j] * drain_n + drain_d) // (2 * drain_d)                    # Math.round
-        ok = go[j] & (dealt[j] > 0) & (drain_n > 0) & (a != 0) & (hp_u > 0) & act_u & (hp_u < mx_u)
+        ok = go[j] & (dealt[j] > 0) & (drain_n > 0) & (a != 0) & (hp_u > 0) & act_u & (hp_u < mx_u) & ~hb_u
         hp_u = jnp.where(ok, jnp.minimum(mx_u, hp_u + a), hp_u)
         pu, cu = EV.hp_public(hp_u, mx_u)
         st = EV.emit(st, ok, EV.EV_HEAL, actor=u, target=targets[j], v1=pu, v2=cu, flags=EV.F_DRAIN)
@@ -1050,6 +1054,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         sa = jnp.any(damaged) & (move == opt_id("MOVE_STONEAXE")) & ~MC_sa.sheer_force(st, dex, u, move)[0]
         st, rng, _ = SC.add_side_condition(st, dex, rng, 1 - side_of(u), CO.cid("stealthrock"), sa, source=u,
                                            source_effect=C.eff_move(move))
+    st, rng = BD.after_hit(st, dex, rng, u, move, targets, damaged)       # Ceaseless Edge / Mortal Spin onAfterHit
     st = AR.emergency_exit(st, u, u_hp0, on & ~jnp.asarray(side_mode))   # [C] scripts.ts:419 (the attacker)
     return st, rng, (tags, vals)
 
@@ -1178,6 +1183,7 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
     a_type, a_bp, a_acc = WE.modify_move(st, dex, u, target, move)
     from vgcjax.effects import move_callbacks as MC
     a_type, a_bp = MC.terrain_pulse(st, dex, u, move, a_type, a_bp)
+    a_type = BD.raging_bull_type(st, u, move, a_type)
     # runEvent('ModifyType'): Aerilate / Pixilate (onModifyTypePriority -1): Normal -> Flying / Fairy
     ate, ate_t = MC.ate_boosted(st, dex, u, move)
     a_type = jnp.where(ate, ate_t, a_type)
@@ -1226,10 +1232,13 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
     from vgcjax.effects import moves_b2 as MB2
     st, ds_null = MB2.double_shock_try(st, u, move, go_um)
     tm_null = tm_null | ds_null
+    st, pp_fail = BD.pollenpuff_try_move(st, u, jnp.where(targets[0] >= 0, targets[0], target), move,
+                                         go_um & ~tm_null)              # Pollen Puff onTryMove (Heal Block): false
     # runEvent('TryMove', pokemon, target, move) (PS :552): Armor Tail (onFoeTryMove) -> false
     from vgcjax.effects import ability_reactions as AR
     st, at_fail = AR.armor_tail(st, dex, u, jnp.where(targets[0] >= 0, targets[0], target), move,
-                                go_um & ~tm_null)
+                                go_um & ~tm_null & ~pp_fail)
+    at_fail = at_fail | pp_fail
     from vgcjax.effects import batch_passive as BP                     # Damp onAnyTryMove
     st, damp_fail = BP.damp(st, dex, u, move, go_um & ~tm_null & ~at_fail)
     go_um = go_um & ~tm_null & ~at_fail & ~damp_fail
@@ -1382,6 +1391,7 @@ def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
     idx, rng = R.sample(rng, mkey, 20, active=on_hl & is_range)
     hits = jnp.where(is_range, MULTIHIT_TABLE[idx], jnp.where(mh[0] > 0, mh[0], 1)).astype(I32)
     hits = jnp.where(parental_bond(st, dex, u, move, spread_hit), 2, hits)       # move.multihit = 2
+    hits = BD.beat_up_hits(st, u, move, hits)                                    # Beat Up onModifyMove
     hits = jnp.where(side_on, 1, hits)
     full = lambda v: jnp.full(NT, v, I32)  # noqa: E731
     new = S.Exec(in_move=jnp.asarray(True), u=u, move=move, targets=targets.astype(I32), tv=tv, spread=spread,
@@ -1478,8 +1488,8 @@ def move_end(st, dex, rng, cfg):
     # [C] scripts.ts:545-549: '-hitcount' for multihit moves without a boolean smartTarget
     mh = dex.move_multihit[move]
     pb = parental_bond(st, dex, u, move, ex.spread_hit)
-    st = EV.emit(st, run_rest & ((mh[0] > 0) | pb) & (dex.move_smart_target[move] != 1) & ~(pb & (hit_count == 1)),
-                 EV.EV_HITCOUNT, actor=targets[0], v1=hit_count)
+    st = EV.emit(st, run_rest & ((mh[0] > 0) | pb | BD.is_beat_up(move)) & (dex.move_smart_target[move] != 1) &
+                 ~(pb & (hit_count == 1)), EV.EV_HITCOUNT, actor=targets[0], v1=hit_count)
     st = apply_recoil(st, dex, u, move, ex.total, run_rest & (ex.total > 0))
     # gotAttacked / timesAttacked
     m = st.mons
@@ -1532,6 +1542,7 @@ def move_end(st, dex, rng, cfg):
     # PS :589-594: !moveResult -> singleEvent('MoveFail', move): Steel Beam
     from vgcjax.effects import moves_b2 as MB2
     st, rng = MB2.steel_beam_fail(st, dex, rng, u, move, go & ex.has_t & ~result)
+    st, rng = BD.crash_damage(st, dex, rng, u, move, go & ex.has_t & ~result)       # High Jump Kick
     # selfBoost (Scale Shot) on success
     st, _ = boost(st, u, dex.move_selfboost[move], result & jnp.any(dex.move_selfboost[move] != 0), source=u,
                   simple=True)                                                    # self-sourced
