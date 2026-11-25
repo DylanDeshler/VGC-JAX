@@ -40,10 +40,15 @@ def will_act(st):
     return jnp.any(q.valid & ((q.kind == S.Q_MOVE) | (q.kind == S.Q_SWITCH) | (q.kind == S.Q_INSTASWITCH)))
 
 
-def bypasses_protect(dex, move):
-    """checkMoveBypassesProtect (sim/battle.ts:1314-1323): protection applies to moves with the `protect` flag
-    (HitProtect handlers: Unseen Fist, v1)."""
-    return ~mflag(dex, move, ids.MF_PROTECT)
+def bypasses_protect(dex, move, st=None, source=None, block_status=True):
+    """checkMoveBypassesProtect (sim/battle.ts:1314-1323): protection applies to moves with the `protect` flag unless
+    runEvent('HitProtect', attacker, defender, move) returns false: Piercing Drill (effects/batch_forme.py; Unseen
+    Fist, v1)."""
+    out = ~mflag(dex, move, ids.MF_PROTECT)
+    if st is not None:
+        from vgcjax.effects import batch_forme as BF
+        out = out | BF.hit_protect_bypass(st, dex, source, move, block_status)
+    return out
 
 
 # ------------------------------------------------------------------ Protect / Detect (moves)
@@ -89,7 +94,7 @@ def _block_activate(hc, st, dex, eff_name, cond):
 
 @handler(ids.HOOK_TRYHIT, CO.eff("protect"), ps="data/moves.ts protect.condition.onTryHit")
 def protect_try_hit(hc, st, dex, rng):
-    block = ~bypasses_protect(dex, move_of(hc.effect))
+    block = ~bypasses_protect(dex, move_of(hc.effect), st, hc.source)
     hc, st = _block_activate(hc, st, dex, "PROTECT", block)
     return hc, st, rng
 
@@ -160,7 +165,7 @@ def wideguard_try_hit(hc, st, dex, rng):
     from vgcjax.effects import move_callbacks as MC
     tt = MC.move_target(st, dex, hc.source, move)
     spread = (tt == ids.TARGET_ALLADJACENT) | (tt == ids.TARGET_ALLADJACENTFOES)
-    block = spread & ~bypasses_protect(dex, move)
+    block = spread & ~bypasses_protect(dex, move, st, hc.source)
     st = EV.emit(st, block, EV.EV_ACTIVATE, actor=hc.target, move=C.eff_move(ids.MOVE_WIDEGUARD))
     return hc.ret(RS.R(RS.NOTFAIL), block), st, rng
 
@@ -169,7 +174,7 @@ def wideguard_try_hit(hc, st, dex, rng):
 def quickguard_try_hit(hc, st, dex, rng):
     move = move_of(hc.effect)
     prio = Q.move_priority(st, dex, hc.source, move)          # move.priority (ModifyPriority: M4 Prankster)
-    block = (prio > 0) & ~bypasses_protect(dex, move)
+    block = (prio > 0) & ~bypasses_protect(dex, move, st, hc.source)
     st = EV.emit(st, block, EV.EV_ACTIVATE, actor=hc.target, move=C.eff_move(ids.MOVE_QUICKGUARD))
     return hc.ret(RS.R(RS.NOTFAIL), block), st, rng
 

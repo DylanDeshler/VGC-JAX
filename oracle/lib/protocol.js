@@ -170,6 +170,10 @@ function reduce(lines, battle) {
 			ev('SINGLEMOVE', { actor: refOf(parts[1]), move: fromEffect(parts[2])[1] });
 		} else if (type === '-fieldactivate') {
 			ev('FIELDACTIVATE', { move: fromEffect(parts[1])[1] });
+		} else if (type === 'replace') {
+			ev('REPLACE', { actor: refOf(parts[1]), v1: toID(String(parts[2]).split(',')[0]) });
+		} else if (type === '-zbroken') {
+			ev('ZBROKEN', { actor: refOf(parts[1]) });
 		} else if (type === '-mustrecharge') {
 			ev('MUSTRECHARGE', { actor: refOf(parts[1]) });
 		} else if (type === 'turn') {

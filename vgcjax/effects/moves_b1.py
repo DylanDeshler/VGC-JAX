@@ -45,7 +45,8 @@ def _shield_try_hit(name):
         from vgcjax.effects import statuses as STS
         move = PR.move_of(hc.effect)
         status_move = dex.move_category[move] == ids.CAT_STATUS
-        block = ~PR.bypasses_protect(dex, move) & ((name != "kingsshield") | ~status_move)
+        block = ~PR.bypasses_protect(dex, move, st, hc.source, block_status=(name != "kingsshield")) & \
+            ((name != "kingsshield") | ~status_move)
         hc, st = PR._block_activate(hc, st, dex, "PROTECT", block)
         w, b = ids.MF_CONTACT
         contact = block & (((dex.move_flags[move, w] >> b) & 1) == 1)

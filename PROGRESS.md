@@ -273,6 +273,19 @@ M3 content (2026-10-23)
   ceil drain, AfterSubDamage; status moves '-fail' [still]; HIT_SUBSTITUTE targets are null: no damage / effects /
   DamagingHit, but selfDrops, secondary rolls (draw target -1) and secondary self effects run; U-turn still switches.
   Intimidate '-immune'; resist berries skip a substitute hit. 900 targeted battles + regression slice 100%.
+- Forme / Mega batch (effects/batch_forme.py; trace-checked only, corpora pending): Fire Mane (Pyroarite; ADR-019
+  default = PS ModifyAtk / SpA x1.5), Protean (Greninjite; runEvent('PrepareHit') after the Try / PrepareHit
+  singleEvents, effectState.protean), Berserk (Drampanite; [C] onDamage checkedBerserk at every Damage event incl.
+  effect damage / recoil, onTryEatItem blocks Sitrus, onAfterMoveSecondary +1 SpA), Piercing Drill (Excadrite;
+  HitProtect in every protection's checkMoveBypassesProtect, modifyDamage x0.25 + '-ability' / '-zbroken'), Mold
+  Breaker (Gyaradosite, + Ampharosite / Emboarite; move.ignoreAbility modelled by parking every other mon's breakable
+  ability in scratch.mb_saved from onModifyMove to clearActiveMove in the runAction tail), Disguise (Mimikyu: crit
+  veto, effectiveness 0, onDamage 0 + '-activate' incl. the confusion self-hit, onUpdate formeChange Mimikyu-Busted +
+  maxhp / 8 '[from] pokemon: Mimikyu-Busted'), Illusion (Events.alias: every PublicEvents ref of the holder shows its
+  disguise; 'replace' + '-end' on DamagingHit; cleared at faint), Air Balloon ('-item' at switch-in / Trick, Ground
+  immunity via isGrounded, pops on DamagingHit and AfterSubDamage), Mental Herb (onUpdate; [C] Encore keeps the
+  action of a holder). New PublicEvents kinds ZBROKEN, REPLACE. Meganiumite skipped (Mega Sol: effectiveWeather
+  depends on battle.activePokemon / battle.effect at every weather call site).
 - CPU testing: scripts/memguard.sh caps the process tree (one replay worker ~14.5 GB; use <= 2 workers).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

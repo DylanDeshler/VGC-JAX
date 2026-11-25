@@ -560,6 +560,11 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     immune_t = jnp.where(mtype == ids.TYPE_GROUND, ~grounded, jax.vmap(lambda tt: TC.immune(dex, mtype, tt))(t_types))
     scr = scrappy_ignores(st, u, mtype)
     immune_t = immune_t & (dex.move_ignore_immunity[move] != 1) & ~scr & (mtype != ids.TYPE_TYPELESS) & ~is_struggle
+    # Disguise onCriticalHit / onEffectiveness: crit vetoed, effectiveness 0 (effects/batch_forme.py)
+    from vgcjax.effects import batch_forme as BF
+    dsg = BF.disguise_shield(st, dex, u, move, targets, immune_t)
+    will_crit_t = will_crit_t & ~dsg
+    crit_immune = crit_immune | dsg
     reach = rolls_damage & ~immune_t
     # Gyro Ball's basePowerCallback makes two getStat('spe') calls (ModifySpe) before ModifyCritRatio
     pre = jnp.where(reach & (move == opt_id("MOVE_GYROBALL")), 2, 0)
@@ -580,6 +585,7 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
         dex, move, cr, atk["atk_stats5"], atk["atk_boosts7"], ds, db, zo, zd))(
         stats_t, boosts_t, will_crit_t, t_unaware, jnp.broadcast_to(u_unaware, (NT,)) & (targets != u))
     eff = jax.vmap(lambda tt: TC.effectiveness(dex, mtype, tt, freeze_dry=move == opt_id("MOVE_FREEZEDRY")))(t_types)
+    eff = jnp.where(dsg, 0, eff)
     ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev,
                   extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff)))
     bp_post, _, rng = MOD.run("BasePower", ctx, rng, jnp.maximum(bp, 1).astype(I32), base + 1, reach)
@@ -607,17 +613,19 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     # [C] scripts.ts:208-213: the second Parental Bond hit x0.25 (spread modifier otherwise)
     pb2 = parental_bond(st, dex, u, move, st.exec.spread_hit) & (jnp.asarray(hit_no) > 1)
 
-    def one(ds, db, dt, dmx, dg, dci, cd, r, fm, wm, bpp, ap, dp, sp, bp1, fx1, em):
+    pdb = BF.protect_bypassed(st, dex, u, move, targets)        # [C] modifyDamage: Piercing Drill x0.25
+
+    def one(ds, db, dt, dmx, dg, dci, cd, r, fm, wm, bpp, ap, dp, sp, bp1, fx1, em, bpx):
         return D.get_damage_core(dex, move, **atk, def_stats5=ds, def_boosts7=db, def_types=dt, def_maxhp=dmx,
                                  def_grounded=dg, def_crit_immune=dci, crit_draw=cd, roll=r, spread=spread,
                                  pbond_hit2=pb2,
                                  canary_crit=cfg.flags.canary_crit_2048, final_m4096=fm, mtype=mtype, bp=bp1, fixed=fx1,
                                  weather_m4096=wm, bp_post=bpp, atk_post=ap, def_post=dp,
                                  stab_post=jnp.where(is_struggle, 4096, sp), no_burn=no_burn, ignore_immunity=scr,
-                                 type_mod=em)
+                                 type_mod=em, bypass_protect=bpx)
     dmg, kind, crit = jax.vmap(one)(stats_t, boosts_t, def_types, mget(m.maxhp, targets), grounded, crit_immune,
                                     crit_draw, roll, final, wmod, bp_post, att, dfn, stab_post, bp, fixed,
-                                    jnp.where(is_struggle, 0, eff))
+                                    jnp.where(is_struggle, 0, eff), pdb)
     # [C] modifyDamage messages (data/mods/champions/scripts.ts:266-284): effectiveness then crit, per target; the
     # caller emits them (emit_damage_msgs) in PS order around the Substitute step
     formula = rolls_damage & (kind == D.DMG_NUMBER)
@@ -625,19 +633,21 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     res = RS.where(kind == D.DMG_NUMBER, RS.R(RS.NUM, dmg), RS.where(kind == D.DMG_FALSE, RS.R(RS.BOOL, 0),
                                                                      RS.where(kind == D.DMG_UNDEFINED, RS.R(RS.UNDEF),
                                                                               RS.R(RS.NUM, 0))))
-    return st, res, rng, crit, (formula, tm, crit, berry_eat)
+    return st, res, rng, crit, (formula, tm, crit, berry_eat, formula & pdb, u)
 
 
 def emit_damage_msgs(st, msgs, targets, j, on, berry=True):
     """getDamage's per-target messages: '-supereffective' / '-resisted' / '-crit', and a resist berry eaten within
     runEvent('ModifyDamage') (berries skip a substitute hit: data/items.ts <resist berry> hitSub)."""
     from vgcjax.effects import berries as B
-    formula, tm, crit, berry_eat = msgs
+    from vgcjax.effects import batch_forme as BF
+    formula, tm, crit, berry_eat, pdb, u = msgs
     f = formula[j] & on
     st = EV.emit(st, f & (tm[j] > 0), EV.EV_SUPER, actor=targets[j], v1=jnp.minimum(tm[j], 2))
     st = EV.emit(st, f & (tm[j] < 0), EV.EV_RESIST, actor=targets[j], v1=jnp.minimum(-tm[j], 2))
     st = EV.emit(st, f & crit[j], EV.EV_CRIT, actor=targets[j])
-    return B.resist_berry_eat(st, targets[j], berry_eat[j] & on & berry)
+    st = B.resist_berry_eat(st, targets[j], berry_eat[j] & on & berry)
+    return BF.emit_protect_bypass(st, u, targets[j], pdb[j] & on)      # after runEvent('ModifyDamage')
 
 
 STAT_HOOKS = ("ModifyAtk", "ModifyDef", "ModifySpA", "ModifySpD")   # statTable order (atk def spa spd)
@@ -717,6 +727,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
                 st, rng, _ = SC.add_side_condition(st, dex, rng, 1 - side_of(u), CO.cid("stealthrock"),
                                                    hit & src_up & ~sf_sub & (move == opt_id("MOVE_STONEAXE")),
                                                    source=u, source_effect=C.eff_move(move))
+            from vgcjax.effects import batch_forme as BF_sub          # runEvent('AfterSubDamage'): Air Balloon
+            st = BF_sub.air_balloon_pop(st, t, hit)
             tags = tags.at[j].set(jnp.where(hit, RS.BOOL, jnp.where(fail, RS.NULL, tags[j])))
             vals = vals.at[j].set(jnp.where(hit, 1, jnp.where(fail, 0, vals[j])))
             sub_ok = sub_ok.at[j].set(hit)
@@ -737,6 +749,13 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     # runEvent('Damage', target, source, move): Sturdy (priority -30: at full HP, damage >= hp -> '-ability' X
     # Sturdy, hp - 1), then Focus Sash (priority -40)
     from vgcjax.effects import items as IT
+    from vgcjax.effects import batch_forme as BF
+    # Berserk onDamage (checkedBerserk = !multihit), Disguise onDamage (priority 1: '-activate', busted, 0; the
+    # event stops) (effects/batch_forme.py)
+    st = BF.berserk_on_damage(st, targets, jnp.broadcast_to(BF.move_is_multihit(st, dex, u, move), (NT,)), go)
+    st, dsg = BF.disguise_damage(st, targets, go)
+    amt = jnp.where(dsg, 0, amt)
+    m = st.mons
     stu = go & (amt > 0) & (mget(m.ability, targets) == opt_id("ABILITY_STURDY")) & (hp_t == mx_t) & (amt >= hp_t)
     amt = jnp.where(stu, hp_t - 1, amt)
     amt, sash = IT.focus_sash(st, targets, amt, go & (amt > 0))
@@ -758,6 +777,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     act_u = mget(m.is_active, u)
     healed = jnp.zeros((), bool)
     for j in range(NT):
+        st = EV.emit(st, dsg[j], EV.EV_ACTIVATE, actor=targets[j], move=BF.aeff("disguise"))
         st = EV.emit(st, stu[j], EV.EV_ABILITY, actor=targets[j], move=T.ABILITY_BASE + opt_id("ABILITY_STURDY") - 1)
         st = IT.use_item(st, targets[j], sash[j])                 # '-enditem' X Focus Sash (inside the Damage event)
         pct, col = EV.hp_public(new_hp[j], mx_t[j])
@@ -1027,6 +1047,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
                                   dh_on)
         from vgcjax.effects import hazards as HZ                       # Toxic Debris (holder's DamagingHit)
         st, rng = HZ.toxic_debris(st, dex, rng, targets[j], damaged[j], move)
+        st = BF.illusion_damaging_hit(st, targets[j], damaged[j])     # Illusion onDamagingHit (ability)
+        st = BF.air_balloon_pop(st, targets[j], damaged[j])           # Air Balloon onDamagingHit (item: subOrder 8)
     from vgcjax.effects import moves_b1 as MB1                       # singleEvent('AfterHit', move) per target
     for j in range(NT):
         st = MB1.knock_off(st, dex, targets[j], u, move, damaged[j])
@@ -1166,6 +1188,9 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
             ((dex.move_category[move] != T.CAT_STATUS) | ks) & (sp != want)
         st = SW_.set_species(st, dex, u, want, sc)
         st = EV.emit(st, sc, EV.EV_FORMECHANGE, actor=u, v1=want)
+    # Mold Breaker onModifyMove: move.ignoreAbility (other mons' breakable abilities parked: effects/batch_forme.py)
+    from vgcjax.effects import batch_forme as BF_mb
+    st = BF_mb.mold_breaker_begin(st, dex, u, go_rm & alive)
     # PS :500-503: ModifyMove changed move.target (Expanding Force) -> getRandomTarget: side.randomFoe, a
     # RANDOM_TARGET_NOMINAL don't-care draw (the printed target is not compared: harness/events.py); the engine takes
     # the first living foe, else foe.active[0]
@@ -1222,6 +1247,9 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     st = EV.emit(st, pre_fail_msg, EV.EV_FAIL, actor=u)
     st = EV.attr_last_move(st, pre_fail_msg, EV.F_STILL)
     pre_notfail = r_pre[0] == RS.NOTFAIL
+    # runEvent('PrepareHit', pokemon, target, move) (after the Try / PrepareHit singleEvents passed): Protean
+    from vgcjax.effects import batch_forme as BF
+    st = BF.protean(st, dex, u, move, jnp.where(is_struggle, T.TYPE_TYPELESS, a_type), pre_on & pre_ok)
     # ---- side / field moves: tryMoveHit -> TryHitSide / TryHitField (M4 handlers) -> moveHit(target): run below as
     #      one hit on targets[0] without the trySpreadMoveHit steps and the hit-loop tails (Exec.side)
     side_on = pre_on & pre_ok & side_field
@@ -1511,6 +1539,11 @@ def apply_recoil(st, dex, u, move, total, on):
     has = struggle | (rn > 0) | mind
     # Rock Head onDamage: recoil (not Struggle's) -> null
     rock = ~struggle & ~mind & (mget(m.ability, u) == opt_id("ABILITY_ROCKHEAD"))
+    # recoil's runEvent('Damage') (not Struggle's directDamage): Berserk checkedBerserk = true
+    from vgcjax.effects import batch_forme as BF
+    st = BF.berserk_on_damage(st, jnp.asarray(u, I32)[None], jnp.ones(1, bool),
+                              (jnp.asarray(on) & has & ~struggle & (mget(m.hp, u) > 0) & mget(m.is_active, u))[None])
+    m = st.mons
     on = jnp.asarray(on) & has & ~rock & (mget(m.hp, u) > 0)
     # struggle: directDamage (no Damage event); recoil: battle.damage(..., 'recoil') -> spreadDamage (HOOK H21)
     on = on & mget(m.is_active, u)

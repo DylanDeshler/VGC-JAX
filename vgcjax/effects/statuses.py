@@ -139,7 +139,9 @@ def effect_damage(st, dex, rng, target, amount, effect, on, source=-1):
     clamp to >= 1, Damage event (Magic Guard etc., M4), target.damage, '-damage' X hp '[from] effect'."""
     on = jnp.asarray(on) & (mget(st.mons.hp, target) > 0) & mget(st.mons.is_active, target)
     amount = jnp.maximum(jnp.asarray(amount, I32), 1)
-    st, dealt = F.damage(st, target, amount, on)
+    from vgcjax.effects import batch_forme as BF        # runEvent('Damage'): Disguise (confusion), Berserk
+    st, amount, _ = BF.effect_damage_hook(st, target, amount, effect, on)
+    st, dealt = F.damage(st, target, amount, on & (amount > 0))
     m = st.mons
     st = st.replace(mons=m.replace(hurt_this_turn=mset(m.hurt_this_turn, target, mget(m.hp, target), on & (dealt != 0))))
     shown = jnp.where(jnp.asarray(effect) == CO.eff("tox"), CO.eff("psn"), effect)   # PS :2158 'tox' -> 'psn'

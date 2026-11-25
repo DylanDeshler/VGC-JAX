@@ -83,7 +83,8 @@ def raw_stats(dex, move, crit, atk_stats5, atk_boosts7, def_stats5, def_boosts7,
 def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned, def_stats5, def_boosts7, def_types,
                     def_maxhp, def_grounded, def_crit_immune, crit_draw, roll, spread, pbond_hit2=False,
                     canary_crit=False, final_m4096=4096, mtype=None, bp=None, weather_m4096=4096, bp_post=None,
-                    atk_post=None, def_post=None, stab_post=None, no_burn=False, ignore_immunity=False, fixed=None, type_mod=None):
+                    atk_post=None, def_post=None, stab_post=None, no_burn=False, ignore_immunity=False, fixed=None, type_mod=None,
+                    bypass_protect=False):
     """Hook-free getDamage for move `move` (MoveId). PS: sim/battle-actions.ts:1639-1776.
 
     `crit_draw` is the CRIT draw outcome (ignored when crit_ratio == 0 or the move has willCrit);
@@ -121,7 +122,7 @@ def get_damage_core(dex, move, *, atk_stats5, atk_boosts7, atk_types, atk_burned
     crit_num, crit_den = (5, 4) if canary_crit else (3, 2)
     dmg = modify_damage(base, spread=spread, pbond_hit2=pbond_hit2, crit=crit, roll=roll, stab_m4096=stab_m,
                         type_mod=type_mod, burn=burn, final_m4096=final_m4096, crit_num=crit_num, crit_den=crit_den,
-                        weather_m4096=weather_m4096)
+                        weather_m4096=weather_m4096, bypass_protect=bypass_protect)
     kind = jnp.where(type_immune, DMG_FALSE,
                      jnp.where(ohko | (fixed != 0), DMG_NUMBER, jnp.where(bp == 0, DMG_UNDEFINED,
                                                                          jnp.where(bp_zero, DMG_ZERO, DMG_NUMBER))))

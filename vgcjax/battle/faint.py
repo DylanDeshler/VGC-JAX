@@ -95,6 +95,8 @@ def resolve_faints(st: S.State, dex, on, check_win_if_no_faints=False, do_check_
     do = live & ~mget(st.mons.fainted, refs)             # BeforeFaint: no handlers yet
     for k in range(S.FAINTQ):
         st = EV.emit(st, do[k], EV.EV_FAINT, actor=refs[k])     # PS: sim/battle.ts:2598 add("faint", pokemon)
+        from vgcjax.effects import batch_forme as BF            # Illusion onFaint / PS :2613 illusion = null
+        st = BF.illusion_clear(st, refs[k], do[k])
     side = side_of(jnp.clip(refs, 0, 7))
     cnt = jnp.stack([jnp.sum((do & (side == s)).astype(I32)) for s in range(2)])
     sides = st.sides

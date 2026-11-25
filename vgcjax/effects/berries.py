@@ -105,7 +105,8 @@ def update(st, dex, rng, on):
     from vgcjax.effects import conditions as CO
     from vgcjax.effects import statuses as STS
     from vgcjax.effects.abilities import aid
-    if iid("sitrusberry") <= 0 and iid("lumberry") <= 0 and aid("trace") <= 0:
+    from vgcjax.effects import batch_forme as BF
+    if iid("sitrusberry") <= 0 and iid("lumberry") <= 0 and aid("trace") <= 0 and not BF.ACTIVE:
         return st, rng
     on = jnp.asarray(on)
     act = st.sides.active.reshape(4).astype(I32)
@@ -119,12 +120,18 @@ def update(st, dex, rng, on):
         hp, mx = mget(m.hp, r).astype(I32), mget(m.maxhp, r).astype(I32)
         from vgcjax.effects import abilities as AB_                       # abilities' onUpdate first (subOrder 7)
         st, rng = AB_.trace_update(st, dex, rng, r, on & alive[order[i]])
+        st, rng = BF.update_ability(st, dex, rng, r, on & alive[order[i]])          # Disguise
+        m = st.mons
+        hp = mget(m.hp, r).astype(I32)
         if iid("sitrusberry") > 0:
-            go = on & alive[order[i]] & holds(st, r, "sitrusberry") & (hp * 2 <= mx) & can_eat(st, r)
+            # TryEatItem: Berserk's onTryEatItem (healing berries) -> checkedBerserk
+            go = on & alive[order[i]] & holds(st, r, "sitrusberry") & (hp * 2 <= mx) & can_eat(st, r) & \
+                ~BF.berserk_blocks_heal(st, r)
             st = eat_item(st, r, go)
             st, rng = STS.effect_heal(st, dex, rng, r, mx // 4, ieff("sitrusberry"), go)
         conf = CO.has_volatile(st, r, CO.cid("confusion")) if "confusion" in ids.CONDITIONS else False
         st, rng = lum_eat(st, dex, rng, r, on & alive[order[i]] & ((mget(st.mons.status, r) > 0) | conf))
+        st, rng = BF.update_item(st, dex, rng, r, on & alive[order[i]])             # Mental Herb
     return st, rng
 
 

@@ -248,6 +248,9 @@ def post_action(st, dex, rng, kind, on, cursor=0, residual_hp=None, switch_hp=No
         tail_kind=jnp.where(on & defer, kind, sc.tail_kind).astype(I8),
         tail_pos=jnp.where(on, jnp.where(defer, cursor, 0), sc.tail_pos).astype(I8)))
     on = on & ~defer
+    # clearActiveMove (PS :2874, after phazing): Mold Breaker's parked abilities return (also when the battle ended)
+    from vgcjax.effects import batch_forme as BF
+    st = BF.mold_breaker_end(st, ~defer & ~st.exec.in_move)
     # (b) faints + win
     st = F.resolve_faints(st, dex, on, check_win_if_no_faints=True)
     on = on & (st.meta.phase != S.DONE)

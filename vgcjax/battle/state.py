@@ -204,6 +204,10 @@ class Scratch:
     tail_pending: jax.Array        # bool the tail stopped before its forced switches were done
     tail_kind: jax.Array           # i8 queue kind of the action whose tail is pending
     tail_pos: jax.Array            # i8 next active position (p1a p1b p2a p2b = 0..3) to scan for forceSwitchFlag
+    # Mold Breaker (move.ignoreAbility, effects/batch_forme.py): while battle.activeMove ignores abilities, every
+    # other mon's breakable ability is parked here (-1 = not parked) and reads as none; restored at clearActiveMove
+    mb_active: jax.Array           # bool
+    mb_saved: jax.Array            # i16[2,4]
 
 
 @struct.dataclass
@@ -214,6 +218,8 @@ class Events:
     count: jax.Array               # i32
     step_start: jax.Array          # i32
     last_move: jax.Array           # i32 absolute index of the last MOVE record (attrLastMove target), -1 = none
+    alias: jax.Array               # i8[8] PS pokemon.illusion (Illusion): the ref protocol lines show for this mon
+                                   #       (-1 = itself); only PublicEvents read it (effects/batch_forme.py)
 
 
 @struct.dataclass
@@ -318,7 +324,8 @@ def empty_scratch() -> Scratch:
                    eachevent_ord=_z((), I16), mulhook_ord=_z((), I16), insert_ord=_z((), I16), move_actions=_z((2, 4), I8),
                    queue_seq=_z((), I16), step_tag=_z((), I8), step_actor=_z((), I8, -1),
                    step_subject=_z((), I16, -1), action_ord=_z((), I8), cur_select_ord=_z((), I16, -1),
-                   tail_pending=_z((), bool), tail_kind=_z((), I8), tail_pos=_z((), I8))
+                   tail_pending=_z((), bool), tail_kind=_z((), I8), tail_pos=_z((), I8),
+                   mb_active=_z((), bool), mb_saved=_z((2, 4), I16, -1))
 
 
 def empty_state(team: Team) -> State:
@@ -335,4 +342,5 @@ def empty_state(team: Team) -> State:
                   pw_bits=_z((), U32), pw_state=_z((NPW, 3), I16))
     return State(meta=meta, team=team, sides=sides, mons=empty_mons(), field=field, queue=empty_queue(),
                  scratch=empty_scratch(), events=Events(buf=_z((NE, 8), I16), count=_z((), I32), step_start=_z((), I32),
-                                                       last_move=_z((), I32, -1)), exec=empty_exec())
+                                                       last_move=_z((), I32, -1), alias=_z(8, I8, -1)),
+                 exec=empty_exec())
