@@ -71,9 +71,11 @@ EXTRA: dict[str, set[str]] = {
                   "chlorophyll", "swiftswim", "sandrush",                                     # batch C1a
                   "armortail", "contrary", "shadowtag", "hospitality",                        # batch C1b
                   "cursedbody", "snowcloak", "liquidvoice", "auraguard", "thermalexchange", "galewings",
-                  "infiltrator", "emergencyexit", "sheerforce",
+                  "infiltrator", "emergencyexit", "sheerforce",                                # batch C2a / C3
                   "sandveil", "overcoat", "damp", "raindish", "dryskin", "superluck", "healer",
-                  "cutecharm"},                                                               # batch_passive                                            # batch C2a / C3
+                  "cutecharm",                                                                 # effects/batch_passive.py
+                  "synchronize", "moody", "magician", "berserk", "electromorphosis", "cudchew", "moxie",
+                  "supremeoverlord", "moldbreaker"},                                  # effects/batch_reactive.py
                                                                                               # effects/ability_blocks.py
     "items": {"kangaskhanite", "lumberry", "sceptilite", "bindingband", "blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
               "miracleseed", "mysticwater", "nevermeltice", "poisonbarb", "sharpbeak", "silkscarf", "silverpowder",
@@ -83,7 +85,8 @@ EXTRA: dict[str, set[str]] = {
               "kasibberry", "kebiaberry", "occaberry", "passhoberry", "payapaberry", "rindoberry", "roseliberry",
               "shucaberry", "tangaberry", "wacanberry", "yacheberry", "choicescarf",                          # + effects/berries.py
               "grassyseed", "electricseed", "psychicseed", "mistyseed", "ejectbutton", "whiteherb", "widelens",
-              "scopelens", "muscleband", "wiseglasses", "brightpowder", "normalgem"},   # effects/batch_passive.py                      # batch C1b-ii
+              "scopelens", "muscleband", "wiseglasses", "brightpowder", "normalgem",   # effects/batch_passive.py
+              "chestoberry"},                                                 # effects/batch_reactive.py
                                                                                               # effects/items.py
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",
@@ -93,7 +96,8 @@ EXTRA: dict[str, set[str]] = {
                    "mustrecharge", "twoturnmove", "perishsong", "yawn", "roost", "encore", "imprison", "glaiverush", "disable",
                    "gem", "attract", "healblock",
                    "leechseed", "focusenergy", "dragoncheer", "noretreat", "trapped", "destinybond", "allyswitch",
-                   "chillyreception"},                                       # effects/batch_utility.py,
+                   "chillyreception",                                        # effects/batch_utility.py
+                   "charge"},                                                 # Electromorphosis (batch_reactive.py)
 }
 
 

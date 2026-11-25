@@ -313,6 +313,16 @@ M3 content (2026-10-23)
   doubles basePower for move.sourceEffect round), Ally Switch (allyswitch volatile counter, ALLY_SWITCH_STALL draw,
   swapPosition: active / ps_order, new PublicEvent SWAP, Healing Wish onSwap), Chilly Reception (priorityChargeMove
   queue action at order 107 -> chillyreception volatile, '-prepare' [premajor]; weather + selfSwitch from data).
+- Batch reactive (effects/batch_reactive.py; not yet replayed, trace check only): Synchronize (AfterSetStatus:
+  source.trySetStatus with a non-Move/Ability effect carrying .status; the source's bounce '-fail' + Lum), Moody
+  (two ABILITY_MOODY_STAT index draws, ord = occurrence; boost in raise/lower key order), Magician (after
+  AfterMoveSecondarySelf gate, speedSort hitTargets with a SPEED_TIE_ABILITY record; Life Orb skipped after a steal),
+  [C] Berserk (checkedBerserk on every Damage event, TryEatItem veto for Sitrus, AfterMoveSecondary +1 SpA),
+  Electromorphosis + the charge volatile (Start/Restart '[from] ability', BasePower x2, AfterMove / MoveAborted),
+  Cud Chew (EatItem arms berry/counter, residual re-eat), Moxie (faint queue now keeps the Move source per entry:
+  meta.faint_src; AfterFaint after checkWin), Supreme Overlord ('-start' / '-end' fallenN mapped in harness/events.py,
+  BasePower powMod), Mold Breaker (mask: breakable abilities of the other actives -> 0 from ModifyMove to the move's
+  end / the mover's faint; mons.mold_saved), Chesto Berry (Update / Eat). abilityState kind "item" in harness/project.py.
 - CPU testing: scripts/memguard.sh caps the process tree (default cap 22 GB, 1 worker).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

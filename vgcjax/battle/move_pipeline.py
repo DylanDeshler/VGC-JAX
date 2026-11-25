@@ -764,7 +764,10 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     m = m.replace(hp=mset_many(m.hp, targets, new_hp, hit_t),
                   hurt_this_turn=mset_many(m.hurt_this_turn, targets, new_hp, go & (dealt != 0)),
                   last_damage=mset(m.last_damage, u, dealt[last_j], jnp.any(go)))
-    st = F.faint_many(st.replace(mons=m), targets, hit_t & (hp_t - amt <= 0))
+    st = F.faint_many(st.replace(mons=m), targets, hit_t & (hp_t - amt <= 0), src=u)
+    from vgcjax.effects import batch_reactive as BR                     # Berserk onDamage (priority 0, state only)
+    st = BR.berserk_damage(st, targets, go, (dex.move_multihit[move][0] > 0) |
+                           parental_bond(st, dex, u, move, st.exec.spread_hit))
     tags, vals = RS.where(tv & numeric, RS.where(hp0, RS.R(RS.NUM, 0), RS.where(inactive, RS.R(RS.BOOL, 0),
                                                                                  RS.R(RS.NUM, dealt))), (tags, vals))
     drain_n = dex.move_drain[move, 0].astype(I32)
@@ -1153,6 +1156,8 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
     st, rng = LK.move_aborted(st, dex, rng, u, abort)                    # runEvent('MoveAborted') (PS :314)
     from vgcjax.effects import batch_utility as BU
     st, rng = BU.destinybond_move_aborted(st, dex, rng, u, abort)        # destinybond.condition.onMoveAborted
+    from vgcjax.effects import batch_reactive as BR
+    st, rng = BR.charge_aborted(st, dex, rng, u, move, abort)             # charge.onMoveAborted
     m = st.mons
     st = st.replace(mons=m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, jnp.where(
         hc.relay_t == RS.NULL, S.MR_NULL, S.MR_FALSE), abort)))
@@ -1187,6 +1192,8 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
     # runEvent('ModifyType') (M3+), runEvent('ModifyMove', pokemon, target, move) (PS :494-495): frz defrost
     hc = H.HookCtx.make(u, target, C.eff_move(move))
     hc, st, rng = H.run_event("ModifyMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_MODIFYMOVE), on=go_rm)
+    # Mold Breaker onModifyMove: move.ignoreAbility -> breakable abilities of others suppressed while the move is active
+    st = BR.mold_start(st, dex, u, move, go_rm & alive)
     # the choice items' onModifyMove: addVolatile('choicelock')
     from vgcjax.effects import disables as DS
     st, rng = DS.choice_lock(st, dex, rng, u, move, go_rm & ~is_struggle, bounced=bnc)
@@ -1530,6 +1537,8 @@ def move_end(st, dex, rng, cfg):
         hc, st, rng = H.run_event("AfterMoveSecondary", st, dex, rng, hc,
                                   branches=H.dispatch(ids.HOOK_AFTERMOVESECONDARY),
                                   on=some & still[j] & (targets[j] >= 0))
+        from vgcjax.effects import batch_reactive as BR                 # Berserk onAfterMoveSecondary
+        st = BR.berserk_after_move_secondary(st, dex, targets[j], u, move, ex, some & still[j] & (targets[j] >= 0))
     # [C] scripts.ts:577-584: runEvent('EmergencyExit') per target with a numeric damage and hp: the hp before the
     # move = hurtThisTurn + damage (one target: move.totalDamage)
     from vgcjax.effects import ability_reactions as AR
@@ -1574,7 +1583,10 @@ def move_end(st, dex, rng, cfg):
     lo_hp = mget(st.mons.hp, u).astype(I32)
     from vgcjax.effects import move_callbacks as MC_
     sup = MC_.sheer_force(st, dex, u, move)[0]                         # PS :600 !battle.suppressingSecondaries()
-    st, rng = IT.life_orb_recoil(st, dex, rng, u, -1, move, result & ~sup)
+    # Magician (priority 0) before Life Orb (-1); a stolen item's handler was not collected (the user held none)
+    from vgcjax.effects import batch_reactive as BR
+    st, rng, stole = BR.magician(st, dex, rng, u, move, targets, kept, result & ~sup)
+    st, rng = IT.life_orb_recoil(st, dex, rng, u, -1, move, result & ~sup & ~stole)
     # PS :600-605: runEvent('EmergencyExit', pokemon) after AfterMoveSecondarySelf (not vs itself, not Status)
     from vgcjax.effects import ability_reactions as AR
     st = AR.emergency_exit(st, u, lo_hp, result & ~sup & (targets[0] != u) & (dex.move_category[move] != T.CAT_STATUS))
@@ -1616,6 +1628,7 @@ def move_end(st, dex, rng, cfg):
     hc, st, rng = H.run_event("AfterMove", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_AFTERMOVE), on=tgo)
     st = F.resolve_faints(st, dex, ton)
     st = F.check_win(st, -1, ton)
+    st = BR.mold_end(st, end)                       # clearActiveMove (sim/battle.ts:2874): Mold Breaker ends
     return st.replace(exec=ex.replace(in_move=ex.in_move & ~end)), rng
 
 
@@ -1636,6 +1649,8 @@ def apply_recoil(st, dex, u, move, total, on):
     # struggle: directDamage (no Damage event); recoil: battle.damage(..., 'recoil') -> spreadDamage (HOOK H21)
     on = on & mget(m.is_active, u)
     hp_before = mget(m.hp, u).astype(I32)
+    from vgcjax.effects import batch_reactive as BR                    # runEvent('Damage') (not Struggle's recoil)
+    st = BR.berserk_damage(st, jnp.asarray(u, I32)[None], (on & ~struggle)[None], True)
     st, dealt = F.damage(st, u, rec, on)
     st = EV.emit_hp(st, on & ~mind, EV.EV_DAMAGE, u, flags=EV.F_RECOIL)  # '[from] Recoil' / '[from] recoil'
     st = EV.emit_hp(st, on & mind, EV.EV_DAMAGE, u, move=C.eff_move(move), flags=EV.F_FROM)
