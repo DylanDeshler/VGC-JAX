@@ -120,7 +120,9 @@ def update(st, dex, rng, on):
         from vgcjax.effects import abilities as AB_                       # abilities' onUpdate first (subOrder 7)
         st, rng = AB_.trace_update(st, dex, rng, r, on & alive[order[i]])
         if iid("sitrusberry") > 0:
-            go = on & alive[order[i]] & holds(st, r, "sitrusberry") & (hp * 2 <= mx) & can_eat(st, r)
+            from vgcjax.effects import batch_damaging as BD         # onTryEatItem: runEvent('TryHeal') (Heal Block)
+            go = on & alive[order[i]] & holds(st, r, "sitrusberry") & (hp * 2 <= mx) & can_eat(st, r) & \
+                ~BD.heal_blocked(st, r)
             st = eat_item(st, r, go)
             st, rng = STS.effect_heal(st, dex, rng, r, mx // 4, ieff("sitrusberry"), go)
         conf = CO.has_volatile(st, r, CO.cid("confusion")) if "confusion" in ids.CONDITIONS else False

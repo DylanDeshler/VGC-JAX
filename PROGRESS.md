@@ -273,6 +273,12 @@ M3 content (2026-10-23)
   ceil drain, AfterSubDamage; status moves '-fail' [still]; HIT_SUBSTITUTE targets are null: no damage / effects /
   DamagingHit, but selfDrops, secondary rolls (draw target -1) and secondary self effects run; U-turn still switches.
   Intimidate '-immune'; resist berries skip a substitute hit. 900 targeted battles + regression slice 100%.
+- Damaging batch (effects/batch_damaging.py): Beat Up (onModifyMove multihit = side.pokemon order allies, per-hit set
+  species Atk BP, '-hitcount', no Parental Bond), Water Shuriken (data 2-5), High Jump Kick (MoveFail crash floor(maxhp
+  / 2)), Ceaseless Edge / Mortal Spin (AfterHit + AfterSubDamage), Raging Bull (screens + Tauros-Paldea type), Bug Bite
+  (steal + Eat on the user), Psychic Noise + healblock (2 turns, BeforeMove / DisableMove heal moves, TryHeal at every
+  battle.heal site incl. drain / Leftovers / Sitrus TryEatItem / absorb abilities, Pollen Puff branches). Trace check
+  only so far; corpora pending (coordinator).
 - CPU testing: scripts/memguard.sh caps the process tree (one replay worker ~14.5 GB; use <= 2 workers).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

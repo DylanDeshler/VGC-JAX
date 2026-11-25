@@ -148,12 +148,14 @@ def effect_damage(st, dex, rng, target, amount, effect, on, source=-1):
 
 def effect_heal(st, dex, rng, target, amount, effect, on):
     """PS battle.heal(d, target, target, effect) for a non-move effect (sim/battle.ts heal): d <= 1 -> 1, TryHeal
-    (Heal Block: M4), hp / active / full gates, target.heal, '-heal' X hp '[from] effect'."""
+    (Heal Block), hp / active / full gates, target.heal, '-heal' X hp '[from] effect'."""
     m = st.mons
     amount = jnp.asarray(amount, I32)
     amount = jnp.where((amount > 0) & (amount <= 1), 1, amount)
     hp = mget(m.hp, target)
     on = jnp.asarray(on) & (amount > 0) & (hp > 0) & mget(m.is_active, target) & (hp < mget(m.maxhp, target))
+    from vgcjax.effects import batch_damaging as BD
+    on = on & ~BD.heal_blocked(st, target)                       # runEvent('TryHeal'): Heal Block -> false
     st, _ = F.heal(st, target, amount, on)
     return EV.emit_hp(st, on, EV.EV_HEAL, target, move=effect, flags=EV.F_FROM), rng
 

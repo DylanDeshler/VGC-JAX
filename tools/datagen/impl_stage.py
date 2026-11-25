@@ -46,7 +46,9 @@ EXTRA: dict[str, set[str]] = {
               "stealthrock", "spikes", "toxicspikes", "stickyweb",                     # effects/hazards.py
               "phantomforce",                                                          # effects/locked.py
               "healingwish", "stoneaxe", "healpulse", "strengthsap", "soak", "pollenpuff",
-              "substitute"},                                                          # effects/moves_b2.py
+              "substitute",                                                           # effects/moves_b2.py
+              "beatup", "psychicnoise", "ragingbull", "highjumpkick", "ceaselessedge", "bugbite", "mortalspin",
+              "watershuriken"},                                                       # effects/batch_damaging.py
     "abilities": {"queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
                   "technician", "toughclaws", "ironfist", "sharpness", "megalauncher", "strongjaw", "reckless",
@@ -80,7 +82,8 @@ EXTRA: dict[str, set[str]] = {
                    "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain",
                    "taunt", "choicelock", "followme", "ragepowder", "helpinghand",
                    "spikyshield", "banefulbunker", "kingsshield", "auroraveil", "throatchop",
-                   "mustrecharge", "twoturnmove", "perishsong", "yawn", "roost", "encore", "imprison", "glaiverush", "disable"},
+                   "mustrecharge", "twoturnmove", "perishsong", "yawn", "roost", "encore", "imprison", "glaiverush", "disable",
+                   "healblock"},
 }
 
 
