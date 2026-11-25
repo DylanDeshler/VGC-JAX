@@ -44,7 +44,7 @@ def _ability_state(ability: int, state) -> dict:
     out = {}
     for key, slot, kind in AB.FIELDS.get(ids.ABILITIES[ability], []):
         if s[3] >> slot & 1:
-            out[key] = bool(s[slot]) if kind == "bool" else s[slot]
+            out[key] = bool(s[slot]) if kind == "bool" else (ids.ITEMS[s[slot]] if kind == "item" else s[slot])
     return dict(sorted(out.items()))
 
 

@@ -72,6 +72,7 @@ class Meta:
     faint_queue: jax.Array         # i8[8] refs, FIFO
     faint_queue_len: jax.Array     # i8
     speed_order: jax.Array         # i8[4] battle.speedOrder: field positions (side + 2*pos) by runSwitch speed sort
+    faint_src: jax.Array           # i8[8] per faint_queue entry: the source ref when the effect is a Move, else -1
 
 
 @struct.dataclass
@@ -150,6 +151,8 @@ class Mons:
     can_mega: jax.Array            # bool canMegaEvo
     weight_hg: jax.Array           # i16
     previously_switched_in: jax.Array  # i8
+    mold_saved: jax.Array          # i16 Mold Breaker (effects/batch_reactive.py): 0, the masked breakable ability, or
+                                   #     -1 for the active Mold Breaker mover
 
 
 @struct.dataclass
@@ -310,7 +313,7 @@ def empty_mons() -> Mons:
         move_last_turn_result=_z(s, I8), hurt_this_turn=_z(s, I16, -1), last_damage=_z(s, I16),
         times_attacked=_z(s, I8), stats_raised_this_turn=_z(s, bool), stats_lowered_this_turn=_z(s, bool),
         used_item_this_turn=_z(s, bool), trapped=_z(s, I8), can_mega=_z(s, bool), weight_hg=_z(s, I16),
-        previously_switched_in=_z(s, I8))
+        previously_switched_in=_z(s, I8), mold_saved=_z(s, I16))
 
 
 def empty_scratch() -> Scratch:
@@ -325,7 +328,8 @@ def empty_state(team: Team) -> State:
     meta = Meta(phase=_z((), I8, PREVIEW), turn=_z((), I16), step_counter=_z((), I32), mid_turn=_z((), bool),
                 winner=_z((), I8, -1), ended_reason=_z((), I8), effect_seq=_z((), I32), last_move_battle=_z((), I16),
                 last_successful_move=_z((), I16), error_flags=_z((), U32), faint_queue=_z(FAINTQ, I8, -1),
-                faint_queue_len=_z((), I8), speed_order=jnp.arange(4, dtype=I8))
+                faint_queue_len=_z((), I8), speed_order=jnp.arange(4, dtype=I8),
+                faint_src=_z(FAINTQ, I8, -1))
     sides = Sides(brought_sheet_idx=_z((2, 4), I8, -1), ps_order=jnp.tile(jnp.arange(4, dtype=I8), (2, 1)),
                   active=_z((2, 2), I8, -1), pokemon_left=_z(2, I8, 6), total_fainted=_z(2, I8),
                   fainted_this_turn=_z(2, bool), fainted_last_turn=_z(2, bool), mega_used=_z(2, bool),

@@ -64,7 +64,9 @@ EXTRA: dict[str, set[str]] = {
                   "chlorophyll", "swiftswim", "sandrush",                                     # batch C1a
                   "armortail", "contrary", "shadowtag", "hospitality",                        # batch C1b
                   "cursedbody", "snowcloak", "liquidvoice", "auraguard", "thermalexchange", "galewings",
-                  "infiltrator", "emergencyexit", "sheerforce"},                                            # batch C2a / C3
+                  "infiltrator", "emergencyexit", "sheerforce",                                            # batch C2a / C3
+                  "synchronize", "moody", "magician", "berserk", "electromorphosis", "cudchew", "moxie",
+                  "supremeoverlord", "moldbreaker"},                                  # effects/batch_reactive.py
                                                                                               # effects/ability_blocks.py
     "items": {"kangaskhanite", "lumberry", "sceptilite", "bindingband", "blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
               "miracleseed", "mysticwater", "nevermeltice", "poisonbarb", "sharpbeak", "silkscarf", "silverpowder",
@@ -73,14 +75,16 @@ EXTRA: dict[str, set[str]] = {
               "sitrusberry", "babiriberry", "chartiberry", "chopleberry", "cobaberry", "colburberry", "habanberry",
               "kasibberry", "kebiaberry", "occaberry", "passhoberry", "payapaberry", "rindoberry", "roseliberry",
               "shucaberry", "tangaberry", "wacanberry", "yacheberry", "choicescarf",                          # + effects/berries.py
-              "grassyseed", "electricseed", "psychicseed", "mistyseed", "ejectbutton", "whiteherb", "widelens"},                      # batch C1b-ii
+              "grassyseed", "electricseed", "psychicseed", "mistyseed", "ejectbutton", "whiteherb", "widelens",
+              "chestoberry"},                                                 # effects/batch_reactive.py                      # batch C1b-ii
                                                                                               # effects/items.py
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",
                    "electricterrain", "grassyterrain", "psychicterrain", "mistyterrain",
                    "taunt", "choicelock", "followme", "ragepowder", "helpinghand",
                    "spikyshield", "banefulbunker", "kingsshield", "auroraveil", "throatchop",
-                   "mustrecharge", "twoturnmove", "perishsong", "yawn", "roost", "encore", "imprison", "glaiverush", "disable"},
+                   "mustrecharge", "twoturnmove", "perishsong", "yawn", "roost", "encore", "imprison", "glaiverush", "disable",
+                   "charge"},                                                 # Electromorphosis (batch_reactive.py)
 }
 
 

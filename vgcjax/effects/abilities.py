@@ -52,7 +52,8 @@ def set_state_field(st, ref, name, key, value, on):
 
 
 SWITCH_IN = ("drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
-             "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk", "fairyaura", "hospitality", "trace")
+             "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk", "fairyaura", "hospitality", "trace",
+             "moldbreaker", "supremeoverlord")                 # the last two: effects/batch_reactive.py switch_in
 WEATHER_SETTERS = {"drought": "sunnyday", "drizzle": "raindance", "sandstream": "sandstorm", "snowwarning": "snowscape"}
 TERRAIN_SETTERS = {"electricsurge": "electricterrain", "grassysurge": "grassyterrain", "psychicsurge": "psychicterrain",
                    "mistysurge": "mistyterrain"}
@@ -148,6 +149,8 @@ def switch_in_vec(st, dex, rng, u, on, start=False, _traced=False):
         it = mget(st.mons.item, frefs[j]).astype(I32)
         st = EV.emit(st, frisk & foe_up[j] & (it > 0), EV.EV_ITEM, actor=frefs[j], target=u,
                      move=ids.ITEM_BASE + it - 1, v1=aeff("frisk"), flags=EV.F_FROM_ABILITY)
+    from vgcjax.effects import batch_reactive as BR       # Mold Breaker / Supreme Overlord onStart
+    st = BR.switch_in(st, r, ab, on)
     if aid("trace") > 0 and not _traced:      # Trace onStart: seek = true (no No Ability / Ability Shield in Reg
         tr = is_("trace")                     # M-C), then singleEvent('Update')
         st = set_state_field(st, r, "trace", "seek", 1, tr)
@@ -219,7 +222,8 @@ def end_vec(st, refs, on):
             hit = on[k] & (ab[k] == aid("flashfire")) & CO.has_volatile(st, refs[k], c) & (mget(st.mons.hp, refs[k]) > 0)
             st = EV.emit(st, hit, EV.EV_END, actor=refs[k], move=CO.eff("flashfire"), v1=-1)
             st = CO._set_vol_bit(st, refs[k], c, False, hit)
-    return st
+    from vgcjax.effects import batch_reactive as BR       # Supreme Overlord onEnd
+    return BR.ability_end(st, refs, on)
 
 
 def pressure_extra_pp(st, dex, u, move, targets, on):

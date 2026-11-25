@@ -66,6 +66,8 @@ def eat_item(st, ref, on):
                                    used_item_this_turn=mset(m.used_item_this_turn, r, True, go),
                                    item_state=mset(m.item_state, r, jnp.zeros_like(mget(m.item_state, r)), go),
                                    item_seq=mset(m.item_seq, r, 0, go)))
+    from vgcjax.effects import batch_reactive as BR
+    st = BR.cud_chew_eat(st, r, it, go)                                  # runEvent('EatItem'): Cud Chew
     from vgcjax.effects import abilities as AB
     return AB.unburden(st, r, go)                                        # runEvent('AfterUseItem')
 
@@ -105,7 +107,8 @@ def update(st, dex, rng, on):
     from vgcjax.effects import conditions as CO
     from vgcjax.effects import statuses as STS
     from vgcjax.effects.abilities import aid
-    if iid("sitrusberry") <= 0 and iid("lumberry") <= 0 and aid("trace") <= 0:
+    from vgcjax.effects import batch_reactive as BR
+    if iid("sitrusberry") <= 0 and iid("lumberry") <= 0 and aid("trace") <= 0 and iid("chestoberry") <= 0:
         return st, rng
     on = jnp.asarray(on)
     act = st.sides.active.reshape(4).astype(I32)
@@ -120,11 +123,13 @@ def update(st, dex, rng, on):
         from vgcjax.effects import abilities as AB_                       # abilities' onUpdate first (subOrder 7)
         st, rng = AB_.trace_update(st, dex, rng, r, on & alive[order[i]])
         if iid("sitrusberry") > 0:
-            go = on & alive[order[i]] & holds(st, r, "sitrusberry") & (hp * 2 <= mx) & can_eat(st, r)
+            go = on & alive[order[i]] & holds(st, r, "sitrusberry") & (hp * 2 <= mx) & can_eat(st, r) & \
+                BR.berserk_try_eat(st, r)                              # TryEatItem: Berserk (healing berry)
             st = eat_item(st, r, go)
             st, rng = STS.effect_heal(st, dex, rng, r, mx // 4, ieff("sitrusberry"), go)
         conf = CO.has_volatile(st, r, CO.cid("confusion")) if "confusion" in ids.CONDITIONS else False
         st, rng = lum_eat(st, dex, rng, r, on & alive[order[i]] & ((mget(st.mons.status, r) > 0) | conf))
+        st, rng = BR.chesto_update(st, dex, rng, r, on & alive[order[i]])
     return st, rng
 
 
@@ -146,5 +151,7 @@ def lum_eat(st, dex, rng, ref, on):
 
 def after_set_status(st, dex, rng, msgs, j, ref):
     """runEvent('AfterSetStatus') once setStatus succeeded (PS sim/pokemon.ts setStatus tail), after the status
-    line: Lum Berry (onAfterSetStatusPriority -1) eats. Returns (st, rng)."""
+    line: Synchronize (priority 0), then Lum Berry (onAfterSetStatusPriority -1) eats. Returns (st, rng)."""
+    from vgcjax.effects import batch_reactive as BR
+    st, rng = BR.synchronize(st, dex, rng, msgs, j, ref)
     return lum_eat(st, dex, rng, ref, msgs["ok"][j])

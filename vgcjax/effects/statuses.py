@@ -139,6 +139,8 @@ def effect_damage(st, dex, rng, target, amount, effect, on, source=-1):
     clamp to >= 1, Damage event (Magic Guard etc., M4), target.damage, '-damage' X hp '[from] effect'."""
     on = jnp.asarray(on) & (mget(st.mons.hp, target) > 0) & mget(st.mons.is_active, target)
     amount = jnp.maximum(jnp.asarray(amount, I32), 1)
+    from vgcjax.effects import batch_reactive as BR       # runEvent('Damage'): Berserk (confusion is a Move effect)
+    st = BR.berserk_damage(st, jnp.asarray(target, I32)[None], on[None], jnp.asarray(effect) != CO.eff("confusion"))
     st, dealt = F.damage(st, target, amount, on)
     m = st.mons
     st = st.replace(mons=m.replace(hurt_this_turn=mset(m.hurt_this_turn, target, mget(m.hp, target), on & (dealt != 0))))

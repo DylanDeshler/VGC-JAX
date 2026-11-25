@@ -13,8 +13,9 @@ from vgcjax.data import ids
 I8, I16, I32 = jnp.int8, jnp.int16, jnp.int32
 
 
-def faint(st: S.State, ref, on) -> S.State:
-    """PS: sim/pokemon.ts:1602-1614 faint(): queue it (hp = 0, switchFlag = false)."""
+def faint(st: S.State, ref, on, src=-1) -> S.State:
+    """PS: sim/pokemon.ts:1602-1614 faint(source, effect): queue it (hp = 0, switchFlag = false). `src`: the source
+    ref when the effect is a Move (faintData for Moxie's AfterFaint), else -1."""
     m = st.mons
     on = jnp.asarray(on) & (jnp.asarray(ref) >= 0) & ~mget(m.fainted, ref) & ~mget(m.faint_queued, ref)
     m = m.replace(hp=mset(m.hp, ref, 0, on), switch_flag=mset(m.switch_flag, ref, 0, on),
@@ -24,11 +25,13 @@ def faint(st: S.State, ref, on) -> S.State:
     full = n >= S.FAINTQ
     i = jnp.clip(n, 0, S.FAINTQ - 1)
     fq = meta.faint_queue.at[i].set(jnp.where(on & ~full, jnp.asarray(ref, I8), meta.faint_queue[i]))
-    st = st.replace(mons=m, meta=meta.replace(faint_queue=fq, faint_queue_len=(n + (on & ~full)).astype(I8)))
+    fs = meta.faint_src.at[i].set(jnp.where(on & ~full, jnp.asarray(src, I8), meta.faint_src[i]))
+    st = st.replace(mons=m, meta=meta.replace(faint_queue=fq, faint_src=fs,
+                                              faint_queue_len=(n + (on & ~full)).astype(I8)))
     return or_flag(st, E.ERR_OVERFLOW_FAINT_QUEUE, on & full)
 
 
-def faint_many(st: S.State, refs, on) -> S.State:
+def faint_many(st: S.State, refs, on, src=-1) -> S.State:
     """faint() for distinct refs in index order (queue appends keep that order), as one batched write."""
     m = st.mons
     refs = jnp.asarray(refs, I32)
@@ -41,7 +44,9 @@ def faint_many(st: S.State, refs, on) -> S.State:
     put = on & (pos < S.FAINTQ)
     hot = (pos[:, None] == jnp.arange(S.FAINTQ)[None, :]) & put[:, None]
     fq = jnp.where(jnp.any(hot, axis=0), jnp.sum(jnp.where(hot, refs[:, None], 0), axis=0).astype(I8), meta.faint_queue)
-    st = st.replace(mons=m, meta=meta.replace(faint_queue=fq, faint_queue_len=(n + jnp.sum(put.astype(I32))).astype(I8)))
+    fs = jnp.where(jnp.any(hot, axis=0), jnp.asarray(src, I8), meta.faint_src)
+    st = st.replace(mons=m, meta=meta.replace(faint_queue=fq, faint_src=fs,
+                                              faint_queue_len=(n + jnp.sum(put.astype(I32))).astype(I8)))
     return or_flag(st, E.ERR_OVERFLOW_FAINT_QUEUE, jnp.any(on & ~put))
 
 
@@ -104,6 +109,8 @@ def resolve_faints(st: S.State, dex, on, check_win_if_no_faints=False, do_check_
         fainted_this_turn=sides.fainted_this_turn | (cnt > 0)))
     # Faint event (M4), singleEvent('End', ability) (PS :2604; no messages yet, so after all 'faint' lines), item End
     from vgcjax.effects import abilities as AB
+    from vgcjax.effects import batch_reactive as BR
+    st = BR.mold_faint(st, refs, do)                 # Mold Breaker: End is not suppressed; the mover's faint ends it
     st = AB.end_vec(st, refs, do)
     st = clear_volatile_many(st, dex, refs, False, do)
     m = st.mons
@@ -111,12 +118,16 @@ def resolve_faints(st: S.State, dex, on, check_win_if_no_faints=False, do_check_
                                    is_active=mset_many(m.is_active, refs, False, do),
                                    is_started=mset_many(m.is_started, refs, False, do)))
     last = jnp.where(n0 > 0, refs[jnp.clip(n0 - 1, 0, S.FAINTQ - 1)], -1)
+    last_src = jnp.where(n0 > 0, meta.faint_src.astype(I32)[jnp.clip(n0 - 1, 0, S.FAINTQ - 1)], -1)
     meta = st.meta
     st = st.replace(meta=meta.replace(faint_queue=jnp.where(on, jnp.full(S.FAINTQ, -1, I8), meta.faint_queue),
+                                      faint_src=jnp.where(on, jnp.full(S.FAINTQ, -1, I8), meta.faint_src),
                                       faint_queue_len=jnp.where(on, 0, meta.faint_queue_len).astype(I8)))
     had = n0 > 0
     cw = on & jnp.where(had, do_check_win, check_win_if_no_faints)
-    return check_win(st, jnp.where(had, last, -1), cw)
+    st = check_win(st, jnp.where(had, last, -1), cw)
+    # PS :2645-2647: unless checkWin ended the battle, runEvent('AfterFaint', last target, source, effect, length)
+    return BR.moxie(st, last_src, n0, on & had & (st.meta.phase != S.DONE))
 
 
 def possible_switches(st: S.State, side):

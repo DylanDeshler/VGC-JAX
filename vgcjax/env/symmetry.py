@@ -21,7 +21,7 @@ def swap_sides(st: S.State) -> S.State:
     meta = st.meta
     w = meta.winner
     meta = meta.replace(winner=jnp.where((w == 0) | (w == 1), 1 - w, w).astype(w.dtype),
-                        faint_queue=_flip_ref(meta.faint_queue))
+                        faint_queue=_flip_ref(meta.faint_queue), faint_src=_flip_ref(meta.faint_src))
     q = st.queue
     q = q.replace(side=(1 - q.side).astype(q.side.dtype), original_target=_flip_ref(q.original_target))
     sc = st.scratch

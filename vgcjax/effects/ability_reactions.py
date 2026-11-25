@@ -121,6 +121,8 @@ def damaging_hit_first(st, dex, rng, targets, damaged, u, move, hit_no):
         t = jnp.clip(targets[j], 0, 7)
         rs = damaged[j] & contact & _is(mget(st.mons.ability, t), "roughskin")
         st, rng = STS.effect_damage(st, dex, rng, u, mget(st.mons.maxhp, u) // 8, aeff("roughskin"), rs, source=t)
+        from vgcjax.effects import batch_reactive as BR              # Electromorphosis (onDamagingHitOrder 1)
+        st, rng = BR.electromorphosis(st, dex, rng, t, damaged[j], u)
     return st, rng
 
 
@@ -267,7 +269,8 @@ def residual(st, dex, rng, h, on):
     r = jnp.clip(h, 0, 7)
     go = jnp.asarray(on) & _is(mget(st.mons.ability, r), "speedboost") & (mget(st.mons.active_turns, r) > 0)
     st, _ = MP.boost(st, r, jnp.zeros(7, I32).at[4].set(1), go, source=-2, ab_msg=aeff("speedboost"), simple=True)
-    return st, rng
+    from vgcjax.effects import batch_reactive as BR                   # Moody / Cud Chew (order 28, subOrder 2)
+    return BR.residual(st, dex, rng, r, on)
 
 
 def switch_out(st, dex, rng, r, on):
