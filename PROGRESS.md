@@ -273,6 +273,15 @@ M3 content (2026-10-23)
   ceil drain, AfterSubDamage; status moves '-fail' [still]; HIT_SUBSTITUTE targets are null: no damage / effects /
   DamagingHit, but selfDrops, secondary rolls (draw target -1) and secondary self effects run; U-turn still switches.
   Intimidate '-immune'; resist berries skip a substitute hit. 900 targeted battles + regression slice 100%.
+- Utility batch (effects/batch_utility.py; trace-checked only, corpora pending): Leech Seed (raw sourceSlot, residual
+  drain to the mon now in that slot, '-heal' [silent]; Grass onTryImmunity), Belly Drum ('-setboost' [from], Contrary
+  -6), Focus Energy / Dragon Cheer (mutually exclusive Starts, hasDragonType; ModifyCritRatio in get_damage), No
+  Retreat ([C] Start: 'trapped' volatile + its onTrapPokemon in end_turn), Destiny Bond (PrepareHit, BeforeMove -1,
+  MoveAborted; onFaint in the hit-loop tail's resolveFaints: '-activate', the source's faint in a second pass,
+  checkWin forced), Quash (willMove order 201), Round (onTry prioritizeAction: order 3 + source_effect; move_begin
+  doubles basePower for move.sourceEffect round), Ally Switch (allyswitch volatile counter, ALLY_SWITCH_STALL draw,
+  swapPosition: active / ps_order, new PublicEvent SWAP, Healing Wish onSwap), Chilly Reception (priorityChargeMove
+  queue action at order 107 -> chillyreception volatile, '-prepare' [premajor]; weather + selfSwitch from data).
 - CPU testing: scripts/memguard.sh caps the process tree (one replay worker ~14.5 GB; use <= 2 workers).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

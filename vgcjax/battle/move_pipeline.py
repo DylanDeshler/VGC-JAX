@@ -527,7 +527,10 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     on = jnp.asarray(on)
     ab_t = mget(m.ability, targets)
     crit_immune = _in(ab_t, (T.ABILITY_BATTLEARMOR, T.ABILITY_SHELLARMOR))   # HOOK(H13) CriticalHit
-    crit_ratio = jnp.clip(dex.move_crit_ratio[move].astype(I32), 0, 4)
+    # runEvent('ModifyCritRatio', source, target, move, move.critRatio) (PS: sim/battle-actions.ts:1678-1683): Focus
+    # Energy / Dragon Cheer (effects/batch_utility.py), then clampIntRange(0, 4)
+    from vgcjax.effects import batch_utility as BU
+    crit_ratio = jnp.clip(dex.move_crit_ratio[move].astype(I32) + BU.crit_ratio_bonus(st, u), 0, 4)
     will_crit = dex.move_will_crit[move] == 1
     mtype = dex.move_type[move].astype(I32) if mtype is None else mtype
     bp = dex.move_bp[move].astype(I32) if bp is None else bp
@@ -1085,9 +1088,10 @@ def _exec_where(on, new: S.Exec, old: S.Exec) -> S.Exec:
     return jax.tree_util.tree_map(lambda a, b: jnp.where(on, a, b), new, old)
 
 
-def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig, on):
+def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig, on, source_effect=0):
     """PS runMove (sim/battle-actions.ts:267-418) up to useMove, useMoveInner (:429-582) up to trySpreadMoveHit,
-    trySpreadMoveHit (:612-682) steps 0-4 and the hit-loop setup (ch/scripts.ts:426-461). Returns (st, rng)."""
+    trySpreadMoveHit (:612-682) steps 0-4 and the hit-loop setup (ch/scripts.ts:426-461). `source_effect`: the queue
+    action's sourceEffect MoveId (runMove options.sourceEffect -> move.sourceEffect, :486-488; Round). Returns (st, rng)."""
     on = jnp.asarray(on)
     u = jnp.asarray(side, I32) * 4 + jnp.asarray(b, I32)
     move = jnp.asarray(move_id, I32)
@@ -1106,6 +1110,8 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     will = RS.truthy((hc.relay_t, hc.relay_v))
     abort = on & ~will
     st, rng = LK.move_aborted(st, dex, rng, u, abort)                    # runEvent('MoveAborted') (PS :314)
+    from vgcjax.effects import batch_utility as BU
+    st, rng = BU.destinybond_move_aborted(st, dex, rng, u, abort)        # destinybond.condition.onMoveAborted
     m = st.mons
     st = st.replace(mons=m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, jnp.where(
         hc.relay_t == RS.NULL, S.MR_NULL, S.MR_FALSE), abort)))
@@ -1147,6 +1153,7 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     a_type, a_bp, a_acc = WE.modify_move(st, dex, u, target, move)
     from vgcjax.effects import move_callbacks as MC
     a_type, a_bp = MC.terrain_pulse(st, dex, u, move, a_type, a_bp)
+    a_bp = BU.round_bp(move, source_effect, a_bp)                        # Round basePowerCallback (sourceEffect)
     # runEvent('ModifyType'): Aerilate / Pixilate (onModifyTypePriority -1): Normal -> Flying / Fairy
     ate, ate_t = MC.ate_boosted(st, dex, u, move)
     a_type = jnp.where(ate, ate_t, a_type)
@@ -1292,6 +1299,9 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # move onTryImmunity: Endeavor (pokemon.hp < target.hp) -> '-immune'
     endv = (move == opt_id("MOVE_ENDEAVOR")) & ~(mget(m.hp, u) < mget(m.hp, jnp.clip(targets, 0, 7)))
     pimm = pimm | (~pimm & endv)
+    # Leech Seed onTryImmunity (data/moves.ts:10231-10233): !target.hasType('Grass') -> '-immune'
+    lsd = (move == opt_id("MOVE_LEECHSEED")) & jnp.any(t_types == T.TYPE_GRASS, axis=-1)
+    pimm = pimm | (~pimm & lsd)
     for j in range(NT):
         st = EV.emit(st, tv[j] & pimm[j], EV.EV_IMMUNE, actor=targets[j])            # PS :731, :745
     fail_any = fail_any | jnp.any(tv & pimm)
@@ -1408,7 +1418,7 @@ def move_end(st, dex, rng, cfg):
     dt = jnp.where(all_fail, RS.BOOL, ex.dt)
     dv = jnp.where(all_fail, 0, ex.dv)
     run_rest = on & ~(ex.hit_done == 1)
-    st = F.resolve_faints(st, dex, run_rest, do_check_win=mget(st.mons.hp, u) <= 0)
+    st = F.resolve_faints(st, dex, run_rest, do_check_win=mget(st.mons.hp, u) <= 0, move_src=u)
     # [C] scripts.ts:545-549: '-hitcount' for multihit moves without a boolean smartTarget
     mh = dex.move_multihit[move]
     pb = parental_bond(st, dex, u, move, ex.spread_hit)

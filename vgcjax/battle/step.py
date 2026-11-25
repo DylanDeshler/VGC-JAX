@@ -125,9 +125,14 @@ def commit_move(st, dex, rng, actions, on):
             is_move, is_switch, mslot, mid, loc, mega, sb = decode_move_slot(st, dex, side, slot, a)
             occ = on & (b >= 0)
             spd = C.action_speed(st, dex, u)
-            # megaEvo satellite (order 104), then the move (order 200)
+            # megaEvo satellite (order 104), priorityChargeMove (order 107, PS sim/battle-queue.ts:236-242: Chilly
+            # Reception, effects/batch_utility.py), then the move (order 200); each resolved action's getActionSpeed
+            from vgcjax.effects import batch_utility as BU
+            pcc = occ & is_move & BU.has_priority_charge(mid)
             st = Q.add_entry(st, occ & is_move & mega, kind=S.Q_MEGA, side=side, b=b, speed=spd)
-            st = C.mul_tick(st, (occ & is_move & mega).astype(I32) + (occ & (is_move | is_switch)).astype(I32))
+            st = Q.add_entry(st, pcc, kind=S.Q_PRIORITY_CHARGE, side=side, b=b, speed=spd, move_id=mid)
+            st = C.mul_tick(st, (occ & is_move & mega).astype(I32) + (occ & (is_move | is_switch)).astype(I32) +
+                            pcc.astype(I32))
             loc = resolve_loc(st, dex, u, mid, loc)
             frac, rng = Q.frac_priority(st, dex, rng, u, mid, occ & is_move)
             prio = 10 * Q.move_priority(st, dex, u, mid) + frac
@@ -208,7 +213,11 @@ def run_light(st, dex, rng, cfg, idx, on, tail=False):
     # megaEvo (PS :2766-2768): runMegaEvo
     from vgcjax.effects import mega as MG
     st, rng = MG.mega_evolve(st, dex, rng, ref, on & (kind == S.Q_MEGA))
-    unsupported = on & ((kind == S.Q_BEFORE_TURN_MOVE) | (kind == S.Q_PRIORITY_CHARGE) |
+    # priorityChargeMove (PS :2792-2797): move.priorityChargeCallback(pokemon) (effects/batch_utility.py)
+    from vgcjax.effects import batch_utility as BU
+    pc = on & (kind == S.Q_PRIORITY_CHARGE)
+    st, rng = BU.priority_charge(st, dex, rng, ref, q.move_id[idx], pc)
+    unsupported = on & ((kind == S.Q_BEFORE_TURN_MOVE) | (pc & ~BU.has_priority_charge(q.move_id[idx])) |
                         (kind == S.Q_REVIVAL))
     st = or_flag(st, E.ERR_UNSUPPORTED_EFFECT, unsupported)
     return st, rng
@@ -365,7 +374,9 @@ def end_turn(st, dex, cfg, on) -> S.State:
             from vgcjax.effects import ability_reactions as AR
             from vgcjax.effects import volatiles as VO
             m = st.mons
-            st = st.replace(mons=m.replace(trapped=mset(m.trapped, r, 1, ev_on & VO.partially_trapped(st, r))))
+            from vgcjax.effects import batch_utility as BU      # the trapped volatile (No Retreat): tryTrap()
+            st = st.replace(mons=m.replace(trapped=mset(m.trapped, r, 1, ev_on & (VO.partially_trapped(st, r) |
+                                                                                    BU.trapped_volatile(st, dex, r)))))
             m = st.mons
             st = st.replace(mons=m.replace(trapped=mset(m.trapped, r, 2, ev_on & AR.shadow_tagged(st, dex, r) &
                                                          (mget(m.trapped, r) == 0))))
@@ -430,7 +441,8 @@ def micro(st, dex, rng, cfg):
     rs_hp0 = mget(st.mons.hp, jnp.maximum(rs_ref, 0)).astype(I32)
     st, rng = run_light(st, dex, rng, cfg, idx, run & ~is_move, tail=tail)
     st, rng = MP.move_begin(st, dex, rng, cfg, q.side[idx], q.actor_b[idx], q.move_slot[idx], q.move_id[idx],
-                            q.target_loc[idx], q.original_target[idx], run & is_move)
+                            q.target_loc[idx], q.original_target[idx], run & is_move,
+                            source_effect=q.source_effect[idx].astype(I32))
     st, rng = MP.move_hit(st, dex, rng, cfg)
     move_done = st.exec.in_move & st.exec.stopped
     st, rng = MP.move_end(st, dex, rng, cfg)
