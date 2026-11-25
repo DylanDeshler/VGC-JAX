@@ -42,9 +42,11 @@ def engine_events(st) -> tuple[list[dict], bool]:
             mv, v2 = "typechange", 0            # '-start' X 'typechange' (effects/moves_b2.py double_shock_self)
         if name in ("START", "END") and mv == "supremeoverlord" and v2 > 0:
             mv, v2 = f"fallen{v2}", 0           # '-start' / '-end' X 'fallenN' '[silent]' (effects/batch_reactive.py)
+        if name == "DAMAGE" and mv == "disguise":
+            mv = "pokemonmimikyubusted"         # '[from] pokemon: Mimikyu-Busted' (effects/batch_forme.py)
         if name == "CANT" and mv == "mustrecharge":
             mv = "recharge"                     # mustrecharge.onBeforeMove: ('cant', pokemon, 'recharge')
-        if name in ("DETAILSCHANGE", "FORMECHANGE"):
+        if name in ("DETAILSCHANGE", "FORMECHANGE", "REPLACE"):
             v1 = ids.SPECIES[v1] if 0 < v1 < len(ids.SPECIES) else ""
         if name in ("STATUS", "CURESTATUS", "START", "END", "WEATHER", "ITEM", "IMMUNE", "FAIL"):
             v1 = effect_name(v1) if v1 >= 0 else ""

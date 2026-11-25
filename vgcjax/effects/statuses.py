@@ -141,7 +141,9 @@ def effect_damage(st, dex, rng, target, amount, effect, on, source=-1):
     amount = jnp.maximum(jnp.asarray(amount, I32), 1)
     from vgcjax.effects import batch_reactive as BR       # runEvent('Damage'): Berserk (confusion is a Move effect)
     st = BR.berserk_damage(st, jnp.asarray(target, I32)[None], on[None], jnp.asarray(effect) != CO.eff("confusion"))
-    st, dealt = F.damage(st, target, amount, on)
+    from vgcjax.effects import batch_forme as BF          # runEvent('Damage'): Disguise (confusion)
+    st, amount, _ = BF.effect_damage_hook(st, target, amount, effect, on)
+    st, dealt = F.damage(st, target, amount, on & (amount > 0))
     m = st.mons
     st = st.replace(mons=m.replace(hurt_this_turn=mset(m.hurt_this_turn, target, mget(m.hp, target), on & (dealt != 0))))
     shown = jnp.where(jnp.asarray(effect) == CO.eff("tox"), CO.eff("psn"), effect)   # PS :2158 'tox' -> 'psn'

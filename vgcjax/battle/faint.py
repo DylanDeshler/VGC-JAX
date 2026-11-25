@@ -130,6 +130,8 @@ def _faint_pass(st: S.State, dex, on, move_src):
             from vgcjax.effects import batch_utility as BU
             st, act = BU.destinybond_faint(st, refs[k], move_src, do[k] & ~db)
             db = db | act
+        from vgcjax.effects import batch_forme as BF            # Illusion onFaint / PS :2613 illusion = null
+        st = BF.illusion_clear(st, refs[k], do[k])
     side = side_of(jnp.clip(refs, 0, 7))
     cnt = jnp.stack([jnp.sum((do & (side == s)).astype(I32)) for s in range(2)])
     sides = st.sides

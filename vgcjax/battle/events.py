@@ -35,6 +35,9 @@ fields (PS protocol line -> record):
   TRANSFORM  |-transform| X|Y [from]      actor, target = Y, move = [from] EffectId (Imposter; -1 none)
   COPYBOOST  |-copyboost| X|Y [from]      actor, target = Y, move = [from] EffectId (Psych Up)
   SWAP       |swap| X|pos [from]          actor, v1 = new position, move = [from] effect EffectId (Ally Switch)
+  ZBROKEN    |-zbroken| X                  actor ([C] modifyDamage: a protection bypassed by Piercing Drill)
+  REPLACE    |replace| X|details          actor, v1 = SpeciesId (Illusion ends)
+Protocol lines name a mon through PS Pokemon.toString: under Illusion its disguise (Events.alias remaps every ref).
 """
 from __future__ import annotations
 
@@ -50,12 +53,12 @@ KINDS = ("NONE", "SWITCH", "MOVE", "DAMAGE", "HEAL", "CRIT", "SUPEREFFECTIVE", "
          "BOOST", "FAINT", "HITCOUNT", "OHKO", "TURN", "ACTIVATE", "STATUS", "CURESTATUS", "CANT", "START", "END", "SINGLETURN", "SIDESTART", "SIDEEND",
          "FIELDSTART", "FIELDEND", "WEATHER", "ABILITY", "ITEM", "BLOCK", "SETBOOST", "ENDITEM", "MEGA", "DETAILSCHANGE", "CLEARALLBOOST",
          "PREPARE", "MUSTRECHARGE", "FIELDACTIVATE", "SINGLEMOVE", "CLEARNEGATIVEBOOST", "FORMECHANGE", "TRANSFORM",
-         "COPYBOOST", "SWAP")
+         "COPYBOOST", "SWAP", "ZBROKEN", "REPLACE")
 (EV_NONE, EV_SWITCH, EV_MOVE, EV_DAMAGE, EV_HEAL, EV_CRIT, EV_SUPER, EV_RESIST, EV_IMMUNE, EV_MISS, EV_FAIL, EV_BOOST,
  EV_FAINT, EV_HITCOUNT, EV_OHKO, EV_TURN, EV_ACTIVATE, EV_STATUS, EV_CURESTATUS, EV_CANT, EV_START,
  EV_END, EV_SINGLETURN, EV_SIDESTART, EV_SIDEEND, EV_FIELDSTART, EV_FIELDEND, EV_WEATHER, EV_ABILITY, EV_ITEM, EV_BLOCK, EV_SETBOOST, EV_ENDITEM, EV_MEGA, EV_DETAILSCHANGE, EV_CLEARALLBOOST,
  EV_PREPARE, EV_MUSTRECHARGE, EV_FIELDACTIVATE, EV_SINGLEMOVE, EV_CLEARNEGATIVEBOOST, EV_FORMECHANGE, EV_TRANSFORM,
- EV_COPYBOOST, EV_SWAP) = range(len(KINDS))
+ EV_COPYBOOST, EV_SWAP, EV_ZBROKEN, EV_REPLACE) = range(len(KINDS))
 # kinds whose `move` field holds an EffectId (move / ability / item / condition) rather than a MoveId
 EFFECT_KINDS = ("DAMAGE", "HEAL", "STATUS", "CURESTATUS", "CANT", "FAIL", "ACTIVATE", "START", "END", "SINGLETURN", "SIDESTART", "SIDEEND",
          "FIELDSTART", "FIELDEND", "WEATHER", "ABILITY", "ITEM", "IMMUNE", "BLOCK", "SETBOOST", "ENDITEM", "MEGA",
@@ -103,11 +106,25 @@ def hp_public(hp, maxhp):
     return pct, colour
 
 
+def alias(st: S.State, ref):
+    """The ref a protocol line shows for `ref`: PS Pokemon.toString uses pokemon.illusion's name (Illusion)."""
+    ref = jnp.asarray(ref, I32)
+    a = st.events.alias.astype(I32)[jnp.clip(ref, 0, 7)]
+    return jnp.where((ref >= 0) & (ref < 8) & (a >= 0), a, ref)
+
+
 def emit(st: S.State, on, kind, actor=-1, target=-1, move=0, v1=0, v2=0, flags=0) -> S.State:
     if not _ENABLED[0]:
         return st
     ev = st.events
     on = jnp.asarray(on)
+    if isinstance(kind, int):                                            # SIDESTART / SIDEEND: actor = a side
+        actor = actor if kind in (EV_SIDESTART, EV_SIDEEND) or (isinstance(actor, int) and actor < 0) else \
+            alias(st, actor)
+    else:
+        kind_ = jnp.asarray(kind, I32)
+        actor = jnp.where((kind_ == EV_SIDESTART) | (kind_ == EV_SIDEEND), jnp.asarray(actor, I32), alias(st, actor))
+    target = target if isinstance(target, int) and target < 0 else alias(st, target)
     rec = jnp.stack([jnp.asarray(x, I32) for x in (st.meta.turn, kind, actor, target, move, v1, v2, flags)]).astype(I16)
     # one-hot select instead of a dynamic-index scatter: elementwise, so it vectorises under vmap (CPU scatter is serial)
     hot = (jnp.arange(S.NE) == ev.count % S.NE) & on
@@ -170,7 +187,7 @@ def patch(st: S.State, idx, on, or_flags=0, v1=None, target=None) -> S.State:
     if v1 is not None:
         buf = jnp.where(hot & (col == 5), jnp.asarray(v1, I16), buf)
     if target is not None:
-        buf = jnp.where(hot & (col == 3), jnp.asarray(target, I16), buf)
+        buf = jnp.where(hot & (col == 3), alias(st, target).astype(I16), buf)
     return st.replace(events=ev.replace(buf=buf))
 
 

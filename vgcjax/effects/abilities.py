@@ -126,6 +126,7 @@ def switch_in_vec(st, dex, rng, u, on, start=False, _traced=False):
         st = set_state_field(st, r, "cloudnine", "ending", 0, c9)
     st = _ability_msg(st, is_("pressure"), u, "pressure")
     st = _ability_msg(st, is_("fairyaura"), u, "fairyaura")              # Fairy Aura onStart: '-ability' X 'Fairy Aura'
+    st = _ability_msg(st, is_("moldbreaker"), u, "moldbreaker")          # Mold Breaker onStart (data/abilities.ts:2691)
     if aid("hospitality") > 0:                       # Hospitality onStart: heal(ally.baseMaxhp / 4, ally, pokemon)
         from vgcjax.effects import statuses as STS
         side, pos = r // 4, MP.position(st, r)

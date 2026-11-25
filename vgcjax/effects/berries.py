@@ -108,8 +108,10 @@ def update(st, dex, rng, on):
     from vgcjax.effects import statuses as STS
     from vgcjax.effects.abilities import aid
     from vgcjax.effects import batch_reactive as BR
+    from vgcjax.effects import batch_forme as BF
     if iid("sitrusberry") <= 0 and iid("lumberry") <= 0 and aid("trace") <= 0 and aid("cutecharm") <= 0 and \
-            iid("chestoberry") <= 0:
+            iid("chestoberry") <= 0 and \
+            not BF.ACTIVE:
         return st, rng
     on = jnp.asarray(on)
     act = st.sides.active.reshape(4).astype(I32)
@@ -125,6 +127,9 @@ def update(st, dex, rng, on):
         st, rng = BP_.attract_update(st, dex, rng, r, on & alive[order[i]])
         from vgcjax.effects import abilities as AB_                       # abilities' onUpdate first (subOrder 7)
         st, rng = AB_.trace_update(st, dex, rng, r, on & alive[order[i]])
+        st, rng = BF.update_ability(st, dex, rng, r, on & alive[order[i]])          # Disguise
+        m = st.mons
+        hp = mget(m.hp, r).astype(I32)
         if iid("sitrusberry") > 0:
             from vgcjax.effects import batch_damaging as BD         # onTryEatItem: runEvent('TryHeal') (Heal Block)
             go = on & alive[order[i]] & holds(st, r, "sitrusberry") & (hp * 2 <= mx) & can_eat(st, r) & \
@@ -134,6 +139,7 @@ def update(st, dex, rng, on):
         conf = CO.has_volatile(st, r, CO.cid("confusion")) if "confusion" in ids.CONDITIONS else False
         st, rng = lum_eat(st, dex, rng, r, on & alive[order[i]] & ((mget(st.mons.status, r) > 0) | conf))
         st, rng = BR.chesto_update(st, dex, rng, r, on & alive[order[i]])
+        st, rng = BF.update_item(st, dex, rng, r, on & alive[order[i]])             # Mental Herb
     return st, rng
 
 

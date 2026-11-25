@@ -130,6 +130,9 @@ def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_dr
                   ability_seq=mset(m.ability_seq, r_in, ab_seq, on), item_seq=mset(m.item_seq, r_in, it_seq, on),
                   previously_switched_in=mset(m.previously_switched_in, r_in, mget(m.previously_switched_in, r_in) + 1, on))
     st = st.replace(mons=m, sides=sides, meta=meta.replace(effect_seq=jnp.where(on, seq, meta.effect_seq)))
+    # PS :185: runEvent('BeforeSwitchIn', pokemon): Illusion picks its disguise (effects/batch_forme.py)
+    from vgcjax.effects import batch_forme as BF
+    st = BF.illusion_before_switch_in(st, side, pos, b_in, on)
     # PS :186-192: add(isDrag ? 'drag' : 'switch', pokemon, details, [from] sourceEffect)
     st = EV.emit_hp(st, on, EV.EV_SWITCH, r_in, move=jnp.where(is_drag, 0, source_effect),
                     flags=jnp.where(is_drag, EV.F_DRAG, 0))

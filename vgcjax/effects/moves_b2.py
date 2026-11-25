@@ -183,7 +183,7 @@ if mid("encore") > 0 and has("encore"):
     @handler(ids.HOOK_START, CO.eff("encore"), ps="data/mods/champions/moves.ts encore.condition.onStart")
     def encore_start(hc, st, dex, rng):
         """target.lastMove (none, flags.failencore, no move slot or 0 PP -> false); effectState.move; '-start' target
-        'Encore'; queue.willMove(target): none -> duration++; a different move (no Mental Herb in Reg M-C) ->
+        'Encore'; queue.willMove(target): none -> duration++; a different move and no Mental Herb held ->
         queue.changeAction(target, {choice: 'move', moveid}): cancelAction, then insertChoice -> resolveAction (no
         targetLoc: getRandomTarget, RANDOM_TARGET phase 0; priority, fractional priority, speed)."""
         from vgcjax.battle import common as C_
@@ -208,7 +208,8 @@ if mid("encore") > 0 and has("encore"):
         cur = jnp.max(jnp.where(mine, jnp.where(q.move_slot == LK.RECHARGE_SLOT, -1, q.move_id.astype(I32)), 0))
         s = CO.vol_state(st, r, c)
         st = CO.set_vol_state(st, r, c, s.at[0].set(s[0] + 1), ok & ~will)
-        change = ok & will & (cur != move)
+        from vgcjax.effects import items as IT_
+        change = ok & will & (cur != move) & ~IT_.holds(st, r, "mentalherb")    # [C] moves.ts:329
         st = Q.cancel_action(st, r, change)
         st = C_.update_speed_one(st, dex, r, change)                 # insertChoice: choice.pokemon.updateSpeed()
         # resolve-time draws carry step_tag COMMIT (contract §3.1: insertChoice / changeAction resolve)
@@ -293,12 +294,14 @@ def imprison_disable(st, r, dis, on):
 # ------------------------------------------------------------------ Trick (Sticky Hold onTryImmunity: not in Reg M-C)
 def _item_start(st, dex, rng, r, on):
     """setItem's singleEvent('Start', item) (sim/pokemon.ts:1906-1908) for the impl items with onStart: White Herb
-    (negative boosts -> useItem), the terrain seeds (matching terrain -> useItem), the choice items
-    (removeVolatile('choicelock')). Returns (st, rng)."""
+    (negative boosts -> useItem), the terrain seeds (matching terrain -> useItem), Air Balloon ('-item'), the choice
+    items (removeVolatile('choicelock')). Returns (st, rng)."""
     from vgcjax.effects import disables as DS
     from vgcjax.effects import items as IT
     st, rng = IT.white_herb(st, dex, rng, r, on)
     st, rng = IT.seed(st, dex, rng, r, on)
+    from vgcjax.effects import batch_forme as BF
+    st = BF.air_balloon_start(st, r, on)
     if "choicelock" in ids.CONDITIONS:
         st, rng, _ = CO.remove_volatile(st, dex, rng, r, CO.cid("choicelock"),
                                         jnp.asarray(on) & DS.is_choice(mget(st.mons.item, r)))

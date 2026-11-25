@@ -75,7 +75,8 @@ EXTRA: dict[str, set[str]] = {
                   "sandveil", "overcoat", "damp", "raindish", "dryskin", "superluck", "healer",
                   "cutecharm",                                                                 # effects/batch_passive.py
                   "synchronize", "moody", "magician", "berserk", "electromorphosis", "cudchew", "moxie",
-                  "supremeoverlord", "moldbreaker"},                                  # effects/batch_reactive.py
+                  "supremeoverlord", "moldbreaker",
+                  "firemane", "piercingdrill", "disguise", "illusion"},                 # effects/batch_forme.py                                  # effects/batch_reactive.py
                                                                                               # effects/ability_blocks.py
     "items": {"kangaskhanite", "lumberry", "sceptilite", "bindingband", "blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
               "miracleseed", "mysticwater", "nevermeltice", "poisonbarb", "sharpbeak", "silkscarf", "silverpowder",
@@ -86,7 +87,8 @@ EXTRA: dict[str, set[str]] = {
               "shucaberry", "tangaberry", "wacanberry", "yacheberry", "choicescarf",                          # + effects/berries.py
               "grassyseed", "electricseed", "psychicseed", "mistyseed", "ejectbutton", "whiteherb", "widelens",
               "scopelens", "muscleband", "wiseglasses", "brightpowder", "normalgem",   # effects/batch_passive.py
-              "chestoberry"},                                                 # effects/batch_reactive.py
+              "chestoberry",
+              "airballoon", "mentalherb"},                                                    # effects/batch_forme.py                                                 # effects/batch_reactive.py
                                                                                               # effects/items.py
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",

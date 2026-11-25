@@ -263,6 +263,10 @@ class Scratch:
     res_pending: jax.Array         # bool a move suspended in step 1 (Magic Bounce with other targets) resumes next
     res: MoveCarry                 # its carry
     res_hit: jax.Array             # i8 the reflection's move.hit (activeMove is not restored: the resumed steps' key)
+    # Mold Breaker (move.ignoreAbility, effects/batch_forme.py): while battle.activeMove ignores abilities, every
+    # other mon's breakable ability is parked here (-1 = not parked) and reads as none; restored at clearActiveMove
+    mb_active: jax.Array           # bool
+    mb_saved: jax.Array            # i16[2,4]
 
 
 @struct.dataclass
@@ -273,6 +277,8 @@ class Events:
     count: jax.Array               # i32
     step_start: jax.Array          # i32
     last_move: jax.Array           # i32 absolute index of the last MOVE record (attrLastMove target), -1 = none
+    alias: jax.Array               # i8[8] PS pokemon.illusion (Illusion): the ref protocol lines show for this mon
+                                   #       (-1 = itself); only PublicEvents read it (effects/batch_forme.py)
 
 
 @struct.dataclass
@@ -383,7 +389,8 @@ def empty_scratch() -> Scratch:
                    bounce_pending=_z((), bool), bounce_running=_z((), bool), bounce_u=_z((), I8, -1),
                    bounce_move=_z((), I16), bounce_tgt=_z((), I8, -1), orig_u=_z((), I8, -1), orig_move=_z((), I16),
                    orig_t0=_z((), I8, -1), orig_mr=_z((), I8), orig_result=_z((), bool), orig_go_rm=_z((), bool),
-                   orig_on_rm=_z((), bool), res_pending=_z((), bool), res=empty_carry(), res_hit=_z((), I8))
+                   orig_on_rm=_z((), bool), res_pending=_z((), bool), res=empty_carry(), res_hit=_z((), I8),
+                   mb_active=_z((), bool), mb_saved=_z((2, 4), I16, -1))
 
 
 def empty_state(team: Team) -> State:
@@ -401,4 +408,5 @@ def empty_state(team: Team) -> State:
                   pw_bits=_z((), U32), pw_state=_z((NPW, 3), I16))
     return State(meta=meta, team=team, sides=sides, mons=empty_mons(), field=field, queue=empty_queue(),
                  scratch=empty_scratch(), events=Events(buf=_z((NE, 8), I16), count=_z((), I32), step_start=_z((), I32),
-                                                       last_move=_z((), I32, -1)), exec=empty_exec())
+                                                       last_move=_z((), I32, -1), alias=_z(8, I8, -1)),
+                 exec=empty_exec())
