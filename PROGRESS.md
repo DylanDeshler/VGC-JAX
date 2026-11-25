@@ -273,6 +273,17 @@ M3 content (2026-10-23)
   ceil drain, AfterSubDamage; status moves '-fail' [still]; HIT_SUBSTITUTE targets are null: no damage / effects /
   DamagingHit, but selfDrops, secondary rolls (draw target -1) and secondary self effects run; U-turn still switches.
   Intimidate '-immune'; resist berries skip a substitute hit. 900 targeted battles + regression slice 100%.
+- Copy batch (effects/batch_copy.py; NOT yet replayed against PS): Baton Pass (onHit '-fail' / NOT_FAIL without a
+  switch; moveData.self suppresses the did-nothing '-fail'; switchIn copyVolatileFrom: boosts + every non-noCopy
+  volatile, after the ability End), Psych Up (boosts; '-copyboost' -> new COPYBOOST kind), Skill Swap ('-activate',
+  End both, swap + new abilityStates, Start target then source), Worry Seed (TryImmunity truant / insomnia,
+  TryHit cantsuppress, setAbility('insomnia') '-ability', cureStatus slp), Transform / Imposter (transformInto:
+  setSpecies speed, target types / stats / weight / boosts / timesAttacked, moves pp = min(5, pp); new Mons fields
+  transformed + base_slots, clearVolatile restores the sheet moves; '-transform' -> new TRANSFORM kind; setAbility
+  Start only for a different ability), Protean / Libero (PrepareHit typechange once per abilityState; abilityState
+  {protean} projected). Transform / Skill Swap / Worry Seed state work runs undispatched after the first target's Hit
+  events (move_pipeline post_hit, one switch_in_vec pass for the Starts); Imposter runs at the head of
+  switch_in_vec, which then plays the copied ability's Start. Unburden onEnd (removeVolatile) added to end_vec.
 - CPU testing: scripts/memguard.sh caps the process tree (one replay worker ~14.5 GB; use <= 2 workers).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

@@ -150,6 +150,9 @@ class Mons:
     can_mega: jax.Array            # bool canMegaEvo
     weight_hg: jax.Array           # i16
     previously_switched_in: jax.Array  # i8
+    transformed: jax.Array         # bool pokemon.transformed (effects/batch_copy.py transform_into)
+    base_slots: jax.Array          # i16[2,4,4] baseMoveSlots pp | disabled << 8 while transformed (moves / maxpp come
+                                   #     from the team sheet; clearVolatile restores them: battle/switching.py)
 
 
 @struct.dataclass
@@ -310,7 +313,7 @@ def empty_mons() -> Mons:
         move_last_turn_result=_z(s, I8), hurt_this_turn=_z(s, I16, -1), last_damage=_z(s, I16),
         times_attacked=_z(s, I8), stats_raised_this_turn=_z(s, bool), stats_lowered_this_turn=_z(s, bool),
         used_item_this_turn=_z(s, bool), trapped=_z(s, I8), can_mega=_z(s, bool), weight_hg=_z(s, I16),
-        previously_switched_in=_z(s, I8))
+        previously_switched_in=_z(s, I8), transformed=_z(s, bool), base_slots=_z(s + (4,), I16))
 
 
 def empty_scratch() -> Scratch:

@@ -887,6 +887,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
                          v1=T.ABILITY_BASE + T.ABILITY_OWNTEMPO - 1)
         from vgcjax.effects import ability_reactions as AR
         st = AR.anger_point(st, targets[j], crit_t[j], cj & ~side_mode_)        # Anger Point onHit
+        if j == 0:    # Transform / Skill Swap / Worry Seed onHit work (single-target status moves; effects/batch_copy.py)
+            from vgcjax.effects import batch_copy as BC
+            st, rng = BC.post_hit(st, dex, rng, u, targets[j], move, cj & ~side_mode_)
         memento = memento | (cj & selfdestruct_ifhit & ~RS.is_false(tj))
         # Parting Shot onHit: boost({atk: -1, spa: -1}, target, source); no change (and no Mirror Armor) -> delete
         # move.selfSwitch (data/moves.ts partingshot)
@@ -905,7 +908,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         tags, vals = tags.at[j].set(tj[0]), vals.at[j].set(tj[1])
     st = F.faint(st, u, memento)                                       # selfdestruct 'ifHit' (Memento)
     m = st.mons
-    has_self = jnp.any(dex.move_self_boosts[move] != 0) | (dex.move_self_volatile[move] > 0)
+    has_self = jnp.any(dex.move_self_boosts[move] != 0) | (dex.move_self_volatile[move] > 0) | \
+        (move == opt_id("MOVE_BATONPASS"))                             # Baton Pass: self: {onHit} (moveData.self)
     # PS :1352-1358: a primary effect that did nothing (didAnything === false) -> '-fail' source [still]
     fail_msg = on & (da[0] == RS.BOOL) & (da[1] == 0) & ~has_self & (dex.move_self_chance[move] < 0) & \
         (dex.move_selfdestruct[move] == 0)
@@ -1222,6 +1226,9 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     st = EV.emit(st, pre_fail_msg, EV.EV_FAIL, actor=u)
     st = EV.attr_last_move(st, pre_fail_msg, EV.F_STILL)
     pre_notfail = r_pre[0] == RS.NOTFAIL
+    # runEvent('PrepareHit', pokemon, target, move): Protean / Libero onPrepareHit (effects/batch_copy.py)
+    from vgcjax.effects import batch_copy as BC
+    st = BC.protean(st, dex, u, move, jnp.where(is_struggle, T.TYPE_TYPELESS, a_type), pre_on & pre_ok)
     # ---- side / field moves: tryMoveHit -> TryHitSide / TryHitField (M4 handlers) -> moveHit(target): run below as
     #      one hit on targets[0] without the trySpreadMoveHit steps and the hit-loop tails (Exec.side)
     side_on = pre_on & pre_ok & side_field
@@ -1292,6 +1299,8 @@ def move_begin(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc, orig,
     # move onTryImmunity: Endeavor (pokemon.hp < target.hp) -> '-immune'
     endv = (move == opt_id("MOVE_ENDEAVOR")) & ~(mget(m.hp, u) < mget(m.hp, jnp.clip(targets, 0, 7)))
     pimm = pimm | (~pimm & endv)
+    # Worry Seed onTryImmunity: target.ability truant / insomnia -> false (effects/batch_copy.py)
+    pimm = pimm | (~pimm & BC.worry_seed_immune(st, move, targets))
     for j in range(NT):
         st = EV.emit(st, tv[j] & pimm[j], EV.EV_IMMUNE, actor=targets[j])            # PS :731, :745
     fail_any = fail_any | jnp.any(tv & pimm)

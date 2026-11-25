@@ -55,6 +55,15 @@ def clear_volatile_many(st: S.State, dex, refs, include_switch_flags, on) -> S.S
         last_damage=w(m.last_damage, 0), hurt_this_turn=w(m.hurt_this_turn, -1), newly_switched=w(m.newly_switched, True),
         being_called_back=w(m.being_called_back, False), times_attacked=w(m.times_attacked, 0),
     )
+    # moveSlots = baseMoveSlots.slice(); transformed = false ([C] scripts.ts:134-136): a transformed mon gets its
+    # sheet moves back with the pp / disabled kept in base_slots (effects/batch_copy.py transform_into)
+    tr = on & mget(m.transformed, refs)
+    sheet = jnp.maximum(mget(m.sheet_idx, refs).astype(I32), 0)
+    bmoves = st.team.moves[jnp.clip(refs, 0, 7) // 4, sheet].astype(I32)                              # [T, 4]
+    bs = mget(m.base_slots, refs).astype(I32)
+    m = m.replace(move_ids=w(m.move_ids, bmoves, tr), pp=w(m.pp, bs & 0xFF, tr),
+                  maxpp=w(m.maxpp, jnp.where(bmoves > 0, dex.move_pp[bmoves], 0), tr),
+                  move_disabled=w(m.move_disabled, bs >> 8, tr), transformed=w(m.transformed, False, on))
     st = st.replace(mons=m)
     return set_species_many(st, dex, refs, mget(m.base_species, refs), on)
 
@@ -86,6 +95,9 @@ def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_dr
     st, rng = AR.switch_out(st, dex, rng, r_old, unfainted)              # runEvent('SwitchOut') (PS :113)
     st = AB.end_vec(st, r_old[None], unfainted[None])
     st = Q.cancel_action(st, r_old, unfainted)
+    # PS :127-129: selfSwitch 'copyvolatile' (Baton Pass) -> pokemon.copyVolatileFrom(oldActive)
+    from vgcjax.effects import batch_copy as BC
+    st = BC.copy_volatile_from(st, r_in, r_old, unfainted & BC.copies_volatiles(dex, source_effect))
     st = clear_volatile(st, dex, r_old, True, unfainted)
     m = st.mons
     # old occupant leaves (live or fainted)
