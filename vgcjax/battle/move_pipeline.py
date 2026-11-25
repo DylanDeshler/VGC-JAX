@@ -538,11 +538,6 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
         st = F.faint(st, u, jnp.any(on) & (move == opt_id("MOVE_FINALGAMBIT")))
     ohko = dex.move_ohko[move] > 0
     rolls_damage = on & (bp > 0) & ~ohko & (fixed == 0)
-    ckey = C.dkey(st, ids.DK_CRIT, actor=u, target=targets, subject=C.eff_move(move), hit=hit_no)
-    crit_draw, rng = R.chance_v(rng, ckey, 1, D.crit_denominator(crit_ratio),
-                                active=rolls_damage & ~will_crit & (crit_ratio > 0))
-    rkey = C.dkey(st, ids.DK_DAMAGE_ROLL, actor=u, target=targets, subject=C.eff_move(move), hit=hit_no)
-    roll, rng = R.randint_v(rng, rkey, 0, 16, active=rolls_damage)
     t_types = mget(m.types, targets)
     grounded = CO.is_grounded(st, targets)
     is_struggle = move == T.MOVE_STRUGGLE
@@ -554,7 +549,6 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
 
     # ModifyDamage chain (runEvent('ModifyDamage', pokemon, target, move); [C] scripts.ts modifyDamage): the screens'
     # onAnyModifyDamage so far (Life Orb / berries / abilities join with items and abilities)
-    will_crit_t = jnp.where(will_crit, True, (crit_ratio > 0) & crit_draw) & ~crit_immune
     # MUL runEvents per target reaching the formula: ModifyCritRatio, BasePower, ModifyAtk/SpA, ModifyDef/SpD,
     # ModifySTAB (not for '???'), ModifyDamage (PS :1678-1775, [C] scripts.ts:232-288)
     immune_t = jnp.where(mtype == ids.TYPE_GROUND, ~grounded, jax.vmap(lambda tt: TC.immune(dex, mtype, tt))(t_types))
@@ -567,11 +561,22 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     base = st.scratch.mulhook_ord.astype(I32) + jnp.cumsum(per) - per + pre
     dmg_ord = base + jnp.where(is_struggle, 4, 5)                 # ordinal of each target's ModifyDamage call
     st = C.mul_tick(st, jnp.sum(per))
+    # runEvent('ModifyCritRatio', source, target, move, move.critRatio) (PS :1678), clamped to [0, 4] (:1683):
+    # Super Luck / Scope Lens (effects/batch_passive.py); then randomChance(1, critMult[critRatio]) (:1693-1696)
+    uu = jnp.full(NT, u, I32)
+    mtype_ev = jnp.where(is_struggle, T.TYPE_TYPELESS, mtype)       # Struggle's onModifyMove type '???'
+    ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev, extra={})
+    cr_t, _, rng = MOD.run("ModifyCritRatio", ctx, rng, jnp.full(NT, crit_ratio, I32), base, reach)
+    cr_t = jnp.clip(cr_t, 0, 4)
+    ckey = C.dkey(st, ids.DK_CRIT, actor=u, target=targets, subject=C.eff_move(move), hit=hit_no)
+    crit_draw, rng = R.chance_v(rng, ckey, 1, D.crit_denominator(cr_t),
+                                active=rolls_damage & ~will_crit & (cr_t > 0))
+    will_crit_t = jnp.where(will_crit, True, (cr_t > 0) & crit_draw) & ~crit_immune
+    rkey = C.dkey(st, ids.DK_DAMAGE_ROLL, actor=u, target=targets, subject=C.eff_move(move), hit=hit_no)
+    roll, rng = R.randint_v(rng, rkey, 0, 16, active=rolls_damage)
     wmod = WE.weather_damage_mod(st, dex, u, move, mtype, targets)
     # the MUL events (effects/modifiers.py) in getDamage order (PS :1757-1762): 'Modify' + Atk / SpA by category
     # on the user, 'Modify' + the defensive stat on the target (Foul Play / Body Press only change the stat read)
-    uu = jnp.full(NT, u, I32)
-    mtype_ev = jnp.where(is_struggle, T.TYPE_TYPELESS, mtype)       # Struggle's onModifyMove type '???'
     stats_t, boosts_t = mget(m.stats, targets), mget(m.boosts, targets)
     # Unaware onAnyModifyBoost (data/abilities.ts unaware): a target holder zeroes the attack-stat boosts (the move
     # user's calculateStat, Foul Play / Body Press included); a user holder zeroes the target's defense boosts
@@ -678,6 +683,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     #    capped at the substitute's hp, '-ohko' + removeVolatile when it breaks else '-activate' X 'move: Substitute'
     #    '[damage]', recoil, drain (ceil, '[from] drain'), AfterSubDamage (Ice Spinner, Stone Axe); HIT_SUBSTITUTE
     #    (damage true, target null: no damage / effects / DamagingHit, but selfDrops and secondary rolls still run)
+    #    Normal Gem's onSourceTryPrimaryHit (priority 0) runs before the substitute's (priority -1)
+    from vgcjax.effects import batch_passive as BP
+    st = BP.normal_gem(st, dex, u, move, st.exec.mtype, targets, tv, on & ~jnp.asarray(side_mode))
     from vgcjax.effects import volatiles as VO
     subbed = tv & VO.sub_blocks(st, dex, u, move, targets) & ~jnp.asarray(side_mode)
 
@@ -1222,7 +1230,9 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
     from vgcjax.effects import ability_reactions as AR
     st, at_fail = AR.armor_tail(st, dex, u, jnp.where(targets[0] >= 0, targets[0], target), move,
                                 go_um & ~tm_null)
-    go_um = go_um & ~tm_null & ~at_fail
+    from vgcjax.effects import batch_passive as BP                     # Damp onAnyTryMove
+    st, damp_fail = BP.damp(st, dex, u, move, go_um & ~tm_null & ~at_fail)
+    go_um = go_um & ~tm_null & ~at_fail & ~damp_fail
     side_field = _in(tt, (T.TARGET_ALL, T.TARGET_FOESIDE, T.TARGET_ALLYSIDE, T.TARGET_ALLYTEAM))
     has_t = targets[0] >= 0
     st = F.faint(st, u, go_um & (dex.move_selfdestruct[move] == 1))

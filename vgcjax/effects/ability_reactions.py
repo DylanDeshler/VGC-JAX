@@ -30,7 +30,8 @@ def _flag(dex, move, flag):
 
 
 # ------------------------------------------------------------------ TryHit (left to right; priority 1 then 0)
-ABSORB = {"voltabsorb": "TYPE_ELECTRIC", "waterabsorb": "TYPE_WATER", "eartheater": "TYPE_GROUND"}
+ABSORB = {"voltabsorb": "TYPE_ELECTRIC", "waterabsorb": "TYPE_WATER", "eartheater": "TYPE_GROUND",
+          "dryskin": "TYPE_WATER"}        # Dry Skin onTryHit (data/abilities.ts:1099-1106): heal baseMaxhp / 4
 
 
 def record_bounce(st, holder, u, move, on):
@@ -74,6 +75,7 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
     relay is already falsy are skipped. Returns ((tags, vals), st, rng, acc_true) where acc_true: Flash Fire set
     move.accuracy = true (every later accuracy check passes)."""
     from vgcjax.battle import move_pipeline as MP
+    from vgcjax.effects import batch_passive as BP
     from vgcjax.effects import statuses as STS
     tt, tvv = th
     m = st.mons
@@ -112,7 +114,8 @@ def try_hit(st, dex, rng, targets, tv, th, u, move, mtype):
                     ~st.scratch.bounce_running & ~CO.is_semi_invulnerable(st, t)
                 st = record_bounce(st, t, u, move, mb)
                 mb_any = mb_any.at[j].set(mb)
-                hit = sap | mb
+                st, oc = BP.overcoat_try_hit(st, dex, t, u, move, live)          # Overcoat (priority 1)
+                hit = sap | mb | oc
             else:
                 hit = jnp.zeros((), bool)
                 for name, ty in ABSORB.items():
@@ -211,7 +214,9 @@ def damaging_hit(st, dex, rng, j, t, damaged, u, move, mtype, hit_no, bmsgs, b_o
         any_on = any_on | (on & ok)
         s_val = jnp.where(on & ok, status, s_val)
     if aid("effectspore") > 0:
-        powder_ok = ~TC.status_immune(dex, ids.IMMUNITY_KEYS.index("powder"), mget(st.mons.types, u))
+        from vgcjax.effects import batch_passive as BP
+        powder_ok = ~TC.status_immune(dex, ids.IMMUNITY_KEYS.index("powder"), mget(st.mons.types, u)) & \
+            ~BP.overcoat(st, u)                                         # runStatusImmunity('powder'): Overcoat
         on = damaged & contact & _is(ab, "effectspore") & powder_ok & ~mget(st.mons.fainted, u)
         key = C.dkey(st, ids.DK_ABILITY_ONHIT_PROC, actor=tr, target=u, subject=aeff("effectspore"), hit=hit_no)
         r, rng = R.randint(rng, key, 0, 100, active=on)
@@ -235,6 +240,8 @@ def damaging_hit(st, dex, rng, j, t, damaged, u, move, mtype, hit_no, bmsgs, b_o
         ok, rng = R.chance(rng, key, 3, 10, active=cb)
         st, rng, _ = CO.add_volatile(st, dex, rng, u, CO.cid("disable"), cb & ok, source=tr,
                                      source_effect=aeff("cursedbody"))
+    from vgcjax.effects import batch_passive as BP                     # Cute Charm (3/10 -> attract)
+    st, rng = BP.cute_charm(st, dex, rng, tr, u, damaged, move, hit_no)
     # the attacker's Poison Touch (Source prefix: after the target's own handlers)
     pt = damaged & contact & _is(mget(st.mons.ability, u), "poisontouch") & ~_is(ab, "shielddust")
     key = C.dkey(st, ids.DK_ABILITY_ONHIT_PROC, actor=u, target=tr, subject=aeff("poisontouch"), hit=hit_no)
@@ -302,12 +309,14 @@ if aid("speedboost") > 0:
 
 
 def residual(st, dex, rng, h, on):
-    """The abilities' onResidual (fieldEvent walk, undispatched): Speed Boost (order 28: activeTurns -> +1 Spe)."""
+    """The abilities' onResidual (fieldEvent walk, undispatched): Speed Boost (order 28: activeTurns -> +1 Spe),
+    [C] Healer (effects/batch_passive.py)."""
     from vgcjax.battle import move_pipeline as MP
     r = jnp.clip(h, 0, 7)
     go = jnp.asarray(on) & _is(mget(st.mons.ability, r), "speedboost") & (mget(st.mons.active_turns, r) > 0)
     st, _ = MP.boost(st, r, jnp.zeros(7, I32).at[4].set(1), go, source=-2, ab_msg=aeff("speedboost"), simple=True)
-    return st, rng
+    from vgcjax.effects import batch_passive as BP
+    return BP.healer(st, dex, rng, r, on)                               # [C] Healer (order 5, sub 3)
 
 
 def switch_out(st, dex, rng, r, on):
