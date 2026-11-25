@@ -153,7 +153,9 @@ def redirect_target(st, dex, u, move, target, on, mtype=None):
     tt = MC.move_target(st, dex, u, move)
     valid_t = (tt == ids.TARGET_NORMAL) | (tt == ids.TARGET_ANY) | (tt == ids.TARGET_ADJACENTFOE) | \
         (tt == ids.TARGET_RANDOMNORMAL)
-    powder_ok = ~TC.status_immune(dex, ids.IMMUNITY_KEYS.index("powder"), mget(m.types, jnp.clip(u, 0, 7)))
+    from vgcjax.effects import batch_passive as BP                     # runStatusImmunity('powder'): Overcoat
+    powder_ok = ~TC.status_immune(dex, ids.IMMUNITY_KEYS.index("powder"), mget(m.types, jnp.clip(u, 0, 7))) & \
+        ~BP.overcoat(st, u)
     best, best_spd = jnp.asarray(-1, I32), jnp.asarray(-(1 << 20), I32)
     for j in range(2):
         r = refs[j]

@@ -105,7 +105,7 @@ def update(st, dex, rng, on):
     from vgcjax.effects import conditions as CO
     from vgcjax.effects import statuses as STS
     from vgcjax.effects.abilities import aid
-    if iid("sitrusberry") <= 0 and iid("lumberry") <= 0 and aid("trace") <= 0:
+    if iid("sitrusberry") <= 0 and iid("lumberry") <= 0 and aid("trace") <= 0 and aid("cutecharm") <= 0:
         return st, rng
     on = jnp.asarray(on)
     act = st.sides.active.reshape(4).astype(I32)
@@ -117,6 +117,8 @@ def update(st, dex, rng, on):
         r = refs[order[i]]
         m = st.mons
         hp, mx = mget(m.hp, r).astype(I32), mget(m.maxhp, r).astype(I32)
+        from vgcjax.effects import batch_passive as BP_                   # attract onUpdate (volatile, subOrder 2)
+        st, rng = BP_.attract_update(st, dex, rng, r, on & alive[order[i]])
         from vgcjax.effects import abilities as AB_                       # abilities' onUpdate first (subOrder 7)
         st, rng = AB_.trace_update(st, dex, rng, r, on & alive[order[i]])
         if iid("sitrusberry") > 0:
