@@ -4,7 +4,7 @@ ID spaces (03 §1) are stage-independent; stage support lives in tables.npz `sup
 """
 # ruff: noqa
 
-DATA_VERSION = "cff6b3542f3ef32f"
+DATA_VERSION = "93b767a1e9ea75ea"
 PS_COMMIT = "d601443456c795f77c6e4f2b5b459167f2b10a3c"
 FORMAT = "gen9championsvgc2026regmc"
 
@@ -152,7 +152,7 @@ ABILITIES = (
     "sweetveil", "swiftswim", "symbiosis", "synchronize", "tangledfeet", "technician", "telepathy", "thermalexchange",
     "thickfat", "torrent", "toughclaws", "toxicdebris", "trace", "unaware", "unburden", "unnerve",
     "unseenfist", "vitalspirit", "voltabsorb", "wanderingspirit", "waterabsorb", "waterbubble", "weakarmor", "whitesmoke",
-    "zerotohero",
+    "zerotohero", "simple",
 )
 ITEMS = (
     "none", "abomasite", "absolite", "absolitez", "aerodactylite", "aggronite", "airballoon", "alakazite",
@@ -1311,6 +1311,7 @@ ABILITY_WATERBUBBLE = 213
 ABILITY_WEAKARMOR = 214
 ABILITY_WHITESMOKE = 215
 ABILITY_ZEROTOHERO = 216
+ABILITY_SIMPLE = 217
 ITEM_NONE = 0
 ITEM_ABOMASITE = 1
 ITEM_ABSOLITE = 2
@@ -1503,7 +1504,7 @@ NATURE_RELAXED = 21
 NATURE_SASSY = 22
 NATURE_SERIOUS = 23
 NATURE_TIMID = 24
-NS, NM, NA, NI, NC, NNAT = 383, 512, 217, 167, 105, 25
+NS, NM, NA, NI, NC, NNAT = 383, 512, 218, 167, 105, 25
 
 # TypeId: 0 none, 1..18, 19 = ??? (typeless)
 TYPE_NONE = 0
@@ -1647,10 +1648,10 @@ COND_PSYCHICTERRAIN = 104
 # unified EffectId ranges (03 §1)
 MOVE_BASE = 1
 ABILITY_BASE = 512
-ITEM_BASE = 728
-COND_BASE = 894
-ACTION_BASE = 998
-NEFFECT = 1010
+ITEM_BASE = 729
+COND_BASE = 895
+ACTION_BASE = 999
+NEFFECT = 1011
 ACTION_KINDS = ('switch', 'instaswitch', 'megaEvo', 'beforeTurn', 'beforeTurnMove', 'revivalblessing', 'priorityChargeMove', 'start', 'team', 'residual', 'runSwitch', 'commit')
 
 # move table enums

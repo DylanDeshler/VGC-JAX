@@ -312,14 +312,16 @@ def post_hit(st, dex, rng, u, t, move, on):
         ability on the target), then Start(target's old ability on the source);
       Worry Seed onHit: target.setAbility('insomnia') (hp > 0; cantsuppress already failed at TryHit; no SetAbility
         handler): End(old), new ability, '-ability' target 'Insomnia' old '[from] move: Worry Seed' (ABILITY),
-        Start(Insomnia: none); target asleep -> cureStatus() ('-curestatus' X slp '[msg]').
+        Start(Insomnia: none); target asleep -> cureStatus() ('-curestatus' X slp '[msg]');
+      Simple Beam / Entrainment onHit (effects/batch7c.py): target.setAbility('simple') / (source.ability, source):
+        End(old), new ability, '-ability' target New Old '[from] move: X' ['[of] source'] (ABILITY), Start(new).
     Start = effects/abilities.py switch_in_vec(start=True), one compiled pass over two slots. Returns (st, rng)."""
     from vgcjax.effects import statuses as STS
     on = jnp.asarray(on)
     u = jnp.clip(jnp.asarray(u, I32), 0, 7)
     t = jnp.clip(jnp.asarray(t, I32), 0, 7)
     from vgcjax.effects import batch_reactive as BR
-    sa_moves = [mid(x) for x in ("skillswap", "worryseed", "transform") if mid(x) > 0]
+    sa_moves = [mid(x) for x in ("skillswap", "worryseed", "transform", "simplebeam", "entrainment") if mid(x) > 0]
     sa_on = on & jnp.any(jnp.asarray(sa_moves or [-1], I32) == move)
     st = BR.mold_unmask(st, jnp.stack([u, t]), sa_on)      # Mold Breaker's mask is not pokemon.ability in PS
     zero = jnp.zeros((), bool)
@@ -332,16 +334,20 @@ def post_hit(st, dex, rng, u, t, move, on):
         ss = on & (move == mid("skillswap")) & skill_swap_ok(st, dex, u, t)
     if mid("worryseed") > 0 and _ab("insomnia") > 0:
         ws = on & (move == mid("worryseed")) & (mget(st.mons.hp, t) > 0)
+    from vgcjax.effects import batch7c as B7
+    sb, en, sb_en_new = B7.set_ability_moves(st, dex, u, t, move, on)      # Simple Beam / Entrainment
+    sbe = sb | en
     m = st.mons
     sa, ta = mget(m.ability, u).astype(I32), mget(m.ability, t).astype(I32)
     st = EV.emit(st, ss, EV.EV_ACTIVATE, actor=u, move=C.eff_move(mid("skillswap")))
-    st = AB.end_vec(st, jnp.stack([u, t]), jnp.stack([ss, ss | ws]))
+    st = AB.end_vec(st, jnp.stack([u, t]), jnp.stack([ss, ss | ws | sbe]))
     st = _new_ability(st, u, ta, ss)
-    st = _new_ability(st, t, jnp.where(ss, sa, _ab("insomnia")), ss | ws)
+    st = _new_ability(st, t, jnp.where(ss, sa, jnp.where(sbe, sb_en_new, _ab("insomnia"))), ss | ws | sbe)
     st = EV.emit(st, ws, EV.EV_ABILITY, actor=t, move=AB.aeff("insomnia") if _ab("insomnia") > 0 else -1)
+    st = EV.emit(st, sbe, EV.EV_ABILITY, actor=t, move=ids.ABILITY_BASE + sb_en_new - 1)
     st = STS.cure_status(st, t, ws & (mget(st.mons.status, t) == ids.COND_SLP))
-    refs = jnp.stack([jnp.where(ss, t, u), u])
-    ons = jnp.stack([ss | start0, ss])
+    refs = jnp.stack([jnp.where(ss | sbe, t, u), u])
+    ons = jnp.stack([ss | start0 | sbe, ss])
 
     def body(i, c):
         st_, rng_ = c

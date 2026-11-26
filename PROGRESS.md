@@ -323,6 +323,17 @@ M3 content (2026-10-23)
   meta.faint_src; AfterFaint after checkWin), Supreme Overlord ('-start' / '-end' fallenN mapped in harness/events.py,
   BasePower powMod), Mold Breaker (mask: breakable abilities of the other actives -> 0 from ModifyMove to the move's
   end / the mover's faint; mons.mold_saved), Chesto Berry (Update / Eat). abilityState kind "item" in harness/project.py.
+- Batch 7c (effects/batch7c.py; trace-checked only, corpora pending): Outrage (lockedmove: LOCKEDMOVE_DURATION
+  trueDuration, Restart, residual / AfterMove end -> '[fatigue]' confusion; locked() forced choice), Octolock (raw
+  source slot, residual Def/SpD boost, trap), Last Resort, Synthesis / Moonlight, Mirror Coat + Counter (beforeTurnMove
+  queue action, DamagingHit tracking, scripted redirect, damageCallback; effectState.slot null -> project kind
+  "slot"), Endure (stall + onDamage -10, also the confusion self-hit), Electrify (ModifyType -2), Wish (slot condition;
+  hp = maxhp / 2: project kind "half"), Supercell Slam (crash_damage now keyed on hasCrashDamage), Shed Tail
+  (copyVolatileFrom 'shedtail'), Simple Beam / Entrainment (post_hit setAbility) + the Simple ability (ChangeBoost x2;
+  'simple' joins the ability id space, appended: census code_refs.sets_ability), Focus Punch (priority charge,
+  beforeMoveCallback 'cant', runEvent('Hit') lostFocus, flinch TryAddVolatile null). single_event / hooks.dispatch now
+  emit one switch branch per distinct handler function (shared templates: Protect / Detect / Endure, ...).
+  Op count (scripts/op_count.py, impl): 1,997,360 -> 2,030,673.
 - CPU testing: scripts/memguard.sh caps the process tree (default cap 22 GB, 1 worker).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

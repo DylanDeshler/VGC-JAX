@@ -117,19 +117,19 @@ if mid("ragingbull") > 0:
 
 # ------------------------------------------------------------------ High Jump Kick
 def crash_damage(st, dex, rng, u, move, on):
-    """High Jump Kick onMoveFail (data/moves.ts:8911-8913): damage(source.baseMaxhp / 2, source, source,
-    conditions.get('High Jump Kick')): spreadDamage / Pokemon.damage truncate -> floor(maxhp / 2), '-damage' X hp
+    """High Jump Kick (data/moves.ts:8911-8913) and Supercell Slam (:18451-18453) onMoveFail: damage(
+    source.baseMaxhp / 2, source, source, conditions.get(<move>)): spreadDamage / Pokemon.damage truncate -> floor(maxhp / 2), '-damage' X hp
     '[from] highjumpkick' (no Sturdy / Focus Sash: not a Move effect); then runEvent('EmergencyExit', pokemon) with the
     hp before (PS sim/battle-actions.ts:589-595). Reached when moveResult is false (miss, immunity, Protect), not
     after a no-target / TryMove failure. Returns (st, rng)."""
-    if mid("highjumpkick") < 0:
+    if mid("highjumpkick") < 0 and mid("supercellslam") < 0:
         return st, rng
     from vgcjax.effects import ability_reactions as AR
     from vgcjax.effects import statuses as STS
-    go = jnp.asarray(on) & (move == mid("highjumpkick")) & (mget(st.mons.hp, u) > 0)
+    # the hasCrashDamage moves' identical onMoveFail: High Jump Kick, Supercell Slam (data/moves.ts:18451-18453)
+    go = jnp.asarray(on) & (dex.move_has_crash_damage[move] == 1) & (mget(st.mons.hp, u) > 0)
     hp0 = mget(st.mons.hp, u).astype(I32)
-    st, rng = STS.effect_damage(st, dex, rng, u, mget(st.mons.maxhp, u).astype(I32) // 2,
-                                C.eff_move(mid("highjumpkick")), go)
+    st, rng = STS.effect_damage(st, dex, rng, u, mget(st.mons.maxhp, u).astype(I32) // 2, C.eff_move(move), go)
     return AR.emergency_exit(st, u, hp0, go), rng
 
 

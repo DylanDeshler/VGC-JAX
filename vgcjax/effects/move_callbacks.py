@@ -84,7 +84,9 @@ def fixed_damage(st, dex, u, move, targets, fixed):
     out = jnp.broadcast_to(jnp.asarray(fixed, I32), targets.shape)
     out = jnp.where(move == mid("finalgambit"), uhp, out)              # pokemon.hp (faint: selfdestruct 'ifHit')
     out = jnp.where(move == mid("endeavor"), hp - uhp, out)           # target hp - pokemon hp (TryImmunity: >0)
-    return jnp.where(move == mid("superfang"), jnp.maximum(hp // 2, 1), out)
+    out = jnp.where(move == mid("superfang"), jnp.maximum(hp // 2, 1), out)
+    from vgcjax.effects import batch7c as B7                            # Counter / Mirror Coat damageCallback
+    return B7.counter_damage(st, u, move, out)
 
 
 def priority_bonus(st, dex, ref, move):

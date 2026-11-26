@@ -4017,6 +4017,9 @@
     "code_refs": {
      "mentions_ability": [
       "mummy"
+     ],
+     "sets_ability": [
+      "mummy"
      ]
     },
     "condition_hooks": [],
@@ -39905,6 +39908,9 @@
      "mentions_ability": [
       "simple",
       "truant"
+     ],
+     "sets_ability": [
+      "simple"
      ]
     },
     "condition_hooks": [],
@@ -45934,6 +45940,9 @@
      ],
      "mentions_condition": [
       "slp"
+     ],
+     "sets_ability": [
+      "insomnia"
      ]
     },
     "condition_hooks": [],

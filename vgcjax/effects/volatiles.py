@@ -78,8 +78,16 @@ def confusion_before_move(hc, st, dex, rng):
     rkey = C.dkey(st, ids.DK_CONFUSION_SELFHIT_DAMAGE_ROLL, actor=ref, target=ref, subject=CO.eff("confusion"))
     roll, rng = R.randint(rng, rkey, 0, 16, active=selfhit)
     # battle.damage(d, pokemon, pokemon, {id: 'confused'}) -> '-damage' X hp '[from] confusion'
-    st, rng = STS.effect_damage(st, dex, rng, ref, confusion_damage(st, ref, roll), CO.eff("confusion"), selfhit,
-                                source=ref)
+    # runEvent('Damage'): Endure (priority -10, a Move-typed effect) after Disguise (effects/batch7c.py): hp - 1; at
+    # hp 1 that is 0 damage, still printed
+    from vgcjax.effects import batch7c as B7
+    from vgcjax.effects import batch_forme as BF
+    d = confusion_damage(st, ref, roll)
+    d, endu = B7.endure_damage(st, ref, d, selfhit & ~BF.disguise_intact(st, ref))
+    st = B7.endure_activate(st, ref, endu)
+    zero = endu & (d <= 0)
+    st, rng = STS.effect_damage(st, dex, rng, ref, d, CO.eff("confusion"), selfhit & ~zero, source=ref)
+    st = EV.emit_hp(st, zero, EV.EV_DAMAGE, ref, move=CO.eff("confusion"), flags=EV.F_FROM)
     return hc.ret(RS.R(RS.BOOL, 0), selfhit), st, rng
 
 
@@ -154,10 +162,14 @@ if "substitute" in ids.CONDITIONS:
 
     @handler(ids.HOOK_START, CO.eff("substitute"), ps="data/moves.ts substitute.condition.onStart")
     def substitute_start(hc, st, dex, rng):
-        """'-start' target 'Substitute'; effectState.hp = floor(maxhp / 4); a partiallytrapped volatile is deleted
+        """'-start' target 'Substitute' (effect Shed Tail: '[from] move: Shed Tail'); effectState.hp = floor(maxhp / 4); a
+        partiallytrapped volatile is deleted
         ('-end' target <sourceEffect> '[partiallytrapped]' '[silent]')."""
         r = hc.target
-        st = EV.emit(st, True, EV.EV_START, actor=r, move=CO.eff("substitute"), v1=-1)
+        # effect Shed Tail -> '[from] move: Shed Tail' (effects/batch7c.py)
+        st_eff = C.eff_move(getattr(ids, "MOVE_SHEDTAIL", -999)) if getattr(ids, "MOVE_SHEDTAIL", -1) > 0 else -2
+        st = EV.emit(st, True, EV.EV_START, actor=r, move=CO.eff("substitute"),
+                     v1=jnp.where(hc.effect == st_eff, hc.effect, -1))
         st = CO.set_vol_field(st, r, _SUB, CO.slot_of("substitute", "hp"), mget(st.mons.maxhp, r).astype(I32) // 4, True)
         if "partiallytrapped" in ids.CONDITIONS:
             pt = CO.has_volatile(st, r, _PT)
