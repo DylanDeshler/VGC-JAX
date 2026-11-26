@@ -202,7 +202,7 @@ def get_move_targets(st, dex, rng, u, move, target, on, mtype=None):
     t2 = t_red
     # Counter / Mirror Coat condition onRedirectTarget (priority -1, after the above): getAtSlot(slot)
     from vgcjax.effects import batch7c as B7C
-    t2, red_c = B7.counter_redirect(st, u, move, t2, jnp.asarray(on) & (tt == T.TARGET_SCRIPTED))
+    t2, red_c = B7C.counter_redirect(st, u, move, t2, jnp.asarray(on) & (tt == T.TARGET_SCRIPTED))
     red = red | red_c
     smart = (dex.move_smart_target[move] == 1) & ~red
     tally = jnp.where(t2 >= 0, living_ally(st, t2), -1)
@@ -313,7 +313,7 @@ def boost_v(st, targets, deltas7, on, order=None, primary=False, source=-1, effe
     contrary = mget(m.ability, jnp.clip(targets, 0, 7)) == opt_id("ABILITY_CONTRARY")
     d = jnp.where(contrary[:, None], -d, d)
     from vgcjax.effects import batch7c as B7C                    # ChangeBoost: Simple doubles every delta
-    d = B7.simple_double(st, targets, d)
+    d = B7C.simple_double(st, targets, d)
     go = jnp.asarray(on) & (targets >= 0) & (hp > 0) & active & foe_left
     from vgcjax.effects import ability_blocks as AXB
     capped0 = jnp.where((d != 0) & go[:, None], jnp.clip(cur + d, -6, 6) - cur, 0)
@@ -782,7 +782,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     st, dsg = BF.disguise_damage(st, targets, go)
     amt = jnp.where(dsg, 0, amt)
     from vgcjax.effects import batch7c as B7C                            # Endure onDamage (priority -10)
-    amt, endu = B7.endure_damage(st, targets, amt, go & ~dsg & (amt > 0))
+    amt, endu = B7C.endure_damage(st, targets, amt, go & ~dsg & (amt > 0))
     m = st.mons
     stu = go & (amt > 0) & (mget(m.ability, targets) == opt_id("ABILITY_STURDY")) & (hp_t == mx_t) & (amt >= hp_t)
     amt = jnp.where(stu, hp_t - 1, amt)
@@ -811,7 +811,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     from vgcjax.effects import batch7b as B7B
     for j in range(NT):
         st = EV.emit(st, dsg[j], EV.EV_ACTIVATE, actor=targets[j], move=BF.aeff("disguise"))
-        st = B7.endure_activate(st, targets[j], endu[j])
+        st = B7C.endure_activate(st, targets[j], endu[j])
         st = EV.emit(st, stu[j], EV.EV_ABILITY, actor=targets[j], move=T.ABILITY_BASE + opt_id("ABILITY_STURDY") - 1)
         st = IT.use_item(st, targets[j], sash[j])                 # '-enditem' X Focus Sash (inside the Damage event)
         pct, col = EV.hp_public(new_hp[j], mx_t[j])
@@ -942,7 +942,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
                          v1=T.ABILITY_BASE + T.ABILITY_OWNTEMPO - 1)
         from vgcjax.effects import ability_reactions as AR
         st = AR.anger_point(st, targets[j], crit_t[j], cj & ~side_mode_)        # Anger Point onHit
-        st = B7.focuspunch_hit(st, dex, targets[j], move, cj & ~side_mode_)  # focuspunch.condition.onHit
+        st = B7C.focuspunch_hit(st, dex, targets[j], move, cj & ~side_mode_)  # focuspunch.condition.onHit
         if j == 0:    # Transform / Skill Swap / Worry Seed onHit work (single-target status moves; effects/batch_copy.py)
             from vgcjax.effects import batch_copy as BC
             st, rng = BC.post_hit(st, dex, rng, u, targets[j], move, cj & ~side_mode_)
@@ -1032,7 +1032,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         for k in range(2):
             ssb = dex.move_sec_self_boosts[move, k].astype(I32)
             ssb = jnp.where(mget(m.ability, u) == opt_id("ABILITY_CONTRARY"), -ssb, ssb)   # ChangeBoost: Contrary
-            from vgcjax.effects import batch7c as B7C_                  # ChangeBoost: Simple
+            from vgcjax.effects import batch7c as B7_                   # ChangeBoost: Simple
             ssb = B7_.simple_double(st, u, ssb)
             g = oks_self[k][j] & jnp.any(ssb != 0) & base_u
             cur_u, capped, smsgs[j, k] = boost_math(cur_u, ssb, g)
@@ -1203,7 +1203,7 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
     on = on & will
     # beforeMoveCallback (PS :328-333): Focus Punch lost focus -> 'cant', moveThisTurnResult false, return
     from vgcjax.effects import batch7c as B7C
-    st, fp_cant = B7.focuspunch_cant(st, u, move, on & ~bnc)
+    st, fp_cant = B7C.focuspunch_cant(st, u, move, on & ~bnc)
     m = st.mons
     st = st.replace(mons=m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, S.MR_FALSE, fp_cant)))
     abort = abort | fp_cant
@@ -1254,7 +1254,7 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
     # Liquid Voice (onModifyTypePriority -1): a sound move becomes Water
     a_type = jnp.where(mflag(dex, move, T.MF_SOUND) & (mget(st.mons.ability, u) == opt_id("ABILITY_LIQUIDVOICE")),
                        T.TYPE_WATER, a_type)
-    a_type = B7.electrify_type(st, u, move, a_type)                     # Electrify (onModifyTypePriority -2)
+    a_type = B7C.electrify_type(st, u, move, a_type)                     # Electrify (onModifyTypePriority -2)
     # Stance Change onModifyMove (priority 1): an Aegislash using a damaging move (or King's Shield) changes to
     # Aegislash-Blade (Aegislash) -> formeChange (setSpecies, '-formechange' X forme: the traces show no '[from]',
     # i.e. formeChange's default source (battle.effect) is not the ability here; [C] scripts.ts:98-103)
@@ -1442,7 +1442,7 @@ def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
     lsd = (move == opt_id("MOVE_LEECHSEED")) & jnp.any(t_types == T.TYPE_GRASS, axis=-1)
     pimm = pimm | (~pimm & lsd)
     from vgcjax.effects import batch7c as B7C                  # Octolock onTryImmunity: getImmunity('trapped')
-    pimm = pimm | (~pimm & B7.octolock_immune(st, move, targets))
+    pimm = pimm | (~pimm & B7C.octolock_immune(st, move, targets))
     for j in range(NT):
         st = EV.emit(st, tv[j] & pimm[j], EV.EV_IMMUNE, actor=targets[j])            # PS :731, :745
     fail_any = fail_any | jnp.any(tv & pimm)
