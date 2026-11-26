@@ -195,8 +195,9 @@ def get_move_targets(st, dex, rng, u, move, target, on, mtype=None):
     # smartTarget and retargets the move line (effects/disables.py)
     from vgcjax.effects import disables as DS
     single_tt = _in(tt, SINGLE_TARGET)
+    from vgcjax.effects import batch7a as B7                  # tracksTarget incl. Stalwart's onModifyMove
     t_red, red, st = DS.redirect_target(st, dex, u, move, t2, jnp.asarray(on) & single_tt & (t2 >= 0) &
-                                        (dex.move_tracks_target[move] != 1), mtype=mtype)
+                                        ~B7.tracks(st, dex, u, move), mtype=mtype)
     red = red & (t_red != t2)
     t2 = t_red
     smart = (dex.move_smart_target[move] == 1) & ~red
@@ -1282,6 +1283,8 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
     from vgcjax.effects import batch_passive as BP                     # Damp onAnyTryMove
     st, damp_fail = BP.damp(st, dex, u, move, go_um & ~tm_null & ~at_fail)
     go_um = go_um & ~tm_null & ~at_fail & ~damp_fail
+    from vgcjax.effects import batch7a as B7                           # metronome volatile onTryMove (priority -2)
+    st = B7.metronome_try_move(st, dex, u, move, go_um)
     side_field = _in(tt, (T.TARGET_ALL, T.TARGET_FOESIDE, T.TARGET_ALLYSIDE, T.TARGET_ALLYTEAM))
     has_t = targets[0] >= 0
     st = F.faint(st, u, go_um & (dex.move_selfdestruct[move] == 1))
@@ -1436,9 +1439,11 @@ def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
     # ---- hit-loop setup (ch/scripts.ts:432-449)
     mh = dex.move_multihit[move]
     is_range = (mh[0] == 2) & (mh[1] == 5)
+    from vgcjax.effects import batch7a as B7
+    sklink = B7.skill_link(st, u)                       # Skill Link onModifyMove: multihit = multihit[1], no multiacc
     mkey = C.dkey(st, ids.DK_MULTIHIT_COUNT, actor=u, subject=C.eff_move(move))
-    idx, rng = R.sample(rng, mkey, 20, active=on_hl & is_range)
-    hits = jnp.where(is_range, MULTIHIT_TABLE[idx], jnp.where(mh[0] > 0, mh[0], 1)).astype(I32)
+    idx, rng = R.sample(rng, mkey, 20, active=on_hl & is_range & ~sklink)
+    hits = jnp.where(is_range, jnp.where(sklink, mh[1], MULTIHIT_TABLE[idx]), jnp.where(mh[0] > 0, mh[0], 1)).astype(I32)
     hits = jnp.where(parental_bond(st, dex, u, move, spread_hit), 2, hits)       # move.multihit = 2
     hits = BD.beat_up_hits(st, u, move, hits)                                    # Beat Up onModifyMove
     hits = jnp.where(side_on, 1, hits)
@@ -1447,7 +1452,7 @@ def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
                  smart=smart, spread_hit=spread_hit, on_rm=on, go_rm=go_rm, go_um=go_um, has_t=has_t,
                  side_field=side_field, on_ts=on_ts, on_hl=on_hl, fail_any=fail_any, hits=hits, pre_ok=pre_ok,
                  pre_notfail=pre_notfail, side=side_on, tm_null=tm_null,
-                 multiacc=dex.move_multiaccuracy[move] == 1, single=jnp.sum(tv.astype(I32)) == 1, h=jnp.int32(1),
+                 multiacc=(dex.move_multiaccuracy[move] == 1) & ~sklink, single=jnp.sum(tv.astype(I32)) == 1, h=jnp.int32(1),
                  hit_done=jnp.int32(1), stopped=~on_hl, null_damage=jnp.asarray(True), dt=full(RS.NUM), dv=full(0),
                  lt=full(RS.UNDEF), lv=full(0), sub_null=jnp.zeros(NT, bool), total=jnp.int32(0), mtype=a_type,
                  bp=a_bp, acc=a_acc,

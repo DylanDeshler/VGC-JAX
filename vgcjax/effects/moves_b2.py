@@ -294,14 +294,16 @@ def imprison_disable(st, r, dis, on):
 # ------------------------------------------------------------------ Trick (Sticky Hold onTryImmunity: not in Reg M-C)
 def _item_start(st, dex, rng, r, on):
     """setItem's singleEvent('Start', item) (sim/pokemon.ts:1906-1908) for the impl items with onStart: White Herb
-    (negative boosts -> useItem), the terrain seeds (matching terrain -> useItem), Air Balloon ('-item'), the choice
-    items (removeVolatile('choicelock')). Returns (st, rng)."""
+    (negative boosts -> useItem), the terrain seeds (matching terrain -> useItem), Air Balloon ('-item'), Metronome
+    (addVolatile('metronome')), the choice items (removeVolatile('choicelock')). Returns (st, rng)."""
     from vgcjax.effects import disables as DS
     from vgcjax.effects import items as IT
     st, rng = IT.white_herb(st, dex, rng, r, on)
     st, rng = IT.seed(st, dex, rng, r, on)
     from vgcjax.effects import batch_forme as BF
     st = BF.air_balloon_start(st, r, on)
+    from vgcjax.effects import batch7a as B7
+    st = B7.metronome_start(st, r, on)                                  # Metronome onStart: addVolatile
     if "choicelock" in ids.CONDITIONS:
         st, rng, _ = CO.remove_volatile(st, dex, rng, r, CO.cid("choicelock"),
                                         jnp.asarray(on) & DS.is_choice(mget(st.mons.item, r)))

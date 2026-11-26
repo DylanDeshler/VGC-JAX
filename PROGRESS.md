@@ -323,6 +323,16 @@ M3 content (2026-10-23)
   meta.faint_src; AfterFaint after checkWin), Supreme Overlord ('-start' / '-end' fallenN mapped in harness/events.py,
   BasePower powMod), Mold Breaker (mask: breakable abilities of the other actives -> 0 from ModifyMove to the move's
   end / the mover's faint; mons.mold_saved), Chesto Berry (Update / Eat). abilityState kind "item" in harness/project.py.
+- Batch 7a (effects/batch7a.py; trace-checked only, corpora pending): Mega Stones Meganiumite / Golurkite /
+  Heracronite / Eelektrossite / Skarmorite via their Mega abilities. Mega Sol: effectiveWeather -> sunnyday while the
+  active move user has it and battle.effect is a Move / Weather (WeatherModifyDamage, Weather Ball / Thunder /
+  Hurricane modify_move, charge skip + Solar Beam / Blade '-activate', Solar Beam onBasePower, sandstorm / snowscape
+  stat mods); ability callbacks unaffected. [C] Unseen Fist = Piercing Drill's onHitProtect (batch_forme shared).
+  Skill Link (multihit[1], no DK_MULTIHIT_COUNT draw, no multiaccuracy), Eelevate onSourceAfterFaint (getBestStat on
+  storedStats, next to Moxie), Stalwart (tracksTarget skips RedirectTarget). Leek, Light Ball, Zoom Lens (mods),
+  Metronome (item onStart -> 'metronome' volatile {lastMove, numConsecutive}, onTryMove after Damp, ModifyDamage);
+  harness projection maps an empty move field to ''. oracle/lib/poolb.js forceInto: itemUser items prefer a user
+  member; "species:X" can now be forced (random stage set). op_count 1,997,360 -> 2,018,762 (+1.07%).
 - CPU testing: scripts/memguard.sh caps the process tree (default cap 22 GB, 1 worker).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

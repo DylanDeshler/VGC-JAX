@@ -76,7 +76,8 @@ EXTRA: dict[str, set[str]] = {
                   "cutecharm",                                                                 # effects/batch_passive.py
                   "synchronize", "moody", "magician", "berserk", "electromorphosis", "cudchew", "moxie",
                   "supremeoverlord", "moldbreaker",
-                  "firemane", "piercingdrill", "disguise", "illusion"},                 # effects/batch_forme.py                                  # effects/batch_reactive.py
+                  "firemane", "piercingdrill", "disguise", "illusion",
+                  "megasol", "unseenfist", "skilllink", "eelevate", "stalwart"},          # effects/batch7a.py                 # effects/batch_forme.py                                  # effects/batch_reactive.py
                                                                                               # effects/ability_blocks.py
     "items": {"kangaskhanite", "lumberry", "sceptilite", "bindingband", "blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
               "miracleseed", "mysticwater", "nevermeltice", "poisonbarb", "sharpbeak", "silkscarf", "silverpowder",
@@ -88,7 +89,8 @@ EXTRA: dict[str, set[str]] = {
               "grassyseed", "electricseed", "psychicseed", "mistyseed", "ejectbutton", "whiteherb", "widelens",
               "scopelens", "muscleband", "wiseglasses", "brightpowder", "normalgem",   # effects/batch_passive.py
               "chestoberry",
-              "airballoon", "mentalherb"},                                                    # effects/batch_forme.py                                                 # effects/batch_reactive.py
+              "airballoon", "mentalherb",
+              "leek", "lightball", "metronome", "zoomlens"},                                  # effects/batch7a.py                                                    # effects/batch_forme.py                                                 # effects/batch_reactive.py
                                                                                               # effects/items.py
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",
@@ -99,7 +101,8 @@ EXTRA: dict[str, set[str]] = {
                    "gem", "attract", "healblock",
                    "leechseed", "focusenergy", "dragoncheer", "noretreat", "trapped", "destinybond", "allyswitch",
                    "chillyreception",                                        # effects/batch_utility.py
-                   "charge"},                                                 # Electromorphosis (batch_reactive.py)
+                   "charge",
+                   "metronome"},                                              # Metronome item (batch7a.py)                                                 # Electromorphosis (batch_reactive.py)
 }
 
 

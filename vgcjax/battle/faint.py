@@ -111,7 +111,9 @@ def resolve_faints(st: S.State, dex, on, check_win_if_no_faints=False, do_check_
     st = check_win(st, jnp.where(had, last, -1), cw)
     # PS :2645-2647: unless checkWin ended the battle, runEvent('AfterFaint', last target, source, effect, length)
     from vgcjax.effects import batch_reactive as BR
-    return BR.moxie(st, last_src, n_done, on & had & (st.meta.phase != S.DONE))
+    st = BR.moxie(st, last_src, n_done, on & had & (st.meta.phase != S.DONE))
+    from vgcjax.effects import batch7a as B7                   # Eelevate onSourceAfterFaint (same event as Moxie)
+    return B7.eelevate(st, last_src, n_done, on & had & (st.meta.phase != S.DONE))
 
 
 def _faint_pass(st: S.State, dex, on, move_src):

@@ -331,6 +331,8 @@ def field_event(st, dex, rng, event: str, on, targets=None):
             st, rng = IT.white_herb(st, dex, rng, h, run & (e == IT.ieff("whiteherb")))   # onStart / onAnySwitchIn
             from vgcjax.effects import batch_forme as BF        # Air Balloon onStart
             st = BF.air_balloon_start(st, h, run & (e == IT.ieff("airballoon")) & (pfx[j] == ids.PFX_ON))
+            from vgcjax.effects import batch7a as B7            # Metronome onStart
+            st = B7.metronome_start(st, h, run & (e == IT.ieff("metronome")) & (pfx[j] == ids.PFX_ON))
         if residual_mode and weather_code:      # the weathers' onFieldResidual eachEvent('Weather'), undispatched
             from vgcjax.effects import weather as WE
             st, rng = WE.residual_each(st, dex, rng, e - ids.COND_BASE + 1, run & (loc == CO.WEATHER))

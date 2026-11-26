@@ -52,8 +52,9 @@ def field_weather(st):
 
 
 def mon_weather(st, ref):
-    """PS: sim/pokemon.ts:2209-2227 pokemon.effectiveWeather: Utility Umbrella (not in Reg M-C) and Mega Sol (M3.6)
-    aside, the field's effective weather."""
+    """PS: sim/pokemon.ts:2209-2227 pokemon.effectiveWeather: Utility Umbrella (not in Reg M-C) aside, the field's
+    effective weather. Mega Sol (battle.activePokemon's ability, when battle.effect is a Move / Weather) is applied
+    by the Move / Weather callers through effects/batch7a.py megasol_weather."""
     return field_weather(st)
 
 
@@ -67,6 +68,8 @@ def weather_damage_mod(st, dex, u, move, mtype, targets):
     onWeatherModifyDamage (data/conditions.ts) on the defender's effectiveWeather; Hydro Steam keeps x1.5 in sun on
     the attacker's. Returns the 4096-scale modifier per target slot."""
     wt = jax.vmap(lambda t: mon_weather(st, t))(jnp.clip(targets, 0, 7))
+    from vgcjax.effects import batch7a as B7            # Mega Sol onWeatherModifyDamage (priority 1, fast exit)
+    wt = B7.megasol_weather(st, wt, u)
     sun, rain = wt == wid("sunnyday"), wt == wid("raindance")
     fire, water = mtype == ids.TYPE_FIRE, mtype == ids.TYPE_WATER
     up = (sun & fire) | (rain & water)
@@ -90,14 +93,15 @@ def modify_move(st, dex, u, target, move):
     mtype = dex.move_type[move].astype(I32)
     bp = dex.move_bp[move].astype(I32)
     acc = dex.move_accuracy[move].astype(I32)
-    wu = mon_weather(st, u)
+    from vgcjax.effects import batch7a as B7            # Mega Sol: battle.effect is the move
+    wu = B7.megasol_weather(st, mon_weather(st, u), u)
     wb = move == getattr(ids, "MOVE_WEATHERBALL", -1)
     for name, ty in (("sunnyday", ids.TYPE_FIRE), ("raindance", ids.TYPE_WATER), ("sandstorm", ids.TYPE_ROCK),
                      ("snowscape", ids.TYPE_ICE)):
         hit = wb & (wu == wid(name))
         mtype = jnp.where(hit, ty, mtype)
         bp = jnp.where(hit, bp * 2, bp)
-    wt = jnp.where(target >= 0, mon_weather(st, jnp.clip(target, 0, 7)), 0)
+    wt = jnp.where(target >= 0, B7.megasol_weather(st, mon_weather(st, jnp.clip(target, 0, 7)), u), 0)
     th = (move == getattr(ids, "MOVE_THUNDER", -1)) | (move == getattr(ids, "MOVE_HURRICANE", -1))
     acc = jnp.where(th & (wt == wid("raindance")), 0, jnp.where(th & (wt == wid("sunnyday")), 50, acc))
     acc = jnp.where((move == getattr(ids, "MOVE_BLIZZARD", -1)) & is_weather(st, "snowscape"), 0, acc)
@@ -223,9 +227,12 @@ for _w in WEATHERS:
 def _def_boost(name, ty):
     def fn(ctx, h):
         """onModifySpD (sandstorm, Rock) / onModifyDef (snowscape, Ice), priority 10: this.modify(stat, 1.5) (a new
-        relay, applied before the chained modifiers); skipped while weather is suppressed (sim/battle.ts:895-900)."""
+        relay, applied before the chained modifiers); skipped while weather is suppressed (sim/battle.ts:895-900). The
+        defender's effectiveWeather is 'sunnyday' while the attacker (activePokemon, ctx.src) has Mega Sol."""
+        from vgcjax.effects import batch7a as B7
         d = ctx.tgt
-        ok = jnp.any(mget(ctx.st.mons.types, jnp.clip(d, 0, 7)) == ty, axis=-1) & (mon_weather(ctx.st, d) == wid(name))
+        wd = B7.megasol_weather(ctx.st, mon_weather(ctx.st, d), ctx.src)
+        ok = jnp.any(mget(ctx.st.mons.types, jnp.clip(d, 0, 7)) == ty, axis=-1) & (wd == wid(name))
         return ok & ~suppressing(ctx.st), None, (lambda v: fp.modify(v, 3, 2))
     return fn
 

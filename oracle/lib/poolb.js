@@ -125,7 +125,8 @@ function poolBTeam(stage, rng, { chaos = process.env.CHAOS_STATS ||
 /**
  * Pool D (07 §9.2, `--require`): a pool-B team that contains every required entity ("move:id", "ability:id",
  * "item:id", "species:id"). Rejection sampling first; then one member is edited to carry the entity (a species that can
- * legally use it), and the team is re-validated.
+ * legally use it; an item with itemUser (Mega Stones, Leek, Light Ball) prefers such a member; a species replaces a
+ * random member by a random stage set of it), and the team is re-validated.
  */
 function satisfies(team, req) {
 	const [kind, id] = req.split(':');
@@ -135,7 +136,13 @@ function satisfies(team, req) {
 function forceInto(I, team, req, rng) {
 	const [kind, id] = req.split(':');
 	const { validator, legal } = I;
-	const order = rng.shuffle([...team.keys()]);
+	let order = rng.shuffle([...team.keys()]);
+	const itemUser = kind === 'item' ? dex.items.get(id).itemUser : null;
+	if (itemUser) { // an item with itemUser (Mega Stones, Leek, Light Ball, ...) goes to a member that uses it first
+		const users = itemUser.map(toID);
+		order = [...order.filter(i => users.includes(toID(team[i].species))), ...order.filter(i => !users.includes(toID(team[i].species)))];
+	}
+	const spe = kind === 'species' ? require('./stageteams').stageInfo(I.st.stage).pool.find(e => e.id === id) : null;
 	for (const i of order) {
 		const s = { ...team[i], moves: [...team[i].moves] };
 		const sp = dex.species.get(s.species);
@@ -149,6 +156,12 @@ function forceInto(I, team, req, rng) {
 		} else if (kind === 'item') {
 			if (team.some((o, j) => j !== i && toID(o.item) === id) || dex.items.get(s.item).megaStone) continue;
 			s.item = dex.items.get(id).name;
+		} else if (kind === 'species' && spe) { // replace the member by a random stage set of the species
+			if (team.some(o => dex.species.get(o.species).num === spe.num) || dex.items.get(s.item).megaStone) continue;
+			const sp2 = dex.species.get(spe.id);
+			Object.assign(s, { name: sp2.name, species: sp2.name, ability: dex.abilities.get(rng.pick(spe.abilities)).name,
+				moves: rng.shuffle(spe.moves.slice()).slice(0, 4).map(m => dex.moves.get(m).name),
+				gender: sp2.gender || (sp2.genderRatio && sp2.genderRatio.M === 0 ? 'F' : (s.gender === 'F' ? 'F' : 'M')) });
 		} else {
 			return null;
 		}
