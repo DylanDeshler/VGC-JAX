@@ -126,7 +126,6 @@ def switch_in_vec(st, dex, rng, u, on, start=False, _traced=False):
         st = set_state_field(st, r, "cloudnine", "ending", 0, c9)
     st = _ability_msg(st, is_("pressure"), u, "pressure")
     st = _ability_msg(st, is_("fairyaura"), u, "fairyaura")              # Fairy Aura onStart: '-ability' X 'Fairy Aura'
-    st = _ability_msg(st, is_("moldbreaker"), u, "moldbreaker")          # Mold Breaker onStart (data/abilities.ts:2691)
     if aid("hospitality") > 0:                       # Hospitality onStart: heal(ally.baseMaxhp / 4, ally, pokemon)
         from vgcjax.effects import statuses as STS
         side, pos = r // 4, MP.position(st, r)
@@ -210,9 +209,16 @@ def trace_update(st, dex, rng, u, on):
 def end_vec(st, refs, on):
     """singleEvent('End', ability) for refs [N] at once: Cloud Nine onEnd (abilityState.ending = true;
     eachEvent('WeatherChange'): no Reg M-C handler), Unnerve onEnd (unnerved = false), Unburden onEnd
-    (removeVolatile('unburden'), data/abilities.ts unburden.onEnd). State only."""
+    (removeVolatile('unburden'), data/abilities.ts unburden.onEnd), Illusion onEnd (data/abilities.ts:2077-2088:
+    pokemon.illusion && !beingCalledBack -> 'replace' + '-end' X 'Illusion'; effects/batch_forme.py; a fainted mon's
+    illusion is already null, a switching-out one is beingCalledBack: so in practice setAbility, e.g. Worry Seed)."""
     refs = jnp.clip(jnp.asarray(refs, I32), 0, 7)
     on = jnp.asarray(on)
+    if aid("illusion") > 0:
+        from vgcjax.effects import batch_forme as BF
+        onb = jnp.broadcast_to(on, refs.shape)
+        for i in range(refs.shape[0]):
+            st = BF.illusion_damaging_hit(st, refs[i], onb[i])
     m = st.mons
     ab = mget(m.ability, refs)
     s = mget(m.ability_state, refs)                                   # [N, 4]

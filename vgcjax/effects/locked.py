@@ -110,7 +110,7 @@ def try_move(st, dex, rng, u, target, move, on):
     user's effective weather skipping the charge (Rain: Electro Shot; Sun: Solar Beam / Blade) -> attrLastMove(
     '[still]') + '-anim', run; else runEvent('ChargeMove') (Power Herb: not in Reg M-C) -> addVolatile('twoturnmove',
     target) (onStart: effectState.move, attacker.addVolatile(move.id) with targetLoc = lastMoveTargetLoc,
-    attrLastMove('[still]'), runEvent('PrepareHit'): no Reg M-C handler); null. Returns (st, rng, null result)."""
+    attrLastMove('[still]'), runEvent('PrepareHit'): Protean / Libero); null. Returns (st, rng, null result)."""
     if not (HAS_TWOTURN and CHARGE_MOVES):
         return st, rng, jnp.zeros((), bool)
     from vgcjax.battle import move_pipeline as MP
@@ -155,6 +155,10 @@ def try_move(st, dex, rng, u, target, move, on):
         st = CO.add_plain_volatile(st, u, pc, added & pf)
         st = CO.set_vol_state(st, u, pc, jnp.zeros(6, I16).at[0].set(dex.cond_duration[pc].astype(I16)), added & pf)
     st = EV.attr_last_move(st, added, EV.F_STILL)
+    # twoturnmove.onStart: runEvent('PrepareHit', attacker, defender, effect) "side-effects normally associated with
+    # hitting (e.g., Protean, Libero)" (data/conditions.ts:311-312); effect is the Dex move: its base type
+    from vgcjax.effects import batch_copy as BC
+    st = BC.protean(st, dex, u, move, dex.move_type[move].astype(I32), added)
     return st, rng, added
 
 

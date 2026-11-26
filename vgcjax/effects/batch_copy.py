@@ -80,13 +80,25 @@ def protean(st, dex, u, move, mtype, on):
 if mid("psychup") > 0:
     @handler(ids.HOOK_HIT, int(C.eff_move(mid("psychup"))), ps="data/moves.ts psychup.onHit")
     def psychup_hit(hc, st, dex, rng):
-        """source.boosts[i] = target.boosts[i] for every stat; the crit volatiles (dragoncheer, focusenergy,
-        gmaxchistrike, laserfocus) are removed from the source and re-added from the target: none of their moves is
-        in the impl stage, so they never exist here; '-copyboost' source target '[from] move: Psych Up'
-        (COPYBOOST). Returns undefined."""
+        """source.boosts[i] = target.boosts[i] for every stat; the crit volatiles ['dragoncheer', 'focusenergy',
+        'gmaxchistrike', 'laserfocus'] are all removed from the source, then each the target has is added to the
+        source in that order (their onStart prints '-start' ... '[silent]' for Psych Up: the same START record), with
+        dragoncheer's hasDragonType copied from the target (data/moves.ts:14217-14235; no G-Max Chi Strike / Laser
+        Focus in Reg M-C); '-copyboost' source target '[from] move: Psych Up' (COPYBOOST). Returns undefined."""
         t, u = jnp.clip(hc.target, 0, 7), jnp.clip(hc.source, 0, 7)
         m = st.mons
         st = st.replace(mons=m.replace(boosts=mset(m.boosts, u, mget(m.boosts, t), True)))
+        crit = [v for v in ("dragoncheer", "focusenergy") if v in ids.CONDITIONS]
+        had = {v: CO.has_volatile(st, t, CO.cid(v)) for v in crit}
+        for v in crit:
+            st, rng, _ = CO.remove_volatile(st, dex, rng, u, CO.cid(v), CO.has_volatile(st, u, CO.cid(v)))
+        for v in crit:
+            c = CO.cid(v)
+            st, rng, _ = CO.add_volatile(st, dex, rng, u, c, had[v], source=u, source_effect=C.eff_move(mid("psychup")))
+            if v == "dragoncheer":
+                sl = CO.slot_of("dragoncheer", "hasDragonType")
+                st = CO.set_vol_field(st, u, c, sl, CO.vol_state(st, t, c)[sl].astype(I32),
+                                      had[v] & CO.has_volatile(st, u, c))
         st = EV.emit(st, True, EV.EV_COPYBOOST, actor=u, target=t, move=C.eff_move(mid("psychup")))
         return hc, st, rng
 
@@ -303,6 +315,10 @@ def post_hit(st, dex, rng, u, t, move, on):
     on = jnp.asarray(on)
     u = jnp.clip(jnp.asarray(u, I32), 0, 7)
     t = jnp.clip(jnp.asarray(t, I32), 0, 7)
+    from vgcjax.effects import batch_reactive as BR
+    sa_moves = [mid(x) for x in ("skillswap", "worryseed", "transform") if mid(x) > 0]
+    sa_on = on & jnp.any(jnp.asarray(sa_moves or [-1], I32) == move)
+    st = BR.mold_unmask(st, jnp.stack([u, t]), sa_on)      # Mold Breaker's mask is not pokemon.ability in PS
     zero = jnp.zeros((), bool)
     tf, ss, ws = zero, zero, zero
     start0 = zero
@@ -328,4 +344,5 @@ def post_hit(st, dex, rng, u, t, move, on):
         st_, rng_ = c
         return AB.switch_in_vec(st_, dex, rng_, refs[i], ons[i], start=True)
     st, rng = jax.lax.fori_loop(0, 2, body, (st, rng))
+    st = BR.mold_remask(st, jnp.stack([u, t]), sa_on)
     return st, rng

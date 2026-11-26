@@ -783,8 +783,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
                   last_damage=mset(m.last_damage, u, dealt[last_j], jnp.any(go)))
     st = F.faint_many(st.replace(mons=m), targets, hit_t & (hp_t - amt <= 0), src=u)
     from vgcjax.effects import batch_reactive as BR                     # Berserk onDamage (priority 0, state only)
-    st = BR.berserk_damage(st, targets, go, (dex.move_multihit[move][0] > 0) |
-                           parental_bond(st, dex, u, move, st.exec.spread_hit))
+    st = BR.berserk_damage(st, targets, go, (dex.move_multihit[move][0] > 0) | BD.is_beat_up(move) |
+                           parental_bond(st, dex, u, move, st.exec.spread_hit))     # Beat Up: onModifyMove multihit
     tags, vals = RS.where(tv & numeric, RS.where(hp0, RS.R(RS.NUM, 0), RS.where(inactive, RS.R(RS.BOOL, 0),
                                                                                  RS.R(RS.NUM, dealt))), (tags, vals))
     drain_n = dex.move_drain[move, 0].astype(I32)
@@ -1239,7 +1239,8 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
         ks = move == opt_id("MOVE_KINGSSHIELD")
         want = jnp.where(ks, T.SPECIES_AEGISLASH, T.SPECIES_AEGISLASHBLADE)
         sc = go_rm & alive & (mget(st.mons.ability, u) == T.ABILITY_STANCECHANGE) & aeg & \
-            ((dex.move_category[move] != T.CAT_STATUS) | ks) & (sp != want)
+            ~mget(st.mons.transformed, u) & \
+            ((dex.move_category[move] != T.CAT_STATUS) | ks) & (sp != want)          # PS :4527 || attacker.transformed
         st = SW_.set_species(st, dex, u, want, sc)
         st = EV.emit(st, sc, EV.EV_FORMECHANGE, actor=u, v1=want)
     # PS :500-503: ModifyMove changed move.target (Expanding Force) -> getRandomTarget: side.randomFoe, a

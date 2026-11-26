@@ -89,7 +89,8 @@ if mid("leechseed") > 0 and has("leechseed"):
         dealt = hp0 - mget(st.mons.hp, r).astype(I32)
         m = st.mons
         thp = mget(m.hp, t)
-        go = ok & (dealt > 0) & (thp > 0) & mget(m.is_active, t) & (thp < mget(m.maxhp, t))
+        from vgcjax.effects import batch_damaging as BD   # battle.heal: runEvent('TryHeal') first (Heal Block: false)
+        go = ok & (dealt > 0) & ~BD.heal_blocked(st, t) & (thp > 0) & mget(m.is_active, t) & (thp < mget(m.maxhp, t))
         st, _ = F.heal(st, t, dealt, go)
         return hc, EV.emit_hp(st, go, EV.EV_HEAL, t), rng
 

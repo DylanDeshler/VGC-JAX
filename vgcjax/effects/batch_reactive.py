@@ -170,6 +170,37 @@ def mold_end(st, on):
                                      mold_saved=jnp.where(on, 0, m.mold_saved).astype(m.mold_saved.dtype)))
 
 
+def mold_unmask(st, refs, on):
+    """Before code that reads or replaces abilities mid-move (Skill Swap / Worry Seed / Transform: setAbility):
+    PS's suppressingAbility never changes pokemon.ability, so restore the real abilities of `refs` (marks cleared)."""
+    if not _has("moldbreaker"):
+        return st
+    refs = jnp.clip(jnp.asarray(refs, I32), 0, 7)
+    on = jnp.broadcast_to(jnp.asarray(on), refs.shape)
+    m = st.mons
+    sv = mget(m.mold_saved, refs).astype(I32)
+    hit = on & (sv > 0) & (mget(m.ability, refs) == 0)
+    return st.replace(mons=m.replace(ability=mset_many(m.ability, refs, sv, hit),
+                                     mold_saved=mset_many(m.mold_saved, refs, 0, on & (sv > 0))))
+
+
+def mold_remask(st, refs, on):
+    """After such a change: while a mover's suppression is live (some mon marked -1), a non-mover active ref now
+    holding a breakable ability is masked again (suppressingAbility is evaluated per event in PS)."""
+    if not _has("moldbreaker"):
+        return st
+    refs = jnp.clip(jnp.asarray(refs, I32), 0, 7)
+    on = jnp.broadcast_to(jnp.asarray(on), refs.shape)
+    m = st.mons
+    live = jnp.any(m.mold_saved == -1)
+    ab = mget(m.ability, refs).astype(I32)
+    brk = jnp.asarray(_breakable())[jnp.clip(ab, 0, _breakable().shape[0] - 1)]
+    sv = mget(m.mold_saved, refs).astype(I32)
+    hit = on & live & (sv == 0) & brk & (ab > 0) & mget(m.is_active, refs)
+    return st.replace(mons=m.replace(ability=mset_many(m.ability, refs, 0, hit),
+                                     mold_saved=mset_many(m.mold_saved, refs, ab, hit)))
+
+
 def mold_faint(st, refs, do):
     """resolveFaints: a masked mon's End handler is not suppressed (singleEvent suppresses SwitchIn only): restore its
     ability first; the mover's faint (isActive = false) ends the suppression for everyone."""
@@ -234,7 +265,8 @@ def berserk_after_move_secondary(st, dex, t, u, move, ex, on):
     go = jnp.asarray(on) & (t >= 0) & _ab_is(st, r, "berserk") & mget(m.is_active, r)
     st = _set_fields_v(st, r[None], "berserk", {"checkedBerserk": 1}, go[None])
     hp, mx = mget(st.mons.hp, r).astype(I32), mget(st.mons.maxhp, r).astype(I32)
-    multi = (dex.move_multihit[move][0] > 0) | MP.parental_bond(st, dex, u, move, ex.spread_hit)
+    from vgcjax.effects import batch_damaging as BD                   # Beat Up sets move.multihit in onModifyMove
+    multi = (dex.move_multihit[move][0] > 0) | BD.is_beat_up(move) | MP.parental_bond(st, dex, u, move, ex.spread_hit)
     j = jnp.argmax(ex.targets == t)
     last = jnp.where(ex.lt[j] == RS.NUM, ex.lv[j], 0)
     dmg = jnp.where(multi & ~ex.smart, ex.total, last)
