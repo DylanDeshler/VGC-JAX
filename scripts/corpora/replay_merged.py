@@ -22,6 +22,7 @@ def main():
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--only", nargs="*", help="corpus names to include (default: all)")
     ap.add_argument("--dry", action="store_true", help="merge only; no engine")
+    ap.add_argument("--report", default=None, help="summarize an existing replay output dir (no replay)")
     a = ap.parse_args()
     root = pathlib.Path(a.root).resolve()
     merged, out = root.parent / (root.name + "_merged"), root.parent / (root.name + "_merged_rep")
@@ -38,12 +39,18 @@ def main():
     print(f"merged {len(owner)} battles from {len(set(owner.values()))} corpora", flush=True)
     if a.dry:
         return 0
-    rc = subprocess.call([sys.executable, "-m", "harness.cli", "replay", str(merged), "--workers", str(a.workers),
-                          "--out", str(out)])
+    if a.report:
+        out, rc = pathlib.Path(a.report), 0
+    else:
+        rc = subprocess.call([sys.executable, "-m", "harness.cli", "replay", str(merged), "--workers", str(a.workers),
+                              "--out", str(out)])
     res = [json.loads(l) for l in open(out / "results.jsonl")]
     by = collections.defaultdict(list)
     for r in res:
         by[owner.get(r["battle_id"], "?")].append(r)
+    n_all = len(res)
+    n_ok = sum(bool(r.get("clean")) and not r.get("events") for r in res)
+    print(f"\n== overall: {n_ok}/{n_all} battles fully clean ({100 * n_ok / max(n_all, 1):.2f}%)")
     print("\n== per corpus (battles, state-clean %, event-clean %)")
     for name in sorted(by):
         rs = by[name]
