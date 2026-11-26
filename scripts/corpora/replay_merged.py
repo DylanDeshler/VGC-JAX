@@ -30,16 +30,21 @@ def main():
     if not a.report:                             # report mode must not touch a merged dir a live replay is reading
         shutil.rmtree(merged, ignore_errors=True)
         merged.mkdir()
-    owner = {}                                   # battle_id -> corpus
+    # result index -> corpus: harness.cli replay walks the merged dir's shards in sorted name order and numbers the
+    # battles it keeps (the first --per-file of each shard) 0, 1, 2, ... (battle_ids repeat across same-seed corpora)
+    entries = []
     for d in sorted(p for p in root.iterdir() if p.is_dir() and not p.name.endswith("_rep")):
         if a.only and d.name not in a.only:
             continue
         for f in shard_files(d):
             if not a.report:
                 (merged / f"{d.name}__{f.name}").symlink_to(f)
-            for b in iter_battles(f):
-                owner[b[0]["battle_id"]] = d.name
-    print(f"merged {len(owner)} battles from {len(set(owner.values()))} corpora", flush=True)
+            n = sum(1 for _ in iter_battles(f))
+            entries.append((f"{d.name}__{f.name}", d.name, min(n, a.per_file) if a.per_file else n))
+    owner_by_index = []
+    for _, corpus, n in sorted(entries):
+        owner_by_index += [corpus] * n
+    print(f"merged {len(owner_by_index)} battles from {len({c for _, c, _ in entries})} corpora", flush=True)
     if a.dry:
         return 0
     if a.report:
@@ -50,7 +55,8 @@ def main():
     res = [json.loads(l) for l in open(out / "results.jsonl")]
     by = collections.defaultdict(list)
     for r in res:
-        by[owner.get(r["battle_id"], "?")].append(r)
+        i = r["index"]
+        by[owner_by_index[i] if i < len(owner_by_index) else "?"].append(r)
     n_all = len(res)
     n_ok = sum(bool(r.get("clean")) and not r.get("events") for r in res)
     print(f"\n== overall: {n_ok}/{n_all} battles fully clean ({100 * n_ok / max(n_all, 1):.2f}%)")
