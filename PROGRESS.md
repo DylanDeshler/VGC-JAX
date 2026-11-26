@@ -78,6 +78,22 @@ Comparison-quality work (2026-10-22)
   10,000, enforced at G-v0). Pre-existing: loop nesting (NB 8 x hit loop 10 x target fori 3 x secondaries 6);
   09 J5 asks for vmap over the target axis. Options in ADR-104 (needs a decision).
 
+M3 status (2026-11-26) — Reg M-C ladder push
+- Impl-stage coverage of the frozen real-sheet ladder corpus (3,211 teams): 95.4% before batch 7; batch 7 (a/b/c,
+  ~40 entities: megas Meganium/Golurk/Heracross/Eelektross/Skarmory, Leek, Light Ball, Metronome, Zoom Lens, Magic
+  Guard, Heatproof, Fur Coat, Rivalry, Stalwart, Pickpocket, Gluttony, Shed Skin, Quick Draw/Claw, Big Root, Red Card,
+  Outrage, Octolock, Last Resort, Synthesis/Moonlight, Mirror Coat/Counter, Endure, Electrify, Wish, Supercell Slam,
+  Shed Tail, Simple Beam/Simple, Entrainment, Focus Punch) brings the greedy list to ~98.8% (unverified).
+- Batch 1-6 verification (46 targeted corpora, 5,996 battles, r7i box, scripts/corpora/replay_merged.py): 87.3% fully
+  clean before fixes -> 99.75% after the first fix round (run2); remaining fixed since except the open items below.
+- Engine traced program 4.52M -> 1.96M ops (Illusion alias batched out of emit; berries.update fori_loop); now 2.07M
+  with batch 7. One replay worker compiles at ~44 GB on CPU; the Mac (36 GB) cannot replay; the r7i box (247 GB) runs
+  4 workers at ~0.5 battles/s. harness/replay_one.py VGC_COMPILE_LOCK + malloc_trim under test to raise worker count.
+- Open: lastMoveTargetLoc after a nominal (don't-care) random target (4 battles; needs a contract decision: let the
+  engine consume RANDOM_TARGET_NOMINAL or exclude the field); Lightning Rod redirect speed tie after Transform;
+  secondary roll on substitute-nulled spread targets (Rock Slide, 1 battle); twoturnmove ally target after Ally
+  Switch; Roar FORCED_SWITCH_PICK (1 battle); weather residual speed tie after Imposter (1 battle).
+
 M3 content (2026-10-23)
 - Conditions framework (vgcjax/effects/conditions.py: storage, add/remove/restart, singleEvent, field schema +
   presence bits for the projection, effectOrder), fieldEvent walk for Residual and SwitchIn
@@ -386,6 +402,9 @@ none yet (no engine)
 none
 
 ## Pending escalations
+- (2026-11-26) lastMoveTargetLoc vs RANDOM_TARGET_NOMINAL (don't-care, contract §6): PS stores the nominal random
+  target's loc; the engine does not draw it. Options: engine consumes the forced value / projection excludes the field.
+  Protected contract -> human decision.
 - (2026-10-24) ADR-106 proposed: kernel count grows linearly with content (~192k now, budget 10k); table-driven
   handler families recommended; the ADR-104 budget needs revisiting with the human.
 - (2026-10-24) ADR-105 proposed: canonicalise fractional randomChance numerators to ceil in draw-arg comparison.
