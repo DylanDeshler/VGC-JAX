@@ -26,14 +26,16 @@ def main():
     a = ap.parse_args()
     root = pathlib.Path(a.root).resolve()
     merged, out = root.parent / (root.name + "_merged"), root.parent / (root.name + "_merged_rep")
-    shutil.rmtree(merged, ignore_errors=True)
-    merged.mkdir()
+    if not a.report:                             # report mode must not touch a merged dir a live replay is reading
+        shutil.rmtree(merged, ignore_errors=True)
+        merged.mkdir()
     owner = {}                                   # battle_id -> corpus
     for d in sorted(p for p in root.iterdir() if p.is_dir() and not p.name.endswith("_rep")):
         if a.only and d.name not in a.only:
             continue
         for f in shard_files(d):
-            (merged / f"{d.name}__{f.name}").symlink_to(f)
+            if not a.report:
+                (merged / f"{d.name}__{f.name}").symlink_to(f)
             for b in iter_battles(f):
                 owner[b[0]["battle_id"]] = d.name
     print(f"merged {len(owner)} battles from {len(set(owner.values()))} corpora", flush=True)
