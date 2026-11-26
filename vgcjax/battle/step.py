@@ -570,6 +570,7 @@ def _step(st: S.State, actions, key, cfg, dex, forced):
     st = st.replace(meta=st.meta.replace(phase=jnp.where(((phase == S.SWITCH) | cont) & ~done, S.MOVE,
                                                          st.meta.phase).astype(I8)))
     st, rng = run_until_decision(st, dex, rng, cfg)
+    st = EV.flush_alias(st)
     meta = st.meta
     st = st.replace(meta=meta.replace(step_counter=meta.step_counter + 1, error_flags=meta.error_flags | rng.err))
     return st, rng

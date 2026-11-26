@@ -4,7 +4,7 @@
 #   1. RSS of the command's process group + descendants  > MEM_CAP_GB        (default 22)
 #   2. system available memory (kern.memorystatus_level) < MIN_AVAIL_PCT     (default 25 %)
 #   3. swap used grew by more than                         SWAP_GROW_GB      (default 2) since start
-#   4. compressed memory ("stored in compressor") grew by  COMP_GROW_GB      (default 4) since start
+#   4. compressed memory ("stored in compressor") grew by  COMP_GROW_GB      (default 8; macOS also compresses other apps) since start
 #   5. system-wide anonymous memory (resident anonymous + compressed + swap) grew by more than SYS_GROW_GB (default MEM_CAP_GB) since start:
 #      counts every byte the job allocates however macOS stores it (other apps' growth counts too: conservative)
 # Why the system-wide triggers: macOS RSS excludes compressed and swapped pages, so under memory pressure a process's
@@ -15,7 +15,7 @@ set -uo pipefail
 CAP_KB=$(( ${MEM_CAP_GB:-22} * 1024 * 1024 ))
 MIN_AVAIL=${MIN_AVAIL_PCT:-25}
 SWAP_GROW_MB=$(( ${SWAP_GROW_GB:-2} * 1024 ))
-COMP_GROW_PAGES=$(( ${COMP_GROW_GB:-4} * 1024 * 1024 * 1024 / $(pagesize) ))
+COMP_GROW_PAGES=$(( ${COMP_GROW_GB:-8} * 1024 * 1024 * 1024 / $(pagesize) ))
 
 swap_mb() { sysctl -n vm.swapusage | sed -E 's/.*used = ([0-9.]+)M.*/\1/' | cut -d. -f1; }
 comp_pages() { vm_stat | awk '/stored in compressor/ { gsub("\\.", "", $NF); print $NF }'; }
@@ -51,10 +51,10 @@ kill_all() {
   m=$(members); kill -KILL -- -"$ROOT" $m 2>/dev/null
 }
 
-peak=0; reason=""
+peak=0; peak_an=0; reason=""
 while kill -0 "$ROOT" 2>/dev/null; do
   cur=$(tree_rss); (( cur > peak )) && peak=$cur
-  av=$(avail_pct); sw=$(swap_mb); cp=$(comp_pages); an=$(( $(anon_mb) + sw - ANON0 ))
+  av=$(avail_pct); sw=$(swap_mb); cp=$(comp_pages); an=$(( $(anon_mb) + sw - ANON0 )); (( an > peak_an )) && peak_an=$an
   if   (( cur > CAP_KB ));                       then reason="tree rss ${cur} KB > ${CAP_KB} KB"
   elif (( an > CAP_MB ));                        then reason="system anonymous memory grew ${an} MB > ${CAP_MB} MB"
   elif (( av < MIN_AVAIL ));                     then reason="system available ${av}% < ${MIN_AVAIL}%"
@@ -66,5 +66,5 @@ while kill -0 "$ROOT" 2>/dev/null; do
 done
 wait "$ROOT" 2>/dev/null; rc=$?
 [[ -n $reason ]] && rc=137
-echo "memguard: peak rss $(( peak / 1024 )) MB (cap $(( CAP_KB / 1024 )) MB), exit $rc${reason:+ (killed: $reason)}" >&2
+echo "memguard: peak rss $(( peak / 1024 )) MB, peak system growth ${peak_an} MB (cap $(( CAP_KB / 1024 )) MB), exit $rc${reason:+ (killed: $reason)}" >&2
 exit $rc

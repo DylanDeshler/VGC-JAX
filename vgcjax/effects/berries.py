@@ -7,6 +7,7 @@ handler), '-enditem' X item '[eat]', singleEvent('Eat'), EatItem (none), lastIte
 """
 from __future__ import annotations
 
+import jax
 import jax.numpy as jnp
 
 from vgcjax.battle import events as EV
@@ -119,27 +120,34 @@ def update(st, dex, rng, on):
     alive = (act >= 0) & ~mget(st.mons.fainted, refs)
     spd = jnp.where(alive, mget(st.mons.speed, refs).astype(I32), -(1 << 20))
     order = jnp.argsort(-spd, stable=True)
-    for i in range(4):
+    # one traced copy of the handlers, looped over the 4 speed-sorted actives (an unrolled Python loop traced every
+    # onUpdate handler 4x per call site: compile size)
+    def body(i, carry):
+        st, rng = carry
         r = refs[order[i]]
+        on_i = on & alive[order[i]]
         m = st.mons
         hp, mx = mget(m.hp, r).astype(I32), mget(m.maxhp, r).astype(I32)
         from vgcjax.effects import batch_passive as BP_                   # attract onUpdate (volatile, subOrder 2)
-        st, rng = BP_.attract_update(st, dex, rng, r, on & alive[order[i]])
+        st, rng = BP_.attract_update(st, dex, rng, r, on_i)
         from vgcjax.effects import abilities as AB_                       # abilities' onUpdate first (subOrder 7)
-        st, rng = AB_.trace_update(st, dex, rng, r, on & alive[order[i]])
-        st, rng = BF.update_ability(st, dex, rng, r, on & alive[order[i]])          # Disguise
+        st, rng = AB_.trace_update(st, dex, rng, r, on_i)
+        st, rng = BF.update_ability(st, dex, rng, r, on_i)          # Disguise
         m = st.mons
         hp = mget(m.hp, r).astype(I32)
         if iid("sitrusberry") > 0:
             from vgcjax.effects import batch_damaging as BD         # onTryEatItem: runEvent('TryHeal') (Heal Block)
-            go = on & alive[order[i]] & holds(st, r, "sitrusberry") & (hp * 2 <= mx) & can_eat(st, r) & \
+            go = on_i & holds(st, r, "sitrusberry") & (hp * 2 <= mx) & can_eat(st, r) & \
                 ~BD.heal_blocked(st, r) & BR.berserk_try_eat(st, r)     # TryEatItem: Berserk (healing berry)
             st = eat_item(st, r, go)
             st, rng = STS.effect_heal(st, dex, rng, r, mx // 4, ieff("sitrusberry"), go)
         conf = CO.has_volatile(st, r, CO.cid("confusion")) if "confusion" in ids.CONDITIONS else False
-        st, rng = lum_eat(st, dex, rng, r, on & alive[order[i]] & ((mget(st.mons.status, r) > 0) | conf))
-        st, rng = BR.chesto_update(st, dex, rng, r, on & alive[order[i]])
-        st, rng = BF.update_item(st, dex, rng, r, on & alive[order[i]])             # Mental Herb
+        st, rng = lum_eat(st, dex, rng, r, on_i & ((mget(st.mons.status, r) > 0) | conf))
+        st, rng = BR.chesto_update(st, dex, rng, r, on_i)
+        st, rng = BF.update_item(st, dex, rng, r, on_i)             # Mental Herb
+        return st, rng
+
+    st, rng = jax.lax.fori_loop(0, 4, body, (st, rng))
     return st, rng
 
 

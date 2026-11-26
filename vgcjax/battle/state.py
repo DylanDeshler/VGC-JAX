@@ -279,6 +279,7 @@ class Events:
     last_move: jax.Array           # i32 absolute index of the last MOVE record (attrLastMove target), -1 = none
     alias: jax.Array               # i8[8] PS pokemon.illusion (Illusion): the ref protocol lines show for this mon
                                    #       (-1 = itself); only PublicEvents read it (effects/batch_forme.py)
+    fin: jax.Array                 # i32 records [0, fin) already have `alias` applied (events.flush_alias)
 
 
 @struct.dataclass
@@ -408,5 +409,6 @@ def empty_state(team: Team) -> State:
                   pw_bits=_z((), U32), pw_state=_z((NPW, 3), I16))
     return State(meta=meta, team=team, sides=sides, mons=empty_mons(), field=field, queue=empty_queue(),
                  scratch=empty_scratch(), events=Events(buf=_z((NE, 8), I16), count=_z((), I32), step_start=_z((), I32),
-                                                       last_move=_z((), I32, -1), alias=_z(8, I8, -1)),
+                                                       last_move=_z((), I32, -1), alias=_z(8, I8, -1),
+                                                       fin=_z((), I32)),
                  exec=empty_exec())

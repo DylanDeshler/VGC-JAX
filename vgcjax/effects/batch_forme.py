@@ -358,6 +358,8 @@ def mold_breaker_end(st, on):
 
 # ================================================================== Illusion (PublicEvents only)
 def _set_alias(st, ref, val, on):
+    from vgcjax.battle import events as EV
+    st = EV.flush_alias(st)                     # records so far keep the alias in force when they were written
     ev = st.events
     r = jnp.clip(jnp.asarray(ref, I32), 0, 7)
     hot = (jnp.arange(8) == r) & jnp.asarray(on)

@@ -113,18 +113,31 @@ def alias(st: S.State, ref):
     return jnp.where((ref >= 0) & (ref < 8) & (a >= 0), a, ref)
 
 
+def flush_alias(st: S.State) -> S.State:
+    """Apply the Illusion alias table to the records written since the last flush (actor column, except SIDESTART /
+    SIDEEND whose actor is a side, and target column). Called before every alias change (effects/batch_forme.py
+    _set_alias) and at the end of each step, so every record shows the alias in force when it was written; batching
+    it here instead of in emit keeps the traced program small (emit has ~45k call sites)."""
+    if not _ENABLED[0]:
+        return st
+    ev = st.events
+    j = jnp.arange(S.NE)
+    absolute = ev.count - 1 - (ev.count - 1 - j) % S.NE          # absolute index currently stored in slot j
+    pend = (absolute >= ev.fin) & (absolute < ev.count) & (absolute >= 0)
+    buf = ev.buf.astype(I32)
+    side_kind = (buf[:, 1] == EV_SIDESTART) | (buf[:, 1] == EV_SIDEEND)
+    actor = jnp.where(pend & ~side_kind, alias(st, buf[:, 2]), buf[:, 2])
+    target = jnp.where(pend, alias(st, buf[:, 3]), buf[:, 3])
+    buf = buf.at[:, 2].set(actor).at[:, 3].set(target).astype(I16)
+    return st.replace(events=ev.replace(buf=buf, fin=ev.count))
+
+
 def emit(st: S.State, on, kind, actor=-1, target=-1, move=0, v1=0, v2=0, flags=0) -> S.State:
+    """Append a record (raw refs; flush_alias applies Illusion aliases in a batch)."""
     if not _ENABLED[0]:
         return st
     ev = st.events
     on = jnp.asarray(on)
-    if isinstance(kind, int):                                            # SIDESTART / SIDEEND: actor = a side
-        actor = actor if kind in (EV_SIDESTART, EV_SIDEEND) or (isinstance(actor, int) and actor < 0) else \
-            alias(st, actor)
-    else:
-        kind_ = jnp.asarray(kind, I32)
-        actor = jnp.where((kind_ == EV_SIDESTART) | (kind_ == EV_SIDEEND), jnp.asarray(actor, I32), alias(st, actor))
-    target = target if isinstance(target, int) and target < 0 else alias(st, target)
     rec = jnp.stack([jnp.asarray(x, I32) for x in (st.meta.turn, kind, actor, target, move, v1, v2, flags)]).astype(I16)
     # one-hot select instead of a dynamic-index scatter: elementwise, so it vectorises under vmap (CPU scatter is serial)
     hot = (jnp.arange(S.NE) == ev.count % S.NE) & on
@@ -187,7 +200,9 @@ def patch(st: S.State, idx, on, or_flags=0, v1=None, target=None) -> S.State:
     if v1 is not None:
         buf = jnp.where(hot & (col == 5), jnp.asarray(v1, I16), buf)
     if target is not None:
-        buf = jnp.where(hot & (col == 3), alias(st, target).astype(I16), buf)
+        flushed = idx < ev.fin                     # an already-aliased record takes the alias now; else flush does it
+        tgt = jnp.where(flushed, alias(st, target), jnp.asarray(target, I32))
+        buf = jnp.where(hot & (col == 3), tgt.astype(I16), buf)
     return st.replace(events=ev.replace(buf=buf))
 
 
