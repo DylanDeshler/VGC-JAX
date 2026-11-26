@@ -134,6 +134,7 @@ def update(st, dex, rng, on):
         from vgcjax.effects import abilities as AB_                       # abilities' onUpdate first (subOrder 7)
         st, rng = AB_.trace_update(st, dex, rng, r, on_i)
         st = AB_.status_cure_update(st, r, on_i)                         # Limber / Insomnia / ... onUpdate
+        st, rng = AB_.volatile_cure_update(st, dex, rng, r, on_i)        # Own Tempo / Oblivious onUpdate
         st, rng = BF.update_ability(st, dex, rng, r, on_i)          # Disguise
         m = st.mons
         hp = mget(m.hp, r).astype(I32)

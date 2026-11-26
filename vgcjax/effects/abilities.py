@@ -321,3 +321,29 @@ def status_cure_update(st, r, on):
     go = jnp.asarray(on) & go & (mget(st.mons.hp, r) > 0)
     st = EV.emit(st, go, EV.EV_ACTIVATE, actor=r, move=eff)
     return STS.cure_status(st, r, go)
+
+
+def volatile_cure_update(st, dex, rng, r, on):
+    """Own Tempo onUpdate (data/abilities.ts:3146-3151): confusion -> '-activate' X 'ability: Own Tempo',
+    removeVolatile('confusion'). Oblivious onUpdate (:3010-3021): attract -> '-activate', removeVolatile, '-end' X
+    'move: Attract' '[from] ability: Oblivious'; taunt -> '-activate', removeVolatile (taunt's own '-end').
+    Reached when the volatile got past TryAddVolatile (e.g. a Mold Breaker attacker). Returns (st, rng)."""
+    r = jnp.clip(jnp.asarray(r, I32), 0, 7)
+    on = jnp.asarray(on) & (mget(st.mons.hp, r) > 0)
+    ab = mget(st.mons.ability, r).astype(I32)
+    if aid("owntempo") > 0 and "confusion" in ids.CONDITIONS:
+        c = CO.cid("confusion")
+        go = on & (ab == aid("owntempo")) & CO.has_volatile(st, r, c)
+        st = EV.emit(st, go, EV.EV_ACTIVATE, actor=r, move=aeff("owntempo"))
+        st, rng, _ = CO.remove_volatile(st, dex, rng, r, c, go)
+    if aid("oblivious") > 0:
+        for v in ("attract", "taunt"):
+            if v not in ids.CONDITIONS:
+                continue
+            c = CO.cid(v)
+            go = on & (ab == aid("oblivious")) & CO.has_volatile(st, r, c)
+            st = EV.emit(st, go, EV.EV_ACTIVATE, actor=r, move=aeff("oblivious"))
+            st, rng, _ = CO.remove_volatile(st, dex, rng, r, c, go)
+            if v == "attract":
+                st = EV.emit(st, go, EV.EV_END, actor=r, move=CO.eff("attract"), v1=aeff("oblivious"))
+    return st, rng
