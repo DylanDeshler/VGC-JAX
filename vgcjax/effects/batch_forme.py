@@ -293,7 +293,8 @@ MENTAL_HERB_CONDS = ("attract", "taunt", "encore", "torment", "disable", "healbl
 def mental_herb(st, dex, rng, r, on):
     """Mental Herb onUpdate (data/items.ts:3927-3941): the first of attract / taunt / encore / torment / disable /
     healblock present -> useItem() ('-enditem' X 'Mental Herb'), then removeVolatile of each in that order (their
-    End messages; attract adds '-end' X 'move: Attract' '[from] item: Mental Herb': no Attract in Reg M-C).
+    End messages; when attract was the first found, '-end' X 'move: Attract' '[from] item: Mental Herb' follows its
+    removal: Cute Charm's attract).
     Returns (st, rng)."""
     if iid("mentalherb") <= 0:
         return st, rng
@@ -305,9 +306,13 @@ def mental_herb(st, dex, rng, r, on):
         anyv = anyv | CO.has_volatile(st, rr, CO.cid(c))
     m = st.mons
     go = jnp.asarray(on) & holds(st, rr, "mentalherb") & anyv & (mget(m.hp, rr) > 0) & mget(m.is_active, rr)
+    first_attract = CO.has_volatile(st, rr, CO.cid("attract")) if "attract" in conds else jnp.zeros((), bool)
     st = IT.use_item(st, rr, go)
     for c in conds:
         st, rng, _ = CO.remove_volatile(st, dex, rng, rr, CO.cid(c), go & CO.has_volatile(st, rr, CO.cid(c)))
+        if c == "attract":           # (data/items.ts:3934-3936) after attract's own silent '-end'
+            st = EV.emit(st, go & first_attract, EV.EV_END, actor=rr, move=CO.eff("attract"),
+                         v1=ieff("mentalherb"))
     return st, rng
 
 

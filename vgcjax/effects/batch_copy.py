@@ -88,17 +88,7 @@ if mid("psychup") > 0:
         t, u = jnp.clip(hc.target, 0, 7), jnp.clip(hc.source, 0, 7)
         m = st.mons
         st = st.replace(mons=m.replace(boosts=mset(m.boosts, u, mget(m.boosts, t), True)))
-        crit = [v for v in ("dragoncheer", "focusenergy") if v in ids.CONDITIONS]
-        had = {v: CO.has_volatile(st, t, CO.cid(v)) for v in crit}
-        for v in crit:
-            st, rng, _ = CO.remove_volatile(st, dex, rng, u, CO.cid(v), CO.has_volatile(st, u, CO.cid(v)))
-        for v in crit:
-            c = CO.cid(v)
-            st, rng, _ = CO.add_volatile(st, dex, rng, u, c, had[v], source=u, source_effect=C.eff_move(mid("psychup")))
-            if v == "dragoncheer":
-                sl = CO.slot_of("dragoncheer", "hasDragonType")
-                st = CO.set_vol_field(st, u, c, sl, CO.vol_state(st, t, c)[sl].astype(I32),
-                                      had[v] & CO.has_volatile(st, u, c))
+        st = copy_crit_volatiles(st, u, t, True)
         st = EV.emit(st, True, EV.EV_COPYBOOST, actor=u, target=t, move=C.eff_move(mid("psychup")))
         return hc, st, rng
 
@@ -191,14 +181,43 @@ def transform_ok(st, u, t):
     return (t >= 0) & ~mget(m.fainted, tc) & ~sub & ~mget(m.transformed, tc) & ~mget(m.transformed, u) & ~ill
 
 
+
+def copy_crit_volatiles(st, u, t, on):
+    """Psych Up onHit / transformInto (data/moves.ts:14223-14233, sim/pokemon.ts:1353-1361): every crit volatile
+    ['dragoncheer', 'focusenergy', 'gmaxchistrike', 'laserfocus'] is removed from `u` (no End handlers), then each
+    one `t` holds is added to `u` in that order (initEffectState: effectOrder++; its onStart prints '-start' ...
+    '[silent]': the same START record), dragoncheer copying hasDragonType. No durations, fields or draws are
+    involved, so this needs no rng. No G-Max Chi Strike / Laser Focus in Reg M-C. Returns st."""
+    crit = [v for v in ("dragoncheer", "focusenergy") if v in ids.CONDITIONS]
+    if not crit:
+        return st
+    u = jnp.clip(jnp.asarray(u, I32), 0, 7)
+    t = jnp.clip(jnp.asarray(t, I32), 0, 7)
+    on = jnp.asarray(on)
+    had = {v: CO.has_volatile(st, t, CO.cid(v)) for v in crit}
+    for v in crit:
+        c = CO.cid(v)
+        st = CO._set_vol_bit(st, u, c, False, on)
+        st = CO.set_vol_state(st, u, c, jnp.zeros_like(CO.vol_state(st, u, c)), on)
+    for v in crit:
+        c = CO.cid(v)
+        go = on & had[v] & (mget(st.mons.hp, u) > 0)
+        st = CO._set_vol_bit(st, u, c, True, go)
+        st = CO.next_effect_order(st, go & mget(st.mons.is_active, u))
+        st = EV.emit(st, go, EV.EV_START, actor=u, move=CO.eff(v), v1=-1)
+        if v == "dragoncheer":
+            sl = CO.slot_of("dragoncheer", "hasDragonType")
+            st = CO.set_vol_field(st, u, c, sl, CO.vol_state(st, t, c)[sl].astype(I32), go)
+    return st
+
+
 def transform_into(st, dex, u, t, on, effect=-1):
     """PS: sim/pokemon.ts:1291-1404 transformInto(target, effect) once the guard passed: setSpecies(target species,
     isTransform) (types, weight, storedStats from the species with the user's own set; speed = that Spe:
     battle/switching.py set_species), transformed = true, weighthg, setType(target.getTypes(true, true)) (a roosting
     target: its species' types, the engine's stand-in for roost.typeWas), addedType, storedStats := the target's
     (speed keeps the setSpecies value), moveSlots := the target's moves with pp = maxpp = min(5, move.pp) (the
-    user's baseMoveSlots pp / disabled are kept in base_slots), timesAttacked, boosts; the crit volatiles (none in
-    the impl stage); '-transform' X target ['[from] ability: Imposter'] (TRANSFORM); setAbility(target.ability,
+    user's baseMoveSlots pp / disabled are kept in base_slots), timesAttacked, boosts; the crit volatiles (copy_crit_volatiles); '-transform' X target ['[from] ability: Imposter'] (TRANSFORM); setAbility(target.ability,
     this, null, true, true): no cantsuppress / SetAbility checks, singleEvent('End', old) (effects/abilities.py
     end_vec), new ability + abilityState, no message, Start(new) only if it differs (returned; the caller runs it).
     Returns (st, start: bool)."""
@@ -227,6 +246,7 @@ def transform_into(st, dex, u, t, on, effect=-1):
                   move_used=mset(m.move_used, u, jnp.zeros(4, bool), on),
                   times_attacked=mset(m.times_attacked, u, t_ta, on), boosts=mset(m.boosts, u, t_boosts, on))
     st = st.replace(mons=m)
+    st = copy_crit_volatiles(st, u, t, on)                  # sim/pokemon.ts:1353-1361, before '-transform'
     st = EV.emit(st, on, EV.EV_TRANSFORM, actor=u, target=t, move=effect)
     go = on & (mget(st.mons.hp, u) > 0)                                    # setAbility: if (!this.hp) return false
     st = AB.end_vec(st, u[None], go[None])
