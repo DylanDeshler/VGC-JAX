@@ -320,6 +320,8 @@ def residual(st, dex, rng, h, on):
     st, _ = MP.boost(st, r, jnp.zeros(7, I32).at[4].set(1), go, source=-2, ab_msg=aeff("speedboost"), simple=True)
     from vgcjax.effects import batch_passive as BP
     st, rng = BP.healer(st, dex, rng, r, on)                            # [C] Healer (order 5, sub 3)
+    from vgcjax.effects import batch7b as B7                          # Shed Skin (order 5, sub 3)
+    st, rng = B7.shed_skin(st, dex, rng, r, on)
     from vgcjax.effects import batch_reactive as BR                   # Moody / Cud Chew (order 28, subOrder 2)
     return BR.residual(st, dex, rng, r, on)
 

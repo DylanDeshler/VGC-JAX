@@ -158,6 +158,8 @@ def switch_in_vec(st, dex, rng, u, on, start=False, _traced=False):
                      move=ids.ITEM_BASE + it - 1, v1=aeff("frisk"), flags=EV.F_FROM_ABILITY)
     from vgcjax.effects import batch_reactive as BR       # Mold Breaker / Supreme Overlord onStart
     st = BR.switch_in(st, r, ab, on)
+    from vgcjax.effects import batch7b as B7              # Gluttony onStart
+    st = B7.switch_in(st, r, ab, on)
     if aid("trace") > 0 and not _traced:      # Trace onStart: seek = true (no No Ability / Ability Shield in Reg
         tr = is_("trace")                     # M-C), then singleEvent('Update')
         st = set_state_field(st, r, "trace", "seek", 1, tr)

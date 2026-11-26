@@ -323,6 +323,14 @@ M3 content (2026-10-23)
   meta.faint_src; AfterFaint after checkWin), Supreme Overlord ('-start' / '-end' fallenN mapped in harness/events.py,
   BasePower powMod), Mold Breaker (mask: breakable abilities of the other actives -> 0 from ModifyMove to the move's
   end / the mover's faint; mons.mold_saved), Chesto Berry (Update / Eat). abilityState kind "item" in harness/project.py.
+- Batch 7b (effects/batch7b.py; trace check + op count only, corpora pending): Stalwart (tracksTarget also gates
+  getMoveTargets' RedirectTarget; + Skarmorite via the Mega rule), Heatproof (Fire ModifyAtk/SpA x0.5, brn damage / 2),
+  Magic Guard (Damage event false for every non-Move effect at statuses.effect_damage + recoil / Steel Beam in
+  apply_recoil; '-activate' for Rough Skin), Rivalry, Fur Coat, Gluttony (abilityState.gluttony on Start / Damage; no
+  pinch berry is legal), Shed Skin (ABILITY_RESIDUAL_PROC), Quick Draw / Quick Claw (FRAC_PRIO draws in
+  queue.frac_priority, which now returns st), Big Root (drain incl. substitute drain, Strength Sap, Leech Seed),
+  Pickpocket / Red Card (AfterMoveSecondary after the per-target loop, targets in speed order, one fori_loop).
+  op_count 1,997,360 -> 2,014,856 (+0.9%).
 - CPU testing: scripts/memguard.sh caps the process tree (default cap 22 GB, 1 worker).
 - scripts/regress/run.py + suite.txt: the regression suite as one command (generate + replay + SUMMARY.txt),
   runnable on a bigger machine (replay is CPU-bound: one battle per process).

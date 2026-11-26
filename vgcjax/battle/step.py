@@ -134,7 +134,7 @@ def commit_move(st, dex, rng, actions, on):
             st = C.mul_tick(st, (occ & is_move & mega).astype(I32) + (occ & (is_move | is_switch)).astype(I32) +
                             pcc.astype(I32))
             loc = resolve_loc(st, dex, u, mid, loc)
-            frac, rng = Q.frac_priority(st, dex, rng, u, mid, occ & is_move)
+            st, frac, rng = Q.frac_priority(st, dex, rng, u, mid, occ & is_move)
             prio = 10 * Q.move_priority(st, dex, u, mid) + frac
             orig = MP.at_loc(st, u, loc)
             st = Q.add_entry(st, occ & is_move, kind=S.Q_MOVE, side=side, b=b, priority10=prio, frac10=frac, speed=spd,
