@@ -78,7 +78,7 @@ def emit_fixtures(files, results, n, out_dir, stage, canary=False):
 
 
 def _worker(args):
-    files, stage, w, nw, limit, check_masks, canary, micro_steps = args
+    files, stage, w, nw, limit, check_masks, canary, micro_steps, per_file = args
     os.environ.setdefault("JAX_PLATFORMS", "cpu")
     from harness.replay_one import replay_battle, split_battles
     cfg = _cfg(stage, canary, micro_steps)
@@ -90,9 +90,11 @@ def _worker(args):
     from harness.corpus import split_frames
     dz = zstandard.ZstdDecompressor()
     for f in files:
-        for fr in split_frames(_pl.Path(f).read_bytes()):
+        for fi, fr in enumerate(split_frames(_pl.Path(f).read_bytes())):
             if limit is not None and gi >= limit:
                 return out
+            if per_file is not None and fi >= per_file:
+                break                     # gi stays a global index over the battles kept
             if gi % nw == w:
                 b = [orjson.loads(l) for l in dz.decompress(fr, max_output_size=1 << 30).splitlines() if l]
                 h = b[0]
@@ -169,8 +171,8 @@ def cmd_replay(a):
     t0 = time.time()
     ctx = mp.get_context("spawn")
     with ctx.Pool(a.workers) as pool:
-        parts = pool.map(_worker, [(files, a.stage, w, a.workers, a.limit, not a.no_masks, a.canary, a.micro_steps)
-                                    for w in range(a.workers)])
+        parts = pool.map(_worker, [(files, a.stage, w, a.workers, a.limit, not a.no_masks, a.canary, a.micro_steps,
+                                     a.per_file) for w in range(a.workers)])
     results = sorted((r for p in parts for r in p), key=lambda r: r["index"])
     summ = summarize(results)
     summ["seconds"] = round(time.time() - t0, 1)
@@ -194,6 +196,7 @@ def main():
     r.add_argument("--stage", default="core")
     r.add_argument("--workers", type=int, default=8)
     r.add_argument("--limit", type=int, default=None)
+    r.add_argument("--per-file", type=int, default=None, help="replay only the first N battles of each shard")
     r.add_argument("--out", default=None)
     r.add_argument("--no-masks", action="store_true")
     r.add_argument("--fixtures", type=int, default=0)

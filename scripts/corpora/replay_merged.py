@@ -22,6 +22,7 @@ def main():
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--only", nargs="*", help="corpus names to include (default: all)")
     ap.add_argument("--dry", action="store_true", help="merge only; no engine")
+    ap.add_argument("--per-file", type=int, default=None, help="first N battles of each shard (a sample)")
     ap.add_argument("--report", default=None, help="summarize an existing replay output dir (no replay)")
     a = ap.parse_args()
     root = pathlib.Path(a.root).resolve()
@@ -45,7 +46,7 @@ def main():
         out, rc = pathlib.Path(a.report), 0
     else:
         rc = subprocess.call([sys.executable, "-m", "harness.cli", "replay", str(merged), "--workers", str(a.workers),
-                              "--out", str(out)])
+                              "--out", str(out)] + (["--per-file", str(a.per_file)] if a.per_file else []))
     res = [json.loads(l) for l in open(out / "results.jsonl")]
     by = collections.defaultdict(list)
     for r in res:
