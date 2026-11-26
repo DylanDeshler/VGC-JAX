@@ -219,7 +219,7 @@ if mid("encore") > 0 and has("encore"):
         tside = jnp.clip(tgt, 0, 7) // 4
         tloc = jnp.where(tgt < 0, 0, jnp.where(tside == r // 4, -(MP.position(st, tgt) + 1), MP.position(st, tgt) + 1))
         st = C_.mul_tick(st, 2, change)                 # updateSpeed + resolveAction's getActionSpeed (ModifySpe x2)
-        frac, rng = Q.frac_priority(st, dex, rng, r, move, change)
+        st, frac, rng = Q.frac_priority(st, dex, rng, r, move, change)
         prio = 10 * Q.move_priority(st, dex, r, move) + frac
         st = st.replace(scratch=st.scratch.replace(step_tag=tag0))
         st = Q.add_entry(st, change, kind=S.Q_MOVE, side=r // 4, b=r % 4, priority10=prio, frac10=frac,
@@ -644,7 +644,7 @@ if mid("strengthsap") > 0:
         atk = ST.boosted(mget(m.stats, t)[0].astype(I32), b0)
         st, br = MP.boost(st, t, jnp.zeros(7, I32).at[0].set(-1), ~floor, primary=False, source=u,
                           effect=C.eff_move(mid("strengthsap")))
-        st, hr = MP.battle_heal(st, jnp.clip(u, 0, 7), atk, ~floor)
+        st, hr = MP.battle_heal(st, jnp.clip(u, 0, 7), atk, ~floor, big_root=True)   # Big Root (TryHeal)
         ok = RS.truthy(hr) | RS.truthy(br)
         return hc.ret(RS.where(floor, RS.R(RS.BOOL, 0), RS.R(RS.BOOL, ok.astype(I32)))), st, rng
 

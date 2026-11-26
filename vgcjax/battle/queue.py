@@ -96,10 +96,10 @@ def move_priority(st: S.State, dex, ref, move_id):
 
 
 def frac_priority(st: S.State, dex, rng, ref, move_id, on):
-    """runEvent('FractionalPriority') at resolve, x10 (Stall -0.1; Quick Claw / Quick Draw join with items/abilities).
-    PS: sim/battle-queue.ts:249, data/abilities.ts:4498 (Stall)."""
-    stall = mget(st.mons.ability, ref) == ids.ABILITY_STALL
-    return jnp.where(stall, -1, 0), rng
+    """runEvent('FractionalPriority') at resolve, x10: Stall -0.1, Quick Draw / Quick Claw +0.1 (draws and
+    '-activate' lines: effects/batch7b.py). PS: sim/battle-queue.ts:249. Returns (st, frac10, rng)."""
+    from vgcjax.effects import batch7b as B7
+    return B7.frac_priority(st, dex, rng, ref, move_id, on)
 
 
 def rekey(st: S.State, dex, on) -> S.State:

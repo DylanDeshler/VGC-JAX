@@ -143,6 +143,9 @@ def effect_damage(st, dex, rng, target, amount, effect, on, source=-1):
     st = BR.berserk_damage(st, jnp.asarray(target, I32)[None], on[None], jnp.asarray(effect) != CO.eff("confusion"))
     from vgcjax.effects import batch_forme as BF          # runEvent('Damage'): Disguise (confusion)
     st, amount, _ = BF.effect_damage_hook(st, target, amount, effect, on)
+    from vgcjax.effects import batch7b as B7              # runEvent('Damage'): Magic Guard (false), Heatproof (brn / 2)
+    st, amount, mg = B7.damage_event(st, target, amount, effect, on, source)
+    on = on & ~mg
     st, dealt = F.damage(st, target, amount, on & (amount > 0))
     m = st.mons
     st = st.replace(mons=m.replace(hurt_this_turn=mset(m.hurt_this_turn, target, mget(m.hp, target), on & (dealt != 0))))

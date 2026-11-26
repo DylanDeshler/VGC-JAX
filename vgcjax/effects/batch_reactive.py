@@ -236,6 +236,8 @@ def moxie(st, src, length, on):
 def berserk_damage(st, refs, on, checked):
     """[C] berserk.onDamage (ch/abilities.ts:12-17): effectState.checkedBerserk = !(effect is a Move without
     multihit). `checked`: scalar / [T] value for this damage."""
+    from vgcjax.effects import batch7b as B7          # the same runEvent('Damage') sites: Gluttony onDamage
+    st = B7.gluttony_damage(st, refs, on)
     if not _has("berserk"):
         return st
     refs = jnp.asarray(refs, I32)

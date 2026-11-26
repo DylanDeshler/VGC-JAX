@@ -193,10 +193,11 @@ def get_move_targets(st, dex, rng, u, move, target, on, mtype=None):
     t2 = jnp.where(retarget, rnd, t)
     # priorityEvent('RedirectTarget') (activePerHalf > 1, not tracksTarget): Follow Me / Rage Powder; a redirect clears
     # smartTarget and retargets the move line (effects/disables.py)
+    from vgcjax.effects import batch7b as B7
     from vgcjax.effects import disables as DS
     single_tt = _in(tt, SINGLE_TARGET)
     t_red, red, st = DS.redirect_target(st, dex, u, move, t2, jnp.asarray(on) & single_tt & (t2 >= 0) &
-                                        (dex.move_tracks_target[move] != 1), mtype=mtype)
+                                        ~B7.tracks_target(st, dex, u, move), mtype=mtype)   # + Stalwart
     red = red & (t_red != t2)
     t2 = t_red
     smart = (dex.move_smart_target[move] == 1) & ~red
@@ -415,12 +416,16 @@ def boost(st, target, deltas7, on, order=None, primary=False, source=-1, effect=
     return st, (r[0][0], r[1][0])
 
 
-def battle_heal(st, target, amount, on, drain_of=None):
+def battle_heal(st, target, amount, on, drain_of=None, big_root=False):
     """PS: sim/battle.ts heal(damage, target, ...): (st, result) with result tag NUM (healed) or BOOL false.
-    Message (PS :2293-2305): '-heal' target hp, with '[from] drain' '[of] source' for drain."""
+    Message (PS :2293-2305): '-heal' target hp, with '[from] drain' '[of] source' for drain. `big_root`: the effect is
+    one Big Root's onTryHeal boosts (Strength Sap, drain; effects/batch7b.py)."""
     m = st.mons
     amount = jnp.asarray(amount, I32)
     amount = jnp.where((amount > 0) & (amount <= 1), 1, amount)
+    if big_root or drain_of is not None:
+        from vgcjax.effects import batch7b as B7                       # runEvent('TryHeal'): Big Root
+        amount = B7.big_root(st, target, amount)
     hp = mget(m.hp, target)
     ok = jnp.asarray(on) & (amount != 0) & (hp > 0) & mget(m.is_active, target) & (hp < mget(m.maxhp, target))
     ok = ok & ~BD.heal_blocked(st, target)                             # runEvent('TryHeal'): Heal Block -> false
@@ -795,6 +800,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     act_u = mget(m.is_active, u)
     healed = jnp.zeros((), bool)
     hb_u = BD.heal_blocked(st, u)                                      # drain's TryHeal: Heal Block
+    from vgcjax.effects import batch7b as B7
     for j in range(NT):
         st = EV.emit(st, dsg[j], EV.EV_ACTIVATE, actor=targets[j], move=BF.aeff("disguise"))
         st = EV.emit(st, stu[j], EV.EV_ABILITY, actor=targets[j], move=T.ABILITY_BASE + opt_id("ABILITY_STURDY") - 1)
@@ -802,6 +808,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         pct, col = EV.hp_public(new_hp[j], mx_t[j])
         st = EV.emit(st, go[j], EV.EV_DAMAGE, actor=targets[j], v1=pct, v2=col)  # PS: sim/battle.ts:2171
         a = (2 * dealt[j] * drain_n + drain_d) // (2 * drain_d)                    # Math.round
+        a = B7.big_root(st, u, a, drain_n > 0)                         # heal(..., 'drain'): TryHeal Big Root
         ok = go[j] & (dealt[j] > 0) & (drain_n > 0) & (a != 0) & (hp_u > 0) & act_u & (hp_u < mx_u) & ~hb_u
         hp_u = jnp.where(ok, jnp.minimum(mx_u, hp_u + a), hp_u)
         pu, cu = EV.hp_public(hp_u, mx_u)
@@ -1565,6 +1572,8 @@ def move_end(st, dex, rng, cfg):
                                   on=some & still[j] & (targets[j] >= 0))
         from vgcjax.effects import batch_reactive as BR                 # Berserk onAfterMoveSecondary
         st = BR.berserk_after_move_secondary(st, dex, targets[j], u, move, ex, some & still[j] & (targets[j] >= 0))
+    from vgcjax.effects import batch7b as B7                            # Pickpocket / Red Card (priority 0)
+    st, rng = B7.after_move_secondary(st, dex, rng, targets, u, move, some & still)
     # [C] scripts.ts:577-584: runEvent('EmergencyExit') per target with a numeric damage and hp: the hp before the
     # move = hurtThisTurn + damage (one target: move.totalDamage)
     from vgcjax.effects import ability_reactions as AR
@@ -1671,6 +1680,8 @@ def apply_recoil(st, dex, u, move, total, on):
     has = struggle | (rn > 0) | mind
     # Rock Head onDamage: recoil (not Struggle's) -> null
     rock = ~struggle & ~mind & (mget(m.ability, u) == opt_id("ABILITY_ROCKHEAD"))
+    from vgcjax.effects import batch7b as B7                           # Magic Guard onDamage: recoil / Steel Beam
+    rock = rock | (~struggle & B7.magic_guard(st, u))
     m = st.mons
     on = jnp.asarray(on) & has & ~rock & (mget(m.hp, u) > 0)
     # struggle: directDamage (no Damage event); recoil: battle.damage(..., 'recoil') -> spreadDamage (HOOK H21)
