@@ -129,10 +129,14 @@ def commit_move(st, dex, rng, actions, on):
             # Reception, effects/batch_utility.py), then the move (order 200); each resolved action's getActionSpeed
             from vgcjax.effects import batch_utility as BU
             pcc = occ & is_move & BU.has_priority_charge(mid)
+            # beforeTurnMove (order 5, PS sim/battle-queue.ts:205-209): Counter / Mirror Coat (effects/batch7c.py)
+            from vgcjax.effects import batch7c as B7
+            btm = occ & is_move & B7.has_before_turn(mid)
             st = Q.add_entry(st, occ & is_move & mega, kind=S.Q_MEGA, side=side, b=b, speed=spd)
             st = Q.add_entry(st, pcc, kind=S.Q_PRIORITY_CHARGE, side=side, b=b, speed=spd, move_id=mid)
+            st = Q.add_entry(st, btm, kind=S.Q_BEFORE_TURN_MOVE, side=side, b=b, speed=spd, move_id=mid)
             st = C.mul_tick(st, (occ & is_move & mega).astype(I32) + (occ & (is_move | is_switch)).astype(I32) +
-                            pcc.astype(I32))
+                            pcc.astype(I32) + btm.astype(I32))
             loc = resolve_loc(st, dex, u, mid, loc)
             st, frac, rng = Q.frac_priority(st, dex, rng, u, mid, occ & is_move)
             prio = 10 * Q.move_priority(st, dex, u, mid) + frac
@@ -221,8 +225,12 @@ def run_light(st, dex, rng, cfg, idx, on, tail=False):
     # priorityChargeMove (PS :2792-2797): move.priorityChargeCallback(pokemon) (effects/batch_utility.py)
     from vgcjax.effects import batch_utility as BU
     pc = on & (kind == S.Q_PRIORITY_CHARGE)
-    st, rng = BU.priority_charge(st, dex, rng, ref, q.move_id[idx], pc)
-    unsupported = on & ((kind == S.Q_BEFORE_TURN_MOVE) | (pc & ~BU.has_priority_charge(q.move_id[idx])))
+    # beforeTurnMove (PS :2783-2791): move.beforeTurnCallback (Counter / Mirror Coat, effects/batch7c.py); both
+    # actions' callbacks are one addVolatile (the move picks the condition)
+    from vgcjax.effects import batch7c as B7
+    btm = on & (kind == S.Q_BEFORE_TURN_MOVE)
+    st, rng = BU.priority_charge(st, dex, rng, ref, q.move_id[idx], pc | btm)
+    unsupported = on & ((btm & ~B7.has_before_turn(q.move_id[idx])) | (pc & ~BU.has_priority_charge(q.move_id[idx])))
     st = or_flag(st, E.ERR_UNSUPPORTED_EFFECT, unsupported)
     return st, rng
 
@@ -413,8 +421,10 @@ def end_turn(st, dex, cfg, on) -> S.State:
             from vgcjax.effects import volatiles as VO
             m = st.mons
             from vgcjax.effects import batch_utility as BU      # the trapped volatile (No Retreat): tryTrap()
+            from vgcjax.effects import batch7c as B7            # Octolock onTrapPokemon: tryTrap()
             st = st.replace(mons=m.replace(trapped=mset(m.trapped, r, 1, ev_on & (VO.partially_trapped(st, r) |
-                                                                                    BU.trapped_volatile(st, dex, r)))))
+                                                                                    BU.trapped_volatile(st, dex, r) |
+                                                                                    B7.octolock_trapped(st, r)))))
             m = st.mons
             st = st.replace(mons=m.replace(trapped=mset(m.trapped, r, 2, ev_on & AR.shadow_tagged(st, dex, r) &
                                                          (mget(m.trapped, r) == 0))))

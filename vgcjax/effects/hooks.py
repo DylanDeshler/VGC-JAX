@@ -110,11 +110,24 @@ def dispatch(hook: int, prefix: int | None = None):
     use). Under vmap every switch branch executes, so unreachable branches are pure cost (ADR-107)."""
     hs = [h for h in registered(hook, prefix) if not (ids.MOVE_BASE <= h.effect < ids.MOVE_BASE + len(ids.MOVES) - 1)]
     effs = jnp.asarray([h.effect for h in hs] or [-10**6], I32)
+    fns, pos = _unique_fns(hs)
+    fidx = jnp.asarray([pos[h.fn] for h in hs] or [0], I32)
 
     def local(e):
         hit = jnp.asarray(e, I32) == effs
-        return jnp.where(jnp.any(hit), jnp.argmax(hit) + 1, 0)
-    return local, [h.fn for h in hs]
+        return jnp.where(jnp.any(hit), fidx[jnp.argmax(hit)], 0)
+    return local, fns
+
+
+def _unique_fns(hs):
+    """One switch branch per distinct handler function (effects sharing a template, e.g. Protect / Detect / Endure's
+    stall handlers, share it: the branch reads hc.cur_effect). Returns (fns, {fn: 1-based branch index})."""
+    fns, pos = [], {}
+    for h in hs:
+        if h.fn not in pos:
+            fns.append(h.fn)
+            pos[h.fn] = len(fns)
+    return fns, pos
 
 
 # ------------------------------------------------------------------ event context and dispatch

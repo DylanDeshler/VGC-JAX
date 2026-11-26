@@ -360,21 +360,21 @@ def swap_position(st, dex, rng, u, on, from_eff):
 
 # ------------------------------------------------------------------ Chilly Reception (data/moves.ts:2396-2420)
 def has_priority_charge(move_id):
-    """move.priorityChargeCallback (sim/battle-queue.ts:236-242 resolveAction): Chilly Reception is the only one the
-    engine implements (Focus Punch / Shell Trap / Beak Blast stay outside the impl stage)."""
+    """move.priorityChargeCallback (sim/battle-queue.ts:236-242 resolveAction): Chilly Reception and Focus Punch
+    (effects/batch7c.py); Shell Trap / Beak Blast stay outside the impl stage."""
+    out = jnp.asarray(move_id) == mid("focuspunch")         # Focus Punch: effects/batch7c.py
     if mid("chillyreception") <= 0:
-        return jnp.zeros(jnp.shape(move_id), bool)
-    return jnp.asarray(move_id) == mid("chillyreception")
+        return out
+    return out | (jnp.asarray(move_id) == mid("chillyreception"))
 
 
 def priority_charge(st, dex, rng, ref, move_id, on):
     """The priorityChargeMove action (sim/battle.ts:2792-2797): chillyreception.priorityChargeCallback ->
-    source.addVolatile('chillyreception') (data/moves.ts:2405-2407; duration 1, no Start). Returns (st, rng)."""
-    if not (mid("chillyreception") > 0 and has("chillyreception")):
-        return st, rng
-    go = jnp.asarray(on) & has_priority_charge(move_id) & (jnp.asarray(ref) >= 0)
-    st, rng, _ = CO.add_volatile(st, dex, rng, jnp.maximum(ref, 0), CO.cid("chillyreception"), go)
-    return st, rng
+    source.addVolatile('chillyreception') (data/moves.ts:2405-2407; duration 1, no Start); Focus Punch's ->
+    addVolatile('focuspunch'). One addVolatile shared with the beforeTurnMove action (effects/batch7c.py
+    light_volatile; the caller passes both actions' `on`). Returns (st, rng)."""
+    from vgcjax.effects import batch7c as B7
+    return B7.light_volatile(st, dex, rng, ref, move_id, on)
 
 
 if mid("chillyreception") > 0 and has("chillyreception"):

@@ -200,15 +200,16 @@ def single_event(hook: int, effect, st, dex, rng, hc: H.HookCtx, on, prefix=ids.
     hc = hc.replace(cur_effect=jnp.asarray(effect, I32), ret_t=jnp.asarray(RS.UNDEF, I32), ret_v=jnp.zeros((), I32))
     if not hs:
         return hc, st, rng
+    fns, pos = H._unique_fns(hs)                         # one branch per distinct handler function
     idx = jnp.zeros((), I32)
-    for i, h in enumerate(hs):
+    for h in hs:
         hit = jnp.asarray(effect, I32) == h.effect
         if not static_prefix:
             hit = hit & (jnp.asarray(prefix, I32) == h.prefix)
-        idx = jnp.where(hit, i + 1, idx)
+        idx = jnp.where(hit, pos[h.fn], idx)
     idx = jnp.where(on, idx, 0)
     branches = [lambda hc_, st_, rng_: (hc_, st_, rng_)] + [
-        (lambda hc_, st_, rng_, f=h.fn: f(hc_, st_, dex, rng_)) for h in hs]
+        (lambda hc_, st_, rng_, f=f: f(hc_, st_, dex, rng_)) for f in fns]
     hc, st, rng = jax.lax.switch(idx, branches, hc, st, rng)
     return jax.lax.optimization_barrier((hc, st, rng))
 

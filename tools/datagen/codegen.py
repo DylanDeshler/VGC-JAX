@@ -134,7 +134,12 @@ class Builder:
         moves = set(v2["moves"]) | {m for m in ("struggle", "recharge") if m in self.moves}
         self.species_ids = ["none"] + species
         self.move_ids = ["none"] + sorted(moves)
-        self.ability_ids = ["none"] + sorted(abilities)
+        # abilities a pool move's handler gives with a literal setAbility('<id>') (census code_refs.sets_ability:
+        # Simple Beam -> simple) join the id space, appended so the pool's ability ids stay stable
+        census = load(self.export / "handler_census.json")["records"]["move"]
+        given = sorted({a for m in v2["moves"] for a in (census.get(m, {}).get("code_refs") or {}).get("sets_ability", [])
+                        if a in self.abilities} - abilities)
+        self.ability_ids = ["none"] + sorted(abilities) + given
         self.item_ids = ["none"] + sorted(items)
         kinds = classify_conditions(sorted(set(v2["conditions"]) | set(STATUSES)), self.conds, self.moves)
         self.cond_kind = kinds

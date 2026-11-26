@@ -72,9 +72,12 @@ def locked(st, u):
         tw = jnp.zeros((), bool)
         tw_move = tw_loc = jnp.int32(0)
     last_loc = mget(m.last_move_target_loc, u).astype(I32)
-    move = jnp.where(rc, mget(m.last_move, u).astype(I32), tw_move)
+    # lockedmove.onLockMove (Outrage; effects/batch7c.py): effectState.move at lastMoveTargetLoc
+    from vgcjax.effects import batch7c as B7
+    lm, lm_move = B7.locked_move(st, u)
+    move = jnp.where(rc, mget(m.last_move, u).astype(I32), jnp.where(tw, tw_move, jnp.where(lm, lm_move, tw_move)))
     loc = jnp.where(rc, last_loc, jnp.where(tw_loc != 0, tw_loc, last_loc))
-    return rc | tw, rc, move, loc
+    return rc | tw | lm, rc, move, loc
 
 
 # ------------------------------------------------------------------ mustrecharge

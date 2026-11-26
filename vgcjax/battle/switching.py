@@ -98,6 +98,8 @@ def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_dr
     # PS :127-129: selfSwitch 'copyvolatile' (Baton Pass) -> pokemon.copyVolatileFrom(oldActive)
     from vgcjax.effects import batch_copy as BC
     st = BC.copy_volatile_from(st, r_in, r_old, unfainted & BC.copies_volatiles(dex, source_effect))
+    from vgcjax.effects import batch7c as B7             # selfSwitch 'shedtail': copyVolatileFrom(old, 'shedtail')
+    st = B7.shedtail_copy(st, r_in, r_old, unfainted & B7.is_shedtail(dex, source_effect))
     st = clear_volatile(st, dex, r_old, True, unfainted)
     m = st.mons
     # old occupant leaves (live or fainted)

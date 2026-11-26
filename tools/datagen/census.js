@@ -63,6 +63,7 @@ const REF_PATTERNS = [
 	[/setWeather\(\s*['"]([a-z0-9]+)['"]/g, 'weather'],
 	[/setTerrain\(\s*['"]([a-z0-9]+)['"]/g, 'terrain'],
 	[/addPseudoWeather\(\s*['"]([a-z0-9]+)['"]/g, 'pseudoWeather'],
+	[/setAbility\(\s*['"]([a-z0-9]+)['"]/g, 'sets_ability'],      // an ability a handler gives (codegen id space)
 	// inspection / removal references (interactions, not creation)
 	[/removeVolatile\(\s*['"]([a-z0-9]+)['"]/g, 'checks_volatile'],
 	[/(?:volatiles|getVolatile)\[?\(?\s*['"]([a-z0-9]+)['"]/g, 'checks_volatile'],

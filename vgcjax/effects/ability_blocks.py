@@ -201,7 +201,8 @@ def add_volatile_block(st, ref, c):
     for name, cond in (("innerfocus", "flinch"), ("owntempo", "confusion")):
         if aid(name) > 0 and cond in ids.CONDITIONS:
             out = out | ((ab == aid(name)) & (c == ids.CONDITIONS.index(cond)))
-    return out
+    from vgcjax.effects import batch7c as B7             # focuspunch.condition.onTryAddVolatile: flinch -> null
+    return out | B7.focuspunch_flinch_block(st, ref, c)
 
 
 def yawn_block(st, ref):

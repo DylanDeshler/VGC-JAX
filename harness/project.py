@@ -32,6 +32,12 @@ def _eff_state(cond: str, state, presence_slot: int) -> dict:
     for key, slot, kind in CO.FIELDS.get(cond, []):
         if (s[presence_slot] & 0xFF) >> slot & 1:
             v = s[slot]
+            if kind == "slot":            # pokemon.getSlot() ('p1a' ...) stored as side * 2 + position, -1 = null
+                out[key] = None if v < 0 else f"p{v // 2 + 1}{'ab'[v % 2]}"
+                continue
+            if kind == "half":            # a value / 2 (Wish's source.maxhp / 2: not always an integer)
+                out[key] = v / 2 if v % 2 else v // 2
+                continue
             out[key] = bool(v) if kind == "bool" else ((ids.MOVES[v] if v > 0 else "") if kind == "move" else
                                                         (1.5 ** v if kind == "x1.5" else v))
     return dict(sorted(out.items()))
