@@ -85,6 +85,9 @@ def main() -> None:
     ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 4) - 2))
     ap.add_argument("--only", default="*", help="comma-separated glob patterns over corpus names")
     ap.add_argument("--skip-gen", action="store_true")
+    ap.add_argument("--gen-only", action="store_true",
+                    help="only generate traces/regress/* (then replay them merged, one compile per worker: "
+                         "scripts/corpora/replay_merged.py traces/regress)")
     a = ap.parse_args()
     pats = a.only.split(",")
     suite = [(n, g) for n, g in load_suite(pathlib.Path(a.suite)) if any(fnmatch.fnmatch(n, p) for p in pats)]
@@ -100,6 +103,9 @@ def main() -> None:
         gmsg = "skipped"
         if not a.skip_gen:
             tdir, gmsg = gen(name, args, a.workers)
+        if a.gen_only:
+            print(f"{name:28s} gen: {gmsg}", flush=True)
+            continue
         s, err = replay(tdir, out_root / name, a.workers)
         if s is None:
             line = f"{name:28s} REPLAY ERROR  gen: {gmsg}\n    {err}"
