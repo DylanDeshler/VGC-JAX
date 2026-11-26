@@ -50,7 +50,40 @@ def compiled(cfg: EngineConfig):
     @jax.jit
     def masks(st):
         return REQ.joint_legal(st, dex)
-    return f, masks
+    return _first_call_guard(f), _first_call_guard(masks)
+
+
+def _first_call_guard(fn):
+    """The first call compiles (one engine compile peaks at ~44 GB on CPU). With VGC_COMPILE_LOCK=<path>, workers
+    take an exclusive file lock around their first call so compiles run one at a time (peak = one compile, not one per
+    worker); afterwards glibc's malloc_trim returns the freed compile arena to the OS (Linux; RSS otherwise stays at
+    the compile peak)."""
+    state = {"done": False}
+
+    def call(*args):
+        if state["done"]:
+            return fn(*args)
+        lock_path = os.environ.get("VGC_COMPILE_LOCK")
+        fh = None
+        if lock_path:
+            import fcntl
+            fh = open(lock_path, "a")
+            fcntl.flock(fh, fcntl.LOCK_EX)
+        try:
+            out = jax.block_until_ready(fn(*args))
+        finally:
+            if fh is not None:
+                import fcntl
+                fcntl.flock(fh, fcntl.LOCK_UN)
+                fh.close()
+        state["done"] = True
+        try:
+            import ctypes
+            ctypes.CDLL("libc.so.6").malloc_trim(0)
+        except OSError:
+            pass
+        return out
+    return call
 
 
 def split_battles(records):
