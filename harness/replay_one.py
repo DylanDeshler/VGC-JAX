@@ -65,10 +65,21 @@ def _first_call_guard(fn):
             return fn(*args)
         lock_path = os.environ.get("VGC_COMPILE_LOCK")
         fh = None
-        if lock_path:
+        if lock_path:                     # VGC_COMPILE_SLOTS (default 1) compiles / cache loads may run at once
             import fcntl
-            fh = open(lock_path, "a")
-            fcntl.flock(fh, fcntl.LOCK_EX)
+            import time as _t
+            slots = int(os.environ.get("VGC_COMPILE_SLOTS", "1"))
+            while fh is None:
+                for k in range(slots):
+                    cand = open(f"{lock_path}.{k}", "a")
+                    try:
+                        fcntl.flock(cand, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                        fh = cand
+                        break
+                    except OSError:
+                        cand.close()
+                if fh is None:
+                    _t.sleep(5)
         try:
             out = jax.block_until_ready(fn(*args))
         finally:
