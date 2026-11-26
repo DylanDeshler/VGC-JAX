@@ -1449,7 +1449,8 @@ def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
                  pre_notfail=pre_notfail, side=side_on, tm_null=tm_null,
                  multiacc=dex.move_multiaccuracy[move] == 1, single=jnp.sum(tv.astype(I32)) == 1, h=jnp.int32(1),
                  hit_done=jnp.int32(1), stopped=~on_hl, null_damage=jnp.asarray(True), dt=full(RS.NUM), dv=full(0),
-                 lt=full(RS.UNDEF), lv=full(0), total=jnp.int32(0), mtype=a_type, bp=a_bp, acc=a_acc,
+                 lt=full(RS.UNDEF), lv=full(0), sub_null=jnp.zeros(NT, bool), total=jnp.int32(0), mtype=a_type,
+                 bp=a_bp, acc=a_acc,
                  act_t=act_t.astype(I32))
     return st.replace(exec=_exec_where(on | abort, new, st.exec)), rng
 
@@ -1502,6 +1503,8 @@ def move_hit(st, dex, rng, cfg):
     go = go & ~miss
     # [C] scripts.ts:476-482: boolean smartTarget moves retarget the move line on hit 1 (-anim for later hits)
     st = EV.retarget_last_move(st, go & (h == 1) & (dex.move_smart_target[move] == 1) & (t0 >= 0), t0)
+    from vgcjax.effects import volatiles as VO_                     # HIT_SUBSTITUTE -> targets[i] = null ([C] :350-352)
+    sub_now = cur_tv & VO_.sub_blocks(st, dex, u, move, targets) & ~ex.side
     st, rng, (mt, mv) = spread_move_hit(st, dex, rng, cfg, u, move, targets, cur_tv, ex.spread & ~ex.side,
                                         jnp.where(ex.side, 0, h), go, side_mode=ex.side)
     all_false = ~jnp.any(~RS.is_false((mt, mv)) & cur_tv)
@@ -1516,6 +1519,7 @@ def move_hit(st, dex, rng, cfg):
     new = ex.replace(dt=jnp.where(cnt, RS.NUM, ex.dt), dv=jnp.where(cnt, v, ex.dv),
                      total=ex.total + jnp.sum(jnp.where(cnt, v, 0)), null_damage=ex.null_damage & ~go,
                      lt=jnp.where(cnt, mt, ex.lt), lv=jnp.where(cnt, mv, ex.lv), hit_done=ex.hit_done + go.astype(I32),
+                     sub_null=jnp.where(go, sub_now, ex.sub_null),
                      stopped=stopped, h=h + 1)
     return st.replace(exec=_exec_where(live, new, ex)), rng
 
@@ -1552,7 +1556,8 @@ def move_end(st, dex, rng, cfg):
     some = run_rest & jnp.any(RS.hit_or_zero((dt, dv)) & tv)
     from vgcjax.effects import berries as B
     st, rng = B.update(st, dex, rng, some)                              # [C] scripts.ts:573 eachEvent('Update')
-    still = tv & ~RS.is_false((ex.lt, ex.lv))                  # targetsCopy entries not set to false by the last hit
+    # targetsCopy entries not set to false / null (substitute) by the last hit; smartTarget resets it ([C] :555-557)
+    still = tv & ~RS.is_false((ex.lt, ex.lv)) & ~(ex.sub_null & ~ex.smart)
     for j in range(NT):
         hc = H.HookCtx.make(targets[j], u, C.eff_move(move))
         hc, st, rng = H.run_event("AfterMoveSecondary", st, dex, rng, hc,

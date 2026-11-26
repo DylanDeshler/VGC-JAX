@@ -356,7 +356,7 @@ def mold_breaker_end(st, on):
     return st
 
 
-# ================================================================== Illusion (PublicEvents only)
+# ================================================================== Illusion (Events.alias; also game state: transformInto)
 def _set_alias(st, ref, val, on):
     from vgcjax.battle import events as EV
     st = EV.flush_alias(st)                     # records so far keep the alias in force when they were written
@@ -369,10 +369,10 @@ def _set_alias(st, ref, val, on):
 def illusion_before_switch_in(st, side, pos, b_in, on):
     """Illusion onBeforeSwitchIn (data/abilities.ts:2057-2071), run by switchIn after the party-order swap
     (sim/battle-actions.ts:184-185, pokemon.position = pos): illusion = the last unfainted side.pokemon entry with an
-    index > position (the active ally included), else null. pokemon.illusion only changes how protocol lines name
-    the mon (sim/pokemon.ts:552-555 toString; the 'switch' details), so it lives in Events.alias and compiles out
-    with EngineConfig.events=False."""
-    if aid("illusion") <= 0 or not EV._ENABLED[0]:
+    index > position (the active ally included), else null. pokemon.illusion names the mon in protocol lines
+    (sim/pokemon.ts:552-555 toString; the 'switch' details) and also blocks transformInto (sim/pokemon.ts:1294), so
+    Events.alias is kept with EngineConfig.events=False too (only the records compile out)."""
+    if aid("illusion") <= 0:
         return st
     side = jnp.asarray(side, I32)
     r = side * 4 + jnp.asarray(b_in, I32)
@@ -389,7 +389,7 @@ def illusion_damaging_hit(st, t, on):
     """Illusion onDamagingHit -> singleEvent('End', Illusion) (data/abilities.ts:2072-2088): an active illusion (the
     holder is not being called back) -> illusion = null, 'replace' X details (the true species), '-end' X
     'Illusion'."""
-    if aid("illusion") <= 0 or not EV._ENABLED[0]:
+    if aid("illusion") <= 0:
         return st
     tt = jnp.clip(jnp.asarray(t, I32), 0, 7)
     go = jnp.asarray(on) & (jnp.asarray(t) >= 0) & _has_ab(st, tt, "illusion") & \
@@ -402,7 +402,7 @@ def illusion_damaging_hit(st, t, on):
 def illusion_clear(st, r, on):
     """faintMessages: after the 'faint' line, runEvent('Faint') (Illusion onFaint) and pokemon.illusion = null
     (sim/battle.ts:2598-2613)."""
-    if aid("illusion") <= 0 or not EV._ENABLED[0]:
+    if aid("illusion") <= 0:
         return st
     return _set_alias(st, r, -1, jnp.asarray(on) & (jnp.asarray(r) >= 0))
 

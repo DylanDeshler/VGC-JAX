@@ -316,6 +316,7 @@ class Exec:
     dv: jax.Array                  # i32[3] damage[] values
     lt: jax.Array                  # i32[3] last moveDamage tags
     lv: jax.Array                  # i32[3] last moveDamage values
+    sub_null: jax.Array            # bool[3] the last hit's substitute nulled the target (targetsCopy[i] = null)
     total: jax.Array               # i32 move.totalDamage
     mtype: jax.Array               # i32 ActiveMove type after ModifyType / ModifyMove
     bp: jax.Array                  # i32 ActiveMove basePower after ModifyMove
@@ -329,7 +330,7 @@ def empty_exec() -> Exec:
     return Exec(in_move=b, u=i, move=i, targets=_z(3, I32, -1), tv=b3, spread=b, smart=b, spread_hit=b, on_rm=b,
                 go_rm=b, go_um=b, has_t=b, side_field=b, on_ts=b, on_hl=b, fail_any=b, pre_ok=b, pre_notfail=b,
                 side=b, hits=i, multiacc=b, single=b,
-                h=i, hit_done=i, stopped=_z((), bool, True), null_damage=b, dt=a3, dv=a3, lt=a3, lv=a3, total=i,
+                h=i, hit_done=i, stopped=_z((), bool, True), null_damage=b, dt=a3, dv=a3, lt=a3, lv=a3, sub_null=b3, total=i,
                 mtype=i, bp=i, acc=i, tm_null=b, act_t=_z((), I32, -1))
 
 

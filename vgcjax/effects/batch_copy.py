@@ -180,12 +180,15 @@ def _new_ability(st, ref, new, on):
 # ------------------------------------------------------------------ Transform / Imposter
 def transform_ok(st, u, t):
     """transformInto's guard (sim/pokemon.ts:1293-1300): target fainted, a substitute on the target, either side
-    already transformed -> false (no Illusion / Eternamax / Ogerpon / Terapagos / Terastallization in Reg M-C)."""
+    already transformed, either side's active Illusion (this.illusion || pokemon.illusion: Events.alias,
+    effects/batch_forme.py) -> false (no Eternamax / Ogerpon / Terapagos / Terastallization in Reg M-C)."""
     m = st.mons
     t = jnp.asarray(t, I32)
     tc = jnp.clip(t, 0, 7)
+    uc = jnp.clip(jnp.asarray(u, I32), 0, 7)
     sub = CO.has_volatile(st, tc, CO.cid("substitute")) if "substitute" in ids.CONDITIONS else False
-    return (t >= 0) & ~mget(m.fainted, tc) & ~sub & ~mget(m.transformed, tc) & ~mget(m.transformed, u)
+    ill = (st.events.alias.astype(I32)[uc] >= 0) | (st.events.alias.astype(I32)[tc] >= 0)
+    return (t >= 0) & ~mget(m.fainted, tc) & ~sub & ~mget(m.transformed, tc) & ~mget(m.transformed, u) & ~ill
 
 
 def transform_into(st, dex, u, t, on, effect=-1):
