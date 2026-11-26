@@ -31,10 +31,12 @@ stagereq:impl:item:greninjite
 stagereq:impl:item:gyaradosite
 stagereq:impl:item:kangaskhanite
 stagereq:impl:item:mentalherb+move:taunt
+stagereq:impl:item:metronome
 stagereq:impl:item:pyroarite
 stagereq:impl:item:quickclaw
 stagereq:impl:item:redcard
 stagereq:impl:item:skarmorite+move:followme
+stagereq:impl:item:zoomlens
 stagereq:impl:move:allyswitch
 stagereq:impl:move:beatup
 stagereq:impl:move:bellydrum
@@ -54,5 +56,13 @@ stagereq:impl:move:ragingbull+move:reflect
 stagereq:impl:move:round
 stagereq:impl:move:trick
 stagereq:impl:move:watershuriken
+stagereq:impl:species:eelektross+item:eelektrossite
+stagereq:impl:species:farfetchd+item:leek
+stagereq:impl:species:golurk+item:golurkite
+stagereq:impl:species:heracross+item:heracronite
 stagereq:impl:species:kangaskhan+item:kangaskhanite
+stagereq:impl:species:meganium+item:meganiumite
 stagereq:impl:species:mimikyu
+stagereq:impl:species:pikachu+item:lightball
+stagereq:impl:species:sirfetchd+item:leek
+stagereq:impl:species:skarmory+item:skarmorite

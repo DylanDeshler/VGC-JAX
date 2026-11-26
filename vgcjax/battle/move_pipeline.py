@@ -193,11 +193,11 @@ def get_move_targets(st, dex, rng, u, move, target, on, mtype=None):
     t2 = jnp.where(retarget, rnd, t)
     # priorityEvent('RedirectTarget') (activePerHalf > 1, not tracksTarget): Follow Me / Rage Powder; a redirect clears
     # smartTarget and retargets the move line (effects/disables.py)
-    from vgcjax.effects import batch7b as B7
     from vgcjax.effects import disables as DS
     single_tt = _in(tt, SINGLE_TARGET)
+    from vgcjax.effects import batch7a as B7A                 # tracksTarget incl. Stalwart / Propeller Tail onModifyMove
     t_red, red, st = DS.redirect_target(st, dex, u, move, t2, jnp.asarray(on) & single_tt & (t2 >= 0) &
-                                        ~B7.tracks_target(st, dex, u, move), mtype=mtype)   # + Stalwart
+                                        ~B7A.tracks(st, dex, u, move), mtype=mtype)
     red = red & (t_red != t2)
     t2 = t_red
     smart = (dex.move_smart_target[move] == 1) & ~red
@@ -424,8 +424,8 @@ def battle_heal(st, target, amount, on, drain_of=None, big_root=False):
     amount = jnp.asarray(amount, I32)
     amount = jnp.where((amount > 0) & (amount <= 1), 1, amount)
     if big_root or drain_of is not None:
-        from vgcjax.effects import batch7b as B7                       # runEvent('TryHeal'): Big Root
-        amount = B7.big_root(st, target, amount)
+        from vgcjax.effects import batch7b as B7B                       # runEvent('TryHeal'): Big Root
+        amount = B7B.big_root(st, target, amount)
     hp = mget(m.hp, target)
     ok = jnp.asarray(on) & (amount != 0) & (hp > 0) & mget(m.is_active, target) & (hp < mget(m.maxhp, target))
     ok = ok & ~BD.heal_blocked(st, target)                             # runEvent('TryHeal'): Heal Block -> false
@@ -800,7 +800,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     act_u = mget(m.is_active, u)
     healed = jnp.zeros((), bool)
     hb_u = BD.heal_blocked(st, u)                                      # drain's TryHeal: Heal Block
-    from vgcjax.effects import batch7b as B7
+    from vgcjax.effects import batch7b as B7B
     for j in range(NT):
         st = EV.emit(st, dsg[j], EV.EV_ACTIVATE, actor=targets[j], move=BF.aeff("disguise"))
         st = EV.emit(st, stu[j], EV.EV_ABILITY, actor=targets[j], move=T.ABILITY_BASE + opt_id("ABILITY_STURDY") - 1)
@@ -808,7 +808,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         pct, col = EV.hp_public(new_hp[j], mx_t[j])
         st = EV.emit(st, go[j], EV.EV_DAMAGE, actor=targets[j], v1=pct, v2=col)  # PS: sim/battle.ts:2171
         a = (2 * dealt[j] * drain_n + drain_d) // (2 * drain_d)                    # Math.round
-        a = B7.big_root(st, u, a, drain_n > 0)                         # heal(..., 'drain'): TryHeal Big Root
+        a = B7B.big_root(st, u, a, drain_n > 0)                         # heal(..., 'drain'): TryHeal Big Root
         ok = go[j] & (dealt[j] > 0) & (drain_n > 0) & (a != 0) & (hp_u > 0) & act_u & (hp_u < mx_u) & ~hb_u
         hp_u = jnp.where(ok, jnp.minimum(mx_u, hp_u + a), hp_u)
         pu, cu = EV.hp_public(hp_u, mx_u)
@@ -1289,6 +1289,8 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
     from vgcjax.effects import batch_passive as BP                     # Damp onAnyTryMove
     st, damp_fail = BP.damp(st, dex, u, move, go_um & ~tm_null & ~at_fail)
     go_um = go_um & ~tm_null & ~at_fail & ~damp_fail
+    from vgcjax.effects import batch7a as B7A                          # metronome volatile onTryMove (priority -2)
+    st = B7A.metronome_try_move(st, dex, u, move, go_um)
     side_field = _in(tt, (T.TARGET_ALL, T.TARGET_FOESIDE, T.TARGET_ALLYSIDE, T.TARGET_ALLYTEAM))
     has_t = targets[0] >= 0
     st = F.faint(st, u, go_um & (dex.move_selfdestruct[move] == 1))
@@ -1443,9 +1445,11 @@ def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
     # ---- hit-loop setup (ch/scripts.ts:432-449)
     mh = dex.move_multihit[move]
     is_range = (mh[0] == 2) & (mh[1] == 5)
+    from vgcjax.effects import batch7a as B7A
+    sklink = B7A.skill_link(st, u)                       # Skill Link onModifyMove: multihit = multihit[1], no multiacc
     mkey = C.dkey(st, ids.DK_MULTIHIT_COUNT, actor=u, subject=C.eff_move(move))
-    idx, rng = R.sample(rng, mkey, 20, active=on_hl & is_range)
-    hits = jnp.where(is_range, MULTIHIT_TABLE[idx], jnp.where(mh[0] > 0, mh[0], 1)).astype(I32)
+    idx, rng = R.sample(rng, mkey, 20, active=on_hl & is_range & ~sklink)
+    hits = jnp.where(is_range, jnp.where(sklink, mh[1], MULTIHIT_TABLE[idx]), jnp.where(mh[0] > 0, mh[0], 1)).astype(I32)
     hits = jnp.where(parental_bond(st, dex, u, move, spread_hit), 2, hits)       # move.multihit = 2
     hits = BD.beat_up_hits(st, u, move, hits)                                    # Beat Up onModifyMove
     hits = jnp.where(side_on, 1, hits)
@@ -1454,7 +1458,7 @@ def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
                  smart=smart, spread_hit=spread_hit, on_rm=on, go_rm=go_rm, go_um=go_um, has_t=has_t,
                  side_field=side_field, on_ts=on_ts, on_hl=on_hl, fail_any=fail_any, hits=hits, pre_ok=pre_ok,
                  pre_notfail=pre_notfail, side=side_on, tm_null=tm_null,
-                 multiacc=dex.move_multiaccuracy[move] == 1, single=jnp.sum(tv.astype(I32)) == 1, h=jnp.int32(1),
+                 multiacc=(dex.move_multiaccuracy[move] == 1) & ~sklink, single=jnp.sum(tv.astype(I32)) == 1, h=jnp.int32(1),
                  hit_done=jnp.int32(1), stopped=~on_hl, null_damage=jnp.asarray(True), dt=full(RS.NUM), dv=full(0),
                  lt=full(RS.UNDEF), lv=full(0), sub_null=jnp.zeros(NT, bool), total=jnp.int32(0), mtype=a_type,
                  bp=a_bp, acc=a_acc,
@@ -1572,8 +1576,8 @@ def move_end(st, dex, rng, cfg):
                                   on=some & still[j] & (targets[j] >= 0))
         from vgcjax.effects import batch_reactive as BR                 # Berserk onAfterMoveSecondary
         st = BR.berserk_after_move_secondary(st, dex, targets[j], u, move, ex, some & still[j] & (targets[j] >= 0))
-    from vgcjax.effects import batch7b as B7                            # Pickpocket / Red Card (priority 0)
-    st, rng = B7.after_move_secondary(st, dex, rng, targets, u, move, some & still)
+    from vgcjax.effects import batch7b as B7B                            # Pickpocket / Red Card (priority 0)
+    st, rng = B7B.after_move_secondary(st, dex, rng, targets, u, move, some & still)
     # [C] scripts.ts:577-584: runEvent('EmergencyExit') per target with a numeric damage and hp: the hp before the
     # move = hurtThisTurn + damage (one target: move.totalDamage)
     from vgcjax.effects import ability_reactions as AR
@@ -1680,8 +1684,8 @@ def apply_recoil(st, dex, u, move, total, on):
     has = struggle | (rn > 0) | mind
     # Rock Head onDamage: recoil (not Struggle's) -> null
     rock = ~struggle & ~mind & (mget(m.ability, u) == opt_id("ABILITY_ROCKHEAD"))
-    from vgcjax.effects import batch7b as B7                           # Magic Guard onDamage: recoil / Steel Beam
-    rock = rock | (~struggle & B7.magic_guard(st, u))
+    from vgcjax.effects import batch7b as B7B                           # Magic Guard onDamage: recoil / Steel Beam
+    rock = rock | (~struggle & B7B.magic_guard(st, u))
     m = st.mons
     on = jnp.asarray(on) & has & ~rock & (mget(m.hp, u) > 0)
     # struggle: directDamage (no Damage event); recoil: battle.damage(..., 'recoil') -> spreadDamage (HOOK H21)

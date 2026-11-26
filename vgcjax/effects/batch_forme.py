@@ -140,11 +140,12 @@ def hit_protect_bypass(st, dex, u, move, block_status=True):
     """checkMoveBypassesProtect's runEvent('HitProtect', attacker, defender, move) (sim/battle.ts:1314-1323): the
     attacker's Piercing Drill onHitProtect ([C] piercingdrill / data/abilities.ts:3283-3296): a contact move ->
     moveHitData.bypassProtect = Piercing Drill, false (the protection does not apply). Only reached for a move with
-    the protect flag that is not Status (or blockStatus)."""
-    if aid("piercingdrill") <= 0:
+    the protect flag that is not Status (or blockStatus). [C] Unseen Fist (data/mods/champions/abilities.ts:91-99,
+    batch 7a) has the identical onHitProtect."""
+    if aid("piercingdrill") <= 0 and aid("unseenfist") <= 0:
         return jnp.zeros((), bool)
     cat_ok = (dex.move_category[move] != ids.CAT_STATUS) | block_status
-    return _has_ab(st, u, "piercingdrill") & _flag(dex, move, ids.MF_CONTACT) & _flag(dex, move, ids.MF_PROTECT) & \
+    return (_has_ab(st, u, "piercingdrill") | _has_ab(st, u, "unseenfist")) & _flag(dex, move, ids.MF_CONTACT) & _flag(dex, move, ids.MF_PROTECT) & \
         cat_ok
 
 
@@ -157,7 +158,7 @@ def protect_bypassed(st, dex, u, move, targets):
     Guard vs positive priority) and HitProtect returned false. modifyDamage then applies x0.25 and prints
     '-ability' source 'Piercing Drill', '-zbroken' target ([C] scripts.ts:296-305)."""
     t = jnp.clip(jnp.asarray(targets, I32), 0, 7)
-    if aid("piercingdrill") <= 0:
+    if aid("piercingdrill") <= 0 and aid("unseenfist") <= 0:
         return jnp.zeros(t.shape, bool)
     from vgcjax.battle import queue as Q
     from vgcjax.effects import move_callbacks as MC
@@ -176,8 +177,9 @@ def protect_bypassed(st, dex, u, move, targets):
 
 
 def emit_protect_bypass(st, u, target, on):
-    """'-ability' source 'Piercing Drill' then '-zbroken' target."""
-    st = EV.emit(st, on, EV.EV_ABILITY, actor=u, move=aeff("piercingdrill"))
+    """'-ability' source <bypassProtect: Piercing Drill / [C] Unseen Fist> then '-zbroken' target."""
+    ab = ids.ABILITY_BASE + mget(st.mons.ability, jnp.clip(jnp.asarray(u, I32), 0, 7)).astype(I32) - 1
+    st = EV.emit(st, on, EV.EV_ABILITY, actor=u, move=ab)
     return EV.emit(st, on, EV.EV_ZBROKEN, actor=target)
 
 

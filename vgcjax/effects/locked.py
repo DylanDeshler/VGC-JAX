@@ -119,7 +119,8 @@ def try_move(st, dex, rng, u, target, move, on):
     c = CO.cid("twoturnmove")
     is_charge = jnp.zeros((), bool)
     boosts = skip = jnp.zeros((), bool)
-    wu = WE.mon_weather(st, u)
+    from vgcjax.effects import batch7a as B7            # Mega Sol: battle.effect is the move
+    wu = B7.megasol_weather(st, WE.mon_weather(st, u), u)
     for n, b, ws in CHARGE_MOVES:
         hit = move == mid(n)
         is_charge = is_charge | hit
@@ -139,6 +140,12 @@ def try_move(st, dex, rng, u, target, move, on):
     # boost({spa: 1}, attacker, attacker, move): not isSecondary / isSelf -> a capped boost still prints '-boost' 0
     st, _ = MP.boost(st, u, jnp.zeros(7, I32).at[2].set(1), first & boosts, primary=True, source=u,
                      effect=C.eff_move(move), simple=True)                      # self-sourced, +1
+    # Solar Beam / Blade call effectiveWeather(undefined, true): the Mega Sol '-activate' (data/moves.ts:17234)
+    solar = jnp.zeros((), bool)
+    for n in ("solarbeam", "solarblade"):
+        if mid(n) > 0:
+            solar = solar | (move == mid(n))
+    st = B7.megasol_message(st, u, first & solar)
     st = EV.attr_last_move(st, first & skip, EV.F_STILL)
     st = EV.anim_last_move(st, first & skip)                # addMove('-anim', attacker, move.name, defender)
     charge = first & ~skip
@@ -166,7 +173,8 @@ def _solar_bp(ctx, h):
     """onBasePower: the user's effectiveWeather Rain / Primordial Sea / Sandstorm / Hail / Snow -> chainModify(0.5)."""
     import jax
     from vgcjax.effects import weather as WE
-    wt = jax.vmap(lambda r: WE.mon_weather(ctx.st, r))(jnp.clip(ctx.tgt, 0, 7))
+    from vgcjax.effects import batch7a as B7            # Mega Sol: the user is activePokemon, effect the move
+    wt = B7.megasol_weather(ctx.st, jax.vmap(lambda r: WE.mon_weather(ctx.st, r))(jnp.clip(ctx.tgt, 0, 7)), ctx.tgt)
     weak = jnp.zeros(wt.shape, bool)
     for w in ("raindance", "primordialsea", "sandstorm", "hail", "snowscape"):
         if w in ids.CONDITIONS:

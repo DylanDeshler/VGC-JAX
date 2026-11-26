@@ -26,7 +26,7 @@ WV = (NV + 31) // 32
 # every other volatile keeps only its duration (vol_dur). effects/conditions.py checks declarations against this.
 VOL_STATEFUL = tuple(c for c in ("choicelock", "confusion", "disable", "encore", "helpinghand", "stall", "twoturnmove",
                                 "yawn", "partiallytrapped", "substitute", "attract", "leechseed",
-                                "allyswitch", "dragoncheer")
+                                "allyswitch", "dragoncheer", "metronome")
                      if c in ids.CONDITIONS)
 NVF = max(len(VOL_STATEFUL), 1)
 VOL_FIDX = np.array([VOL_STATEFUL.index(ids.CONDITIONS[ids.VOL_BASE + k]) if ids.CONDITIONS[ids.VOL_BASE + k]

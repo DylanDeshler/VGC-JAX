@@ -92,7 +92,7 @@ if aid("rivalry") > 0:
 
 
 # ------------------------------------------------------------------ Stalwart (getMoveTargets' RedirectTarget gate)
-def tracks_target(st, dex, u, move):
+def tracks_target(st, dex, u, move):    # superseded by batch7a.tracks (also Propeller Tail); unused
     """move.tracksTarget after ModifyMove (sim/battle-actions.ts:503 runs it before getMoveTargets :531): the move's
     data flag, or Stalwart onModifyMove (priority 1, data/abilities.ts:4504-4509): move.target !== 'scripted'.
     Gates priorityEvent('RedirectTarget') in sim/pokemon.ts:850."""
