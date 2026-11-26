@@ -19,6 +19,7 @@ import multiprocessing as mp
 import os
 import pathlib
 import subprocess
+import sys
 import time
 
 import orjson
@@ -83,6 +84,7 @@ def _worker(args):
     cfg = _cfg(stage, canary, micro_steps)
     out = []
     gi = 0
+    t_start = time.time()
     import pathlib as _pl
     import zstandard
     from harness.corpus import split_frames
@@ -104,10 +106,18 @@ def _worker(args):
                             kinds.update(x[2] for x in FO.compared_draws(r_))
                         except FO.HarnessError:
                             pass
+                tb = time.time()
                 try:
                     r = replay_battle(b, cfg, check_masks=check_masks)
                 except Exception as e:  # harness/engine crash is a HARNESS bucket
                     r = dict(clean=False, k=0, category="HARNESS", detail=repr(e)[:500])
+                dt = time.time() - tb
+                if dt > 60:
+                    print(f"[w{w}] slow battle #{gi} {h['battle_id']}: {dt:.0f}s ({n_dec} decisions)", file=sys.stderr,
+                          flush=True)
+                if (len(out) + 1) % 25 == 0:
+                    print(f"[w{w}] {len(out) + 1} battles done, {time.time() - t_start:.0f}s", file=sys.stderr,
+                          flush=True)
                 out.append(dict(index=gi, battle_id=h["battle_id"], decisions=n_dec, legal=n_legal, kinds=dict(kinds), **{
                     k: (v if k != "detail" else json.loads(json.dumps(v, default=str))) for k, v in r.items()}))
             gi += 1
