@@ -111,6 +111,7 @@ def update(st, dex, rng, on):
     from vgcjax.effects import batch_reactive as BR
     from vgcjax.effects import batch_forme as BF
     if iid("sitrusberry") <= 0 and iid("lumberry") <= 0 and aid("trace") <= 0 and aid("cutecharm") <= 0 and \
+            aid("limber") <= 0 and \
             iid("chestoberry") <= 0 and \
             not BF.ACTIVE:
         return st, rng
@@ -132,6 +133,7 @@ def update(st, dex, rng, on):
         st, rng = BP_.attract_update(st, dex, rng, r, on_i)
         from vgcjax.effects import abilities as AB_                       # abilities' onUpdate first (subOrder 7)
         st, rng = AB_.trace_update(st, dex, rng, r, on_i)
+        st = AB_.status_cure_update(st, r, on_i)                         # Limber / Insomnia / ... onUpdate
         st, rng = BF.update_ability(st, dex, rng, r, on_i)          # Disguise
         m = st.mons
         hp = mget(m.hp, r).astype(I32)

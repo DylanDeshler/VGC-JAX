@@ -1085,7 +1085,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         st, rng, _ = SC.add_side_condition(st, dex, rng, 1 - side_of(u), CO.cid("stealthrock"), sa, source=u,
                                            source_effect=C.eff_move(move))
     st, rng = BD.after_hit(st, dex, rng, u, move, targets, damaged)       # Ceaseless Edge / Mortal Spin onAfterHit
-    st = AR.emergency_exit(st, u, u_hp0, on & ~jnp.asarray(side_mode))   # [C] scripts.ts:419 (the attacker)
+    st = AR.emergency_exit(st, u, u_hp0, on & ~jnp.asarray(side_mode) & jnp.any(damaged))   # [C] scripts.ts:407-419
     return st, rng, (tags, vals)
 
 

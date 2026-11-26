@@ -290,3 +290,32 @@ def unburden(st, ref, on):
     r = jnp.clip(jnp.asarray(ref, I32), 0, 7)
     go = jnp.asarray(on) & (mget(st.mons.ability, r) == aid("unburden"))
     return CO.add_plain_volatile(st, r, CO.cid("unburden"), go)
+
+
+# the status-immunity abilities' onUpdate: pokemon.status in the list -> '-activate' X 'ability: X', cureStatus()
+# ('-curestatus' X status '[msg]'). PS data/abilities.ts immunity / insomnia / limber / magmaarmor / pastelveil:3199-3204
+# / thermalexchange / vitalspirit / waterbubble / waterveil onUpdate
+STATUS_CURE_UPDATE = {"immunity": ("psn", "tox"), "insomnia": ("slp",), "limber": ("par",), "magmaarmor": ("frz",),
+                      "pastelveil": ("psn", "tox"), "thermalexchange": ("brn",), "vitalspirit": ("slp",),
+                      "waterbubble": ("brn",), "waterveil": ("brn",)}
+_STATUS_ID = {"brn": ids.COND_BRN, "par": ids.COND_PAR, "psn": ids.COND_PSN, "tox": ids.COND_TOX, "slp": ids.COND_SLP,
+              "frz": ids.COND_FRZ}
+
+
+def status_cure_update(st, r, on):
+    """onUpdate (subOrder 7) of the status-immunity abilities for active mon `r` (berries.update's loop). Returns st."""
+    from vgcjax.effects import statuses as STS
+    live = [(n, sts) for n, sts in STATUS_CURE_UPDATE.items() if aid(n) > 0]
+    if not live:
+        return st
+    r = jnp.clip(jnp.asarray(r, I32), 0, 7)
+    ab, status = mget(st.mons.ability, r).astype(I32), mget(st.mons.status, r).astype(I32)
+    go = jnp.zeros((), bool)
+    eff = jnp.asarray(-1, I32)
+    for n, sts in live:
+        hit = (ab == aid(n)) & jnp.any(jnp.asarray([_STATUS_ID[x] for x in sts], I32) == status)
+        go = go | hit
+        eff = jnp.where(hit, aeff(n), eff)
+    go = jnp.asarray(on) & go & (mget(st.mons.hp, r) > 0)
+    st = EV.emit(st, go, EV.EV_ACTIVATE, actor=r, move=eff)
+    return STS.cure_status(st, r, go)
