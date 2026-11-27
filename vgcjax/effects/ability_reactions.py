@@ -245,8 +245,21 @@ def damaging_hit(st, dex, rng, j, t, damaged, u, move, mtype, hit_no, bmsgs, b_o
                                      source_effect=aeff("cursedbody"))
     from vgcjax.effects import batch_passive as BP                     # Cute Charm (3/10 -> attract)
     st, rng = BP.cute_charm(st, dex, rng, tr, u, damaged, move, hit_no)
-    # the attacker's Poison Touch (Source prefix: after the target's own handlers)
-    pt = damaged & contact & _is(mget(st.mons.ability, u), "poisontouch") & ~_is(ab, "shielddust")
+    # the attacker's Poison Touch runs after all of the target's handlers (move_pipeline: after Air Balloon)
+    return st, rng
+
+
+def poison_touch(st, dex, rng, t, on, u, move, hit_no):
+    """Poison Touch onSourceDamagingHit (data/abilities.ts:3372-3382). DamagingHit handlers sort by order, priority,
+    target index, then insertion order (sim/battle.ts:796-797, :426-431: no speed): the target's own handlers (status,
+    volatiles, ability, item: Air Balloon) come first, the source's onSource ones after. Contact, not vs Shield Dust, 3/10 ->
+    target.trySetStatus('psn', source) (ABILITY_ONHIT_PROC: actor the attacker, target the hit mon). Returns (st, rng)."""
+    if aid("poisontouch") <= 0:
+        return st, rng
+    tr = jnp.clip(jnp.asarray(t, I32), 0, 7)
+    contact = _flag(dex, move, ids.MF_CONTACT)
+    pt = jnp.asarray(on) & contact & _is(mget(st.mons.ability, u), "poisontouch") & \
+        ~_is(mget(st.mons.ability, tr), "shielddust")
     key = C.dkey(st, ids.DK_ABILITY_ONHIT_PROC, actor=u, target=tr, subject=aeff("poisontouch"), hit=hit_no)
     ok, rng = R.chance(rng, key, 3, 10, active=pt)
     st, rng = _set_status(st, dex, rng, tr, ids.COND_PSN, pt & ok, u, aeff("poisontouch"))

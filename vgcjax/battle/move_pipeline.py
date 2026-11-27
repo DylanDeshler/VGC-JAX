@@ -1100,6 +1100,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         st, rng = HZ.toxic_debris(st, dex, rng, targets[j], damaged[j], move)
         st = BF.illusion_damaging_hit(st, targets[j], damaged[j])     # Illusion onDamagingHit (ability)
         st = BF.air_balloon_pop(st, targets[j], damaged[j])           # Air Balloon onDamagingHit (item: subOrder 8)
+        st, rng = AR.poison_touch(st, dex, rng, targets[j], damaged[j], u, move, hit_no)   # source's onSource last
     from vgcjax.effects import moves_b1 as MB1                       # singleEvent('AfterHit', move) per target
     for j in range(NT):
         st = MB1.knock_off(st, dex, targets[j], u, move, damaged[j])
