@@ -84,7 +84,8 @@ def decode_move_slot(st, dex, side, slot, a):
     struggle = struggle & ~lk
     move_id = jnp.where(lk, lk_move, jnp.where(struggle, ids.MOVE_STRUGGLE, mget(m.move_ids, u)[jnp.clip(mi, 0, 3)]))
     move_slot = jnp.where(lk, lk_slot, jnp.where(struggle, -1, mi))
-    tt = dex.move_target[move_id]
+    from vgcjax.effects import batch8a as B8A                 # Curse: request target 'self' for a non-Ghost user
+    tt = B8A.curse_tt(st, u, move_id, dex.move_target[move_id])
     choosable = REQ.choosable(tt)
     ally_loc = -(2 - slot)
     self_loc = -(slot + 1)
@@ -98,7 +99,8 @@ def resolve_loc(st, dex, u, move_id, loc):
     """PS resolveAction (sim/battle-queue.ts:268-272): an action without a target location gets
     getLocOf(getRandomTarget()). Self-type targets -> own location; adjacentAlly -> the ally if alive; everything else
     -> a random living foe (a don't-care draw, contract §6): the engine takes the first living foe."""
-    tt = dex.move_target[move_id]
+    from vgcjax.effects import batch8a as B8A                 # Curse: resolveAction target 'self' (non-Ghost)
+    tt = B8A.curse_tt(st, u, move_id, dex.move_target[move_id])
     pos = MP.position(st, u)
     self_loc = -(pos + 1)
     selfish = ((tt == ids.TARGET_SELF) | (tt == ids.TARGET_ALL) | (tt == ids.TARGET_ALLYSIDE) |
@@ -426,9 +428,11 @@ def end_turn(st, dex, cfg, on) -> S.State:
             m = st.mons
             from vgcjax.effects import batch_utility as BU      # the trapped volatile (No Retreat): tryTrap()
             from vgcjax.effects import batch7c as B7            # Octolock onTrapPokemon: tryTrap()
+            from vgcjax.effects import batch8a as B8A           # Fairy Lock onTrapPokemon: tryTrap()
             st = st.replace(mons=m.replace(trapped=mset(m.trapped, r, 1, ev_on & (VO.partially_trapped(st, r) |
                                                                                     BU.trapped_volatile(st, dex, r) |
-                                                                                    B7.octolock_trapped(st, r)))))
+                                                                                    B7.octolock_trapped(st, r) |
+                                                                                    B8A.fairylock_trapped(st, dex, r)))))
             m = st.mons
             st = st.replace(mons=m.replace(trapped=mset(m.trapped, r, 2, ev_on & AR.shadow_tagged(st, dex, r) &
                                                          (mget(m.trapped, r) == 0))))

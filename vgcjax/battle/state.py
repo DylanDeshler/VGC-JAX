@@ -27,7 +27,8 @@ WV = (NV + 31) // 32
 VOL_STATEFUL = tuple(c for c in ("choicelock", "confusion", "disable", "encore", "helpinghand", "stall", "twoturnmove",
                                 "yawn", "partiallytrapped", "substitute", "attract", "leechseed",
                                 "allyswitch", "dragoncheer", "metronome",                          # effects/batch7a.py
-                                "lockedmove", "counter", "mirrorcoat", "octolock", "focuspunch")   # effects/batch7c.py
+                                "lockedmove", "counter", "mirrorcoat", "octolock", "focuspunch",   # effects/batch7c.py
+                                "stockpile")                                                       # effects/batch8a.py
                      if c in ids.CONDITIONS)
 NVF = max(len(VOL_STATEFUL), 1)
 VOL_FIDX = np.array([VOL_STATEFUL.index(ids.CONDITIONS[ids.VOL_BASE + k]) if ids.CONDITIONS[ids.VOL_BASE + k]

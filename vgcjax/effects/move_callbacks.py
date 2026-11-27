@@ -72,6 +72,8 @@ def base_power(st, dex, u, move, targets, bp, hit=1):
         gb = jnp.where(us > 0, jnp.minimum((25 * ts) // jnp.maximum(us, 1) + 1, 150), 1)
         out = jnp.where(is_("gyroball"), gb, out)
     out = jnp.where(is_("tripleaxel"), 20 * jnp.asarray(hit, I32), out)            # 20 * move.hit
+    from vgcjax.effects import batch8a as B8A                                       # Reversal
+    out = B8A.reversal_bp(st, u, move, out)
     from vgcjax.effects import batch_damaging as BD
     return BD.beat_up_bp(st, dex, u, move, out, hit)                                # move.allies.shift()
 
@@ -179,6 +181,8 @@ def expanding_force(st, u, move):
 def move_target(st, dex, u, move):
     """The ActiveMove's target after onModifyMove: Expanding Force -> 'allAdjacentFoes'."""
     tt = dex.move_target[move].astype(I32)
+    from vgcjax.effects import batch8a as B8A                  # Curse onModifyMove: a non-Ghost user -> 'self'
+    tt = B8A.curse_tt(st, u, move, tt)
     return jnp.where(expanding_force(st, u, move), ids.TARGET_ALLADJACENTFOES, tt)
 
 

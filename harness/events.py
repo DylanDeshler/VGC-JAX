@@ -38,7 +38,9 @@ def engine_events(st) -> tuple[list[dict], bool]:
         mv = effect_name(move) if name in EV.EFFECT_KINDS else (ids.MOVES[move] if 0 < move < len(ids.MOVES) else "")
         if name == "START" and mv == "perishsong":
             mv, v2 = f"perish{v2}", 0           # '-start' X 'perishN' (effects/moves_b2.py)
-        if name == "START" and v2 == 1 and mv in ("doubleshock", "soak", "protean", "libero"):
+        if name == "START" and mv == "stockpile" and v2 > 0:
+            mv, v2 = f"stockpile{v2}", 0        # '-start' X 'stockpileN' (effects/batch8a.py)
+        if name == "START" and v2 == 1 and mv in ("doubleshock", "soak", "protean", "libero", "magicpowder"):
             mv, v2 = "typechange", 0            # '-start' X 'typechange' (effects/moves_b2.py double_shock_self)
         if name in ("START", "END") and mv == "supremeoverlord" and v2 > 0:
             mv, v2 = f"fallen{v2}", 0           # '-start' / '-end' X 'fallenN' '[silent]' (effects/batch_reactive.py)
