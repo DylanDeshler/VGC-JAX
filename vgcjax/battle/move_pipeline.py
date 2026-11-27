@@ -1589,7 +1589,8 @@ def move_end(st, dex, rng, cfg):
     st = apply_recoil(st, dex, u, move, ex.total, run_rest & (ex.total > 0))
     # gotAttacked / timesAttacked
     m = st.mons
-    num = run_rest & tv & (targets != u) & (ex.lt == RS.NUM)
+    # a substitute hit is numeric too: spreadDamage turns its true into 0 for the null target ([C] scripts.ts:560-565)
+    num = run_rest & tv & (targets != u) & ((ex.lt == RS.NUM) | ex.sub_null)
     ta = mset_many(m.times_attacked, targets, mget(m.times_attacked, targets) + jnp.where(ex.smart, 1, hit_count), num)
     st = st.replace(mons=m.replace(times_attacked=ta))
     # [C] scripts.ts:569
