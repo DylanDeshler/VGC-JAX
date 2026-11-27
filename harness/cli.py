@@ -77,8 +77,15 @@ def emit_fixtures(files, results, n, out_dir, stage, canary=False):
     return made
 
 
+def _pl_part(d, w):
+    import pathlib as _p
+    _p.Path(d).mkdir(parents=True, exist_ok=True)
+    return _p.Path(d) / f"partial_w{w}.jsonl"
+
+
 def _worker(args):
-    files, stage, w, nw, limit, check_masks, canary, micro_steps, per_file = args
+    files, stage, w, nw, limit, check_masks, canary, micro_steps, per_file, partial_dir = args
+    pf = open(_pl_part(partial_dir, w), "a") if partial_dir else None
     os.environ.setdefault("JAX_PLATFORMS", "cpu")
     from harness.replay_one import replay_battle, split_battles
     cfg = _cfg(stage, canary, micro_steps)
@@ -122,6 +129,9 @@ def _worker(args):
                           flush=True)
                 out.append(dict(index=gi, battle_id=h["battle_id"], decisions=n_dec, legal=n_legal, kinds=dict(kinds), **{
                     k: (v if k != "detail" else json.loads(json.dumps(v, default=str))) for k, v in r.items()}))
+                if pf is not None:                 # incremental results (survive a killed / stopped run)
+                    pf.write(json.dumps(out[-1], default=str) + "\n")
+                    pf.flush()
             gi += 1
     return out
 
@@ -172,7 +182,8 @@ def cmd_replay(a):
     ctx = mp.get_context("spawn")
     with ctx.Pool(a.workers) as pool:
         parts = pool.map(_worker, [(files, a.stage, w, a.workers, a.limit, not a.no_masks, a.canary, a.micro_steps,
-                                     a.per_file) for w in range(a.workers)])
+                                     a.per_file, str(pathlib.Path(a.out) / "partial") if a.out else None)
+                                    for w in range(a.workers)])
     results = sorted((r for p in parts for r in p), key=lambda r: r["index"])
     summ = summarize(results)
     summ["seconds"] = round(time.time() - t0, 1)

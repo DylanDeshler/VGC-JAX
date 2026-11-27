@@ -52,7 +52,11 @@ def main():
     else:
         rc = subprocess.call([sys.executable, "-m", "harness.cli", "replay", str(merged), "--workers", str(a.workers),
                               "--out", str(out)] + (["--per-file", str(a.per_file)] if a.per_file else []))
-    res = [json.loads(l) for l in open(out / "results.jsonl")]
+    if (out / "results.jsonl").exists():
+        res = [json.loads(l) for l in open(out / "results.jsonl")]
+    else:                                      # a stopped run: the workers' incremental files
+        res = [json.loads(l) for f in sorted((out / "partial").glob("partial_w*.jsonl")) for l in open(f) if l.strip()]
+        print(f"(partial results: {len(res)} battles)")
     by = collections.defaultdict(list)
     for r in res:
         i = r["index"]
