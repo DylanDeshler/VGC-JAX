@@ -141,7 +141,11 @@ def get_target(st, dex, rng, u, move, loc, orig, on):
     cur = at_loc(st, u, loc)
     cur_alive = (cur >= 0) & ~mget(m.fainted, cur)
     self_loc = -(position(st, u) + 1)
-    own_slot_fail = _in(tt, (T.TARGET_ADJACENTALLY, T.TARGET_ANY, T.TARGET_NORMAL)) & (jnp.asarray(loc) == self_loc)
+    # PS :2474-2479: ... && !pokemon.volatiles['twoturnmove'] (iceball / rollout: not in Reg M-C): a charged move
+    # whose stored ally slot became the user's own (Ally Switch) falls through to validTargetLoc -> random target
+    in_twoturn = CO.has_volatile(st, u, CO.cid("twoturnmove")) if "twoturnmove" in ids.CONDITIONS else False
+    own_slot_fail = _in(tt, (T.TARGET_ADJACENTALLY, T.TARGET_ANY, T.TARGET_NORMAL)) & (jnp.asarray(loc) == self_loc) & \
+        ~in_twoturn
     futuremove = mflag(dex, move, T.MF_FUTUREMOVE)
     valid = (tt != T.TARGET_RANDOMNORMAL) & valid_target_loc(st, u, loc, tt)
     tgt_fainted = (cur >= 0) & mget(m.fainted, cur)
