@@ -111,6 +111,8 @@ def spe_chain(st: S.State, ref, spe):
         a = getattr(ids, f"ABILITY_{name.upper()}", -1)
         if a > 0 and w in ids.CONDITIONS:
             mod = jnp.where(active & (ab == a) & (wt == ids.CONDITIONS.index(w)), fp.chain_modify(mod, 2, 1), mod)
+    from vgcjax.effects import batch8c as B8C           # Surge Surfer (Electric Terrain): chainModify(2)
+    mod = B8C.surge_surfer_spe(st, ab, active, mod)
     if "unburden" in ids.CONDITIONS:
         k = ids.CONDITIONS.index("unburden") - ids.VOL_BASE
         words = mget(m.vol_bits, ref)

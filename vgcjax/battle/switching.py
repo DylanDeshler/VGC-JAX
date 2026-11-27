@@ -93,6 +93,8 @@ def switch_in(st: S.State, dex, rng, side, pos, b_in, on, source_effect=0, is_dr
     from vgcjax.effects import abilities as AB
     from vgcjax.effects import ability_reactions as AR
     st, rng = AR.switch_out(st, dex, rng, r_old, unfainted)              # runEvent('SwitchOut') (PS :113)
+    from vgcjax.effects import batch8c as B8C                           # Zero to Hero onSwitchOut
+    st = B8C.zero_to_hero_out(st, dex, r_old, unfainted)
     st = AB.end_vec(st, r_old[None], unfainted[None])
     st = Q.cancel_action(st, r_old, unfainted)
     # PS :127-129: selfSwitch 'copyvolatile' (Baton Pass) -> pokemon.copyVolatileFrom(oldActive)

@@ -132,7 +132,12 @@ class Builder:
                 for e in lst:
                     items.add(e["item"])
         moves = set(v2["moves"]) | {m for m in ("struggle", "recharge") if m in self.moves}
-        self.species_ids = ["none"] + species
+        # legal cosmetic formes without their own Pokedex entry (Alcremie-Salted-Cream, Florges-Blue, ...: legal_pool
+        # lists them only under the base's cosmeticFormes) join the id space, appended so the pool's ids stay stable
+        legal = load(self.export / "legal_pool.json")["species"]
+        cosmetic = sorted({c for b in species if b in legal for c in legal[b].get("cosmeticFormes", [])
+                           if c in self.species} - set(species))
+        self.species_ids = ["none"] + species + cosmetic
         self.move_ids = ["none"] + sorted(moves)
         # abilities a pool move's handler gives with a literal setAbility('<id>') (census code_refs.sets_ability:
         # Simple Beam -> simple) join the id space, appended so the pool's ability ids stay stable

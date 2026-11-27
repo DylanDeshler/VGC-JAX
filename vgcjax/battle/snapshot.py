@@ -150,6 +150,7 @@ def _mon(m, s, b, p, sheet):
         m.move_disabled[s, b, j] = 2 if d == "hidden" else 1 if d else 0
         m.move_used[s, b, j] = bool(ms.get("used"))
     w("transformed", bool(p.get("transformed")))
+    w("hero_msg", bool(p.get("heroMessageDisplayed")))   # Zero to Hero (effects/batch8c.py)
     if p.get("transformed"):                     # baseMoveSlots pp | disabled << 8 (state.py Mons.base_slots)
         for j, ms in enumerate((p.get("baseMoveSlots") or [])[:4]):
             m.base_slots[s, b, j] = int(ms["pp"]) | ((1 if ms.get("disabled") else 0) << 8)

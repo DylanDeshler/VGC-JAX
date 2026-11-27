@@ -158,6 +158,7 @@ class Mons:
                                    #     from the team sheet; clearVolatile restores them: battle/switching.py)
     mold_saved: jax.Array          # i16 Mold Breaker (effects/batch_reactive.py): 0, the masked breakable ability, or
                                    #     -1 for the active Mold Breaker mover
+    hero_msg: jax.Array            # bool pokemon.heroMessageDisplayed (Zero to Hero, effects/batch8c.py)
 
 
 @struct.dataclass
@@ -380,7 +381,7 @@ def empty_mons() -> Mons:
         times_attacked=_z(s, I8), stats_raised_this_turn=_z(s, bool), stats_lowered_this_turn=_z(s, bool),
         used_item_this_turn=_z(s, bool), trapped=_z(s, I8), can_mega=_z(s, bool), weight_hg=_z(s, I16),
         previously_switched_in=_z(s, I8), transformed=_z(s, bool), base_slots=_z(s + (4,), I16),
-        mold_saved=_z(s, I16))
+        mold_saved=_z(s, I16), hero_msg=_z(s, bool))
 
 
 def empty_scratch() -> Scratch:

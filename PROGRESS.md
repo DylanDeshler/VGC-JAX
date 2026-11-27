@@ -100,6 +100,10 @@ M3 status (2026-11-26) — Reg M-C ladder push
   engine consume RANDOM_TARGET_NOMINAL or exclude the field); Lightning Rod redirect speed tie after Transform;
   secondary roll on substitute-nulled spread targets (Rock Slide, 1 battle); twoturnmove ally target after Ally
   Switch; Roar FORCED_SWITCH_PICK (1 battle); weather residual speed tie after Imposter (1 battle).
+- Batch 8c (effects/batch8c.py): Zero to Hero (+ Palafin; Mons.hero_msg = heroMessageDisplayed), Ice Body, Surge
+  Surfer (+ Raichu-Alola), Marvel Scale; Alcremie-Salted-Cream (+ Florges / Furfrou cosmetic formes) now exported
+  (export_dex: alias-only cosmetic formes) and in the id space (codegen), Salted Cream in impl (impl_stage EXTRA
+  species). op_count 2,102,749 -> 2,111,217. Corpora: scripts/corpora/batch8c_specs.txt (not replayed yet).
 
 M3 content (2026-10-23)
 - Conditions framework (vgcjax/effects/conditions.py: storage, add/remove/restart, singleEvent, field schema +

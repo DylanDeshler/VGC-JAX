@@ -60,7 +60,17 @@ function write(name, obj) {
 
 // ------------------------------------------------------------------ species / megas
 function exportSpecies() {
-	const species = sortedMap(dex.species.all().filter(s => s.exists), s => entity(s));
+	const all = dex.species.all().filter(s => s.exists);
+	// cosmetic formes without their own Pokedex entry (Alcremie-Salted-Cream, Florges-Blue, ...) are not in
+	// species.all(); species.get builds them from the base species (PS: sim/dex-species.ts:464-479)
+	const have = new Set(all.map(s => s.id));
+	for (const s of all.slice()) {
+		for (const c of s.cosmeticFormes || []) {
+			const cs = dex.species.get(c);
+			if (cs.exists && !have.has(cs.id)) { have.add(cs.id); all.push(cs); }
+		}
+	}
+	const species = sortedMap(all, s => entity(s));
 	const megas = {};
 	for (const it of dex.items.all()) {
 		if (!it.exists || !it.megaStone) continue;

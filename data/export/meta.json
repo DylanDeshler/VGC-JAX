@@ -4,7 +4,7 @@
  "format": "gen9championsvgc2026regmc",
  "exporter": "tools/datagen/export_dex.js",
  "counts": {
-  "species": 1518,
+  "species": 1586,
   "moves": 938,
   "abilities": 321,
   "items": 587,

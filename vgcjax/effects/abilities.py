@@ -53,7 +53,8 @@ def set_state_field(st, ref, name, key, value, on):
 
 SWITCH_IN = ("drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
              "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk", "fairyaura", "hospitality", "trace",
-             "moldbreaker", "supremeoverlord")                 # the last two: effects/batch_reactive.py switch_in
+             "moldbreaker", "supremeoverlord",                 # these two: effects/batch_reactive.py switch_in
+             "zerotohero")                                     # effects/batch8c.py (onSwitchIn)
 WEATHER_SETTERS = {"drought": "sunnyday", "drizzle": "raindance", "sandstream": "sandstorm", "snowwarning": "snowscape"}
 TERRAIN_SETTERS = {"electricsurge": "electricterrain", "grassysurge": "grassyterrain", "psychicsurge": "psychicterrain",
                    "mistysurge": "mistyterrain"}
@@ -160,6 +161,8 @@ def switch_in_vec(st, dex, rng, u, on, start=False, _traced=False):
     st = BR.switch_in(st, r, ab, on)
     from vgcjax.effects import batch7b as B7              # Gluttony onStart
     st = B7.switch_in(st, r, ab, on)
+    from vgcjax.effects import batch8c as B8C             # Zero to Hero onSwitchIn (no onStart)
+    st = B8C.zero_to_hero_in(st, dex, r, on & ~started)
     if aid("trace") > 0 and not _traced:      # Trace onStart: seek = true (no No Ability / Ability Shield in Reg
         tr = is_("trace")                     # M-C), then singleEvent('Update')
         st = set_state_field(st, r, "trace", "seek", 1, tr)

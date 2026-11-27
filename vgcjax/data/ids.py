@@ -4,7 +4,7 @@ ID spaces (03 §1) are stage-independent; stage support lives in tables.npz `sup
 """
 # ruff: noqa
 
-DATA_VERSION = "818fdcfcccb125d9"
+DATA_VERSION = "59c1a1d2904aa489"
 PS_COMMIT = "d601443456c795f77c6e4f2b5b459167f2b10a3c"
 FORMAT = "gen9championsvgc2026regmc"
 
@@ -56,7 +56,9 @@ SPECIES = (
     "victreebel", "victreebelmega", "vileplume", "vivillon", "vivillonarchipelago", "vivilloncontinental", "vivillonelegant", "vivillonfancy",
     "vivillongarden", "vivillonhighplains", "vivillonicysnow", "vivillonjungle", "vivillonmarine", "vivillonmodern", "vivillonmonsoon", "vivillonocean",
     "vivillonpokeball", "vivillonpolar", "vivillonriver", "vivillonsandstorm", "vivillonsavanna", "vivillonsun", "vivillontundra", "volcarona",
-    "watchog", "weavile", "whimsicott", "wigglytuff", "wyrdeer", "zoroark", "zoroarkhisui",
+    "watchog", "weavile", "whimsicott", "wigglytuff", "wyrdeer", "zoroark", "zoroarkhisui", "alcremiesaltedcream",
+    "florgesblue", "florgesorange", "florgeswhite", "florgesyellow", "furfroudandy", "furfroudebutante", "furfroudiamond", "furfrouheart",
+    "furfroukabuki", "furfroulareine", "furfroumatron", "furfroupharaoh", "furfroustar",
 )
 MOVES = (
     "none", "accelerock", "acidarmor", "acidspray", "acrobatics", "acupressure", "aerialace", "afteryou",
@@ -582,6 +584,20 @@ SPECIES_WIGGLYTUFF = 379
 SPECIES_WYRDEER = 380
 SPECIES_ZOROARK = 381
 SPECIES_ZOROARKHISUI = 382
+SPECIES_ALCREMIESALTEDCREAM = 383
+SPECIES_FLORGESBLUE = 384
+SPECIES_FLORGESORANGE = 385
+SPECIES_FLORGESWHITE = 386
+SPECIES_FLORGESYELLOW = 387
+SPECIES_FURFROUDANDY = 388
+SPECIES_FURFROUDEBUTANTE = 389
+SPECIES_FURFROUDIAMOND = 390
+SPECIES_FURFROUHEART = 391
+SPECIES_FURFROUKABUKI = 392
+SPECIES_FURFROULAREINE = 393
+SPECIES_FURFROUMATRON = 394
+SPECIES_FURFROUPHARAOH = 395
+SPECIES_FURFROUSTAR = 396
 MOVE_NONE = 0
 MOVE_ACCELEROCK = 1
 MOVE_ACIDARMOR = 2
@@ -1504,7 +1520,7 @@ NATURE_RELAXED = 21
 NATURE_SASSY = 22
 NATURE_SERIOUS = 23
 NATURE_TIMID = 24
-NS, NM, NA, NI, NC, NNAT = 383, 512, 218, 167, 105, 25
+NS, NM, NA, NI, NC, NNAT = 397, 512, 218, 167, 105, 25
 
 # TypeId: 0 none, 1..18, 19 = ??? (typeless)
 TYPE_NONE = 0

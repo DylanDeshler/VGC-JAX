@@ -169,6 +169,8 @@ def each_weather(st, dex, rng, on):
             st, rng = STS.effect_damage(st, dex, rng, r, mget(st.mons.maxhp, r) // 8, sun_eff, sp, source=r)
         from vgcjax.effects import batch_passive as BP                 # Rain Dish / Dry Skin onWeather
         st, rng = BP.weather_abilities(st, dex, rng, r, ok, w)
+        from vgcjax.effects import batch8c as B8C                      # Ice Body onWeather
+        st, rng = B8C.ice_body_weather(st, dex, rng, r, ok, w)
     from vgcjax.effects import berries as B
     return B.update(st, dex, rng, on)                                   # gen >= 7: eachEvent('Update')
 

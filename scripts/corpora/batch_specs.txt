@@ -81,3 +81,9 @@ stagereq:impl:species:mimikyu
 stagereq:impl:species:pikachu+item:lightball
 stagereq:impl:species:sirfetchd+item:leek
 stagereq:impl:species:skarmory+item:skarmorite
+stagereq:impl:species:palafin+move:flipturn
+stagereq:impl:species:mrrime+move:snowscape
+stagereq:impl:species:glalie+ability:icebody+move:snowscape
+stagereq:impl:species:raichualola+move:electricterrain
+stagereq:impl:species:milotic+ability:marvelscale+move:willowisp
+stagereq:impl:species:alcremiesaltedcream

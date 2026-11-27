@@ -24,6 +24,8 @@ SUPPORTED_REFS = {
 }
 # entities implemented beyond the data-only rule, by kind (filled in as handlers land)
 EXTRA: dict[str, set[str]] = {
+    # cosmetic formes without their own Pokedex entry (not in the v0 list; same data as the base species)
+    "species": {"alcremiesaltedcream"},
     "moves": {"protect", "detect", "wideguard", "fakeout", "feint",     # effects/protect.py (Quick Guard: no learner yet)
               "tailwind", "trickroom", "reflect", "lightscreen",         # effects/field.py
               "sunnyday", "raindance", "sandstorm", "snowscape",         # effects/weather.py
@@ -83,7 +85,8 @@ EXTRA: dict[str, set[str]] = {
                   "megasol", "unseenfist", "skilllink", "eelevate", "stalwart",          # effects/batch7a.py
                   "heatproof", "magicguard", "rivalry", "pickpocket", "gluttony", "shedskin",
                   "quickdraw", "furcoat",                                                    # effects/batch7b.py
-                  "simple"},                                                                 # effects/batch7c.py (Simple Beam)
+                  "simple",                                                                  # effects/batch7c.py (Simple Beam)
+                  "zerotohero", "icebody", "surgesurfer", "marvelscale"},                    # effects/batch8c.py
                                                                                               # effects/ability_blocks.py
     "items": {"kangaskhanite", "lumberry", "sceptilite", "bindingband", "blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
               "miracleseed", "mysticwater", "nevermeltice", "poisonbarb", "sharpbeak", "silkscarf", "silverpowder",
@@ -133,6 +136,7 @@ def main() -> None:
     toid = lambda s: "".join(ch for ch in s.lower() if ch.isalnum())  # noqa: E731
     species = set(core["species"]) | {s for s in v0["species"] if any(
         toid(a) in abilities for a in species_data[s]["abilities"].values())}
+    species |= {s for s in EXTRA["species"] if toid(species_data[s]["baseSpecies"]) in species}
     # Mega Stones (effects/mega.py) whose base species is in the pool and whose Mega's ability is implemented
     items_data = json.loads((EXPORT / "items.json").read_text())
     megas = set()
