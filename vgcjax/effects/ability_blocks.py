@@ -71,17 +71,26 @@ def try_boost(st, targets, capped, source, effect, has_secondaries, go):
     fail_stat = jnp.where(blockers, 0, fail_stat)
     guard = go & intim & (capped[:, 0] != 0) & _has(ab, "guarddog")
     keys = keys.at[:, 0].set(keys[:, 0] | guard)
-    # Flower Veil (an ally or self holder): a Grass target, drops from others, not already removed
+    # Flower Veil (an ally or self holder): a Grass target, drops from others, not already removed. TryBoost
+    # handlers run by holder speed (priority 0 all): a faster ally holder's onAllyTryBoost runs before the target's own
+    # onTryBoost (Clear Body / Hyper Cutter / Scrappy ...), taking every drop, so those print nothing (a speed tie is
+    # an unrecorded random order in PS, SPEED_TIE_HANDLER_ORDER: the target's own first here)
     fv = jnp.zeros(T, bool)
     fv_of = jnp.full(T, -1, I32)
     if aid("flowerveil") > 0:
         ar, aok = _allies(st, targets)
         grass = jnp.any(mget(m.types, t) == ids.TYPE_GRASS, axis=-1)
+        t_spe = mget(m.speed, t).astype(I32)
         for j in range(2):
             h = aok[:, j] & (mget(m.ability, ar[:, j]) == aid("flowerveil"))
-            hit = go & other & grass & h & ~fv & jnp.any(neg & ~keys, axis=-1)
+            first = (ar[:, j] != t) & (mget(m.speed, ar[:, j]).astype(I32) > t_spe)
+            hit = go & other & grass & h & ~fv & jnp.any(neg & ~jnp.where(first[:, None], False, keys), axis=-1)
             fv_of = jnp.where(hit, ar[:, j], fv_of)
             fv = fv | hit
+            took_all = hit & first                       # ran before the target's own handlers
+            fail_on = fail_on & ~took_all
+            keys = jnp.where(took_all[:, None], keys & ~neg, keys)
+            guard = guard & ~took_all
         keys = keys | (fv[:, None] & neg)
     capped = jnp.where(keys, 0, capped)
     pre = dict(fail=fail_on, fail_stat=fail_stat, fail_ab=ids.ABILITY_BASE + ab - 1, block=fv & show, block_of=fv_of,
