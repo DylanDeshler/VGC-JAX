@@ -193,7 +193,8 @@ def disguise_intact(st, refs):
     if aid("disguise") <= 0 or _sid("mimikyu") <= 0:
         return jnp.zeros(jnp.shape(refs), bool)
     r = jnp.clip(jnp.asarray(refs, I32), 0, 7)
-    return _has_ab(st, r, "disguise") & (mget(st.mons.species, r) == _sid("mimikyu"))
+    # ignoringAbility: a notransform ability (Disguise) of a Transformed mon is ignored (sim/pokemon.ts:883)
+    return _has_ab(st, r, "disguise") & (mget(st.mons.species, r) == _sid("mimikyu")) & ~mget(st.mons.transformed, r)
 
 
 def disguise_shield(st, dex, u, move, targets, immune):

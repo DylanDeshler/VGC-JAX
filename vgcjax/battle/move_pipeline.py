@@ -1601,7 +1601,12 @@ def move_end(st, dex, rng, cfg):
     st, rng = B.update(st, dex, rng, some)                              # [C] scripts.ts:573 eachEvent('Update')
     # targetsCopy entries not set to false / null (substitute) by the last hit; smartTarget resets it ([C] :555-557)
     still = tv & ~RS.is_false((ex.lt, ex.lv)) & ~(ex.sub_null & ~ex.smart)
-    for j in range(NT):
+    # runEvent('AfterMoveSecondary', targets) is one event: its handlers run by holder speed across the targets
+    # (e.g. two Eject Buttons: the faster one switches, the other sees switchFlag; speed ties: unrecorded random order)
+    spe_t = jnp.where(targets >= 0, mget(st.mons.speed, jnp.clip(targets, 0, 7)).astype(I32), -1)
+    order = jnp.argsort(-spe_t, stable=True)
+    for jj in range(NT):
+        j = order[jj]
         hc = H.HookCtx.make(targets[j], u, C.eff_move(move))
         hc, st, rng = H.run_event("AfterMoveSecondary", st, dex, rng, hc,
                                   branches=H.dispatch(ids.HOOK_AFTERMOVESECONDARY),
