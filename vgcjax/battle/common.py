@@ -102,6 +102,9 @@ def spe_chain(st: S.State, ref, spe):
     # Choice Scarf onModifySpe (priority 0): chainModify(1.5) (two factors: order-free)
     scarf = active & (mget(m.item, ref) == getattr(ids, "ITEM_CHOICESCARF", -1))
     mod = jnp.where(scarf, fp.chain_modify(mod, 3, 2), mod)
+    # Iron Ball onModifySpe: chainModify(0.5) (PS: data/items.ts:3073-3076; batch 8b)
+    iball = active & (mget(m.item, ref) == getattr(ids, "ITEM_IRONBALL", -1))
+    mod = jnp.where(iball, fp.chain_modify(mod, 1, 2), mod)
     # Chlorophyll / Swift Swim / Sand Rush (the holder's effectiveWeather) and the unburden volatile (no item):
     # chainModify(2) each (exact: order-free)
     from vgcjax.effects import weather as WE

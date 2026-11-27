@@ -72,6 +72,8 @@ def base_power(st, dex, u, move, targets, bp, hit=1):
         gb = jnp.where(us > 0, jnp.minimum((25 * ts) // jnp.maximum(us, 1) + 1, 150), 1)
         out = jnp.where(is_("gyroball"), gb, out)
     out = jnp.where(is_("tripleaxel"), 20 * jnp.asarray(hit, I32), out)            # 20 * move.hit
+    from vgcjax.effects import batch8b as B8B                           # Avalanche / Fling (batch 8b)
+    out = B8B.base_power(st, dex, u, move, targets, bp, out)
     from vgcjax.effects import batch_damaging as BD
     return BD.beat_up_bp(st, dex, u, move, out, hit)                                # move.allies.shift()
 
@@ -127,13 +129,14 @@ def sheer_force(st, dex, u, move):
     return sup, holder & (sup | boost)
 
 
-ATE = {"aerilate": "FLYING", "pixilate": "FAIRY"}
+ATE = {"aerilate": "FLYING", "pixilate": "FAIRY", "refrigerate": "ICE", "dragonize": "DRAGON"}  # + batch 8b (Mega Glalie / Feraligatr)
 ATE_EXCLUDED = ("judgment", "multiattack", "naturalgift", "revelationdance", "technoblast", "terrainpulse", "weatherball")
 
 
 def ate_boosted(st, dex, u, move):
     """-ate abilities' onModifyType condition (move.typeChangerBoosted): a Normal move (base type; not in the excluded
-    list) used by an Aerilate / Pixilate holder. Returns (boosted, new type)."""
+    list) used by an Aerilate / Pixilate / Refrigerate / Dragonize holder (PS: data/abilities.ts:3813-3832 refrigerate,
+    :1036-1056 dragonize; data/mods/champions/abilities.ts:18-21 dragonize drops isNonstandard). Returns (boosted, new type)."""
     ab = mget(st.mons.ability, jnp.clip(u, 0, 7))
     # Struggle's onModifyMove (singleEvent, PS battle-actions.ts:495) sets type '???' before runEvent('ModifyType')
     normal = (dex.move_type[move] == ids.TYPE_NORMAL) & (move != ids.MOVE_STRUGGLE)

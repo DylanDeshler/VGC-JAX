@@ -112,7 +112,7 @@ def update(st, dex, rng, on):
     from vgcjax.effects import batch_forme as BF
     if iid("sitrusberry") <= 0 and iid("lumberry") <= 0 and aid("trace") <= 0 and aid("cutecharm") <= 0 and \
             aid("limber") <= 0 and \
-            iid("chestoberry") <= 0 and \
+            iid("chestoberry") <= 0 and iid("leppaberry") <= 0 and \
             not BF.ACTIVE:
         return st, rng
     on = jnp.asarray(on)
@@ -131,6 +131,8 @@ def update(st, dex, rng, on):
         hp, mx = mget(m.hp, r).astype(I32), mget(m.maxhp, r).astype(I32)
         from vgcjax.effects import batch_passive as BP_                   # attract onUpdate (volatile, subOrder 2)
         st, rng = BP_.attract_update(st, dex, rng, r, on_i)
+        from vgcjax.effects import batch8b as B8B_                       # the 'fling' volatile's onUpdate
+        st, rng = B8B_.fling_update(st, dex, rng, r, on_i)
         from vgcjax.effects import abilities as AB_                       # abilities' onUpdate first (subOrder 7)
         st, rng = AB_.trace_update(st, dex, rng, r, on_i)
         st = AB_.status_cure_update(st, r, on_i)                         # Limber / Insomnia / ... onUpdate
@@ -146,7 +148,11 @@ def update(st, dex, rng, on):
             st, rng = STS.effect_heal(st, dex, rng, r, mx // 4, ieff("sitrusberry"), go)
         conf = CO.has_volatile(st, r, CO.cid("confusion")) if "confusion" in ids.CONDITIONS else False
         st, rng = lum_eat(st, dex, rng, r, on_i & ((mget(st.mons.status, r) > 0) | conf))
-        st, rng = BR.chesto_update(st, dex, rng, r, on_i)
+        # Chesto / Leppa (batch 8b) onUpdate -> one eatItem (a mon holds one item), then each onEat
+        go_ch, go_lp = BR.chesto_go(st, r, on_i), B8B_.leppa_go(st, r, on_i)
+        st = eat_item(st, r, go_ch | go_lp)
+        st = STS.cure_status(st, r, go_ch & (mget(st.mons.status, r) == ids.COND_SLP))
+        st = B8B_.leppa_eat(st, r, go_lp)
         st, rng = BF.update_item(st, dex, rng, r, on_i)             # Mental Herb
         return st, rng
 

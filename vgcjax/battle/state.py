@@ -146,6 +146,8 @@ class Mons:
     hurt_this_turn: jax.Array      # i16 -1 = null
     last_damage: jax.Array         # i16
     times_attacked: jax.Array      # i8
+    attacked_by: jax.Array         # i16 bit r: attackedBy has {source: ref r, damage > 0, thisTurn} (sim/pokemon.ts:938-949
+                                   #     gotAttacked; sim/battle.ts:1719-1726 endTurn clears thisTurn; Avalanche, batch 8b)
     stats_raised_this_turn: jax.Array  # bool
     stats_lowered_this_turn: jax.Array  # bool
     used_item_this_turn: jax.Array  # bool
@@ -377,7 +379,7 @@ def empty_mons() -> Mons:
         force_switch_flag=_z(s, bool), speed=_z(s, I16), last_move=_z(s, I16), last_move_used=_z(s, I16),
         last_move_target_loc=_z(s, I8), move_this_turn=_z(s, I16), move_this_turn_result=_z(s, I8),
         move_last_turn_result=_z(s, I8), hurt_this_turn=_z(s, I16, -1), last_damage=_z(s, I16),
-        times_attacked=_z(s, I8), stats_raised_this_turn=_z(s, bool), stats_lowered_this_turn=_z(s, bool),
+        times_attacked=_z(s, I8), attacked_by=_z(s, I16), stats_raised_this_turn=_z(s, bool), stats_lowered_this_turn=_z(s, bool),
         used_item_this_turn=_z(s, bool), trapped=_z(s, I8), can_mega=_z(s, bool), weight_hg=_z(s, I16),
         previously_switched_in=_z(s, I8), transformed=_z(s, bool), base_slots=_z(s + (4,), I16),
         mold_saved=_z(s, I16))

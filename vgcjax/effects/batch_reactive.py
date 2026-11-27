@@ -509,7 +509,7 @@ def _cud_chew_residual(st, dex, rng, r, on):
 
 def _eat_effect(st, dex, rng, r, berry, on):
     """singleEvent('Eat', berry) for the implemented berries: Sitrus (heal(baseMaxhp / 4)), Lum (cureStatus,
-    removeVolatile('confusion')), Chesto (slp -> cureStatus)."""
+    removeVolatile('confusion')), Chesto (slp -> cureStatus), Leppa (batch8b.leppa_eat)."""
     from vgcjax.effects import statuses as STS
     on = jnp.asarray(on)
     if iid("sitrusberry") > 0:
@@ -522,19 +522,18 @@ def _eat_effect(st, dex, rng, r, berry, on):
             st, rng, _ = CO.remove_volatile(st, dex, rng, r, CO.cid("confusion"), lum)
     if iid("chestoberry") > 0:
         st = STS.cure_status(st, r, on & (berry == iid("chestoberry")) & (mget(st.mons.status, r) == ids.COND_SLP))
+    from vgcjax.effects import batch8b as B8B                           # Leppa Berry onEat
+    st = B8B.leppa_eat(st, r, on & (berry == iid("leppaberry")))
     return st, rng
 
 
 # ------------------------------------------------------------------ Chesto Berry
-def chesto_update(st, dex, rng, r, on):
+def chesto_go(st, r, on):
     """Chesto Berry onUpdate: status slp -> eatItem (TryEatItem: Unnerve) -> onEat: slp -> cureStatus()
-    ('-curestatus' X slp '[msg]')."""
+    ('-curestatus' X slp '[msg]'). The trigger only: berries.update runs one eat_item for the item onUpdate berries
+    (Chesto / Leppa; one item per mon), then the cure."""
     if iid("chestoberry") <= 0:
-        return st, rng
+        return jnp.zeros((), bool)
     from vgcjax.effects import berries as BE
-    from vgcjax.effects import statuses as STS
     r = jnp.clip(jnp.asarray(r, I32), 0, 7)
-    go = jnp.asarray(on) & holds(st, r, "chestoberry") & (mget(st.mons.status, r) == ids.COND_SLP) & BE.can_eat(st, r)
-    st = BE.eat_item(st, r, go)
-    st = STS.cure_status(st, r, go & (mget(st.mons.status, r) == ids.COND_SLP))
-    return st, rng
+    return jnp.asarray(on) & holds(st, r, "chestoberry") & (mget(st.mons.status, r) == ids.COND_SLP) & BE.can_eat(st, r)

@@ -340,10 +340,12 @@ def remove_volatile(st, dex, rng, ref, c, on):
 
 def is_semi_invulnerable(st, refs):
     """PS: sim/pokemon.ts:2183-2186 isSemiInvulnerable: fly / bounce / dive / dig / phantomforce / shadowforce /
-    Sky Drop volatiles (Reg M-C: Phantom Force only)."""
-    if "phantomforce" not in ids.CONDITIONS:
-        return jnp.zeros(jnp.shape(refs), bool)
-    return has_volatile(st, jnp.clip(jnp.asarray(refs, I32), 0, 7), cid("phantomforce"))
+    Sky Drop volatiles (Reg M-C: Phantom Force, Fly (batch 8b))."""
+    names = [n for n in ("phantomforce", "fly") if n in ids.CONDITIONS]
+    out = jnp.zeros(jnp.shape(refs), bool)
+    for n in names:
+        out = out | has_volatile(st, jnp.clip(jnp.asarray(refs, I32), 0, 7), cid(n))
+    return out
 
 
 def is_grounded(st, refs):
