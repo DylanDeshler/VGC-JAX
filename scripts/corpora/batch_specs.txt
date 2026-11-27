@@ -81,3 +81,13 @@ stagereq:impl:species:mimikyu
 stagereq:impl:species:pikachu+item:lightball
 stagereq:impl:species:sirfetchd+item:leek
 stagereq:impl:species:skarmory+item:skarmorite
+stagereq:impl:move:attract
+stagereq:impl:move:rest
+stagereq:impl:move:reversal
+stagereq:impl:species:klefki+move:fairylock
+stagereq:impl:species:hatterene+move:magicpowder
+stagereq:impl:move:minimize+move:bodyslam
+stagereq:impl:move:stockpile
+stagereq:impl:move:curse
+stagereq:impl:move:curse+species:gengar
+stagereq:impl:species:oranguru+move:instruct

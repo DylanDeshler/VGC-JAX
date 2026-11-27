@@ -75,7 +75,8 @@ def move_slot_mask(st, dex, side, slot):
     can_mega = mget(m.can_mega, u) & ~st.sides.mega_used[side] & (~struggle | shown)
     acts = []
     for mi in range(4):
-        tm = target_mask(dex.move_target[moves[mi]])
+        from vgcjax.effects import batch8a as B8A          # Curse: request target 'self' for a non-Ghost user
+        tm = target_mask(B8A.curse_tt(st, u, moves[mi], dex.move_target[moves[mi]]))
         pick = usable[mi] | (shown & (moves[mi] > 0))        # shown: any listed move (it becomes Struggle)
         for t in range(3):
             for mega in range(2):

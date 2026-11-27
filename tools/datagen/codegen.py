@@ -33,7 +33,8 @@ MOVE_FLAGS = ["allyanim", "bite", "bullet", "bypasssub", "cantusetwice", "charge
               "distance", "failcopycat", "failencore", "failinstruct", "failmefirst", "failmimic", "futuremove",
               "gravity", "heal", "metronome", "mirror", "mustpressure", "noassist", "nonsky", "noparentalbond",
               "nosketch", "nosleeptalk", "pledgecombo", "powder", "protect", "pulse", "punch", "recharge",
-              "reflectable", "slicing", "snatch", "sound", "wind"]
+              "reflectable", "slicing", "snatch", "sound", "wind",
+              "minimize"]   # appended (not sorted) so earlier flag bits keep their positions
 ABILITY_FLAGS = ["breakable", "cantsuppress", "failroleplay", "failskillswap", "noentrain", "noreceiver", "notrace",
                  "notransform"]
 SELF_SWITCH = {None: 0, True: 1, "copyvolatile": 2, "shedtail": 3}

@@ -52,6 +52,22 @@ def _in(x, vals):
     return out
 
 
+def multi_target_moves() -> frozenset:
+    """MoveIds that can have a second target slot (targets[1:]): allAdjacent / allAdjacentFoes / allies, smartTarget
+    (Dragon Darts) and Expanding Force (onModifyMove -> allAdjacentFoes). Every other move's targets[1:] are -1, so
+    the per-target call sites for j > 0 trace only these moves' handlers (compile size; no behaviour change)."""
+    if not _MULTI:
+        from vgcjax.core.dex import load_tables_np
+        t = load_tables_np()
+        multi = (T.TARGET_ALLADJACENT, T.TARGET_ALLADJACENTFOES, T.TARGET_ALLIES)
+        _MULTI.append(frozenset(m for m in range(1, len(ids.MOVES)) if int(t["move_target"][m]) in multi or
+                                int(t["move_smart_target"][m]) == 1 or m == opt_id("MOVE_EXPANDINGFORCE")))
+    return _MULTI[0]
+
+
+_MULTI: list = []
+
+
 def mflag(dex, move, flag):
     w, b = flag
     return ((dex.move_flags[move, w] >> b) & 1) == 1
@@ -522,6 +538,8 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=Fa
     from vgcjax.effects import moves_b2 as MB2
     always = ((acc_base == 0) & (ohko == 0)) | ((tt == T.TARGET_SELF) & (cat == T.CAT_STATUS)) | \
         MC.always_hits(st, u, move) | MB2.glaive_rush_target(st, targets) | no_guard(st, u, targets)  # 'Accuracy'
+    from vgcjax.effects import batch8a as B8A                     # runEvent('Accuracy'): minimize.onAccuracy
+    always = always | B8A.minimize_accuracy(st, dex, move, targets)
     key = C.dkey(st, ids.DK_ACCURACY, actor=u, target=targets, subject=C.eff_move(move), hit=hit_key)
     hit, rng = R.chance_v(rng, key, acc, 100, active=live & ~always & ~ohko_immune)
     st = C.mul_tick(st, jnp.sum((live & (ohko == 0)).astype(I32)))   # runEvent('ModifyAccuracy') per non-OHKO target
@@ -897,7 +915,12 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         dj = RS.where(cj & (mstatus > 0), RS.combine(dj, sres), dj)
         # volatileStatus (PS :1291-1294): addVolatile; the result joins didSomething
         mvol = dex.move_volatile[move].astype(I32)
-        st, rng, vres = CO.add_volatile(st, dex, rng, targets[j], mvol, cj & (mvol > 0), cands=CO.vol_candidates("move_volatile"), source=u,
+        vcands = CO.vol_candidates("move_volatile")
+        if j > 0:                        # targets[1:]: only multi-target moves' volatiles (multi_target_moves)
+            from vgcjax.core.dex import load_tables_np
+            mv_ = load_tables_np()["move_volatile"]
+            vcands = frozenset(ids.COND_BASE + int(mv_[m_]) - 1 for m_ in multi_target_moves() if int(mv_[m_]) > 0)
+        st, rng, vres = CO.add_volatile(st, dex, rng, targets[j], mvol, cj & (mvol > 0), cands=vcands, source=u,
                                         source_effect=C.eff_move(move))
         dj = RS.where(cj & (mvol > 0), RS.combine(dj, vres), dj)
         # sideCondition (PS :1295-1298): target.side.addSideCondition(id, source, move)
@@ -935,7 +958,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
                            if j == 0 else ()) + ((ids.HOOK_HIT, ~side_mode_),):
             has_ = on_ & CO.registered_for(hook_, em_, effect_range=CO.MOVE_RANGE)
             hch = H.HookCtx.make(targets[j], u, em_)
-            hch, st, rng = CO.single_event(hook_, em_, st, dex, rng, hch, cj & has_, effect_range=CO.MOVE_RANGE)
+            only_ = None if j == 0 else frozenset(ids.MOVE_BASE + m_ - 1 for m_ in multi_target_moves())   # targets[1:]
+            hch, st, rng = CO.single_event(hook_, em_, st, dex, rng, hch, cj & has_, effect_range=CO.MOVE_RANGE,
+                                           only=only_)
             dj = RS.where(cj & has_, RS.combine(dj, CO.event_result(hch)), dj)
         # runEvent('Hit', target, source, move) (not side moves): Own Tempo onHit, a confusion move ->
         # '-immune' target 'confusion' '[from] ability: Own Tempo'
@@ -1277,6 +1302,9 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
             ((dex.move_category[move] != T.CAT_STATUS) | ks) & (sp != want)          # PS :4527 || attacker.transformed
         st = SW_.set_species(st, dex, u, want, sc)
         st = EV.emit(st, sc, EV.EV_FORMECHANGE, actor=u, v1=want)
+    # Curse onModifyMove (non-Ghost -> 'self'; Ghost at an ally / no target -> 'randomNormal' + getRandomTarget)
+    from vgcjax.effects import batch8a as B8A
+    target, rng = B8A.curse_modify_target(st, dex, rng, u, move, target, go_rm & alive)
     # PS :500-503: ModifyMove changed move.target (Expanding Force) -> getRandomTarget: side.randomFoe, a
     # RANDOM_TARGET_NOMINAL don't-care draw (the printed target is not compared: harness/events.py); the engine takes
     # the first living foe, else foe.active[0]
@@ -1455,6 +1483,8 @@ def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
     pimm = pimm | (~pimm & lsd)
     from vgcjax.effects import batch7c as B7C                  # Octolock onTryImmunity: getImmunity('trapped')
     pimm = pimm | (~pimm & B7C.octolock_immune(st, move, targets))
+    from vgcjax.effects import batch8a as B8A                  # Attract onTryImmunity: opposite genders
+    pimm = pimm | (~pimm & B8A.try_immunity(st, move, targets, u))
     for j in range(NT):
         st = EV.emit(st, tv[j] & pimm[j], EV.EV_IMMUNE, actor=targets[j])            # PS :731, :745
     fail_any = fail_any | jnp.any(tv & pimm)

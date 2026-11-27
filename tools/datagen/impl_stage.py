@@ -55,7 +55,9 @@ EXTRA: dict[str, set[str]] = {
               "dragoncheer", "chillyreception", "round",                               # effects/batch_utility.py
               "octolock", "outrage", "lastresort", "synthesis", "moonlight", "mirrorcoat", "counter", "endure",
               "electrify", "wish", "supercellslam", "shedtail", "simplebeam", "entrainment",
-              "focuspunch"},                                                           # effects/batch7c.py
+              "focuspunch",                                                            # effects/batch7c.py
+              "attract", "rest", "reversal", "fairylock", "magicpowder", "minimize", "stockpile", "curse",
+              "instruct"},                                                             # effects/batch8a.py
     "abilities": {"imposter", "protean", "libero",                              # effects/batch_copy.py
                   "magicbounce", "queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
@@ -111,7 +113,8 @@ EXTRA: dict[str, set[str]] = {
                    "charge",                                                  # Electromorphosis (batch_reactive.py)
                    "metronome",                                               # Metronome item (batch7a.py)
                    "octolock", "lockedmove", "mirrorcoat", "counter", "endure", "electrify", "wish",
-                   "focuspunch"},                                             # effects/batch7c.py
+                   "focuspunch",                                              # effects/batch7c.py
+                   "curse", "stockpile", "minimize", "fairylock"},            # effects/batch8a.py
 }
 
 
