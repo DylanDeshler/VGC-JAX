@@ -134,6 +134,10 @@ def commit_move(st, dex, rng, actions, on):
             btm = occ & is_move & B7.has_before_turn(mid)
             st = Q.add_entry(st, occ & is_move & mega, kind=S.Q_MEGA, side=side, b=b, speed=spd)
             st = Q.add_entry(st, pcc, kind=S.Q_PRIORITY_CHARGE, side=side, b=b, speed=spd, move_id=mid)
+            # resolveAction({choice: 'priorityChargeMove', move}) has no targetLoc -> getRandomTarget (PS
+            # sim/battle-queue.ts:236-242 -> :266-271): a RANDOM_TARGET draw for a single-target move (Focus Punch;
+            # Chilly Reception's 'all' target returns the user, no draw). The result is unused.
+            _, rng = MP.get_random_target(st, dex, rng, u, mid, 0, pcc)
             st = Q.add_entry(st, btm, kind=S.Q_BEFORE_TURN_MOVE, side=side, b=b, speed=spd, move_id=mid)
             st = C.mul_tick(st, (occ & is_move & mega).astype(I32) + (occ & (is_move | is_switch)).astype(I32) +
                             pcc.astype(I32) + btm.astype(I32))

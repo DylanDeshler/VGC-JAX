@@ -1007,8 +1007,11 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     nsec = jnp.where(sf, 0, dex.move_nsec[move])
     oks = []
     oks_self = []
+    # null (substitute) targets share the key target -1; the oracle numbers same-key rolls by occurrence, so a second
+    # null target's rolls get ord >= nsec with chance undefined -> don't-care (contract §6): only the first draws
+    first_null = sub_ok & (jnp.cumsum(sub_ok.astype(I32)) == 1)
     for k in range(2):
-        live = (tv | sub_ok) & (k < nsec)            # a substitute target still rolls; only self effects apply
+        live = (tv | first_null) & (k < nsec)        # a substitute target still rolls; only self effects apply
         chance = dex.move_sec_chance[move, k].astype(I32)
         # the draw key's target is the (null -> -1) secondaries() loop target
         key = C.dkey(st, ids.DK_SECONDARY, actor=u, target=jnp.where(sub_ok, -1, targets), subject=C.eff_move(move),
@@ -1417,9 +1420,13 @@ def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
     # runImmunity(move, !smartTarget) messages (PS: sim/pokemon.ts:2276-2286): isGrounded null -> Levitate
     lev = (mtype == T.TYPE_GROUND) & ~flying & ~grounded & _in(mget(m.ability, targets), (
         T.ABILITY_LEVITATE, opt_id("ABILITY_EELEVATE")))                       # isGrounded() === null
+    # '[from] ability: Levitate' -> F_LEVITATE; '[from] ability: Eelevate' -> v1 = the ability (oracle protocol.js)
+    eel = lev & (mget(m.ability, targets) == opt_id("ABILITY_EELEVATE")) if opt_id("ABILITY_EELEVATE") > 0 else \
+        jnp.zeros(NT, bool)
+    eel_eff = T.ABILITY_BASE + opt_id("ABILITY_EELEVATE") - 1
     for j in range(NT):
         st = EV.emit(st, tv[j] & imm[j] & ~smart, EV.EV_IMMUNE, actor=targets[j],
-                     flags=jnp.where(lev[j], EV.F_LEVITATE, 0))
+                     flags=jnp.where(lev[j] & ~eel[j], EV.F_LEVITATE, 0), v1=jnp.where(eel[j], eel_eff, 0))
     fail_any = c.fail0 | jnp.any(tv & imm)                    # steps 0-1 false results (Invulnerability too)
     smart = smart & ~fail_any
     tv = tv & ~imm
