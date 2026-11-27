@@ -159,15 +159,24 @@ if mid("roost") > 0 and has("roost"):
         st = st.replace(mons=m.replace(types=mset(m.types, r, kept.astype(m.types.dtype), jnp.any(fly))))
         return hc, EV.emit(st, True, EV.EV_SINGLETURN, actor=r, move=CO.eff("roost")), rng
 
-    @handler(ids.HOOK_END, CO.eff("roost"), ps="data/moves.ts roost.condition (onType ends)")
+    def _roost_filter(t):
+        fly = t == ids.TYPE_FLYING
+        kept = jnp.where(fly[0], jnp.stack([t[1], 0]), jnp.where(fly[1], jnp.stack([t[0], 0]), t))
+        return jnp.where(kept[0] == 0, jnp.stack([jnp.int32(ids.TYPE_NORMAL), 0]), kept)
+
+    @handler(ids.HOOK_END, CO.eff("roost"), ps="data/moves.ts:15449-15453 roost.condition.onType ends")
     def roost_end(hc, st, dex, rng):
-        """The species' types again."""
+        """onType stops filtering: the species' types again, unless a setType (Soak, Protean, ...) replaced the types
+        while roosting (or before: then Start changed nothing) -- the current types are then the real ones (PS keeps
+        pokemon.types and filters them dynamically)."""
         from vgcjax.battle.util import mset
         r = hc.target
         m = st.mons
         sp = mget(m.species, r).astype(I32)
-        return hc, st.replace(mons=m.replace(types=mset(m.types, r, dex.species_types[sp].astype(m.types.dtype),
-                                                        True))), rng
+        spt = dex.species_types[sp].astype(I32)
+        cur = mget(m.types, r).astype(I32)
+        untouched = jnp.all(cur == _roost_filter(spt)) & jnp.any(spt == ids.TYPE_FLYING)
+        return hc, st.replace(mons=m.replace(types=mset(m.types, r, spt.astype(m.types.dtype), untouched))), rng
 
 
 # ------------------------------------------------------------------ Encore (Champions: changeAction, no OverrideAction)
