@@ -86,6 +86,13 @@ M3 status (2026-11-26) — Reg M-C ladder push
   Shed Tail, Simple Beam/Simple, Entrainment, Focus Punch) brings the greedy list to ~98.8% (unverified).
 - Batch 1-6 verification (46 targeted corpora, 5,996 battles, r7i box, scripts/corpora/replay_merged.py): 87.3% fully
   clean before fixes -> 99.75% after the first fix round (run2); remaining fixed since except the open items below.
+- Run4 (22:13 UTC): batch-7 corpora + regress suite sample (15 battles x 317 corpora): 98.67% overall; regress sample
+  6 failing battles of ~4,700 (a_cloudnine types, a_limber Meteor Beam 2nd turn, a_vitalspirit Icy Wind on subs [fixed],
+  i_sitrus_uturn Solar Blade 2nd turn, n_steelroller item swap, tr_trace hp). Regress corpora were regenerated today
+  (new impl pool), so some may be new content rather than regressions.
+- Run5 (after Focus Punch charge RANDOM_TARGET / Eelevate / null-target secondary fixes): batch 7, 30 battles x 37
+  corpora: 99.64% (1106/1110). Left: Counter pp (move_counter #439), Mega Sol hp (meganiumite #1003), weather speed
+  tie (sirfetchd #1050), Skarmorite crit/damage draws (#1109).
 - Engine traced program 4.52M -> 1.96M ops (Illusion alias batched out of emit; berries.update fori_loop); now 2.07M
   with batch 7. One replay worker compiles at ~44 GB on CPU; the Mac (36 GB) cannot replay; the r7i box (247 GB) runs
   4 workers at ~0.5 battles/s. harness/replay_one.py VGC_COMPILE_LOCK + malloc_trim under test to raise worker count.
