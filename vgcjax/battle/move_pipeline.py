@@ -530,6 +530,8 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=Fa
     uw_u, uw_t = unaware(st, u, targets)
     b = jnp.where(uw_t, 0, jnp.clip(mget(m.boosts, u)[5].astype(I32), -6, 6))
     keen = mget(m.ability, u) == opt_id("ABILITY_KEENEYE")            # Keen Eye onModifyMove: ignoreEvasion
+    from vgcjax.effects import batch9c as B9C_il                      # Illuminate onModifyMove: ignoreEvasion
+    keen = keen | B9C_il.ignores_evasion(st, u)
     eva = jnp.where(uw_u, 0, mget(m.boosts, targets)[:, 6].astype(I32))
     b = jnp.where((dex.move_ignore_evasion[move] == 1) | keen, b, jnp.clip(b - eva, -6, 6))
     staged = jnp.where(b > 0, acc_t * (3 + b) // 3, jnp.where(b < 0, acc_t * 3 // (3 - b), acc_t))
@@ -1048,9 +1050,19 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     from vgcjax.effects import move_callbacks as MC_
     sf, _ = MC_.sheer_force(st, dex, u, move)                          # Sheer Force: secondaries / self deleted
     nsec = jnp.where(sf, 0, dex.move_nsec[move])
+    # secondaries order: the move's own, then King's Rock's (onModifyMove, while still held), then Fling's flung-item
+    # effect (onPrepareHit; a flung King's Rock gives both: [{10, flinch}, {flinch}]: data/items.ts:3228-3240,
+    # data/moves.ts:5763-5771)
+    from vgcjax.effects import batch9c as B9C_kr                      # King's Rock onModifyMove: +{10, flinch}
+    kr, kr_k = B9C_kr.kings_rock(st, dex, u, move, sf)
+    nsec = nsec + kr.astype(nsec.dtype)
+    kr_at = [kr & (kr_k == k) for k in range(2)]
+    kr_oks = []
     from vgcjax.effects import batch8b as B8B                           # Fling: item.fling.status / volatileStatus
     fl_on, fl_status, fl_vol = B8B.fling_secondary(st, dex, u, move)
-    nsec = jnp.where(fl_on, 1, nsec)
+    fl_k = nsec
+    fl_at = [fl_on & (fl_k == k) for k in range(2)]
+    nsec = jnp.where(fl_on, nsec + 1, nsec)
     oks = []
     oks_self = []
     # null (substitute) targets share the key target -1; the oracle numbers same-key rolls by occurrence, so a second
@@ -1058,13 +1070,14 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     first_null = sub_ok & (jnp.cumsum(sub_ok.astype(I32)) == 1)
     for k in range(2):
         live = (tv | first_null) & (k < nsec)        # a substitute target still rolls; only self effects apply
-        chance = dex.move_sec_chance[move, k].astype(I32)
-        chance = jnp.where(fl_on, -1, chance) if k == 0 else chance
+        chance = jnp.where(kr_at[k], 10, jnp.where(fl_at[k], -1, dex.move_sec_chance[move, k].astype(I32)))
         # the draw key's target is the (null -> -1) secondaries() loop target
         key = C.dkey(st, ids.DK_SECONDARY, actor=u, target=jnp.where(sub_ok, -1, targets), subject=C.eff_move(move),
                      hit=hit_no, ord=k)
         roll, rng = R.randint_v(rng, key, 0, 100, active=live & (chance >= 0))
         ok_k = live & ((chance < 0) | (roll < chance))
+        kr_oks.append(ok_k & ~sub_ok & kr_at[k])
+        ok_k = ok_k & ~kr_at[k]                                         # the move's own secondary k
         oks_self.append(ok_k)
         oks.append(ok_k & ~sub_ok)
     tmsgs = []
@@ -1097,7 +1110,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     sec_msgs = []
     for k in range(2):
         sst = dex.move_sec_status[move, k].astype(I32)
-        sst = jnp.where(fl_on, fl_status, sst) if k == 0 else sst
+        sst = jnp.where(fl_at[k], fl_status, sst)
         st, rng, _, msg = STS.try_set_status_v(st, dex, rng, targets, sst, oks[k] & (sst > 0), u, C.eff_move(move),
                                                mstatus)
         sec_msgs.append(msg)
@@ -1108,9 +1121,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
             st = STS.emit_status_msgs(st, sec_msgs[k], j, targets[j])
             from vgcjax.effects import berries as BE                   # AfterSetStatus: Lum Berry
             st, rng = BE.after_set_status(st, dex, rng, sec_msgs[k], j, targets[j])
-            svol = dex.move_sec_volatile[move, k].astype(I32)
-            svol = jnp.where(fl_on, fl_vol, svol) if k == 0 else svol
-            st, rng, _ = CO.add_volatile(st, dex, rng, targets[j], svol, oks[k][j] & (svol > 0),
+            svol = jnp.where(kr_at[k], ids.CONDITIONS.index("flinch"),
+                             jnp.where(fl_at[k], fl_vol, dex.move_sec_volatile[move, k].astype(I32)))
+            st, rng, _ = CO.add_volatile(st, dex, rng, targets[j], svol, (oks[k][j] | kr_oks[k][j]) & (svol > 0),
                                          cands=CO.vol_candidates("move_sec_volatile"), source=u,
                                          source_effect=C.eff_move(move))
             from vgcjax.effects import moves_b1 as MB1                # secondary.onHit callbacks
@@ -1135,17 +1148,24 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     from vgcjax.effects import items as IT
     st, rng = IT.rocky_helmet(st, dex, rng, targets, damaged, u, move)        # onDamagingHitOrder 2
     st, dh_msgs, dh_on = AR.damaging_hit_boosts(st, dex, targets, damaged, u, move, st.exec.mtype)
-    for j in range(NT):
+    u_ab0 = mget(st.mons.ability, u)          # handlers are collected before any runs: the source's onSource ones stay
+    from vgcjax.effects import batch9c as B9C
+    from vgcjax.effects import hazards as HZ
+
+    def _dh_target(j, c):                     # one traced copy for the target slots (fori_loop: compile size)
+        st, rng = c
         hc = H.HookCtx.make(targets[j], u, C.eff_move(move), relay=(RS.NUM, vals[j]))
         hc, st, rng = H.run_event("DamagingHit", st, dex, rng, hc, branches=H.dispatch(ids.HOOK_DAMAGINGHIT),
                                   on=damaged[j])
         st, rng = AR.damaging_hit(st, dex, rng, j, targets[j], damaged[j], u, move, st.exec.mtype, hit_no, dh_msgs,
                                   dh_on)
-        from vgcjax.effects import hazards as HZ                       # Toxic Debris (holder's DamagingHit)
-        st, rng = HZ.toxic_debris(st, dex, rng, targets[j], damaged[j], move)
+        st, rng = HZ.toxic_debris(st, dex, rng, targets[j], damaged[j], move)    # Toxic Debris (holder's DamagingHit)
         st = BF.illusion_damaging_hit(st, targets[j], damaged[j])     # Illusion onDamagingHit (ability)
+        st, rng = B9C.damaging_hit(st, dex, rng, targets[j], damaged[j], u, move)   # Seed Sower / Mummy / W. Spirit
         st = BF.air_balloon_pop(st, targets[j], damaged[j])           # Air Balloon onDamagingHit (item: subOrder 8)
-        st, rng = AR.poison_touch(st, dex, rng, targets[j], damaged[j], u, move, hit_no)   # source's onSource last
+        st, rng = AR.poison_touch(st, dex, rng, targets[j], damaged[j], u, move, hit_no, u_ab=u_ab0)  # onSource last
+        return st, rng
+    st, rng = jax.lax.fori_loop(0, NT, _dh_target, (st, rng))
     from vgcjax.effects import moves_b1 as MB1                       # singleEvent('AfterHit', move) per target
     for j in range(NT):
         st = MB1.knock_off(st, dex, targets[j], u, move, damaged[j])
@@ -1583,7 +1603,9 @@ def move_hit(st, dex, rng, cfg):
     uw_u, uw_t0 = unaware(st, u, t0)
     bu = jnp.where(uw_t0, 0, jnp.clip(mget(m.boosts, u)[5].astype(I32), -6, 6))
     be = jnp.where(uw_u, 0, jnp.clip(mget(m.boosts, t0)[6].astype(I32), -6, 6))
-    be = jnp.where((dex.move_ignore_evasion[move] == 1) | (mget(m.ability, u) == opt_id("ABILITY_KEENEYE")), 0, be)
+    from vgcjax.effects import batch9c as B9C_il                      # Illuminate: ignoreEvasion
+    be = jnp.where((dex.move_ignore_evasion[move] == 1) | (mget(m.ability, u) == opt_id("ABILITY_KEENEYE")) |
+                   B9C_il.ignores_evasion(st, u), 0, be)
     num = a * jnp.where(bu > 0, 3 + bu, 3) * jnp.where(be < 0, 3 - be, 3)
     den = jnp.where(bu > 0, 3, 3 - bu) * jnp.where(be > 0, 3 + be, 3)
     akey = C.dkey(st, ids.DK_ACCURACY, actor=u, target=t0, subject=C.eff_move(move), hit=h)

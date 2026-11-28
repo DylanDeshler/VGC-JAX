@@ -225,7 +225,8 @@ if mid("bugbite") > 0:
             lum = go & (it == iid("lumberry"))
             st = STS.cure_status(st, u, lum)
             if has("confusion"):
-                st, rng, _ = CO.remove_volatile(st, dex, rng, u, CO.cid("confusion"), lum)
+                from vgcjax.effects import batch9c as B9C                # Persim Berry onEat: the same removal
+                st, rng, _ = CO.remove_volatile(st, dex, rng, u, CO.cid("confusion"), lum | (go & B9C.is_persim(it)))
         return hc, st, rng
 
 

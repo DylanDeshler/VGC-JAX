@@ -277,7 +277,9 @@ def air_balloon_pop(st, r, on):
     st = st.replace(mons=m.replace(item=mset(m.item, rr, 0, go),
                                    item_state=mset(m.item_state, rr, jnp.zeros_like(mget(m.item_state, rr)), go),
                                    item_seq=mset(m.item_seq, rr, 0, go)))
-    return AB.unburden(st, rr, go)
+    st = AB.unburden(st, rr, go)
+    from vgcjax.effects import batch9c as B9C                            # AfterUseItem: an ally's Symbiosis
+    return B9C.symbiosis(st, None, rr, go)
 
 
 if iid("airballoon") > 0:

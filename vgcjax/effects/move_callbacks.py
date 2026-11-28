@@ -35,8 +35,9 @@ def base_power(st, dex, u, move, targets, bp, hit=1):
     basePower. The result is clamped to >= 1 by the caller's existing path (falsy -> undefined)."""
     m = st.mons
     t = jnp.clip(targets, 0, 7)
-    uw = mget(m.weight_hg, u).astype(I32)
-    tw = mget(m.weight_hg, t).astype(I32)
+    from vgcjax.effects import batch9c as B9C           # getWeight(): Heavy Metal (ModifyWeight)
+    uw = B9C.weight(st, u)
+    tw = B9C.weight(st, t)
     out = jnp.broadcast_to(jnp.asarray(bp, I32), targets.shape)
     is_ = lambda n: move == mid(n)  # noqa: E731
     out = jnp.where(is_("lowkick") | is_("grassknot"), _weight_bp(tw), out)

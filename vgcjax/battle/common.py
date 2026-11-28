@@ -110,7 +110,8 @@ def spe_chain(st: S.State, ref, spe):
     from vgcjax.effects import weather as WE
     ab = mget(m.ability, ref)
     wt = WE.mon_weather(st, ref)
-    for name, w in (("chlorophyll", "sunnyday"), ("swiftswim", "raindance"), ("sandrush", "sandstorm")):
+    for name, w in (("chlorophyll", "sunnyday"), ("swiftswim", "raindance"), ("sandrush", "sandstorm"),
+                    ("slushrush", "snowscape")):                # Slush Rush: data/abilities.ts:4348-4358
         a = getattr(ids, f"ABILITY_{name.upper()}", -1)
         if a > 0 and w in ids.CONDITIONS:
             mod = jnp.where(active & (ab == a) & (wt == ids.CONDITIONS.index(w)), fp.chain_modify(mod, 2, 1), mod)

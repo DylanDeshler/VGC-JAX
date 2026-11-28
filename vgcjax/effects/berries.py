@@ -70,7 +70,9 @@ def eat_item(st, ref, on):
     from vgcjax.effects import batch_reactive as BR
     st = BR.cud_chew_eat(st, r, it, go)                                  # runEvent('EatItem'): Cud Chew
     from vgcjax.effects import abilities as AB
-    return AB.unburden(st, r, go)                                        # runEvent('AfterUseItem')
+    st = AB.unburden(st, r, go)                                          # runEvent('AfterUseItem')
+    from vgcjax.effects import batch9c as B9C                            # AfterUseItem: an ally's Symbiosis
+    return B9C.symbiosis(st, None, r, go)
 
 
 # ------------------------------------------------------------------ resist berries (ModifyDamage, Source prefix)
@@ -123,10 +125,18 @@ def update(st, dex, rng, on):
     order = jnp.argsort(-spd, stable=True)
     # one traced copy of the handlers, looped over the 4 speed-sorted actives (an unrolled Python loop traced every
     # onUpdate handler 4x per call site: compile size)
+    from vgcjax.effects import batch9c as B9C
+
     def body(i, carry):
         st, rng = carry
         r = refs[order[i]]
         on_i = on & alive[order[i]]
+        it0 = mget(st.mons.item, r)
+        with B9C.no_symbiosis():          # Symbiosis (AfterUseItem of the item r used / ate): once, at the end
+            st, rng = body_handlers(st, rng, r, on_i)
+        return B9C.symbiosis(st, dex, r, on_i & (it0 > 0) & (mget(st.mons.item, r) == 0)), rng
+
+    def body_handlers(st, rng, r, on_i):
         m = st.mons
         hp, mx = mget(m.hp, r).astype(I32), mget(m.maxhp, r).astype(I32)
         from vgcjax.effects import batch_passive as BP_                   # attract onUpdate (volatile, subOrder 2)
@@ -153,6 +163,7 @@ def update(st, dex, rng, on):
         st = eat_item(st, r, go_ch | go_lp)
         st = STS.cure_status(st, r, go_ch & (mget(st.mons.status, r) == ids.COND_SLP))
         st = B8B_.leppa_eat(st, r, go_lp)
+        st, rng = B9C.persim_update(st, dex, rng, r, on_i)
         st, rng = BF.update_item(st, dex, rng, r, on_i)             # Mental Herb
         return st, rng
 

@@ -51,7 +51,9 @@ def use_item(st, ref, on):
                                    item_state=mset(m.item_state, r, jnp.zeros_like(mget(m.item_state, r)), go),
                                    item_seq=mset(m.item_seq, r, 0, go)))      # clearEffectState: effectOrder = 0
     from vgcjax.effects import abilities as AB
-    return AB.unburden(st, r, go)                                        # runEvent('AfterUseItem')
+    st = AB.unburden(st, r, go)                                          # runEvent('AfterUseItem')
+    from vgcjax.effects import batch9c as B9C                            # AfterUseItem: an ally's Symbiosis
+    return B9C.symbiosis(st, None, r, go)
 
 
 # ------------------------------------------------------------------ modifier items
@@ -206,6 +208,8 @@ def terrain_change(st, dex, rng, on):
         st = EV.emit(st, go[j], EV.EV_ENDITEM, actor=refs[j], move=ids.ITEM_BASE + it[j] - 1)
         st = MP.emit_boost(st, bmsgs, refs[j], j)
         st = AB.unburden(st, refs[j], go[j])                            # AfterUseItem
+    from vgcjax.effects import batch9c as B9C                           # AfterUseItem: an ally's Symbiosis
+    st = B9C.symbiosis_many(st, refs, go)                               # (after the batch, as its lines: ADR-107)
     return st, rng
 
 
