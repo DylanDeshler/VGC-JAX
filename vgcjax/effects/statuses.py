@@ -112,6 +112,9 @@ def set_status(st, dex, rng, ref, status, on, source=-1, source_effect=-1, move_
     st = st.replace(mons=m.replace(status=mset(m.status, ref, cur, cancel)))
     # AfterSetStatus: Synchronize / Lum-like reactions join with abilities and items (M4)
     res = RS.where(go & ~cancel, RS.R(RS.BOOL, 1), RS.where(cancel, (hc.ret_t, hc.ret_v), RS.R(RS.BOOL, 0)))
+    # Sweet Veil / Flower Veil onAllySetStatus return null ('-block'; data/abilities.ts sweetveil / flowerveil): Rest's
+    # onHit then returns null (no '-fail' / [still]); Insomnia-type abilities and the terrains return false
+    res = RS.where(ab_wins & blk_m[0], RS.R(RS.NULL), res)
     return st, rng, res
 
 

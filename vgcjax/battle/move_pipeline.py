@@ -1679,8 +1679,9 @@ def move_end(st, dex, rng, cfg):
     st = apply_recoil(st, dex, u, move, ex.total, run_rest & (ex.total > 0))
     # gotAttacked / timesAttacked
     m = st.mons
-    # a substitute hit is numeric too: spreadDamage turns its true into 0 for the null target ([C] scripts.ts:560-565)
-    num = run_rest & tv & (targets != u) & ((ex.lt == RS.NUM) | ex.sub_null)
+    # [C] scripts.ts:560-565: only targets still in targetsCopy after the LAST hit (a substitute hit nulls it: not
+    # counted) with a numeric moveDamage; then += hit - 1 (every hit, substitute ones included)
+    num = run_rest & tv & (targets != u) & (ex.lt == RS.NUM) & ~(ex.sub_null & ~ex.smart)
     ta = mset_many(m.times_attacked, targets, mget(m.times_attacked, targets) + jnp.where(ex.smart, 1, hit_count), num)
     st = st.replace(mons=m.replace(times_attacked=ta))
     from vgcjax.effects import batch8b as B8B                           # gotAttacked: attackedBy (Avalanche)
