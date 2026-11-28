@@ -777,6 +777,8 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
             src_up = mget(st.mons.hp, u) > 0                               # onAfterSubDamage: source.hp
             if opt_id("MOVE_ICESPINNER") > 0:
                 st, rng = SC.clear_terrain(st, dex, rng, hit & src_up & (move == opt_id("MOVE_ICESPINNER")))
+            if opt_id("MOVE_STEELROLLER") > 0:                         # data/moves.ts steelroller.onAfterSubDamage
+                st, rng = SC.clear_terrain(st, dex, rng, hit & (move == opt_id("MOVE_STEELROLLER")))
             if opt_id("MOVE_STONEAXE") > 0 and "stealthrock" in ids.CONDITIONS:
                 st, rng, _ = SC.add_side_condition(st, dex, rng, 1 - side_of(u), CO.cid("stealthrock"),
                                                    hit & src_up & ~sf_sub & (move == opt_id("MOVE_STONEAXE")),
