@@ -151,12 +151,16 @@ if mid("lastresort") > 0:
 def _weather_heal(hc, st, dex, rng):
     """onHit(pokemon): pokemon.effectiveWeather() Sun / Desolate Land -> 0.667, Rain / Primordial Sea / Sandstorm /
     Hail / Snow -> 0.25, else 0.5; heal(modify(maxhp, factor)) ('-heal' X hp: a Move effect); failed -> '-fail' X
-    'heal', NOT_FAIL; else true. (Mega Sol's forced sun: not in the impl stage.)"""
+    'heal', NOT_FAIL; else true. effectiveWeather(undefined, true) (sim/pokemon.ts:2211-2217): a Mega Sol user
+    (battle.effect: the move) reads 'sunnyday', '-activate' X 'ability: Mega Sol' when the field's is not sun
+    (effects/batch7a.py; also Morning Sun, effects/batch9b.py)."""
     from vgcjax.battle import move_pipeline as MP
     from vgcjax.core import fixedpoint as FP
+    from vgcjax.effects import batch7a as B7A
     from vgcjax.effects import weather as WE
     u = jnp.clip(hc.target, 0, 7)
-    w = WE.mon_weather(st, u)
+    w = B7A.megasol_weather(st, WE.mon_weather(st, u), u)
+    st = B7A.megasol_message(st, u, True)
     sun = jnp.zeros((), bool)
     for n in ("sunnyday", "desolateland"):
         if has(n):

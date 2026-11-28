@@ -1,0 +1,9 @@
+stagereq:impl:species:chimecho+move:healbell
+stagereq:impl:move:thrash
+stagereq:impl:move:futuresight
+stagereq:impl:species:garganacl+move:saltcure
+stagereq:impl:move:safeguard
+stagereq:impl:move:acupressure
+stagereq:impl:species:flapple+move:gravapple
+stagereq:impl:move:burnup
+stagereq:impl:move:morningsun

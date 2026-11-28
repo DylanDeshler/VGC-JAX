@@ -226,7 +226,7 @@ def destinybond_move_aborted(st, dex, rng, u, on):
 
 def destinybond_faint(st, ref, src, on):
     """destinybond.condition.onFaint(target, source, effect) (data/moves.ts:3500-3510) for a faint whose source is the
-    move user `src` (effect: its move, never a future move in Reg M-C): source has hp and is not an ally ->
+    move user `src` (effect: its move; a futuremove hit passes no source, battle/move_pipeline.py move_end): source has hp and is not an ally ->
     '-activate' target 'move: Destiny Bond'; the caller faints the source. Returns (st, activated)."""
     if not (mid("destinybond") > 0 and has("destinybond")):
         return st, jnp.zeros((), bool)

@@ -16,6 +16,7 @@ I8, I16, I32, U32 = jnp.int8, jnp.int16, jnp.int32, jnp.uint32
 QMAX = 14            # 04 §12
 FAINTQ = 8
 NE = 32              # PublicEvents ring (03 §4.7)
+RS_K = 16            # stored residual-walk rows (effects/fieldevent.py K_RES; Future Sight suspension)
 K_ATT = 8
 NV = ids.VOL_END - ids.VOL_BASE
 NSC = ids.SIDE_END - ids.SIDE_BASE
@@ -270,6 +271,12 @@ class Scratch:
     # other mon's breakable ability is parked here (-1 = not parked) and reads as none; restored at clearActiveMove
     mb_active: jax.Array           # bool
     mb_saved: jax.Array            # i16[2,4]
+    # Future Sight (effects/batch9b.py): a futuremove slot condition ending in the residual walk schedules its hit
+    # (trySpreadMoveHit, run by the next micro-step through move_begin_back); the walk is suspended meanwhile and
+    # resumes after it with its stored handler rows
+    fut: jax.Array                 # i16[10] the future hit / suspended walk (effects/batch9b.py F_* slots)
+    rs_rows: jax.Array             # i16[RS_K + 1, 8] the walk's rows in execution order (effects/fieldevent.py);
+                                   #   row RS_K: residualPokemon refs [0:4] and their hp before the residual [4:8]
 
 
 @struct.dataclass
@@ -395,7 +402,8 @@ def empty_scratch() -> Scratch:
                    bounce_move=_z((), I16), bounce_tgt=_z((), I8, -1), orig_u=_z((), I8, -1), orig_move=_z((), I16),
                    orig_t0=_z((), I8, -1), orig_mr=_z((), I8), orig_result=_z((), bool), orig_go_rm=_z((), bool),
                    orig_on_rm=_z((), bool), res_pending=_z((), bool), res=empty_carry(), res_hit=_z((), I8),
-                   mb_active=_z((), bool), mb_saved=_z((2, 4), I16, -1))
+                   mb_active=_z((), bool), mb_saved=_z((2, 4), I16, -1),
+                   fut=jnp.zeros(10, I16).at[2:4].set(-1), rs_rows=_z((RS_K + 1, 8), I16))
 
 
 def empty_state(team: Team) -> State:

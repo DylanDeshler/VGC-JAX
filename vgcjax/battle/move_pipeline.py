@@ -954,8 +954,10 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
         em_ = C.eff_move(move)
         side_mode_ = jnp.asarray(side_mode)
         all_t = dex.move_target[move] == T.TARGET_ALL
-        for hook_, on_ in (((ids.HOOK_HITFIELD, side_mode_ & all_t), (ids.HOOK_HITSIDE, side_mode_ & ~all_t))
-                           if j == 0 else ()) + ((ids.HOOK_HIT, ~side_mode_),):
+        # PS :1322-1338: an allyTeam move (Heal Bell, effects/batch9b.py) takes the `else` branch: singleEvent('Hit')
+        ateam = dex.move_target[move] == T.TARGET_ALLYTEAM
+        for hook_, on_ in (((ids.HOOK_HITFIELD, side_mode_ & all_t), (ids.HOOK_HITSIDE, side_mode_ & ~all_t & ~ateam))
+                           if j == 0 else ()) + ((ids.HOOK_HIT, ~side_mode_ | ateam),):
             has_ = on_ & CO.registered_for(hook_, em_, effect_range=CO.MOVE_RANGE)
             hch = H.HookCtx.make(targets[j], u, em_)
             only_ = None if j == 0 else frozenset(ids.MOVE_BASE + m_ - 1 for m_ in multi_target_moves())   # targets[1:]
@@ -1442,6 +1444,8 @@ def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
     # move.ignoreImmunity as exported is already resolved by PS's Move constructor (data value, else category ===
     # 'Status'; sim/dex-moves.ts:505): Thunder Wave keeps an explicit false
     ign = dex.move_ignore_immunity[move]
+    from vgcjax.effects import batch9b as B9B                  # a Future Sight hit: moveData.ignoreImmunity false
+    ign = B9B.future_ignore_immunity(st, ign)
     # Scrappy onModifyMove (priority -5): ignoreImmunity Normal / Fighting unless already true
     ignore = (ign == 1) | scrappy_ignores(st, u, a_type)
     mtype = jnp.where(is_struggle, T.TYPE_TYPELESS, a_type)
@@ -1611,7 +1615,9 @@ def move_end(st, dex, rng, cfg):
     dt = jnp.where(all_fail, RS.BOOL, ex.dt)
     dv = jnp.where(all_fail, 0, ex.dv)
     run_rest = on & ~(ex.hit_done == 1)
-    st = F.resolve_faints(st, dex, run_rest, do_check_win=mget(st.mons.hp, u) <= 0, move_src=u)
+    # destinybond.onFaint skips a futuremove effect (data/moves.ts:3502; Future Sight, effects/batch9b.py): no source
+    st = F.resolve_faints(st, dex, run_rest, do_check_win=mget(st.mons.hp, u) <= 0,
+                          move_src=jnp.where(mflag(dex, move, T.MF_FUTUREMOVE), -1, u))
     # [C] scripts.ts:545-549: '-hitcount' for multihit moves without a boolean smartTarget
     mh = dex.move_multihit[move]
     pb = parental_bond(st, dex, u, move, ex.spread_hit)
@@ -1691,10 +1697,12 @@ def move_end(st, dex, rng, cfg):
     lo_hp = mget(st.mons.hp, u).astype(I32)
     from vgcjax.effects import move_callbacks as MC_
     sup = MC_.sheer_force(st, dex, u, move)[0]                         # PS :600 !battle.suppressingSecondaries()
+    sup = sup | mflag(dex, move, T.MF_FUTUREMOVE)                      # PS :600 && !move.flags['futuremove']
     # Magician (priority 0) before Life Orb (-1); a stolen item's handler was not collected (the user held none)
     from vgcjax.effects import batch_reactive as BR
     st, rng, stole = BR.magician(st, dex, rng, u, move, targets, kept, result & ~sup)
-    st, rng = IT.life_orb_recoil(st, dex, rng, u, -1, move, result & ~sup & ~stole)
+    from vgcjax.effects import batch9b as B9B                          # a Future Sight hit: Life Orb regardless
+    st, rng = IT.life_orb_recoil(st, dex, rng, u, -1, move, (result & ~sup & ~stole) | B9B.future_lifeorb(st, end))
     # PS :600-605: runEvent('EmergencyExit', pokemon) after AfterMoveSecondarySelf (not vs itself, not Status)
     from vgcjax.effects import ability_reactions as AR
     st = AR.emergency_exit(st, u, lo_hp, result & ~sup & (targets[0] != u) & (dex.move_category[move] != T.CAT_STATUS))

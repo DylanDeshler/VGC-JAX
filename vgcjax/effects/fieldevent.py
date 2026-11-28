@@ -22,7 +22,7 @@ from vgcjax.data import ids
 from vgcjax.effects import conditions as CO
 from vgcjax.effects import hooks as H
 
-I16, I32, U32 = jnp.int16, jnp.int32, jnp.uint32
+I8, I16, I32, U32 = jnp.int8, jnp.int16, jnp.int32, jnp.uint32
 K_RES = 16          # listed handlers per Residual walk (overflow -> ERR_OVERFLOW_RESIDUAL)
 K_SWITCHIN = 12     # listed handlers per SwitchIn walk (4 leads: ability + item + White Herb's onAnySwitchIn rows)
 G_TIES = 4          # tie groups per walk
@@ -238,9 +238,16 @@ def field_event(st, dex, rng, event: str, on, targets=None):
     """Shared fieldEvent walk (module docstring). Residual: getKey = 'duration'; SwitchIn: effectOrder ties."""
     on = jnp.asarray(on)
     residual_mode = event == "Residual"
+    from vgcjax.effects import batch9b as B9B
+    # Future Sight (effects/batch9b.py): a walk suspended for a future hit resumes with its stored rows (no new
+    # fieldevent_ord, no tie draws: PS sorted once), after the hit's tail (Life Orb, checkWin, resolveFaints)
+    fut = residual_mode and B9B.FUT
+    resume = on & B9B.rs_pending(st) if fut else jnp.zeros((), bool)
+    if fut:
+        st, rng = B9B.future_resume(st, dex, rng, resume)
     sc = st.scratch
     sub = sc.fieldevent_ord
-    st = st.replace(scratch=sc.replace(fieldevent_ord=sc.fieldevent_ord + on.astype(I16)))
+    st = st.replace(scratch=sc.replace(fieldevent_ord=sc.fieldevent_ord + (on & ~resume).astype(I16)))
     c = _candidates(st, dex, event, targets)
     if c is None:                                        # statically empty: fieldEvent runs no handler
         return st, rng
@@ -288,25 +295,42 @@ def field_event(st, dex, rng, event: str, on, targets=None):
         nm = jnp.sum(mem_sorted.astype(I32))
         mvalid = jnp.arange(K) < nm
         torder, rng = R.tie_order(rng, H_tkey(st, sub, g), jnp.arange(8), jnp.pad(mvalid, (0, max(0, 8 - K)))[:8],
-                                  active=on & act)
+                                  active=on & act & ~resume)
         exec_pos = canon_pos[jnp.clip(torder, 0, K - 1)]
         slots = jnp.nonzero(mem_sorted, size=8, fill_value=0)[0]
         for j in range(8):
             ok = act & (j < nm)
             new_perm = new_perm.at[slots[j]].set(jnp.where(ok, cand[exec_pos[j]], new_perm[slots[j]]))
     cbs = has_cb[sel]
+    # the rows in execution order
+    rows = jnp.stack([eff, pfx, holder, cc["loc"], cc["idx"], cc["cust"], cbs.astype(I32), valid.astype(I32)],
+                     axis=1)[new_perm]
+    start = jnp.int32(0)
+    if fut:
+        sc = st.scratch
+        stored = sc.rs_rows[:K].astype(I32)
+        rows = jnp.where(resume, stored, rows)
+        rs_rows = sc.rs_rows.at[:K].set(rows.astype(I16))
+        st = st.replace(scratch=sc.replace(rs_rows=jnp.where(on & ~resume, rs_rows, sc.rs_rows)))
+        start = jnp.where(resume, B9B.fget(st, B9B.F_RSI), 0)
+    eff, pfx, holder = rows[:, 0], rows[:, 1], rows[:, 2]
+    r_loc, r_idx, r_cust, cbs, r_valid = rows[:, 3], rows[:, 4], rows[:, 5], rows[:, 6] != 0, rows[:, 7] != 0
 
     def body(i, carry, weather_code=True):
         st, rng = carry
-        j = new_perm[i]
-        live = on & valid[j] & (st.meta.phase != S.DONE)
-        h, e, loc, idx = holder[j], eff[j], cc["loc"][j], cc["idx"][j]
+        j = i
+        live = on & r_valid[j] & (st.meta.phase != S.DONE)
+        post = jnp.zeros((), bool)
+        if fut:                                 # rows up to the resume point ran; a scheduled hit suspends the rest
+            post = resume & (i == start)        # the suspending row: only its resolveFaints, after the hit
+            live = live & ((i > start) | ~resume) & ~B9B.pending(st)
+        h, e, loc, idx = holder[j], eff[j], r_loc[j], r_idx[j]
         skip = (h < 8) & mget(st.mons.fainted, jnp.clip(h, 0, 7)) & (loc != CO.SLOT)
         live = live & ~skip
         ending = jnp.zeros((), bool)
         if residual_mode:
             dur = _cur_duration(st, loc, idx, h)
-            has_dur = live & (loc >= 0) & (dur > 0) & (cc["cust"][j] == 0) & _still_present(st, loc, idx, h, e)
+            has_dur = live & (loc >= 0) & (dur > 0) & (r_cust[j] == 0) & _still_present(st, loc, idx, h, e)
             nd = dur - 1
             st = _set_duration(st, loc, idx, h, nd, has_dur)
             ending = has_dur & (nd <= 0)
@@ -337,15 +361,25 @@ def field_event(st, dex, rng, event: str, on, targets=None):
             from vgcjax.effects import weather as WE
             st, rng = WE.residual_each(st, dex, rng, e - ids.COND_BASE + 1, run & (loc == CO.WEATHER))
         # PS :569: resolveFaints() after a handler that got past the duration-end / removed-state `continue`s
-        st = F.resolve_faints(st, dex, reach)
+        st = F.resolve_faints(st, dex, reach | post)
+        if fut:                                 # this row scheduled a future hit: the walk resumes with this row
+            susp = live & B9B.pending(st)
+            st = B9B.fset(st, {B9B.F_RSI: jnp.where(susp, i, B9B.fget(st, B9B.F_RSI))})
         return st, rng
+
+    def finish(st):
+        if fut:
+            st = B9B.fset(st, {B9B.F_RS: jnp.where(on, B9B.pending(st), B9B.rs_pending(st))})
+        return st
 
     if residual_mode and _weather_strictly_first(hook):
         # a weather row (one weather at most, never skipped) sorts strictly first, so it can only be position 0:
         # the weather's eachEvent code is compiled into that position alone, not into every iteration (ADR-107)
         st, rng = body(0, (st, rng), True)
-        return jax.lax.fori_loop(1, K, lambda i, c: body(i, c, False), (st, rng))
-    return jax.lax.fori_loop(0, K, body, (st, rng))
+        st, rng = jax.lax.fori_loop(1, K, lambda i, c: body(i, c, False), (st, rng))
+        return finish(st), rng
+    st, rng = jax.lax.fori_loop(0, K, body, (st, rng))
+    return finish(st), rng
 
 
 _WFIRST = {}

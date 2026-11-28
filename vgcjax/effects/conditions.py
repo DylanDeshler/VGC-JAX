@@ -287,7 +287,10 @@ def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1, cands=No
         a_b = a_b | (add & is_y & y_b)
         a_spd = jnp.where(is_y & y_b, y_spd, a_spd)
     t_b, tmsg = TR.blocks_volatile(st, dex, ref, c, source_effect)
-    t_b = add & t_b
+    from vgcjax.effects import batch9b as B9B           # Safeguard onTryAddVolatile (side, before the terrains)
+    sg_b, sg_msg = B9B.safeguard_volatile(st, dex, ref, c, src, source_effect, only)
+    tmsg = jnp.where(sg_b, sg_msg, tmsg)
+    t_b = add & (t_b | sg_b)
     # the field's handlers (subOrder 5, speed 0) run first unless the winning holder's cached speed is > 0
     ab_block = a_b & ((a_spd > 0) | ~t_b)
     if "yawn" in ids.CONDITIONS:
@@ -295,7 +298,8 @@ def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1, cands=No
         st = EV.emit(st, y_on & ~y_blk, EV.EV_IMMUNE, actor=ref, v1=y_eff)
         st = EV.emit(st, y_on & y_blk, EV.EV_BLOCK, actor=ref, target=y_of, move=y_eff)
     blocked = t_b & ~ab_block
-    st = EV.emit(st, blocked & tmsg, EV.EV_ACTIVATE, actor=ref, move=ids.COND_BASE + TR.terrain(st) - 1)
+    st = EV.emit(st, blocked & tmsg, EV.EV_ACTIVATE, actor=ref,
+                 move=jnp.where(sg_b, B9B.meff("safeguard"), ids.COND_BASE + TR.terrain(st) - 1))
     add = add & ~blocked & ~ab_block
     blocked = blocked | ab_block
     dur = dex.cond_duration[c].astype(I32)
