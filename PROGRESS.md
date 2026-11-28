@@ -78,6 +78,16 @@ Comparison-quality work (2026-10-22)
   10,000, enforced at G-v0). Pre-existing: loop nesting (NB 8 x hit loop 10 x target fori 3 x secondaries 6);
   09 J5 asks for vmap over the target axis. Options in ADR-104 (needs a decision).
 
+M3 status (2026-11-28) — coverage complete (unverified for batches 8-9)
+- Batches 8a/b/c and 9a/b/c merged (~65 entities incl. Gravity, Iron Ball, Fling, Future Sight, Curse, Instruct, Mummy,
+  Wandering Spirit, Symbiosis, Palafin). Coverage (impl stage): frozen Oct corpus 3210/3211; fresh bo3 replay sheets
+  (2,561 unique teams, 2026-11-26/27) 99.9%; Smogon 2026-10 chaos 100% species usage. Engine 2.27M traced ops.
+- Full regress replay (35,818 battles, r7i) running on pre-batch-8 code: ~99.93% clean; failures fixed as found
+  (Roost/Soak, Flower Veil order, Disguise+Transform, Eject Button order, timesAttacked on subs, Poison Touch order,
+  Steel Roller sub). Batch 8 (traces/wx/b8) and 9 (traces/wx/b9) corpora generated on the box, replay next.
+- Fresh-data coverage method: memory note / scripts in /tmp (chaos_cov, replay_cov, replay_greedy); raw data in
+  data/raw/smogon-chaos/2026-10 and data/raw/ps-replays/2026-11.
+
 M3 status (2026-11-26) — Reg M-C ladder push
 - Impl-stage coverage of the frozen real-sheet ladder corpus (3,211 teams): 95.4% before batch 7; batch 7 (a/b/c,
   ~40 entities: megas Meganium/Golurk/Heracross/Eelektross/Skarmory, Leek, Light Ball, Metronome, Zoom Lens, Magic
