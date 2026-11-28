@@ -101,6 +101,8 @@ function reduce(lines, battle) {
 			}
 		} else if (type === '-clearallboost') {
 			ev('CLEARALLBOOST');
+		} else if (type === '-clearboost') {
+			ev('CLEARBOOST', { actor: refOf(parts[1]) });
 		} else if (type === '-mega') {
 			ev('MEGA', { actor: refOf(parts[1]), move: toID(parts[3]) });
 		} else if (type === '-formechange') {

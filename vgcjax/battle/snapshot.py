@@ -82,6 +82,7 @@ def from_ps_snapshot(snap: dict, team_sets) -> S.State:
         for p in side["pokemon"]:
             b = refs.by_species[s][p["set"]["species"]]
             _mon(m, s, b, p, ident[s][b]["sheet"])
+            _attacked_by(m, s, b, p, refs)
     meta = st.meta
     rs = ps.get("requestState", "")
     meta_vals = dict(
@@ -184,6 +185,20 @@ def _mon(m, s, b, p, sheet):
     w("can_mega", bool(p.get("canMegaEvo")))
     w("weight_hg", p["weighthg"])
     w("previously_switched_in", p.get("previouslySwitchedIn", 0))
+
+
+def _attacked_by(m, s, b, p, refs):
+    """pokemon.attackedBy -> Mons.dmg_by (effects/batch9a.py got_attacked): per source the latest entry with a numeric
+    damageValue, in list order (seq 1, 2, ...); slot 'p2a' -> side*2+pos."""
+    m.dmg_by[s, b] = 0
+    for n, a in enumerate(p.get("attackedBy") or []):
+        src = refs(a.get("source"))
+        dv = a.get("damageValue")
+        if src < 0 or isinstance(dv, bool) or not isinstance(dv, (int, float)):
+            continue
+        slot = str(a.get("slot") or "p1a")
+        code = (int(slot[1]) - 1) * 2 + "abc".index(slot[2])
+        m.dmg_by[s, b, src] = [n + 1, int(a.get("damage", 0)), code, 1 if a.get("thisTurn") else 0]
 
 
 def _queue(st, queue, refs, prepend):

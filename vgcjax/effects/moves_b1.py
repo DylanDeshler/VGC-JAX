@@ -265,6 +265,9 @@ def secondary_special(st, dex, rng, u, move, t, k, ok, hit_no):
         av = ok & (move == mid("alluringvoice")) & mget(st.mons.stats_raised_this_turn, tr)
         st, rng, _ = CO.add_volatile(st, dex, rng, tr, CO.cid("confusion"), av, source=u,
                                      source_effect=C.eff_move(move))
+    if k == 0:                                                   # Burning Jealousy (one secondary)
+        from vgcjax.effects import batch9a as B9A
+        st, rng = B9A.burning_jealousy(st, dex, rng, u, move, t, ok)
     return st, rng
 
 

@@ -68,15 +68,20 @@ def has_type(st, r, ty):
 # ================================================================== Reversal (data/moves.ts:15074-15105)
 def reversal_bp(st, u, move, out):
     """basePowerCallback(pokemon) (data/moves.ts:15078-15096): ratio = max(floor(hp * 48 / maxhp), 1); < 2 -> 200,
-    < 5 -> 150, < 10 -> 100, < 17 -> 80, < 33 -> 40, else 20."""
-    if mid("reversal") <= 0:
+    < 5 -> 150, < 10 -> 100, < 17 -> 80, < 33 -> 40, else 20. Flail (data/moves.ts:5536-5555, batch 9a) has the
+    same callback."""
+    is_m = jnp.zeros(jnp.shape(move), bool)
+    for n in ("reversal", "flail"):
+        if mid(n) > 0:
+            is_m = is_m | (jnp.asarray(move) == mid(n))
+    if mid("reversal") <= 0 and mid("flail") <= 0:
         return out
     uc = jnp.clip(jnp.asarray(u, I32), 0, 7)
     hp, mx = mget(st.mons.hp, uc).astype(I32), jnp.maximum(mget(st.mons.maxhp, uc).astype(I32), 1)
     ratio = jnp.maximum((hp * 48) // mx, 1)
     bp = jnp.where(ratio < 2, 200, jnp.where(ratio < 5, 150, jnp.where(ratio < 10, 100, jnp.where(
         ratio < 17, 80, jnp.where(ratio < 33, 40, 20)))))
-    return jnp.where(jnp.asarray(move) == mid("reversal"), bp, out)
+    return jnp.where(is_m, bp, out)
 
 
 # ================================================================== Rest (data/moves.ts:14954-14991)

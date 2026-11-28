@@ -90,7 +90,9 @@ def fixed_damage(st, dex, u, move, targets, fixed):
     out = jnp.where(move == mid("endeavor"), hp - uhp, out)           # target hp - pokemon hp (TryImmunity: >0)
     out = jnp.where(move == mid("superfang"), jnp.maximum(hp // 2, 1), out)
     from vgcjax.effects import batch7c as B7                            # Counter / Mirror Coat damageCallback
-    return B7.counter_damage(st, u, move, out)
+    out = B7.counter_damage(st, u, move, out)
+    from vgcjax.effects import batch9a as B9A                           # Metal Burst damageCallback
+    return B9A.metal_burst_damage(st, u, move, out)
 
 
 def priority_bonus(st, dex, ref, move):
