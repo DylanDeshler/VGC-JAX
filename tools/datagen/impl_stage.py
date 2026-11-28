@@ -59,7 +59,9 @@ EXTRA: dict[str, set[str]] = {
               "electrify", "wish", "supercellslam", "shedtail", "simplebeam", "entrainment",
               "focuspunch",                                                            # effects/batch7c.py
               "attract", "rest", "reversal", "fairylock", "magicpowder", "minimize", "stockpile", "curse",
-              "instruct"},                                                             # effects/batch8a.py
+              "instruct",                                                              # effects/batch8a.py
+              "clearsmog", "burningjealousy", "ficklebeam", "speedswap", "barbbarrage", "shellsidearm", "defog",
+              "flail", "metalburst"},                                                  # effects/batch9a.py
     "abilities": {"imposter", "protean", "libero",                              # effects/batch_copy.py
                   "magicbounce", "queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py

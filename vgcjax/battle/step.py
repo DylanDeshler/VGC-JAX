@@ -388,6 +388,8 @@ def end_turn(st, dex, cfg, on) -> S.State:
                 trapped=mset(m.trapped, r, 0, go),                              # TrapPokemon hooks (M3)
                 active_turns=mset(m.active_turns, r, mget(m.active_turns, r) + 1, go & ~mget(m.fainted, r)),
             )
+            from vgcjax.effects import batch9a as B9A               # attackedBy: thisTurn false / splice (PS :1720)
+            m = B9A.end_turn_attacked(st, m, r, go)
     st = st.replace(mons=m)
     # DisableMove (PS :1702-1714): runEvent('DisableMove', pokemon) (volatile / ability / item handlers: M3+), then
     # singleEvent('DisableMove', move) per move slot ([C] Fake Out)

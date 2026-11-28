@@ -160,6 +160,8 @@ class Mons:
     mold_saved: jax.Array          # i16 Mold Breaker (effects/batch_reactive.py): 0, the masked breakable ability, or
                                    #     -1 for the active Mold Breaker mover
     hero_msg: jax.Array            # bool pokemon.heroMessageDisplayed (Zero to Hero, effects/batch8c.py)
+    dmg_by: jax.Array              # i16[2,4,8,4] attackedBy: per source ref the latest numeric entry (seq (0 none),
+                                   #     damage, slot side*2+pos, thisTurn); effects/batch9a.py got_attacked
 
 
 @struct.dataclass
@@ -219,13 +221,14 @@ class MoveCarry:
     pre_notfail: jax.Array
     tm_null: jax.Array
     abort: jax.Array
+    a_phys: jax.Array              # bool Shell Side Arm Physical (effects/batch9a.py ssa_physical)
 
 
 def empty_carry() -> MoveCarry:
     i, b = jnp.zeros((), I32), jnp.zeros((), bool)
     return MoveCarry(u=i, move=i, targets=jnp.full(3, -1, I32), tv=jnp.zeros(3, bool), smart=b, spread=b,
                      spread_hit=b, fail0=b, a_type=i, a_bp=i, a_acc=i, on=b, go_rm=b, go_um=b, has_t=b, side_field=b,
-                     on_ts=b, side_on=b, pre_ok=b, pre_notfail=b, tm_null=b, abort=b)
+                     on_ts=b, side_on=b, pre_ok=b, pre_notfail=b, tm_null=b, abort=b, a_phys=b)
 
 
 @struct.dataclass
@@ -326,6 +329,7 @@ class Exec:
     acc: jax.Array                 # i32 ActiveMove accuracy after ModifyMove (0 = true)
     act_t: jax.Array               # i32 battle.activeTarget after hitStepAccuracy (its loop's last target), -1 none
     tm_null: jax.Array             # bool TryMove returned null (a charge turn: effects/locked.py)
+    phys: jax.Array                # bool Shell Side Arm's onModifyMove made it Physical (effects/batch9a.py ssa_dex)
 
 
 def empty_exec() -> Exec:
@@ -334,7 +338,7 @@ def empty_exec() -> Exec:
                 go_rm=b, go_um=b, has_t=b, side_field=b, on_ts=b, on_hl=b, fail_any=b, pre_ok=b, pre_notfail=b,
                 side=b, hits=i, multiacc=b, single=b,
                 h=i, hit_done=i, stopped=_z((), bool, True), null_damage=b, dt=a3, dv=a3, lt=a3, lv=a3, sub_null=b3, total=i,
-                mtype=i, bp=i, acc=i, tm_null=b, act_t=_z((), I32, -1))
+                mtype=i, bp=i, acc=i, tm_null=b, act_t=_z((), I32, -1), phys=b)
 
 
 @struct.dataclass
@@ -382,7 +386,7 @@ def empty_mons() -> Mons:
         times_attacked=_z(s, I8), stats_raised_this_turn=_z(s, bool), stats_lowered_this_turn=_z(s, bool),
         used_item_this_turn=_z(s, bool), trapped=_z(s, I8), can_mega=_z(s, bool), weight_hg=_z(s, I16),
         previously_switched_in=_z(s, I8), transformed=_z(s, bool), base_slots=_z(s + (4,), I16),
-        mold_saved=_z(s, I16), hero_msg=_z(s, bool))
+        mold_saved=_z(s, I16), hero_msg=_z(s, bool), dmg_by=_z(s + (8, 4), I16))
 
 
 def empty_scratch() -> Scratch:

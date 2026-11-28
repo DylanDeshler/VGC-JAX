@@ -37,6 +37,7 @@ fields (PS protocol line -> record):
   SWAP       |swap| X|pos [from]          actor, v1 = new position, move = [from] effect EffectId (Ally Switch)
   ZBROKEN    |-zbroken| X                  actor ([C] modifyDamage: a protection bypassed by Piercing Drill)
   REPLACE    |replace| X|details          actor, v1 = SpeciesId (Illusion ends)
+  CLEARBOOST |-clearboost| X               actor (Clear Smog: effects/batch9a.py)
 Protocol lines name a mon through PS Pokemon.toString: under Illusion its disguise (Events.alias remaps every ref).
 """
 from __future__ import annotations
@@ -53,12 +54,12 @@ KINDS = ("NONE", "SWITCH", "MOVE", "DAMAGE", "HEAL", "CRIT", "SUPEREFFECTIVE", "
          "BOOST", "FAINT", "HITCOUNT", "OHKO", "TURN", "ACTIVATE", "STATUS", "CURESTATUS", "CANT", "START", "END", "SINGLETURN", "SIDESTART", "SIDEEND",
          "FIELDSTART", "FIELDEND", "WEATHER", "ABILITY", "ITEM", "BLOCK", "SETBOOST", "ENDITEM", "MEGA", "DETAILSCHANGE", "CLEARALLBOOST",
          "PREPARE", "MUSTRECHARGE", "FIELDACTIVATE", "SINGLEMOVE", "CLEARNEGATIVEBOOST", "FORMECHANGE", "TRANSFORM",
-         "COPYBOOST", "SWAP", "ZBROKEN", "REPLACE")
+         "COPYBOOST", "SWAP", "ZBROKEN", "REPLACE", "CLEARBOOST")
 (EV_NONE, EV_SWITCH, EV_MOVE, EV_DAMAGE, EV_HEAL, EV_CRIT, EV_SUPER, EV_RESIST, EV_IMMUNE, EV_MISS, EV_FAIL, EV_BOOST,
  EV_FAINT, EV_HITCOUNT, EV_OHKO, EV_TURN, EV_ACTIVATE, EV_STATUS, EV_CURESTATUS, EV_CANT, EV_START,
  EV_END, EV_SINGLETURN, EV_SIDESTART, EV_SIDEEND, EV_FIELDSTART, EV_FIELDEND, EV_WEATHER, EV_ABILITY, EV_ITEM, EV_BLOCK, EV_SETBOOST, EV_ENDITEM, EV_MEGA, EV_DETAILSCHANGE, EV_CLEARALLBOOST,
  EV_PREPARE, EV_MUSTRECHARGE, EV_FIELDACTIVATE, EV_SINGLEMOVE, EV_CLEARNEGATIVEBOOST, EV_FORMECHANGE, EV_TRANSFORM,
- EV_COPYBOOST, EV_SWAP, EV_ZBROKEN, EV_REPLACE) = range(len(KINDS))
+ EV_COPYBOOST, EV_SWAP, EV_ZBROKEN, EV_REPLACE, EV_CLEARBOOST) = range(len(KINDS))
 # kinds whose `move` field holds an EffectId (move / ability / item / condition) rather than a MoveId
 EFFECT_KINDS = ("DAMAGE", "HEAL", "STATUS", "CURESTATUS", "CANT", "FAIL", "ACTIVATE", "START", "END", "SINGLETURN", "SIDESTART", "SIDEEND",
          "FIELDSTART", "FIELDEND", "WEATHER", "ABILITY", "ITEM", "IMMUNE", "BLOCK", "SETBOOST", "ENDITEM", "MEGA",

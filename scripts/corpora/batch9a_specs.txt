@@ -1,0 +1,10 @@
+stagereq:impl:move:clearsmog
+stagereq:impl:move:burningjealousy
+stagereq:impl:species:hydrapple+move:ficklebeam
+stagereq:impl:species:alakazam+move:speedswap
+stagereq:impl:species:overqwil+move:barbbarrage
+stagereq:impl:species:slowbrogalar+move:shellsidearm
+stagereq:impl:move:defog
+stagereq:impl:move:defog+move:stealthrock
+stagereq:impl:move:flail
+stagereq:impl:move:metalburst

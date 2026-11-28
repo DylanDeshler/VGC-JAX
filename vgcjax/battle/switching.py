@@ -54,6 +54,7 @@ def clear_volatile_many(st: S.State, dex, refs, include_switch_flags, on) -> S.S
         move_this_turn_result=w(m.move_this_turn_result, S.MR_UNDEF),
         last_damage=w(m.last_damage, 0), hurt_this_turn=w(m.hurt_this_turn, -1), newly_switched=w(m.newly_switched, True),
         being_called_back=w(m.being_called_back, False), times_attacked=w(m.times_attacked, 0),
+        dmg_by=w(m.dmg_by, 0),                                   # attackedBy = [] (effects/batch9a.py)
     )
     # moveSlots = baseMoveSlots.slice(); transformed = false ([C] scripts.ts:134-136): a transformed mon gets its
     # sheet moves back with the pp / disabled kept in base_slots (effects/batch_copy.py transform_into)

@@ -631,8 +631,10 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
         stats_t, boosts_t, will_crit_t, t_unaware & is_at, jnp.broadcast_to(u_unaware, (NT,)) & (targets != u) & is_at)
     eff = jax.vmap(lambda tt: TC.effectiveness(dex, mtype, tt, freeze_dry=move == opt_id("MOVE_FREEZEDRY")))(t_types)
     eff = jnp.where(dsg, 0, eff)
+    from vgcjax.effects import batch9a as B9A                    # Fickle Beam onBasePower: randomChance(3, 10)
+    fickle, rng = B9A.fickle_draw(st, rng, u, move, targets, hit_no, reach)
     ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev,
-                  extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff)))
+                  extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff), fickle=fickle))
     bp_post, _, rng = MOD.run("BasePower", ctx, rng, jnp.maximum(bp, 1).astype(I32), base + 1, reach)
     atk_ev = jnp.where(dex.move_category[move] == T.CAT_PHYSICAL, 0, 2)
     for k, hook in ((0, "ModifyAtk"), (2, "ModifySpA")):
@@ -678,7 +680,7 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
     res = RS.where(kind == D.DMG_NUMBER, RS.R(RS.NUM, dmg), RS.where(kind == D.DMG_FALSE, RS.R(RS.BOOL, 0),
                                                                      RS.where(kind == D.DMG_UNDEFINED, RS.R(RS.UNDEF),
                                                                               RS.R(RS.NUM, 0))))
-    return st, res, rng, crit, (formula, tm, crit, berry_eat, formula & pdb, u)
+    return st, res, rng, crit, (formula, tm, crit, berry_eat, formula & pdb, u, fickle)
 
 
 def emit_damage_msgs(st, msgs, targets, j, on, berry=True):
@@ -686,7 +688,9 @@ def emit_damage_msgs(st, msgs, targets, j, on, berry=True):
     runEvent('ModifyDamage') (berries skip a substitute hit: data/items.ts <resist berry> hitSub)."""
     from vgcjax.effects import berries as B
     from vgcjax.effects import batch_forme as BF
-    formula, tm, crit, berry_eat, pdb, u = msgs
+    formula, tm, crit, berry_eat, pdb, u, fickle = msgs
+    from vgcjax.effects import batch9a as B9A                     # Fickle Beam '-activate' (in BasePower)
+    st = B9A.fickle_emit(st, u, fickle[j] & on)
     f = formula[j] & on
     st = EV.emit(st, f & (tm[j] > 0), EV.EV_SUPER, actor=targets[j], v1=jnp.minimum(tm[j], 2))
     st = EV.emit(st, f & (tm[j] < 0), EV.EV_RESIST, actor=targets[j], v1=jnp.minimum(-tm[j], 2))
@@ -1261,6 +1265,8 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
     m = m.replace(move_this_turn_result=mset(m.move_this_turn_result, u, S.MR_UNDEF, go_rm),
                   last_move_used=mset(m.last_move_used, u, move, go_rm))
     st = st.replace(mons=m)
+    from vgcjax.effects import batch9a as B9A                  # runEvent('ModifyTarget'): Metal Burst
+    target = B9A.metal_burst_target(st, u, move, target, go_rm & ~bnc)
     tt = dex.move_target[move]
     target = jnp.where(_in(tt, (T.TARGET_SELF, T.TARGET_ALLIES)), u, target)
     # HOOK(H3) ModifyType / ModifyMove
@@ -1305,6 +1311,9 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
     # Curse onModifyMove (non-Ghost -> 'self'; Ghost at an ally / no target -> 'randomNormal' + getRandomTarget)
     from vgcjax.effects import batch8a as B8A
     target, rng = B8A.curse_modify_target(st, dex, rng, u, move, target, go_rm & alive)
+    # Shell Side Arm onModifyMove: Physical + contact for the rest of the execution (the move's ModifyMove singleEvent)
+    ssa_phys, rng = B9A.ssa_physical(st, rng, u, target, move, go_rm)
+    dex = B9A.ssa_dex(dex, ssa_phys)
     # PS :500-503: ModifyMove changed move.target (Expanding Force) -> getRandomTarget: side.randomFoe, a
     # RANDOM_TARGET_NOMINAL don't-care draw (the printed target is not compared: harness/events.py); the engine takes
     # the first living foe, else foe.active[0]
@@ -1415,7 +1424,7 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
                         spread_hit=spread_hit, fail0=jnp.any(inv) | jnp.any(th_fail), a_type=a_type.astype(I32),
                         a_bp=jnp.asarray(a_bp, I32), a_acc=jnp.asarray(a_acc, I32), on=on, go_rm=go_rm, go_um=go_um,
                         has_t=has_t, side_field=side_field, on_ts=on_ts, side_on=side_on, pre_ok=pre_ok,
-                        pre_notfail=pre_notfail, tm_null=tm_null, abort=abort)
+                        pre_notfail=pre_notfail, tm_null=tm_null, abort=abort, a_phys=ssa_phys)
     # PS runs a Magic Bounce reflection inside this TryHit, before the other targets' steps 2-5: with targets still
     # hit, the move is suspended here (its carry stashed); the reflection runs, then move_begin_back resumes it
     sc = st.scratch
@@ -1435,6 +1444,8 @@ def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
     a_type, a_bp, a_acc, on, go_rm, go_um, has_t = c.a_type, c.a_bp, c.a_acc, c.on, c.go_rm, c.go_um, c.has_t
     side_field, on_ts, side_on, pre_ok, pre_notfail, tm_null, abort = (c.side_field, c.on_ts, c.side_on, c.pre_ok,
                                                                        c.pre_notfail, c.tm_null, c.abort)
+    from vgcjax.effects import batch9a as B9A                  # Shell Side Arm: Physical ActiveMove
+    dex = B9A.ssa_dex(dex, c.a_phys & c.on)
     is_struggle = move == T.MOVE_STRUGGLE
     from vgcjax.effects import move_callbacks as MC
     m = st.mons
@@ -1525,13 +1536,15 @@ def move_begin_back(st, dex, rng, cfg, carry, hit_key=0):
                  hit_done=jnp.int32(1), stopped=~on_hl, null_damage=jnp.asarray(True), dt=full(RS.NUM), dv=full(0),
                  lt=full(RS.UNDEF), lv=full(0), sub_null=jnp.zeros(NT, bool), total=jnp.int32(0), mtype=a_type,
                  bp=a_bp, acc=a_acc,
-                 act_t=act_t.astype(I32))
+                 act_t=act_t.astype(I32), phys=c.a_phys)
     return st.replace(exec=_exec_where(on | abort, new, st.exec)), rng
 
 
 def move_hit(st, dex, rng, cfg):
     """One iteration of the Champions hit loop (ch/scripts.ts:462-527) for the move in st.exec. Returns (st, rng)."""
     ex = st.exec
+    from vgcjax.effects import batch9a as B9A                  # Shell Side Arm: Physical ActiveMove
+    dex = B9A.ssa_dex(dex, ex.phys & ex.in_move)
     live = ex.in_move & ~ex.stopped
     u, move, targets, tv, smart, h = ex.u, ex.move, ex.targets, ex.tv, ex.smart, ex.h
     m = st.mons
@@ -1602,6 +1615,8 @@ def move_end(st, dex, rng, cfg):
     """The tails, in PS order, of the move in st.exec once its hits are done: hit loop (ch/scripts.ts:528-588),
     trySpreadMoveHit (:676-682), useMoveInner (:583-610), runMove (:381-418). Returns (st, rng)."""
     ex = st.exec
+    from vgcjax.effects import batch9a as B9A                  # Shell Side Arm: Physical ActiveMove
+    dex = B9A.ssa_dex(dex, ex.phys & ex.in_move)
     end = ex.in_move & ex.stopped
     u, move, targets, tv = ex.u, ex.move, ex.targets, ex.tv
     # ---- hit loop tail
@@ -1624,6 +1639,7 @@ def move_end(st, dex, rng, cfg):
     num = run_rest & tv & (targets != u) & ((ex.lt == RS.NUM) | ex.sub_null)
     ta = mset_many(m.times_attacked, targets, mget(m.times_attacked, targets) + jnp.where(ex.smart, 1, hit_count), num)
     st = st.replace(mons=m.replace(times_attacked=ta))
+    st = B9A.got_attacked(st, u, targets, num, jnp.where(ex.sub_null, 0, ex.lv))   # attackedBy (Metal Burst)
     # [C] scripts.ts:569
     st = EV.emit(st, run_rest & (dex.move_ohko[move] > 0) & (mget(st.mons.hp, targets[0]) <= 0), EV.EV_OHKO)
     # [C] scripts.ts:571-577: afterMoveSecondaryEvent(targets) when some damage[i] is truthy or 0
