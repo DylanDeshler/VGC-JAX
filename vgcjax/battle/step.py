@@ -384,6 +384,7 @@ def end_turn(st, dex, cfg, on) -> S.State:
                 stats_raised_this_turn=mset(m.stats_raised_this_turn, r, False, reset),
                 stats_lowered_this_turn=mset(m.stats_lowered_this_turn, r, False, reset),
                 hurt_this_turn=mset(m.hurt_this_turn, r, -1, reset),
+                attacked_by=mset(m.attacked_by, r, 0, go),        # attackedBy thisTurn = false (PS :1719-1726)
                 move_disabled=mset(m.move_disabled, r, jnp.zeros(4, I8), go),   # DisableMove hooks (M3)
                 trapped=mset(m.trapped, r, 0, go),                              # TrapPokemon hooks (M3)
                 active_turns=mset(m.active_turns, r, mget(m.active_turns, r) + 1, go & ~mget(m.fainted, r)),

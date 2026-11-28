@@ -307,8 +307,21 @@ def mental_herb(st, dex, rng, r, on):
         anyv = anyv | CO.has_volatile(st, rr, CO.cid(c))
     m = st.mons
     go = jnp.asarray(on) & holds(st, rr, "mentalherb") & anyv & (mget(m.hp, rr) > 0) & mget(m.is_active, rr)
-    first_attract = CO.has_volatile(st, rr, CO.cid("attract")) if "attract" in conds else jnp.zeros((), bool)
     st = IT.use_item(st, rr, go)
+    return mental_herb_cure(st, dex, rng, rr, go)
+
+
+def mental_herb_cure(st, dex, rng, r, go):
+    """The cure shared by Mental Herb's onUpdate (after useItem) and its fling.effect (data/items.ts:3912-3925, Fling
+    onHit: no useItem): removeVolatile of attract / taunt / encore / torment / disable / healblock in that order
+    (`go` = one of them is present). Returns (st, rng)."""
+    rr = jnp.clip(jnp.asarray(r, I32), 0, 7)
+    conds = [c for c in MENTAL_HERB_CONDS if c in ids.CONDITIONS]
+    anyv = jnp.zeros((), bool)
+    for c in conds:
+        anyv = anyv | CO.has_volatile(st, rr, CO.cid(c))
+    go = jnp.asarray(go) & anyv
+    first_attract = CO.has_volatile(st, rr, CO.cid("attract")) if "attract" in conds else jnp.zeros((), bool)
     for c in conds:
         st, rng, _ = CO.remove_volatile(st, dex, rng, rr, CO.cid(c), go & CO.has_volatile(st, rr, CO.cid(c)))
         if c == "attract":           # (data/items.ts:3934-3936) after attract's own silent '-end'

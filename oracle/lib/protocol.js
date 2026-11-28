@@ -12,7 +12,7 @@ const IGNORE = new Set(['', 'upkeep', '-hint', 'teamsize', 'start', 'gametype', 
 	'poke', 'teampreview', 'j', 'l', 'win', 'tie', '-anim', 'uhtmlchange', 'uhtml', 't:', 'debug', 'html', 'raw',
 	'inactive', 'inactiveoff', 'hint', 'message', 'bigerror', 'error', 'c', 'chat', 'done', 'request', 'sideupdate']);
 const F = { DRAG: 1, MISS: 1, NOTARGET: 2, SPREAD: 4, STILL: 8, RECOIL: 1, FROM: 2, DRAIN: 1, LEVITATE: 1, OHKO: 2,
-	HEAL: 1, FAILSTATUS: 2, UNBOOST: 1, FATIGUE: 8, FROM_MOVE: 1, FROM_ABILITY: 2, FROM_ITEM: 4, MSG: 1, SILENT: 2, FROM_MOVE_CURE: 4, UPKEEP: 1, BOOST: 1, FAIL_UNBOOST: 4 };
+	HEAL: 1, FAILSTATUS: 2, UNBOOST: 1, FATIGUE: 8, FROM_MOVE: 1, FROM_ABILITY: 2, FROM_ITEM: 4, MSG: 1, SILENT: 2, FROM_MOVE_CURE: 4, UPKEEP: 1, BOOST: 1, FAIL_UNBOOST: 4, SILENT_SETHP: 1 };
 /** "[from] move: X" / "ability: X" / "item: X" / "X" -> [kind, id] */
 const fromEffect = s => {
 	const m = /^(move|ability|item): (.*)$/.exec(s || '');
@@ -177,6 +177,10 @@ function reduce(lines, battle) {
 			ev('FIELDACTIVATE', { move: fromEffect(parts[1])[1] });
 		} else if (type === 'replace') {
 			ev('REPLACE', { actor: refOf(parts[1]), v1: toID(String(parts[2]).split(',')[0]) });
+		} else if (type === '-sethp') {
+			const [pct, colour] = hp(parts[2]);
+			ev('SETHP', { actor: refOf(parts[1]), move: fromEffect(from)[1], v1: pct, v2: colour,
+				flags: tags.includes('[silent]') ? F.SILENT_SETHP : 0 });
 		} else if (type === '-zbroken') {
 			ev('ZBROKEN', { actor: refOf(parts[1]) });
 		} else if (type === '-mustrecharge') {

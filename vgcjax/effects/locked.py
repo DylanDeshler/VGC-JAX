@@ -44,18 +44,27 @@ CHARGE_MOVES = tuple((n, b, w) for n, b, w in (
     ("solarblade", False, ("sunnyday", "desolateland")),
     ("meteorbeam", True, ()),
     ("skyattack", False, ()),
-    ("phantomforce", False, ())) if mid(n) > 0)
+    ("phantomforce", False, ()),
+    ("fly", False, ())) if mid(n) > 0)                     # Fly: data/moves.ts:5908-5919 (batch 8b)
 HAS_RECHARGE = "mustrecharge" in ids.CONDITIONS
 HAS_TWOTURN = "twoturnmove" in ids.CONDITIONS
-HAS_PF = HAS_TWOTURN and "phantomforce" in ids.CONDITIONS
+# move volatiles with a real condition (duration 2): Phantom Force (data/moves.ts phantomforce.condition), Fly
+# (data/moves.ts:5920-5933 fly.condition: onInvulnerability, onSourceModifyDamage)
+REAL_VOLS = tuple(n for n in ("phantomforce", "fly") if HAS_TWOTURN and n in ids.CONDITIONS and mid(n) > 0)
+HAS_PF = bool(REAL_VOLS)
+# fly.condition.onInvulnerability: these moves hit a flying target (gust / twister / skyuppercut / thousandarrows are
+# not in the Reg M-C id space; onSourceModifyDamage only doubles Gust / Twister: nothing to model)
+FLY_HITS = tuple(mid(n) for n in ("gust", "twister", "skyuppercut", "thunder", "hurricane", "smackdown",
+                                  "thousandarrows") if mid(n) > 0)
 
 
 if HAS_PF:
     @handler(ids.HOOK_END, CO.eff("twoturnmove"), ps="data/conditions.ts twoturnmove.onEnd")
     def twoturnmove_end(hc, st, dex, rng):
-        """target.removeVolatile(effectState.move): the folded move volatile goes with the state; Phantom Force's
-        real volatile is removed here."""
-        st, rng, _ = CO.remove_volatile(st, dex, rng, hc.target, CO.cid("phantomforce"), True)
+        """target.removeVolatile(effectState.move): the folded move volatile goes with the state; a real move volatile
+        (Phantom Force / Fly) is removed here."""
+        for n in REAL_VOLS:
+            st, rng, _ = CO.remove_volatile(st, dex, rng, hc.target, CO.cid(n), True)
         return hc, st, rng
 
 
@@ -136,8 +145,8 @@ def try_move(st, dex, rng, u, target, move, on):
     s = CO.vol_state(st, u, c)
     second = on & CO.has_volatile(st, u, c) & (s[TT_PRESENT] != 0)
     st = CO.set_vol_state(st, u, c, s.at[TT_PRESENT].set(0).at[TT_LOC].set(0), second)
-    if HAS_PF:                     # a move volatile with a real condition (duration 2) is also held as a volatile
-        st, rng, _ = CO.remove_volatile(st, dex, rng, u, CO.cid("phantomforce"), second & (move == mid("phantomforce")))
+    for n in REAL_VOLS:            # a move volatile with a real condition (duration 2) is also held as a volatile
+        st, rng, _ = CO.remove_volatile(st, dex, rng, u, CO.cid(n), second & (move == mid(n)))
     first = on & ~second
     st = EV.emit(st, first, EV.EV_PREPARE, actor=u, move=move)
     # boost({spa: 1}, attacker, attacker, move): not isSecondary / isSelf -> a capped boost still prints '-boost' 0
@@ -158,12 +167,15 @@ def try_move(st, dex, rng, u, target, move, on):
     s = s.at[1].set(move.astype(I16)).at[5].set(s[5] | 2)
     s = s.at[TT_LOC].set(mget(st.mons.last_move_target_loc, u).astype(I16)).at[TT_PRESENT].set(1)
     st = CO.set_vol_state(st, u, c, s, added)
-    pf = (move == mid("phantomforce")) if HAS_PF else jnp.zeros((), bool)
+    pf = jnp.zeros((), bool)
+    for n in REAL_VOLS:
+        pf = pf | (move == mid(n))
     st = CO.next_effect_order(st, added & ~pf)              # the move volatile's effect state
-    if HAS_PF:                     # attacker.addVolatile('phantomforce'): duration 2, effectOrder++
-        pc = CO.cid("phantomforce")
-        st = CO.add_plain_volatile(st, u, pc, added & pf)
-        st = CO.set_vol_state(st, u, pc, jnp.zeros(6, I16).at[0].set(dex.cond_duration[pc].astype(I16)), added & pf)
+    for n in REAL_VOLS:            # attacker.addVolatile('phantomforce' / 'fly'): duration 2, effectOrder++
+        pc = CO.cid(n)
+        on_n = added & (move == mid(n))
+        st = CO.add_plain_volatile(st, u, pc, on_n)
+        st = CO.set_vol_state(st, u, pc, jnp.zeros(6, I16).at[0].set(dex.cond_duration[pc].astype(I16)), on_n)
     st = EV.attr_last_move(st, added, EV.F_STILL)
     # twoturnmove.onStart: runEvent('PrepareHit', attacker, defender, effect) "side-effects normally associated with
     # hitting (e.g., Protean, Libero)" (data/conditions.ts:311-312); effect is the Dex move: its base type
@@ -192,13 +204,20 @@ for _n in ("solarbeam", "solarblade"):
 
 def semi_invulnerable(st, dex, u, targets, move):
     """runEvent('Invulnerability', target, source, move) === false for targets [T]: the target holds a move volatile
-    with onInvulnerability false (Phantom Force: data/moves.ts phantomforce.condition) and No Guard (onAny, priority
-    1, returns 0) is not held by the user or the target; Helping Hand skips the step (sim/battle-actions.ts:684)."""
+    with onInvulnerability false (Phantom Force: data/moves.ts phantomforce.condition; Fly: data/moves.ts:5922-5927,
+    except FLY_HITS) and No Guard (onAny, priority 1, returns 0) is not held by the user or the target; Helping Hand
+    skips the step (sim/battle-actions.ts:684)."""
     if not HAS_PF:
         return jnp.zeros(jnp.shape(targets), bool)
     from vgcjax.battle import move_pipeline as MP
     t = jnp.clip(jnp.asarray(targets, I32), 0, 7)
-    held = CO.has_volatile(st, t, CO.cid("phantomforce"))
+    held = jnp.zeros(t.shape, bool)
+    for n in REAL_VOLS:
+        h = CO.has_volatile(st, t, CO.cid(n))
+        if n == "fly":
+            for x in FLY_HITS:
+                h = h & (move != x)
+        held = held | h
     hh = move == getattr(ids, "MOVE_HELPINGHAND", -999)
     # gen >= 8: Toxic used by a Poison type skips the event (PS :689-690)
     tx = (move == getattr(ids, "MOVE_TOXIC", -999)) & jnp.any(mget(st.mons.types, jnp.clip(u, 0, 7)) == ids.TYPE_POISON)

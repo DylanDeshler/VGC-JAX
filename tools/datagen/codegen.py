@@ -367,6 +367,7 @@ class Builder:
         n = len(self.item_ids)
         itf = np.zeros(n, np.uint32)
         fling = np.zeros(n, np.int16)
+        fling_eff = np.zeros((n, 2), np.int16)   # item.fling.status / volatileStatus ConditionIds (Fling secondaries)
         ng = np.zeros((n, 2), np.int16)
         for i, iid in enumerate(self.item_ids[1:], 1):
             it = self.items[iid]
@@ -384,12 +385,15 @@ class Builder:
             if it.get("fling"):
                 f |= 1 << 5
                 fling[i] = (it["fling"] or {}).get("basePower", 0)
+                fling_eff[i] = [self.cond((it["fling"] or {}).get("status")),
+                                self.cond((it["fling"] or {}).get("volatileStatus"))]
             itf[i] = f
             g = it.get("naturalGift")
             if g:
                 ng[i] = [g.get("basePower", 0), self.tid.get(g.get("type"), 0)]
         self.arr("item_flags", itf)
         self.arr("item_fling_bp", fling)
+        self.arr("item_fling_effect", fling_eff)
         self.arr("item_natural_gift", ng)
 
     def build_types_natures(self) -> None:

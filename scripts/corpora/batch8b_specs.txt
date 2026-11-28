@@ -1,0 +1,14 @@
+stagereq:impl:move:avalanche
+stagereq:impl:move:painsplit
+stagereq:impl:move:afteryou
+stagereq:impl:move:mistyexplosion
+stagereq:impl:move:fly
+stagereq:impl:move:gravity
+stagereq:impl:move:gravity+move:fly
+stagereq:impl:move:fling
+stagereq:impl:move:fling+item:ironball
+stagereq:impl:item:ironball
+stagereq:impl:item:shellbell
+stagereq:impl:item:leppaberry
+stagereq:impl:species:feraligatr+item:feraligite
+stagereq:impl:species:glalie+item:glalitite

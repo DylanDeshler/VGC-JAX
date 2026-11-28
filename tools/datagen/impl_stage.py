@@ -59,7 +59,8 @@ EXTRA: dict[str, set[str]] = {
               "electrify", "wish", "supercellslam", "shedtail", "simplebeam", "entrainment",
               "focuspunch",                                                            # effects/batch7c.py
               "attract", "rest", "reversal", "fairylock", "magicpowder", "minimize", "stockpile", "curse",
-              "instruct"},                                                             # effects/batch8a.py
+              "instruct",                                                             # effects/batch8a.py
+              "avalanche", "painsplit", "afteryou", "mistyexplosion", "fly", "gravity", "fling"},   # effects/batch8b.py
     "abilities": {"imposter", "protean", "libero",                              # effects/batch_copy.py
                   "magicbounce", "queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
@@ -88,7 +89,8 @@ EXTRA: dict[str, set[str]] = {
                   "heatproof", "magicguard", "rivalry", "pickpocket", "gluttony", "shedskin",
                   "quickdraw", "furcoat",                                                    # effects/batch7b.py
                   "simple",                                                                  # effects/batch7c.py (Simple Beam)
-                  "zerotohero", "icebody", "surgesurfer", "marvelscale"},                    # effects/batch8c.py
+                  "zerotohero", "icebody", "surgesurfer", "marvelscale",                    # effects/batch8c.py
+                  "refrigerate", "dragonize"},                                               # effects/batch8b.py (-ate)
                                                                                               # effects/ability_blocks.py
     "items": {"kangaskhanite", "lumberry", "sceptilite", "bindingband", "blackbelt", "blackglasses", "charcoal", "dragonfang", "fairyfeather", "hardstone", "magnet", "metalcoat",
               "miracleseed", "mysticwater", "nevermeltice", "poisonbarb", "sharpbeak", "silkscarf", "silverpowder",
@@ -102,7 +104,8 @@ EXTRA: dict[str, set[str]] = {
               "chestoberry",
               "airballoon", "mentalherb",                                                     # effects/batch_forme.py
               "leek", "lightball", "metronome", "zoomlens",                                   # effects/batch7a.py
-              "quickclaw", "bigroot", "redcard"},                                             # effects/batch7b.py
+              "quickclaw", "bigroot", "redcard",                                              # effects/batch7b.py
+              "ironball", "shellbell", "leppaberry"},                                         # effects/batch8b.py
                                                                                               # effects/items.py
     "conditions": {"protect", "stall", "wideguard", "quickguard", "tailwind", "trickroom", "reflect", "lightscreen",
                    "sunnyday", "raindance", "sandstorm", "snowscape",
@@ -117,7 +120,8 @@ EXTRA: dict[str, set[str]] = {
                    "metronome",                                               # Metronome item (batch7a.py)
                    "octolock", "lockedmove", "mirrorcoat", "counter", "endure", "electrify", "wish",
                    "focuspunch",                                              # effects/batch7c.py
-                   "curse", "stockpile", "minimize", "fairylock"},            # effects/batch8a.py
+                   "curse", "stockpile", "minimize", "fairylock",            # effects/batch8a.py
+                   "fly", "gravity", "fling"},                                # effects/batch8b.py
 }
 
 

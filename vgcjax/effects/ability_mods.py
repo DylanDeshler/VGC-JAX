@@ -10,7 +10,7 @@ from vgcjax.battle.util import mget
 from vgcjax.core import fixedpoint as fp
 from vgcjax.data import ids
 from vgcjax.effects.abilities import aeff, aid
-from vgcjax.effects.modifiers import mod
+from vgcjax.effects.modifiers import mod, mod_family
 
 I32 = jnp.int32
 X15, X2, X05, X075 = 6144, 8192, 2048, 3072
@@ -193,8 +193,10 @@ def _ate_bp(ctx, h):
     return b & (h == ctx.tgt), _const(4915), None
 
 
-for _n in ("aerilate", "pixilate"):
-    _reg("BasePower", _n)(_ate_bp)
+# one table-driven row for the -ate family (ADR-106: same onBasePowerPriority 23); Refrigerate / Dragonize (Mega
+# Glalie / Mega Feraligatr): batch 8b, PS data/abilities.ts:3813-3832 / :1036-1056
+_ATE_EFFS = [aeff(_n) for _n in ("aerilate", "pixilate", "refrigerate", "dragonize") if aid(_n) > 0]
+mod_family("BasePower", _ATE_EFFS, ps="data/abilities.ts <-ate>.onBasePower")(_ate_bp)
 
 
 @_reg("BasePower", "fairyaura", prefix=ids.PFX_ANY)

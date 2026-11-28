@@ -37,6 +37,7 @@ fields (PS protocol line -> record):
   SWAP       |swap| X|pos [from]          actor, v1 = new position, move = [from] effect EffectId (Ally Switch)
   ZBROKEN    |-zbroken| X                  actor ([C] modifyDamage: a protection bypassed by Piercing Drill)
   REPLACE    |replace| X|details          actor, v1 = SpeciesId (Illusion ends)
+  SETHP      |-sethp| X|hp [from]          actor, v1/v2 hp, move = [from] EffectId, flags F_SETHP_SILENT (Pain Split)
 Protocol lines name a mon through PS Pokemon.toString: under Illusion its disguise (Events.alias remaps every ref).
 """
 from __future__ import annotations
@@ -53,16 +54,16 @@ KINDS = ("NONE", "SWITCH", "MOVE", "DAMAGE", "HEAL", "CRIT", "SUPEREFFECTIVE", "
          "BOOST", "FAINT", "HITCOUNT", "OHKO", "TURN", "ACTIVATE", "STATUS", "CURESTATUS", "CANT", "START", "END", "SINGLETURN", "SIDESTART", "SIDEEND",
          "FIELDSTART", "FIELDEND", "WEATHER", "ABILITY", "ITEM", "BLOCK", "SETBOOST", "ENDITEM", "MEGA", "DETAILSCHANGE", "CLEARALLBOOST",
          "PREPARE", "MUSTRECHARGE", "FIELDACTIVATE", "SINGLEMOVE", "CLEARNEGATIVEBOOST", "FORMECHANGE", "TRANSFORM",
-         "COPYBOOST", "SWAP", "ZBROKEN", "REPLACE")
+         "COPYBOOST", "SWAP", "ZBROKEN", "REPLACE", "SETHP")
 (EV_NONE, EV_SWITCH, EV_MOVE, EV_DAMAGE, EV_HEAL, EV_CRIT, EV_SUPER, EV_RESIST, EV_IMMUNE, EV_MISS, EV_FAIL, EV_BOOST,
  EV_FAINT, EV_HITCOUNT, EV_OHKO, EV_TURN, EV_ACTIVATE, EV_STATUS, EV_CURESTATUS, EV_CANT, EV_START,
  EV_END, EV_SINGLETURN, EV_SIDESTART, EV_SIDEEND, EV_FIELDSTART, EV_FIELDEND, EV_WEATHER, EV_ABILITY, EV_ITEM, EV_BLOCK, EV_SETBOOST, EV_ENDITEM, EV_MEGA, EV_DETAILSCHANGE, EV_CLEARALLBOOST,
  EV_PREPARE, EV_MUSTRECHARGE, EV_FIELDACTIVATE, EV_SINGLEMOVE, EV_CLEARNEGATIVEBOOST, EV_FORMECHANGE, EV_TRANSFORM,
- EV_COPYBOOST, EV_SWAP, EV_ZBROKEN, EV_REPLACE) = range(len(KINDS))
+ EV_COPYBOOST, EV_SWAP, EV_ZBROKEN, EV_REPLACE, EV_SETHP) = range(len(KINDS))
 # kinds whose `move` field holds an EffectId (move / ability / item / condition) rather than a MoveId
 EFFECT_KINDS = ("DAMAGE", "HEAL", "STATUS", "CURESTATUS", "CANT", "FAIL", "ACTIVATE", "START", "END", "SINGLETURN", "SIDESTART", "SIDEEND",
          "FIELDSTART", "FIELDEND", "WEATHER", "ABILITY", "ITEM", "IMMUNE", "BLOCK", "SETBOOST", "ENDITEM", "MEGA",
-         "FIELDACTIVATE", "SINGLEMOVE", "FORMECHANGE", "TRANSFORM", "COPYBOOST", "SWAP")
+         "FIELDACTIVATE", "SINGLEMOVE", "FORMECHANGE", "TRANSFORM", "COPYBOOST", "SWAP", "SETHP")
 F_DRAG = 1
 F_MISS, F_NOTARGET, F_SPREAD, F_STILL = 1, 2, 4, 8
 F_RECOIL = 1
@@ -77,6 +78,7 @@ F_FROM_MOVE, F_FROM_ABILITY, F_FROM_ITEM = 1, 2, 4   # STATUS: '[from] move: / a
 F_FATIGUE = 8                    # START: '[fatigue]'
 F_MSG, F_SILENT, F_FROM_MOVE_CURE = 1, 2, 4   # CURESTATUS: '[msg]' / '[silent]' / '[from] move: X' (move in v1)
 F_BOOST = 1                      # ABILITY: '-ability' pokemon X 'boost' (ability in `move`)
+F_SETHP_SILENT = 1               # SETHP: '[silent]'
 F_EAT, F_WEAKEN = 1, 2           # ENDITEM: '[eat]' / '[weaken]' (item in `move`)
 F_UPKEEP = 1                     # WEATHER: '[upkeep]' (weather in `move`, -1 = 'none'; '[from] ability:' -> F_FROM_ABILITY)
 

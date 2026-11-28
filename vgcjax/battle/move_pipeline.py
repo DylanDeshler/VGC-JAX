@@ -631,6 +631,8 @@ def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=No
         stats_t, boosts_t, will_crit_t, t_unaware & is_at, jnp.broadcast_to(u_unaware, (NT,)) & (targets != u) & is_at)
     eff = jax.vmap(lambda tt: TC.effectiveness(dex, mtype, tt, freeze_dry=move == opt_id("MOVE_FREEZEDRY")))(t_types)
     eff = jnp.where(dsg, 0, eff)
+    from vgcjax.effects import batch8b as B8B                           # Iron Ball onEffectiveness: Ground -> 0
+    eff = jnp.where(B8B.iron_ball_neutral(st, targets, mtype), 0, eff)
     ctx = MOD.Ctx(st, dex, tgt=uu, src=targets, move=move, mtype=mtype_ev,
                   extra=dict(crit=will_crit_t, type_mod=jnp.where(is_struggle, 0, eff)))
     bp_post, _, rng = MOD.run("BasePower", ctx, rng, jnp.maximum(bp, 1).astype(I32), base + 1, reach)
@@ -949,6 +951,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
             st, rng, pwres = SC.add_pseudo_weather(st, dex, rng, mpw, cj & (mpw > 0), source=u,
                                                    source_effect=C.eff_move(move))
             dj = RS.where(cj & (mpw > 0), RS.combine(dj, pwres), dj)
+            if "gravity" in ids.CONDITIONS:          # Gravity onFieldStart's per-active part (effects/batch8b.py)
+                from vgcjax.effects import batch8b as B8B
+                st, rng = B8B.gravity_field_start(st, dex, rng, cj & (mpw == CO.cid("gravity")) & RS.truthy(pwres))
         dj = RS.where(cj & force_sw, RS.combine(dj, RS.R(RS.BOOL, cs[j].astype(I32))), dj)
         # Hit events (PS :1314-1335): onHitSide for side moves, else the move's onHit (runEvent('Hit'): M4)
         em_ = C.eff_move(move)
@@ -962,6 +967,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
             hch, st, rng = CO.single_event(hook_, em_, st, dex, rng, hch, cj & has_, effect_range=CO.MOVE_RANGE,
                                            only=only_)
             dj = RS.where(cj & has_, RS.combine(dj, CO.event_result(hch)), dj)
+        if j == 0:                                   # Fling's move.onHit (single-target; effects/batch8b.py)
+            from vgcjax.effects import batch8b as B8B
+            st, rng = B8B.fling_hit(st, dex, rng, targets[0], u, move, cj & ~side_mode_)
         # runEvent('Hit', target, source, move) (not side moves): Own Tempo onHit, a confusion move ->
         # '-immune' target 'confusion' '[from] ability: Own Tempo'
         if opt_id("ABILITY_OWNTEMPO") > 0 and "confusion" in ids.CONDITIONS:
@@ -1034,6 +1042,9 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     from vgcjax.effects import move_callbacks as MC_
     sf, _ = MC_.sheer_force(st, dex, u, move)                          # Sheer Force: secondaries / self deleted
     nsec = jnp.where(sf, 0, dex.move_nsec[move])
+    from vgcjax.effects import batch8b as B8B                           # Fling: item.fling.status / volatileStatus
+    fl_on, fl_status, fl_vol = B8B.fling_secondary(st, dex, u, move)
+    nsec = jnp.where(fl_on, 1, nsec)
     oks = []
     oks_self = []
     # null (substitute) targets share the key target -1; the oracle numbers same-key rolls by occurrence, so a second
@@ -1042,6 +1053,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     for k in range(2):
         live = (tv | first_null) & (k < nsec)        # a substitute target still rolls; only self effects apply
         chance = dex.move_sec_chance[move, k].astype(I32)
+        chance = jnp.where(fl_on, -1, chance) if k == 0 else chance
         # the draw key's target is the (null -> -1) secondaries() loop target
         key = C.dkey(st, ids.DK_SECONDARY, actor=u, target=jnp.where(sub_ok, -1, targets), subject=C.eff_move(move),
                      hit=hit_no, ord=k)
@@ -1079,6 +1091,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
     sec_msgs = []
     for k in range(2):
         sst = dex.move_sec_status[move, k].astype(I32)
+        sst = jnp.where(fl_on, fl_status, sst) if k == 0 else sst
         st, rng, _, msg = STS.try_set_status_v(st, dex, rng, targets, sst, oks[k] & (sst > 0), u, C.eff_move(move),
                                                mstatus)
         sec_msgs.append(msg)
@@ -1090,6 +1103,7 @@ def spread_move_hit(st, dex, rng, cfg, u, move, targets, tvalid, spread, hit_no,
             from vgcjax.effects import berries as BE                   # AfterSetStatus: Lum Berry
             st, rng = BE.after_set_status(st, dex, rng, sec_msgs[k], j, targets[j])
             svol = dex.move_sec_volatile[move, k].astype(I32)
+            svol = jnp.where(fl_on, fl_vol, svol) if k == 0 else svol
             st, rng, _ = CO.add_volatile(st, dex, rng, targets[j], svol, oks[k][j] & (svol > 0),
                                          cands=CO.vol_candidates("move_sec_volatile"), source=u,
                                          source_effect=C.eff_move(move))
@@ -1624,6 +1638,8 @@ def move_end(st, dex, rng, cfg):
     num = run_rest & tv & (targets != u) & ((ex.lt == RS.NUM) | ex.sub_null)
     ta = mset_many(m.times_attacked, targets, mget(m.times_attacked, targets) + jnp.where(ex.smart, 1, hit_count), num)
     st = st.replace(mons=m.replace(times_attacked=ta))
+    from vgcjax.effects import batch8b as B8B                           # gotAttacked: attackedBy (Avalanche)
+    st = B8B.got_attacked(st, u, targets, run_rest & tv & (targets != u) & (ex.lt == RS.NUM) & (ex.lv > 0))
     # [C] scripts.ts:569
     st = EV.emit(st, run_rest & (dex.move_ohko[move] > 0) & (mget(st.mons.hp, targets[0]) <= 0), EV.EV_OHKO)
     # [C] scripts.ts:571-577: afterMoveSecondaryEvent(targets) when some damage[i] is truthy or 0
@@ -1695,6 +1711,8 @@ def move_end(st, dex, rng, cfg):
     from vgcjax.effects import batch_reactive as BR
     st, rng, stole = BR.magician(st, dex, rng, u, move, targets, kept, result & ~sup)
     st, rng = IT.life_orb_recoil(st, dex, rng, u, -1, move, result & ~sup & ~stole)
+    from vgcjax.effects import batch8b as B8B                           # Shell Bell (priority -1)
+    st, rng = B8B.shell_bell(st, dex, rng, u, ex.total, result & ~sup & ~stole)
     # PS :600-605: runEvent('EmergencyExit', pokemon) after AfterMoveSecondarySelf (not vs itself, not Status)
     from vgcjax.effects import ability_reactions as AR
     st = AR.emergency_exit(st, u, lo_hp, result & ~sup & (targets[0] != u) & (dex.move_category[move] != T.CAT_STATUS))
