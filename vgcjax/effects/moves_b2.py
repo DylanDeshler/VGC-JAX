@@ -384,32 +384,39 @@ if mid("steelroller") > 0:
 
 
 # ------------------------------------------------------------------ Double Shock (Champions: punch flag)
+# the onTryMove / self.onHit type-removal family: Double Shock (data/moves.ts doubleshock) and Burn Up
+# (data/moves.ts:2092-2117 burnup, Champions: data/mods/champions/moves.ts:109-112; effects/batch9b.py)
+TYPE_DROP = tuple((n, getattr(ids, ty)) for n, ty in (("doubleshock", "TYPE_ELECTRIC"), ("burnup", "TYPE_FIRE"))
+                  if mid(n) > 0)
+
+
 def double_shock_try(st, u, move, on):
-    """Double Shock onTryMove: a user without the Electric type -> '-fail' pokemon 'move: Double Shock',
+    """Double Shock / Burn Up onTryMove: a user without the Electric / Fire type -> '-fail' pokemon 'move: X',
     attrLastMove('[still]'), null. Returns (st, null)."""
-    if mid("doubleshock") < 0:
-        return st, jnp.zeros((), bool)
-    fail = jnp.asarray(on) & (move == mid("doubleshock")) & ~jnp.any(mget(st.mons.types, u) == ids.TYPE_ELECTRIC)
-    st = EV.emit(st, fail, EV.EV_FAIL, actor=u, move=C.eff_move(mid("doubleshock")), flags=EV.F_FAILSTATUS)
+    fail = jnp.zeros((), bool)
+    for n, ty in TYPE_DROP:
+        f = jnp.asarray(on) & (move == mid(n)) & ~jnp.any(mget(st.mons.types, u) == ty)
+        st = EV.emit(st, f, EV.EV_FAIL, actor=u, move=C.eff_move(mid(n)), flags=EV.F_FAILSTATUS)
+        fail = fail | f
     st = EV.attr_last_move(st, fail, EV.F_STILL)
     return st, fail
 
 
 def double_shock_self(st, u, move, on):
-    """self.onHit (selfDrops -> moveHit(source, source, move.self)): setType(types with Electric -> '???'); '-start'
-    pokemon 'typechange' <types> '[from] move: Double Shock' (START move/v1 = Double Shock, v2 = 1:
-    harness/events.py prints 'typechange')."""
-    if mid("doubleshock") < 0:
-        return st
+    """self.onHit (selfDrops -> moveHit(source, source, move.self)): setType(getTypes(true) with Electric (Double
+    Shock) / Fire (Burn Up) -> '???'); '-start' pokemon 'typechange' <types> '[from] move: X' (START move/v1 = the
+    move, v2 = 1: harness/events.py prints 'typechange')."""
     from vgcjax.battle.util import mset
-    go = jnp.asarray(on) & (move == mid("doubleshock")) & (mget(st.mons.hp, u) > 0)
-    m = st.mons
-    t = mget(m.types, u)
-    new = jnp.where(t == ids.TYPE_ELECTRIC, ids.TYPE_TYPELESS, t).astype(t.dtype)
-    m = m.replace(types=mset(m.types, u, new, go), added_type=mset(m.added_type, u, 0, go))
-    st = st.replace(mons=m)
-    e = C.eff_move(mid("doubleshock"))
-    return EV.emit(st, go, EV.EV_START, actor=u, move=e, v1=e, v2=1)
+    for n, ty in TYPE_DROP:
+        go = jnp.asarray(on) & (move == mid(n)) & (mget(st.mons.hp, u) > 0)
+        m = st.mons
+        t = mget(m.types, u)
+        new = jnp.where(t == ty, ids.TYPE_TYPELESS, t).astype(t.dtype)
+        m = m.replace(types=mset(m.types, u, new, go), added_type=mset(m.added_type, u, 0, go))
+        st = st.replace(mons=m)
+        e = C.eff_move(mid(n))
+        st = EV.emit(st, go, EV.EV_START, actor=u, move=e, v1=e, v2=1)
+    return st
 
 
 # ------------------------------------------------------------------ Glaive Rush

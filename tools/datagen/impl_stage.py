@@ -62,7 +62,9 @@ EXTRA: dict[str, set[str]] = {
               "instruct",                                                             # effects/batch8a.py
               "avalanche", "painsplit", "afteryou", "mistyexplosion", "fly", "gravity", "fling",    # effects/batch8b.py
               "clearsmog", "burningjealousy", "ficklebeam", "speedswap", "barbbarrage", "shellsidearm", "defog",
-              "flail", "metalburst"},                                                  # effects/batch9a.py
+              "flail", "metalburst",                                                  # effects/batch9a.py
+              "healbell", "thrash", "futuresight", "saltcure", "safeguard", "acupressure", "gravapple", "burnup",
+              "morningsun"},                                                           # effects/batch9b.py
     "abilities": {"imposter", "protean", "libero",                              # effects/batch_copy.py
                   "magicbounce", "queenlymajesty", "sturdy", "stancechange", "parentalbond", "trace", "unaware", "lightningrod", "mirrorarmor", "toxicdebris", "drought", "drizzle", "sandstream", "snowwarning", "electricsurge", "grassysurge", "psychicsurge",
                   "mistysurge", "cloudnine", "intimidate", "pressure", "unnerve", "frisk",    # effects/abilities.py
@@ -126,7 +128,8 @@ EXTRA: dict[str, set[str]] = {
                    "octolock", "lockedmove", "mirrorcoat", "counter", "endure", "electrify", "wish",
                    "focuspunch",                                              # effects/batch7c.py
                    "curse", "stockpile", "minimize", "fairylock",            # effects/batch8a.py
-                   "fly", "gravity", "fling"},                                # effects/batch8b.py
+                   "fly", "gravity", "fling",                                # effects/batch8b.py
+                   "futuremove", "saltcure", "safeguard"},                    # effects/batch9b.py
 }
 
 

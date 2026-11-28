@@ -238,7 +238,8 @@ def damaging_hit(st, dex, rng, j, t, damaged, u, move, mtype, hit_no, bmsgs, b_o
     # Cursed Body: the attacker without 'disable', not Struggle (no Max / future moves): 3/10 ->
     # source.addVolatile('disable', holder) ('-start' source 'Disable' move '[from] ability: Cursed Body' '[of] holder')
     if aid("cursedbody") > 0 and "disable" in ids.CONDITIONS:
-        cb = damaged & _is(ab, "cursedbody") & ~CO.has_volatile(st, u, CO.cid("disable")) & (move != ids.MOVE_STRUGGLE)
+        cb = damaged & _is(ab, "cursedbody") & ~CO.has_volatile(st, u, CO.cid("disable")) & (move != ids.MOVE_STRUGGLE) & \
+            ~_flag(dex, move, ids.MF_FUTUREMOVE)                  # Future Sight (effects/batch9b.py)
         key = C.dkey(st, ids.DK_ABILITY_ONHIT_PROC, actor=tr, target=u, subject=aeff("cursedbody"), hit=hit_no)
         ok, rng = R.chance(rng, key, 3, 10, active=cb)
         st, rng, _ = CO.add_volatile(st, dex, rng, u, CO.cid("disable"), cb & ok, source=tr,

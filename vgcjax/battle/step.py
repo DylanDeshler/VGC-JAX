@@ -356,11 +356,12 @@ def post_action(st, dex, rng, kind, on, cursor=0, residual_hp=None, switch_hp=No
     return st.replace(meta=meta.replace(phase=jnp.where(pause, S.SWITCH, meta.phase).astype(I8))), rng
 
 
-def residual(st, dex, rng, on):
-    """PS residual action (sim/battle.ts:2851-2858): updateSpeed, fieldEvent('Residual') (effects/fieldevent.py)."""
+def residual(st, dex, rng, on, resume=False):
+    """PS residual action (sim/battle.ts:2851-2858): updateSpeed, fieldEvent('Residual') (effects/fieldevent.py).
+    `resume`: the walk continues after a Future Sight hit (effects/batch9b.py; no second updateSpeed)."""
     on = jnp.asarray(on)
     st = C.update_speed(st, dex, on)
-    return FE.residual(st, dex, rng, on)
+    return FE.residual(st, dex, rng, on | jnp.asarray(resume))
 
 
 def end_turn(st, dex, cfg, on) -> S.State:
@@ -485,7 +486,10 @@ def micro(st, dex, rng, cfg):
     # a pending Magic Bounce reflection starts before any new action (it belongs to the running move action)
     bounce = act & st.scratch.bounce_pending & ~st.exec.in_move
     resume = act & st.scratch.res_pending & ~st.exec.in_move & ~bounce   # a suspended move continues (step 2)
-    go = act & ~st.exec.in_move & anyv & (hk != S.Q_RESIDUAL) & ~tail & ~bounce & ~resume  # residual: once/call
+    # a Future Sight hit scheduled by the suspended residual walk (effects/batch9b.py) runs before the walk resumes
+    from vgcjax.effects import batch9b as B9B
+    fut = act & B9B.pending(st) & ~st.exec.in_move & ~tail & ~bounce & ~resume
+    go = act & ~st.exec.in_move & anyv & (hk != S.Q_RESIDUAL) & ~tail & ~bounce & ~resume & ~fut  # residual: once/call
     # tied entries share an order class, so the head's kind gives the step_tag of the SELECT tie record
     st = C.set_step(st, _lookup(STEP_TAG, hk, ids.STEP_COMMIT), -1, -1, 0, go)
     st, rng, idx, passes = Q.select(st, dex, rng, go)
@@ -515,12 +519,17 @@ def micro(st, dex, rng, cfg):
     sc = st.scratch
     carry = jax.tree_util.tree_map(lambda a, b_: jnp.where(resume, a, b_), sc.res, carry)
     st = st.replace(scratch=sc.replace(res_pending=sc.res_pending & ~resume))
+    st, fcarry = B9B.future_start(st, dex, fut)                         # the future hit: trySpreadMoveHit steps 0-1
+    carry = jax.tree_util.tree_map(lambda a, b_: jnp.where(fut, a, b_), fcarry, carry)
     st, rng = MP.move_begin_back(st, dex, rng, cfg, carry, hit_key=jnp.where(resume, sc.res_hit.astype(I32), 0))
+    st = B9B.future_exec(st, fut)
     st, rng = MP.move_hit(st, dex, rng, cfg)
     move_done = st.exec.in_move & st.exec.stopped
     st, rng = MP.move_end(st, dex, rng, cfg)
     # a move that recorded a bounce is not finished: its reflection (then its runMove tail) runs first
     move_done = move_done & ~st.scratch.bounce_pending & ~st.scratch.res_pending
+    st, fut_done = B9B.future_done(st, move_done)                       # no runAction tail: the walk resumes
+    move_done = move_done & ~fut_done
     finished = (run & ~is_move) | move_done
     kind = jnp.where(move_done & ~run, S.Q_MOVE, kind)                  # a reflection ends its move action's tail
     st, rng = post_action(st, dex, rng, jnp.where(tail, tail_kind, kind), finished | tail,
@@ -530,9 +539,10 @@ def micro(st, dex, rng, cfg):
     # request) and the next action is a move, updateSpeed + getActionSpeed for every queued action, then re-sort
     _, nk, nany = Q.head(st.queue)
     st = Q.rekey(st, dex, done & active(st) & nany & (nk == S.Q_MOVE))
-    # end of turn when the queue is drained and no move, tail or reflection is in progress
+    # end of turn when the queue is drained and no move, tail, reflection or suspended residual is in progress
     return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~st.scratch.tail_pending &
-                    ~st.scratch.bounce_pending & ~st.scratch.res_pending & ~jnp.any(st.queue.valid)), rng
+                    ~st.scratch.bounce_pending & ~st.scratch.res_pending & ~B9B.suspended(st) &
+                    ~jnp.any(st.queue.valid)), rng
 
 
 def block_residual(st, dex, rng, cfg):
@@ -540,29 +550,41 @@ def block_residual(st, dex, rng, cfg):
     micro-steps so the residual walk is traced once per step call, then the runAction tail and end of turn."""
     q = st.queue
     _, hk, anyv = Q.head(q)
-    go = active(st) & ~st.exec.in_move & ~st.scratch.tail_pending & ~st.scratch.bounce_pending & \
-        ~st.scratch.res_pending & anyv & \
-        (hk == S.Q_RESIDUAL)
-    st = C.set_step(st, ids.STEP_RESIDUAL, -1, C.eff_action("residual"), 0, go)
+    from vgcjax.effects import batch9b as B9B
+    idle = active(st) & ~st.exec.in_move & ~st.scratch.tail_pending & ~st.scratch.bounce_pending & \
+        ~st.scratch.res_pending & ~B9B.pending(st)
+    # a walk suspended for a Future Sight hit (effects/batch9b.py) resumes once the hit ran
+    resume = idle & B9B.rs_pending(st)
+    go = idle & ~B9B.rs_pending(st) & anyv & (hk == S.Q_RESIDUAL)
+    st = C.set_step(st, ids.STEP_RESIDUAL, -1, C.eff_action("residual"), 0, go | resume)
     idx = jnp.argmax(q.valid & (q.kind == S.Q_RESIDUAL))
     st = st.replace(queue=q.replace(valid=q.valid.at[idx].set(jnp.where(go, False, q.valid[idx]))))
-    # residualPokemon: the actives' hp before the residual (getAllActive order)
+    # residualPokemon: the actives' hp before the residual (getAllActive order); kept across a suspension
     act = st.sides.active.reshape(4).astype(I32)
     rrefs = (jnp.arange(4) // 2) * 4 + jnp.maximum(act, 0)
     alive = (act >= 0) & ~mget(st.mons.fainted, rrefs)
-    res_hp = (jnp.where(alive, rrefs, -1), mget(st.mons.hp, rrefs).astype(I32))
-    st, rng = residual(st, dex, rng, go)
-    st, rng = post_action(st, dex, rng, S.Q_RESIDUAL, go, residual_hp=res_hp)
+    sc = st.scratch
+    saved = sc.rs_rows[S.RS_K].astype(I32)
+    rs_refs = jnp.where(resume, saved[:4], jnp.where(alive, rrefs, -1))
+    rs_hp = jnp.where(resume, saved[4:], mget(st.mons.hp, rrefs).astype(I32))
+    st = st.replace(scratch=sc.replace(rs_rows=sc.rs_rows.at[S.RS_K].set(
+        jnp.concatenate([rs_refs, rs_hp]).astype(I16))))
+    res_hp = (rs_refs, rs_hp)
+    st, rng = residual(st, dex, rng, go, resume)
+    done = (go | resume) & ~B9B.suspended(st)
+    st, rng = post_action(st, dex, rng, S.Q_RESIDUAL, done, residual_hp=res_hp)
     return end_turn(st, dex, cfg, active(st) & ~st.exec.in_move & ~st.scratch.tail_pending &
-                    ~st.scratch.bounce_pending & ~st.scratch.res_pending & ~jnp.any(st.queue.valid)), rng
+                    ~st.scratch.bounce_pending & ~st.scratch.res_pending & ~B9B.suspended(st) &
+                    ~jnp.any(st.queue.valid)), rng
 
 
 def run_until_decision(st, dex, rng, cfg):
     st, rng = jax.lax.fori_loop(0, cfg.micro_steps, lambda i, c: micro(c[0], dex, c[1], cfg), (st, rng))
     st, rng = block_residual(st, dex, rng, cfg)
     # work left for the next call: continuation phase (no decision)
+    from vgcjax.effects import batch9b as B9B
     pending = active(st) & (jnp.any(st.queue.valid) | st.exec.in_move | st.scratch.tail_pending |
-                            st.scratch.bounce_pending | st.scratch.res_pending)
+                            st.scratch.bounce_pending | st.scratch.res_pending | B9B.suspended(st))
     return st.replace(meta=st.meta.replace(phase=jnp.where(pending, S.CONT, st.meta.phase).astype(I8))), rng
 
 

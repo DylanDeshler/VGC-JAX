@@ -87,12 +87,15 @@ def set_status(st, dex, rng, ref, status, on, source=-1, source_effect=-1, move_
     ab_b, imm_m, blk_m, blk_e, blk_o, w_spd = AXB.set_status_block(
         st, jnp.asarray(ref, I32)[None], status[None], source, source_effect, move_status, (go & (status > 0))[None])
     t_b, tmsg = TR.blocks_status(st, dex, ref, status, source_effect, move_status)
-    t_b = go & (status > 0) & t_b
+    from vgcjax.effects import batch9b as B9B          # Safeguard onSetStatus (side, subOrder 4: before the terrains)
+    sg_b, sg_msg = B9B.safeguard_status(st, dex, ref, source, source_effect, move_status)
+    t_b = go & (status > 0) & (t_b | sg_b)
     ab_wins = ab_b[0] & ((w_spd[0] > 0) | ~t_b)             # field handlers first unless the holder is faster than 0
     blocked = t_b & ~ab_wins
     st = AXB.emit_set_status_block(st, ref, imm_m[0] & ab_wins, blk_m[0] & ab_wins, blk_e[0], blk_o[0],
                                    ids.ABILITY_BASE + mget(st.mons.ability, ref) - 1)
-    st = EV.emit(st, blocked & tmsg, EV.EV_ACTIVATE, actor=ref, move=C.eff_cond(TR.terrain(st)))
+    st = EV.emit(st, blocked & jnp.where(sg_b, sg_msg, tmsg), EV.EV_ACTIVATE, actor=ref,
+                 move=jnp.where(sg_b, B9B.meff("safeguard"), C.eff_cond(TR.terrain(st))))     # or Safeguard's
     go = go & ~blocked & ~ab_wins
     m = st.mons
     # status_state[3]: presence bits 0..7 + the owning status << 8 (checkFainted sets status 'fnt' but keeps the
@@ -354,7 +357,10 @@ def try_set_status_v(st, dex, rng, refs, status, on, source, source_effect, move
     ab_b, imm_m, blk_m, blk_e, blk_o, w_spd = AXB.set_status_block(st, refs, want, source, source_effect,
                                                                    move_status, pre_ok)
     t_b, tmsg = TR.blocks_status(st, dex, refs, want, source_effect, move_status)
-    t_b = pre_ok & t_b
+    from vgcjax.effects import batch9b as B9B          # Safeguard onSetStatus (side, subOrder 4: before the terrains)
+    sg_b, sg_msg = B9B.safeguard_status(st, dex, refs, source, source_effect, move_status)
+    tmsg = jnp.where(sg_b, sg_msg, tmsg)
+    t_b = pre_ok & (t_b | sg_b)
     ab_wins = ab_b & ((w_spd > 0) | ~t_b)                  # field handlers first unless the holder is faster than 0
     blocked = t_b & ~ab_wins
     imm_m, blk_m = imm_m & ab_wins, blk_m & ab_wins
@@ -378,7 +384,8 @@ def try_set_status_v(st, dex, rng, refs, status, on, source, source_effect, move
     res = RS.where(ok, RS.R(RS.BOOL, 1), RS.R(RS.BOOL, 0))
     msgs = dict(fail_t=same & (move_status == cur) & (move_status > 0), fail_s=same & (move_status != cur) & (move_status > 0),
                 imm=imm & (move_status > 0), tblock=blocked & tmsg, ab_imm=imm_m, ab_blk=blk_m, ab_blk_e=blk_e, ab_blk_o=blk_o,
-                ab_eff=ids.ABILITY_BASE + mget(m.ability, refs) - 1, terrain=C.eff_cond(TR.terrain(st)), ok=ok, want=want, cur=cur, from_move=is_move & is_slp, eff=eff, src=src)
+                ab_eff=ids.ABILITY_BASE + mget(m.ability, refs) - 1,
+                terrain=jnp.where(sg_b, B9B.meff("safeguard"), C.eff_cond(TR.terrain(st))), ok=ok, want=want, cur=cur, from_move=is_move & is_slp, eff=eff, src=src)
     return st, rng, res, msgs
 
 
@@ -390,7 +397,7 @@ def emit_status_msgs(st, msgs, j, ref):
     st = EV.emit(st, msgs["imm"][j], EV.EV_IMMUNE, actor=ref)
     st = AXB.emit_set_status_block(st, ref, msgs["ab_imm"][j], msgs["ab_blk"][j], msgs["ab_blk_e"][j],
                                    msgs["ab_blk_o"][j], msgs["ab_eff"][j])
-    st = EV.emit(st, msgs["tblock"][j], EV.EV_ACTIVATE, actor=ref, move=msgs["terrain"])
+    st = EV.emit(st, msgs["tblock"][j], EV.EV_ACTIVATE, actor=ref, move=msgs["terrain"][j])   # or Safeguard
     fm = msgs["from_move"][j]
     eff = msgs["eff"]
     fa = (eff >= ids.ABILITY_BASE) & (eff < ids.ABILITY_BASE + len(ids.ABILITIES) - 1)   # '[from] ability: X'
