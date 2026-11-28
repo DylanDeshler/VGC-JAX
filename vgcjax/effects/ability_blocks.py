@@ -57,7 +57,7 @@ def try_boost(st, targets, capped, source, effect, has_secondaries, go):
     del_all = go & other & _has(ab, "clearbody", "whitesmoke")
     keys = jnp.zeros((T, 7), bool)
     keys = keys | (del_all[:, None] & neg)
-    single = {"hypercutter": 0, "keeneye": 5, "bigpecks": 1}
+    single = {"hypercutter": 0, "keeneye": 5, "bigpecks": 1, "illuminate": 5}     # Illuminate: effects/batch9c.py
     fail_stat = jnp.full(T, -1, I32)
     fail_on = del_all & jnp.any(neg, axis=-1) & show
     for name, k in single.items():

@@ -161,6 +161,8 @@ def switch_in_vec(st, dex, rng, u, on, start=False, _traced=False):
     st = BR.switch_in(st, r, ab, on)
     from vgcjax.effects import batch7b as B7              # Gluttony onStart
     st = B7.switch_in(st, r, ab, on)
+    from vgcjax.effects import batch9c as B9C             # Curious Medicine onStart
+    st = B9C.curious_medicine(st, r, ab, on)
     from vgcjax.effects import batch8c as B8C             # Zero to Hero onSwitchIn (no onStart)
     st = B8C.zero_to_hero_in(st, dex, r, on & ~started)
     if aid("trace") > 0 and not _traced:      # Trace onStart: seek = true (no No Ability / Ability Shield in Reg

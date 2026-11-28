@@ -280,6 +280,10 @@ def add_volatile(st, dex, rng, ref, c, on, source=-1, source_effect=-1, cands=No
     from vgcjax.battle import events as EV
     from vgcjax.effects import ability_blocks as AXB
     a_b = add & AXB.add_volatile_block(st, ref, c)
+    from vgcjax.effects import batch9c as B9C           # Aroma Veil onAllyTryAddVolatile (null; '-block' for a move)
+    av, av_msg, av_of = B9C.aroma_veil(st, ref, c, source_effect)
+    st = EV.emit(st, add & av_msg, EV.EV_BLOCK, actor=ref, target=av_of, move=ids.ABILITY_BASE + ids.ABILITY_AROMAVEIL - 1)
+    a_b = a_b | (add & av)
     a_spd = mget(st.mons.speed, ref).astype(I32)
     if "yawn" in ids.CONDITIONS:                        # Yawn's ability blocks (messages, ally veils)
         y_b, y_spd, y_blk, y_eff, y_of = AXB.yawn_block(st, ref)

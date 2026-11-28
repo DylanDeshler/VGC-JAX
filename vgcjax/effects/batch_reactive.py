@@ -519,7 +519,8 @@ def _eat_effect(st, dex, rng, r, berry, on):
         lum = on & (berry == iid("lumberry"))
         st = STS.cure_status(st, r, lum)
         if "confusion" in ids.CONDITIONS:
-            st, rng, _ = CO.remove_volatile(st, dex, rng, r, CO.cid("confusion"), lum)
+            from vgcjax.effects import batch9c as B9C                    # Persim Berry onEat: the same removal
+            st, rng, _ = CO.remove_volatile(st, dex, rng, r, CO.cid("confusion"), lum | (on & B9C.is_persim(berry)))
     if iid("chestoberry") > 0:
         st = STS.cure_status(st, r, on & (berry == iid("chestoberry")) & (mget(st.mons.status, r) == ids.COND_SLP))
     return st, rng

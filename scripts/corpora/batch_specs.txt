@@ -97,3 +97,16 @@ stagereq:impl:species:pikachu+item:lightball
 stagereq:impl:species:raichualola+move:electricterrain
 stagereq:impl:species:sirfetchd+item:leek
 stagereq:impl:species:skarmory+item:skarmorite
+stagereq:impl:species:runerigus+ability:wanderingspirit
+stagereq:impl:species:cofagrigus+ability:mummy
+stagereq:impl:species:arboliva+ability:seedsower
+stagereq:impl:species:aggron+ability:heavymetal+move:heavyslam
+stagereq:impl:species:aromatisse+ability:aromaveil
+stagereq:impl:species:pidgeot+ability:tangledfeet
+stagereq:impl:species:florges+ability:symbiosis
+stagereq:impl:species:starmie+ability:illuminate
+stagereq:impl:species:beartic+ability:slushrush+move:snowscape
+stagereq:impl:species:starmie+ability:analytic
+stagereq:impl:species:slowkinggalar+ability:curiousmedicine
+stagereq:impl:item:kingsrock
+stagereq:impl:item:persimberry

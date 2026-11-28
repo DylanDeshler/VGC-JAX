@@ -177,6 +177,8 @@ function reduce(lines, battle) {
 			ev('FIELDACTIVATE', { move: fromEffect(parts[1])[1] });
 		} else if (type === 'replace') {
 			ev('REPLACE', { actor: refOf(parts[1]), v1: toID(String(parts[2]).split(',')[0]) });
+		} else if (type === '-clearboost') {
+			ev('CLEARBOOST', { actor: refOf(parts[1]) });
 		} else if (type === '-zbroken') {
 			ev('ZBROKEN', { actor: refOf(parts[1]) });
 		} else if (type === '-mustrecharge') {
