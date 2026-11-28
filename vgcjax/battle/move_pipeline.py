@@ -556,6 +556,27 @@ def accuracy_step(st, dex, rng, u, move, targets, tv, on, smart=False, spread=Fa
 
 
 # ------------------------------------------------------------------ getDamage for all targets
+
+def modified_type_bp(st, dex, u, target, move, source_effect=-1):
+    """The ActiveMove's type / basePower / accuracy after ModifyType / ModifyMove, as move_begin computes them (also
+    used by the damage calculator, vgcjax/agent/calc.py): the move's weather-dependent onModifyType / onModifyMove
+    (singleEvents, PS :494-495), Terrain Pulse, Raging Bull, Round's basePowerCallback, runEvent('ModifyType'):
+    -ate abilities (onModifyTypePriority -1), Liquid Voice (-1), Electrify (-2). Returns (type, bp, acc)."""
+    from vgcjax.effects import batch7c as B7C
+    from vgcjax.effects import batch_damaging as BD_
+    from vgcjax.effects import batch_utility as BU_
+    from vgcjax.effects import move_callbacks as MC
+    a_type, a_bp, a_acc = WE.modify_move(st, dex, u, target, move)
+    a_type, a_bp = MC.terrain_pulse(st, dex, u, move, a_type, a_bp)
+    a_type = BD_.raging_bull_type(st, u, move, a_type)
+    a_bp = BU_.round_bp(move, source_effect, a_bp)                       # Round basePowerCallback (sourceEffect)
+    ate, ate_t = MC.ate_boosted(st, dex, u, move)
+    a_type = jnp.where(ate, ate_t, a_type)
+    a_type = jnp.where(mflag(dex, move, T.MF_SOUND) & (mget(st.mons.ability, u) == opt_id("ABILITY_LIQUIDVOICE")),
+                       T.TYPE_WATER, a_type)
+    a_type = B7C.electrify_type(st, u, move, a_type)
+    return a_type, a_bp, a_acc
+
 def get_damage(st, dex, rng, cfg, u, move, targets, spread, hit_no, on, mtype=None, bp=None, subbed=None):
     """PS getDamage for each target slot at once (09 J5): returns (st, (tags[3], vals[3]), rng). Struggle is typeless
     via its onModifyMove."""
@@ -1319,19 +1340,8 @@ def move_begin_front(st, dex, rng, cfg, side, b, move_slot, move_id, target_loc,
     # the choice items' onModifyMove: addVolatile('choicelock')
     from vgcjax.effects import disables as DS
     st, rng = DS.choice_lock(st, dex, rng, u, move, go_rm & ~is_struggle, bounced=bnc)
-    # the move's own weather-dependent onModifyType / onModifyMove (singleEvents, PS :494-495)
-    a_type, a_bp, a_acc = WE.modify_move(st, dex, u, target, move)
+    a_type, a_bp, a_acc = modified_type_bp(st, dex, u, target, move, source_effect)
     from vgcjax.effects import move_callbacks as MC
-    a_type, a_bp = MC.terrain_pulse(st, dex, u, move, a_type, a_bp)
-    a_type = BD.raging_bull_type(st, u, move, a_type)
-    a_bp = BU.round_bp(move, source_effect, a_bp)                        # Round basePowerCallback (sourceEffect)
-    # runEvent('ModifyType'): Aerilate / Pixilate (onModifyTypePriority -1): Normal -> Flying / Fairy
-    ate, ate_t = MC.ate_boosted(st, dex, u, move)
-    a_type = jnp.where(ate, ate_t, a_type)
-    # Liquid Voice (onModifyTypePriority -1): a sound move becomes Water
-    a_type = jnp.where(mflag(dex, move, T.MF_SOUND) & (mget(st.mons.ability, u) == opt_id("ABILITY_LIQUIDVOICE")),
-                       T.TYPE_WATER, a_type)
-    a_type = B7C.electrify_type(st, u, move, a_type)                     # Electrify (onModifyTypePriority -2)
     # Stance Change onModifyMove (priority 1): an Aegislash using a damaging move (or King's Shield) changes to
     # Aegislash-Blade (Aegislash) -> formeChange (setSpecies, '-formechange' X forme: the traces show no '[from]',
     # i.e. formeChange's default source (battle.effect) is not the ability here; [C] scripts.ts:98-103)

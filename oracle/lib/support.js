@@ -465,7 +465,9 @@ function damage({ cases, formatid }) {
 			classifier: 'markers' });
 		const battle = new Battle({ formatid: formatid || FORMAT, seed: ZERO_SEED, prng });
 		prng.attach(battle);
-		const filler = unpack(c.attacker); const fill = (Array.isArray(filler) ? filler[0] : filler);
+		// c.filler: an optional neutral partner set (default: the attacker), so partner abilities (Plus / Minus,
+		// Friend Guard, Intimidate, ...) can be kept out of the measured damage
+		const filler = unpack(c.filler || c.attacker); const fill = (Array.isArray(filler) ? filler[0] : filler);
 		const A = unpack(c.attacker); const D = unpack(c.defender);
 		battle.setPlayer('p1', { name: 'a', team: [Array.isArray(A) ? A[0] : A, fill] });
 		battle.setPlayer('p2', { name: 'b', team: [Array.isArray(D) ? D[0] : D, fill] });
@@ -482,6 +484,13 @@ function damage({ cases, formatid }) {
 		}
 		const move = battle.dex.getActiveMove(c.move);
 		if (c.spread) move.spreadHit = true;
+		if (c.modify) battle.setActiveMove(move, src, tgt);   // set before ModifyMove (choice items' choicelock reads it)
+		if (c.modify) {          // useMoveInner's ModifyType / ModifyMove (sim/battle-actions.ts:494-499): -ate abilities etc.
+			battle.singleEvent('ModifyType', move, null, src, tgt, move, move);
+			battle.singleEvent('ModifyMove', move, null, src, tgt, move, move);
+			battle.runEvent('ModifyType', src, tgt, move, move);
+			battle.runEvent('ModifyMove', src, tgt, move, move);
+		}
 		move.hit = 1;
 		battle.setActiveMove(move, src, tgt);
 		prng.policy = d => {
