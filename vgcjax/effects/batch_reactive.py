@@ -383,6 +383,8 @@ def magician(st, dex, rng, u, move, targets, kept, on):
     valid = jnp.asarray(kept) & (targets >= 0)
     go = jnp.asarray(on) & _ab_is(st, u, "magician") & (mget(m.switch_flag, u) != 1) & (mget(m.item, u) == 0) & \
         (move != getattr(ids, "MOVE_FLING", -1)) & (dex.move_category[move] != ids.CAT_STATUS) & jnp.any(valid)
+    if "gem" in ids.CONDITIONS:                       # ... || source.volatiles['gem'] (data/abilities.ts:2480)
+        go = go & ~CO.has_volatile(st, jnp.clip(jnp.asarray(u, I32), 0, 7), CO.cid("gem"))
     tc = jnp.clip(targets, 0, 7)
     spd = mget(m.speed, tc).astype(I32)
     keyv = jnp.where(valid, -spd * 16 + tc, 1 << 30)
